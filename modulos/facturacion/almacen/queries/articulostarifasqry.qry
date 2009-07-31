@@ -1,0 +1,26 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>articulostarifasqry</name>
+	
+	<tables>articulostarifas,articulos,tarifas</tables>
+	
+	<select>
+		articulostarifas.id,
+		articulostarifas.codtarifa,
+		tarifas.nombre as nombre,
+		articulostarifas.referencia,
+		articulos.descripcion as descripcion,
+		articulostarifas.pvp,
+		tarifas.inclineal,
+		tarifas.incporcentual
+	</select>
+	
+	<from>
+		articulostarifas
+		INNER JOIN articulos ON articulostarifas.referencia = articulos.referencia
+		INNER JOIN tarifas ON articulostarifas.codtarifa = tarifas.codtarifa
+	</from>
+	
+	<where>
+	</where>
+</QRY>

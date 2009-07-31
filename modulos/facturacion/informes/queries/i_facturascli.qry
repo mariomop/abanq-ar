@@ -1,0 +1,51 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_facturascli</name>
+	
+	<tables>empresa,facturascli,lineasfacturascli,albaranescli</tables>
+	<group>
+		<level>0</level>
+		<field>facturascli.idfactura</field>
+	</group>
+	<group>
+		<level>1</level>
+		<field>lineasfacturascli.idalbaran</field>
+	</group>
+	
+	<group>
+		<level>2</level>
+		<field>lineasfacturascli.idlinea</field>
+	</group>
+	
+	<select>
+		facturascli.idfactura, lineasfacturascli.idfactura, facturascli.codigo, facturascli.codserie, facturascli.fecha,
+		facturascli.total, facturascli.coddivisa, facturascli.codejercicio, facturascli.codpago, facturascli.codalmacen, facturascli.totaliva,
+		facturascli.codcliente, facturascli.nombrecliente, facturascli.cifnif, facturascli.tasaconv, facturascli.coddir,
+		facturascli.direccion, facturascli.codpostal, facturascli.ciudad, facturascli.provincia, facturascli.apartado,
+		facturascli.codpais, facturascli.neto, lineasfacturascli.referencia,
+		facturascli.rectificada, facturascli.decredito, facturascli.dedebito, facturascli.idfacturarect,
+		lineasfacturascli.descripcion,
+		lineasfacturascli.cantidad,
+		lineasfacturascli.pvpunitario, lineasfacturascli.pvptotal, lineasfacturascli.codimpuesto, lineasfacturascli.iva,
+		lineasfacturascli.idlinea,
+		albaranescli.codigo, albaranescli.fecha, lineasfacturascli.idalbaran,
+		empresa.nombre, empresa.cifnif, empresa.direccion, empresa.codpostal, empresa.ciudad,
+		empresa.provincia, empresa.apartado, empresa.codpais,
+		facturascli.neto+facturascli.totaliva,
+		formaspago.descripcion, facturascli.observaciones,
+		movilote.codlote,(movilote.cantidad * -1),lotes.caducidad,movilote.idlineafc
+	</select>
+	
+	<from>
+		empresa,facturascli INNER JOIN lineasfacturascli ON facturascli.idfactura = lineasfacturascli.idfactura
+		INNER JOIN formaspago on formaspago.codpago = facturascli.codpago
+		LEFT OUTER JOIN albaranescli ON albaranescli.idalbaran = lineasfacturascli.idalbaran LEFT OUTER JOIN movilote ON movilote.idlineafc = lineasfacturascli.idlinea LEFT OUTER JOIN lotes ON movilote.codlote = lotes.codlote
+	</from>
+	
+	<where>
+	</where>
+	
+	<order>
+		lineasfacturascli.idalbaran, lineasfacturascli.referencia
+	</order>
+</QRY>

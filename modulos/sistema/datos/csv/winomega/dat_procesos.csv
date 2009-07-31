@@ -1,0 +1,18 @@
+codprocesoÏÏcodesquemaÏÏficherocsvÏÏnoexistentes
+FamiliasÏÏFamiliasÏÏOMG-FAM.csvÏÏfalseÏÏÖ
+StocksÏÏStocksÏÏOMG-ART.csvÏÏfalseÏÏÖ
+Formas de pagoÏÏFormas de pagoÏÏOMG-FPA.csvÏÏfalseÏÏÖ
+AgentesÏÏAgentesÏÏOMG-AGE.csvÏÏfalseÏÏÖ
+Subcuentas desde clientesÏÏSubcuentas desde clientesÏÏOMG-CLI.csvÏÏfalseÏÏÖ
+ClientesÏÏClientesÏÏOMG-CLI.csvÏÏfalseÏÏÖ
+Direcciones de clientesÏÏDirecciones de clientesÏÏOMG-CLI.csvÏÏfalseÏÏÖ
+Cuentas bancarias de clientesÏÏCuentas bancarias de clientesÏÏOMG-CLI.csvÏÏfalseÏÏÖ
+Subcuentas desde proveedoresÏÏSubcuentas desde proveedoresÏÏOMG-PRO.csvÏÏfalseÏÏÖ
+ProveedoresÏÏProveedoresÏÏOMG-PRO.csvÏÏfalseÏÏÖ
+Direcciones de proveedoresÏÏDirecciones de proveedoresÏÏOMG-PRO.csvÏÏfalseÏÏÖ
+Cuentas bancarias de proveedoresÏÏCuentas bancarias de proveedoresÏÏOMG-PRO.csvÏÏfalseÏÏÖ
+Facturas de clientesÏÏFacturas de clientesÏÏOMG-FAC.csvÏÏfalseÏÏÖ
+Albaranes de clientesÏÏAlbaranes de clientesÏÏOMG-ALB.csvÏÏfalseÏÏÖ
+Lineas de albaranes de clientesÏÏLineas de albaranes de clientesÏÏOMG-LIN.csvÏÏfalseÏÏÖ
+ArtículosÏÏArticulosÏÏOMG-ART.old.csvÏÏfalseÏÏÖ
+Lineas de facturas de clientesÏÏLineas de facturas de clientesÏÏOMG-LIN.csvÏÏfalseÏÏÖ

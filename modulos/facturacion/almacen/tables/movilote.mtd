@@ -1,0 +1,228 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>movilote</name>
+	<!-- Listado de lotes -->
+	<alias>QT_TRANSLATE_NOOP("MetaData","Movimientos de lotes")</alias>
+	
+	<field>
+		<name>id</name>
+		<!-- Identificador del movimiento -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Identificador")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>serial</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>codlote</name>
+		<!-- Identificador del lote asociado-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. lote")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>30</length>
+		
+		<relation>
+			<field>codlote</field>
+			<table>lotes</table>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>fecha</name>
+		<!-- Fecha en la que se realiza el movimiento-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Fecha")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>date</type>
+	</field>
+	
+	<field>
+		<name>tipo</name>
+		<!-- Tipo de movimiento (entrada, salida o regularización) -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>15</length>
+		<optionslist>Entrada,Salida,Regularización,T.Interna</optionslist>
+		<default>Entrada</default>
+	</field>
+	
+	<field>
+		<name>docorigen</name>
+		<!-- Tipo de documento que origina el movimiento -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Doc. origen")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>2</length>
+		<optionslist>AP,FP,AC,FC,NO,TI</optionslist>
+		<default>AP</default>
+	</field>
+	
+	<field>
+		<name>idorigen</name>
+		<!-- Identificador de la línea de documento (remito o factura) que da origen al movimiento (sin valor para las regularizaciones) -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. origen")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>idlineaac</name>
+		<!-- Identificador de la línea de remito de cliente relacionada -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. linea remito cliente")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineasalbaranescli</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idlineafc</name>
+		<!-- Identificador de la línea de factura de cliente relacionada -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. línea factura cliente")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineasfacturascli</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idlineaap</name>
+		<!-- Identificador de la línea de remito de proveedor relacionada -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. linea remito proveedor")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineasalbaranesprov</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idlineafp</name>
+		<!-- Identificador de la línea de factura de proveedor relacionada -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. línea factura proveedor")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineasfacturasprov</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idlineats</name>
+		<!-- Identificador de la línea de transferencia de stock -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. línea transferencia stock")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineastransstock</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idlineati</name>
+		<!-- Identificador de la línea de trazabilidad interna-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. línea trazabilidad interna")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineastrazabilidadinterna</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idstock</name>
+		<!-- Identificador del stock (combinación referencia - almacén) asociado al movimiento -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Stock")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idstock</field>
+			<table>stocks</table>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>cantidad</name>
+		<!-- Cantidad de artículos afectadas en el movimiendo del lote -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Cantidad")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>10</partI>
+		<partD>2</partD>
+	</field>
+	
+	<field>
+		<name>descripcion</name>
+		<!-- Descripción de la causa del movimiento en el caso de las regularizaciones -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Descripción")</alias> 
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>200</length>
+	</field>
+	
+	<field>
+		<name>idusuario</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Usuario")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>30</length>
+		<relation>
+			<table>usuarios</table>
+			<field>idusuario</field>
+			<card>M1</card>
+		</relation>
+	</field>
+</TMD>

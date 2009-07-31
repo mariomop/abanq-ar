@@ -1,0 +1,27 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_ventascli</name>
+	
+	<tables>empresa,i_ventascli_buffer,clientes</tables>
+	
+	<select>
+		empresa.nombre,
+		i_ventascli.titulo,	i_ventascli.fechadesde, i_ventascli.fechahasta, 
+		i_ventascli.codclientedesde, i_ventascli.codclientehasta, 
+		i_ventascli.codagentedesde, i_ventascli.codagentehasta,
+		i_ventascli.codpostaldesde, i_ventascli.codpostalhasta,
+		i_ventascli.ventamin, i_ventascli.codejercicio,
+		c.cifnif, c.nombre,
+		b.codcliente, b.codagente, b.totalfactura, b.ultimafactura, b.codpostal,
+		a.nombre, a.apellidos
+	</select>
+	
+	<from>
+		empresa, i_ventascli, clientes c
+		LEFT OUTER JOIN i_ventascli_buffer b ON c.codcliente = b.codcliente
+		LEFT OUTER JOIN agentes a ON a.codagente = b.codagente
+	</from>
+	
+	<where>
+	</where>
+</QRY>

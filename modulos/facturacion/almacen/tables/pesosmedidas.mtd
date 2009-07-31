@@ -1,0 +1,38 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>pesosmedidas</name>
+	<!-- Listado de unidades de pesos y medidas-->
+	<alias>QT_TRANSLATE_NOOP("MetaData","Pesos y medidas")</alias>
+	
+	<field>
+		<name>codunidad</name>
+		<!-- Código de la unidad-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Abreviatura")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>10</length>
+		
+		<relation>
+			<table>familias</table>
+			<field>codunidad</field>
+			<card>1M</card>
+		</relation>
+		
+		<relation>
+			<table>articulos</table>
+			<field>codunidad</field>
+			<card>1M</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>descripcion</name>
+		<!-- Descripción de la unidad-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Descripción")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>100</length>
+	</field>
+</TMD>

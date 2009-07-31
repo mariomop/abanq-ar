@@ -1,0 +1,30 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_totalfacturas</name>
+	
+	<tables>i_totalfacturas_buffer,empresa</tables>
+	
+	<group>
+		<level>0</level>
+		<field>empresa.cifnif</field>
+	</group>
+	
+	<select>
+		i_totalfacturas_buffer.fecha,
+		i_totalfacturas_buffer.neto, i_totalfacturas_buffer.totaliva,
+		i_totalfacturas_buffer.totaleuros, i_totalfacturas_buffer.numero,
+		i_totalfacturas_buffer.tipo_total,
+		empresa.nombre, empresa.cifnif,
+		empresa.direccion, empresa.logo,
+		empresa.codpostal, empresa.ciudad,
+		empresa.provincia, empresa.apartado,
+		empresa.codpais
+	</select>
+	
+	<from>
+		empresa,i_totalfacturas_buffer
+	</from>
+	
+	<where>
+	</where>
+</QRY>

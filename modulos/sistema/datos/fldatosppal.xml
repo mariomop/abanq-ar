@@ -1,0 +1,189 @@
+<ACTIONS>
+
+	<action>
+		<name>dat_esquemas</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Esquemas de Importación")</alias>
+		<table>dat_esquemas</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_esquemas</formrecord>
+		<scriptformrecord>dat_esquemas</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","
+		Un esquema es un conjunto de correspondencias entre una tabla de FacturaLUX y el fichero de 
+		texto del que se realizará la importación.
+		<p/>Si deseamos importar los datos de los clientes, 
+		debe crearse un esquema de correspondencias entre el fichero que contiene los campos a 
+		importar y la tabla de clientes de FacturaLUX. Cada correspondencia es un emparejamiento entre el nombre de un campo en el fichero 
+		y el nombre del campo en la tabla FacturaLUX")
+		</description>
+	</action>
+
+	<action>
+		<name>dat_tablas</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tablas")</alias>
+		<table>dat_tablas</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_tablas</formrecord>
+		<scriptform>dat_mastertablas</scriptform>
+		<scriptformrecord>dat_tablas</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","
+		Tablas existentes en la base de datos FacturaLUX.")
+		</description>
+	</action>
+
+	<action>
+		<name>dat_ficheros</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Ficheros")</alias>
+		<table>dat_ficheros</table>
+		<form>dat_masterficheros</form>
+		<formrecord>dat_ficheros</formrecord>
+		<scriptform>dat_masterficheros</scriptform>
+		<scriptformrecord>dat_ficheros</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Cada registro de la tabla de ficheros representa un fichero (en formato CSV o DBF) que contiene los datos originales que serán importados a una determinada tabla en la base de datos FacturaLUX. Cada registro de fichero está formado por un conjunto de campos. Este módulo utiliza para todos los ficheros CSV de importación con esquemas el carácter especial de separación 'ð'. Por tanto, todos los ficheros CSV deben tener este carácter de separación entre los nombres de campo y entre los datos de cada línea para poder ser importados.")</description>
+	</action>
+
+	<action>
+		<name>dat_campos</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Campos")</alias>
+		<table>dat_campos</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_campos</formrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Los ficheros de texto en formato CSV que contienen los datos a importar están formados por un conjunto de campos. Cada campo se identifica por el nombre y la posición que ocupa dentro del fichero. Un fichero con datos de clientes estará formado por campos como el nombre del cliente, el DNI del cliente, etc</description>
+	</action>
+
+	<action>
+		<name>dat_procesos</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Procesos generales de importación")</alias>
+		<table>dat_procesos</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_procesos</formrecord>
+		<scriptformrecord>dat_procesos</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Los procesos de importación arrancan el volcado de un fichero a una tabla FacturaLUX en base a un esquema de importación.")</description>
+	</action>
+
+	<action>
+		<name>dat_procesosi_tab</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Procesos de importación de tablas FacturaLUX")</alias>
+		<table>dat_procesosi_tab</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_procesosi_tab</formrecord>
+		<scriptformrecord>dat_procesosi_tab</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Estos procesos arrancan el volcado de datos de un fichero CSV a una tabla FacturaLUX. El fichero CSV de carga directamente, por lo que debe proceder de una exportación previa de datos de FacturaLUX")</description>
+	</action>
+
+	<action>
+		<name>dat_procesosi_mod</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Procesos de importación de módulos FacturaLUX")</alias>
+		<table>dat_procesosi_mod</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_procesosi_mod</formrecord>
+		<scriptformrecord>dat_procesosi_mod</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Estos procesos arrancan el volcado de datos de un conjunto de ficheros CSV a un módulo completo FacturaLUX. La importación se realiza tabla por tabla, volcando los datos de cada fichero en una tabla, y en el orden adecuado para evitar problemas de dependencia de los datos")</description>
+	</action>
+
+	<action>
+		<name>dat_procesosi_tot</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Procesos de importación de la base de datos FacturaLUX")</alias>
+		<table>dat_procesosi_tot</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_procesosi_tot</formrecord>
+		<scriptformrecord>dat_procesosi_tot</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Estos procesos arrancan el volcado de datos de un una base de datos completa de FacturaLUX (todos los módulos) desde un conjunto de ficheros CSV. La importación se realiza tabla por tabla, volcando los datos de cada fichero en una tabla, y en el orden adecuado para evitar problemas de dependencia de los datos")</description>
+	</action>
+
+	<action>
+		<name>dat_procesose_tab</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Procesos de exportación de tablas")</alias>
+		<table>dat_procesose_tab</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_procesose_tab</formrecord>
+		<scriptformrecord>dat_procesose_tab</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Proceso para volcar el contenido de una tabla FacturaLUX a un fichero de texto CSV")</description>
+	</action>
+
+	<action>
+		<name>dat_procesose_mod</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Procesos de exportación de módulos")</alias>
+		<table>dat_procesose_mod</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_procesose_mod</formrecord>
+		<scriptformrecord>dat_procesose_mod</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Proceso para volcar el contenido de las tablas de un módulo FacturaLUX a un conjunto de ficheros de texto CSV en un directorio especificado")</description>
+	</action>
+
+	<action>
+		<name>dat_procesose_tot</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Procesos de exportación de la base de datos")</alias>
+		<table>dat_procesose_tot</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_procesose_tot</formrecord>
+		<scriptformrecord>dat_procesose_tot</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Proceso para volcar el contenido de todas las tablas de una base de datos FacturaLUX a un conjunto de ficheros de texto CSV en un directorio especificado")</description>
+	</action>
+
+	<action>
+		<name>dat_funciones</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Funciones personalizables QSA")</alias>
+		<table>dat_funciones</table>
+		<form>FLWidgetMasterTable</form>
+		<formrecord>dat_funciones</formrecord>
+		<scriptformrecord>dat_funciones</scriptformrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Estas funciones permiten procesar el contenido de un campo durante el propio proceso de importación de los datos, en base a otros campos del mismo registro u otros datos. Para ello se debe crear la función con su código QSA. A la hora de crear el esquema, para el campo que se quiere procesar se asigna la función en lugar de asignar el campo del fichero. La variable 'arguments' contiene la línea completa del fichero que se está leyendo, a través del procesado de esta variable se llega a la instrucción 'return' que debe dar el resultado del valor a importar")</description>
+	</action>
+
+	<action>
+		<name>dat_procesosesp</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Procesos Especiales")</alias>
+		<table>dat_procesosesp</table>
+		<form>dat_masterprocesosesp</form>
+		<scriptform>dat_masterprocesosesp</scriptform>
+		<formrecord>dat_procesosesp</formrecord>
+		<description>QT_TRANSLATE_NOOP("MetaData","Procesos especiales auxiliares a la importación. En general se utilizan para adecuar los datos previamente importados a las estructuras de FacturaLUX")</description>
+	</action>
+
+	<action>
+		<name>dat_opciones</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Opciones generales")</alias>
+		<table>dat_opciones</table>
+		<description>QT_TRANSLATE_NOOP("MetaData","Opciones generales de configuración para la Exportación/Importación. Son las rutas en disco donde se alojan los módulos a documentar, el propio módulo de documentación dentro del área de sistema y el directorio en el que se alojarán las páginas web y los ficheros PDF resultado de la documentación. Estas opciones no se guardan en una tabla de la base de datos sino en ficheros del perfil de cada usuario, por tanto cada usuario de FacturaLUX debe establecer estos datos al menos una vez")</description>
+	</action>
+
+	<action>
+		<name>dat_articulosprov</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Migración de artículos de proveedores")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Artículos de Proveedores")</alias>
+		<table>dat_articulosprov</table>
+		<form>master</form>
+		<formrecord>dat_articulosprov</formrecord>
+		<scriptformrecord>dat_articulosprov</scriptformrecord>
+		<scriptform>dat_articulosprov</scriptform>
+	</action>
+	
+	<action>
+		<name>dat_seleccionarticulosprov</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Esta acción proporciona un formulario para seleccionar múltiples artículos a un proveedor")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Selección de artículos de proveedores")</alias>
+		<table>dat_seleccionarticulosprov</table>
+		<form>dat_seleccionarticulosprov</form>
+		<scriptform>dat_seleccionarticulosprov</scriptform>
+	</action>
+
+	<action>
+		<name>dat_articulostarifas</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Migración de artículos por tarifas")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Artículos por Tarifas")</alias>
+		<table>dat_articulostarifas</table>
+		<form>master</form>
+		<formrecord>dat_articulostarifas</formrecord>
+		<scriptformrecord>dat_articulostarifas</scriptformrecord>
+		<scriptform>dat_articulostarifas</scriptform>
+	</action>
+	
+	<action>
+		<name>dat_seleccionarticulostarifas</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Esta acción proporciona un formulario para seleccionar múltiples artículos a una tarifa")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Selección de artículos por tarifas")</alias>
+		<table>dat_seleccionarticulostarifas</table>
+		<form>dat_seleccionarticulostarifas</form>
+		<scriptform>dat_seleccionarticulostarifas</scriptform>
+	</action>
+</ACTIONS>

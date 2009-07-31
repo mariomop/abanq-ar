@@ -1,0 +1,2236 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+	<class>formPresupuestosCli</class>
+	<widget class="QWidget">
+		<property name="name">
+			<cstring>formPresupuestosCli</cstring>
+		</property>
+		<property name="geometry">
+			<rect>
+				<x>0</x>
+				<y>0</y>
+				<width>859</width>
+				<height>612</height>
+			</rect>
+		</property>
+		<property name="caption">
+			<string>Presupuestos de Clientes</string>
+		</property>
+		<vbox>
+			<property name="name">
+				<cstring>unnamed</cstring>
+			</property>
+			<property name="margin">
+				<number>0</number>
+			</property>
+			<property name="spacing">
+				<number>2</number>
+			</property>
+			<widget class="QFrame">
+				<property name="name">
+					<cstring>frame36</cstring>
+				</property>
+				<property name="sizePolicy">
+					<sizepolicy>
+						<hsizetype>1</hsizetype>
+						<vsizetype>1</vsizetype>
+						<horstretch>0</horstretch>
+						<verstretch>0</verstretch>
+					</sizepolicy>
+				</property>
+				<property name="maximumSize">
+					<size>
+						<width>32767</width>
+						<height>50</height>
+					</size>
+				</property>
+				<property name="frameShape">
+					<enum>GroupBoxPanel</enum>
+				</property>
+				<property name="frameShadow">
+					<enum>Sunken</enum>
+				</property>
+				<hbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbCodigo</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>96</width>
+								<height>24</height>
+							</size>
+						</property>
+						<property name="paletteForegroundColor">
+							<color>
+								<red>0</red>
+								<green>0</green>
+								<blue>0</blue>
+							</color>
+						</property>
+						<property name="font">
+							<font>
+								<italic>1</italic>
+							</font>
+						</property>
+						<property name="fieldName">
+							<string>codigo</string>
+						</property>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>spacer22</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Expanding</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>20</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbCodEjercicio</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>131</width>
+								<height>24</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>codejercicio</string>
+						</property>
+					</widget>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbCodSerie</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>86</width>
+								<height>24</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>codserie</string>
+						</property>
+					</widget>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbNumero</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>103</width>
+								<height>24</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>numero</string>
+						</property>
+					</widget>
+					<widget class="QToolButton">
+						<property name="name">
+							<cstring>tbnTraza</cstring>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>26</width>
+								<height>26</height>
+							</size>
+						</property>
+						<property name="maximumSize">
+							<size>
+								<width>26</width>
+								<height>26</height>
+							</size>
+						</property>
+						<property name="text">
+							<string></string>
+						</property>
+						<property name="accel">
+							<string>Alt+R</string>
+						</property>
+						<property name="iconSet">
+							<iconset>image55268</iconset>
+						</property>
+						<property name="toolTip" stdset="0">
+							<string>Documentos relacionados (alt + R)</string>
+						</property>
+					</widget>
+				</hbox>
+			</widget>
+			<widget class="QTabWidget">
+				<property name="name">
+					<cstring>tbwPresupuesto</cstring>
+				</property>
+				<property name="sizePolicy">
+					<sizepolicy>
+						<hsizetype>7</hsizetype>
+						<vsizetype>1</vsizetype>
+						<horstretch>0</horstretch>
+						<verstretch>0</verstretch>
+					</sizepolicy>
+				</property>
+				<property name="font">
+					<font>
+						<bold>1</bold>
+					</font>
+				</property>
+				<property name="focusPolicy">
+					<enum>NoFocus</enum>
+				</property>
+				<property name="tabShape">
+					<enum>Rounded</enum>
+				</property>
+				<widget class="QWidget">
+					<property name="name">
+						<cstring>cliente</cstring>
+					</property>
+					<attribute name="title">
+						<string>&amp;Cliente</string>
+					</attribute>
+					<vbox>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="QGroupBox">
+							<property name="name">
+								<cstring>groupBox30_2</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+								</font>
+							</property>
+							<property name="title">
+								<string></string>
+							</property>
+							<hbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="FLFieldDB">
+									<property name="name">
+										<cstring>fdbCodCliente</cstring>
+									</property>
+									<property name="sizePolicy">
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>120</width>
+											<height>24</height>
+										</size>
+									</property>
+									<property name="maximumSize">
+										<size>
+											<width>150</width>
+											<height>32767</height>
+										</size>
+									</property>
+									<property name="font">
+										<font>
+										</font>
+									</property>
+									<property name="fieldName">
+										<string>codcliente</string>
+									</property>
+								</widget>
+								<widget class="FLFieldDB">
+									<property name="name">
+										<cstring>fdbNombreCliente</cstring>
+									</property>
+									<property name="sizePolicy">
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>125</width>
+											<height>24</height>
+										</size>
+									</property>
+									<property name="font">
+										<font>
+										</font>
+									</property>
+									<property name="fieldName">
+										<string>nombrecliente</string>
+									</property>
+									<property name="foreignField">
+										<string>nombre</string>
+									</property>
+									<property name="fieldRelation">
+										<string>codcliente</string>
+									</property>
+								</widget>
+								<widget class="FLFieldDB">
+									<property name="name">
+										<cstring>fdbCifNif</cstring>
+									</property>
+									<property name="sizePolicy">
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>64</width>
+											<height>24</height>
+										</size>
+									</property>
+									<property name="maximumSize">
+										<size>
+											<width>150</width>
+											<height>32767</height>
+										</size>
+									</property>
+									<property name="font">
+										<font>
+										</font>
+									</property>
+									<property name="fieldName">
+										<string>cifnif</string>
+									</property>
+									<property name="foreignField">
+										<string>cifnif</string>
+									</property>
+									<property name="fieldRelation">
+										<string>codcliente</string>
+									</property>
+								</widget>
+							</hbox>
+						</widget>
+						<widget class="QGroupBox">
+							<property name="name">
+								<cstring>groupBox30</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+								</font>
+							</property>
+							<property name="title">
+								<string></string>
+							</property>
+							<vbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layoutDir1</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbCodDir</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>65</width>
+													<height>22</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>79</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>coddir</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbDireccion</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>7</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>90</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>direccion</string>
+											</property>
+											<property name="foreignField">
+												<string>direccion</string>
+											</property>
+											<property name="fieldRelation">
+												<string>coddir</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layoutDir2</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<spacer>
+											<property name="name">
+												<cstring>spacerDir2</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Fixed</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>79</width>
+													<height>20</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbCiudad</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>74</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>ciudad</string>
+											</property>
+											<property name="foreignField">
+												<string>ciudad</string>
+											</property>
+											<property name="fieldRelation">
+												<string>idciudad</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbIdCiudad</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>0</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>79</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="font">
+												<font>
+												</font>
+											</property>
+											<property name="focusPolicy">
+												<enum>StrongFocus</enum>
+											</property>
+											<property name="fieldName">
+												<string>idciudad</string>
+											</property>
+											<property name="foreignField">
+												<string>idciudad</string>
+											</property>
+											<property name="fieldRelation">
+												<string>coddir</string>
+											</property>
+											<property name="showAlias">
+												<bool>false</bool>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbProvincia</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>91</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>provincia</string>
+											</property>
+											<property name="foreignField">
+												<string>provincia</string>
+											</property>
+											<property name="fieldRelation">
+												<string>idprovincia</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbIdProvincia</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>0</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>79</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="font">
+												<font>
+												</font>
+											</property>
+											<property name="focusPolicy">
+												<enum>StrongFocus</enum>
+											</property>
+											<property name="fieldName">
+												<string>idprovincia</string>
+											</property>
+											<property name="foreignField">
+												<string>idprovincia</string>
+											</property>
+											<property name="fieldRelation">
+												<string>coddir</string>
+											</property>
+											<property name="showAlias">
+												<bool>false</bool>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layoutDir3</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<spacer>
+											<property name="name">
+												<cstring>spacerDir3</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Fixed</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>79</width>
+													<height>20</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbCodPostal</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>7</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>94</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>codpostal</string>
+											</property>
+											<property name="foreignField">
+												<string>codpostal</string>
+											</property>
+											<property name="fieldRelation">
+												<string>coddir</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name">
+												<cstring>spacerCP</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Expanding</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>54</width>
+													<height>20</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbCodPais</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>7</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>81</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>codpais</string>
+											</property>
+											<property name="foreignField">
+												<string>codpais</string>
+											</property>
+											<property name="fieldRelation">
+												<string>idprovincia</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbBandera</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>7</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>84</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="focusPolicy">
+												<enum>StrongFocus</enum>
+											</property>
+											<property name="fieldName">
+												<string>bandera</string>
+											</property>
+											<property name="tableName">
+												<string>paises</string>
+											</property>
+											<property name="foreignField">
+												<string>codpais</string>
+											</property>
+											<property name="fieldRelation">
+												<string>codpais</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+							</vbox>
+						</widget>
+					</vbox>
+				</widget>
+				<widget class="QWidget">
+					<property name="name">
+						<cstring>datos</cstring>
+					</property>
+					<attribute name="title">
+						<string>&amp;Datos</string>
+					</attribute>
+					<hbox>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<property name="spacing">
+							<number>12</number>
+						</property>
+						<widget class="QFrame">
+							<property name="name">
+								<cstring>frame4</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+								</font>
+							</property>
+							<property name="frameShape">
+								<enum>GroupBoxPanel</enum>
+							</property>
+							<property name="frameShadow">
+								<enum>Sunken</enum>
+							</property>
+							<vbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout48</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbFecha</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>89</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>200</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>fecha</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbFechaSalida</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>128</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>200</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>fechasalida</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout22</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbRecFinanciero</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>138</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>recfinanciero</string>
+											</property>
+										</widget>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>lblRecFinanciero</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>100</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="frameShape">
+												<enum>Box</enum>
+											</property>
+											<property name="text">
+												<string>0</string>
+											</property>
+											<property name="alignment">
+												<set>AlignVCenter|AlignRight</set>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout17_2</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbCodAlmacen</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>132</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>codalmacen</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbDesAlmacen</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>28</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>nombre</string>
+											</property>
+											<property name="tableName">
+												<string>almacenes</string>
+											</property>
+											<property name="foreignField">
+												<string>codalmacen</string>
+											</property>
+											<property name="fieldRelation">
+												<string>codalmacen</string>
+											</property>
+											<property name="showAlias">
+												<bool>false</bool>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout18</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbCodPago</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>86</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>codpago</string>
+											</property>
+											<property name="foreignField">
+												<string>codpago</string>
+											</property>
+											<property name="fieldRelation">
+												<string>codcliente</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbDesPago</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>28</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>descripcion</string>
+											</property>
+											<property name="tableName">
+												<string>formaspago</string>
+											</property>
+											<property name="foreignField">
+												<string>codpago</string>
+											</property>
+											<property name="fieldRelation">
+												<string>codpago</string>
+											</property>
+											<property name="showAlias">
+												<bool>false</bool>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+							</vbox>
+						</widget>
+						<widget class="QLayoutWidget">
+							<property name="name">
+								<cstring>layout43</cstring>
+							</property>
+							<vbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<property name="spacing">
+									<number>12</number>
+								</property>
+								<widget class="QGroupBox">
+									<property name="name">
+										<cstring>groupBox2</cstring>
+									</property>
+									<property name="font">
+										<font>
+											<bold>0</bold>
+										</font>
+									</property>
+									<property name="title">
+										<string></string>
+									</property>
+									<vbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="QLayoutWidget">
+											<property name="name">
+												<cstring>layout41</cstring>
+											</property>
+											<hbox>
+												<property name="name">
+													<cstring>unnamed</cstring>
+												</property>
+												<widget class="FLFieldDB">
+													<property name="name">
+														<cstring>fdbCodAgente</cstring>
+													</property>
+													<property name="sizePolicy">
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize">
+														<size>
+															<width>111</width>
+															<height>26</height>
+														</size>
+													</property>
+													<property name="fieldName">
+														<string>codagente</string>
+													</property>
+													<property name="foreignField">
+														<string>codagente</string>
+													</property>
+													<property name="fieldRelation">
+														<string>codcliente</string>
+													</property>
+												</widget>
+												<widget class="FLFieldDB">
+													<property name="name">
+														<cstring>fdbApellidosAgente</cstring>
+													</property>
+													<property name="minimumSize">
+														<size>
+															<width>102</width>
+															<height>26</height>
+														</size>
+													</property>
+													<property name="fieldName">
+														<string>apellidos</string>
+													</property>
+													<property name="tableName">
+														<string>agentes</string>
+													</property>
+													<property name="foreignField">
+														<string>codagente</string>
+													</property>
+													<property name="fieldRelation">
+														<string>codagente</string>
+													</property>
+												</widget>
+												<widget class="QPushButton">
+													<property name="name">
+														<cstring>pbnAplicarComision</cstring>
+													</property>
+													<property name="minimumSize">
+														<size>
+															<width>26</width>
+															<height>26</height>
+														</size>
+													</property>
+													<property name="maximumSize">
+														<size>
+															<width>26</width>
+															<height>26</height>
+														</size>
+													</property>
+													<property name="text">
+														<string></string>
+													</property>
+													<property name="iconSet">
+														<iconset>image31740</iconset>
+													</property>
+													<property name="toolTip" stdset="0">
+														<string>Aplicar comisión</string>
+													</property>
+													<property name="whatsThis" stdset="0">
+														<string>Aplica la comisión del agente establecido en todas las líneas</string>
+													</property>
+												</widget>
+											</hbox>
+										</widget>
+										<widget class="QLayoutWidget">
+											<property name="name">
+												<cstring>layout42</cstring>
+											</property>
+											<hbox>
+												<property name="name">
+													<cstring>unnamed</cstring>
+												</property>
+												<spacer>
+													<property name="name">
+														<cstring>spacer31_2</cstring>
+													</property>
+													<property name="orientation">
+														<enum>Horizontal</enum>
+													</property>
+													<property name="sizeType">
+														<enum>Expanding</enum>
+													</property>
+													<property name="sizeHint">
+														<size>
+															<width>62</width>
+															<height>20</height>
+														</size>
+													</property>
+												</spacer>
+												<widget class="FLFieldDB">
+													<property name="name">
+														<cstring>fdbPorComision</cstring>
+													</property>
+													<property name="sizePolicy">
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize">
+														<size>
+															<width>133</width>
+															<height>24</height>
+														</size>
+													</property>
+													<property name="fieldName">
+														<string>porcomision</string>
+													</property>
+													<property name="foreignField">
+														<string></string>
+													</property>
+													<property name="fieldRelation">
+														<string></string>
+													</property>
+												</widget>
+												<spacer>
+													<property name="name">
+														<cstring>spacer31_2_2</cstring>
+													</property>
+													<property name="orientation">
+														<enum>Horizontal</enum>
+													</property>
+													<property name="sizeType">
+														<enum>Fixed</enum>
+													</property>
+													<property name="sizeHint">
+														<size>
+															<width>16</width>
+															<height>20</height>
+														</size>
+													</property>
+												</spacer>
+												<widget class="QLabel">
+													<property name="name">
+														<cstring>lblComision_2</cstring>
+													</property>
+													<property name="sizePolicy">
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize">
+														<size>
+															<width>70</width>
+															<height>25</height>
+														</size>
+													</property>
+													<property name="frameShape">
+														<enum>NoFrame</enum>
+													</property>
+													<property name="text">
+														<string>Comisión</string>
+													</property>
+													<property name="alignment">
+														<set>AlignVCenter|AlignLeft</set>
+													</property>
+												</widget>
+												<widget class="QLabel">
+													<property name="name">
+														<cstring>lblComision</cstring>
+													</property>
+													<property name="sizePolicy">
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize">
+														<size>
+															<width>100</width>
+															<height>25</height>
+														</size>
+													</property>
+													<property name="frameShape">
+														<enum>Box</enum>
+													</property>
+													<property name="text">
+														<string>0</string>
+													</property>
+													<property name="alignment">
+														<set>AlignVCenter|AlignRight</set>
+													</property>
+												</widget>
+											</hbox>
+										</widget>
+									</vbox>
+								</widget>
+								<widget class="QGroupBox">
+									<property name="name">
+										<cstring>groupBox3</cstring>
+									</property>
+									<property name="font">
+										<font>
+											<bold>0</bold>
+										</font>
+									</property>
+									<property name="title">
+										<string></string>
+									</property>
+									<vbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="QLayoutWidget">
+											<property name="name">
+												<cstring>layout39</cstring>
+											</property>
+											<hbox>
+												<property name="name">
+													<cstring>unnamed</cstring>
+												</property>
+												<widget class="FLFieldDB">
+													<property name="name">
+														<cstring>fdbCodDivisa</cstring>
+													</property>
+													<property name="sizePolicy">
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize">
+														<size>
+															<width>93</width>
+															<height>24</height>
+														</size>
+													</property>
+													<property name="fieldName">
+														<string>coddivisa</string>
+													</property>
+													<property name="foreignField">
+														<string>coddivisa</string>
+													</property>
+													<property name="fieldRelation">
+														<string>codcliente</string>
+													</property>
+												</widget>
+												<widget class="FLFieldDB">
+													<property name="name">
+														<cstring>fdbDesCodDivisa</cstring>
+													</property>
+													<property name="sizePolicy">
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize">
+														<size>
+															<width>84</width>
+															<height>24</height>
+														</size>
+													</property>
+													<property name="fieldName">
+														<string>bandera</string>
+													</property>
+													<property name="tableName">
+														<string>divisas</string>
+													</property>
+													<property name="foreignField">
+														<string>coddivisa</string>
+													</property>
+													<property name="fieldRelation">
+														<string>coddivisa</string>
+													</property>
+												</widget>
+											</hbox>
+										</widget>
+										<widget class="QLayoutWidget">
+											<property name="name">
+												<cstring>layout35</cstring>
+											</property>
+											<hbox>
+												<property name="name">
+													<cstring>unnamed</cstring>
+												</property>
+												<spacer>
+													<property name="name">
+														<cstring>spacer31_2_3</cstring>
+													</property>
+													<property name="orientation">
+														<enum>Horizontal</enum>
+													</property>
+													<property name="sizeType">
+														<enum>Expanding</enum>
+													</property>
+													<property name="sizeHint">
+														<size>
+															<width>88</width>
+															<height>20</height>
+														</size>
+													</property>
+												</spacer>
+												<widget class="FLFieldDB">
+													<property name="name">
+														<cstring>fdbTasaConv</cstring>
+													</property>
+													<property name="sizePolicy">
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize">
+														<size>
+															<width>90</width>
+															<height>24</height>
+														</size>
+													</property>
+													<property name="fieldName">
+														<string>tasaconv</string>
+													</property>
+													<property name="tableName">
+														<string></string>
+													</property>
+													<property name="foreignField">
+														<string>tasaconv</string>
+													</property>
+													<property name="fieldRelation">
+														<string>coddivisa</string>
+													</property>
+												</widget>
+												<spacer>
+													<property name="name">
+														<cstring>spacer38</cstring>
+													</property>
+													<property name="orientation">
+														<enum>Horizontal</enum>
+													</property>
+													<property name="sizeType">
+														<enum>Fixed</enum>
+													</property>
+													<property name="sizeHint">
+														<size>
+															<width>30</width>
+															<height>20</height>
+														</size>
+													</property>
+												</spacer>
+												<widget class="FLFieldDB">
+													<property name="name">
+														<cstring>fdbTotalEuros</cstring>
+													</property>
+													<property name="sizePolicy">
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize">
+														<size>
+															<width>119</width>
+															<height>24</height>
+														</size>
+													</property>
+													<property name="fieldName">
+														<string>totaleuros</string>
+													</property>
+												</widget>
+											</hbox>
+										</widget>
+									</vbox>
+								</widget>
+							</vbox>
+						</widget>
+					</hbox>
+				</widget>
+				<widget class="QWidget">
+					<property name="name">
+						<cstring>observaciones</cstring>
+					</property>
+					<attribute name="title">
+						<string>&amp;Observaciones</string>
+					</attribute>
+					<vbox>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="FLFieldDB">
+							<property name="name">
+								<cstring>fdbObservaciones</cstring>
+							</property>
+							<property name="sizePolicy">
+								<sizepolicy>
+									<hsizetype>1</hsizetype>
+									<vsizetype>1</vsizetype>
+									<horstretch>0</horstretch>
+									<verstretch>0</verstretch>
+								</sizepolicy>
+							</property>
+							<property name="maximumSize">
+								<size>
+									<width>32767</width>
+									<height>32767</height>
+								</size>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+								</font>
+							</property>
+							<property name="fieldName">
+								<string>observaciones</string>
+							</property>
+						</widget>
+					</vbox>
+				</widget>
+				<widget class="QWidget">
+					<property name="name">
+						<cstring>crm</cstring>
+					</property>
+					<attribute name="title">
+						<string>CR&amp;M</string>
+					</attribute>
+					<vbox>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="QGroupBox">
+							<property name="name">
+								<cstring>gbxOportunidad</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+								</font>
+							</property>
+							<property name="title">
+								<string></string>
+							</property>
+							<hbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="FLFieldDB">
+									<property name="name">
+										<cstring>fdbCodOportunidad</cstring>
+									</property>
+									<property name="sizePolicy">
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>25</width>
+											<height>22</height>
+										</size>
+									</property>
+									<property name="font">
+										<font>
+										</font>
+									</property>
+									<property name="fieldName">
+										<string>codoportunidad</string>
+									</property>
+								</widget>
+								<widget class="FLFieldDB">
+									<property name="name">
+										<cstring>fdbDesOportunidad</cstring>
+									</property>
+									<property name="sizePolicy">
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>22</width>
+											<height>22</height>
+										</size>
+									</property>
+									<property name="font">
+										<font>
+										</font>
+									</property>
+									<property name="fieldName">
+										<string>descripcion</string>
+									</property>
+									<property name="tableName">
+										<string>crm_oportunidadventa</string>
+									</property>
+									<property name="foreignField">
+										<string>codoportunidad</string>
+									</property>
+									<property name="fieldRelation">
+										<string>codoportunidad</string>
+									</property>
+									<property name="showAlias">
+										<bool>false</bool>
+									</property>
+								</widget>
+							</hbox>
+						</widget>
+						<widget class="QGroupBox">
+							<property name="name">
+								<cstring>gbxEstado</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+								</font>
+							</property>
+							<property name="title">
+								<string></string>
+							</property>
+							<hbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="FLFieldDB">
+									<property name="name">
+										<cstring>fdbEstado</cstring>
+									</property>
+									<property name="sizePolicy">
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>25</width>
+											<height>22</height>
+										</size>
+									</property>
+									<property name="font">
+										<font>
+										</font>
+									</property>
+									<property name="fieldName">
+										<string>estado</string>
+									</property>
+								</widget>
+								<spacer>
+									<property name="name">
+										<cstring>spacerEstado</cstring>
+									</property>
+									<property name="orientation">
+										<enum>Horizontal</enum>
+									</property>
+									<property name="sizeType">
+										<enum>Expanding</enum>
+									</property>
+									<property name="sizeHint">
+										<size>
+											<width>16</width>
+											<height>20</height>
+										</size>
+									</property>
+								</spacer>
+								<widget class="FLFieldDB">
+									<property name="name">
+										<cstring>fdbFinOferta</cstring>
+									</property>
+									<property name="sizePolicy">
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>25</width>
+											<height>22</height>
+										</size>
+									</property>
+									<property name="font">
+										<font>
+										</font>
+									</property>
+									<property name="fieldName">
+										<string>finoferta</string>
+									</property>
+									<property name="tableName">
+										<string></string>
+									</property>
+									<property name="foreignField">
+										<string></string>
+									</property>
+									<property name="fieldRelation">
+										<string></string>
+									</property>
+									<property name="showAlias">
+										<bool>true</bool>
+									</property>
+								</widget>
+							</hbox>
+						</widget>
+						<spacer>
+							<property name="name">
+								<cstring>spacerCRM</cstring>
+							</property>
+							<property name="orientation">
+								<enum>Vertical</enum>
+							</property>
+							<property name="sizeType">
+								<enum>Expanding</enum>
+							</property>
+							<property name="sizeHint">
+								<size>
+									<width>20</width>
+									<height>30</height>
+								</size>
+							</property>
+						</spacer>
+					</vbox>
+				</widget>
+			</widget>
+			<widget class="QFrame">
+				<property name="name">
+					<cstring>frame36_2</cstring>
+				</property>
+				<property name="sizePolicy">
+					<sizepolicy>
+						<hsizetype>1</hsizetype>
+						<vsizetype>1</vsizetype>
+						<horstretch>0</horstretch>
+						<verstretch>0</verstretch>
+					</sizepolicy>
+				</property>
+				<property name="maximumSize">
+					<size>
+						<width>32767</width>
+						<height>50</height>
+					</size>
+				</property>
+				<property name="frameShape">
+					<enum>GroupBoxPanel</enum>
+				</property>
+				<property name="frameShadow">
+					<enum>Sunken</enum>
+				</property>
+				<hbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbNeto</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>82</width>
+								<height>24</height>
+							</size>
+						</property>
+						<property name="font">
+							<font>
+							</font>
+						</property>
+						<property name="fieldName">
+							<string>neto</string>
+						</property>
+					</widget>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbTotalIva</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>103</width>
+								<height>24</height>
+							</size>
+						</property>
+						<property name="font">
+							<font>
+							</font>
+						</property>
+						<property name="fieldName">
+							<string>totaliva</string>
+						</property>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>spacer51_3</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Fixed</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>16</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbTotal</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>96</width>
+								<height>24</height>
+							</size>
+						</property>
+						<property name="font">
+							<font>
+								<pointsize>11</pointsize>
+								<bold>1</bold>
+							</font>
+						</property>
+						<property name="fieldName">
+							<string>total</string>
+						</property>
+					</widget>
+				</hbox>
+			</widget>
+			<widget class="QGroupBox">
+				<property name="name">
+					<cstring>groupBox14</cstring>
+				</property>
+				<property name="sizePolicy">
+					<sizepolicy>
+						<hsizetype>1</hsizetype>
+						<vsizetype>1</vsizetype>
+						<horstretch>0</horstretch>
+						<verstretch>0</verstretch>
+					</sizepolicy>
+				</property>
+				<property name="font">
+					<font>
+						<bold>1</bold>
+						<italic>1</italic>
+					</font>
+				</property>
+				<property name="frameShadow">
+					<enum>Plain</enum>
+				</property>
+				<property name="lineWidth">
+					<number>1</number>
+				</property>
+				<property name="title">
+					<string>&amp;Líneas</string>
+				</property>
+				<vbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<widget class="QLayoutWidget">
+						<property name="name">
+							<cstring>layout30</cstring>
+						</property>
+						<hbox>
+							<property name="name">
+								<cstring>unnamed</cstring>
+							</property>
+							<widget class="QLayoutWidget">
+								<property name="name">
+									<cstring>layout21</cstring>
+								</property>
+								<hbox>
+									<property name="name">
+										<cstring>unnamed</cstring>
+									</property>
+									<widget class="QToolButton">
+										<property name="name">
+											<cstring>toolButtomInsert</cstring>
+										</property>
+										<property name="sizePolicy">
+											<sizepolicy>
+												<hsizetype>1</hsizetype>
+												<vsizetype>1</vsizetype>
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="minimumSize">
+											<size>
+												<width>26</width>
+												<height>26</height>
+											</size>
+										</property>
+										<property name="maximumSize">
+											<size>
+												<width>26</width>
+												<height>26</height>
+											</size>
+										</property>
+										<property name="focusPolicy">
+											<enum>NoFocus</enum>
+										</property>
+										<property name="text">
+											<string></string>
+										</property>
+										<property name="iconSet">
+											<iconset>image39739</iconset>
+										</property>
+										<property name="toolTip" stdset="0">
+											<string>Insertar registro (A)</string>
+										</property>
+										<property name="whatsThis" stdset="0">
+											<string>Para crear un nuevo registro en la tabla</string>
+										</property>
+									</widget>
+									<widget class="QToolButton">
+										<property name="name">
+											<cstring>toolButtonEdit</cstring>
+										</property>
+										<property name="sizePolicy">
+											<sizepolicy>
+												<hsizetype>1</hsizetype>
+												<vsizetype>1</vsizetype>
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="minimumSize">
+											<size>
+												<width>26</width>
+												<height>26</height>
+											</size>
+										</property>
+										<property name="maximumSize">
+											<size>
+												<width>26</width>
+												<height>26</height>
+											</size>
+										</property>
+										<property name="focusPolicy">
+											<enum>NoFocus</enum>
+										</property>
+										<property name="text">
+											<string></string>
+										</property>
+										<property name="iconSet">
+											<iconset>image1329</iconset>
+										</property>
+										<property name="toolTip" stdset="0">
+											<string>Modificar registro (M)</string>
+										</property>
+										<property name="whatsThis" stdset="0">
+											<string>Para modificar el registro activo de la tabla</string>
+										</property>
+									</widget>
+									<widget class="QToolButton">
+										<property name="name">
+											<cstring>toolButtonDelete</cstring>
+										</property>
+										<property name="sizePolicy">
+											<sizepolicy>
+												<hsizetype>1</hsizetype>
+												<vsizetype>1</vsizetype>
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="minimumSize">
+											<size>
+												<width>26</width>
+												<height>26</height>
+											</size>
+										</property>
+										<property name="maximumSize">
+											<size>
+												<width>26</width>
+												<height>26</height>
+											</size>
+										</property>
+										<property name="focusPolicy">
+											<enum>NoFocus</enum>
+										</property>
+										<property name="text">
+											<string></string>
+										</property>
+										<property name="iconSet">
+											<iconset>image22066</iconset>
+										</property>
+										<property name="toolTip" stdset="0">
+											<string>Eliminar registro (E)</string>
+										</property>
+										<property name="whatsThis" stdset="0">
+											<string>Elimina el registro actual de la tabla</string>
+										</property>
+									</widget>
+									<widget class="QToolButton">
+										<property name="name">
+											<cstring>toolButtonZoom</cstring>
+										</property>
+										<property name="sizePolicy">
+											<sizepolicy>
+												<hsizetype>1</hsizetype>
+												<vsizetype>1</vsizetype>
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="minimumSize">
+											<size>
+												<width>26</width>
+												<height>26</height>
+											</size>
+										</property>
+										<property name="maximumSize">
+											<size>
+												<width>26</width>
+												<height>26</height>
+											</size>
+										</property>
+										<property name="focusPolicy">
+											<enum>NoFocus</enum>
+										</property>
+										<property name="text">
+											<string></string>
+										</property>
+										<property name="iconSet">
+											<iconset>image25785</iconset>
+										</property>
+										<property name="toolTip" stdset="0">
+											<string>Ver registro (V)</string>
+										</property>
+										<property name="whatsThis" stdset="0">
+											<string>Para ver registro, sin permitir editar</string>
+										</property>
+									</widget>
+								</hbox>
+							</widget>
+							<spacer>
+								<property name="name">
+									<cstring>spacer34</cstring>
+								</property>
+								<property name="orientation">
+									<enum>Horizontal</enum>
+								</property>
+								<property name="sizeType">
+									<enum>Expanding</enum>
+								</property>
+								<property name="sizeHint">
+									<size>
+										<width>640</width>
+										<height>21</height>
+									</size>
+								</property>
+							</spacer>
+						</hbox>
+					</widget>
+					<widget class="FLTableDB">
+						<property name="name">
+							<cstring>tdbLineasPresupuestosCli</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>5</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>0</width>
+								<height>200</height>
+							</size>
+						</property>
+						<property name="font">
+							<font>
+								<bold>0</bold>
+								<italic>0</italic>
+							</font>
+						</property>
+						<property name="tableName">
+							<string>lineaspresupuestoscli</string>
+						</property>
+						<property name="foreignField">
+							<string>idpresupuesto</string>
+						</property>
+						<property name="fieldRelation">
+							<string>idpresupuesto</string>
+						</property>
+					</widget>
+				</vbox>
+			</widget>
+		</vbox>
+	</widget>
+	<images>
+		<image name="image55268">
+			<data format="PNG" length="2708">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af400000a5b49444154789cbd977d7053e795c67f92afe10a04b55293ea123bb5b672b11420b636a4b5b7d9d462688bc8f6439a9489ddcc6ca276ba41eca41de84c33d0ce641d76366b3c9db4b833496a66c8622601a4cc02165958441a06c1c445666c237930b5bce0585ae35a37a0582ff2b5defd43f6926cb2ddcdeece3effbcf763ee7d9ef39c73cf792ffcffa012503ee946c5ff3151c5029905b85755d52f54dbab371845e3738661dc0666ffe3038baa2c801598034c28eabdf69a9053b5c6edb6ea60154a74a50f7f65d48898c027851199f3e55b6f87c5a1026008919b0f5507970ed40c548736856a52464a0b6d0e69286858f9acb65efb9b6c363bfa498a17052cf73fe6ffd18e753bd6f48ac8725b75e88b28d1a56dea0e35aa444dedd683a6a812359d718589a4c2b26d5d5f456c3a66d9fbe59d95193d83a6691f79a917efbf1ff79decc366d71af5bca81779fdbdffccbaa527ba4ebc223f25ae4c4a298b521e8d4b39392665c761294fc4a4f4bf28e5a5849472524a3926a5ff89a76fb4feecc45bcd8f6fdb53d7d8f1986aadba6791d8b4b8367fb5b5237e36b62b99ce611136a2e3397c4e1be1911cde1a1b870632e48486aea7c90907ba48026e844882e1a66024b0281e0a4602779d07df8602a14d1662a763d807ecc6d99ad4a4cf1518df7bb2279fcd36bd9feadf792675f16caf7951804f69af210d6e870d6f471f7b876c787f01fb476d045e4d425ee3c230a4ad0eb27a125f9d1b04a80d6e5425417ba30755015ba3872a15da1a2d7003bc8d5ebab2119a5605ee715859b7f7a9e0eaaaaad812bfb5bd09586e06a8aab6af8adae29f45e176a1000efb16188e615380f10436c54df45a025501319240c54d64380180184e20f010194e2000461260406404a885e44402c0bcfb78b8b2fd344bffac33b62c950ddcdb3df2c265e083b2038aba4475fae77a4ef7ce582ce0aa01eabc887c0c7f9d0721803a0fc248e05beb2107e0f420441c7f83070c501b3c6024f03778d00578eb20310aeeb51eb42ad5b46353c0ecaaa5147ac45b911689d5ba2e4681a219404c676fea03fbb3a9f174be5080901df4913e0a562fbdd924d400e450d77a888a1c963ac8890c39a385c8e53e54408cc451f1105970a0f772014f3da4af25f1ab01f65fe8052766ecb9fbb8ed7a8f7cf63a502a0b3084c8a83b4a317577cda111f83eb0eb275bd01ac1b6c94d41019f6a2377314cee9c2077b187dd9b3450c214ec2d08238edfd9524e4183879c48e2abb1d037040e979b0bd618be3a1fb609cccd769b293bd1750d9886854e58f7e4d88fbfb67dfd4f4d0fb02cd19fa1b6b882936ff59149ae227f6e3fc6c42a86467a508a1b31cca7703d1ac4b222c7685c837f3d46e5f26f91d2e3a8d422a612a84bd69311397ef88885d1c90cde551b4ccf9f7aadf4ec968779f142726ee0ad43c799197f1b289955676763fb8f1d9d7e837f496c6b1fdcbb4a147aeba1aaca81c81d42dd1042ad77a03dbd136db383dd3f0f62ab82683f885c2f81756d00a8ce1604776ba245b311b9066e878645b7d0d6d06a0a0f277055baf34ca7870003c08c537f28a550f1589be71531127d3b960ecfd30a38359afe3684bb09dc4f819acb20b2b0f75761e247d2e4cef5605b15243a710194720d400b91e13842c0a1fe345e3bc4470bf0100c64a366fda6c7dc75ba679a7c36bdd888cce84db9d459c0da66d575fd648bd533d59782a0cb46f608245390f8790fe9370599febd906b41b5c4697f6427586db0d60bc4f137b4946372b69013315c56072f1c87963a0bc9f1243b36054de9f1ee0a9176fc1e434c2d0aa830f4776e59bfb4f3291caa87255b8bfdf3a9355d7ff9b08d6c92c8911be4aff6a22e09a0ac789715b6ef6358dec1b22cc0a81e07a516a6e2606e213119c3283ac85f0fa398b7303e15469f72909e1962eb37d6d39f8c99a2bf733072f9a76f3133711c982f1761317f5bcc8c8aea6f6ddf6c5de5f88abefa61abf6fbf0fcd7bff168457222416a6a2b2b6c362a1bdd702bced6868da4a6818632b9cfd9c2e00458fec4c1fa6531de086e61c303f0d2336e9aeb47d9faa5f5f03b70dcff458ebdfb32a977e32711fa6f01b9380bccc032d4aa0da855f761d0f0f433e1677bf6b8ace42d683f0c63b306408981e205a39ceb821103e105c278d70668df9cc1dba491194da2a96e7acf85c908afd4f311bcc2578aaa51a217537f481de9fe6b0c711428b1402e815984fe36d5da44dd8bf106ad66a0924a0b58c1f5d50005a30fbfd35bce715d0bb97c1f813a2fdeb5907e3940cf33e05dabd17b284cfa9a26836ff6963447603e6bb3cdfbbe1334621bb43ba12782f319431dc610ef2e92b3d08641ad822fb73dd83a28ff696c56ce4e8ec9f74ec4ce17a594b2e3c025697f7c56d63d7946da9f90b2e90747e5ae6e29cf0f4e964772e2929c3c302bb7751d2c6d3b20e7779d1a9beb9c95c5cea42c5e91b2d891946246ca3b1def4c16f94adbaf29ef983e841e09cfc9caaa98ecb8322bdf97529e6b8ec87d27a2b35372b63cf7eddf3e285bbba5dc77f852f9c29494f29694fb0e1c2c9d39355bda76581a97a6e45ce755591c93b2b86f4c16af4879a7e3aa14524a43de92f23771790b67f30ff818baae40975c693f30f6aa94f28a7f5076f9a6e4df373fff9b41395bde70cc24a59cbc7e37e299c4acdcb6675fa9ad7bd6d8151f2b935e2f93772e90778ec93b52cad2a5c959d9d62b0b7c7bc7eb58edce8f0b8848d873fe336a4cee7d7a4cfef2a094bff00fcabfeb78471eebe8392a3e1cf1c1c3474be7a393f36d2f1d9c3b7355ce750cca3b6352163bef92df1993f2ce892969482965675c4ad7cb93291a5a7f84a2defb7172a8e0fe7520fe1c431f6a541fd5e6a627518d35c8f1eb393191d46a1ccad0caead96a9e7be395f901e3bbc6d08af47cede35f2f656629f9d7c0e134d2f83c72e806f2d9cf53319aa3d2b312f3c697c2d3fb7fb5e7b5e9fd7fb59becb57fa464e43f5940f00d983e36cf031bbf909fa6ead93f85549aca6f3e68118974ff4a6da676f94b574f15bff91741d3f4e72a4bc14735999e00bf032269a4df01e22615db359463692a26c6f960e3f6d0e9f1d7bb9f67e45c0f86915efce63f09269e3b0a0480f083ac0d3cd1b48e9bae75dc276e50c44a6dee78ec21add55b7288c26aea2d26460b265fbd85e868c114aab728e9db54b6acc0dcfe66bc183d1e4de82723ff4036d507bcc7c2c0f963506808c048181a7c57c8f27eba9579ed06b7da6a59194933d5bec9fb417404b3afd55288a450fd2e8b692043e50bf59625643027f218daaebd57b3a7c56146f64480ab80f863517fd4819f1d057c401494c0833893dfabfb8efbaa47c78906a23ff300d5dafd75f9dcb2ddeb6cab53b759e25d8129743a513a7bd636913a19ec63e4c21b083108dce6234de6bf23a057c2b53038179c680a3c894abd6b3313ae1cce908d35e9348f041da8e11ba8aac1fc4f5eedce66cea9ffac5fde7984bcde0fe894ffaa3e3514ae8541099445a83e1808bf4e55209422734ff366ada670b3d0d26cb7546c792d36971c7664b2e7b69f6738fea6c8eb17813f00c5ff09f15d070e4b4885c115f8f0ba94a6c0935537d9804656ff65705c1db61598eece08214629efe7fe57c477053c7f14141f18d1b21346b87c2e22807f2546e4033abf37bf50cf663e658eff2bfc1bd89d86e43d4edac60000000049454e44ae426082</data>
+		</image>
+		<image name="image31740">
+			<data format="PNG" length="2473">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af40000097049444154789ce597df8f5dd755c73f33b3ef641df78cd93bb993dc13c630c7b5ddb9c64e32238766863a620685365335554df9d1b84da141ada8414890d287460894e629311254416a8b5b40c402251968859c4a2e76c1624ce564ae91235f2b7672877aaa738907f6aee7c467d9de99e1e14c42f80bfac079390febacbdbeebbbd6faeeb306363636f8713e833fd6e8c000f7fc0d18000b3140940f823e2acd6c1a9151818d50167d4a39450c5f47ec29504060e51b90e660276b7f0d3f07f200680304d01263ff0e135e67b50bb1807002cae57701d8f77c7d580c2360ffacb5d77d72ee036d936790a70eaf1e45e85c0c2cfe5ba1fd73ddaf22f60b106e623288bef6d7f0606b47fedcd474f61e3116ad93e1c4f1a5650d3c80d14b1807da830b8f83f60118e2a71e8175bd85c1f4dbb31f9d39f04707770dce6f53e6ee849d5b94bb5ab05b22f7e686ed7bb79b6a78f4bee50bddf73268ff9ef5128cc08d302c5bb37f78f437efbff377f70bf76f8bccbfcf72d7fb044d737b6ea9738de1f49f88256cc9e14609573b000c6ed2fed8e4ecee5f38f4a0a32d3dda638258c18e3924155ae38eccc27cb3e0e00396f6f4ccc3c4f0eb9bcc01f2483ed99a981d83cc04dae30e9706242a450880bd410c35d8e8a94bc82600ecedd24a7ee7c06cce9414e46339c4cd0af63da8a2a1c2a68e96b5cc3595d90fe488cdff0074086c82952f1dd8bf9b5c3cb69941ac6afa571c9d33c59b98f0d718fbbf81574fbc0b400c1fc977b6ef68a71edbb404f528d0b9d4e7e825c791b3500425941e4c024699d906369709909dc4f0487b726abcddf4644d6affa82cf6e1d8194f58ee7e15635f0305e360e5e83bf5af01889d6db52cb91588608d8352e996398f3f779e678e2ba7fbae66442b5aa925978a7c3c87183e25adfcf766efc998690108d60861153aab8ece998e47ec5344057180072dfecf180e62d8e9d204086020941e35b05454845effc6f2c5ee4daf10546bbb06ac8018c0d82fe4ed7cd7fc4e10d9b49781f3a563e1548186ea4f41fb88ab6b6f1c4c1c821d9f793703ce8940965a50458ce0152001aa7382edf5d7c01a4115442c8ae2c421adac31bf2f23b71e31b5bf4661a10bbd6ef143d0c318075475f0b8f91e3f087b9e78bb07fc4008155e034a9da13310b40292b73486b70042ac1b2894a106193d79bbcdf4364f96d67e1838b1229c38ebd1d5ee57408689fe4ee0276a06929a89083467201dc760dcd5de4a9f045b77bfb11015890950ed96341f92065811b454ac08be04973ada2d981953b40411a12861f162c2f2c5ce8634dbbf85f04549c4e89abea9aaafa2c50b18f74da8d620817d4f6388fef52ae653bd526937055f06322b68ec8164a93694fc9d0c2daa01a5855738746f85c6c0dbcad7e9e79c5eae989e9e19981caf7e3a1b4dea6c23239dcb556be952fbfee5eee267d1e453e03b188781e45ffaa1f8b82fdb88551223680987a65b84d2625368b73c824515acb51c5b4e986a41db2a8ac54725312d8e9e8387ef4d98df51915b403d18d008dc53ebc291331ffe99d3274fbca8a59b81eaf521c61efacf38e87e234a431eba3ba5b8ba4ac3c0c870e0e14961e6bdcae8b0a12803c9b0e0d795a32f8ff050db936d812b65609b4d3972d6303adce0d39305ce28974360601d8a6b258d7558bb11986ac1b6dbe0dcd55d69ff07e77348fe7688ed9ffb11ebbee507b2fbdc88f08bbb52ca5261dd505c8d24c05a1919dd9292a6f0b55329e15ae473ef375c0e2599a45cb9261c7b2de1d3f756b875f0d722239222c386d1ad756f0dac4351467ef6760843099d7e639786deb121c61f82c191ef9757573f7c3e8cdeae0391bbc6531856b2ad821219b5c2e51bf0e7ff2cfcd552e0e95f12a2f631eb8644220b971c8d2198df5e72f9bf0b468613aae1c8375e1965e1df1be43f996058c5ac1bc28d92bce938fe2a03ab6f84ff32980cf09ee8e6972f769f3dacf9fe857330379e2152210d47f74a45afaf74fbcaa19fb7b453a5084202782c0b1df8f283a0411153ab66afcc3872dc13424024e7cbb32d8a95002264523139eee89e93f71b42076c1bf09789c95ce82d7db253b85feb9c638f34ec88ded40d2010c358bb3d3d74605209657d3764e319cf9c548a0018ad75a4f4b8b18cee25d0106ee895f3da0ff9d67794b4f4644d8b0888c8d8202f3d562b952610ab08ee2f51ff214a6dabef4d50ea2e42f1981dcd79783a214fc10725b38e6ee9387141480cb4367f5ec46c8e1ea0f82b18f772ada08e10dfb62bd908d0e03d83fff8ede779f94f66f8fc272cd37b33c633c5a60ea8d630ae00ff86a4d9efe76376e8e03ee8add49789a4b0d081ee720fa2d6879310d423864d397703446f30e0df65c708fe26806c98997d333811a63e3f05378106f82b1014b67f76118cfb5519cdee3b34ebb0ea296282488527e7d8d90a5d0beb552b1bb4c6410c58e35055b214803b1077ab18c8c4d1d3da4eac6f1a6eeada60110a2aa0f215346aeadc28e4db00c330c21f4e4e64cceda8e8ad06b4f4e46339cf9c82a2dfff11a57f4215ba019254284a8f466859b0d60e3162256f826a815211a247256169a542e13f4c966610b9254913c71a2982101926e1fa6766e557162ee4bb1fdd0f362ae78367f758462f249cbc00e14aef9bad6dee7028c3177bab4ee626046784a2ef99d993f1f8c71c5e1d07f7800fe055d9dd721401fa0188e15f4dafdfdbebc48df9e8458c0ca82a4edc5bbde093d3cb726866c231bf033a2ff5488c204de1c87128fae7af7fe923f65bf393347ffbb9aa7bf44c3579709f03e9a1a5d079658903e3398a52ad2abd7e412216dbb23cfb12f4567ad789f282e95dec353bdad962c56ea8eaba886cf462e7dae995d6fe22ceddf6170f02a1c08a90351d853a16cec25cb3ff9de9d1a2a17d99986beac291956cf2f0f7129efed0144baf9c4783b0f84a0f67a08a4ad6b4b477649c0e8ea3a741d0e7da59efbce95eea9e52d596466d0a926ad46131dc585cd5756b137a01b2f10c19cf5081c32f8286de359b9e78a1738646a8bfff7e5eeaf3cf9e7af4e3d54d38b47f37d998a78d1062c08a2590b0b00c4fbe087e65f10707ecc2b7da227b079e7af229420810a1280b0419540d830b57e66ec3e5dfcd27e6f600f5f614c1870aba4f7e7d2a2e3eef61c3e1ae29fe5631bcb518673ec1ce43bf9cb5b25ba6c72119012b5078e8ae42f75205978f2de5e5d1af64c6affac8f58127fef8095028423ddfaa8aa02cbc78622bc6edefa7930f88d8ad9bcbd80665f7d596764f2abce1525788c8751ffc1d1af576814620bb5b5bf31fd466fb6e71ed5b893ac44dded4d5c5d7a47ff2a42d97be2786ab0a6b2e753f1cf87fbf1dff0faea2b2b5f07a1a910000000049454e44ae426082</data>
+		</image>
+		<image name="image39739">
+			<data format="PNG" length="834">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000030949444154789cb5954f681c551cc73f1bded23790c00c54d83908097870430577413025151af0d0480eeac956102d9ebc194fd61e240d22b4a7d27a905cfc536f7a686cc0c278a9bba2212b2add0503b3d0c22cb8f29e18fa7e9061c7c3ecee6c2b9434c577f90e33f09deffbfcbef3a6946519ffc752a30befc47b5f2c9f5a7ecdd7944067920a5a691ea6280d23454aed4ef277ab19ada0b84596656459c62be737257bccb5f9ebbd4c2fae7da317cf158951941e77fbe1b4074a94569aa9d14dadbcc3c3decfc58a03fc81a452185b31873273fb40791c0eb068e517c6be0e1ecdb89c9b7be5e225264f8ca4b6607ce0c4c3846e68ea1ce36e59f1903d0b9a43249e483a3215018f2163e5031c9cb17b80a9199ada3457b35f30864760ec950b750eb40252d029480a411924758006ec01124f26254f8607b60cb69b907cf412fc1861003ded010c38502b2699ee033d437cf522dc3198dd1de69f33601be040dfdc60ad1ff99bdb971ed28a07a66ffe013d03edad6bd49e6c136fad23fd0aee44007f68e24f2f70e6d41592a67d3ad995a922b10afe633a397dadf347d595b788ff0c993f3987defd1a4ffbb07b8dfa8b11b73b75aedcaaee080cc6c6adfe44e2d1d4b97ffab69d106fdfc0def5695cfe92f9f56598f509cf5731cd1ecdcf663115ffd89ccf1ba5d1795c7f37921f3e5e3ae29501970f68b2a728685f3e4b6da18a370da41666353c11023bf05b1be881ef705f31183396d4144c559e542bb092aba4e0d7ced0bed340f741ba37a87fb80c2e064f303ff768fc524324beb7d46a7d773fe311d3746826137d55102e2e11ae7c8005ea6f9e26f9a4019d1873b54570b2821c85682bbc2e1d79b9e871eaa6c61f81976b309323d0332080f620b9bec1f19ac5742dc9dde3b83d8bdd5b20be39c7ab6f3778e758f442b2c7d41885e9f7febaf8bdab84be576c5ff2361881408101901acdcf23ccb3ab044fc5d4a7dbdcae8434bd55e6d65ea7da8d7ed230180faff4ccd94574b08ad247400f48edc43fcd273f03747e92a51a14e942bf75f4db95c6f3979ad5ee3a4bbf23d239b7bdf1fe697a837f014d4abbd7bd5bb88c0000000049454e44ae426082</data>
+		</image>
+		<image name="image1329">
+			<data format="PNG" length="665">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000026049444154789cb5953f68d4501cc73f57dec17b50210187de58b0c3091d5a74b020b8b8b4e85017eddad149e8243ad90e1567177111aa535db4eda056c1d61b041d0abdc1215b3358fa023d9a1f4de039e4cf5d7bed5d559ae59b9784effbe49397a4e29ce33c3655ec98eb73af266f4eded53a1e001fb0f44a492d5a75a458b7feb5b1663fccdf06c03987738ee9c7efc5fde736b3b899147d031dec9562d7fe8ef9b115f4bddd2088d9fe159663ad75b70aad4c29fbed46932008191f1dee59bcfcb981417379a40680a451d95112476201987fbec2d2bb06b521d397b83e32c4d297751e3d5dc126e069af7db27032b3f0499c73ee60cfb99d9d83b3493d746eafe3fae9c5cdc3a2af5451101b1f0ca7d3c609986a3bf520f8be218c216cb51d972a3cedf7bd75c8ca28cae37cb27dd00a20ea2e2e887b91965985701f501009a0f3e41f888f937a1a443252916c4cdabebe2f714fd2aefc0be25ea414a4c5383d83e382d4c61003f604525110b5b2b4a7116b7594b820cc4840773a4ddb4ebdc12ccd31c7e53a6eee5a6240f66350269f0ca214bc9c5077662b9b2cd88dd1ca20e969c4da87045ebe693075ff19ab1fb731d5acf4a4a7ef79b0bab1cddc93d72cbc582e8476178b58a8c2ecbd6bccde98e0dbd6cfdcfd31b72dcae3411051bfe431ffe00e02909ef075f3b45f2101ff8261ec6a9de1916148daabe048e67ac64687d1ba8ea7c8de0da52b5dc551cb3aa9822450affb086093dc69f1e03484024641d882f12b35ac4098e6ab44a49b38d86aae4d3d5cbf55bb3854b1220ea541228cf6888bd6ceb1d2481ae12b8f3815042acdefab9b300140e5bc7ea67f003b92bc1e472dcf260000000049454e44ae426082</data>
+		</image>
+		<image name="image22066">
+			<data format="PNG" length="1045">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000003dc49444154789cb59541685c551486bfe86b7b9e4ce13dec62060a761696ccd02e6644688688342894862e6a5ca851b01504532a681782a01b1111c52e4410450b2d491771d285265d585317d276d5d994be600b77d0c87b60ecbdd027f7502fad8b698265bab46775b9e79e8fc3f97fce1db973e70e0f221e7a2054205a3f4c1f98c6058720d86049a3145be687405e4568d6a4b6d505872f7d59b8e29a0439a5917e49e0b60f1e420a588c31f7825d70002816a09597f9e956a3b5b3333e31d279b20302826056cd1693994717ce2decc97abd773cfe704cfc931fd46dc4c8fa8ca70e4ca1419120cf6ba4a7665e3f26930727ee79ecefd6aa02c133f7fd02b35f7f11f235f336927e4ef0c31d6b50083ca1e8ec07ef7fb2b93dd6c46439493521adc4e46b16098253872f95ac6fd8fbd4044945a20f3f7aefb875764522f9719db7219e2091573f3b33736c737bacc9d59ec1ab62ae18f2554b1209aa8a2f21eb1b3abb1a642b86c6e36d0e1f3af23081931a5486c0b6cca71b8dc6cec98313982c073ccdd13ab51d29a66fc8560b6ca964fd8c893d2d92aa3031dee062ef329dd65e1abbda55557d6b084c24876b3b9a2300f5ed3554c13a4bad5aa3315ac7ad59b27ec6fef131d24a4a4cca854b3d124931b9a3dd68014c0f8163899b1255e99e590681daf61ad98a215fb3a4db521abb6aec1f1f031928d33db78ccb4183c75cb9800d8a5492c786c049946c8d45294cceece9452412ead53ae68ac13b4f6d5b8d5862e228a6fbc3326a41234fdecfc88a8c541204b66c0c60c3c7ea9020d8e0c8af17e4c51ceddd2d7c5088627cf0c412e3d5239190adf6c88b1ce7722402abee1e6b6e74ec83ffdbaa238e1224d2c14caf654c3ed3214e218e6308106f8d99dcd7a15ead52e48644041db80a57ba5b4360e7dcafc55a8e0f0e14eaa3758ebc310df120ffcdb75d664f74e11f2086e943533c77e0250a3b5803c59f062df58ffbf9f894b9d6238e121078edc529d834c875e717b97ca9c7d22f4b744f2f0e2e37c1f42b93b4066e20bf9ea341e787c08a7e65fad96f57fb3d40989d1f00ba6796593abb84621111e6ceccd13db9081e16e717c9560deea67271e5fc0de0d375dec6ae68b7daa8ead38954cf759edd1f552b291a29aec8b1a52595185b5a24128ad2d11a6d61560d849885b3b3b7dd5af10230bfcedb00371b4d88c097fe685a493f6b8d4d44b5a43a505b41430e0134804403c1f4a6b2fcf3d26de78a8f81770186c09ddd1d1c0e02d8d2ee13e4446d7bbdda6a0c56661c095e1ddc152abf9e7371e5fc5f04de04e6d64770df8e2512acda4167aa8fa8ea51e065a9243b802d02b8d2dd72a5fe4ed0ef80e3c08dfffa7708fc7fc703fbf3fe0558e8086d8443958c0000000049454e44ae426082</data>
+		</image>
+		<image name="image25785">
+			<data format="PNG" length="774">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000002cd49444154789cb595b16b1b571cc73f6a4ee577218627c82041061fa4c3194a2b158a2532698b9d21c1b84be9504a8666ed3fe041dd9aad6996864cc9944c89b4249103012943b009862890c1860e3298f63db0f1fb810faec349a7b8964a1cc86ff9bd7bc77d7f9ff77def77af90a6299f2282f1a050fde9ab6a7d694dd51909044d94d36450b7b9b9b1c6ab3f5e0390a629699a52fff9c1fae161fad1f1cf619a567ffcfd29f039c0676362a78e303cfd92fd519625004dc49c101691d3ab026111381a65349fcf8555f5e4571f40ea8f8022780f3081cb37cf88f97fa13d4ff76517b7e7a84411cdc5c671e2107c3281cb859dba99a2dd475d7a7f59e26a13ce2b56e1b7bbf768c431f1620d09c0ed83f353886779fcf07e9bcde202adeb4d284ee6df5cfc9ece7a1b4d36a88ec43fd8e3375bdbb8b90aadabd1315180104b1c37e90d06a8825378dfe35c789ac76e7748345f3b216a872041890503952f9a749eb731b388a7793c783700f1c7e6867b1e0250b52340c50edd6ce2691e8b11d049d7f87d301242022225bc821101019119c4fff5d81f41a51461dd76f6ec81009c66c4562d009d7e8f467d093b933878cfe35127d52f3570830dba5b9e3000920971494af4771cb1384cb994bd67ca39de762e270d8b607db6bc721cb1f1a243ef6d4c3c1f018a2af4b636d157f7a819859d2af6428da99d87484eea3d9402f00934176b2c5c88e9ae77183ce9109523866e979a99a77cbdc5b2de84835fd9def9653a31aa30260d60a860243b9fa61cd2bcb60209d8034fe35c8807c200dab73dcb75880e6eb28472ff84c76272d2cccbac960459364136ae9c9f88a210fd708b76bf0ce70c7faefa6f1e5f31df1d23d6c4b9feee7823c16a56c4269988d72cdb64524c462be2f22d1ef65bac7ce968acc6779ecd0dff9efc84de0dd6966fb4e6442a26f34a38553e907d76ecd995d5c6b771e2bf2e8c2fd342a1007006f8887b248f33372eb2e49417ff022b9b80061ae58c0f0000000049454e44ae426082</data>
+		</image>
+	</images>
+	<connections>
+		<connection>
+			<sender>toolButtomInsert</sender>
+			<signal>clicked()</signal>
+			<receiver>tdbLineasPresupuestosCli</receiver>
+			<slot>insertRecord()</slot>
+		</connection>
+		<connection>
+			<sender>toolButtonEdit</sender>
+			<signal>clicked()</signal>
+			<receiver>tdbLineasPresupuestosCli</receiver>
+			<slot>editRecord()</slot>
+		</connection>
+		<connection>
+			<sender>toolButtonDelete</sender>
+			<signal>clicked()</signal>
+			<receiver>tdbLineasPresupuestosCli</receiver>
+			<slot>deleteRecord()</slot>
+		</connection>
+		<connection>
+			<sender>toolButtonZoom</sender>
+			<signal>clicked()</signal>
+			<receiver>tdbLineasPresupuestosCli</receiver>
+			<slot>browseRecord()</slot>
+		</connection>
+		<connection>
+			<sender>fdbProvincia</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdProvincia</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+	</connections>
+	<tabstops>
+		<tabstop>fdbCodCliente</tabstop>
+		<tabstop>tdbLineasPresupuestosCli</tabstop>
+		<tabstop>fdbNombreCliente</tabstop>
+		<tabstop>fdbCifNif</tabstop>
+		<tabstop>fdbFecha</tabstop>
+		<tabstop>fdbFechaSalida</tabstop>
+		<tabstop>fdbRecFinanciero</tabstop>
+		<tabstop>fdbCodAlmacen</tabstop>
+		<tabstop>fdbDesAlmacen</tabstop>
+		<tabstop>fdbCodPago</tabstop>
+		<tabstop>fdbDesPago</tabstop>
+		<tabstop>fdbCodAgente</tabstop>
+		<tabstop>fdbApellidosAgente</tabstop>
+		<tabstop>fdbPorComision</tabstop>
+		<tabstop>fdbCodDivisa</tabstop>
+		<tabstop>fdbDesCodDivisa</tabstop>
+		<tabstop>fdbTasaConv</tabstop>
+		<tabstop>fdbTotalEuros</tabstop>
+		<tabstop>fdbObservaciones</tabstop>
+		<tabstop>fdbCodigo</tabstop>
+		<tabstop>fdbCodEjercicio</tabstop>
+		<tabstop>fdbCodSerie</tabstop>
+		<tabstop>fdbNumero</tabstop>
+		<tabstop>fdbNeto</tabstop>
+		<tabstop>fdbTotalIva</tabstop>
+		<tabstop>fdbTotal</tabstop>
+		<tabstop>tbwPresupuesto</tabstop>
+	</tabstops>
+	<layoutdefaults spacing="6" margin="11"/>
+	<includehints>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>fltabledb.h</includehint>
+	</includehints>
+</UI>

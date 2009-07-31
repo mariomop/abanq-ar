@@ -1,0 +1,43 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_facturasclicomp</name>
+	
+	<tables>empresa,facturascli,lineasfacturascli,i_articuloscomp_buffer</tables>
+	<group>
+		<level>0</level>
+		<field>facturascli.idfactura</field>
+	</group>
+	
+	<group>
+		<level>1</level> 
+		<field>lineasfacturascli.idlinea</field>
+	</group>
+	
+	<select>
+		facturascli.idfactura, lineasfacturascli.idfactura, facturascli.codigo, facturascli.codserie, facturascli.fecha,
+		facturascli.total, facturascli.coddivisa, facturascli.codejercicio, facturascli.codpago, facturascli.codalmacen,
+		facturascli.codcliente, facturascli.nombrecliente, facturascli.cifnif, facturascli.tasaconv, facturascli.coddir,
+		facturascli.direccion, facturascli.codpostal, facturascli.ciudad, facturascli.provincia, facturascli.apartado,
+		facturascli.codpais, facturascli.neto, lineasfacturascli.referencia, lineasfacturascli.descripcion,
+		lineasfacturascli.cantidad,lineasfacturascli.idlinea,
+		lineasfacturascli.pvpunitario, lineasfacturascli.pvptotal, lineasfacturascli.codimpuesto, lineasfacturascli.iva,
+		lineasfacturascli.numserie,
+		articulos.codunidad,
+		i_articuloscomp_buffer.referencia,i_articuloscomp_buffer.descripcion,
+		i_articuloscomp_buffer.cantidad,i_articuloscomp_buffer.codunidad,
+		i_articuloscomp_buffer.numserie,
+		empresa.nombre, empresa.cifnif, empresa.direccion, empresa.logo, empresa.codpostal, empresa.ciudad,
+		empresa.provincia, empresa.apartado, empresa.codpais
+	</select>
+	
+	<from>
+		empresa,facturascli INNER JOIN lineasfacturascli ON facturascli.idfactura = lineasfacturascli.idfactura LEFT OUTER JOIN i_articuloscomp_buffer ON lineasfacturascli.idlinea = i_articuloscomp_buffer.idlinea
+		LEFT OUTER JOIN articulos ON lineasfacturascli.referencia = articulos.referencia
+	</from>
+	
+	<where>
+	</where>
+	
+	<order>facturascli.codigo,lineasfacturascli.idlinea,i_articuloscomp_buffer.id
+	</order>
+</QRY>

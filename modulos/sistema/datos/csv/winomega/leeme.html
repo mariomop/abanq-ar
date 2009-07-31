@@ -1,0 +1,153 @@
+<html>
+<head>
+	<title>Importación de Datos a FacturaLUX</title>
+	<style>
+		body {
+			font-family:verdana, arial;
+			font-size:12px;
+			margin:20px;
+		}
+		a {
+			color: #000099;
+		}
+		.limain {
+			margin-top: 15px;
+		}
+		.importante {
+			color: #BB0000;
+		}
+		.resaltado {
+			font-style: italic;
+		}
+		.advertencias {
+			border-color:#cccccc;
+			border-width:1px;
+			border-style:solid;
+			background-color:#fafafa;
+			padding:10px;
+			margin-top:40px;
+		}
+	</style>
+</head>
+<body>
+
+<h3>Pasos para migrar datos desde WinOmega a FacturaLUX</h3>
+<hr size="1">
+
+<a href="#advertencias">Lea esto antes de comenzar!</a>
+
+<br><br>
+<h4>Proceso</h4>
+<hr size="1">
+
+<ol>
+
+<li class="limain">Pasos previos
+	<ul>
+		<li>Realizar las <span class="importante">copias de seguridad</span> pertinentes
+		<li>Localizar el directorio de WinOmega donde están los ficheros DBF con los datos
+	</ul>
+
+<li class="limain">Crear una base de datos nueva
+
+<li class="limain">Cargar los módulos
+		
+	<ul>
+		<li>sistema - datos
+		<li>facturación - principal.
+		<br><span class="importante">Generar la empresa</span> por defecto y el ejercicio.
+		<br><span class="importante">Ajustar las fechas y dígitos de subcuenta</span> de este ejercicio a las correspondientes a los datos a importar
+		<li>facturación - almacén. En general NO tendremos que abrir el módulo de Almacén para crear el almacén por defecto.
+		<li>facturación - facturación
+		<li>facturación - tesorería
+		<li>contabilidad - principal. <span class="importante"> Generar el plan general contable</span>
+	</ul>
+
+<li class="limain">Desde el módulo sistema/datos, importar el módulo de datos con el directorio de los <span class="resaltado">esquemas</span> de WinOmega
+
+<li class="limain">Desde el módulo sistema/datos, abrir el formulario maestro de ficheros y establecer la ruta de datos al directorio donde están los DBF.
+
+<li class="limain">Crear las series de facturación correspondientes a los datos a importar
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Generar Ficheros CSV</span>. En un determinado momento puede parecer que se para. Darle su tiempo
+
+<li class="limain">Ejecutar en el directorio de los CSV <a href="#script">este script</a> para formatear los caracteres
+
+<li class="limain">Seguir el siguiente ORDEN en la ejecución de <b>procesos</b>:
+
+	<ul>
+		<li>Familias
+		<li>Agentes
+		<li>Formas de Pago
+		<li>Articulos
+		<li>Stocks
+		<li>Clientes
+		<li>Cuentas bancarias de clientes
+		<li>Direcciones de clientes
+		<li>Proveedores
+		<li>Cuentas bancarias de proveedores
+		<li>Direcciones de proveedores
+		<li>Facturas de Clientes
+		<li>Albaranes de Clientes
+		<li>Lineas de Facturas de Clientes
+		<li>Lineas de Albaranes de Clientes
+	</ul>
+	
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Actualizar Subcuentas</span>
+
+<li class="limain">Ir al módulo principal de financiera. Se ejecutará el proceso de registro de las subcuentas de cliente y proveedor
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Valores de Facturación</span>
+
+
+<li class="limain">
+Cargar los módulos restantes (informes, etc) y comenzar a usar FacturaLUX con normalidad
+
+</ol>
+
+
+<a name="advertencias"></a>
+<div class="advertencias">
+	<b>Antes de comenzar...</b>
+	<p><b>&middot;</b> La estructura de datos de WinOmega es distinta a la de FacturaLUX, por lo que no es posible volcar directamente los ficheros de datos de aquellos programas en las tablas de FacturaLUX. Es necesario alternar la importación directa mediante <b>Procesos</b> con la ejecución de <b>Procesos Especiales</b>. Estos ajustan los datos al sistema FacturaLUX, importan datos no "importables" con los procesos y crean algunos ficheros necesarios. 
+
+	<p><b>&middot;</b> Es importante realizar todos los pasos <span class="importante">en el orden indicado</span> para evitar problemas de incoherencia en las relaciones de tablas. Si en algún punto se necesita vaciar las tablas, puede ser necesario vaciar previamente las tablas relacionadas siguiendo el orden inverso al de la importación.
+
+	<p><b>&middot;</b> Los datos de origen se encuentran en ficheros DBF. FacturaLUX convierte los BDF en CSV. Si es necesario algún cambio en los datos para resolver problemas al importar se pueden tocar los CSV con un editor de texto. Trabajaremos con un directorio en el que estarán todos los ficheros DBF originales y los nuevos CSV creados por FacturaLUX.
+
+	<p><b>&middot;</b> Para evitar problemas después de la importación, el campo "ignorar contabilidad" se pone a verdadero en todas las facturas y pagos/devoluciones importados. La contabilidad correspondiente a la facturación importada debe existir previamente en ContaPlus, y será también importada. Después de su importación, la modificación o eliminación de estos datos <span class="importante">NO repercutirá en la contabilidad</span>.
+
+	<p><b>&middot;</b> Los datos se importan <span class="importante">sólo para un ejercicio</span>, el ejercicio marcado como actual en el formulario de Empresa. Para importar un nuevo ejercicio deberá crearse en FacturaLUX, establecerse como actual y repetir el proceso completo (excepto obviamente la creación de la nueva base de datos)
+
+	<p><b>&middot;</b> Es inevitable la pérdida de alguna información en el proceso global ya que sencillamente algunos campos de ContaPlus y FacturaPlus no existen en FacturaLUX (y viceversa).
+
+	<p><b>&middot;</b> Si sólo se necesita importar la facturación o la contabilidad, puede seguirse este proceso realizando sólo los pasos correspondientes
+	
+	<p><b>&middot;</b> El proceso es largo y tedioso, y es posible que se interrumpa por incoherencias en los datos a importar. La importación de las partidas contables puede tardar horas cuando se trata de miles de partidas
+
+</div>
+
+<a name="script"></a>
+<div class="advertencias">
+<b>Script para corregir caracteres</b><p>
+clear;<br>
+echo;<br>
+for i in *.csv<br>
+do
+<blockquote>
+        echo Sustitutendo en $i<br><br>
+
+        cat $i | sed "s/ß/á/g" > tmp.tmp<br>
+        cat tmp.tmp > $i<br><br>
+
+        cat $i | sed "s/Ó/é/g" > tmp.tmp<br>
+        cat tmp.tmp > $i
+</blockquote>
+done<br><br>
+
+rm tmp.tmp -f
+</div>
+
+
+
+</body>

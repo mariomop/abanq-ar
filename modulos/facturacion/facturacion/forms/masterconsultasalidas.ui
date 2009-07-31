@@ -1,0 +1,399 @@
+<!DOCTYPE UI>
+<UI stdsetdef="1" version="3.3" >
+	<class>FLWidgetMasterTable</class>
+	<comment>Acceso general a una tabla.</comment>
+	<widget class="QWidget" >
+		<property name="name" >
+			<cstring>FLWidgetMasterTable</cstring>
+		</property>
+		<property name="geometry" >
+			<rect>
+				<x>0</x>
+				<y>0</y>
+				<width>800</width>
+				<height>400</height>
+			</rect>
+		</property>
+		<property name="sizePolicy" >
+			<sizepolicy>
+				<hsizetype>5</hsizetype>
+				<vsizetype>5</vsizetype>
+				<horstretch>0</horstretch>
+				<verstretch>0</verstretch>
+			</sizepolicy>
+		</property>
+		<property name="minimumSize" >
+			<size>
+				<width>0</width>
+				<height>0</height>
+			</size>
+		</property>
+		<property name="caption" >
+			<string>Documentos de venta</string>
+		</property>
+		<property name="focusPolicy" >
+			<enum>StrongFocus</enum>
+		</property>
+		<property name="layoutMargin" stdset="0" />
+		<property name="layoutSpacing" stdset="0" />
+		<vbox>
+			<property name="name" >
+				<cstring>unnamed</cstring>
+			</property>
+			<property name="margin" >
+				<number>0</number>
+			</property>
+			<property name="spacing" >
+				<number>0</number>
+			</property>
+			<widget class="QFrame" >
+				<property name="name" >
+					<cstring>barraBotones</cstring>
+				</property>
+				<property name="sizePolicy" >
+					<sizepolicy>
+						<hsizetype>5</hsizetype>
+						<vsizetype>5</vsizetype>
+						<horstretch>0</horstretch>
+						<verstretch>0</verstretch>
+					</sizepolicy>
+				</property>
+				<property name="minimumSize" >
+					<size>
+						<width>34</width>
+						<height>34</height>
+					</size>
+				</property>
+				<property name="focusPolicy" >
+					<enum>NoFocus</enum>
+				</property>
+				<property name="frameShape" >
+					<enum>MenuBarPanel</enum>
+				</property>
+				<property name="frameShadow" >
+					<enum>Raised</enum>
+				</property>
+				<hbox>
+					<property name="name" >
+						<cstring>unnamed</cstring>
+					</property>
+					<property name="margin" >
+						<number>5</number>
+					</property>
+					<property name="spacing" >
+						<number>2</number>
+					</property>
+					<widget class="QLayoutWidget" >
+						<property name="name" >
+							<cstring>layout15</cstring>
+						</property>
+						<hbox>
+							<property name="name" >
+								<cstring>unnamed</cstring>
+							</property>
+							<property name="spacing" >
+								<number>2</number>
+							</property>
+							<widget class="QToolButton" >
+								<property name="name" >
+									<cstring>toolButtonZoom</cstring>
+								</property>
+								<property name="sizePolicy" >
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>1</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>26</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="maximumSize" >
+									<size>
+										<width>26</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="focusPolicy" >
+									<enum>NoFocus</enum>
+								</property>
+								<property name="text" >
+									<string/>
+								</property>
+								<property name="iconSet" >
+									<iconset>image3</iconset>
+								</property>
+								<property name="toolTip" stdset="0" >
+									<string>Ver registro (V)</string>
+								</property>
+								<property name="whatsThis" stdset="0" >
+									<string>Para ver registro, sin permitir editar</string>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
+					<spacer>
+						<property name="name" >
+							<cstring>spacer5</cstring>
+						</property>
+						<property name="orientation" >
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType" >
+							<enum>Fixed</enum>
+						</property>
+						<property name="sizeHint" >
+							<size>
+								<width>16</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="QLayoutWidget" >
+						<property name="name" >
+							<cstring>layout51</cstring>
+						</property>
+						<hbox>
+							<property name="name" >
+								<cstring>unnamed</cstring>
+							</property>
+							<property name="spacing" >
+								<number>2</number>
+							</property>
+							<widget class="QPushButton" >
+								<property name="name" >
+									<cstring>toolButtonPrint</cstring>
+								</property>
+								<property name="sizePolicy" >
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>1</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>26</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="maximumSize" >
+									<size>
+										<width>26</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="focusPolicy" >
+									<enum>NoFocus</enum>
+								</property>
+								<property name="text" >
+									<string/>
+								</property>
+								<property name="accel" >
+									<string>I</string>
+								</property>
+								<property name="iconSet" >
+									<iconset>image5</iconset>
+								</property>
+								<property name="toolTip" stdset="0" >
+									<string>Imprimir tabla (I)</string>
+								</property>
+								<property name="whatsThis" stdset="0" >
+									<string>Para imprimir los registros de la tabla</string>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Expanding</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>10</width>
+								<height>16</height>
+							</size>
+						</property>
+					</spacer>
+				</hbox>
+			</widget>
+			<widget class="QFrame" >
+				<property name="name" >
+					<cstring>barraFiltros</cstring>
+				</property>
+				<property name="sizePolicy" >
+					<sizepolicy>
+						<hsizetype>5</hsizetype>
+						<vsizetype>0</vsizetype>
+						<horstretch>0</horstretch>
+						<verstretch>0</verstretch>
+					</sizepolicy>
+				</property>
+				<property name="minimumSize" >
+					<size>
+						<width>30</width>
+						<height>30</height>
+					</size>
+				</property>
+				<property name="focusPolicy" >
+					<enum>NoFocus</enum>
+				</property>
+				<property name="frameShape" >
+					<enum>NoFrame</enum>
+				</property>
+				<property name="frameShadow" >
+					<enum>Raised</enum>
+				</property>
+				<hbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<property name="margin" >
+						<number>2</number>
+					</property>
+					<property name="spacing" >
+						<number>2</number>
+					</property>
+					<spacer>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Expanding</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>10</width>
+								<height>16</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="QLayoutWidget">
+						<property name="name">
+							<cstring>layoutFiltroFecha</cstring>
+						</property>
+						<hbox>
+							<property name="name">
+								<cstring>unnamed</cstring>
+							</property>
+							<property name="spacing">
+								<number>0</number>
+							</property>
+							<widget class="QLabel">
+								<property name="name">
+									<cstring>lblFrom</cstring>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>35</width>
+										<height>16</height>
+									</size>
+								</property>
+								<property name="text">
+									<string>Desde</string>
+								</property>
+							</widget>
+							<widget class="QDateEdit">
+								<property name="name">
+									<cstring>dateFrom</cstring>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>100</width>
+										<height>16</height>
+									</size>
+								</property>
+							</widget>
+							<spacer>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<property name="orientation">
+									<enum>Horizontal</enum>
+								</property>
+								<property name="sizeHint">
+									<size>
+										<width>5</width>
+										<height>16</height>
+									</size>
+								</property>
+							</spacer>
+							<widget class="QLabel">
+								<property name="name">
+									<cstring>lblTo</cstring>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>35</width>
+										<height>16</height>
+									</size>
+								</property>
+								<property name="text">
+									<string>Hasta</string>
+								</property>
+							</widget>
+							<widget class="QDateEdit">
+								<property name="name">
+									<cstring>dateTo</cstring>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>100</width>
+										<height>16</height>
+									</size>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
+				</hbox>
+			</widget>
+			<widget class="FLTableDB" >
+				<property name="name" >
+					<cstring>tdbConsultaSalidas</cstring>
+				</property>
+				<property name="tableName" >
+					<string>consultasalidas</string>
+				</property>
+			</widget>
+		</vbox>
+	</widget>
+	<customwidgets/>
+	<customwidgets/>
+	<images>
+		<image name="image3" >
+			<data format="PNG" length="774">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000002cd49444154789cb595b16b1b571cc73f6a4ee577218627c82041061fa4c3194a2b158a2532698b9d21c1b84be9504a8666ed3fe041dd9aad6996864cc9944c89b4249103012943b009862890c1860e3298f63db0f1fb810faec349a7b8964a1cc86ff9bd7bc77d7f9ff77def77af90a6299f2282f1a050fde9ab6a7d694dd51909044d94d36450b7b9b9b1c6ab3f5e0390a629699a52fff9c1fae161fad1f1cf619a567ffcfd29f039c0676362a78e303cfd92fd519625004dc49c101691d3ab026111381a65349fcf8555f5e4571f40ea8f8022780f3081cb37cf88f97fa13d4ff76517b7e7a84411cdc5c671e2107c3281cb859dba99a2dd475d7a7f59e26a13ce2b56e1b7bbf768c431f1620d09c0ed83f353886779fcf07e9bcde202adeb4d284ee6df5cfc9ece7a1b4d36a88ec43fd8e3375bdbb8b90aadabd1315180104b1c37e90d06a8825378dfe35c789ac76e7748345f3b216a872041890503952f9a749eb731b388a7793c783700f1c7e6867b1e0250b52340c50edd6ce2691e8b11d049d7f87d301242022225bc821101019119c4fff5d81f41a51461dd76f6ec81009c66c4562d009d7e8f467d093b933878cfe35127d52f3570830dba5b9e3000920971494af4771cb1384cb994bd67ca39de762e270d8b607db6bc721cb1f1a243ef6d4c3c1f018a2af4b636d157f7a819859d2af6428da99d87484eea3d9402f00934176b2c5c88e9ae77183ce9109523866e979a99a77cbdc5b2de84835fd9def9653a31aa30260d60a860243b9fa61cd2bcb60209d8034fe35c8807c200dab73dcb75880e6eb28472ff84c76272d2cccbac960459364136ae9c9f88a210fd708b76bf0ce70c7faefa6f1e5f31df1d23d6c4b9feee7823c16a56c4269988d72cdb64524c462be2f22d1ef65bac7ce968acc6779ecd0dff9efc84de0dd6966fb4e6442a26f34a38553e907d76ecd995d5c6b771e2bf2e8c2fd342a1007006f8887b248f33372eb2e49417ff022b9b80061ae58c0f0000000049454e44ae426082</data>
+		</image>
+		<image name="image5" >
+			<data format="PNG" length="1180">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000046349444154789c8d943f885d4514c67ffb322f9e89f7ad33b8d17b31d15c09ea0b1adc689004045db4702b152c4c256aa785a0a0858585bd885888da89ad85902242022afbc0c83e31e25b15bc8b59b90fb27027d9cbce2119762d6efe88d1e034df34f3e3e39b73be99634fbf8ed220088a2278426ae69e7d72e197f28172d619d9560504541527822a88c8cce8cc7873e9aba547b4af2bce78426ab8a226680d084a0040a989099b976e76e1f1a3861b1d4376fccbe3b70842b8d4005cd59e330228ce38802bba65f1db378402daeab618490082704d955e4815a00414314240b1061a6dfe0317afde44044d0a7d41fb9d065d4553a0e74c014971289a02f9a00023f8ccff07d85e739c94dc1788b14804e2f4aaf35e48010c0402516ba6cd0481f331e93fa288d7a988276c341774a3a20a1330d0a406017a62045297ad2a34a1324da85ef4e2faffeed45e865b805ea3e1c56a5a89a7e378e351c06852628ab7d3f26ab9b77cc2cdb93d455edc813073bd630b348000119f3173f4c8fc9b1aca17eaf5facfb0a15f476d3eb099ad8c24b96ff8c0f0db63cf1dbbb5c84b8a3d9ee5ef7fa65a0fd4e7ae84193b568a60049222222cafd62c3ebe3873f4c14379d3c67cb23a79e8e457275f1a8d4e3db5637870f8f1db6fbd7be8c0c17b3062495b91b5e994767637d9ac276c46fa3b2de72e26fabd4ed3d680b5cd44dae909ebabf8d99cb317a6ecce0bf6de55dc34fee1f401331c0e1f29f30212d80488a501fc9eb25b99ccb2dc8262a90358636914c458a66a39e24a24292145aab586853d43ca7de5d0b839e7f1103762f728d40453706adaa53a9e429daea57179bb518004711059dcef288d675e1c1818ee1bde6c8aace80358b1c400de38aaf5c0c90d18af01a6035c4715a085892b0028e70aa282cd00919e99acd52c8f6a24538a3c47098ccf3a262b7f83fef35c6e100142023542681b6861bc5213a68a7162b7425bef9056086b152ef7bc32afbc72d8526b0708973526f0dd629167a00a8508d56a405ba569233eb344c2b6096dbd99cf15b7046d9064f9fc8b4fa1554011e3500262ba4e70c651a5800055ea0a6784229963e1d145cabc405148f1524f90c602e55c89d230198d98ac4d702e478d22e2ba48c511505ce65023887390410c0d274f1def1a22130ae708ad6e986abdfa898c7de2a0a0e0c8538b2c1c3e42797f89242168e89ca7ce79d0ae0555032e734c562b0e8cc6c89c50e69ee97a0dadfebe63fedef9f39997e787fb0fce64bb06dcb97b2f07eebf073bb0f477f619f801d6f419cc0eb03d8bdf35c060c9328f4996bbf717989b0b0eedbf9b74117e5b39b37d62e9c43b3bca61f9dbd93fcefe3efef1b439bdb47c71b07b705b79efde99b811e99b3ecd8588a54fd346a0cffa66033d68375bd8024d09bd1078ffa30f7f3df3c3774b27be3df15e4ae913e3c4a1aa9fd5abcd674af3daeb0fbff11e801d746de6bd854be0071622d8cc77739cd96e6e05fcbe126df9663419bf9c7be9da2d68f7bbd318180e87cf4c5696b744fc96a606319effa5e27be2e4312ae985962d8cf0179422276bf02b82450000000049454e44ae426082</data>
+		</image>
+	</images>
+	<includes>
+		<include impldecl="in declaration" location="global" >qwidgetfactory.h</include>
+		<include impldecl="in implementation" location="local" >FLTableDB.h</include>
+	</includes>
+	<forwards>
+		<forward>class FLTableDB</forward>
+	</forwards>
+	<slots>
+		<slot access="protected" >destroy()</slot>
+		<slot access="protected" >init()</slot>
+	</slots>
+	<layoutdefaults spacing="6" margin="11" />
+	<includehints>
+		<includehint>FLTableDB.h</includehint>
+	</includehints>
+</UI>

@@ -1,0 +1,109 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>translote</name>
+	<!-- Transferencias entre lotes -->
+	<alias>QT_TRANSLATE_NOOP("MetaData","Transferencias entre lotes")</alias>
+	
+	<field>
+		<name>id</name>
+		<!-- Identificador de la transferencia -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Identificador")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>serial</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>codloteorigen</name>
+		<!-- Identificador del lote origen-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Lote origen")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>15</length>
+		
+		<relation>
+			<field>codlote</field>
+			<table>lotes</table>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>codlotedestino</name>
+		<!-- Identificador del lote destino-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Lote destino")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>15</length>
+		
+		<relation>
+			<field>codlote</field>
+			<table>lotes</table>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>fecha</name>
+		<!-- Fecha en la que se realiza los movimientos de la transferencia-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Fecha")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>date</type>
+	</field>
+	
+	<field>
+		<name>idstockorigen</name>
+		<!-- Identificador del stock de origen de la transferencia -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Stock o.")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>uint</type>
+		
+		<relation>
+			<field>idstock</field>
+			<table>stocks</table>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idstockdestino</name>
+		<!-- Identificador del stock de destino de la transferencia -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Stock d.")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>uint</type>
+		
+		<relation>
+			<field>idstock</field>
+			<table>stocks</table>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>cantidad</name>
+		<!-- Cantidad de artículos afectadas en el movimiendo del lote -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Cantidad")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>10</partI>
+		<partD>2</partD>
+	</field>
+	
+	<field>
+		<name>descripcion</name>
+		<!-- Descripción de la causa de la transferencia -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Descripción")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>200</length>
+	</field>
+	
+</TMD>

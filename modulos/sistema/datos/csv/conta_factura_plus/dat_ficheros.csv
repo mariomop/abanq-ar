@@ -1,0 +1,43 @@
+codficheroÏÏfilacamposÏÏficherodatos
+ArticulosÏÏtrueÏÏarticuloÏÏÖ
+ClientesÏÏtrueÏÏclientesÏÏÖ
+Cuentas bancariasÏÏtrueÏÏcta_remÏÏÖ
+DivisasÏÏtrueÏÏdivisasÏÏÖ
+Familias ArticulosÏÏtrueÏÏfamiliasÏÏÖ
+Formas de pagoÏÏtrueÏÏfpagoÏÏÖ
+Grupos de clientesÏÏtrueÏÏgrupcliÏÏÖ
+ProveedoresÏÏtrueÏÏproveedoÏÏÖ
+DiarioÏÏtrueÏÏdiarioÏÏÖ
+SubcuentasÏÏtrueÏÏsubctaÏÏÖ
+Albaranes de ClientesÏÏtrueÏÏalbclitÏÏÖ
+AlmacenesÏÏtrueÏÏalmacenÏÏÖ
+Lineas de Albaranes de ClientesÏÏtrueÏÏalbclilÏÏÖ
+ImpuestosÏÏtrueÏÏivasÏÏÖ
+Presupuestos de ClientesÏÏtrueÏÏpreclitÏÏÖ
+Pedidos de ClientesÏÏtrueÏÏpedclitÏÏÖ
+Lineas de Pedidos de ClientesÏÏtrueÏÏpedclilÏÏÖ
+Facturas de ClientesÏÏtrueÏÏfacclitÏÏÖ
+Lineas de Facturas de ClientesÏÏtrueÏÏfacclilÏÏÖ
+ProvinciasÏÏtrueÏÏprovincÏÏÖ
+Pedidos de ProveedoresÏÏtrueÏÏpedprotÏÏÖ
+Lineas de Pedidos de ProveedoresÏÏtrueÏÏpedprolÏÏÖ
+Albaranes de ProveedoresÏÏtrueÏÏalbprotÏÏÖ
+Facturas de ProveedoresÏÏtrueÏÏfacprotÏÏÖ
+Lineas de Albaranes de ProveedoresÏÏtrueÏÏalbprolÏÏÖ
+Lineas de Facturas de ProveedoresÏÏtrueÏÏfacprolÏÏÖ
+Agentes ComercialesÏÏtrueÏÏagentesÏÏÖ
+DepartamentosÏÏtrueÏÏdepartÏÏÖ
+Lineas de Presupuestos de clientesÏÏtrueÏÏpreclilÏÏÖ
+Recibos de ClientesÏÏtrueÏÏrecibosÏÏÖ
+Recibos de ProveedoresÏÏtrueÏÏrecibospÏÏÖ
+Remesas de RecibosÏÏtrueÏÏremesasÏÏÖ
+Pagos y Devoluciones de Recibos de ClientesÏÏtrueÏÏpagdevÏÏÖ
+Pagos y Devoluciones de Recibos de ProveedoresÏÏtrueÏÏpagdevpÏÏÖ
+StocksÏÏtrueÏÏstocksÏÏÖ
+PaisesÏÏtrueÏÏbanderaÏÏÖ
+Comentario de ClientesÏÏtrueÏÏclientecÏÏÖ
+Tipos de RappelÏÏtrueÏÏtiposrappelÏÏÖ
+Intervalos de RappelÏÏtrueÏÏrappelsÏÏÖ
+BancosÏÏtrueÏÏaebÏÏÖ
+Proveedores por SubcuentasÏÏtrueÏÏproveedores_subctaÏÏÖ
+Clientes desde subcuentasÏÏtrueÏÏclientes_subctaÏÏÖ

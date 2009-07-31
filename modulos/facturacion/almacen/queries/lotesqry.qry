@@ -1,0 +1,22 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>lotesqry</name>
+	
+	<tables>lotes,articulos</tables>
+	
+	<select>
+		lotes.codlote,
+		lotes.referencia,
+		articulos.descripcion,
+		lotes.caducidad,
+		lotes.enalmacen
+	</select>
+	
+	<from>
+		lotes
+		INNER JOIN articulos ON lotes.referencia = articulos.referencia
+	</from>
+	
+	<where>
+	</where>
+</QRY>

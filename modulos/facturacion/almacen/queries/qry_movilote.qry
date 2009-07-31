@@ -1,0 +1,18 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>qry_movilote</name>
+	
+	<tables>movilote,stocks</tables>
+	
+	<select>
+		movilote.*,
+		stocks.codalmacen
+	</select>
+	
+	<from>
+		movilote INNER JOIN stocks ON movilote.idstock = stocks.idstock
+	</from>
+	
+	<where>
+	</where>
+</QRY>

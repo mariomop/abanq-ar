@@ -1,0 +1,31 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>dat_articulosprov</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Artículos de Proveedores")</alias>
+	
+	<field>
+		<name>iddat_articulosprov</name>
+		<!-- Identificador -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Número")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>uint</type>
+		<counter>true</counter>
+	</field>
+	
+	<field>
+		<name>codproveedor</name>
+		<!-- Proveedor -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Proveedor")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+		
+		<relation>
+			<table>proveedores</table>
+			<field>codproveedor</field>
+			<card>M1</card>
+		</relation>
+	</field>
+</TMD>

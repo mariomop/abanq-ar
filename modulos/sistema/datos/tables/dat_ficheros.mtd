@@ -1,0 +1,44 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>dat_ficheros</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Ficheros")</alias>
+	
+	<field>
+		<name>codfichero</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>255</length>
+		
+		<relation>
+			<table>dat_campos</table>
+			<field>codfichero</field>
+			<card>1M</card>
+		</relation>
+		
+		<relation>
+			<table>dat_esquemas</table>
+			<field>codfichero</field>
+			<card>1M</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>filacampos</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","La primera fila contiene el nombre de los campos")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	
+	<field>
+		<name>ficherodatos</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Fichero de Datos Origen")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>255</length>
+	</field>
+</TMD>

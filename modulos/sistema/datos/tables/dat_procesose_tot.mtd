@@ -1,0 +1,24 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>dat_procesose_tot</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Procesos de exportación de todos los datos")</alias>
+	
+	<field>
+		<name>codproceso</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>128</length>
+	</field>
+	
+	<field>
+		<name>dircsv</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Directorio")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>255</length>
+	</field>
+	
+</TMD>

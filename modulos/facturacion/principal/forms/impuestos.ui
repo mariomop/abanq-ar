@@ -1,0 +1,1807 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+	<class>formImpuestos</class>
+	<widget class="QWidget">
+		<property name="name">
+			<cstring>formImpuestos</cstring>
+		</property>
+		<property name="geometry">
+			<rect>
+				<x>0</x>
+				<y>0</y>
+				<width>700</width>
+				<height>360</height>
+			</rect>
+		</property>
+		<property name="caption">
+			<string>Tipos de I.V.A.</string>
+		</property>
+		<vbox>
+			<property name="name">
+				<cstring>unnamed</cstring>
+			</property>
+			<widget class="QFrame">
+				<property name="name">
+					<cstring>fmrImpuesto</cstring>
+				</property>
+				<property name="frameShape">
+					<enum>GroupBoxPanel</enum>
+				</property>
+				<property name="frameShadow">
+					<enum>Sunken</enum>
+				</property>
+				<hbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbCodImpuesto</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>112</width>
+								<height>23</height>
+							</size>
+						</property>
+						<property name="maximumSize">
+							<size>
+								<width>150</width>
+								<height>32767</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>codimpuesto</string>
+						</property>
+					</widget>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbDescripcion</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>105</width>
+								<height>23</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>descripcion</string>
+						</property>
+					</widget>
+				</hbox>
+			</widget>
+			<widget class="QTabWidget">
+				<property name="name">
+					<cstring>tbwImpuestos</cstring>
+				</property>
+				<property name="font">
+					<font>
+						<bold>1</bold>
+					</font>
+				</property>
+				<widget class="QWidget">
+					<property name="name">
+						<cstring>datos</cstring>
+					</property>
+					<attribute name="title">
+						<string>Datos</string>
+					</attribute>
+					<vbox>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="QFrame">
+							<property name="name">
+								<cstring>frmIva</cstring>
+							</property>
+							<property name="frameShape">
+								<enum>GroupBoxPanel</enum>
+							</property>
+							<property name="frameShadow">
+								<enum>Sunken</enum>
+							</property>
+							<hbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="FLFieldDB">
+									<property name="name">
+										<cstring>fdbIva</cstring>
+									</property>
+									<property name="sizePolicy">
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>70</width>
+											<height>25</height>
+										</size>
+									</property>
+									<property name="font">
+										<font>
+											<bold>0</bold>
+										</font>
+									</property>
+									<property name="fieldName">
+										<string>iva</string>
+									</property>
+								</widget>
+								<spacer>
+									<property name="name">
+										<cstring>spacer108_2</cstring>
+									</property>
+									<property name="orientation">
+										<enum>Horizontal</enum>
+									</property>
+									<property name="sizeType">
+										<enum>Expanding</enum>
+									</property>
+									<property name="sizeHint">
+										<size>
+											<width>222</width>
+											<height>20</height>
+										</size>
+									</property>
+								</spacer>
+							</hbox>
+						</widget>
+						<spacer>
+							<property name="name">
+								<cstring>spacer108_9</cstring>
+							</property>
+							<property name="orientation">
+								<enum>Vertical</enum>
+							</property>
+							<property name="sizeType">
+								<enum>Expanding</enum>
+							</property>
+							<property name="sizeHint">
+								<size>
+									<width>10</width>
+									<height>20</height>
+								</size>
+							</property>
+						</spacer>
+					</vbox>
+				</widget>
+				<widget class="QWidget">
+					<property name="name">
+						<cstring>contabilidad</cstring>
+					</property>
+					<attribute name="title">
+						<string>Contabilidad</string>
+					</attribute>
+					<vbox>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="QFrame">
+							<property name="name">
+								<cstring>frmIva</cstring>
+							</property>
+							<property name="frameShape">
+								<enum>GroupBoxPanel</enum>
+							</property>
+							<property name="frameShadow">
+								<enum>Sunken</enum>
+							</property>
+							<hbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<spacer>
+									<property name="name">
+										<cstring>spacer108_2</cstring>
+									</property>
+									<property name="orientation">
+										<enum>Horizontal</enum>
+									</property>
+									<property name="sizeType">
+										<enum>Expanding</enum>
+									</property>
+									<property name="sizeHint">
+										<size>
+											<width>222</width>
+											<height>20</height>
+										</size>
+									</property>
+								</spacer>
+								<widget class="QLabel">
+									<property name="name">
+										<cstring>lblAyuda</cstring>
+									</property>
+									<property name="text">
+										<string>Ayuda &gt;&gt;</string>
+									</property>
+								</widget>
+								<widget class="QToolButton">
+									<property name="name">
+										<cstring>tbnAyuda</cstring>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>26</width>
+											<height>26</height>
+										</size>
+									</property>
+									<property name="maximumSize">
+										<size>
+											<width>26</width>
+											<height>26</height>
+										</size>
+									</property>
+									<property name="text">
+										<string></string>
+									</property>
+									<property name="iconSet">
+										<iconset>image39040</iconset>
+									</property>
+								</widget>
+							</hbox>
+						</widget>
+						<widget class="QTabWidget">
+							<property name="name">
+								<cstring>tbwContabilidad</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>1</bold>
+								</font>
+							</property>
+							<widget class="QWidget">
+								<property name="name">
+									<cstring>compras</cstring>
+								</property>
+								<attribute name="title">
+									<string>&amp;Compras</string>
+								</attribute>
+								<vbox>
+									<property name="name">
+										<cstring>unnamed</cstring>
+									</property>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layout2_2</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaSop</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>117</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentasop</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentasop</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaSop</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>22</width>
+														<height>22</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentasop</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionSop</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>18</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentasop</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layout2_4</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaDeu</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>118</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentadeu</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentadeu</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaDeu</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>22</width>
+														<height>22</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentadeu</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionDeu</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>18</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentadeu</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layoutIvaDevAdUE</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaIVADevAdUE</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>161</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentaivadevadue</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentaivadevadue</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaIVADevAdUE</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>22</width>
+														<height>22</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentaivadevadue</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionIVADevAdUE</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>18</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentaivadevadue</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layoutIvaDedAdUe</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaIVADedAdUE</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>162</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentaivadedadue</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentaivadedadue</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaIVADedAdUE</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>22</width>
+														<height>22</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentaivadedadue</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionIVADedAdUE</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>18</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentaivadedadue</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layoutIvaDedAdUe_2</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaIVASopImp</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>165</width>
+														<height>25</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentaivasopimp</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentaivasopimp</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaIVASopImp</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>24</width>
+														<height>24</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentaivasopimp</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionIVASopImp</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>18</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentaivasopimp</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layoutIvaSopExe</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaIVASopExe</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>165</width>
+														<height>25</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentaivasopexe</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentaivasopexe</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaIVASopExe</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>24</width>
+														<height>24</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentaivasopexe</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionIVASopExe</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>25</width>
+														<height>25</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentaivasopexe</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+								</vbox>
+							</widget>
+							<widget class="QWidget">
+								<property name="name">
+									<cstring>ventas</cstring>
+								</property>
+								<attribute name="title">
+									<string>&amp;Ventas</string>
+								</attribute>
+								<vbox>
+									<property name="name">
+										<cstring>unnamed</cstring>
+									</property>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layout2</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaRep</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>115</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentarep</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentarep</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaRep</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>22</width>
+														<height>22</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentarep</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionRep</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>18</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentarep</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layout2_3</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaAcr</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>114</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentaacr</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentaacr</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaAcr</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>22</width>
+														<height>22</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentaacr</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionAcr</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>25</width>
+														<height>25</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentaacr</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layoutIvadeventue</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaIVADevEntUE</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>164</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentaivadeventue</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentaivadeventue</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaIVADevEntUE</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>24</width>
+														<height>24</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentaivadeventue</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionIVADevEntUE</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>18</width>
+														<height>23</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentaivadeventue</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layoutIvaRepExp</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaIVARepExp</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>163</width>
+														<height>25</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentaivarepexp</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentaivarepexp</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaIVARepExp</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>24</width>
+														<height>24</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentaivarepexp</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionIVARepExp</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>25</width>
+														<height>25</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentaivarepexp</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QLayoutWidget">
+										<property name="name">
+											<cstring>layoutIvaRepExe</cstring>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbCodSubcuentaIVARepExe</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>163</width>
+														<height>25</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>codsubcuentaivarepexe</string>
+												</property>
+												<property name="foreignField">
+													<string>codsubcuenta</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuentaivarepexe</string>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbIdSubcuentaIVARepExe</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>1</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>0</horstretch>
+														<verstretch>0</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>24</width>
+														<height>24</height>
+													</size>
+												</property>
+												<property name="maximumSize">
+													<size>
+														<width>79</width>
+														<height>32767</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="focusPolicy">
+													<enum>StrongFocus</enum>
+												</property>
+												<property name="fieldName">
+													<string>idsubcuentaivarepexe</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbDescripcionIVARepExe</cstring>
+												</property>
+												<property name="sizePolicy">
+													<sizepolicy>
+														<hsizetype>7</hsizetype>
+														<vsizetype>0</vsizetype>
+														<horstretch>250</horstretch>
+														<verstretch>25</verstretch>
+													</sizepolicy>
+												</property>
+												<property name="minimumSize">
+													<size>
+														<width>25</width>
+														<height>25</height>
+													</size>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>descripcion</string>
+												</property>
+												<property name="tableName">
+													<string>co_subcuentas</string>
+												</property>
+												<property name="foreignField">
+													<string>idsubcuentaivarepexe</string>
+												</property>
+												<property name="fieldRelation">
+													<string>idsubcuenta</string>
+												</property>
+												<property name="showAlias">
+													<bool>false</bool>
+												</property>
+											</widget>
+										</hbox>
+									</widget>
+								</vbox>
+							</widget>
+						</widget>
+					</vbox>
+				</widget>
+			</widget>
+		</vbox>
+	</widget>
+	<images>
+		<image name="image39040">
+			<data format="PNG" length="2327">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af4000008de49444154789ced977b70d4d515c7bff7fef6996c1e24bb8140080901429e4082d6828410291515d219a54ca7d8fa9869b1d4191c1d47ad53add3d19106289d0a922af252025a5ff82006054c24c410229b8404037940026493dd4d36bbfbdbdfeb9efe11839598a6fedd9e9933f39bf9ddef399fb9f79c7b7e3fe0ff368e513bacde16fcd5db8c016f33ce7a9bb0e287e83b3b611b7463e6b5b388fe4febd8782fbc2d78d41cbda22c7ada6e184a2bc257d6931cee79724fd5d3cd1693692db894cb484c160430cefb18892645d72a56e6ed6a983eede25f88997ec14dc96632fa0da2c85b66137e1f9b89810901e834cc3e3bd6315836c7669c9914bef6280c918a535b0957bf6c40f4638f8633e7e6da13e2e399cd1e058020cb617807bc74bead35246fdde298523019b795bd02491a00374f873cf02222fd9b9a136c58c8664319773bbc4d58eb6d4147a06b2569e1d314f1bd42ee379c7d7b9312c5fb77fc94fa8e7c4c4a68980cc3202104198671fd59d7758a0406a9f79db7e9bd9265b4776a12b90f24f6f8cfa718baeca64067090db4a074dce4be66fc7de8e28f480bd7912ebb69f8f25aaad99c72655f7cbc687ca55cc8f575142e2ba3f0ae5da4aa2a298a428a12f9c615525595c2afbd4691f272924fd552fd96cd625f7c9ca87a7a56c570cf3a5206f793b71967fdad481b7304fe162c8069c699d899a710beb611ead0a170c7a9c9156d8f45eebbe9f5fd7cc6a40488aa2a68b5b580df074b652584c90480ae87610303d0eebb1fd2dcb9907272c00a0bd0d9dd85868736885bf69922e93f3911a5058f40f6fcc10711599d908b2f00800380413071930b2486a1878e438884a8b667c50399cf3fc7662424401c3d0abdae0ed4dd0d0a0c43fdbc1a86a1c3308c6f5c8776a412d4d707a3b5157a4b0ba8e10cd252d330eb89c7d9c9f59279b0bd18dc3c03d129071208d832ba032600488ce02b1f4eb76bc38767c7a69fc48967cae098d38a9c8537333afa19f4ba3a88ce4e803170970b5a7b3b2e4f9f0aafdf2f8388252624d852fd7e985252207a7b213887ce184c9c236f6931bbf2ee3ba6c657fbb1e8f113b04eba1f00268fe9027f2bd2848e977492b23ef9b135bd68ef5e382f5d867eec18447b3bc018a4f474f4c832dc0d0de8ffcd7d1f859dae8f01c07ecdb32a69f7de15058b6fc514bb1d464b0bd8942990b2b3c1e7cf83c71185ea0d0fe3e71dfb10e9db484269ff5d421e5efede627c61d30b2bf6976f0f04434132fc7e0aeed84efe82021a2a29a1e6a54be97567a2ba63d9b2c537ea762c5f5ebcdf99a89e5fb58a0277de49830b1650f01fe5a4fbfd140c05e88d97ff428d9fcd6d1b3887e5e37602006cdebae9d5bafa5a21cb61d2759d64394c81afcfd3950d1be880c321761617cf1d4ffbf29225d9153131c2f3d45334dcd244b22c93aeeb149643545b57636c2a7b71e78d1a3e360c2b72b95c8c730e220211812527e35c6e961a9c97fbe66f8f1f6f1b0f607d75f5b9e04d05075b33d235a4a681488088c0b904a733899b4cbc68420022e18cb24781318ed136630ce8b6d914dfea3b9f1d2ff9a80dacb8edf94b368bc2af472670c610658f8220e19a10c0300c87d962c1b73d0e000cb21cb21886e49908c030248f1c0e9b18fbee2d6f369b200ce19810409278508928104260a449463c3adaa14a92913411802419490e87430718181b714308a8aa022eb1e084008c4903e170108661807306ce1918036668ba35aef2e8e31301241e7afbf9348bd536126b0440180682a1103893fa27042018357dfd1ed2850ed1d905e3adb7200e1f4676da4c4b54a3fb57af2e5b9c395ef2978a8ab2ec5d97ee9833bfc044f5f5109595109d5dd00d0dfd03d784ae8bcf270488b15efde892fb4b8d2a0e22585a0a6dcb56d0a79f21667010794f3dc1785bc7d9f292a24537ea761617dfeab8d0fed5fc1ddb5954200071fc04b4ed3b102c2d85d8b31f1d0d8db241ea9b37eabe53293e37f20c66fda06ab139b5a464396c3d3da050082c3a1a7c6121cc77df838ece8bd4f2a7e7d0b7f69e0f8393933e0480684fdfeae437dfbb7d7ef94ea4666430e5e021882fbe00757581454521ec74e2784d356eab55b710e97f9c320fa1310081f3706a1a733b520e2457fff943e0ed1adc5c5008a3b51510022c2606bcb010a6d25218850b30301c249fdfa731cee14a745a12e3e2c07b7aa0bef73ea8a6e6faec9066cf466d6323acf7aec1c287faa10cee759b2594c466c1fb9d23d0353c608dff7532936291bfae027d8121e3aac7039e9a3a521bc3c3108d8da0601026470c92a74e6539397996ecac1c8b2b2909cc628171ae15545b3b921c004f49c1158f07034a48e4df5b059bf3495813d6e76b024f7c5f0d2c36c7fe0c5ae818ac31f958b8cb8e338d6730cc18787a3ac039687818d6a225309b2d9024099c7370ce214912cc660b2c595910172e8c4ccdd4540c11a1d1eda6b965a249325b20b44e986c378180296300c211d42bde6db0c4dc85a8e49d98757b9d34f30597a8fefc043cb20c293313acb00061bb0d9aae016090240992240160d0740d726a0a585a1aa4d9b3712d14c2c99327297aa3b32173d9aa798ee9ff8416fc04c1ab1b831e0ff68ce695461f6a9b50bf725197a20eee366b43e589d6d8d596b8698d4ccaf787cfeebe6a0e0443b0979440cccb81aaaa5055058a1a414491214764449408544d41b8bb1bee63c7d0ded38dabab13b7ad7cb07b495cfa07d181aea5e8eb3db2e3f051f5c13bd6c10dc018d30518f940b15d3e8d5dae8cdd6bf4d00968c18f619d5c854f1f5943deaf2c24363e1cc99895618f8f8b6736bb1d00410ecb181c1aa48bed176569dbdfec49b74c6545cffe128aff01837397149bd1085f6bb2c7958f0c00f268f2d184ff6e3a8060941d8714dff6358ed477614b7c0411df36e4ae6f3b78ebddd39e595d77bab8a7b7f72eabc53c8731ee04189120afa2ca6d3dbdbd1f4c5fd973e1ae75e7df37473f14634fec9000401ddc032ee138803157f1f7fe98d02148be6c5448b6fc7bb87906b4e0e126b30925b199f0e2db0171e325263032c1c8e7462e7154704b4636830443fdba452294c6e7e1e27f0500004460834d28324c98240fa272fa22c8e3ad1d47cfbd4d98c34d304dcac239c6207e88fe7fc7fe0525a56f8a3582c5b00000000049454e44ae426082</data>
+		</image>
+	</images>
+	<connections>
+		<connection>
+			<sender>fdbCodSubcuentaRep</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaRep</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaRep</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaRep</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaSop</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaSop</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaSop</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaSop</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaAcr</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaAcr</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaAcr</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaAcr</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaDeu</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaDeu</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaDeu</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaDeu</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVADevAdUE</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaIVADevAdUE</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVADevAdUE</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaIVADevAdUE</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVADedAdUE</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaIVADedAdUE</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVADedAdUE</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaIVADedAdUE</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVADevEntUE</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaIVADevEntUE</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVADevEntUE</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaIVADevEntUE</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVASopImp</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaIVASopImp</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVASopImp</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaIVASopImp</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVASopExe</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaIVASopExe</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVASopExe</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaIVASopExe</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVARepExp</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaIVARepExp</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVARepExp</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaIVARepExp</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaIVARepExe</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaIVARepExe</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+	</connections>
+	<layoutdefaults spacing="6" margin="11"/>
+	<includehints>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+		<includehint>flfielddb.h</includehint>
+	</includehints>
+</UI>

@@ -1,0 +1,1242 @@
+descripcionÏÏidÏÏcodigo
+SUBCUENTAS - Codcuenta desde codsubcuentaÏÏ0001ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCuenta = arrayArgumentos[0];
+
+return codCuenta.left(3);
+ÏÏÖ
+Formato de fechaÏÏ0002ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+fechaInicio = arrayArgumentos[1];
+
+agno = fechaInicio.left(4);
+mes = fechaInicio.right(4);
+dia = mes.right(2);
+mes = mes.left(2);
+	
+fechaFin = new Date(agno, mes, dia);
+	
+return fechaFin;
+ÏÏÖ
+CUENTAS BANCARIAS - Valor de entidadÏÏ0006ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+return arrayArgumentos[3];
+ÏÏÖ
+CUENTAS BANCARIAS - Valor de agenciaÏÏ0007ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+return arrayArgumentos[4];
+ÏÏÖ
+CUENTAS BANCARIAS DE CLIENTE - Valor de EntidadÏÏ0008ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+return arrayArgumentos[16];ÏÏÖ
+CUENTAS BANCARIAS DE CLIENTE - Valor de AgenciaÏÏ0009ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+return arrayArgumentos[17];ÏÏÖ
+CUENTAS BANCARIAS DE CLIENTE - Valor de CuentaÏÏ0010ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+return arrayArgumentos[18];ÏÏÖ
+CUENTAS BANCARIAS DE PROVEEDOR - Valor de EntidadÏÏ0011ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+return arrayArgumentos[17];ÏÏÖ
+CUENTAS BANCARIAS DE PROVEEDOR - Valor de AgenciaÏÏ0012ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+return arrayArgumentos[18];ÏÏÖ
+CUENTAS BANCARIAS DE PROVEEDOR - Valor de CuentaÏÏ0013ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+return arrayArgumentos[19];ÏÏÖ
+ALBARANES DE CLIENTES - Código de DirecciónÏÏ0014ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "id",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+ALBARANES DE CLIENTES - DirecciónÏÏ0016ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "direccion",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+ALBARANES DE CLIENTES - CIFNIF de clienteÏÏ0017ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("clientes", "cifnif",
+"codcliente = " + coma + codCliente + coma);
+
+return res;ÏÏÖ
+ALBARANES DE CLIENTES - CiudadÏÏ0018ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "ciudad",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+ALBARANES DE CLIENTES - CPÏÏ0019ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "codpostal",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+ALBARANES DE CLIENTES - CodpaisÏÏ0021ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "codpais",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+ALBARANES DE CLIENTES - ApartadoÏÏ0022ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "apartado",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+FACTURACION - Nombre de clienteÏÏ0015ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("clientes", "nombre",
+"codcliente = " + coma + codCliente + coma);
+
+return res;ÏÏÖ
+LINEAS ALBARANES CLIENTES - Precio netoÏÏ0025ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = arrayArgumentos[3];
+precio = arrayArgumentos[6];
+
+return precio*cantidad;ÏÏÖ
+LINEAS ALBARANES CLIENTES - Precio totalÏÏ0026ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = arrayArgumentos[3];
+precio = arrayArgumentos[6];
+dtoLineal = arrayArgumentos[24];
+dtoPor = arrayArgumentos[4]/100;
+
+neto = precio*cantidad;
+total = neto - neto*dtoPor - dtoLineal;
+return total;
+ÏÏÖ
+PEDIDOS DE CLIENTE - Estado servidoÏÏ0028ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+estado = arrayArgumentos[5];
+
+if (estado == "P") return "No";
+if (estado == "S") return "Sí";
+if (estado == "s") return "Parcial";ÏÏÖ
+PEDIDOS DE CLIENTE - Tasa de conversionÏÏ0029ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+valorDivisa = arrayArgumentos[18];
+tasaConv = valorDivisa/166.386;
+return tasaConv;
+ÏÏÖ
+ALBARANES DE CLIENTE - Tasa de conversionÏÏ0030ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+valorDivisa = arrayArgumentos[21];
+tasaConv = valorDivisa/166.386;
+return tasaConv;
+ÏÏÖ
+LINEAS PEDIDOS CLIENTES - Precio netoÏÏ0032ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = arrayArgumentos[3];
+precio = arrayArgumentos[4];
+
+return precio*cantidad;
+ÏÏÖ
+LINEAS PEDIDOS CLIENTES - Precio totalÏÏ0033ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = arrayArgumentos[3];
+precio = arrayArgumentos[4];
+dtoLineal = arrayArgumentos[20];
+dtoPor = arrayArgumentos[5]/100;
+
+neto = precio*cantidad;
+total = neto - neto*dtoPor - dtoLineal;
+return total;ÏÏÖ
+FACTURAS DE CLIENTE - Formato de fechaÏÏ0034ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+fechaInicio = arrayArgumentos[2];
+
+agno = fechaInicio.left(4);
+mes = fechaInicio.right(4);
+dia = mes.right(2);
+mes = mes.left(2);
+	
+fechaFin = new Date(agno, mes, dia);
+	
+return fechaFin;
+ÏÏÖ
+FACTURAS DE CLIENTES - CIFNIF de clienteÏÏ0035ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("clientes", "cifnif",
+"codcliente = " + coma + codCliente + coma);
+
+return res;ÏÏÖ
+FACTURAS DE CLIENTE - Nombre de clienteÏÏ0036ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("clientes", "nombre",
+"codcliente = " + coma + codCliente + coma);
+
+return res;ÏÏÖ
+FACTURAS DE CLIENTE - Tasa de conversionÏÏ0037ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+valorDivisa = arrayArgumentos[27];
+tasaConv = valorDivisa/166.386;
+return tasaConv;
+ÏÏÖ
+FACTURAS DE CLIENTES - DirecciónÏÏ0039ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "direccion",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+FACTURA DE CLIENTES - CiudadÏÏ0040ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "ciudad",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+FACTURAS DE CLIENTES - CPÏÏ0041ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "codpostal",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+FACTURAS DE CLIENTES - CodpaisÏÏ0043ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "codpais",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+FACTURAS DE CLIENTES - Código de DirecciónÏÏ0045ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "id",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+return res;ÏÏÖ
+LINEAS FACTURAS CLIENTES - Precio netoÏÏ0047ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = arrayArgumentos[7];
+precio = arrayArgumentos[4];
+
+return precio*cantidad;ÏÏÖ
+PRESUPUESTOS DE CLIENTE - Tasa de conversionÏÏ0049ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+valorDivisa = arrayArgumentos[17];
+tasaConv = valorDivisa/166.386;
+return tasaConv;
+ÏÏÖ
+CodEjercicioÏÏ0051ÏÏcodEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+return codEjercicio;
+ÏÏÖ
+PARTIDAS - IdContrapartida a partir de CodContrapartidaÏÏ0004ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+codSubcuenta = arrayArgumentos[3];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("co_subcuentas", "idsubcuenta",
+"codsubcuenta = " + coma + codSubcuenta + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+return res;ÏÏÖ
+PARTIDAS - IdAsiento desde numeroÏÏ0005ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+idAsiento = arrayArgumentos[0];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("co_asientos", "idasiento",
+"numero = " + coma + idAsiento + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+return res;ÏÏÖ
+LINEAS ALBARANES CLIENTES - idalbaranÏÏ0024ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+numero = arrayArgumentos[0];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("albaranescli", "idalbaran",
+"numero = " + coma + numero + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+return res;ÏÏÖ
+PEDIDOS DE CLIENTE - CodigoÏÏ0027ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+numero = arrayArgumentos[0];
+codSerie = fldatosppal.iface.pub_serieDefecto();
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+
+return fldatosppal.iface.pub_cerosIzquierda(codEjercicio, 4) + 
+fldatosppal.iface.pub_cerosIzquierda(codSerie, 2) +
+fldatosppal.iface.pub_cerosIzquierda(numero, 6);ÏÏÖ
+LINEAS PEDIDOS CLIENTES - idpedidoÏÏ0031ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+numero = arrayArgumentos[0];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("pedidoscli", "idpedido",
+"numero = " + coma + numero + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+return res;ÏÏÖ
+PRESUPUESTOS DE CLIENTE - CodigoÏÏ0050ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+numero = arrayArgumentos[0];
+codSerie = fldatosppal.iface.pub_serieDefecto();
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+
+return fldatosppal.iface.pub_cerosIzquierda(codEjercicio, 4) + 
+fldatosppal.iface.pub_cerosIzquierda(codSerie, 2) +
+fldatosppal.iface.pub_cerosIzquierda(numero, 6);
+ÏÏÖ
+CodSerieÏÏ0052ÏÏreturn fldatosppal.iface.pub_serieDefecto();ÏÏÖ
+ARTICULOS POR PROVEEDOR - Nombre de proveedorÏÏ0053ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codProveedor = arrayArgumentos[23];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("proveedores", "nombre",
+"codproveedor = " + coma + codProveedor + coma);
+
+if (res) return res;ÏÏÖ
+CLIENTES - Régimen de I.V.A.ÏÏ0054ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+rIva = arrayArgumentos[32];
+
+if (rIva == 1) return "General";
+if (rIva == 2) return "U.E.";
+if (rIva == 3) return "Exento";ÏÏÖ
+DIRECCIONES DE PROVEEDORES - ProvinciaÏÏ0055ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codProvincia = arrayArgumentos[4];
+
+return fldatosppal.iface.pub_provincia(codProvincia);ÏÏÖ
+ALBARANES DE CLIENTES - ProvinciaÏÏ0020ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "provincia",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+if (res) return res;ÏÏÖ
+DIRECCIONES DE CLIENTES - ProvinciaÏÏ0056ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codProv = arrayArgumentos[5];
+return fldatosppal.iface.pub_provincia(codProv);ÏÏÖ
+FACTURAS DE CLIENTES - ProvinciaÏÏ0042ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "provincia",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+if (res) return res;ÏÏÖ
+FACTURACION - Nombre de proveedorÏÏ0057ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codProveedor = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("proveedores", "nombre",
+"codproveedor = " + coma + codProveedor + coma);
+
+return res;ÏÏÖ
+PEDIDOS DE PROVEEDOR - Tasa de conversionÏÏ0058ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+valorDivisa = arrayArgumentos[11];
+tasaConv = valorDivisa/166.386;
+return tasaConv;
+ÏÏÖ
+FACTURAS DE PROVEEDOR - FechaÏÏ0060ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+fechaInicio = arrayArgumentos[2];
+
+agno = fechaInicio.left(4);
+mes = fechaInicio.right(4);
+dia = mes.right(2);
+mes = mes.left(2);
+	
+fechaFin = new Date(agno, mes, dia);
+	
+return fechaFin;
+ÏÏÖ
+FACTURAS DE PROVEEDOR - CIFNIF de proveedorÏÏ0059ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cod = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("proveedores", "cifnif",
+"codproveedor = " + coma + cod + coma);
+
+return res;22ÏÏÖ
+FACTURAS DE PROVEEDOR - Tasa de conversionÏÏ0061ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+valorDivisa = arrayArgumentos[23];
+tasaConv = valorDivisa/166.386;
+return tasaConv;
+ÏÏÖ
+FACTURAS DE PROVEEDOR - Nombre de proveedorÏÏ0062ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cod = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("proveedores", "nombre",
+"codproveedor = " + coma + cod + coma);
+
+return res;22ÏÏÖ
+LINEAS FACTURAS PROVEEDORES - Precio netoÏÏ0064ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = arrayArgumentos[9];
+precio = arrayArgumentos[4];
+
+return precio*cantidad;ÏÏÖ
+LINEAS FACTURAS PROVEEDORES - Precio totalÏÏ0065ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = parseFloat(arrayArgumentos[4]);
+precio = parseFloat(arrayArgumentos[9]);
+dtoLineal = parseFloat(arrayArgumentos[21]);
+dtoPor = parseFloat(arrayArgumentos[5]/100);
+
+neto = precio*cantidad;
+total = neto - neto*dtoPor - dtoLineal;
+return total;ÏÏÖ
+ALBARANES DE PROVEEDOR - Tasa de conversionÏÏ0067ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+valorDivisa = arrayArgumentos[11];
+tasaConv = valorDivisa/166.386;
+return tasaConv;
+ÏÏÖ
+ALBARANESPROV - idfactura a partir de numeroÏÏ0068ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+numF = arrayArgumentos[16];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("facturasprov", "idfactura",
+"numero = " + coma + numF + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+if (res) return res;ÏÏÖ
+ALBARANES DE PROVEEDOR - Nombre de proveedorÏÏ0069ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cod = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("proveedores", "nombre",
+"codproveedor = " + coma + cod + coma);
+
+return res;22ÏÏÖ
+ALBARANES DE PROVEEDOR - CIFNIF de proveedorÏÏ0070ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cod = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("proveedores", "cifnif",
+"codproveedor = " + coma + cod + coma);
+
+return res;22ÏÏÖ
+LINEAS ALBARANES PROVEEDORES - idalbaranÏÏ0071ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+numero = arrayArgumentos[0];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("albaranesprov", "idalbaran",
+"numero = " + coma + numero + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+return res;ÏÏÖ
+LINEAS ALBARANES PROVEEDORES - Precio netoÏÏ0072ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = arrayArgumentos[5];
+precio = arrayArgumentos[3];
+
+return precio*cantidad;ÏÏÖ
+LINEAS ALBARANES PROVEEDORES - Precio totalÏÏ0073ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = parseFloat(arrayArgumentos[5]);
+precio = parseFloat(arrayArgumentos[3]);
+dtoLineal = parseFloat(arrayArgumentos[20]);
+dtoPor = parseFloat(arrayArgumentos[7]/100);
+
+neto = precio*cantidad;
+total = neto - neto*dtoPor - dtoLineal;
+return total;ÏÏÖ
+PRESUPUESTOS DE CLIENTES - EditableÏÏ0074ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+estado = arrayArgumentos[5];
+
+if (estado == "A") return false;
+return true;ÏÏÖ
+AGENTES - ProvinciaÏÏ0075ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cod = arrayArgumentos[6];
+
+res = fldatosppal.iface.pub_provincia(cod);
+if (res) return res;ÏÏÖ
+PRESUPUESTOS DE CLIENTES - Fecha de salidaÏÏ0076ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+fechaInicio = arrayArgumentos[6];
+
+agno = fechaInicio.left(4);
+mes = fechaInicio.right(4);
+dia = mes.right(2);
+mes = mes.left(2);
+	
+fechaFin = new Date(agno, mes, dia);
+	
+return fechaFin;ÏÏÖ
+LINEAS PRESUPUESTOS CLIENTES - idpresupuestoÏÏ0077ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+numero = arrayArgumentos[0];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("presupuestoscli", "idpresupuesto",
+"numero = " + coma + numero + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+return res;ÏÏÖ
+PEDIDOS DE CLIENTE - EditableÏÏ0078ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+estado = arrayArgumentos[5];
+
+if (estado == "S") return "false";
+return true;ÏÏÖ
+ALBARANES DE CLIENTE - Pendiente de FacturaÏÏ0079ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+estado = arrayArgumentos[5];
+
+if (estado == "T") return "false";
+return true;ÏÏÖ
+LINEAS FACTURAS PROVEEDORES - idfacturaÏÏ0063ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+codSerie = arrayArgumentos[0];
+numero = arrayArgumentos[1];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("facturasprov", "idfactura",
+"numero = " + coma + numero + coma +
+" AND codejercicio = " + coma + codEjercicio + coma +
+" AND codserie = " + coma + codSerie + coma);
+
+return res;ÏÏÖ
+LINEAS FACTURAS CLIENTES - idfacturaÏÏ0046ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+codSerie = arrayArgumentos[0];
+numero = arrayArgumentos[1];
+debug(codSerie + "  " + numero);
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("facturascli", "idfactura",
+"numero = " + coma + numero + coma +
+" AND codejercicio = " + coma + codEjercicio + coma +
+" AND codserie = " + coma + codSerie + coma);
+
+return res;ÏÏÖ
+LINEAS PEDIDOS PROVEEDORES - idpedidoÏÏ0081ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+numero = arrayArgumentos[0];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("pedidosprov", "idpedido",
+"numero = " + coma + numero + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+return res;ÏÏÖ
+PEDIDOS DE PROVEEDOR - CIFNIF de proveedorÏÏ0083ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cod = arrayArgumentos[2];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("proveedores", "cifnif",
+"codproveedor = " + coma + cod + coma);
+
+return res;22ÏÏÖ
+LINEAS PEDIDOS PROVEEDORES - Precio totalÏÏ0082ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = arrayArgumentos[3];
+precio = arrayArgumentos[4];
+dtoLineal = arrayArgumentos[15];
+dtoPor = arrayArgumentos[8]/100;
+
+neto = precio*cantidad;
+total = neto - neto*dtoPor - dtoLineal;
+return total;ÏÏÖ
+RECIBOS DE CLIENTE - Fecha de emisiónÏÏ0084ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+fechaInicio = arrayArgumentos[4];
+
+agno = fechaInicio.left(4);
+mes = fechaInicio.right(4);
+dia = mes.right(2);
+mes = mes.left(2);
+	
+fechaFin = new Date(agno, mes, dia);
+	
+return fechaFin;
+ÏÏÖ
+RECIBOS DE CLIENTE - Fecha de vencimientoÏÏ0085ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+fechaInicio = arrayArgumentos[5];
+
+agno = fechaInicio.left(4);
+mes = fechaInicio.right(4);
+dia = mes.right(2);
+mes = mes.left(2);
+	
+fechaFin = new Date(agno, mes, dia);
+	
+return fechaFin;
+ÏÏÖ
+RECIBOS DE CLIENTE - idfacturaÏÏ0086ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+codSerie = arrayArgumentos[0];
+numF = arrayArgumentos[1];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("facturascli", "idfactura",
+"numero = " + coma + numF + coma +
+" AND codejercicio = " + coma + codEjercicio + coma +
+" AND codserie = " + coma + codSerie + coma);
+
+if (res) return res;ÏÏÖ
+RECIBOS DE CLIENTE - Cuenta bancariaÏÏ0087ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codigo = arrayArgumentos[7];
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("cuentasbanco", "cuenta",
+"codcuenta = " + coma + codigo + coma );
+
+if (res) return res;ÏÏÖ
+RECIBOS DE CLIENTE - Entidad bancariaÏÏ0088ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codigo = arrayArgumentos[7];
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("cuentasbanco", "ctaentidad",
+"codcuenta = " + coma + codigo + coma );
+
+if (res) return res;ÏÏÖ
+RECIBOS DE CLIENTE - Sucursal bancariaÏÏ0089ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codigo = arrayArgumentos[7];
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("cuentasbanco", "ctaagencia",
+"codcuenta = " + coma + codigo + coma );
+
+if (res) return res;ÏÏÖ
+RECIBOS DE CLIENTE - DC bancarioÏÏ0090ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codigo = arrayArgumentos[7];
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+entidad = util.sqlSelect("cuentasbanco", "ctaentidad",
+"codcuenta = " + coma + codigo + coma );
+agencia = util.sqlSelect("cuentasbanco", "ctaagencia",
+"codcuenta = " + coma + codigo + coma );
+
+res= util.calcularDC(entidad + agencia);
+res = res.toString();
+if (res.length == 1) res = "0" + res;
+if (res) return res.toString();ÏÏÖ
+RECIBOS DE CLIENTES - Estado del reciboÏÏ0091ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+estado = arrayArgumentos[9];
+
+if (estado == 1) return "Emitido";
+if (estado == 2) return "Pagado";
+if (estado == 3) return "Devuelto";ÏÏÖ
+RECIBOS DE CLIENTE - Importe en eurosÏÏ0092ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+res = arrayArgumentos[6];
+if (res) return res;ÏÏÖ
+RECIBOS DE CLIENTE - CodigoÏÏ0093ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+if (!codEjercicio) return false;
+
+codSerie = arrayArgumentos[0];
+numF = arrayArgumentos[1];
+contador = arrayArgumentos[2];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+return fldatosppal.iface.pub_cerosIzquierda(codEjercicio, 4) + 
+fldatosppal.iface.pub_cerosIzquierda(codSerie, 2) +
+fldatosppal.iface.pub_cerosIzquierda(numF, 6) + "-" +
+fldatosppal.iface.pub_cerosIzquierda(contador, 2);ÏÏÖ
+PAGOS Y DEVOLUCIONES DE CLIENTE - idReciboÏÏ0094ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+codSerie = arrayArgumentos[0];
+numF = arrayArgumentos[1];
+contador = arrayArgumentos[2];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+codigo = fldatosppal.iface.pub_cerosIzquierda(codEjercicio, 4) + 
+fldatosppal.iface.pub_cerosIzquierda(codSerie, 2) +
+fldatosppal.iface.pub_cerosIzquierda(numF, 6) + "-" +
+fldatosppal.iface.pub_cerosIzquierda(contador, 2);
+
+coma = String.fromCharCode(39);
+
+res = util.sqlSelect("reciboscli", "idrecibo",
+"codigo = " + coma + codigo + coma);
+
+if (res) return res;ÏÏÖ
+PAGOS Y DEVOLUCIONES DE CLIENTE - FechaÏÏ0095ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+fechaInicio = arrayArgumentos[4];
+
+agno = fechaInicio.left(4);
+mes = fechaInicio.right(4);
+dia = mes.right(2);
+mes = mes.left(2);
+	
+fechaFin = new Date(agno, mes, dia);
+	
+return fechaFin;
+ÏÏÖ
+PAGOS Y DEVOLUCIONES DE CLIENTES - Tasa de conversionÏÏ0097ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+valorDivisa = arrayArgumentos[13];
+tasaConv = valorDivisa/166.386;
+return tasaConv;
+ÏÏÖ
+PAGOS Y DEVOLUCIONES DE CLIENTE - Pago o devolucionÏÏ0096ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+tipo = arrayArgumentos[3];
+
+if (tipo == 1) return "Pago";
+if (tipo == 2) return "Devolucion";ÏÏÖ
+PARTIDAS - idSubcuenta a partir de codSubcuentaÏÏ0003ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+codSubcuenta = arrayArgumentos[2];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("co_subcuentas", "idsubcuenta",
+"codsubcuenta = " + coma + codSubcuenta + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+return res;ÏÏÖ
+PAGOS Y DEVOLUCIONES DE CLIENTE - idSubcuenta a partir de codSubcuentaÏÏ0098ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+codSubcuenta = arrayArgumentos[6];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("co_subcuentas", "idsubcuenta",
+"codsubcuenta = " + coma + codSubcuenta + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+return res;ÏÏÖ
+LINEAS FACTURAS CLIENTES - Precio totalÏÏ0048ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cantidad = parseFloat(arrayArgumentos[4]);
+precio = parseFloat(arrayArgumentos[7]);
+dtoLineal = parseFloat(arrayArgumentos[27]);
+dtoPor = parseFloat(arrayArgumentos[5]/100);
+
+neto = precio*cantidad;
+total = neto - neto*dtoPor - dtoLineal;
+if (!total) return 0;
+return total;ÏÏÖ
+PARTIDAS - DivisaÏÏ0099ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codDivisa = arrayArgumentos[24];
+if (codDivisa) return codDivisa;
+return "EUR";ÏÏÖ
+TIPOS DE RAPPEL- CodigoÏÏ0100ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codigo = arrayArgumentos[0];
+return "Tipo de Rappel " + codigo;
+ÏÏÖ
+LINEAS FACTURAS CLIENTES - codImpuestoÏÏ0101ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+iva = arrayArgumentos[6];
+util = new FLUtil();
+
+res = util.sqlSelect("impuestos", "codimpuesto",
+"iva = " + iva);
+
+return res;ÏÏÖ
+LINEAS PEDIDOS CLIENTES - codImpuestoÏÏ0102ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+iva = arrayArgumentos[6];
+util = new FLUtil();
+
+res = util.sqlSelect("impuestos", "codimpuesto",
+"iva = " + iva);
+
+return res;ÏÏÖ
+LINEAS ALBARANES CLIENTES - codImpuestoÏÏ0103ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+iva = arrayArgumentos[5];
+util = new FLUtil();
+
+res = util.sqlSelect("impuestos", "codimpuesto",
+"iva = " + iva);
+
+return res;ÏÏÖ
+LINEAS PRESUPUESTOS CLIENTES - codImpuestoÏÏ0104ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+iva = arrayArgumentos[6];
+util = new FLUtil();
+
+res = util.sqlSelect("impuestos", "codimpuesto",
+"iva = " + iva);
+
+return res;ÏÏÖ
+LINEAS ALBARANES PROVEEDORES - codImpuestoÏÏ0105ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+iva = arrayArgumentos[13];
+util = new FLUtil();
+
+res = util.sqlSelect("impuestos", "codimpuesto",
+"iva = " + iva);
+
+return res;ÏÏÖ
+LINEAS PEDIDOS PROVEEDORES - codImpuestoÏÏ0106ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+iva = arrayArgumentos[13];
+util = new FLUtil();
+
+res = util.sqlSelect("impuestos", "codimpuesto",
+"iva = " + iva);
+
+return res;ÏÏÖ
+LINEAS FACTURAS PROVEEDORES - codImpuestoÏÏ0107ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+iva = arrayArgumentos[6];
+util = new FLUtil();
+
+res = util.sqlSelect("impuestos", "codimpuesto",
+"iva = " + iva);
+
+return res;ÏÏÖ
+FACTURAS DE CLIENTES - ApartadoÏÏ0044ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codCliente = arrayArgumentos[3];
+coma = String.fromCharCode(39);
+util = new FLUtil();
+
+res = util.sqlSelect("dirclientes", "apartado",
+"codcliente = " + coma + codCliente + coma +
+" AND domfacturacion = true");
+
+if (!res) return "";
+return res;ÏÏÖ
+PROVEEDORES POR SUBCUENTAS - CodigoÏÏ0110ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codSubcuenta = arrayArgumentos[0];
+codProveedor = codSubcuenta.right(6);
+
+return codProveedor;ÏÏÖ
+PROVEEDORES POR SUBCUENTA - ProvinciaÏÏ0112ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cod = arrayArgumentos[5];
+
+res = fldatosppal.iface.pub_provincia(cod);
+if (res) return res;ÏÏÖ
+PROVEEDORES POR SUBCUENTAS - idSubcuentaÏÏ0111ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+codSubcuenta = arrayArgumentos[1];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("co_subcuentas", "idsubcuenta",
+"codsubcuenta = " + coma + codSubcuenta + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+if (!res) return "";
+return res;ÏÏÖ
+FAMILIAS ARTICULOS - CodigoÏÏ0113ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cod = arrayArgumentos[0];
+
+res = cod.right(4);
+if (res) return res;ÏÏÖ
+ARTICULOS - Codigo de familiaÏÏ0114ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+cod = arrayArgumentos[2];
+
+res = cod.right(4);
+if (res) return res;ÏÏÖ
+ALBARANES DE CLIENTE - CodigoÏÏ0023ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+numero = arrayArgumentos[0];
+codSerie = arrayArgumentos[30];
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+
+if (!codEjercicio) return false;
+
+return fldatosppal.iface.pub_cerosIzquierda(codEjercicio, 4) + 
+fldatosppal.iface.pub_cerosIzquierda(codSerie, 2) +
+fldatosppal.iface.pub_cerosIzquierda(numero, 6);
+ÏÏÖ
+ALBARANES DE PROVEEDOR - CodigoÏÏ0066ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+numero = arrayArgumentos[0];
+codSerie = arrayArgumentos[14];
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+
+if (!codEjercicio) return false;
+
+return fldatosppal.iface.pub_cerosIzquierda(codEjercicio, 4) + 
+fldatosppal.iface.pub_cerosIzquierda(codSerie, 2) +
+fldatosppal.iface.pub_cerosIzquierda(numero, 6);
+ÏÏÖ
+CLIENTES - codSubcuentaÏÏ0109ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+util = new FLUtil();
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+if (!codEjercicio) return false;
+longSubcuenta = util.sqlSelect("ejercicios", "longsubcuenta", "codejercicio = " + codEjercicio + "");
+
+codSubcuenta = arrayArgumentos[34];
+if (!codSubcuenta) return "";
+
+if (codSubcuenta.length != longSubcuenta) {
+    numCeros = longSubcuenta - codSubcuenta.length;
+    for (i = 0; i < numCeros; i++) codSubcuenta += "0";
+}
+
+return codSubcuenta;ÏÏÖ
+CLIENTES - idSubcuentaÏÏ0108ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+if (!codEjercicio) return false;
+codSubcuenta = arrayArgumentos[34];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("co_subcuentas", "idsubcuenta",
+"codsubcuenta = " + coma + codSubcuenta + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+if (!res) return "";
+return res;ÏÏÖ
+FACTURAS DE CLIENTE - CodigoÏÏ0038ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+numero = arrayArgumentos[1];
+codSerie = arrayArgumentos[0];
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+if (!codEjercicio) return false;
+
+return fldatosppal.iface.pub_cerosIzquierda(codEjercicio, 4) + 
+fldatosppal.iface.pub_cerosIzquierda(codSerie, 2) +
+fldatosppal.iface.pub_cerosIzquierda(numero, 6);
+ÏÏÖ
+CLIENTES POR SUBCUENTAS - idSubcuentaÏÏ0200ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+codSubcuenta = arrayArgumentos[1];
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("co_subcuentas", "idsubcuenta",
+"codsubcuenta = " + coma + codSubcuenta + coma +
+" AND codejercicio = " + coma + codEjercicio + coma);
+
+if (!res) return "";
+return res;ÏÏÖ
+ALBARANES CLIENTES - idfacturaÏÏ0080ÏÏargumentos = arguments.toString();
+arrayArgumentos = argumentos.split("ğ");
+
+codEjercicio = fldatosppal.iface.pub_ejercicioDefecto();
+datosFactura = arrayArgumentos[22];
+arrayDF = datosFactura.split(" ");
+
+codSerie = arrayDF[0];
+numFactura = -1;
+
+for (i=1; i<arrayDF.length; i++) 
+    if (arrayDF[i]) {
+        numFactura = arrayDF[i];
+        break;
+    }
+
+if (numFactura == -1) return "false";
+
+coma = String.fromCharCode(39);
+
+util = new FLUtil();
+
+res = util.sqlSelect("facturascli", "idfactura",
+"numero = " + coma + numFactura+ coma +
+" AND codejercicio = " + coma + codEjercicio + coma +
+" AND codserie = " + coma + codSerie + coma);
+
+if (!res) return 0;
+return res;ÏÏÖ
+CUENTAS BANCARIAS DE CLIENTE - CódigoÏÏ0202ÏÏutil = new FLUtil();
+curCuentas = new FLSqlCursor("cuentasbcocli");
+return util.nextCounter("codcuenta", curCuentas);
+
+ÏÏÖ
+CUENTAS BANCARIAS - CódigoÏÏ0201ÏÏutil = new FLUtil();
+curCuentas = new FLSqlCursor("cuentasbanco");
+return util.nextCounter("codcuenta", curCuentas);
+
+ÏÏÖ
+CUENTAS BANCARIAS DE PROVEEDOR - CódigoÏÏ0203ÏÏutil = new FLUtil();
+curCuentas = new FLSqlCursor("cuentasbcopro");
+return util.nextCounter("codcuenta", curCuentas);
+
+ÏÏÖ

@@ -1,0 +1,468 @@
+<ACTIONS>
+    <action>
+        <name>factalma_general</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Datos Generales")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los datos generales son una serie de valores que se usan para personalizar el funcionamiento del módulo de almacén")</description>
+        <scriptform>factalma_general</scriptform>
+        <scriptformrecord>factalma_general</scriptformrecord>
+        <table>factalma_general</table>
+        <form>factalma_general</form>
+        <formrecord>factalma_general</formrecord>
+    </action>
+    <action>
+        <name>almacenes</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los almacenes se registran con datos de dirección y contacto")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Almacenes")</alias>
+        <table>almacenes</table>
+        <form>master_copy</form>
+        <formrecord>almacenes</formrecord>
+        <scriptformrecord>almacenes</scriptformrecord>
+    </action>
+    <action>
+        <name>articulos</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los artículos soportan información completa de precios de venta y compra por proveedor, precios por cliente y por tarifa y control de stocks")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Artículos")</alias>
+        <scriptform>masterarticulos</scriptform>
+        <scriptformrecord>articulos</scriptformrecord>
+        <scriptform>masterarticulos</scriptform>
+        <table>articulos</table>
+        <form>masterarticulos</form>
+        <formrecord>articulos</formrecord>
+    </action>
+    <action>
+        <name>articulosagen</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los artículos por agente contienen el listado de comisiones por agente comercial para un determinado artículo")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Artículos por agente")</alias>
+        <scriptformrecord>articulosagen</scriptformrecord>
+        <table>articulosagen</table>
+        <form>master</form>
+        <formrecord>articulosagen</formrecord>
+    </action>
+    <action>
+        <name>articulosprov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los artículos por proveedor contienen el listado de precios de compra por proveedor para un determinado artículo")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Artículos por proveedor")</alias>
+        <table>articulosprov</table>
+        <form>master</form>
+        <formrecord>articulosprov</formrecord>
+        <scriptformrecord>articulosprov</scriptformrecord>
+    </action>
+    <action>
+        <name>articulostarifas</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los artículos por tarifa contienen el listado de precios para un determinado artículo que resultan al aplicar cada una de las tarifas al precio de venta base")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Artículos por tarifa")</alias>
+        <table>articulostarifas</table>
+        <form>master</form>
+        <formrecord>articulostarifas</formrecord>
+    </action>
+    <action>
+        <name>familias</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Las familias de artículos permiten agrupar artículos por determinados criterios comunes")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Familias de artículos")</alias>
+        <table>familias</table>
+        <form>masterfamilias</form>
+        <scriptform>masterfamilias</scriptform>
+        <formrecord>familias</formrecord>
+        <scriptformrecord>familias</scriptformrecord>
+    </action>
+    <action>
+        <name>lineasregstocks</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Las líneas de regularización de stocks contienen datos sobre los cambios realizados manualmente en el stock de un determinado artículo. Estas líneas son creadas desde la funcionalidad 'regularización de stocks'")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Líneas de regularización de stocks")</alias>
+        <table>lineasregstocks</table>
+        <form>master_copy</form>
+        <formrecord>lineasregstocks</formrecord>
+        <scriptformrecord>lineasregstocks</scriptformrecord>
+    </action>
+    <action>
+        <name>regstocks</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","La regularización de stocks permite realizar ajustes sobre las cantidades de stocks de los artículos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Regularización de stocks")</alias>
+        <table>stocks</table>
+        <form>masterregstocks</form>
+        <formrecord>regstocks</formrecord>
+        <scriptform>masterregstocks</scriptform>
+        <scriptformrecord>regstocks</scriptformrecord>
+    </action>
+    <action>
+        <name>stocks</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los stocks contienen las cantidades de un determinado artículo existentes en cada almacén")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Stocks")</alias>
+        <table>stocks</table>
+        <form>master</form>
+        <formrecord>regstocks</formrecord>
+        <scriptformrecord>stocks</scriptformrecord>
+        <scriptformrecord>regstocks</scriptformrecord>
+    </action>
+    <action>
+        <name>transstock</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Las transferencias reflejan el cambio de material de un almacén a otro.")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Transferencias de stock")</alias>
+        <table>transstock</table>
+        <form>master_print</form>
+        <formrecord>transstock</formrecord>
+        <scriptformrecord>transstock</scriptformrecord>
+        <scriptform>mastertransstock</scriptform>
+    </action>
+    <action>
+        <name>lineastransstock</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Las líneas de transferencia de stock reflejan el paso de un determinado artículo de un almacén a otro.")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Líneas de transferencias de stock")</alias>
+        <table>lineastransstock</table>
+        <formrecord>lineastransstock</formrecord>
+        <scriptformrecord>lineastransstock</scriptformrecord>
+    </action>
+    <action>
+        <name>tarifas</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Las tarifas son variaciones positivas o negativas, porcentuales o lineales, que se aplican al precio base de los artículos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Tarifas")</alias>
+        <table>tarifas</table>
+        <form>mastertarifas</form>
+        <formrecord>tarifas</formrecord>
+        <scriptform>mastertarifas</scriptform>
+        <scriptformrecord>tarifas</scriptformrecord>
+    </action>
+    <action>
+        <name>formasenvio</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Formas de envio de los pedidos realizados en la tienda virtual")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Formas de envío")</alias>
+        <table>formasenvio</table>
+        <form>master_copy</form>
+        <formrecord>formasenvio</formrecord>
+        <scriptformrecord>formasenvio</scriptformrecord>
+    </action>
+    <action>
+        <name>infogeneral</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Información general de la tienda virtual")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Información general")</alias>
+        <table>infogeneral</table>
+        <form>master_copy</form>
+        <formrecord>infogeneral</formrecord>
+        <scriptformrecord>infogeneral</scriptformrecord>
+    </action>
+    <action>
+        <name>noticias</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Noticias")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Noticias")</alias>
+        <table>noticias</table>
+        <form>master_copy</form>
+        <formrecord>noticias</formrecord>
+        <scriptformrecord>noticias</scriptformrecord>
+    </action>
+    <action>
+        <name>opcionestv</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Opciones generales")</alias>
+        <scriptform>opcionestv</scriptform>
+        <table>opcionestv</table>
+        <form>opcionestv</form>
+        <formrecord>opcionestv</formrecord>
+    </action>
+    <action>
+        <name>datostv</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Intercambio de datos")</alias>
+        <scriptform>datostv</scriptform>
+        <table>datostv</table>
+        <form>datostv</form>
+        <formrecord>datostv</formrecord>
+    </action>
+    <action>
+        <name>gruposatributos</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Grupos de Atributos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
+        <table>gruposatributos</table>
+        <form>master_copy</form>
+        <formrecord>gruposatributos</formrecord>
+    </action>
+    <action>
+        <name>atributos</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Atributos de los artículos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
+        <table>atributos</table>
+        <form>master_copy</form>
+        <formrecord>atributos</formrecord>
+        <scriptformrecord>atributos</scriptformrecord>
+    </action>
+    <action>
+        <name>atributosart</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Atributos por artículo")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
+        <table>atributosart</table>
+        <form>master_copy</form>
+        <formrecord>atributosart</formrecord>
+        <scriptformrecord>atributosart</scriptformrecord>
+    </action>
+    <action>
+        <name>accesoriosart</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Accesorios por artículo")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
+        <table>accesoriosart</table>
+        <form>master_copy</form>
+        <formrecord>accesoriosart</formrecord>
+    </action>
+    <action>
+        <name>fabricantes</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Fabricantes")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
+        <table>fabricantes</table>
+        <form>master_copy</form>
+        <formrecord>fabricantes</formrecord>
+        <scriptformrecord>fabricantes</scriptformrecord>
+    </action>
+    <action>
+        <name>plazosenvio</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Plazos de envio")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
+        <table>plazosenvio</table>
+        <form>master_copy</form>
+        <formrecord>plazosenvio</formrecord>
+    </action>
+    <action>
+        <name>faqs</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Preguntas frecuentes")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
+        <table>faqs</table>
+        <form>master_copy</form>
+        <formrecord>faqs</formrecord>
+        <scriptformrecord>faqs</scriptformrecord>
+    </action>
+    <action>
+        <name>modulosweb</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Módulos web")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
+        <table>modulosweb</table>
+        <form>master_copy</form>
+        <formrecord>modulosweb</formrecord>
+        <scriptformrecord>modulosweb</scriptformrecord>
+    </action>
+    <action>
+        <name>formaspago</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Formas de pago")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Las formas de pago contemplan los plazos de pago (en pagos fraccionados), la cuenta bancaria asociada y el modo de generación de los recibos")</description>
+        <scriptform>masterformaspago</scriptform>
+        <scriptformrecord>formaspago</scriptformrecord>
+        <table>formaspago</table>
+        <form>master_print</form>
+        <formrecord>formaspago</formrecord>
+    </action>
+    <action>
+        <name>datoslog</name>
+        <alias>Log</alias>
+        <description>El log es un formulario en el que se ofrece información al usuario</description>
+        <table>datostv</table>
+        <form>datoslog</form>
+        <formrecord>datoslog</formrecord>
+    </action>
+    <action>
+        <name>transferenciastock</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Las transferencias reflejan el cambio de material de un almacén a otro. Equivalen a dos movimientos de regularización de stock complementarios")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Transferencias de stock")</alias>
+        <table>transferenciastock</table>
+        <form>transferenciastock</form>
+        <scriptform>transferenciastock</scriptform>
+    </action>
+    <action>
+        <name>imagenes</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","imagenes")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","imagenes")</alias>
+        <table>imagenes</table>
+        <form>master</form>
+        <formrecord>imagenes</formrecord>
+        <scriptformrecord>imagenes</scriptformrecord>
+    </action>
+    <action>
+        <name>galeriasimagenes</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","galerias de imagenes")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","galerias de imagenes")</alias>
+        <table>galeriasimagenes</table>
+        <form>master</form>
+        <formrecord>galeriasimagenes</formrecord>
+        <scriptformrecord>galeriasimagenes</scriptformrecord>
+    </action>
+    <action>
+        <name>pasarelaspago</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Pasarelas de pago")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Pasarelas de pago")</alias>
+        <table>pasarelaspago</table>
+        <form>master</form>
+        <formrecord>pasarelaspago</formrecord>
+        <scriptformrecord>pasarelaspago</scriptformrecord>
+    </action>
+    <action>
+        <name>parametrospasarela</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Parámetros de pasarelas de pago")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Parámetros de pasarelas de pago")</alias>
+        <table>parametrospasarela</table>
+        <form>master</form>
+        <formrecord>parametrospasarela</formrecord>
+    </action>
+    <action>
+        <name>statsweb</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Estadísticas de visitas de web")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Estadísticas de visitas de web")</alias>
+        <table>statsweb</table>
+        <form>master</form>
+        <formrecord>statsweb</formrecord>
+        <scriptformrecord>statsweb</scriptformrecord>
+    </action>
+    <action>
+        <name>lotes</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los lotes son grupos de artículos con una determinada fecha de caducidad, cuyas entradas, salidas y regularizaciones registra el sistema")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lotes")</alias>
+        <table>lotesqry</table>
+        <form>masterlotes</form>
+        <formrecord>lotes</formrecord>
+        <scriptform>masterlotes</scriptform>
+        <scriptformrecord>lotes</scriptformrecord>
+    </action>
+    <action>
+        <name>movilote</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los movimientos de lotes registran las entradas, salidas y regularizaciones de cada lote de artículos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Movimientos de lote")</alias>
+        <table>qry_movilote</table>
+        <form>master</form>
+        <formrecord>movilote</formrecord>
+        <scriptformrecord>movilote</scriptformrecord>
+    </action>
+    <action>
+        <name>purgarmov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Las purgas de movimientos son acciones de eliminación de los movimientos por lotes que ya no tienen relevancia en el sistema. Estas purgas se realizan por cuestiones de rendimiento del sistema, y deben hacerse siempre tras realizar una copia de seguridad de la base de datos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Purgas de movimientos")</alias>
+        <scriptform>purgarmov</scriptform>
+    </action>
+    <action>
+        <name>insertarlotes</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los lotes son grupos de artículos con una determinada fecha de caducidad, cuyas entradas, salidas y regularizaciones registra el sistema")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lotes")</alias>
+        <table>lotes</table>
+        <form>lotes</form>
+        <formrecord>lotes</formrecord>
+        <scriptform>lotes</scriptform>
+        <scriptformrecord>lotes</scriptformrecord>
+    </action>
+    <action>
+        <name>trazabilidadinterna</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Muestra los movimientos de almacen en una fecha concreta")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Movimientos internos")</alias>
+        <table>trazabilidadinterna</table>
+        <form>master</form>
+        <formrecord>trazabilidadinterna</formrecord>
+        <scriptformrecord>trazabilidadinterna</scriptformrecord>
+    </action>
+    <action>
+        <name>lineastrazabilidadinterna</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Muestra las líneas de movimientos internos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lineas Movimiento interno")</alias>
+        <table>lineastrazabilidadinterna</table>
+        <form>master</form>
+        <formrecord>lineastrazabilidadinterna</formrecord>
+        <scriptformrecord>lineastrazabilidadinterna</scriptformrecord>
+    </action>
+    <action>
+        <name>visorprecios</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Visor de precios PVP de artículos a partir del código de referencia")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Visor precios")</alias>
+        <table>articulos</table>
+        <form>visorprecios</form>
+        <formrecord>visorprecios</formrecord>
+        <scriptform>visorprecios</scriptform>
+        <scriptformrecord>visorprecios</scriptformrecord>
+    </action>
+    <action>
+        <name>articuloscomp</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los artículos están compuestos de otros artículos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Artículos compuestos")</alias>
+        <scriptformrecord>articuloscomp</scriptformrecord>
+        <table>articuloscomp</table>
+        <form>FLWidgetMasterTable</form>
+        <formrecord>articuloscomp</formrecord>
+    </action>
+    <action>
+        <name>pesosmedidas</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada artículo puede tener asociada una unidad de peso o medida (metros, litros, kilos, etc.) Por defecto, el artículo tiene la unidad asociada a su familia")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Unidades de pesos y medidas")</alias>
+        <table>pesosmedidas</table>
+        <form>master_copy</form>
+        <formrecord>pesosmedidas</formrecord>
+        <scriptformrecord>pesosmedidas</scriptformrecord>
+    </action>
+    <action>
+        <name>articuloscomparbol</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los artículos están compuestos de otros artículos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Artículos compuestos")</alias>
+        <scriptform>articuloscomp</scriptform>
+        <table>articuloscomp</table>
+        <form>articuloscomp</form>
+    </action>
+    <action>
+        <name>articuloscomponente</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los artículos soportan información completa de precios de venta y compra por proveedor, precios por cliente y por tarifa y control de stocks")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Artículos")</alias>
+        <scriptformrecord>articulos</scriptformrecord>
+        <scriptform>masterarticulos</scriptform>
+        <table>articulos</table>
+        <form>masterarticulos</form>
+        <formrecord>articulos</formrecord>
+    </action>
+    <action>
+        <name>opcionescomp</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Las opciones de composición son los distintos valores que cada tipo de opciones puede tener. Por ejemplo, el tipo de opción Salsa podría tener las opciones de composición Roquefort, Pimienta y Sin salsa.")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Opciones de composición")</alias>
+        <table>opcionescomp</table>
+        <formrecord>opcionescomp</formrecord>
+        <form>master</form>
+    </action>
+    <action>
+        <name>tiposopcioncomp</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Los tipos de opciones de composición indican las variables en las que los artículos pueden tener distinta configuración. Por ejemplo, en el caso del artículo Solomillo, podríamos tener el tipo Salsa (que tendría como opciones Roquefort, Pimienta y Sin salsa). Para cada tipo de opciones podemos indicar se es susceptible de asociarse a un artículo o familia concretos.")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Tipos de opciones de composición")</alias>
+        <table>tiposopcioncomp</table>
+        <formrecord>tiposopcioncomp</formrecord>
+        <form>master</form>
+    </action>
+    <action>
+        <name>opcionesarticulocomp</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada artículo puede tener asociado uno o más conjuntos de opciones.")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Opciones de composición por artículo")</alias>
+        <table>opcionesarticulocomp</table>
+        <form>master</form>
+        <formrecord>opcionesarticulocomp</formrecord>
+        <scriptformrecord>opcionesarticulocomp</scriptformrecord>
+    </action>
+    <action>
+        <name>tiposopcionartcomp</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada artículo puede tener asociado uno o más tipos de opciones.")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Tipos de opción de composición por artículo")</alias>
+        <table>tiposopcionartcomp</table>
+        <form>master</form>
+        <formrecord>tiposopcionartcomp</formrecord>
+        <scriptformrecord>tiposopcionartcomp</scriptformrecord>
+    </action>
+    <action>
+        <name>numerosserie</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Números de serie en los artículos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Números de serie")</alias>
+        <table>numerosserie</table>
+        <form>masternumerosserie</form>
+        <formrecord>numerosserie</formrecord>
+        <scriptformrecord>numerosserie</scriptformrecord>
+        <scriptform>masternumerosserie</scriptform>
+    </action>
+    <action>
+        <name>subfamilias</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Subfamilias, varias subfamilias se agrupan en una familia")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Subfamilias")</alias>
+        <table>subfamilias</table>
+        <form>master</form>
+        <formrecord>subfamilias</formrecord>
+    </action>
+    <action>
+        <name>factalma_proveedores</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Proveedores")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Gestiona los artículos de proveedores")</description>
+        <table>proveedores</table>
+        <form>factalma_masterproveedores</form>
+        <formrecord>factalma_proveedores</formrecord>
+        <scriptform>factalma_masterproveedores</scriptform>
+        <scriptformrecord>factalma_proveedores</scriptformrecord>
+    </action>
+</ACTIONS>

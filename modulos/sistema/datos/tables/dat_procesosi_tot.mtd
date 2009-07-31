@@ -1,0 +1,41 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>dat_procesosi_tot</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Procesos de importación de todos los datos")</alias>
+	
+	<field>
+		<name>codproceso</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>128</length>
+	</field>
+	
+	<field>
+		<name>dircsv</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Directorio")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>255</length>
+	</field>
+	
+	<field>
+		<name>borradoprevio</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Borrar datos anteriores")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	
+	<field>
+		<name>forzardellocks</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Eliminar registros bloqueados sin preguntar")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+</TMD>

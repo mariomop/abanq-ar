@@ -1,0 +1,37 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_entradasarticulos</name>
+	
+	<tables>lineasentradasarticulos,empresa,articulos</tables>
+	
+	<group>
+		<level>0</level>
+		<field>empresa.cifnif</field>
+	</group>
+	
+	<group>
+		<level>1</level>
+		<field>lineasentradasarticulos.referencia</field>
+	</group>
+	
+	<select>
+		lineasentradasarticulos.referencia, articulos.descripcion,
+		lineasentradasarticulos.fecha, lineasentradasarticulos.documento,
+		lineasentradasarticulos.codigo, lineasentradasarticulos.nombreproveedor,
+		lineasentradasarticulos.cantidad, lineasentradasarticulos.pvpunitario,
+		lineasentradasarticulos.pvpsindto, lineasentradasarticulos.pvptotal, lineasentradasarticulos.totalconiva,
+		lineasentradasarticulos.dtolineal, lineasentradasarticulos.dtopor,
+		empresa.nombre, empresa.cifnif,
+		empresa.direccion,
+		empresa.codpostal, empresa.ciudad,
+		empresa.provincia,
+		empresa.codpais
+	</select>
+	
+	<from>
+		empresa,lineasentradasarticulos INNER JOIN articulos ON lineasentradasarticulos.referencia = articulos.referencia
+	</from>
+	
+	<where>
+	</where>
+</QRY>

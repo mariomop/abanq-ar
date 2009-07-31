@@ -1,0 +1,27 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>dat_tablas</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Tablas")</alias>
+	
+	<field>
+		<name>codtabla</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tabla")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>255</length>
+		
+		<relation>
+			<table>dat_esquemas</table>
+			<field>codtabla</field>
+			<card>1M</card>
+		</relation>
+		
+		<relation>
+			<table>dat_procesose</table>
+			<field>codtabla</field>
+			<card>1M</card>
+		</relation>
+	</field>
+	
+</TMD>

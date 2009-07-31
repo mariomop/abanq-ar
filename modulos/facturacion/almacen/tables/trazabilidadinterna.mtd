@@ -1,0 +1,77 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>trazabilidadinterna</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Movimientos internos")</alias>
+	
+	<field>
+		<name>codigo</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>6</length>
+		<counter>true</counter>
+		<relation>
+			<table>lineastrazabilidadinterna</table>
+			<field>codtrazainterna</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>lineassalidasarticulos</table>
+			<field>codtrazainterna</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>lineasentradasarticulos</table>
+			<field>codtrazainterna</field>
+			<card>1M</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>descripcion</name>
+		<!-- Descripción del artículo	-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Descripción")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>200</length>
+	</field>
+	
+	<field>
+		<name>fecha</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Fecha")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>date</type>
+	</field>
+	
+	<field>
+		<name>codalmacen</name>
+		<!-- Código del almacén -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Almacén")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<relation>
+			<table>almacenes</table>
+			<field>codalmacen</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idusuario</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Usuario")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>30</length>
+		<relation>
+			<table>usuarios</table>
+			<field>idusuario</field>
+			<card>M1</card>
+		</relation>
+	</field>
+</TMD>

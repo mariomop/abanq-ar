@@ -1,0 +1,42 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>dat_procesosesp</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Procesos Especiales")</alias>
+	
+	<field>
+		<name>idprocesoesp</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","id")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>serial</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>nombre</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>70</length>
+	</field>
+	
+	<field>
+		<name>funcion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Función")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>70</length>
+	</field>
+	
+	<field>
+		<name>descripcion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Descripción")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>255</length>
+	</field>
+	
+</TMD>

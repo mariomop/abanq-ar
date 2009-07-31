@@ -1,0 +1,33 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_rescuentascli</name>
+	
+	<tables>reciboscli,empresa</tables>
+	
+	<group>
+		<level>0</level>
+		<field>empresa.cifnif</field>
+	</group>
+	
+	<group>
+		<level>1</level>
+		<field>reciboscli.codcliente</field>
+	</group>
+	
+	<select>
+		reciboscli.codigo, reciboscli.fecha, reciboscli.fechav,
+		reciboscli.codcliente, reciboscli.nombrecliente,
+		reciboscli.cifnif, reciboscli.estado,
+		reciboscli.importe, reciboscli.coddivisa,
+		empresa.nombre, empresa.cifnif, empresa.direccion,
+		empresa.codpostal, empresa.ciudad, empresa.provincia,
+		empresa.codpais
+	</select>
+	
+	<from>
+		empresa,reciboscli
+	</from>
+	
+	<where>
+	</where>
+</QRY>

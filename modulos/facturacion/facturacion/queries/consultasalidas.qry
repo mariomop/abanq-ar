@@ -1,0 +1,38 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>consultasalidas</name>
+	
+	<tables>presupuestoscli,pedidoscli,albaranescli,facturascli</tables>
+	
+	<select>
+		consultasalidas.fecha,
+		consultasalidas.tipo,
+		consultasalidas.codigo,
+		consultasalidas.nombrecliente,
+		consultasalidas.total
+	</select>
+	
+	<from>
+		(
+		SELECT fc.fecha, 'Factura' as tipo, fc.codigo, fc.nombrecliente, fc.total
+		FROM facturascli AS fc
+		UNION
+		SELECT ac.fecha, 'Remito' as tipo, ac.codigo, ac.nombrecliente, ac.total
+		FROM albaranescli AS ac
+		
+		UNION
+		SELECT pc.fecha, 'Pedido' as tipo, pc.codigo, pc.nombrecliente, pc.total
+		FROM pedidoscli AS pc
+		
+		UNION
+		SELECT ppc.fecha, 'Presupuesto' as tipo, ppc.codigo, ppc.nombrecliente, ppc.total
+		FROM presupuestoscli AS ppc
+		) AS consultasalidas
+	</from>
+	
+	<where>
+	</where>
+	
+	<order>
+	</order>
+</QRY>

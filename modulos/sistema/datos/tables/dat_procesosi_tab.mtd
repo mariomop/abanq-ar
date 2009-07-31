@@ -1,0 +1,57 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>dat_procesosi_tab</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Procesos de importación de tablas")</alias>
+	
+	<field>
+		<name>codproceso</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>128</length>
+	</field>
+	
+	<field>
+		<name>codtabla</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tabla Destino")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>255</length>
+		
+		<relation>
+			<table>dat_tablas</table>
+			<field>codtabla</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>fichcsv</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Fichero CSV")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>255</length>
+	</field>
+	
+	<field>
+		<name>borradoprevio</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Borrar datos anteriores")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	
+	<field>
+		<name>noexistentes</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","No importar registros ya existentes")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	
+</TMD>

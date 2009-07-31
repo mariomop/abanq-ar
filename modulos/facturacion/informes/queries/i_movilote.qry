@@ -1,0 +1,46 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_movilote</name>
+	
+	<tables>empresa,articulos,lotes,movilote,stocks</tables>
+	
+	<group>
+		<level>0</level>
+		<field>articulos.referencia</field>
+	</group>
+	
+	<group>
+		<level>1</level>
+		<field>lotes.codlote</field>
+	</group>
+	
+	<select>
+		empresa.nombre, empresa.cifnif,
+		empresa.direccion,
+		empresa.codpostal, empresa.ciudad,
+		empresa.provincia, empresa.apartado,
+		articulos.referencia, articulos.descripcion,
+		lotes.codlote, lotes.caducidad,
+		movilote.fecha, movilote.docorigen,
+		movilote.idstock, movilote.cantidad,
+		movilote.tipo, movilote.idlineats,
+		movilote.idlineaac, movilote.idlineafc,
+		movilote.idlineaap, movilote.idlineafp,
+		movilote.idlineati,
+		stocks.codalmacen
+	</select>
+	
+	<from>
+		empresa, articulos
+		INNER JOIN lotes ON articulos.referencia = lotes.referencia
+		INNER JOIN movilote ON lotes.codlote = movilote.codlote
+		INNER JOIN stocks ON movilote.idstock = stocks.idstock
+	</from>
+	
+	<where>
+	</where>
+	
+	<order>
+		articulos.referencia, lotes.codlote, movilote.fecha
+	</order>
+</QRY>

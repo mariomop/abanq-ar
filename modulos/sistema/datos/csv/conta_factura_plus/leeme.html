@@ -1,0 +1,403 @@
+<html>
+<head>
+	<title>Importación de Datos a FacturaLUX</title>
+	<style>
+		body {
+			font-family:verdana, arial;
+			font-size:12px;
+			margin:20px;
+		}
+		a {
+			color: #000099;
+		}
+		.limain {
+			margin-top: 15px;
+		}
+		.importante {
+			color: #BB0000;
+		}
+		.resaltado {
+			font-style: italic;
+		}
+		.advertencias {
+			border-color:#cccccc;
+			border-width:1px;
+			border-style:solid;
+			background-color:#fafafa;
+			padding:10px;
+			margin-top:40px;
+		}
+	</style>
+</head>
+<body>
+
+<h3>Pasos para migrar datos desde FacturaPlus y ContaPlus a FacturaLUX</h3>
+<hr size="1">
+
+<a href="#advertencias">Lea esto antes de comenzar!</a>
+
+<p>
+<a href="#todo">Migración de datos de FacturaPlus y ContaPlus</a>
+
+<p>
+<a href="#solofact">Migración de datos sólo de FacturaPlus</a>
+
+<p>
+<a href="#solocont">Migración de datos sólo de ContaPlus</a>
+
+
+<br><br><a name="todo"></a>
+<h4>Migración de datos de FacturaPlus y ContaPlus</h4>
+<hr size="1">
+
+<ol>
+
+<li class="limain">Pasos previos
+	<ul>
+		<li>Realizar las <span class="importante">copias de seguridad</span> pertinentes
+		<li>Localizar el directorio de FacturaPlus donde están los ficheros DBF con los datos
+		<li>Localizar el directorio de ContaPlus donde están los ficheros DBF con los datos
+		<li>Copiar todos los DBF de FacturaPlus a un directorio nuevo
+		<li>Copiar al mismo directorio los ficheros de ContaPlus diario.dbf y subcta.dbf
+	</ul>
+
+<li class="limain">Crear una base de datos nueva
+
+<li class="limain">Cargar los módulos
+		
+	<ul>
+		<li>sistema - datos
+		<li>facturación - principal.
+		<br><span class="importante">Generar la empresa</span> por defecto y el ejercicio.
+		<br><span class="importante">Ajustar las fechas y dígitos de subcuenta</span> de este ejercicio a las correspondientes a los datos a importar
+		<li>facturación - almacén. En general NO tendremos que abrir el módulo de Almacén para crear el almacén por defecto.
+		<li>facturación - facturación
+		<li>facturación - tesorería
+		<li>contabilidad - principal. <span class="importante"> NO generar el plan general contable</span>
+	</ul>
+
+<li class="limain">Desde el módulo sistema/datos, importar el módulo de datos con el directorio de los <span class="resaltado">esquemas</span>
+
+<li class="limain">Desde el módulo sistema/datos, abrir el formulario maestro de ficheros y establecer la ruta de datos al directorio donde están los DBF.
+
+<li class="limain">Crear las series de facturación correspondientes a los datos a importar
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Generar Ficheros CSV</span>. En un determinado momento puede parecer que se para. Darle su tiempo
+
+<li class="limain">Ejecutar en el directorio de los CSV <a href="#script">este script</a> para formatear los caracteres
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Fichero de Tipos de Rappel</span>
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Completar Bancos</span>
+
+<li class="limain">Seguir el siguiente ORDEN en la ejecución de <b>procesos</b>:
+
+	<ul>
+		<li>Paises (si no existe el fichero BANDERA.dbf introducir los paises a mano)
+		<li>Bancos
+		<li>Departamentos
+		<li>Divisas
+		<li>Impuestos
+		<li>Tipos de Rappel
+		<li>Familias Artículos
+		<li>Agentes Comerciales
+		<li>Grupos de clientes
+		<li>Intervalos de rappel
+		<li>Sucursales bancarias. Al importar las sucursales bancarias es posible que algunos bancos no estén incluidos en la tabla de bancos por defecto
+		<li>Sucursales Bancarias de Clientes
+		<li>Sucursales Bancarias de Proveedores
+		<li>Almacenes
+		<li>Subcuentas
+	</ul>
+	
+<li class="limain">Generar el PCG <span class="importante">con el mismo número de dígitos</span> de las subcuentas previamente importadas
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Actualizar Subcuentas</span>
+
+<li class="limain">Ir al módulo principal de financiera. Se ejecutará el proceso de registro de las subcuentas de cliente y proveedor
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Fichero de Asientos</span>
+
+<li class="limain">Seguir el siguiente ORDEN en la ejecución de <b>procesos</b>:
+
+	<ul>
+		<li>Asientos
+		<li>Cuentas bancarias
+		<li>Formas de Pago
+		<li>Articulos
+		<li>Stocks
+		<li>Remesas de recibos
+		<li>Partidas
+	</ul>
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Actualizar Saldos</span>
+			
+<li class="limain">Seguir el siguiente ORDEN en la ejecución de <b>procesos</b>:
+		
+	<ul>
+	
+		<li>Clientes
+		<li>Cuentas bancarias de clientes
+		<li>Direcciones de clientes
+		<li>Proveedores
+		<li>Albaranes de Clientes
+		<li>Albaranes de Proveedores
+		<li>Facturas de Clientes
+		<li>Facturas de Proveedores
+		<li>Lineas de Albaranes de Clientes
+		<li>Lineas de Albaranes de Proveedores
+		<li>Lineas de Facturas de Clientes
+		<li>Lineas de Facturas de Proveedores
+		<li>Pedidos de Clientes
+		<li>Pedidos de Proveedores
+		<li>Presupuestos de Clientes
+		<li>Recibos de Clientes
+		<li>Cuentas bancarias de proveedores
+		<li>Direcciones de proveedores
+		<li>Lineas de Pedidos de Clientes
+		<li>Lineas de Pedidos de Proveedores
+		<li>Lineas de Presupuestos de Clientes
+		<li>Pagos y Devoluciones de Recibos de Clientes
+	</ul>
+	
+<li class="limain">Ejecutar los siguientes <b>procesos especiales</b>:
+
+	<ul>
+		<li>Completar Facturas y Recibos
+		<li>Valores de Facturación
+		<li>Numeros de Facturacion
+		<li>Plazos de Pago
+		<li>Comentarios y Observaciones
+	</ul>
+
+<li class="limain">
+Cargar los módulos restantes (informes, etc) y comenzar a usar FacturaLUX con normalidad
+
+</ol>
+
+
+
+
+
+<br><br><a name="solofact"></a>
+<h4>Migración de datos sólo de FacturaPlus</h4>
+<hr size="1">
+
+<ol>
+
+<li class="limain">Pasos previos
+	<ul>
+		<li>Realizar las <span class="importante">copias de seguridad</span> pertinentes
+		<li>Localizar el directorio de FacturaPlus donde están los ficheros DBF con los datos
+	</ul>
+
+<li class="limain">Crear una base de datos nueva
+
+<li class="limain">Cargar los módulos
+		
+	<ul>
+		<li>sistema - datos
+		<li>facturación - principal.
+		<br><span class="importante">Generar la empresa</span> por defecto y el ejercicio.
+		<li>facturación - almacén. En general NO tendremos que abrir el módulo de Almacén para crear el almacén por defecto.
+		<li>facturación - facturación
+		<li>facturación - tesorería
+	</ul>
+
+<li class="limain">Desde el módulo sistema/datos, importar el módulo de datos con el directorio de los <span class="resaltado">esquemas</span>
+
+<li class="limain">Desde el módulo sistema/datos, abrir el formulario maestro de ficheros y establecer la ruta de datos al directorio donde están los DBF.
+
+<li class="limain">Crear las series de facturación correspondientes a los datos a importar
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Generar Ficheros CSV</span>. En un determinado momento puede parecer que se para. Darle su tiempo
+
+<li class="limain">Ejecutar en el directorio de los CSV <a href="#script">este script</a> para formatear los caracteres
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Fichero de Tipos de Rappel</span>
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Completar Bancos</span>
+
+<li class="limain">Seguir el siguiente ORDEN en la ejecución de <b>procesos</b>:
+
+	<ul>
+		<li>Paises (si no existe el fichero BANDERA.dbf introducir los paises a mano)
+		<li>Bancos
+		<li>Departamentos
+		<li>Divisas
+		<li>Impuestos
+		<li>Tipos de Rappel
+		<li>Familias Artículos
+		<li>Agentes Comerciales
+		<li>Grupos de clientes
+		<li>Intervalos de rappel
+		<li>Sucursales bancarias. Al importar las sucursales bancarias es posible que algunos bancos no estén incluidos en la tabla de bancos por defecto
+		<li>Sucursales Bancarias de Clientes
+		<li>Sucursales Bancarias de Proveedores
+		<li>Almacenes
+		<li>Cuentas bancarias
+		<li>Formas de Pago
+		<li>Articulos
+		<li>Stocks
+		<li>Remesas de recibos
+		<li>Clientes
+		<li>Cuentas bancarias de clientes
+		<li>Direcciones de clientes
+		<li>Proveedores
+		<li>Albaranes de Clientes
+		<li>Albaranes de Proveedores
+		<li>Facturas de Clientes
+		<li>Facturas de Proveedores
+		<li>Lineas de Albaranes de Clientes
+		<li>Lineas de Albaranes de Proveedores
+		<li>Lineas de Facturas de Clientes
+		<li>Lineas de Facturas de Proveedores
+		<li>Pedidos de Clientes
+		<li>Pedidos de Proveedores
+		<li>Presupuestos de Clientes
+		<li>Recibos de Clientes
+		<li>Cuentas bancarias de proveedores
+		<li>Direcciones de proveedores
+		<li>Lineas de Pedidos de Clientes
+		<li>Lineas de Pedidos de Proveedores
+		<li>Lineas de Presupuestos de Clientes
+		<li>Pagos y Devoluciones de Recibos de Clientes
+	</ul>
+	
+<li class="limain">Ejecutar los siguientes <b>procesos especiales</b>:
+
+	<ul>
+		<li>Completar Facturas y Recibos
+		<li>Valores de Facturación
+		<li>Numeros de Facturacion
+		<li>Plazos de Pago
+		<li>Comentarios y Observaciones
+	</ul>
+
+<li class="limain">
+Cargar los módulos restantes (informes, etc) y comenzar a usar FacturaLUX con normalidad
+
+</ol>
+
+
+
+
+
+
+<br><br><a name="solocont"></a>
+<h4>Migración de datos sólo de ContaPlus</h4>
+<hr size="1">
+
+<ol>
+
+<li class="limain">Pasos previos
+	<ul>
+		<li>Realizar las <span class="importante">copias de seguridad</span> pertinentes
+		<li>Localizar el directorio de ContaPlus donde están los ficheros DBF con los datos. Los ficheros necesarios son <i>diario.dbf</i> y <i>subcta.dbf</i>
+	</ul>
+
+<li class="limain">Crear una base de datos nueva
+
+<li class="limain">Cargar los módulos
+		
+	<ul>
+		<li>sistema - datos
+		<li>facturación - principal.
+		<br><span class="importante">Generar la empresa</span> por defecto y el ejercicio.
+		<br><span class="importante">Ajustar las fechas y dígitos de subcuenta</span> de este ejercicio a las correspondientes a los datos a importar
+		<li>contabilidad - principal. <span class="importante"> NO generar el plan general contable</span>
+	</ul>
+
+<li class="limain">Desde el módulo sistema/datos, importar el módulo de datos con el directorio de los <span class="resaltado">esquemas</span>
+
+<li class="limain">Desde el módulo sistema/datos, abrir el formulario maestro de ficheros y establecer la ruta de datos al directorio donde están los DBF.
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Generar Ficheros CSV</span>. En un determinado momento puede parecer que se para. Darle su tiempo
+
+<li class="limain">Ejecutar en el directorio de los CSV <a href="#script">este script</a> para formatear los caracteres
+
+<li class="limain">Ejecutar el <b>proceso</b> <i>Subcuentas</i>
+	
+<li class="limain">Generar el PCG <span class="importante">con el mismo número de dígitos</span> de las subcuentas previamente importadas
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Actualizar Subcuentas</span>
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Fichero de Asientos</span>
+
+<li class="limain">Seguir el siguiente ORDEN en la ejecución de <b>procesos</b>:
+
+	<ul>
+		<li>Asientos
+		<li>Partidas
+	</ul>
+
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Actualizar Saldos</span>
+			
+<li class="limain">Ejecutar el <b>proceso especial</b> <span class="resaltado">Fichero de Clientes y Proveedores / Subcuentas</span>. Es interesante abrir los ficheros generados en este proceso con un editor de texto y eliminar los registros correspondientes a subcuentas que no son de clientes/proveedores (430000000, 40000000, etc)
+			
+<li class="limain">Seguir el siguiente ORDEN en la ejecución de <b>procesos</b>:
+
+	<ul>
+		<li>Clientes desde subcuentas
+		<li>Direcciones de clientes desde subcuentas
+		<li>Proveedores desde subcuentas
+		<li>Direcciones de proveedores desde subcuentas
+	</ul>
+
+Estos procesos importan clientes correspondientes a las subcuentas 43... y proveedores correspondientes a las subcuentas 40... y 41...
+
+<p>los códigos de cliente y proveedor corresponderán a la numeración de las subcuentas.
+	
+<li class="limain">Ir al módulo principal de financiera. Se ejecutará el proceso de registro de las subcuentas de cliente y proveedor
+
+<li class="limain">
+Cargar los módulos restantes (informes, etc) y comenzar a usar FacturaLUX con normalidad
+
+</ol>
+
+
+<a name="advertencias"></a>
+<div class="advertencias">
+	<b>Antes de comenzar...</b>
+	<p><b>&middot;</b> La estructura de datos de ContaPlus y FacturaPlus es distinta a la de FacturaLUX, por lo que no es posible volcar directamente los ficheros de datos de aquellos programas en las tablas de FacturaLUX. Es necesario alternar la importación directa mediante <b>Procesos</b> con la ejecución de <b>Procesos Especiales</b>. Estos ajustan los datos al sistema FacturaLUX, importan datos no "importables" con los procesos y crean algunos ficheros necesarios. 
+
+	<p><b>&middot;</b> Es importante realizar todos los pasos <span class="importante">en el orden indicado</span> para evitar problemas de incoherencia en las relaciones de tablas. Si en algún punto se necesita vaciar las tablas, puede ser necesario vaciar previamente las tablas relacionadas siguiendo el orden inverso al de la importación.
+
+	<p><b>&middot;</b> Los datos de origen se encuentran en ficheros DBF. FacturaLUX convierte los BDF en CSV. Si es necesario algún cambio en los datos para resolver problemas al importar se pueden tocar los CSV con un editor de texto. Trabajaremos con un directorio en el que estarán todos los ficheros DBF originales y los nuevos CSV creados por FacturaLUX.
+
+	<p><b>&middot;</b> Para evitar problemas después de la importación, el campo "ignorar contabilidad" se pone a verdadero en todas las facturas y pagos/devoluciones importados. La contabilidad correspondiente a la facturación importada debe existir previamente en ContaPlus, y será también importada. Después de su importación, la modificación o eliminación de estos datos <span class="importante">NO repercutirá en la contabilidad</span>.
+
+	<p><b>&middot;</b> Los datos se importan <span class="importante">sólo para un ejercicio</span>, el ejercicio marcado como actual en el formulario de Empresa. Para importar un nuevo ejercicio deberá crearse en FacturaLUX, establecerse como actual y repetir el proceso completo (excepto obviamente la creación de la nueva base de datos)
+
+	<p><b>&middot;</b> Es inevitable la pérdida de alguna información en el proceso global ya que sencillamente algunos campos de ContaPlus y FacturaPlus no existen en FacturaLUX (y viceversa).
+
+	<p><b>&middot;</b> Si sólo se necesita importar la facturación o la contabilidad, puede seguirse este proceso realizando sólo los pasos correspondientes
+	
+	<p><b>&middot;</b> El proceso es largo y tedioso, y es posible que se interrumpa por incoherencias en los datos a importar. La importación de las partidas contables puede tardar horas cuando se trata de miles de partidas
+
+</div>
+
+<a name="script"></a>
+<div class="advertencias">
+<b>Script para corregir caracteres</b><p>
+clear;<br>
+echo;<br>
+for i in *.csv<br>
+do
+<blockquote>
+        echo Sustitutendo en $i<br><br>
+
+        cat $i | sed "s/ß/á/g" > tmp.tmp<br>
+        cat tmp.tmp > $i<br><br>
+
+        cat $i | sed "s/Ó/é/g" > tmp.tmp<br>
+        cat tmp.tmp > $i
+</blockquote>
+done<br><br>
+
+rm tmp.tmp -f
+</div>
+
+
+
+</body>

@@ -1,0 +1,48 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>dat_procesosi_mod</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Procesos de importación de módulos")</alias>
+	
+	<field>
+		<name>codproceso</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>128</length>
+	</field>
+	
+	<field>
+		<name>idmodulo</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Módulo")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>255</length>
+		
+		<relation>
+			<table>flmodules</table>
+			<field>idmodulo</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>dircsv</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Directorio CSV")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>255</length>
+	</field>
+	
+	<field>
+		<name>borradoprevio</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Borrar datos anteriores")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	
+</TMD>

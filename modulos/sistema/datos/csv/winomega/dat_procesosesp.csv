@@ -1,0 +1,13 @@
+idprocesoespÏÏnombreÏÏfuncionÏÏdescripcion
+10ÏÏActualizar subcuentasÏÏactualizarSubcuentasÏÏActualiza el idcuenta de las subcuentas importadasÏÏÖ
+2ÏÏFichero de AsientosÏÏcrearFicheroAsientosÏÏCrea un fichero csv con los asientos sin repetir el idAsientoÏÏÖ
+4ÏÏNumeros de FacturacionÏÏactualizarNumerosFacturacionÏÏactualizarNumerosFacturacionÏÏÖ
+6ÏÏValores de FacturacionÏÏactualizarValoresFacturacionÏÏactualizarValoresFacturacionÏÏÖ
+16ÏÏPlazos de PagoÏÏprocesarPlazosPagoÏÏCrea los plazos para las formas de pago importadasÏÏÖ
+18ÏÏComentarios y ObservacionesÏÏprocesarComentariosÏÏActualiza las observaciones de clientes, proveedores, facturas, etcÏÏÖ
+20ÏÏFichero de Tipos de RappelÏÏcrearFicheroRappelsÏÏCrea un fichero con los tipos de Rappel para ser importadoÏÏÖ
+22ÏÏGenerar Ficheros CSVÏÏgenerarCSVsÏÏGenera los ficheros CSV a partir de los DBFÏÏÖ
+24ÏÏCompletar BancosÏÏcompletarBancosÏÏcompletar bancos desde clientesÏÏÖ
+11ÏÏActualizar SaldosÏÏactualizarSaldosÏÏActualiza los saldo de las subcuentasÏÏÖ
+13ÏÏCompletar Facturas y RecibosÏÏcompletarFyRÏÏCompleta los datos de los clientes de algunas facturas y recibosÏÏÖ
+15ÏÏFichero de Clientes y Proveedores / SubcuentasÏÏcrearFicheroPC_SubCODÏÏCrea ficheros CSV de clientes y proveedores desde el fichero de subcuentasÏÏÖ

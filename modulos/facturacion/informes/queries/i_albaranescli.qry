@@ -1,0 +1,52 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_albaranescli</name>
+	
+	<tables>empresa,albaranescli</tables>
+	
+	<group>
+		<level>0</level>
+		<field>albaranescli.idalbaran</field>
+	</group>
+	
+	<group>
+		<level>1</level>
+		<field>lineasalbaranescli.idlinea</field>
+	</group>
+	
+	<select>
+		albaranescli.idalbaran, lineasalbaranescli.idalbaran,
+		albaranescli.codigo, albaranescli.codserie,
+		albaranescli.fecha, albaranescli.total,
+		albaranescli.totaliva,
+		albaranescli.neto, albaranescli.coddivisa,
+		albaranescli.codejercicio, albaranescli.codpago,
+		albaranescli.codalmacen, albaranescli.codcliente,
+		albaranescli.nombrecliente, albaranescli.cifnif,
+		albaranescli.tasaconv, albaranescli.coddir,
+		albaranescli.direccion, albaranescli.codpostal,
+		albaranescli.ciudad, albaranescli.provincia,
+		albaranescli.apartado, albaranescli.codpais,
+		lineasalbaranescli.idlinea,lineasalbaranescli.referencia, lineasalbaranescli.descripcion,
+		lineasalbaranescli.cantidad, lineasalbaranescli.pvpunitario,
+		lineasalbaranescli.pvptotal, lineasalbaranescli.codimpuesto,
+		lineasalbaranescli.iva,
+		empresa.nombre, empresa.cifnif,
+		empresa.direccion,
+		empresa.codpostal, empresa.ciudad,
+		empresa.provincia, empresa.apartado,
+		empresa.codpais,
+		movilote.codlote,(movilote.cantidad * -1),lotes.caducidad
+	</select>
+	
+	<from>
+		empresa,albaranescli INNER JOIN lineasalbaranescli ON albaranescli.idalbaran = lineasalbaranescli.idalbaran LEFT OUTER JOIN movilote ON movilote.idlineaac = lineasalbaranescli.idlinea LEFT OUTER JOIN lotes ON movilote.codlote = lotes.codlote
+	</from>
+	
+	<where>
+	</where>
+	
+	<order>
+		lineasalbaranescli.referencia
+	</order>
+</QRY>

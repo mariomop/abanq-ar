@@ -1,0 +1,356 @@
+<!DOCTYPE TMD>
+<TMD>
+	<!--Valores con los que se opera en Facturación: puede ser efectivo, cheque, tarjeta, retenciones-->
+	<name>factvalores</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Valores de pago")</alias>
+	
+	<field>
+		<name>codvalor</name>
+		<!--Identificador interno del valor-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>serial</type>
+		<editable>false</editable>
+	</field>
+	
+	<field>
+		<name>tipodoc</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo de documento")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>18</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","facturascli");QT_TRANSLATE_NOOP("MetaData","facturasprov");</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","facturascli")</default>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>tipovalor</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>14</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Efectivo");QT_TRANSLATE_NOOP("MetaData","Cheque");QT_TRANSLATE_NOOP("MetaData","Cheque propio");QT_TRANSLATE_NOOP("MetaData","Tarjeta");QT_TRANSLATE_NOOP("MetaData","Retención")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Efectivo")</default>
+	</field>
+	
+	<field>
+		<name>monto</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Monto")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>8</partI>
+		<partD>2</partD>
+		<default>0</default>
+	</field>
+	
+	<field>
+		<name>coddivisa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Divisa")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>3</length>
+		
+		<relation>
+			<table>divisas</table>
+			<field>coddivisa</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>valor</name>
+		<!-- Código del valor para mostrar: puede corresponder a efectivo, cheque, tarjeta o retención -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Código Valor")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>0</default>
+	</field>
+	
+	<field>
+		<name>pteaprobacion</name>
+		<!-- Indica si el se encuentra en proceso de aprobación por traspaso a otra cuenta -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pendiente aprobación")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>true</default>
+	</field>
+	
+	<field>
+		<name>idfactura</name>
+		<!--Identificador de la factura asociada-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Factura")</alias>
+		<null>false</null> 
+		<pk>false</pk>
+		<type>uint</type>
+		
+		<relation>
+			<table>facturascli</table>
+			<field>idfactura</field>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<!--	Datos cheque *********************-->
+	<field>
+		<name>codcuenta</name>
+		<!--Identificador de la cuenta bancaria-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Cuenta")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+		
+		<relation>
+			<table>cuentasbanco</table>
+			<field>codcuenta</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>codchequera</name>
+		<!--Identificador de la chequera-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Chequera")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		
+<!--		<associated>
+			<with>codcuenta</with>
+			<by>codcuenta</by>
+		</associated>-->
+		<relation>
+			<table>ctas_chequeras</table>
+			<field>codchequera</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>codcheque</name>
+		<!--Identificador interno del cheque-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Cheque")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<associated>
+			<with>codcajaorigen</with>
+			<by>codcaja</by>
+		</associated>
+		<relation>
+			<table>ctas_cheques</table>
+			<field>codcheque</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>tipocheque</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo cheque")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>15</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","A la orden");QT_TRANSLATE_NOOP("MetaData","No a la orden");QT_TRANSLATE_NOOP("MetaData","Cruzado")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","A la orden")</default>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>origen</name>
+		<!-- Indica si el cheque es propio o de terceros -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Origen")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>12</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Propio");QT_TRANSLATE_NOOP("MetaData","De terceros")</optionslist>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>entidad</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Banco Nº")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>3</length>
+		<visiblegrid>false</visiblegrid>
+		<relation>
+			<table>bancos</table>
+			<field>entidad</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>agencia</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Sucursal Nº")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>3</length>
+		<visiblegrid>false</visiblegrid>
+		<associated>
+			<with>entidad</with>
+			<by>entidad</by>
+		</associated>
+		<relation>
+			<table>sucursales</table>
+			<field>agencia</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>codigopostal</name>
+		<!-- El cód. postal forma parte del código del cheque -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Código Postal")</alias>
+		<pk>false</pk>
+		<null>true</null>
+		<type>string</type>
+		<length>4</length>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>numerocheque</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nº Cheque")</alias>
+		<pk>false</pk>
+		<null>true</null>
+		<type>string</type>
+		<length>8</length>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>numerocuenta</name>
+		<!-- Cuenta a la que pertenece el cheque -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nº Cuenta")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>11</length>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>pagodiferido</name>
+		<!-- Indica si el cheque es común o de pago diferido -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pago Diferido")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	
+	<!--	Datos tarjeta crédito *********************-->
+	
+	<field>
+		<name>numerocupon</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nº Cupón")</alias>
+		<pk>false</pk>
+		<null>true</null>
+		<type>string</type>
+		<length>18</length>
+	</field>
+	
+	<field>
+		<name>codtarjeta</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tarjeta")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<relation>
+			<table>ctas_tarjetas</table>
+			<field>codtarjeta</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>codplan</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Plan pago")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>8</length>
+		<associated>
+			<with>codtarjeta</with>
+			<by>codtarjeta</by>
+		</associated>
+		<relation>
+			<table>ctas_planestarjeta</table>
+			<field>codplan</field>
+			<card>M1</card>
+		</relation>
+	</field>
+		
+	
+	<!--	Datos retención *********************-->
+	
+	<field>
+		<name>codtiporetencion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo Retención")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<relation>
+			<table>ctas_tiposretencion</table>
+			<field>codtipo</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>numeroretencion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Número")</alias>
+		<pk>false</pk>
+		<null>true</null>
+		<type>string</type>
+		<length>18</length>
+	</field>
+	
+	<field>
+		<name>fecha</name>
+		<!-- Fecha emisión cheque -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Fecha")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>date</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>fechavencimiento</name>
+		<!-- Fecha vencimiento cheque -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Vencimiento")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>date</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+		
+	
+	<field>
+		<name>cifnif</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","CUIT")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>13</length>
+	</field>
+</TMD>

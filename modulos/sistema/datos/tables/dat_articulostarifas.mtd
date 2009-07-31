@@ -1,0 +1,31 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>dat_articulostarifas</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Artículos por Tarifas")</alias>
+	
+	<field>
+		<name>iddat_articulostarifas</name>
+		<!-- Identificador -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Número")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>uint</type>
+		<counter>true</counter>
+	</field>
+	
+	<field>
+		<name>codtarifa</name>
+		<!-- Código de la tarifa -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tarifa")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>30</length>
+		
+		<relation>
+			<table>tarifas</table>
+			<field>codtarifa</field>
+			<card>M1</card>
+		</relation>
+	</field>
+</TMD>

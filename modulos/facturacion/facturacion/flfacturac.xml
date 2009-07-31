@@ -1,0 +1,351 @@
+<ACTIONS>
+    <action>
+        <name>albaranescli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Son los documentos que justifican la entrega de una mercancia a un ciente")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Remitos de cliente")</alias>
+        <scriptform>masteralbaranescli</scriptform>
+        <scriptformrecord>albaranescli</scriptformrecord>
+        <table>albaranescli</table>
+        <form>masteralbaranescli</form>
+        <formrecord>albaranescli</formrecord>
+    </action>
+    <action>
+        <name>albaranesprov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Son los documentos que justifican la recepción de una mercancia de un proveedor")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Remitos de proveedor")</alias>
+        <scriptform>masteralbaranesprov</scriptform>
+        <scriptformrecord>albaranesprov</scriptformrecord>
+        <table>albaranesprov</table>
+        <form>masteralbaranesprov</form>
+        <formrecord>albaranesprov</formrecord>
+    </action>
+    <action>
+        <name>agruparalbaranescli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","La agrupación de remitos permite generar de forma automática una factura a partir de uno o más remitos de cliente")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Agrupar remitos de cliente")</alias>
+        <scriptform>agruparalbaranescli</scriptform>
+        <table>agruparalbaranescli</table>
+        <form>agruparalbaranescli</form>
+        <formrecord>agruparalbaranescli</formrecord>
+    </action>
+    <action>
+        <name>agruparalbaranesprov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","La agrupación de remitos permite generar de forma automática una factura a partir de uno o más remitos de proveedor")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Agrupar remitos de proveedor")</alias>
+        <scriptform>agruparalbaranesprov</scriptform>
+        <table>agruparalbaranesprov</table>
+        <form>agruparalbaranesprov</form>
+        <formrecord>agruparalbaranesprov</formrecord>
+    </action>
+    <action>
+        <name>agruparpedidoscli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","La agrupación de pedidos permite generar de forma automática un remito a partir de uno o más pedidos de cliente")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Agrupar pedidos de cliente")</alias>
+        <scriptform>agruparpedidoscli</scriptform>
+        <table>agruparpedidoscli</table>
+        <form>agruparpedidoscli</form>
+        <formrecord>agruparpedidoscli</formrecord>
+    </action>
+    <action>
+        <name>agruparpedidosprov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","La agrupación de pedidos permite generar de forma automática un remito a partir de uno o más pedidos de proveedor")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Agrupar pedidos de proveedor")</alias>
+        <scriptform>agruparpedidosprov</scriptform>
+        <table>agruparpedidosprov</table>
+        <form>agruparpedidosprov</form>
+        <formrecord>agruparpedidosprov</formrecord>
+    </action>
+    <action>
+        <name>facturascli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Son documentos que justifican la deuda que un cliente contrae")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Facturas de cliente")</alias>
+        <scriptform>masterfacturascli</scriptform>
+        <scriptformrecord>facturascli</scriptformrecord>
+        <table>facturascli</table>
+        <form>masterfacturascli</form>
+        <formrecord>facturascli</formrecord>
+    </action>
+    <action>
+        <name>facturasprov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Son documentos que justifican una deuda contraida con un proveedor")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Facturas de proveedor")</alias>
+        <table>facturasprov</table>
+        <form>masterfacturasprov</form>
+        <formrecord>facturasprov</formrecord>
+        <scriptform>masterfacturasprov</scriptform>
+        <scriptformrecord>facturasprov</scriptformrecord>
+    </action>
+    <action>
+        <name>lineasalbaranescli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada línea de remito refleja la cantidad y precio de un determinado artículo incluido en el documento")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lineas de remitos de cliente")</alias>
+        <table>lineasalbaranescli</table>
+        <form>master</form>
+        <formrecord>lineasalbaranescli</formrecord>
+        <scriptformrecord>lineasalbaranescli</scriptformrecord>
+    </action>
+    <action>
+        <name>lineasalbaranesprov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada línea de remito refleja la cantidad y precio de un determinado artículo incluido en el documento")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lineas de remitos de proveedor")</alias>
+        <table>lineasalbaranesprov</table>
+        <form>master</form>
+        <formrecord>lineasalbaranesprov</formrecord>
+        <scriptformrecord>lineasalbaranesprov</scriptformrecord>
+    </action>
+    <action>
+        <name>lineasfacturascli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada línea de remito refleja la cantidad y precio de un determinado artículo incluido en el documento")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lineas de facturas de cliente")</alias>
+        <scriptformrecord>lineasfacturascli</scriptformrecord>
+        <table>lineasfacturascli</table>
+        <form>master</form>
+        <formrecord>lineasfacturascli</formrecord>
+    </action>
+    <action>
+        <name>lineasfacturasprov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada línea de remito refleja la cantidad y precio de un determinado artículo incluido en el documento")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lineas de facturas de proveedor")</alias>
+        <table>lineasfacturasprov</table>
+        <form>master</form>
+        <formrecord>lineasfacturasprov</formrecord>
+        <scriptformrecord>lineasfacturasprov</scriptformrecord>
+    </action>
+    <action>
+        <name>lineaspedidoscli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada línea de remito refleja la cantidad y precio de un determinado artículo incluido en el documento")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lineas de pedidos de cliente")</alias>
+        <table>lineaspedidoscli</table>
+        <form>master</form>
+        <formrecord>lineaspedidoscli</formrecord>
+        <scriptformrecord>lineaspedidoscli</scriptformrecord>
+    </action>
+    <action>
+        <name>lineaspedidosprov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada línea de remito refleja la cantidad y precio de un determinado artículo incluido en el documento")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lineas de pedidos de proveedor")</alias>
+        <table>lineaspedidosprov</table>
+        <form>master</form>
+        <formrecord>lineaspedidosprov</formrecord>
+        <scriptformrecord>lineaspedidosprov</scriptformrecord>
+    </action>
+    <action>
+        <name>lineaspresupuestoscli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada línea de remito refleja la cantidad y precio de un determinado artículo incluido en el documento")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lineas de presupuestos de cliente")</alias>
+        <table>lineaspresupuestoscli</table>
+        <form>master</form>
+        <formrecord>lineaspresupuestoscli</formrecord>
+        <scriptformrecord>lineaspresupuestoscli</scriptformrecord>
+    </action>
+    <action>
+        <name>pedidoscli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Son documentos que reflejan el petición de un cliente de unos determinados bienes y/o servicios")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Pedidos de cliente")</alias>
+        <scriptform>masterpedidoscli</scriptform>
+        <scriptformrecord>pedidoscli</scriptformrecord>
+        <table>pedidoscli</table>
+        <form>masterpedidoscli</form>
+        <formrecord>pedidoscli</formrecord>
+    </action>
+    <action>
+        <name>pedidosprov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Son documentos que reflejan el petición a un proveedor de unos determinados bienes y/o servicios")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Pedidos de proveedores")</alias>
+        <scriptform>masterpedidosprov</scriptform>
+        <scriptformrecord>pedidosprov</scriptformrecord>
+        <table>pedidosprov</table>
+        <form>masterpedidosprov</form>
+        <formrecord>pedidosprov</formrecord>
+    </action>
+    <action>
+        <name>presupuestoscli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Son documentos que reflejan el presupuesto realizado por un cliente en base a una supuesta petición de determinados bienes y/o servicios")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Presupuestos de cliente")</alias>
+        <scriptform>masterpresupuestoscli</scriptform>
+        <scriptformrecord>presupuestoscli</scriptformrecord>
+        <table>presupuestoscli</table>
+        <form>masterpresupuestoscli</form>
+        <formrecord>presupuestoscli</formrecord>
+    </action>
+    <action>
+        <name>servicioscli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Servicios de mantenimiento o reparación llevados a cabo para un cliente")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Servicios de cliente")</alias>
+        <table>servicioscli</table>
+        <form>masterservicioscli</form>
+        <formrecord>servicioscli</formrecord>
+        <scriptform>masterservicioscli</scriptform>
+        <scriptformrecord>servicioscli</scriptformrecord>
+    </action>
+    <action>
+        <name>lineasservicioscli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada línea de servicio refleja la cantidad y precio de un determinado artículo incluido en el documento")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lineas de servicios de cliente")</alias>
+        <table>lineasservicioscli</table>
+        <form>master</form>
+        <formrecord>lineasservicioscli</formrecord>
+        <scriptformrecord>lineasservicioscli</scriptformrecord>
+    </action>
+    <action>
+        <name>fechaejercicio</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Esta es una acción de apoyo, que se usa para que el susuario pueda elegir el ejercicio o fecha de documentos de facturación cuando hay dudas de cuál debe ser su valor.")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Fecha y ejercicio")</alias>
+        <scriptform>fechaejercicio</scriptform>
+        <table>fechaejercicio</table>
+        <form>fechaejercicio</form>
+    </action>
+    <action>
+        <name>busfactcli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Búsqueda de facturas de cliente")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Facturas de cliente")</alias>
+        <table>facturascli</table>
+        <form>master</form>
+    </action>
+    <action>
+        <name>busfactprov</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Búsqueda de facturas de proveedor")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Facturas de proveedor")</alias>
+        <table>facturasprov</table>
+        <form>master</form>
+    </action>
+    <action>
+        <name>pagospedidos</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Pagos de pedidos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Pagos de pedidos")</alias>
+        <table>pagospedidos</table>
+        <form>master</form>
+    </action>
+    <action>
+        <name>trazadoc</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Muestra los documentos relacionados con un determinado documento de facturación")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Documentos relacionados")</alias>
+        <scriptform>trazadoc</scriptform>
+        <table>trazadoc</table>
+        <form>trazadoc</form>
+    </action>
+    <action>
+        <name>pedidosaut</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Pedidos automáticos por proveedores")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Pedidos automáticos")</alias>
+        <table>pedidosaut</table>
+        <form>masterpedidosaut</form>
+        <formrecord>pedidosaut</formrecord>
+        <scriptformrecord>pedidosaut</scriptformrecord>
+        <scriptform>masterpedidosaut</scriptform>
+    </action>
+    <action>
+        <name>seleccionarticulos</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Seleccionar articulos con un filtro especificado")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Seleccion de articulos")</alias>
+        <table>seleccionarticulos</table>
+        <form>seleccionarticulos</form>
+        <scriptform>seleccionarticulos</scriptform>
+    </action>
+    <action>
+        <name>lineaspedidosaut</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Cada línea de pedido refleja la cantidad y precio de un determinado artículo incluido en el documento")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Lineas de pedidos automaticos")</alias>
+        <table>lineaspedidosaut</table>
+        <form>master</form>
+        <formrecord>lineaspedidosaut</formrecord>
+        <scriptformrecord>lineaspedidosaut</scriptformrecord>
+    </action>
+    <action>
+        <name>seleclote</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Permite seleccionar o crear un lote para asociarlo a líneas de remitos generados a partir de pedidos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Seleccionar Lote")</alias>
+        <scriptform>seleclote</scriptform>
+        <scriptformrecord>seleclote</scriptformrecord>
+        <table>seleclote</table>
+        <form>seleclote</form>
+        <formrecord>seleclote</formrecord>
+    </action>
+    <action>
+        <name>lineasfacturasclins</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Números de serie por líneas de factura")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Números de serie por líneas de factura")</alias>
+        <table>lineasfacturasclins</table>
+        <form>master</form>
+        <formrecord>lineasfacturasclins</formrecord>
+        <scriptformrecord>lineasalbaranesclins</scriptformrecord>
+    </action>
+    <action>
+        <name>lineasalbaranesclins</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Números de serie por líneas de factura")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Números de serie por líneas de factura")</alias>
+        <table>lineasalbaranesclins</table>
+        <form>master</form>
+        <formrecord>lineasalbaranesclins</formrecord>
+        <scriptformrecord>lineasalbaranesclins</scriptformrecord>
+    </action>
+    <action>
+        <name>lineasserviciosclins</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Números de serie por líneas de servicio")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Números de serie por líneas de servicio")</alias>
+        <table>lineasserviciosclins</table>
+        <form>master</form>
+        <formrecord>lineasserviciosclins</formrecord>
+        <scriptformrecord>lineasserviciosclins</scriptformrecord>
+    </action>
+    <action>
+        <name>contratos</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Contratos")</alias>
+        <table>contratos</table>
+        <form>mastercontratos</form>
+        <formrecord>contratos</formrecord>
+        <scriptform>mastercontratos</scriptform>
+        <scriptformrecord>contratos</scriptformrecord>
+    </action>
+    <action>
+        <name>periodoscontratos</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","periodos de contratos")</alias>
+        <table>periodoscontratos</table>
+        <form>master</form>
+        <formrecord>periodoscontratos</formrecord>
+        <scriptformrecord>periodoscontratos</scriptformrecord>
+    </action>
+    <action>
+        <name>tiposcontrato</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","tipos de contrato")</alias>
+        <table>tiposcontrato</table>
+        <form>master</form>
+        <formrecord>tiposcontrato</formrecord>
+        <scriptformrecord>tiposcontrato</scriptformrecord>
+    </action>
+    <action>
+        <name>cambiarejer</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","El cambio de ejercicio establece el ejercicio actual, que determina los datos contables que se muestran. El cambio de ejercicio NO conlleva el cierre de un ejercicio y la apertura de otro, sólo determina la visualización de los datos de un ejercicio ya existente")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Cambiar Ejercicio")</alias>
+        <scriptform>cambiarejer</scriptform>
+        <table>empresa</table>
+        <form>cambiarejer</form>
+        <formrecord>cambiarejer</formrecord>
+    </action>
+    <action>
+        <name>consultasalidas</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Documentos de venta")</alias>
+        <table>consultasalidas</table>
+        <form>masterconsultasalidas</form>
+        <scriptform>masterconsultasalidas</scriptform>
+    </action>
+    <action>
+        <name>consultaentradas</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Documentos de compra")</alias>
+        <table>consultaentradas</table>
+        <form>masterconsultaentradas</form>
+        <scriptform>masterconsultaentradas</scriptform>
+    </action>
+	<action>
+	    <name>factvalores</name>
+	    <alias>QT_TRANSLATE_NOOP("MetaData","Valores")</alias>
+	    <description>QT_TRANSLATE_NOOP("MetaData","Valores")</description>
+	    <table>factvalores</table>
+	    <scriptformrecord>factvalores</scriptformrecord>
+	    <form>master_print</form>
+	    <formrecord>ctas_valores</formrecord>
+	</action>
+</ACTIONS>

@@ -1,0 +1,155 @@
+/***************************************************************************
+                 transstock.qs  -  description
+                             -------------------
+    begin                : mar sep 27 2006
+    copyright            : (C) 2006 by InfoSiAL S.L.
+    email                : mail@infosial.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+/** @file */
+
+/** @class_declaration interna */
+////////////////////////////////////////////////////////////////////////////
+//// DECLARACION ///////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+//// INTERNA /////////////////////////////////////////////////////
+class interna {
+    var ctx:Object;
+    function interna( context ) { this.ctx = context; }
+    function init() { this.ctx.interna_init(); }
+	function validateForm():Boolean {
+		return this.ctx.interna_validateForm();
+	}
+}
+//// INTERNA /////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_declaration oficial */
+//////////////////////////////////////////////////////////////////
+//// OFICIAL /////////////////////////////////////////////////////
+class oficial extends interna {
+	function oficial( context ) { interna( context ); } 
+	function habilitarCampos() {
+		return this.ctx.oficial_habilitarCampos();
+	}
+}
+//// OFICIAL /////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_declaration controlUsuario */
+/////////////////////////////////////////////////////////////////
+//// CONTROL_USUARIO ////////////////////////////////////////////
+class controlUsuario extends oficial {
+    function controlUsuario( context ) { oficial ( context ); }
+	function init() {
+		return this.ctx.controlUsuario_init();
+	}
+}
+//// CONTROL_USUARIO /////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration head */
+/////////////////////////////////////////////////////////////////
+//// DESARROLLO /////////////////////////////////////////////////
+class head extends controlUsuario {
+    function head( context ) { controlUsuario ( context ); }
+}
+//// DESARROLLO /////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration ifaceCtx */
+/////////////////////////////////////////////////////////////////
+//// INTERFACE  /////////////////////////////////////////////////
+class ifaceCtx extends head {
+    function ifaceCtx( context ) { head( context ); }
+}
+
+const iface = new ifaceCtx( this );
+//// INTERFACE  /////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition interna */
+////////////////////////////////////////////////////////////////////////////
+//// DEFINICION ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+//// INTERNA /////////////////////////////////////////////////////
+/** \C 
+\end */
+function interna_init()
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+
+	connect(this.child("tdbLineasTrans").cursor(), "bufferCommited()", this, "iface.habilitarCampos");
+}
+
+function interna_validateForm():Boolean
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+
+	/** \C Los almacenes de origen y destino no pueden coincidir
+	\end */
+	if (cursor.valueBuffer("codalmaorigen") == cursor.valueBuffer("codalmadestino")) {
+		MessageBox.information(util.translate("scripts", "Los almacenes de origen y destino no pueden coincidir"), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+	return true;
+}
+//// INTERNA /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition oficial */
+//////////////////////////////////////////////////////////////////
+//// OFICIAL /////////////////////////////////////////////////////
+/** \D Si hay una o más líneas insertadas no será posible cambiar los datos de cabecera de la transferencia
+\end */
+function oficial_habilitarCampos()
+{
+	var curLineas:FLSqlCursor = this.child("tdbLineasTrans").cursor();
+	if (curLineas.size() > 0) {
+		this.child("gbxAlmacenes").setEnabled(false);
+	} else {
+		this.child("gbxAlmacenes").setEnabled(true);
+	}
+}
+//// OFICIAL /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition controlUsuario */
+/////////////////////////////////////////////////////////////////
+//// CONTROL_USUARIO ////////////////////////////////////////////
+
+function controlUsuario_init()
+{
+	if (this.cursor().modeAccess() == this.cursor().Insert) {
+		if ( !flfactppal.iface.pub_usuarioCreado(sys.nameUser()) ) {
+			flfactppal.iface.pub_mensajeControlUsuario("NO_USUARIO", "Transferencias de stocks");
+		}
+	}
+
+	this.iface.__init();
+}
+
+//// CONTROL_USUARIO //////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+/** @class_definition head */
+/////////////////////////////////////////////////////////////////
+//// DESARROLLO /////////////////////////////////////////////////
+
+//// DESARROLLO /////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
