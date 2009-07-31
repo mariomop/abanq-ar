@@ -72,6 +72,11 @@ const iface = new ifaceCtx( this );
 function interna_init()
 {
 	var util:FLUtil = new FLUtil();
+
+	try {	// función de FLFormDB agregada por Silix
+		this.setCaptionWidget("Artículos de proveedor");
+	} catch (e) {}
+
 	this.child("tableDBRecords").setEditOnly(true);
 }
 //// INTERNA /////////////////////////////////////////////////////
