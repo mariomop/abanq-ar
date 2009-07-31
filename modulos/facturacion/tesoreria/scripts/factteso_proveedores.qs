@@ -129,6 +129,10 @@ const iface = new ifaceCtx( this );
 
 function ctasCtes_init()
 {
+	try {	// función de FLFormDB agregada por Silix
+		this.setCaptionWidget("Cuenta corriente de Proveedor");
+	} catch (e) {}
+
 	this.iface.tdbRecibosPendientes = this.child("tdbRecibosPendientes");
 	this.iface.tdbRecibosPagados = this.child("tdbRecibosPagados");
 	this.iface.tdbConsultaEntradas = this.child("tdbConsultaEntradas");

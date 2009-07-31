@@ -112,6 +112,10 @@ const iface = new ifaceCtx( this );
 
 function ctasCtes_init()
 {
+	try {	// función de FLFormDB agregada por Silix
+		this.setCaptionWidget("Cuentas corrientes de Proveedores");
+	} catch (e) {}
+
 	this.child("tableDBRecords").setEditOnly(true);
 
 	connect(this.child("comboBox1"), "activated(int)", this, "iface.actualizarFiltroCombo");
