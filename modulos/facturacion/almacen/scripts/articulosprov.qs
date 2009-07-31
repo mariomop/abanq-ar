@@ -41,11 +41,26 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration oficial */
+//////////////////////////////////////////////////////////////////
+//// SILIXEXTENSIONES ////////////////////////////////////////////
+class silixExtensiones extends oficial {
+    function silixExtensiones( context ) { oficial( context ); }
+	function init() {
+		this.ctx.silixExtensiones_init();
+	}
+	function bufferChanged(fN:String) {
+		this.ctx.silixExtensiones_bufferChanged(fN);
+	}
+}
+//// SILIXEXTENSIONES ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends oficial {
-    function head( context ) { oficial ( context ); }
+class head extends silixExtensiones {
+    function head( context ) { silixExtensiones ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -92,6 +107,50 @@ function interna_init()
 
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_declaration oficial */
+//////////////////////////////////////////////////////////////////
+//// SILIXEXTENSIONES ////////////////////////////////////////////
+
+function silixExtensiones_init()
+{
+	this.iface.__init();
+
+	connect(this.cursor(), "bufferChanged(QString)", this, "iface.bufferChanged");
+
+	this.iface.bufferChanged("codproveedor");
+}
+
+function silixExtensiones_bufferChanged(fN:String)
+{
+	var util:FLUtil = new FLUtil;
+	var cursor:FLSqlCursor = this.cursor();
+
+	switch (fN) {
+		case "codproveedor": {
+			var q:FLSqlQuery = new FLSqlQuery();
+			q.setTablesList("proveedores");
+			q.setSelect("nombre,coddivisa");
+			q.setFrom("proveedores");
+			q.setWhere("codproveedor = '" + cursor.valueBuffer("codproveedor") + "'");
+			if (!q.exec())
+				return;
+
+			var nomProv:String = "", codDivisa:String = "";
+			if (q.first()) {
+				nomProv = q.value("nombre");
+				codDivisa = q.value("coddivisa");
+			}
+
+			cursor.setValueBuffer("nombre", nomProv);
+			cursor.setValueBuffer("coddivisa", codDivisa);
+			break;
+		}
+	}
+}
+
+//// SILIXEXTENSIONES ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////
