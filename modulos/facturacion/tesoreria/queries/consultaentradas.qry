@@ -1,0 +1,48 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>consultaentradas</name>
+	
+	<tables>facturasprov,pagosmultiprov</tables>
+	
+	<select>
+		consultaentradas.fecha,
+		consultaentradas.tipo,
+		consultaentradas.codigo,
+		consultaentradas.codproveedor,
+		consultaentradas.nombreproveedor,
+		consultaentradas.total,
+		consultaentradas.coddivisa,
+		consultaentradas.observaciones
+	</select>
+	
+	<from>
+		(
+		SELECT fp.fecha, 'Factura Contado' as tipo, fp.codigo, fp.codproveedor, fp.nombre as nombreproveedor, fp.total, fp.coddivisa, '' as observaciones
+		FROM facturasprov AS fp WHERE NOT fp.decredito AND NOT fp.dedebito AND fp.codpago NOT IN ('CTACTE')
+		
+		UNION
+		SELECT fp.fecha, 'Factura Cta.Cte.' as tipo, fp.codigo, fp.codproveedor, fp.nombre as nombreproveedor, fp.total, fp.coddivisa, rprov.idpagomulti::varchar as observaciones
+		FROM facturasprov AS fp LEFT OUTER JOIN recibosprov AS rprov ON fp.idfactura = rprov.idfactura
+		WHERE NOT fp.decredito AND NOT fp.dedebito AND fp.codpago IN ('CTACTE')
+		
+		UNION
+		SELECT fp.fecha, 'N. Crédito' as tipo, fp.codigo, fp.codproveedor, fp.nombre as nombreproveedor, fp.total, fp.coddivisa, '' as observaciones
+		FROM facturasprov AS fp WHERE fp.decredito
+		
+		UNION
+		SELECT fp.fecha, 'N. Débito' as tipo, fp.codigo, fp.codproveedor, fp.nombre as nombreproveedor, fp.total, fp.coddivisa, '' as observaciones
+		FROM facturasprov AS fp WHERE fp.dedebito
+		
+		UNION
+		SELECT pmp.fecha, 'Orden Pago' as tipo, pmp.idpagomulti::varchar as codigo, pmp.codproveedor, pmp.nombre as nombreproveedor, pmp.total, pmp.coddivisa, '' as observaciones
+		FROM pagosmultiprov AS pmp
+		
+		) AS consultaentradas
+	</from>
+	
+	<where>
+	</where>
+	
+	<order>
+	</order>
+</QRY>

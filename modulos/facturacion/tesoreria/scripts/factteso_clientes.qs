@@ -45,10 +45,13 @@ class oficial extends interna {
 class ctasCtes extends oficial {
 	var tdbRecibosPendientes:FLTableDB;
 	var tdbRecibosPagados:FLTableDB;
+	var tdbConsultaSalidas:FLTableDB;
 	var fechaDesdePendiente:Object;
 	var fechaHastaPendiente:Object;
 	var fechaDesdePagado:Object;
 	var fechaHastaPagado:Object;
+	var fechaDesdeConsultaSalidas:Object;
+	var fechaHastaConsultaSalidas:Object;
 
 	function ctasCtes( context ) { oficial( context ); }
 	function init() {
@@ -72,11 +75,20 @@ class ctasCtes extends oficial {
 	function actualizarFiltroPagado() {
 		this.ctx.ctasCtes_actualizarFiltroPagado();
 	}
+	function actualizarFiltroConsultaSalidas() {
+		this.ctx.ctasCtes_actualizarFiltroConsultaSalidas();
+	}
 	function filtroMora() {
 		this.ctx.ctasCtes_filtroMora();
 	}
 	function imprimir() {
 		this.ctx.ctasCtes_imprimir();
+	}
+	function verSalida() {
+		this.ctx.ctasCtes_verSalida();
+	}
+	function imprimirSalidas() {
+		this.ctx.ctasCtes_imprimirSalidas();
 	}
 }
 //// CTASCTES ///////////////////////////////////////////////////
@@ -128,6 +140,7 @@ function ctasCtes_init()
 {
 	this.iface.tdbRecibosPendientes = this.child("tdbRecibosPendientes");
 	this.iface.tdbRecibosPagados = this.child("tdbRecibosPagados");
+	this.iface.tdbConsultaSalidas = this.child("tdbConsultaSalidas");
 
 	this.iface.fechaDesdePendiente = this.child("dateFromPendiente");
 	this.iface.fechaHastaPendiente = this.child("dateToPendiente");
@@ -135,25 +148,37 @@ function ctasCtes_init()
 	this.iface.fechaDesdePagado = this.child("dateFromPagado");
 	this.iface.fechaHastaPagado = this.child("dateToPagado");
 
+	this.iface.fechaDesdeConsultaSalidas = this.child("dateFromConsultaSalidas");
+	this.iface.fechaHastaConsultaSalidas = this.child("dateToConsultaSalidas");
+
 	var d = new Date();
 	this.iface.fechaDesdePendiente.date = new Date(d.getYear(), 1, 1);
 	this.iface.fechaDesdePagado.date = new Date(d.getYear(), d.getMonth(), 1);
+	this.iface.fechaDesdeConsultaSalidas.date = new Date(d.getYear(), 1, 1);
 	this.iface.fechaHastaPendiente.date = new Date();
 	this.iface.fechaHastaPagado.date = new Date();
+	this.iface.fechaHastaConsultaSalidas.date = new Date();
 
 	connect(this.iface.fechaDesdePendiente, "valueChanged(const QDate&)", this, "iface.actualizarFiltroPendiente");
 	connect(this.iface.fechaHastaPendiente, "valueChanged(const QDate&)", this, "iface.actualizarFiltroPendiente");
 	connect(this.iface.fechaDesdePagado, "valueChanged(const QDate&)", this, "iface.actualizarFiltroPagado");
 	connect(this.iface.fechaHastaPagado, "valueChanged(const QDate&)", this, "iface.actualizarFiltroPagado");
+	connect(this.iface.fechaDesdeConsultaSalidas, "valueChanged(const QDate&)", this, "iface.actualizarFiltroConsultaSalidas");
+	connect(this.iface.fechaHastaConsultaSalidas, "valueChanged(const QDate&)", this, "iface.actualizarFiltroConsultaSalidas");
 	connect(this.child("chkFiltroMora"), "clicked()", this, "iface.filtroMora");
 
 	this.iface.tdbRecibosPendientes.setReadOnly(true);
 	this.iface.tdbRecibosPagados.setReadOnly(true);
+	this.iface.tdbConsultaSalidas.setFindHidden(true);
+	this.iface.tdbConsultaSalidas.setFilterHidden(true);
 
 	this.iface.actualizarFiltroPendiente();
 	this.iface.actualizarFiltroPagado();
+	this.iface.actualizarFiltroConsultaSalidas();
 
 	connect(this.child("toolButtonPrint"), "clicked()", this, "iface.imprimir");
+	connect(this.child("toolButtonZoomSalida"), "clicked()", this, "iface.verSalida");
+	connect(this.child("toolButtonPrintSalidas"), "clicked()", this, "iface.imprimirSalidas");
 	connect(this.cursor(), "bufferChanged(QString)", this, "iface.bufferChanged");
 
 	this.iface.calcularSaldo();
@@ -245,6 +270,18 @@ function ctasCtes_actualizarFiltroPagado()
 	this.iface.tdbRecibosPagados.refresh();
 }
 
+function ctasCtes_actualizarFiltroConsultaSalidas()
+{
+	var desde = this.iface.fechaDesdeConsultaSalidas.date.toString().left(10);
+	var hasta = this.iface.fechaHastaConsultaSalidas.date.toString().left(10);
+
+	if (desde == "" || hasta == "")
+		return;
+
+	this.iface.tdbConsultaSalidas.cursor().setMainFilter("fecha >= '" + desde + "'" + " AND " + "fecha <= '" + hasta + "'");
+	this.iface.tdbConsultaSalidas.refresh();
+}
+
 function ctasCtes_filtroMora()
 {
 	if (this.child("chkFiltroMora").checked) {
@@ -297,6 +334,69 @@ function ctasCtes_imprimir()
 	} else {
 		flfactppal.iface.pub_msgNoDisponible("Informes");
 	}
+}
+
+function ctasCtes_verSalida()
+{
+	var util:FLUtil;
+	var curSalida:FLSqlCursor = this.iface.tdbConsultaSalidas.cursor();
+
+	if (!curSalida.isValid()) {
+		MessageBox.warning(util.translate("scripts", "No hay ningún registro seleccionado"), MessageBox.Ok, MessageBox.NoButton);
+		return;
+	}
+
+	var codigo:String = curSalida.valueBuffer("codigo");
+	var cursor:FLSqlCursor;
+
+	switch (curSalida.valueBuffer("tipo")) {
+		case "Factura Contado":
+		case "Factura Cta.Cte.":
+		case "N. Crédito":
+		case "N. Débito": {
+			cursor = new FLSqlCursor("facturascli");
+			cursor.select("codigo = '" + codigo + "'");
+
+			if (!cursor.first())
+				return;
+			cursor.browseRecord();
+			break;
+		}
+		case "Recibo Cobro": {
+			cursor = new FLSqlCursor("pagosmulticli");
+			cursor.select("idpagomulti = " + codigo);
+
+			if (!cursor.first())
+				return;
+			cursor.browseRecord();
+			break;
+		}
+		break;
+	}
+}
+
+function ctasCtes_imprimirSalidas()
+{
+	if (sys.isLoadedModule("flfactinfo")) {
+
+		if (!this.cursor().isValid())
+			return;
+
+		var codCliente:String;
+		codCliente = this.cursor().valueBuffer("codcliente");
+
+		var whereFijo:String = "";
+
+		var curImprimir:FLSqlCursor = new FLSqlCursor("i_ressalidas");
+		curImprimir.setModeAccess(curImprimir.Insert);
+		curImprimir.refreshBuffer();
+		curImprimir.setValueBuffer("descripcion", "temp");
+		curImprimir.setValueBuffer("i_consultasalidas_codcliente", codCliente);
+		curImprimir.setValueBuffer("d_consultasalidas_fecha", this.iface.fechaDesdeConsultaSalidas.date.toString().left(10));
+		curImprimir.setValueBuffer("h_consultasalidas_fecha", this.iface.fechaHastaConsultaSalidas.date.toString().left(10));
+		flfactinfo.iface.pub_lanzarInforme(curImprimir, "i_ressalidas", "", "", false, false, whereFijo);
+	} else
+			flfactppal.iface.pub_msgNoDisponible("Informes");
 }
 
 //// CTASCTES ////////////////////////////////////////////////////
