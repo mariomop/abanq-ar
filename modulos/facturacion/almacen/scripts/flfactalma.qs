@@ -2617,7 +2617,7 @@ function costos_cambiarCosteMaximo(referencia:String):Boolean
 		if (curArticulo.first()) {
 			curArticulo.setModeAccess(curArticulo.Edit);
 			curArticulo.refreshBuffer();
-			curArticulo.setValueBuffer("costemedio", costoUltimo);
+			curArticulo.setValueBuffer("costemaximo", costoUltimo);
 			curArticulo.commitBuffer();
 		}
 	}
