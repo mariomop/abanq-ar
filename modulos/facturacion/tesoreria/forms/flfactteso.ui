@@ -62,8 +62,8 @@
 			<action name="pagosmultiprov" />
 		</item>
 		<item name="Cuentas" text="&amp;Cuentas Corrientes">
-			<action name="cuentascli"/>
-			<action name="cuentasprov"/>
+			<action name="factteso_clientes"/>
+			<action name="factteso_proveedores"/>
 		</item>
 	</menubar>
 	<toolbars>
@@ -80,8 +80,8 @@
 			<action name="pagosmulticli" />
 			<action name="pagosmultiprov" />
 			<separator/>
-			<action name="cuentascli"/>
-			<action name="cuentasprov"/>
+			<action name="factteso_clientes"/>
+			<action name="factteso_proveedores"/>
 		</toolbar>
 	</toolbars>
 	<actions>
@@ -213,7 +213,7 @@
 		</action>
 		<action>
 			<property name="name">
-				<cstring>cuentascli</cstring>
+				<cstring>factteso_clientes</cstring>
 			</property>
 			<property name="iconSet">
 				<iconset>image4</iconset>
@@ -236,7 +236,7 @@
 		</action>
 		<action>
 			<property name="name">
-				<cstring>cuentasprov</cstring>
+				<cstring>factteso_proveedores</cstring>
 			</property>
 			<property name="iconSet">
 				<iconset>image5</iconset>
@@ -319,13 +319,13 @@
 			<slot>openDefaultForm()</slot>
 		</connection>
 		<connection>
-			<sender>cuentascli</sender>
+			<sender>factteso_clientes</sender>
 			<signal>activated()</signal>
 			<receiver>FLWidgetApplication</receiver>
 			<slot>openDefaultForm()</slot>
 		</connection>
 		<connection>
-			<sender>cuentasprov</sender>
+			<sender>factteso_proveedores</sender>
 			<signal>activated()</signal>
 			<receiver>FLWidgetApplication</receiver>
 			<slot>openDefaultForm()</slot>

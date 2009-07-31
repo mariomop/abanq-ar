@@ -1,8 +1,8 @@
 /***************************************************************************
-                      cuentascli.qs  -  description
+                 factteso_clientes.qs  -  description
                              -------------------
-    begin                : lun ago 25 2008
-    copyright            : (C) 2008 by Silix
+    begin                : mie jul 29 2009
+    copyright            : (C) 2009 by Silix
     email                : contacto@silix.com.ar
  ***************************************************************************/
 /***************************************************************************
@@ -24,8 +24,8 @@
 //////////////////////////////////////////////////////////////////
 //// INTERNA /////////////////////////////////////////////////////
 class interna {
-	var ctx:Object;
-	function interna( context ) { this.ctx = context; }
+    var ctx:Object;
+    function interna( context ) { this.ctx = context; }
 }
 //// INTERNA /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ class interna {
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
-	function oficial( context ) { interna( context ); }
+    function oficial( context ) { interna( context ); }
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -54,23 +54,29 @@ class ctasCtes extends oficial {
 	function init() {
 		this.ctx.ctasCtes_init();
 	}
+	function validateForm():Boolean {
+		return this.ctx.ctasCtes_validateForm();
+	}
+	function bufferChanged(fN:String) {
+		this.ctx.ctasCtes_bufferChanged(fN);
+	}
+	function calculateField(fN:String) {
+		return this.ctx.ctasCtes_calculateField(fN);
+	}
 	function calcularSaldo() {
-		return this.ctx.ctasCtes_calcularSaldo();
+		this.ctx.ctasCtes_calcularSaldo();
 	}
 	function actualizarFiltroPendiente() {
-		return this.ctx.ctasCtes_actualizarFiltroPendiente();
+		this.ctx.ctasCtes_actualizarFiltroPendiente();
 	}
 	function actualizarFiltroPagado() {
-		return this.ctx.ctasCtes_actualizarFiltroPagado();
+		this.ctx.ctasCtes_actualizarFiltroPagado();
 	}
 	function filtroMora() {
-		return this.ctx.ctasCtes_filtroMora();
+		this.ctx.ctasCtes_filtroMora();
 	}
 	function imprimir() {
-		return this.ctx.ctasCtes_imprimir();
-	}
-	function verCliente() {
-		return this.ctx.ctasCtes_verCliente();
+		this.ctx.ctasCtes_imprimir();
 	}
 }
 //// CTASCTES ///////////////////////////////////////////////////
@@ -89,12 +95,12 @@ class head extends ctasCtes {
 /////////////////////////////////////////////////////////////////
 //// INTERFACE  /////////////////////////////////////////////////
 class ifaceCtx extends head {
-	function ifaceCtx( context ) { head( context ); }
+    function ifaceCtx( context ) { head( context ); }
 }
-//// INTERFACE  /////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
 
 const iface = new ifaceCtx( this );
+//// INTERFACE  /////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition interna */
 ////////////////////////////////////////////////////////////////////////////
@@ -140,7 +146,6 @@ function ctasCtes_init()
 	connect(this.iface.fechaDesdePagado, "valueChanged(const QDate&)", this, "iface.actualizarFiltroPagado");
 	connect(this.iface.fechaHastaPagado, "valueChanged(const QDate&)", this, "iface.actualizarFiltroPagado");
 	connect(this.child("chkFiltroMora"), "clicked()", this, "iface.filtroMora");
-	connect(this.child("tbnCliente"), "clicked()", this, "iface.verCliente");
 
 	this.iface.tdbRecibosPendientes.setReadOnly(true);
 	this.iface.tdbRecibosPagados.setReadOnly(true);
@@ -149,12 +154,62 @@ function ctasCtes_init()
 	this.iface.actualizarFiltroPagado();
 
 	connect(this.child("toolButtonPrint"), "clicked()", this, "iface.imprimir");
+	connect(this.cursor(), "bufferChanged(QString)", this, "iface.bufferChanged");
 
 	this.iface.calcularSaldo();
 }
 
+function ctasCtes_validateForm():Boolean
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var util:FLUtil = new FLUtil;
+	/** \C Si el cliente está de baja, la fecha de comienzo de la baja debe estar informada
+	\end */
+	if (cursor.valueBuffer("debaja") && cursor.isNull("fechabaja")) {
+		MessageBox.warning(util.translate("scripts", "Si el cliente está de baja debe introducir la correspondiente fecha de inicio de la baja"), MessageBox.Ok, MessageBox.NoButton)
+		return false;
+	}
+
+	return true;
+}
+
+function ctasCtes_bufferChanged(fN)
+{
+	var cursor:FLSqlCursor = this.cursor();
+	switch(fN) {
+		case "debaja": {
+			var fecha:String = this.iface.calculateField("fechabaja");
+			this.child("fdbFechaBaja").setValue(fecha);
+			if (fecha == "NAN") {
+				cursor.setNull("fechabaja");
+			}
+			break;
+		}
+	}
+}
+
+function ctasCtes_calculateField(fN:String):String
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	var res:String;
+	
+	switch (fN) {
+		case "fechabaja": {
+			if (cursor.valueBuffer("debaja")) {
+				var hoy:Date = new Date;
+				res = hoy.toString();
+			} else
+				res = "NAN";
+			break;
+		}
+	}
+	return res;
+}
+
 function ctasCtes_calcularSaldo()
 {
+	return;
 	var cursor:FLSqlCursor = this.cursor();
 	var util:FLUtil = new FLUtil();
 	var codCliente:String = cursor.valueBuffer("codcliente");
@@ -242,19 +297,6 @@ function ctasCtes_imprimir()
 	} else {
 		flfactppal.iface.pub_msgNoDisponible("Informes");
 	}
-}
-
-function ctasCtes_verCliente()
-{
-	var codCliente:String = this.cursor().valueBuffer("codcliente");
-
-	var cursor:FLSqlCursor;
-	cursor = new FLSqlCursor("clientes");
-	cursor.select("codcliente = '" + codCliente + "'");
-	if (!cursor.first())
-		return false;
-
-	cursor.browseRecord();
 }
 
 //// CTASCTES ////////////////////////////////////////////////////

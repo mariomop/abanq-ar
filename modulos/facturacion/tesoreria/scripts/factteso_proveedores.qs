@@ -1,8 +1,8 @@
 /***************************************************************************
-                      cuentasprov.qs  -  description
+                 factteso_proveedores.qs  -  description
                              -------------------
-    begin                : lun ago 25 2008
-    copyright            : (C) 2008 by Silix
+    begin                : mie jul 29 2009
+    copyright            : (C) 2009 by Silix
     email                : contacto@silix.com.ar
  ***************************************************************************/
 /***************************************************************************
@@ -24,8 +24,8 @@
 //////////////////////////////////////////////////////////////////
 //// INTERNA /////////////////////////////////////////////////////
 class interna {
-	var ctx:Object;
-	function interna( context ) { this.ctx = context; }
+    var ctx:Object;
+    function interna( context ) { this.ctx = context; }
 }
 //// INTERNA /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ class interna {
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
-	function oficial( context ) { interna( context ); }
+    function oficial( context ) { interna( context ); }
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -55,22 +55,19 @@ class ctasCtes extends oficial {
 		this.ctx.ctasCtes_init();
 	}
 	function calcularSaldo() {
-		return this.ctx.ctasCtes_calcularSaldo();
+		this.ctx.ctasCtes_calcularSaldo();
 	}
 	function actualizarFiltroPendiente() {
-		return this.ctx.ctasCtes_actualizarFiltroPendiente();
+		this.ctx.ctasCtes_actualizarFiltroPendiente();
 	}
 	function actualizarFiltroPagado() {
-		return this.ctx.ctasCtes_actualizarFiltroPagado();
+		this.ctx.ctasCtes_actualizarFiltroPagado();
 	}
 	function filtroMora() {
-		return this.ctx.ctasCtes_filtroMora();
+		this.ctx.ctasCtes_filtroMora();
 	}
 	function imprimir() {
-		return this.ctx.ctasCtes_imprimir();
-	}
-	function verProveedor() {
-		return this.ctx.ctasCtes_verProveedor();
+		this.ctx.ctasCtes_imprimir();
 	}
 }
 //// CTASCTES ///////////////////////////////////////////////////
@@ -89,12 +86,12 @@ class head extends ctasCtes {
 /////////////////////////////////////////////////////////////////
 //// INTERFACE  /////////////////////////////////////////////////
 class ifaceCtx extends head {
-	function ifaceCtx( context ) { head( context ); }
+    function ifaceCtx( context ) { head( context ); }
 }
-//// INTERFACE  /////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
 
 const iface = new ifaceCtx( this );
+//// INTERFACE  /////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition interna */
 ////////////////////////////////////////////////////////////////////////////
@@ -140,7 +137,6 @@ function ctasCtes_init()
 	connect(this.iface.fechaDesdePagado, "valueChanged(const QDate&)", this, "iface.actualizarFiltroPagado");
 	connect(this.iface.fechaHastaPagado, "valueChanged(const QDate&)", this, "iface.actualizarFiltroPagado");
 	connect(this.child("chkFiltroMora"), "clicked()", this, "iface.filtroMora");
-	connect(this.child("tbnProveedor"), "clicked()", this, "iface.verProveedor");
 
 	this.iface.tdbRecibosPendientes.setReadOnly(true);
 	this.iface.tdbRecibosPagados.setReadOnly(true);
@@ -155,6 +151,7 @@ function ctasCtes_init()
 
 function ctasCtes_calcularSaldo()
 {
+	return;
 	var cursor:FLSqlCursor = this.cursor();
 	var util:FLUtil = new FLUtil();
 	var codProveedor:String = cursor.valueBuffer("codproveedor");
@@ -247,19 +244,6 @@ function ctasCtes_imprimir()
 	} else {
 		flfactppal.iface.pub_msgNoDisponible("Informes");
 	}
-}
-
-function ctasCtes_verProveedor()
-{
-	var codProveedor:String = this.cursor().valueBuffer("codproveedor");
-
-	var cursor:FLSqlCursor;
-	cursor = new FLSqlCursor("proveedores");
-	cursor.select("codproveedor = '" + codProveedor + "'");
-	if (!cursor.first())
-		return false;
-
-	cursor.browseRecord();
 }
 
 //// CTASCTES ////////////////////////////////////////////////////

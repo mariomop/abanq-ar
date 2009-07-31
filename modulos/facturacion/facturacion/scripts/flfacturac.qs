@@ -957,7 +957,7 @@ function interna_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolean
 		case curFactura.Insert: {
 			if (!flfactppal.iface.pub_clienteActivo(curFactura.valueBuffer("codcliente"), curFactura.valueBuffer("fecha")))
 				return false;
-			if (!flfactppal.iface.pub_cuentaActiva(curFactura))
+			if (!flfactteso.iface.pub_cuentaActiva(curFactura))
 				return false;
 			if (curFactura.valueBuffer("numero") == 0) {
 				this.iface.recalcularHuecos( curFactura.valueBuffer("codserie"), curFactura.valueBuffer("codejercicio"), "nfacturacli" );
@@ -975,7 +975,7 @@ function interna_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolean
 			if (!flfactppal.iface.pub_clienteActivo(curFactura.valueBuffer("codcliente"), curFactura.valueBuffer("fecha")))
 				return false;
 			if (formRecordfacturascli.iface.pub_modoAcceso() == 0) {
-				if (!flfactppal.iface.pub_cuentaActiva(curFactura))
+				if (!flfactteso.iface.pub_cuentaActiva(curFactura))
 					return false;
 			}
 			break;

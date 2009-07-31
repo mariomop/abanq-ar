@@ -1,8 +1,8 @@
 /***************************************************************************
-                 mastercuentasprov.qs  -  description
+                 factteso_masterproveedores.qs  -  description
                              -------------------
-    begin                : lun ago 25 2008
-    copyright            : (C) 2008 by Silix
+    begin                : mie jul 29 2009
+    copyright            : (C) 2009 by Silix
     email                : contacto@silix.com.ar
  ***************************************************************************/
 /***************************************************************************
@@ -34,7 +34,7 @@ class interna {
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
-    function oficial( context ) { interna( context ); } 
+	function oficial( context ) { interna( context ); }
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -58,9 +58,21 @@ class ctasCtes extends oficial {
 
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
+//// SILIXORDENCAMPOS ///////////////////////////////////////////
+class silixOrdenCampos extends ctasCtes {
+    function silixOrdenCampos( context ) { ctasCtes ( context ); }
+	function init() {
+		this.ctx.silixOrdenCampos_init();
+	}
+}
+//// SILIXORDENCAMPOS ///////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration head */
+/////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ctasCtes {
-    function head( context ) { ctasCtes ( context ); }
+class head extends silixOrdenCampos {
+    function head( context ) { silixOrdenCampos ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -71,10 +83,10 @@ class head extends ctasCtes {
 class ifaceCtx extends head {
     function ifaceCtx( context ) { head( context ); }
 }
-//// INTERFACE  /////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
 
 const iface = new ifaceCtx( this );
+//// INTERFACE  /////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition interna */
 ////////////////////////////////////////////////////////////////////////////
@@ -100,14 +112,11 @@ const iface = new ifaceCtx( this );
 
 function ctasCtes_init()
 {
-	var campos = [ "nombre", "codproveedor", "saldo", "saldodolares", "codgrupo", "nombregrupo" ];
-	this.child("tableDBRecords").setOrderCols(campos);
-	this.child("tableDBRecords").setFilter("saldo <> 0 OR saldodolares <> 0");
-	this.child("tableDBRecords").setFocus();
+	this.child("tableDBRecords").setEditOnly(true);
 
-	this.child("tableDBRecords").setReadOnly(true);
-	connect(this.child("tableDBRecords").cursor(), "newBuffer()", this.child("tableDBRecords"), "refresh()");
 	connect(this.child("comboBox1"), "activated(int)", this, "iface.actualizarFiltroCombo");
+
+	this.iface.actualizarFiltroCombo();
 }
 
 function ctasCtes_actualizarFiltroCombo()
@@ -121,7 +130,7 @@ function ctasCtes_actualizarFiltroCombo()
 		break;
 		}
 	case 1: {
-		filtro = "saldo <> 0 OR saldodolares <> 0";
+		filtro = "riesgoalcanzado <> 0";
 		break;
 		}
 	case 2: {
@@ -139,6 +148,22 @@ function ctasCtes_actualizarFiltroCombo()
 
 //// CTASCTES ////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
+
+/** @class_definition silixOrdenCampos */
+/////////////////////////////////////////////////////////////////
+//// SILIXORDENCAMPOS ///////////////////////////////////////////
+
+function silixOrdenCampos_init()
+{
+	this.iface.__init();
+
+	var orden:Array = [ "nombre", "codproveedor", "cifnif", "riesgoalcanzado", "cuentactiva" ];
+	this.child("tableDBRecords").setOrderCols(orden);
+	this.child("tableDBRecords").setFocus();
+}
+
+//// SILIXORDENCAMPOS ///////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

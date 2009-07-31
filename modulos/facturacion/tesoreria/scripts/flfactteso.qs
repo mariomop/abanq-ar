@@ -257,18 +257,6 @@ class pagosMultiples extends infoVencimtos {
 //// CTASCTES ///////////////////////////////////////////////////
 class ctasCtes extends pagosMultiples {
     function ctasCtes( context ) { pagosMultiples ( context ); }
-	function crearCuentaProv(curProveedor:FLSqlCursor):Boolean {
-		return this.ctx.ctasCtes_crearCuentaProv(curProveedor);
-	}
-	function crearCuentaCli(curCliente:FLSqlCursor):Boolean {
-		return this.ctx.ctasCtes_crearCuentaCli(curCliente);
-	}
-	function cambiarEstadoCuentaCli(idCuenta:Number, estado:Boolean):Boolean {
-		return this.ctx.ctasCtes_cambiarEstadoCuentaCli(idCuenta, estado);
-	}
-	function cambiarEstadoCuentaProv(idCuenta:Number, estado:Boolean):Boolean {
-		return this.ctx.ctasCtes_cambiarEstadoCuentaProv(idCuenta, estado);
-	}
 	function actualizarRiesgoCliente(codCliente:String) {
 		return this.ctx.ctasCtes_actualizarRiesgoCliente(codCliente);
 	}
@@ -277,6 +265,9 @@ class ctasCtes extends pagosMultiples {
 	}
 	function afterCommit_recibosprov(curR:FLSqlCursor):Boolean {
 		return this.ctx.ctasCtes_afterCommit_recibosprov(curR);
+	}
+	function cuentaActiva(curDoc:FLSqlCursor):Boolean {
+		return this.ctx.ctasCtes_cuentaActiva(curDoc);
 	}
 }
 //// CTASCTES ///////////////////////////////////////////////////
@@ -351,23 +342,14 @@ class pubProveed extends ifaceCtx {
 //// PUB CTACTES ////////////////////////////////////////////////
 class pubCtasCtes extends pubProveed {
     function pubCtasCtes( context ) { pubProveed( context ); }
-	function pub_crearCuentaProv(curProveedor:FLSqlCursor):Boolean {
-		return this.crearCuentaProv(curProveedor);
-	}
-	function pub_crearCuentaCli(curCliente:FLSqlCursor):Boolean {
-		return this.crearCuentaCli(curCliente);
-	}
-	function pub_cambiarEstadoCuentaCli(idCuenta:Number, estado:Boolean):Boolean {
-		return this.cambiarEstadoCuentaCli(idCuenta, estado);
-	}
-	function pub_cambiarEstadoCuentaProv(idCuenta:Number, estado:Boolean):Boolean {
-		return this.cambiarEstadoCuentaProv(idCuenta, estado);
-	}
 	function pub_actualizarRiesgoCliente(codCliente:String) {
 		return this.actualizarRiesgoCliente(codCliente);
 	}
 	function pub_actualizarRiesgoProveedor(codProveedor:String) {
 		return this.actualizarRiesgoProveedor(codProveedor);
+	}
+	function pub_cuentaActiva(curDoc:FLSqlCursor):Boolean {
+		return this.cuentaActiva(curDoc);
 	}
 }
 //// PUB CTASCTES ///////////////////////////////////////////////
@@ -2827,135 +2809,14 @@ function pagosMultiples_borrarRecibosProv(idFactura:Number):Boolean
 //////////////////////////////////////////////////////////////////
 //// CTASCTES ////////////////////////////////////////////////////
 
-function ctasCtes_crearCuentaProv(curProveedor:FLSqlCursor):Boolean
-{
-	var util:FLUtil = new FLUtil();
-
-	var grupo:String = util.sqlSelect("gruposproveedores", "nombre", "codgrupo = '" + curProveedor.valueBuffer("codgrupo") + "'");
-	var curCuenta:FLSqlCursor = new FLSqlCursor("cuentasprov");
-	if ( !util.sqlSelect("cuentasprov", "idcuenta", "codproveedor = '" + curProveedor.valueBuffer("codproveedor") + "'") ) {
-		with(curCuenta) { // Si no existe la cuenta, la crea
-			setModeAccess(curCuenta.Insert);
-			refreshBuffer();
-			setValueBuffer("codproveedor", curProveedor.valueBuffer("codproveedor"));
-			setValueBuffer("nombre", curProveedor.valueBuffer("nombre"));
-			setValueBuffer("codgrupo", curProveedor.valueBuffer("codgrupo"));
-			setValueBuffer("nombregrupo", grupo);
-			setValueBuffer("saldo", 0);
-			setValueBuffer("saldodolares", 0);
-			setValueBuffer("activa", true);
-		}
-	} else {
-		curCuenta.select("codproveedor = '" + curProveedor.valueBuffer("codproveedor") + "'");
-		if (curCuenta.first()) {
-			with(curCuenta) { // Si ya existe la cuenta, le actualiza el nombre del proveedor y el grupo
-				setModeAccess(curCuenta.Edit);
-				refreshBuffer();
-				setValueBuffer("nombre", curProveedor.valueBuffer("nombre"));
-				setValueBuffer("codgrupo", curProveedor.valueBuffer("codgrupo"));
-				setValueBuffer("nombregrupo", grupo);
-			}
-		} else {
-			MessageBox.warning("No se pudieron actualizar los datos de la Cuenta Corriente.", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-			return false;
-		}
-	}
-	if (!curCuenta.commitBuffer()) {
-		MessageBox.warning("No se pudo crear la Cuenta Corriente del proveedor.", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-		return false;
-	}
-
-	return true;
-}
-
-function ctasCtes_crearCuentaCli(curCliente:FLSqlCursor):Boolean
-{
-	var util:FLUtil = new FLUtil();
-
-	var grupo:String = util.sqlSelect("gruposclientes", "nombre", "codgrupo = '" + curCliente.valueBuffer("codgrupo") + "'");
-	var curCuenta:FLSqlCursor = new FLSqlCursor("cuentascli");
-	if ( !util.sqlSelect("cuentascli", "idcuenta", "codcliente = '" + curCliente.valueBuffer("codcliente") + "'") ) {
-		with(curCuenta) { // Si no existe la cuenta, la crea
-			setModeAccess(curCuenta.Insert);
-			refreshBuffer();
-			setValueBuffer("codcliente", curCliente.valueBuffer("codcliente"));
-			setValueBuffer("nombre", curCliente.valueBuffer("nombre"));
-			setValueBuffer("codgrupo", curCliente.valueBuffer("codgrupo"));
-			setValueBuffer("nombregrupo", grupo);
-			setValueBuffer("saldo", 0);
-			setValueBuffer("activa", true);
-		}
-	} else {
-		curCuenta.select("codcliente = '" + curCliente.valueBuffer("codcliente") + "'");
-		if (curCuenta.first()) {
-			with(curCuenta) { // Si ya existe la cuenta, le actualiza el nombre del cliente y el grupo
-				setModeAccess(curCuenta.Edit);
-				refreshBuffer();
-				setValueBuffer("nombre", curCliente.valueBuffer("nombre"));
-				setValueBuffer("codgrupo", curCliente.valueBuffer("codgrupo"));
-				setValueBuffer("nombregrupo", grupo);
-			}
-		} else {
-			MessageBox.warning("No se pudieron actualizar los datos de la Cuenta Corriente.", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-			return false;
-		}
-	}
-	if (!curCuenta.commitBuffer()) {
-		MessageBox.warning("No se pudo crear la Cuenta Corriente del cliente.", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-		return false;
-	}
-
-	return true;
-}
-
-function ctasCtes_cambiarEstadoCuentaCli(idCuenta:Number, estado:Boolean):Boolean
-{
-	var curCuenta:FLSqlCursor = new FLSqlCursor("cuentascli");
-	curCuenta.select("idcuenta = " + idCuenta);
-	if (curCuenta.first()) {
-		curCuenta.setModeAccess(curCuenta.Edit);
-		curCuenta.refreshBuffer();
-		curCuenta.setValueBuffer("activa", estado);
-
-		if (!curCuenta.commitBuffer()) {
-			MessageBox.warning(util.translate("scripts", "No se pudo cambiar el estado de la Cuenta Corriente del cliente."), MessageBox.Ok, MessageBox.NoButton);
-			return false;
-		}
-	}
-
-	return true;
-}
-
-function ctasCtes_cambiarEstadoCuentaProv(idCuenta:Number, estado:Boolean):Boolean
-{
-	var curCuenta:FLSqlCursor = new FLSqlCursor("cuentasprov");
-	curCuenta.select("idcuenta = " + idCuenta);
-	if (curCuenta.first()) {
-		curCuenta.setModeAccess(curCuenta.Edit);
-		curCuenta.refreshBuffer();
-		curCuenta.setValueBuffer("activa", estado);
-
-		if (!curCuenta.commitBuffer()) {
-			MessageBox.warning(util.translate("scripts", "No se pudo cambiar el estado de la Cuenta Corriente del proveedor."), MessageBox.Ok, MessageBox.NoButton);
-			return false;
-		}
-	}
-
-	return true;
-}
-
 function ctasCtes_actualizarRiesgoCliente(codCliente:String)
 {
 	var util:FLUtil = new FLUtil();
-	var riesgo:Number = parseFloat( util.sqlSelect( "reciboscli", "SUM(importe)", "estado <> 'Pagado' AND codcliente='" + codCliente + "'" ) );
+	var riesgo:Number = parseFloat( util.sqlSelect( "reciboscli", "SUM(importeeuros)", "estado <> 'Pagado' AND codcliente='" + codCliente + "'" ) );
 	if (!riesgo || isNaN(riesgo))
 		riesgo = 0;
 
 	util.sqlUpdate( "clientes", "riesgoalcanzado", riesgo, "codcliente = '" + codCliente + "'" );
-
-	var idCuenta:Number = util.sqlSelect("cuentascli", "idcuenta", "codcliente = '" + codCliente + "'");
-	if (idCuenta)
-		util.sqlUpdate("cuentascli", "saldo", riesgo, "idcuenta = " + idCuenta );
 
 	if ( !flfactteso.iface.pub_automataActivado() ) {
 		var riesgoMax:Number = parseFloat( util.sqlSelect( "clientes", "riesgomax", "codcliente = '" + codCliente + "'" ) );
@@ -2971,19 +2832,11 @@ function ctasCtes_actualizarRiesgoCliente(codCliente:String)
 function ctasCtes_actualizarRiesgoProveedor(codProveedor:String)
 {
 	var util:FLUtil = new FLUtil();
-	var riesgoPesos:Number = parseFloat( util.sqlSelect( "recibosprov", "SUM(importe)", "estado <> 'Pagado' AND coddivisa = '$' AND codproveedor = '" + codProveedor + "'" ) );
-	if (!riesgoPesos || isNaN(riesgoPesos))
-		riesgoPesos = 0;
+	var riesgo:Number = parseFloat( util.sqlSelect( "recibosprov", "SUM(importeeuros)", "estado <> 'Pagado' AND codproveedor = '" + codProveedor + "'" ) );
+	if (!riesgo || isNaN(riesgo))
+		riesgo = 0;
 
-	var riesgoDolares:Number = parseFloat( util.sqlSelect( "recibosprov", "SUM(importe)", "estado <> 'Pagado' AND coddivisa = 'U$D' AND codproveedor = '" + codProveedor + "'" ) );
-	if (!riesgoDolares || isNaN(riesgoDolares))
-		riesgoDolares = 0;
-
-	var idCuenta:Number = util.sqlSelect("cuentasprov", "idcuenta", "codproveedor = '" + codProveedor + "'");
-	if (idCuenta) {
-		util.sqlUpdate("cuentasprov", "saldo", riesgoPesos, "idcuenta = " + idCuenta );
-		util.sqlUpdate("cuentasprov", "saldodolares", riesgoDolares, "idcuenta = " + idCuenta );
-	}
+	util.sqlUpdate( "proveedores", "riesgoalcanzado", riesgo, "codproveedor = '" + codProveedor + "'" );
 }
 
 /** \C Se recalcula el riesgo alcanzado
@@ -2993,6 +2846,50 @@ function ctasCtes_afterCommit_recibosprov(curR:FLSqlCursor):Boolean
 	if (curR.valueBuffer("codproveedor"))
 		this.iface.actualizarRiesgoProveedor(curR.valueBuffer("codproveedor"));
 	
+	return true;
+}
+
+function ctasCtes_cuentaActiva(curDoc:FLSqlCursor):Boolean
+{
+	/* CTACTE es la forma de pago para la Cuenta Corriente */
+	if (curDoc.valueBuffer("codpago") != "CTACTE")
+		return true;
+
+	var util:FLUtil = new FLUtil;
+
+	var codCliente:String = curDoc.valueBuffer("codcliente");
+	if (!codCliente || codCliente == "")
+		return true;
+
+	var qryCliente:FLSqlQuery = new FLSqlQuery;
+	qryCliente.setTablesList("clientes");
+	qryCliente.setSelect("cuentactiva, riesgomax, margencuenta, riesgoalcanzado");
+	qryCliente.setFrom("clientes");
+	qryCliente.setWhere("codcliente = '" + codCliente + "'");
+	if (!qryCliente.exec() || !qryCliente.first())
+		return false;
+
+	/* Comprueba que el cliente tenga la Cuenta Corriente Activa */
+	var cuentaActiva:Boolean = qryCliente.value("cuentactiva");
+
+	if (!cuentaActiva) {
+		MessageBox.warning(util.translate("scripts", "El cliente no tiene permiso para utilizar su Cuenta Corriente"), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+
+	/* Comprueba que el riesgo a alcanzar no supere el máximo permitido más el margen */
+	var riesgoMaximo:Number = parseFloat(qryCliente.value("riesgomax"));
+	var margenCuentaCte:Number = parseFloat(qryCliente.value("margencuenta"));
+	var montoMaximo:Number = riesgoMaximo * (1 + margenCuentaCte/100);
+
+	var riesgoAlcanzado:Number = parseFloat(qryCliente.value("riesgoalcanzado"));
+	var monto:Number = curDoc.valueBuffer("total");
+
+	if ((riesgoAlcanzado + monto) > montoMaximo) {
+		MessageBox.warning(util.translate("scripts", "La venta supera el margen permitido para la Cuenta Corriente del cliente.\nNo puede realizar esta venta."), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+
 	return true;
 }
 

@@ -1,25 +1,19 @@
 <!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-	<class>formCuentasCli</class>
+	<class>factteso_proveedores</class>
 	<widget class="QWidget">
 		<property name="name">
-			<cstring>formCuentasCli</cstring>
+			<cstring>factteso_proveedores</cstring>
 		</property>
 		<property name="geometry">
 			<rect>
 				<x>0</x>
 				<y>0</y>
-				<width>690</width>
-				<height>500</height>
+				<width>850</width>
+				<height>444</height>
 			</rect>
 		</property>
-		<property name="minimumSize">
-			<size>
-				<width>410</width>
-				<height>410</height>
-			</size>
-		</property>
 		<property name="caption">
-			<string>Cuentas de Clientes</string>
+			<string>factteso_proveedores</string>
 		</property>
 		<vbox>
 			<property name="name">
@@ -33,15 +27,7 @@
 			</property>
 			<widget class="QFrame">
 				<property name="name">
-					<cstring>frameCliente</cstring>
-				</property>
-				<property name="sizePolicy">
-					<sizepolicy>
-						<hsizetype>1</hsizetype>
-						<vsizetype>1</vsizetype>
-						<horstretch>0</horstretch>
-						<verstretch>0</verstretch>
-					</sizepolicy>
+					<cstring>frame7</cstring>
 				</property>
 				<property name="frameShape">
 					<enum>GroupBoxPanel</enum>
@@ -49,287 +35,76 @@
 				<property name="frameShadow">
 					<enum>Sunken</enum>
 				</property>
-				<vbox>
+				<hbox>
 					<property name="name">
 						<cstring>unnamed</cstring>
 					</property>
-					<widget class="QLayoutWidget">
+					<widget class="FLFieldDB">
 						<property name="name">
-							<cstring>layoutCliente</cstring>
+							<cstring>fdbCodProveedor</cstring>
 						</property>
-						<hbox>
-							<property name="name">
-								<cstring>unnamed</cstring>
-							</property>
-							<widget class="QLayoutWidget">
-								<property name="name">
-									<cstring>layoutDatosCliente</cstring>
-								</property>
-								<vbox>
-									<property name="name">
-										<cstring>unnamed</cstring>
-									</property>
-									<widget class="QLayoutWidget">
-										<property name="name">
-											<cstring>layoutNombreCliente</cstring>
-										</property>
-										<hbox>
-											<property name="name">
-												<cstring>unnamed</cstring>
-											</property>
-											<widget class="FLFieldDB">
-												<property name="name">
-													<cstring>fdbCodCliente</cstring>
-												</property>
-												<property name="minimumSize">
-													<size>
-														<width>150</width>
-														<height>0</height>
-													</size>
-												</property>
-												<property name="maximumSize">
-													<size>
-														<width>150</width>
-														<height>25</height>
-													</size>
-												</property>
-												<property name="font">
-													<font>
-														<bold>0</bold>
-														<italic>0</italic>
-													</font>
-												</property>
-												<property name="fieldName">
-													<string>codcliente</string>
-												</property>
-											</widget>
-											<widget class="FLFieldDB">
-												<property name="name">
-													<cstring>fdbDesCliente</cstring>
-												</property>
-												<property name="minimumSize">
-													<size>
-														<width>200</width>
-														<height>0</height>
-													</size>
-												</property>
-												<property name="font">
-													<font>
-														<bold>0</bold>
-														<italic>0</italic>
-													</font>
-												</property>
-												<property name="fieldName">
-													<string>nombre</string>
-												</property>
-												<property name="showAlias">
-													<bool>false</bool>
-												</property>
-											</widget>
-										</hbox>
-									</widget>
-									<widget class="QLayoutWidget">
-										<property name="name">
-											<cstring>layoutGrupoCliente</cstring>
-										</property>
-										<hbox>
-											<property name="name">
-												<cstring>unnamed</cstring>
-											</property>
-											<widget class="FLFieldDB">
-												<property name="name">
-													<cstring>fdbCodGrupo</cstring>
-												</property>
-												<property name="minimumSize">
-													<size>
-														<width>150</width>
-														<height>0</height>
-													</size>
-												</property>
-												<property name="maximumSize">
-													<size>
-														<width>150</width>
-														<height>25</height>
-													</size>
-												</property>
-												<property name="font">
-													<font>
-														<bold>0</bold>
-														<italic>0</italic>
-													</font>
-												</property>
-												<property name="fieldName">
-													<string>codgrupo</string>
-												</property>
-											</widget>
-											<widget class="FLFieldDB">
-												<property name="name">
-													<cstring>fdbGrupo</cstring>
-												</property>
-												<property name="font">
-													<font>
-														<bold>0</bold>
-														<italic>0</italic>
-													</font>
-												</property>
-												<property name="fieldName">
-													<string>nombregrupo</string>
-												</property>
-												<property name="showAlias">
-													<bool>false</bool>
-												</property>
-											</widget>
-										</hbox>
-									</widget>
-								</vbox>
-							</widget>
-							<widget class="QToolButton">
-								<property name="name">
-									<cstring>tbnCliente</cstring>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>26</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="maximumSize">
-									<size>
-										<width>26</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="text">
-									<string></string>
-								</property>
-								<property name="accel">
-									<string></string>
-								</property>
-								<property name="iconSet">
-									<iconset>image1</iconset>
-								</property>
-								<property name="toolTip" stdset="0">
-									<string>Ver datos del Cliente</string>
-								</property>
-							</widget>
-						</hbox>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>140</width>
+								<height>25</height>
+							</size>
+						</property>
+						<property name="maximumSize">
+							<size>
+								<width>200</width>
+								<height>32767</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>codproveedor</string>
+						</property>
 					</widget>
-					<widget class="QLayoutWidget">
+					<spacer>
 						<property name="name">
-							<cstring>layoutEstadoCuenta</cstring>
+							<cstring>spacer13_3</cstring>
 						</property>
-						<hbox>
-							<property name="name">
-								<cstring>unnamed</cstring>
-							</property>
-							<widget class="QLabel">
-								<property name="name">
-									<cstring>lblSaldo</cstring>
-								</property>
-								<property name="sizePolicy">
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>75</width>
-										<height>25</height>
-									</size>
-								</property>
-								<property name="frameShape">
-									<enum>NoFrame</enum>
-								</property>
-								<property name="text">
-									<string>Saldo cuenta</string>
-								</property>
-								<property name="alignment">
-									<set>AlignVCenter|AlignLeft</set>
-								</property>
-							</widget>
-							<widget class="QLabel">
-								<property name="name">
-									<cstring>lblSaldoCuenta</cstring>
-								</property>
-								<property name="sizePolicy">
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>69</width>
-										<height>25</height>
-									</size>
-								</property>
-								<property name="frameShape">
-									<enum>Box</enum>
-								</property>
-								<property name="text">
-									<string>0</string>
-								</property>
-								<property name="alignment">
-									<set>AlignVCenter|AlignRight</set>
-								</property>
-							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>SpacerSaldo</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>260</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
-							<widget class="FLFieldDB">
-								<property name="name">
-									<cstring>fdbActiva</cstring>
-								</property>
-								<property name="sizePolicy">
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>100</width>
-										<height>0</height>
-									</size>
-								</property>
-								<property name="font">
-									<font>
-										<bold>0</bold>
-										<italic>0</italic>
-									</font>
-								</property>
-								<property name="fieldName">
-									<string>activa</string>
-								</property>
-							</widget>
-						</hbox>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Fixed</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>20</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbNombre</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>7</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="fieldName">
+							<string>nombre</string>
+						</property>
 					</widget>
-				</vbox>
+				</hbox>
 			</widget>
 			<widget class="QTabWidget">
 				<property name="name">
-					<cstring>tbwRecibos</cstring>
+					<cstring>tbwProveedor</cstring>
 				</property>
 				<property name="font">
 					<font>
@@ -339,9 +114,107 @@
 				<property name="focusPolicy">
 					<enum>NoFocus</enum>
 				</property>
-				<property name="tabShape">
-					<enum>Rounded</enum>
-				</property>
+				<widget class="QWidget" >
+					<property name="name" >
+						<cstring>general</cstring>
+					</property>
+					<attribute name="title" >
+						<string>&amp;General</string>
+					</attribute>
+					<vbox>
+						<property name="name" >
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="QFrame" >
+							<property name="name" >
+								<cstring>frame8</cstring>
+							</property>
+							<property name="minimumSize" >
+								<size>
+									<width>460</width>
+									<height>0</height>
+								</size>
+							</property>
+							<property name="font" >
+								<font>
+									<bold>0</bold>
+								</font>
+							</property>
+							<property name="frameShape" >
+								<enum>GroupBoxPanel</enum>
+							</property>
+							<property name="frameShadow" >
+								<enum>Sunken</enum>
+							</property>
+							<hbox>
+								<property name="name" >
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="FLFieldDB" >
+									<property name="name" >
+										<cstring>fdbRiesgoAlcanzado</cstring>
+									</property>
+									<property name="enabled" >
+										<bool>false</bool>
+									</property>
+									<property name="fieldName" >
+										<string>riesgoalcanzado</string>
+									</property>
+								</widget>
+								<spacer>
+									<property name="name" >
+										<cstring>unnamed</cstring>
+									</property>
+									<property name="orientation" >
+										<enum>Horizontal</enum>
+									</property>
+									<property name="sizeType" >
+										<enum>Expanding</enum>
+									</property>
+									<property name="sizeHint" >
+										<size>
+											<width>100</width>
+											<height>20</height>
+										</size>
+									</property>
+								</spacer>
+								<widget class="FLFieldDB">
+									<property name="name">
+										<cstring>fdbCuentaActiva</cstring>
+									</property>
+									<property name="sizePolicy">
+										<sizepolicy>
+											<hsizetype>0</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="fieldName">
+										<string>cuentactiva</string>
+									</property>
+								</widget>
+							</hbox>
+						</widget>
+						<spacer>
+							<property name="name" >
+								<cstring>spacer51_2_2</cstring>
+							</property>
+							<property name="orientation" >
+								<enum>Vertical</enum>
+							</property>
+							<property name="sizeType" >
+								<enum>Expanding</enum>
+							</property>
+							<property name="sizeHint" >
+								<size>
+									<width>20</width>
+									<height>20</height>
+								</size>
+							</property>
+						</spacer>
+					</vbox>
+				</widget>
 				<widget class="QWidget">
 					<property name="name">
 						<cstring>pendientes</cstring>
@@ -580,13 +453,13 @@
 								</font>
 							</property>
 							<property name="tableName">
-								<string>reciboscli</string>
+								<string>recibosprov</string>
 							</property>
 							<property name="foreignField">
-								<string>codcliente</string>
+								<string>codproveedor</string>
 							</property>
 							<property name="fieldRelation">
-								<string>codcliente</string>
+								<string>codproveedor</string>
 							</property>
 						</widget>
 					</vbox>
@@ -752,13 +625,13 @@
 								</font>
 							</property>
 							<property name="tableName">
-								<string>reciboscli</string>
+								<string>recibosprov</string>
 							</property>
 							<property name="foreignField">
-								<string>codcliente</string>
+								<string>codproveedor</string>
 							</property>
 							<property name="fieldRelation">
-								<string>codcliente</string>
+								<string>codproveedor</string>
 							</property>
 						</widget>
 					</vbox>
@@ -766,78 +639,23 @@
 			</widget>
 		</vbox>
 	</widget>
+	<customwidgets>
+	</customwidgets>
 	<images>
 		<image name="image0">
 			<data format="PNG" length="1180">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000046349444154789c8d943f885d4514c67ffb322f9e89f7ad33b8d17b31d15c09ea0b1adc689004045db4702b152c4c256aa785a0a0858585bd885888da89ad85902242022afbc0c83e31e25b15bc8b59b90fb27027d9cbce2119762d6efe88d1e034df34f3e3e39b73be99634fbf8ed220088a2278426ae69e7d72e197f28172d619d9560504541527822a88c8cce8cc7873e9aba547b4af2bce78426ab8a226680d084a0040a989099b976e76e1f1a3861b1d4376fccbe3b70842b8d4005cd59e330228ce38802bba65f1db378402daeab618490082704d955e4815a00414314240b1061a6dfe0317afde44044d0a7d41fb9d065d4553a0e74c014971289a02f9a00023f8ccff07d85e739c94dc1788b14804e2f4aaf35e48010c0402516ba6cd0481f331e93fa288d7a988276c341774a3a20a1330d0a406017a62045297ad2a34a1324da85ef4e2faffeed45e865b805ea3e1c56a5a89a7e378e351c06852628ab7d3f26ab9b77cc2cdb93d455edc813073bd630b348000119f3173f4c8fc9b1aca17eaf5facfb0a15f476d3eb099ad8c24b96ff8c0f0db63cf1dbbb5c84b8a3d9ee5ef7fa65a0fd4e7ae84193b568a60049222222cafd62c3ebe3873f4c14379d3c67cb23a79e8e457275f1a8d4e3db5637870f8f1db6fbd7be8c0c17b3062495b91b5e994767637d9ac276c46fa3b2de72e26fabd4ed3d680b5cd44dae909ebabf8d99cb317a6ecce0bf6de55dc34fee1f401331c0e1f29f30212d80488a501fc9eb25b99ccb2dc8262a90358636914c458a66a39e24a24292145aab586853d43ca7de5d0b839e7f1103762f728d40453706adaa53a9e429daea57179bb518004711059dcef288d675e1c1818ee1bde6c8aace80358b1c400de38aaf5c0c90d18af01a6035c4715a085892b0028e70aa282cd00919e99acd52c8f6a24538a3c47098ccf3a262b7f83fef35c6e100142023542681b6861bc5213a68a7162b7425bef9056086b152ef7bc32afbc72d8526b0708973526f0dd629167a00a8508d56a405ba569233eb344c2b6096dbd99cf15b7046d9064f9fc8b4fa1554011e3500262ba4e70c651a5800055ea0a6784229963e1d145cabc405148f1524f90c602e55c89d230198d98ac4d702e478d22e2ba48c511505ce65023887390410c0d274f1def1a22130ae708ad6e986abdfa898c7de2a0a0e0c8538b2c1c3e42797f89242168e89ca7ce79d0ae0555032e734c562b0e8cc6c89c50e69ee97a0dadfebe63fedef9f39997e787fb0fce64bb06dcb97b2f07eebf073bb0f477f619f801d6f419cc0eb03d8bdf35c060c9328f4996bbf717989b0b0eedbf9b74117e5b39b37d62e9c43b3bca61f9dbd93fcefe3efef1b439bdb47c71b07b705b79efde99b811e99b3ecd8588a54fd346a0cffa66033d68375bd8024d09bd1078ffa30f7f3df3c3774b27be3df15e4ae913e3c4a1aa9fd5abcd674af3daeb0fbff11e801d746de6bd854be0071622d8cc77739cd96e6e05fcbe126df9663419bf9c7be9da2d68f7bbd318180e87cf4c5696b744fc96a606319effa5e27be2e4312ae985962d8cf0179422276bf02b82450000000049454e44ae426082</data>
 		</image>
-		<image name="image1">
-			<data format="PNG" length="1674">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af40000065149444154789cbd9741681bd91dc63f2f3e3c410323f0820c7b90200b55b0211259d8112d44c68546cdc1abe043b46c611df6108514827249ec1c8a9c40aae4b08b5d28d88780d3c3ae9b85c4c942c02aa478042e9241c1323860430249d9053bec82670e825f0f335224d90e21944a876fbe99f7e6fffdbff7feefbd11201c04a8ea54f5ffe65a7156041c889931c85f5a863f43e1da32854b90393dc761eddf070f5496fd621100567d586ff848dd87c56fd7610b7a335b3c6bc3569ae5af6cd884b9711b4613bccd897d8a262e2e01b0fce425004b8fb7fca0f703bcb7eedfbfbf0e57207f3c019732bcbc5b0260a7bed285eb8f16e07a81c993f1039deb5296195b0060ee0e5d38331fe06c1580d26d9f2f5dccf9174f02c7ca3df8b8c5fda44a5f66e875a26fc55951ca4ee9d8f034767a4a831147d3fd294d356b527f526a3a9a564a97bdb2d41c919a0f75cbfb83e65f8ce89c1dd3ab8f931afcec8276ff3eadb08c5e353d0df64fa9d19cd63119d53c4f494da9ac5b1ae9bfaccbdfa774eb81d3e7541ca5ec54c71c3801d92f16e125e4ce2fc3cf50b8b2042f61e2fc123c87dc978bd080c2680e1ac0d7793fc3db1301fa7cfd66c0affb7ce9da04ecc1c2953cfc08d9a356db890e076e610d5c96f9d55d95edcff5ea93590dfeee822ee4e7b5f6e29c4c735e6a9e93bc6995bddb2a0fc734321053adb9aba4a486a463fd21d59a525252b9298d48fa87e7ea8c429af5a40b92a6246dacd5b4fbfab5ca2fdc3e018a462789462171a214ccfe391f6b3ea64767880f41f4d733300473c705637196cfc67d27ae6501a85e4cfb9572360ef5040b63711883d2e938fc3e4161340ea390396a91b0447b1d887e04999393305f82d5193fb8d32da278b144f67489fc500286c4cc71c1e928ebb3c130d416e0ce248ba3169cb4983b69c16f22143fb5e04484fc718b89a108d9a316f680881a41cf3a004f7a83fb55413d406701c6e2142282d108dc99ec762cc0994f2d18129347054745ee234144a407843d201203826884ae7560e7916fffde93d6cb5ac183526af8b87c3d07676d5ede2b768b5dedec5764e95a16be4a531a4f501ab7299db5e17c86852b39989f64fd6ef18d03415dc2e352c74b3a83fb75cce6b28f8f03a77ac5d67afab5b0f5bcd17dffa0bd809db2ffd2bdda21c103dc09c4ee3987046ff4f4ef1155bd37f3c6819eb5da1feb8382fbabf19be72d075a62eb4b3dfde8e6dd620ede0b5a4eecadb63268055fe9c29d6018da0eec0bbe7c3006cf0fdc0bf63951ebc964abdacdcb33dd0eb4c4b6dbb744d32de25dcf03d9bb36b9d53490a7d428502047ee5e9ace763bc130ecd57b876be5407ca7f340d5a9ca20a2e5280085e77ebd4f6ce6496063e6fd45a4d51e2770e07990e9f3c0a91f7bf8bb9c07569c1559b386f4e33400a5cd12454a14378b6d9e63026bded0dbcfc6a658cf53244fb19ec7c6dee7d85bcf0355a7aa0806fb5bdbcfbce6675e6804582f003059f7c558b3a6ed848509860b8a757f79ceada6b1300766dee2edddb0b53f0ffe75906c3e2baf22195bf29e4a6658f2363c99b891f7d4931936d253e99fc36b8a9d5a93939662b18472e359791b9ea6e2539ade98f6db6f78bafde0ba1efe76b9af33cefef300c8ba694803b9b27fd2c9d503dc0af079809b01decf606148048eb586691f364a873ad1e5c099ca1992b1a4f499e4ae49a184e4fe24853e94dc5fa4d0910efc490afdd1d1ab89b89ff9334f8f3e7ed4764e1549b6baf8c6bfd6f639d15612c110fd9b3feb6dc7c6c6c6fed9cf2cddf107b0490371ac9b0680783deeb777eceefe3d3ceb64f739d1762074a38f4824aed0a0a45346fac593396224195932f22419a98da15315edfe90d0eba7afa561235331ed4cc37658eeb6148a7538b82d79b15daddd58937bd56d9f093f48d929d52a35e9aa91d7efca3de56af7d5aedc238daea08ecaf27f6585bfff8f9c1fa4f083b0346c64558c6ab6a3d8b3988c6de4ca5539f650ae5ce943b7cdc3db61b9575d85ff122265a7a48ade38d0f74d08eb4f96f46f4ffac4c8c868506149feb50231af256d7c539119344a8da7b4fd745bd6b025b31d9662ee3ea73a31ac90dc6d69edbb727b2ebcd7b79dbe365844883f8a0390d9ca74cd91de39b36f0ef955a3aa53d5074ec5916cc9a9384ada49bd0b3792f49d279d323af3ec73ed06994b524a235290f1613c3c1e56e8461f493b79f85ef036deebc0bb66debace6c65dad5f03ffbca7d5ffc2fb86748bd44fc5efd0000000049454e44ae426082</data>
-		</image>
 	</images>
 	<connections>
-		<connection>
-			<sender>toolButtonZoom</sender>
-			<signal>clicked()</signal>
-			<receiver>tdbRecibos</receiver>
-			<slot>browseRecord()</slot>
-		</connection>
-		<connection>
-			<sender>dateFromPendiente</sender>
-			<signal>valueChanged(const QDate&amp;)</signal>
-			<receiver>formCuentasCli</receiver>
-			<slot>actualizarFiltroPendiente()</slot>
-		</connection>
-		<connection>
-			<sender>dateToPendiente</sender>
-			<signal>valueChanged(const QDate&amp;)</signal>
-			<receiver>formCuentasCli</receiver>
-			<slot>actualizarFiltroPendiente()</slot>
-		</connection>
-		<connection>
-			<sender>dateFromPagado</sender>
-			<signal>valueChanged(const QDate&amp;)</signal>
-			<receiver>formCuentasCli</receiver>
-			<slot>actualizarFiltroPagado()</slot>
-		</connection>
-		<connection>
-			<sender>dateToPagado</sender>
-			<signal>valueChanged(const QDate&amp;)</signal>
-			<receiver>formCuentasCli</receiver>
-			<slot>actualizarFiltroPagado()</slot>
-		</connection>
-		<connection>
-			<sender>dateFromACuentaAbierto</sender>
-			<signal>valueChanged(const QDate&amp;)</signal>
-			<receiver>formCuentasCli</receiver>
-			<slot>actualizarFiltroACuentaAbierto()</slot>
-		</connection>
-		<connection>
-			<sender>dateToACuentaAbierto</sender>
-			<signal>valueChanged(const QDate&amp;)</signal>
-			<receiver>formCuentasCli</receiver>
-			<slot>actualizarFiltroACuentaAbierto()</slot>
-		</connection>
-		<connection>
-			<sender>dateFromACuentaCerrado</sender>
-			<signal>valueChanged(const QDate&amp;)</signal>
-			<receiver>formCuentasCli</receiver>
-			<slot>actualizarFiltroACuentaCerrado()</slot>
-		</connection>
-		<connection>
-			<sender>dateToACuentaCerrado</sender>
-			<signal>valueChanged(const QDate&amp;)</signal>
-			<receiver>formCuentasCli</receiver>
-			<slot>actualizarFiltroACuentaCerrado()</slot>
-		</connection>
 	</connections>
+	<tabstops>
+		<tabstop>fdbCodProveedor</tabstop>
+		<tabstop>fdbNombre</tabstop>
+		<tabstop>tbwProveedor</tabstop>
+	</tabstops>
 	<slots>
-		<slot>actualizarFiltroPendiente()</slot>
-		<slot>actualizarFiltroPagado()</slot>
-		<slot>actualizarFiltroACuentaAbierto()</slot>
-		<slot>actualizarFiltroACuentaCerrado()</slot>
 	</slots>
 	<layoutdefaults spacing="6" margin="11"/>
 	<includehints>
-		<includehint>FLFieldDB.h</includehint>
 	</includehints>
 </UI>

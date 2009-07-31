@@ -247,29 +247,12 @@ class fluxEcommerce extends traducciones {
 //// FLUX ECOMMERCE //////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-/** @class_declaration ctasCtes */
-/////////////////////////////////////////////////////////////////
-//// CTASCTES ///////////////////////////////////////////////////
-class ctasCtes extends fluxEcommerce {
-    function ctasCtes( context ) { fluxEcommerce ( context ); }
-	function afterCommit_clientes(curCliente:FLSqlCursor):Boolean {
-		return this.ctx.ctasCtes_afterCommit_clientes(curCliente);
-	}
-	function afterCommit_proveedores(curProveedor:FLSqlCursor):Boolean {
-		return this.ctx.ctasCtes_afterCommit_proveedores(curProveedor);
-	}
-	function cuentaActiva(curDoc:FLSqlCursor):Boolean {
-		return this.ctx.ctasCtes_cuentaActiva(curDoc);
-	}
-}
-//// CTASCTES ///////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
 
 /** @class_declaration silixSeleccion */
 /////////////////////////////////////////////////////////////////
 //// SILIXSELECCION /////////////////////////////////////////////
-class silixSeleccion extends ctasCtes {
-	function silixSeleccion( context ) { ctasCtes ( context ); }
+class silixSeleccion extends fluxEcommerce {
+	function silixSeleccion( context ) { fluxEcommerce ( context ); }
 	function seleccionar(tabla:String, campo:String, idCampo:String):Array {
 		return this.ctx.silixSeleccion_seleccionar(tabla, campo, idCampo);
 	}
@@ -426,24 +409,11 @@ class ifaceCtx extends pubSilixSeleccion {
 //// INTERFACE  /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-/** @class_declaration pubTraducciones */
-/////////////////////////////////////////////////////////////////
-//// PUB_CTASCTES ///////////////////////////////////////////////
-class pubCtasCtes extends ifaceCtx {
-	function pubCtasCtes( context ) { ifaceCtx( context ); }
-	function pub_cuentaActiva(curDoc:FLSqlCursor):Boolean {
-		return this.cuentaActiva(curDoc);
-	}
-}
-
-//// PUB_CTASCTES ///////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 /** @class_declaration pubControlUsuario */
 /////////////////////////////////////////////////////////////////
 //// PUB_CONTROL_USUARIO ////////////////////////////////////////
-class pubControlUsuario extends pubCtasCtes {
-	function pubControlUsuario( context ) { pubCtasCtes ( context ); }
+class pubControlUsuario extends ifaceCtx {
+	function pubControlUsuario( context ) { ifaceCtx ( context ); }
 	function pub_usuarioCreado(usuario:String):Boolean {
 		return this.usuarioCreado(usuario);
 	}
@@ -2710,150 +2680,6 @@ function silixSeleccion_seleccionar(tabla:String, campo:String, idCampo:String):
 //// SILIXSELECCION /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-/** @class_definition ctasCtes */
-//////////////////////////////////////////////////////////////////
-//// CTASCTES ////////////////////////////////////////////////////
-
-function ctasCtes_afterCommit_clientes(curCliente:FLSqlCursor):Boolean
-{
-	var util:FLUtil = new FLUtil();
-
-	var existeCuenta:Boolean;
-	var cuentaActiva:Boolean;
-	var idCuenta:Number;
-
-	var qryCuenta:FLSqlQuery = new FLSqlQuery;
-	qryCuenta.setTablesList("cuentascli");
-	qryCuenta.setSelect("idcuenta, activa");
-	qryCuenta.setFrom("cuentascli");
-	qryCuenta.setWhere("codcliente = '" + curCliente.valueBuffer("codcliente") + "'");
-	if (!qryCuenta.exec())
-		return;
-	if (!qryCuenta.first()) {
-		existeCuenta = false;
-		cuentaActiva = true;
-	} else {
-		existeCuenta = true;
-		idCuenta = qryCuenta.value("idcuenta");
-		cuentaActiva = qryCuenta.value("activa");
-	}
-
-	if (curCliente.modeAccess() == curCliente.Insert || curCliente.modeAccess() == curCliente.Edit) {
-		if (curCliente.valueBuffer("cuentactiva") || existeCuenta) { // Crea o actualiza los datos del cliente en la cuenta corriente
-			if (!flfactteso.iface.pub_crearCuentaCli(curCliente))
-				return false;
-		}
-		if (curCliente.modeAccess() == curCliente.Edit) {
-			if (curCliente.valueBuffer("cuentactiva")) {
-				if (!cuentaActiva) {
-					if (!flfactteso.iface.pub_cambiarEstadoCuentaCli(idCuenta, true))
-						return false;
-				}
-			} else {
-				if (existeCuenta) {
-					if (!flfactteso.iface.pub_cambiarEstadoCuentaCli(idCuenta, false))
-						return false;
-				}
-			}
-		}
-	}
-
-	return this.iface.__afterCommit_clientes(curCliente);
-}
-
-function ctasCtes_afterCommit_proveedores(curProveedor:FLSqlCursor):Boolean
-{
-	var util:FLUtil = new FLUtil();
-
-	var existeCuenta:Boolean;
-	var cuentaActiva:Boolean;
-	var idCuenta:Number;
-
-	var qryCuenta:FLSqlQuery = new FLSqlQuery;
-	qryCuenta.setTablesList("cuentasprov");
-	qryCuenta.setSelect("idcuenta, activa");
-	qryCuenta.setFrom("cuentasprov");
-	qryCuenta.setWhere("codproveedor = '" + curProveedor.valueBuffer("codproveedor") + "'");
-	if (!qryCuenta.exec())
-		return;
-	if (!qryCuenta.first()) {
-		existeCuenta = false;
-		cuentaActiva = true;
-	} else {
-		existeCuenta = true;
-		idCuenta = qryCuenta.value("idcuenta");
-		cuentaActiva = qryCuenta.value("activa");
-	}
-
-	if (curProveedor.modeAccess() == curProveedor.Insert || curProveedor.modeAccess() == curProveedor.Edit) {
-		if (curProveedor.valueBuffer("cuentactiva") || existeCuenta) { // Crea o actualiza los datos del proveedor en la cuenta corriente
-			if (!flfactteso.iface.pub_crearCuentaProv(curProveedor))
-				return false;
-		}
-		if (curProveedor.modeAccess() == curProveedor.Edit) {
-			if (curProveedor.valueBuffer("cuentactiva")) {
-				if (!cuentaActiva) {
-					if (!flfactteso.iface.pub_cambiarEstadoCuentaProv(idCuenta, true))
-						return false;
-				}
-			} else {
-				if (existeCuenta) {
-					if (!flfactteso.iface.pub_cambiarEstadoCuentaProv(idCuenta, false))
-						return false;
-				}
-			}
-		}
-	}
-
-	return this.iface.__afterCommit_proveedores(curProveedor);
-}
-
-function ctasCtes_cuentaActiva(curDoc:FLSqlCursor):Boolean
-{
-	/* CTACTE es la forma de pago para la Cuenta Corriente */
-	if (curDoc.valueBuffer("codpago") != "CTACTE")
-		return true;
-
-	var util:FLUtil = new FLUtil;
-
-	var codCliente:String = curDoc.valueBuffer("codcliente");
-	if (!codCliente || codCliente == "")
-		return true;
-
-	var qryCliente:FLSqlQuery = new FLSqlQuery;
-	qryCliente.setTablesList("clientes");
-	qryCliente.setSelect("cuentactiva, riesgomax, margencuenta, riesgoalcanzado");
-	qryCliente.setFrom("clientes");
-	qryCliente.setWhere("codcliente = '" + codCliente + "'");
-	if (!qryCliente.exec() || !qryCliente.first())
-		return false;
-
-	/* Comprueba que el cliente tenga la Cuenta Corriente Activa */
-	var cuentaActiva:Boolean = qryCliente.value("cuentactiva");
-
-	if (!cuentaActiva) {
-		MessageBox.warning(util.translate("scripts", "El cliente no tiene permiso para utilizar su Cuenta Corriente"), MessageBox.Ok, MessageBox.NoButton);
-		return false;
-	}
-
-	/* Comprueba que el riesgo a alcanzar no supere el máximo permitido más el margen */
-	var riesgoMaximo:Number = parseFloat(qryCliente.value("riesgomax"));
-	var margenCuentaCte:Number = parseFloat(qryCliente.value("margencuenta"));
-	var montoMaximo:Number = riesgoMaximo * (1 + margenCuentaCte/100);
-
-	var riesgoAlcanzado:Number = parseFloat(qryCliente.value("riesgoalcanzado"));
-	var monto:Number = curDoc.valueBuffer("total");
-
-	if ((riesgoAlcanzado + monto) > montoMaximo) {
-		MessageBox.warning(util.translate("scripts", "La venta supera el margen permitido para la Cuenta Corriente del cliente.\nNo puede realizar esta venta."), MessageBox.Ok, MessageBox.NoButton);
-		return false;
-	}
-
-	return true;
-}
-
-//// CTASCTES ////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
 
 /** @class_definition controlUsuario */
 /////////////////////////////////////////////////////////////////
