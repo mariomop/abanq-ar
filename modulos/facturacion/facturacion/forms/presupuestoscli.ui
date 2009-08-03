@@ -2160,6 +2160,12 @@
 			<receiver>fdbIdProvincia</receiver>
 			<slot>searchValue()</slot>
 		</connection>
+		<connection>
+			<sender>fdbCiudad</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdCiudad</receiver>
+			<slot>searchValue()</slot>
+		</connection>
 	</connections>
 	<tabstops>
 		<tabstop>fdbCodCliente</tabstop>
