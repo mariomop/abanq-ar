@@ -1,0 +1,91 @@
+<ACTIONS>
+	<action>
+		<name>g_resalbaranescli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Remitos de clientes")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Remitos de clientes")</description>
+		<table>i_albaranescli</table>
+		<form>g_master</form>
+		<formrecord>i_albaranescli</formrecord>
+		<scriptform>g_masteralbaranescli</scriptform>
+		<scriptformrecord>i_albaranescli</scriptformrecord>
+	</action>
+	<action>
+		<name>g_resalbaranesprov</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Remitos de proveedores")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Remitos de proveedores")</description>
+		<table>i_albaranesprov</table>
+		<form>g_master</form>
+		<formrecord>i_albaranesprov</formrecord>
+		<scriptform>g_masteralbaranesprov</scriptform>
+		<scriptformrecord>i_albaranesprov</scriptformrecord>
+	</action>
+	<action>
+		<name>g_resfacturascli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Facturas de clientes")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Facturas de clientes")</description>
+		<table>i_facturascli</table>
+		<form>g_master</form>
+		<formrecord>i_facturascli</formrecord>
+		<scriptform>g_masterfacturascli</scriptform>
+	</action>
+	<action>
+		<name>g_resfacturasprov</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Facturas de proveedores")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Facturas de proveedores")</description>
+		<table>i_facturasprov</table>
+		<form>g_master</form>
+		<formrecord>i_facturasprov</formrecord>
+		<scriptform>g_masterfacturasprov</scriptform>
+		<scriptformrecord>i_facturasprov</scriptformrecord>
+	</action>
+	<action>
+		<name>g_respedidoscli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pedidos de clientes")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Pedidos de clientes")</description>
+		<table>i_pedidoscli</table>
+		<form>g_master</form>
+		<formrecord>i_pedidoscli</formrecord>
+		<scriptform>g_masterpedidoscli</scriptform>
+		<scriptformrecord>i_pedidoscli</scriptformrecord>
+	</action>
+	<action>
+		<name>g_respedidosprov</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pedidos de proveedores")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Pedidos de proveedores")</description>
+		<table>i_pedidosprov</table>
+		<form>g_master</form>
+		<formrecord>i_pedidosprov</formrecord>
+		<scriptform>g_masterpedidosprov</scriptform>
+		<scriptformrecord>i_pedidosprov</scriptformrecord>
+	</action>
+	<action>
+		<name>g_respresupuestoscli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Presupuestos de clientes")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Presupuestos de clientes")</description>
+		<table>i_presupuestoscli</table>
+		<form>g_master</form>
+		<formrecord>i_presupuestoscli</formrecord>
+		<scriptform>g_masterpresupuestoscli</scriptform>
+		<scriptformrecord>i_presupuestoscli</scriptformrecord>
+	</action>
+	<action>
+		<name>g_resreciboscli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Recibos de clientes")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Recibos de clientes")</description>
+		<table>i_reciboscli</table>
+		<form>g_master</form>
+		<formrecord>i_reciboscli</formrecord>
+		<scriptform>g_masterreciboscli</scriptform>
+		<scriptformrecord>i_reciboscli</scriptformrecord>
+	</action>
+	<action>
+		<name>g_resrecibosprov</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Recibos de proveedores")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Recibos de proveedores")</description>
+		<table>i_recibosprov</table>
+		<form>g_master</form>
+		<formrecord>i_recibosprov</formrecord>
+		<scriptform>g_masterrecibosprov</scriptform>
+		<scriptformrecord>i_recibosprov</scriptformrecord>
+	</action>
+</ACTIONS>
