@@ -1279,7 +1279,7 @@ function oficial_crearProvinciasArg()
 {
 	var cursor:FLSqlCursor = new FLSqlCursor("provincias");
 	var provincias:Array =
-			[[1, "ARG", "..."],[2, "ARG", "CIUDAD AUTÓNOMA DE BUENOS AIRES"],[3, "ARG", "PROVINCIA DE BUENOS AIRES"],[4, "ARG", "CATAMARCA"],[5, "ARG", "CHACO"],[6, "ARG", "CHUBUT"],[7, "ARG", "CÓRDOBA"],[8, "ARG", "CORRIENTES"],[9, "ARG", "ENTRE RÍOS"],[10, "ARG", "FORMOSA"],[11, "ARG", "JUJUY"],[12, "ARG", "LA PAMPA"],[13, "ARG", "LA RIOJA"],[14, "ARG", "MENDOZA"],[15, "ARG", "MISIONES"],[16, "ARG", "NEUQUÉN"],[17, "ARG", "RÍO NEGRO"],[18, "ARG", "SALTA"],[19, "ARG", "SAN JUAN"],[20, "ARG", "SAN LUIS"],[21, "ARG", "SANTACRUZ"],[22, "ARG", "SANTA FE"],[23, "ARG", "SANTIAGO DEL ESTERO"],[24, "ARG", "TIERRA DEL FUEGO"],[25,"ARG", "TUCUMÁN"]];
+			[[1, "ARG", "..."],[2, "ARG", "CIUDAD AUTÓNOMA DE BUENOS AIRES"],[3, "ARG", "PROVINCIA DE BUENOS AIRES"],[4, "ARG", "CATAMARCA"],[5, "ARG", "CHACO"],[6, "ARG", "CHUBUT"],[7, "ARG", "CÓRDOBA"],[8, "ARG", "CORRIENTES"],[9, "ARG", "ENTRE RÍOS"],[10, "ARG", "FORMOSA"],[11, "ARG", "JUJUY"],[12, "ARG", "LA PAMPA"],[13, "ARG", "LA RIOJA"],[14, "ARG", "MENDOZA"],[15, "ARG", "MISIONES"],[16, "ARG", "NEUQUÉN"],[17, "ARG", "RÍO NEGRO"],[18, "ARG", "SALTA"],[19, "ARG", "SAN JUAN"],[20, "ARG", "SAN LUIS"],[21, "ARG", "SANTA CRUZ"],[22, "ARG", "SANTA FE"],[23, "ARG", "SANTIAGO DEL ESTERO"],[24, "ARG", "TIERRA DEL FUEGO"],[25,"ARG", "TUCUMÁN"]];
 	for (var i:Number = 0; i < provincias.length; i++) {
 		with(cursor) {
 			setModeAccess(cursor.Insert);
