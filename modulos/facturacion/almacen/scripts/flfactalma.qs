@@ -804,7 +804,7 @@ function oficial_cambiarCosteMedio(referencia:String):Boolean
 
 	var util:FLUtil = new FLUtil();
 	var sumCant:Number = util.sqlSelect("lineasfacturasprov", "SUM(cantidad)", "referencia = '" + referencia + "'");
-	if ( !sumCant )
+	if ( !sumCant || sumCant == 0)
 		return true;
 	var cM:Number = util.sqlSelect("lineasfacturasprov", "(SUM(pvptotal) / SUM(cantidad))", "referencia = '" + referencia + "'");
 	if (!cM)
@@ -2579,6 +2579,10 @@ function costos_cambiarCosteUltimo(referencia:String):Boolean
 		return true;
 
 	var util:FLUtil = new FLUtil();
+
+	var cant:Number = util.sqlSelect("lineasfacturasprov", "cantidad", "referencia = '" + referencia + "' ORDER BY idlinea DESC LIMIT 1");
+	if ( !cant || cant == 0)
+		return true;
 
 	var costoUltimo:Number = parseFloat(util.sqlSelect("lineasfacturasprov", "(pvptotal / cantidad)", "referencia = '" + referencia + "' ORDER BY idlinea DESC LIMIT 1"));
 	if (!costoUltimo)
