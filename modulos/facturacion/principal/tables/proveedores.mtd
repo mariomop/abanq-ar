@@ -213,13 +213,47 @@
 	</field>
 	<field>
 		<name>regimeniva</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Régimen I.V.A.")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Condición I.V.A.")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
 		<length>40</length>
 		<optionslist>QT_TRANSLATE_NOOP("MetaData","Responsable Inscripto");QT_TRANSLATE_NOOP("MetaData","Responsable No Inscripto");QT_TRANSLATE_NOOP("MetaData","Responsable Monotributo");QT_TRANSLATE_NOOP("MetaData","Exento");QT_TRANSLATE_NOOP("MetaData","No Responsable");QT_TRANSLATE_NOOP("MetaData","Consumidor Final")</optionslist>
 		<default>QT_TRANSLATE_NOOP("MetaData","Responsable Inscripto")</default>
+	</field>
+	<field>
+		<name>regimenib</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Condición I.B.")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>40</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Contribuyente Inscripto");QT_TRANSLATE_NOOP("MetaData","Exento")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Contribuyente Inscripto")</default>
+	</field>
+	<field>
+		<name>numeroib</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nº Ingresos Brutos")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>13</length>
+	</field>
+	<field>
+		<name>agentepercepcion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Agente de percepción")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	<field>
+		<name>agenteretencion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Agente de retención")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
 	</field>
 	<field>
 		<name>riesgoalcanzado</name>

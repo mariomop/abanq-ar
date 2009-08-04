@@ -907,7 +907,7 @@
 									<property name="sizePolicy" >
 										<sizepolicy>
 											<hsizetype>7</hsizetype>
-											<vsizetype>0</vsizetype>
+											<vsizetype>5</vsizetype>
 											<horstretch>0</horstretch>
 											<verstretch>0</verstretch>
 										</sizepolicy>
@@ -1054,6 +1054,23 @@
 												<string>ivaportes</string>
 											</property>
 										</widget>
+										<spacer>
+											<property name="name" >
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation" >
+												<enum>Vertical</enum>
+											</property>
+											<property name="sizeType" >
+												<enum>Expanding</enum>
+											</property>
+											<property name="sizeHint" >
+												<size>
+													<width>20</width>
+													<height>10</height>
+												</size>
+											</property>
+										</spacer>
 									</vbox>
 								</widget>
 								<widget class="QGroupBox" >
@@ -1101,6 +1118,131 @@
 											<property name="fieldName" >
 												<string>regimeniva</string>
 											</property>
+										</widget>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbRegimenIIBB</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>150</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="fieldName" >
+												<string>regimenib</string>
+											</property>
+										</widget>
+										<widget class="QLayoutWidget" >
+											<property name="name" >
+												<cstring>layoutIIBB</cstring>
+											</property>
+											<hbox>
+												<property name="name" >
+													<cstring>unnamed</cstring>
+												</property>
+												<widget class="FLFieldDB" >
+													<property name="name" >
+														<cstring>fdbNroIIBB</cstring>
+													</property>
+													<property name="sizePolicy" >
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize" >
+														<size>
+															<width>150</width>
+															<height>0</height>
+														</size>
+													</property>
+													<property name="fieldName" >
+														<string>numeroib</string>
+													</property>
+												</widget>
+												<spacer>
+													<property name="name" >
+														<cstring>unnamed</cstring>
+													</property>
+													<property name="orientation" >
+														<enum>Horizontal</enum>
+													</property>
+													<property name="sizeType" >
+														<enum>Expanding</enum>
+													</property>
+													<property name="sizeHint" >
+														<size>
+															<width>10</width>
+															<height>20</height>
+														</size>
+													</property>
+												</spacer>
+											</hbox>
+										</widget>
+										<widget class="QLayoutWidget" >
+											<property name="name" >
+												<cstring>layoutAgente</cstring>
+											</property>
+											<hbox>
+												<property name="name" >
+													<cstring>unnamed</cstring>
+												</property>
+												<widget class="FLFieldDB" >
+													<property name="name" >
+														<cstring>fdbAgentePercepcion</cstring>
+													</property>
+													<property name="sizePolicy" >
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize" >
+														<size>
+															<width>260</width>
+															<height>25</height>
+														</size>
+													</property>
+													<property name="fieldName" >
+														<string>agentepercepcion</string>
+													</property>
+												</widget>
+												<widget class="FLFieldDB" >
+													<property name="name" >
+														<cstring>fdbAgenteRetencion</cstring>
+													</property>
+													<property name="sizePolicy" >
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize" >
+														<size>
+															<width>260</width>
+															<height>25</height>
+														</size>
+													</property>
+													<property name="fieldName" >
+														<string>agenteretencion</string>
+													</property>
+												</widget>
+											</hbox>
 										</widget>
 										<widget class="QLayoutWidget" >
 											<property name="name" >
