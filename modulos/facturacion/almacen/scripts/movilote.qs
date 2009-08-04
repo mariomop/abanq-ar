@@ -118,7 +118,11 @@ function interna_init()
 	var curRelacionado:FLSqlCursor = curMoviLotes.cursorRelation();
 	this.iface.pbnCrearLote = this.child("pbnCrearLote");
 
-	connect(this.iface.pbnCrearLote, "clicked()", this, "iface.crearLote_clicked");
+	if (curRelacionado.action() == "lotes")
+		this.iface.pbnCrearLote.close();
+	else
+		connect(this.iface.pbnCrearLote, "clicked()", this, "iface.crearLote_clicked");
+
 	connect(this.child("pbnConsultarDoc"), "clicked()", this, "iface.pbnConsultarDocClicked");
 	connect(curMoviLotes, "bufferChanged(QString)", this, "iface.bufferChanged");
 
@@ -436,7 +440,7 @@ function oficial_datosMoviLote(accion:String):Array
 				if (!datos.idStock)
 					return false;
 			}
-			this.child("fdbCodLote").setFilter("referencia = '" + referencia + "' AND enalmacen > 0");
+			this.child("fdbCodLote").setFilter("1=1 AND lotes.referencia = '" + referencia + "' AND enalmacen > 0");
 			break;
 		}
 		case "lineasalbaranesprov":{
@@ -450,7 +454,7 @@ function oficial_datosMoviLote(accion:String):Array
 				if (!datos.idStock)
 					return false;
 			}
-			this.child("fdbCodLote").setFilter("referencia = '" + referencia + "'");
+			this.child("fdbCodLote").setFilter("1=1 AND lotes.referencia = '" + referencia + "'");
 			break;
 		}
 		case "lineasfacturascli":{
@@ -464,7 +468,7 @@ function oficial_datosMoviLote(accion:String):Array
 				if (!datos.idStock)
 					return false;
 			}
-			this.child("fdbCodLote").setFilter("referencia = '" + referencia + "' AND enalmacen > 0");
+			this.child("fdbCodLote").setFilter("1=1 AND lotes.referencia = '" + referencia + "' AND enalmacen > 0");
 			break;
 		}
 		case "lineasfacturasprov":{
@@ -478,7 +482,7 @@ function oficial_datosMoviLote(accion:String):Array
 				if (!datos.idStock)
 					return false;
 			}
-			this.child("fdbCodLote").setFilter("referencia = '" + referencia + "'");
+			this.child("fdbCodLote").setFilter("1=1 AND lotes.referencia = '" + referencia + "'");
 			break;
 		}
 		case "lineastrazabilidadinterna":{
@@ -492,14 +496,14 @@ function oficial_datosMoviLote(accion:String):Array
 				if (!datos.idStock)
 					return false;
 			}
-			this.child("fdbCodLote").setFilter("referencia = '" + referencia + "'");
+			this.child("fdbCodLote").setFilter("1=1 AND lotes.referencia = '" + referencia + "'");
 			break;
 		}
 		case "lotes": {
 			datos.idStock = curRelacionado.valueBuffer("idstock");
 			datos.tipo = "Regularización";
 			datos.docOrigen = "NO";
-			this.child("fdbCodLote").setFilter("referencia = '" + referencia + "'");
+			this.child("fdbCodLote").setFilter("1=1 AND lotes.referencia = '" + referencia + "'");
 			break;
 		}
 	}

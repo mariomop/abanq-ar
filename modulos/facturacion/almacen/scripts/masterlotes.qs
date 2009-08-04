@@ -85,7 +85,7 @@ function interna_init()
 	this.iface.chkOcultarCaducados = this.child("chkOcultarCaducados");
 	this.iface.tdbRecords = this.child("tableDBRecords");
 	this.iface.tbnImprimir = this.child("toolButtonPrint");
-	this.iface.filtroPrevio = this.cursor().mainFilter();
+	this.iface.filtroPrevio = this.iface.tdbRecords.cursor().mainFilter();
 
 	connect(this.iface.chkOcultarCaducados, "clicked()", this, "iface.chkOcultarCaducadosClicked()");
 	connect(this.iface.tbnImprimir, "clicked()", this, "iface.imprimir()");
@@ -98,7 +98,7 @@ function interna_init()
 //// OFICIAL /////////////////////////////////////////////////////
 function oficial_chkOcultarCaducadosClicked()
 {
-	var cursor:FLSqlCursor = this.cursor();
+	var cursor:FLSqlCursor = this.iface.tdbRecords.cursor();
 	var filtro:String = this.iface.filtroPrevio;
 	if (this.iface.chkOcultarCaducados.checked) {
 		if (this.iface.filtroPrevio && this.iface.filtroPrevio != "") {
@@ -107,7 +107,10 @@ function oficial_chkOcultarCaducadosClicked()
 		filtro += "(caducidad IS NULL OR caducidad > CURRENT_DATE)";
 	}
 	cursor.setMainFilter(filtro);
+
 	this.iface.tdbRecords.refresh();
+	this.iface.tdbRecords.cursor().first();
+	this.iface.tdbRecords.setCurrentRow(this.iface.tdbRecords.cursor().at());
 }
 
 /** \C
@@ -117,7 +120,7 @@ function oficial_imprimir()
 {
 	if (sys.isLoadedModule("flfactinfo")) {
 		var util:FLUtil = new FLUtil;
-		var codLote:String = this.cursor().valueBuffer("codlote");
+		var codLote:String = this.iface.tdbRecords.cursor().valueBuffer("codlote");
 
 		var curImprimir:FLSqlCursor = new FLSqlCursor("i_movilote");
 		curImprimir.setModeAccess(curImprimir.Insert);
