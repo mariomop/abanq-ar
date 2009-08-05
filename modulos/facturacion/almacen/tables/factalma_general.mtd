@@ -29,4 +29,13 @@
 		<type>bool</type>
 		<default>false</default>
 	</field>
+	<field>
+		<name>cantlineascostemedio</name>
+		<!-- Cantidad de líneas de compra que se tendrán en cuenta para calcular el costo medio -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Cantidad de compras para el cálculo del costo medio de artículos")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>0</default>
+	</field>
 </TMD>

@@ -803,10 +803,16 @@ function oficial_cambiarCosteMedio(referencia:String):Boolean
 		return true;
 
 	var util:FLUtil = new FLUtil();
-	var sumCant:Number = util.sqlSelect("lineasfacturasprov", "SUM(cantidad)", "referencia = '" + referencia + "'");
+
+	var whereCantidad:String = "";
+	var cantLineas:Number = this.iface.valorDefectoAlmacen("cantlineascostemedio");
+	if (parseFloat(cantLineas) != 0 )
+		whereCantidad = " AND idlinea IN (SELECT idlinea FROM lineasfacturasprov ORDER BY idlinea DESC LIMIT " + cantLineas + ")";
+
+	var sumCant:Number = util.sqlSelect("lineasfacturasprov", "SUM(cantidad)", "referencia = '" + referencia + "'" + whereCantidad);
 	if ( !sumCant || sumCant == 0)
 		return true;
-	var cM:Number = util.sqlSelect("lineasfacturasprov", "(SUM(pvptotal) / SUM(cantidad))", "referencia = '" + referencia + "'");
+	var cM:Number = util.sqlSelect("lineasfacturasprov", "(SUM(pvptotal) / SUM(cantidad))", "referencia = '" + referencia + "'" + whereCantidad);
 	if (!cM)
 		cM = 0;
 
@@ -1219,14 +1225,12 @@ function oficial_valorDefectoAlmacen(fN:String):String
 	var query:FLSqlQuery = new FLSqlQuery();
 
 	query.setTablesList( "factalma_general" );
-	query.setForwardOnly( true );
+	try { query.setForwardOnly( true ); } catch (e) {}
 	query.setSelect( fN );
 	query.setFrom( "factalma_general" );
-	if ( query.exec() ) {
-		if ( query.next() ) {
+	if ( query.exec() )
+		if ( query.next() )
 			return query.value( 0 );
-		}
-	}
 
 	return "";
 }

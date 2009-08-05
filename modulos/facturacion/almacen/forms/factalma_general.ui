@@ -157,6 +157,52 @@
 										</spacer>
 									</hbox>
 								</widget>
+								<widget class="QLayoutWidget" >
+									<property name="name" >
+										<cstring>layoutCosteMedio</cstring>
+									</property>
+									<hbox>
+										<property name="name" >
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbCantLineas</cstring>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>300</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>cantlineascostemedio</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name" >
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation" >
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType" >
+												<enum>Expanding</enum>
+											</property>
+											<property name="sizeHint" >
+												<size>
+													<width>131</width>
+													<height>20</height>
+												</size>
+											</property>
+										</spacer>
+									</hbox>
+								</widget>
 								<spacer>
 									<property name="name" >
 										<cstring>spacerPG</cstring>
