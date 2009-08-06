@@ -41,7 +41,9 @@ class oficial extends interna
 	var deFecha;
 	
     function oficial( context ) { interna( context ); } 
-    
+    function procesarEstado() {
+        return this.ctx.oficial_procesarEstado();
+    }
     function facturar(codigo:String) { 
     	return this.ctx.oficial_facturar(codigo);
     }
@@ -104,7 +106,10 @@ function interna_init()
 	connect( this.child("pbnFacturar"), "clicked()", this, "iface.facturar" );
 	connect( this.child("pbnFacturarContrato"), "clicked()", this, "iface.facturarContrato" );
 	connect(this.iface.chkVigentes, "clicked()", this, "iface.cambiochkVigentes");
+	connect(this.iface.tableDBRecords, "currentChanged()", this, "iface.procesarEstado");
 	this.iface.chkVigentes.checked = false;
+
+	this.iface.procesarEstado();
 }
 
 //// INTERNA /////////////////////////////////////////////////////
@@ -114,15 +119,27 @@ function interna_init()
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
 
+function oficial_procesarEstado()
+{
+	if (this.cursor().isValid()) {
+		this.child("pbnFacturar").enabled = true;
+		this.child("pbnFacturarContrato").enabled = true;
+	} else {
+		this.child("pbnFacturar").enabled = false;
+		this.child("pbnFacturarContrato").enabled = false;
+	}
+}
 
 /** \D
 Genera los períodos de actualización para el contrato seleccionado
 \end */
 function oficial_facturarContrato()
 {
-	if (!this.cursor().isValid())
+	if (!this.cursor().isValid()) {
+		this.iface.procesarEstado();
 		return;
-				
+	}
+
 	return this.iface.facturar(this.cursor().valueBuffer("codigo"));
 }
 

@@ -214,12 +214,12 @@ function interna_init()
 	connect(this.iface.pbnGAlbaran, "clicked()", this, "iface.pbnGenerarAlbaran_clicked()");
 	connect(this.iface.tdbRecords, "currentChanged()", this, "iface.procesarEstado");
 
-	this.iface.procesarEstado();
-
 	var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
 	var datosEjercicio = flfactppal.iface.pub_ejecutarQry("ejercicios", "fechainicio,fechafin", "codejercicio = '" + codEjercicio + "'");
 	if (datosEjercicio.result > 0)
 		this.cursor().setMainFilter("fecha >='" + datosEjercicio.fechainicio + "' AND fecha <= '" + datosEjercicio.fechafin + "'");
+
+	this.iface.procesarEstado();
 }
 
 //// INTERNA /////////////////////////////////////////////////////
@@ -231,11 +231,11 @@ function interna_init()
 
 function oficial_procesarEstado()
 {
-		if (this.cursor().valueBuffer("editable") == true) {
-				this.iface.pbnGAlbaran.enabled = true;
-		} else {
-				this.iface.pbnGAlbaran.enabled = false;
-		}
+	if (this.cursor().isValid() && this.cursor().valueBuffer("editable") == true) {
+		this.iface.pbnGAlbaran.enabled = true;
+	} else {
+		this.iface.pbnGAlbaran.enabled = false;
+	}
 }
 
 /** \C
@@ -243,25 +243,34 @@ Al pulsar el botón de generar remito se creará el remito correspondiente al serv
 \end */
 function oficial_pbnGenerarAlbaran_clicked()
 {
-		var util:FLUtil = new FLUtil;
-		var cursor:FLSqlCursor = this.cursor();
-		var where:String = "idservicio = " + cursor.valueBuffer("idservicio");
+	var util:FLUtil = new FLUtil;
+	var cursor:FLSqlCursor = this.cursor();
 
-		if (cursor.valueBuffer("editable") == false) {
-			MessageBox.warning(util.translate("scripts", "El servicio ya generó un remito"), MessageBox.Ok, MessageBox.NoButton);
-			this.iface.procesarEstado();
-			return;
-		}
-		this.iface.pbnGAlbaran.setEnabled(false);
-
-		cursor.transaction(false);
-		if (this.iface.generarAlbaran(where, cursor))
-				cursor.commit();
-		else
-				cursor.rollback();
-
-		this.iface.tdbRecords.refresh();
+	if (!this.cursor().isValid()) {
 		this.iface.procesarEstado();
+		return;
+	}
+	if (cursor.valueBuffer("editable") == false) {
+		MessageBox.warning(util.translate("scripts", "El servicio ya generó un remito"), MessageBox.Ok, MessageBox.NoButton);
+		this.iface.procesarEstado();
+		return;
+	}
+	var res:Number = MessageBox.warning(util.translate("scripts", "Se generará un remito a partir del servicio seleccionado.\n¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
+	if (res != MessageBox.Yes)
+		return;
+
+	this.iface.pbnGAlbaran.setEnabled(false);
+
+	var where:String = "idservicio = " + cursor.valueBuffer("idservicio");
+
+	cursor.transaction(false);
+	if (this.iface.generarAlbaran(where, cursor))
+			cursor.commit();
+	else
+			cursor.rollback();
+
+	this.iface.tdbRecords.refresh();
+	this.iface.procesarEstado();
 }
 
 /** \D 
@@ -640,6 +649,7 @@ function fechas_init()
 		this.iface.actualizarFiltro();
 	}
 
+	this.iface.procesarEstado();
 }
 
 function fechas_actualizarFiltro()

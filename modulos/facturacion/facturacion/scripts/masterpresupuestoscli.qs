@@ -224,11 +224,10 @@ function interna_init()
 
 function oficial_procesarEstado()
 {
-		var cursor:FLSqlCursor = this.cursor();
-		if (cursor.valueBuffer("editable") == false)
-				this.iface.pbnGPedido.setEnabled(false);
-		else
-				this.iface.pbnGPedido.setEnabled(true);
+	if (this.cursor().isValid() && this.cursor().valueBuffer("editable") == true)
+		this.iface.pbnGPedido.enabled = true;
+	else
+		this.iface.pbnGPedido.enabled = false;
 }
 
 /** \C
@@ -238,11 +237,20 @@ function oficial_pbnGenerarPedido_clicked()
 {
 	var util:FLUtil = new FLUtil;
 	var cursor:FLSqlCursor = this.cursor();
+
+	if (!this.cursor().isValid()) {
+		this.iface.procesarEstado();
+		return;
+	}
 	if (cursor.valueBuffer("editable") == false) {
 		MessageBox.warning(util.translate("scripts", "El presupuesto ya está aprobado"), MessageBox.Ok, MessageBox.NoButton);
 		this.iface.procesarEstado();
 		return;
 	}
+	var res:Number = MessageBox.warning(util.translate("scripts", "Se generará un pedido a partir del presupuesto seleccionado.\n¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
+	if (res != MessageBox.Yes)
+		return;
+
 	this.iface.pbnGPedido.setEnabled(false);
 
 	cursor.transaction(false);
@@ -256,6 +264,7 @@ function oficial_pbnGenerarPedido_clicked()
 		cursor.rollback();
 		MessageBox.critical(util.translate("scripts", "Hubo un error en la generación del pedido:") + "\n" + e, MessageBox.Ok, MessageBox.NoButton);
 	}
+
 	this.iface.tdbRecords.refresh();
 	this.iface.procesarEstado();
 }
@@ -752,6 +761,7 @@ function fechas_init()
 		this.iface.actualizarFiltro();
 	}
 
+	this.iface.procesarEstado();
 }
 
 function fechas_actualizarFiltro()

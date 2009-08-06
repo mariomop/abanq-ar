@@ -246,13 +246,13 @@ function interna_init()
 
 function oficial_procesarEstado()
 {
-		if (this.cursor().valueBuffer("editable") == true) {
-				this.iface.pbnGAlbaran.setEnabled(true);
-				this.iface.pbnGFactura.setEnabled(true);
-		} else {
-				this.iface.pbnGAlbaran.setEnabled(false);
-				this.iface.pbnGFactura.setEnabled(false);
-		}
+	if (this.cursor().isValid() && this.cursor().valueBuffer("editable") == true) {
+		this.iface.pbnGAlbaran.enabled = true;
+		this.iface.pbnGFactura.enabled = true;
+	} else {
+		this.iface.pbnGAlbaran.enabled = false;
+		this.iface.pbnGFactura.enabled = false;
+	}
 }
 
 /** \C
@@ -262,15 +262,24 @@ function oficial_pbnGenerarAlbaran_clicked()
 {
 	var util:FLUtil = new FLUtil;
 	var cursor:FLSqlCursor = this.cursor();
-	var where:String = "idpedido = " + cursor.valueBuffer("idpedido");
 
+	if (!this.cursor().isValid()) {
+		this.iface.procesarEstado();
+		return;
+	}
 	if (cursor.valueBuffer("editable") == false) {
 		MessageBox.warning(util.translate("scripts", "El pedido ya está servido"), MessageBox.Ok, MessageBox.NoButton);
 		this.iface.procesarEstado();
 		return;
 	}
+	var res:Number = MessageBox.warning(util.translate("scripts", "Se generará un remito a partir del pedido seleccionado.\n¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
+	if (res != MessageBox.Yes)
+		return;
+
 	this.iface.pbnGAlbaran.setEnabled(false);
 	this.iface.pbnGFactura.setEnabled(false);
+
+	var where:String = "idpedido = " + cursor.valueBuffer("idpedido");
 
 	cursor.transaction(false);
 	try {
@@ -293,20 +302,29 @@ Al pulsar el botón de generar factura se crearán tanto el remito como la factura
 \end */
 function oficial_pbnGenerarFactura_clicked()
 {
-	var idAlbaran:Number;
-	var idFactura:Number;
 	var util:FLUtil = new FLUtil;
-	var curAlbaran:FLSqlCursor = new FLSqlCursor("albaranesprov");
 	var cursor:FLSqlCursor = this.cursor();
-	var where:String = "idpedido = " + cursor.valueBuffer("idpedido");
 
+	if (!this.cursor().isValid()) {
+		this.iface.procesarEstado();
+		return;
+	}
 	if (cursor.valueBuffer("editable") == false) {
 		MessageBox.warning(util.translate("scripts", "El pedido ya está servido. Genere la factura desde la ventana de remitos"), MessageBox.Ok, MessageBox.NoButton);
 		this.iface.procesarEstado();
 		return;
 	}
+	var res:Number = MessageBox.warning(util.translate("scripts", "Se generará una factura a partir del pedido seleccionado.\n¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
+	if (res != MessageBox.Yes)
+		return;
+
 	this.iface.pbnGAlbaran.setEnabled(false);
 	this.iface.pbnGFactura.setEnabled(false);
+
+	var idAlbaran:Number;
+	var idFactura:Number;
+	var curAlbaran:FLSqlCursor = new FLSqlCursor("albaranesprov");
+	var where:String = "idpedido = " + cursor.valueBuffer("idpedido");
 
 	cursor.transaction(false);
 	try {
@@ -982,6 +1000,7 @@ function fechas_init()
 		this.iface.actualizarFiltro();
 	}
 
+	this.iface.procesarEstado();
 }
 
 function fechas_actualizarFiltro()

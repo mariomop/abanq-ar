@@ -239,10 +239,11 @@ Al pulsar el botón imprimir se lanzará el informe correspondiente al remito sele
 
 function oficial_procesarEstado()
 {
-		if (this.cursor().valueBuffer("ptefactura") == true)
-				this.iface.pbnGFactura.setEnabled(true);
-		else
-				this.iface.pbnGFactura.setEnabled(false);
+	if (this.cursor().isValid() && this.cursor().valueBuffer("ptefactura") == true) {
+		this.iface.pbnGFactura.enabled = true;
+	} else {
+		this.iface.pbnGFactura.enabled = false;
+	}
 }
 
 /** \C
@@ -250,17 +251,26 @@ Al pulsar el botón de generar factura se creará la factura correspondiente al re
 \end */
 function oficial_pbnGenerarFactura_clicked()
 {
-	var idFactura:Number;
 	var util:FLUtil = new FLUtil;
 	var cursor:FLSqlCursor = this.cursor();
-	var where:String = "idalbaran = " + cursor.valueBuffer("idalbaran");
 
+	if (!this.cursor().isValid()) {
+		this.iface.procesarEstado();
+		return;
+	}
 	if (cursor.valueBuffer("ptefactura") == false) {
 		MessageBox.warning(util.translate("scripts", "Ya existe la factura correspondiente a este remito"), MessageBox.Ok, MessageBox.NoButton);
 		this.iface.procesarEstado();
 		return;
 	}
+	var res:Number = MessageBox.warning(util.translate("scripts", "Se generará una factura a partir del remito seleccionado.\n¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
+	if (res != MessageBox.Yes)
+		return;
+
 	this.iface.pbnGFactura.setEnabled(false);
+
+	var idFactura:Number;
+	var where:String = "idalbaran = " + cursor.valueBuffer("idalbaran");
 
 	cursor.transaction(false);
 	try {
@@ -763,6 +773,7 @@ function fechas_init()
 		this.iface.actualizarFiltro();
 	}
 
+	this.iface.procesarEstado();
 }
 
 function fechas_actualizarFiltro()

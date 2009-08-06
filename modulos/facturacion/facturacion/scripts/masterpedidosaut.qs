@@ -148,6 +148,8 @@ function interna_init()
 	connect(this.iface.tdbRecords, "currentChanged()", this, "iface.procesarEstado()");
 	connect(this.iface.pbnGPedido, "clicked()", this, "iface.pbnGenerarPedido_clicked");
 	connect(this.child("toolButtonPrint"), "clicked()", this, "iface.imprimir");
+
+	this.iface.procesarEstado();
 }
 
 
@@ -193,12 +195,10 @@ function oficial_imprimir(codPedido:String, nombreReport:String)
 
 function oficial_procesarEstado()
 {
-	if (this.cursor().valueBuffer("editable") == true) {
-		this.iface.pbnGPedido.setEnabled(true);
-		//this.iface.pbnGFactura.setEnabled(true);
+	if (this.cursor().isValid() && this.cursor().valueBuffer("editable") == true) {
+		this.iface.pbnGPedido.enabled = true;
 	} else {
-		this.iface.pbnGPedido.setEnabled(false);
-		//this.iface.pbnGFactura.setEnabled(false);
+		this.iface.pbnGPedido.enabled = false;
 	}
 }
 
@@ -209,11 +209,20 @@ function oficial_pbnGenerarPedido_clicked()
 {
 	var util:FLUtil = new FLUtil;
 	var cursor:FLSqlCursor = this.cursor();
+
+	if (!this.cursor().isValid()) {
+		this.iface.procesarEstado();
+		return;
+	}
 	if (cursor.valueBuffer("editable") == false) {
 		MessageBox.warning(util.translate("scripts", "El pedido ya está generado"), MessageBox.Ok, MessageBox.NoButton);
 		this.iface.procesarEstado();
 		return;
 	}
+	var res:Number = MessageBox.warning(util.translate("scripts", "Se generará un pedido a partir del registro seleccionado.\n¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
+	if (res != MessageBox.Yes)
+		return;
+
 	this.iface.pbnGPedido.setEnabled(false);
 
 	cursor.transaction(false);
@@ -501,6 +510,7 @@ function fechas_init()
 		this.iface.actualizarFiltro();
 	}
 
+	this.iface.procesarEstado();
 }
 
 function fechas_actualizarFiltro()
