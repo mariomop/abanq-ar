@@ -10,20 +10,25 @@
 	</group>
 	
 	<select>
-		empresa.nombre, empresa.direccion,
+		empresa.nombre, empresa.cifnif, empresa.direccion,
 		empresa.codpostal || '   ' || empresa.ciudad,
-		empresa.codpostal, empresa.ciudad,
-		empresa.provincia, empresa.administrador, empresa.cifnif,
+		empresa.codpostal, empresa.ciudad, empresa.provincia, empresa.codpais,
 		tpv_arqueos.idtpv_arqueo, tpv_arqueos.diadesde,
 		tpv_arqueos.diahasta, tpv_arqueos.abierta,
 		tpv_comandas.codigo, tpv_pagoscomanda.importe,
+		tpv_comandas.numerosecuencia,
 		tpv_pagoscomanda.fecha, tpv_pagoscomanda.estado,
 		tpv_pagoscomanda.codtpv_agente, tpv_puntosventa.codtpv_puntoventa,
-		tpv_puntosventa.descripcion 
+		tpv_puntosventa.descripcion,
+		tpv_agentes.descripcion
 	</select>
 	
 	<from>
-		empresa, tpv_arqueos INNER JOIN tpv_pagoscomanda ON tpv_arqueos.idtpv_arqueo = tpv_pagoscomanda.idtpv_arqueo INNER JOIN tpv_comandas ON tpv_pagoscomanda.idtpv_comanda = tpv_comandas.idtpv_comanda INNER JOIN tpv_puntosventa ON tpv_arqueos.ptoventa = tpv_puntosventa.codtpv_puntoventa 
+		empresa, tpv_arqueos
+		INNER JOIN tpv_pagoscomanda ON tpv_arqueos.idtpv_arqueo = tpv_pagoscomanda.idtpv_arqueo
+		INNER JOIN tpv_comandas ON tpv_pagoscomanda.idtpv_comanda = tpv_comandas.idtpv_comanda
+		INNER JOIN tpv_puntosventa ON tpv_arqueos.ptoventa = tpv_puntosventa.codtpv_puntoventa
+		LEFT OUTER JOIN tpv_agentes ON tpv_pagoscomanda.codtpv_agente = tpv_AGENTES.codtpv_agente
 	</from>
 	
 	<where>

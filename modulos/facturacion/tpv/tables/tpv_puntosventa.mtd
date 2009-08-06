@@ -237,8 +237,8 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>15</length>
-		<optionslist>ESC-POS,Térmica</optionslist>
-		<default>ESC-POS</default>
+		<optionslist>Común,ESC-POS,Térmica</optionslist>
+		<default>Común</default>
 	</field>
 	
 	<field>

@@ -44,12 +44,6 @@ class oficial extends interna {
 	function abrirCerrarArqueo():Boolean{
 		return this.ctx.oficial_abrirCerrarArqueo();
 	}
-	function imprimir_clicked(){
-		return this.ctx.oficial_imprimir_clicked();
-	}
-	function imprimirTiqueArqueo(codArqueo:String):Boolean {
-		return this.ctx.oficial_imprimirTiqueArqueo(codArqueo);
-	}
 	function abrirCerrarPagos(idArqueo:String, abrir:Boolean):Boolean {
 		return this.ctx.oficial_abrirCerrarPagos(idArqueo, abrir);
 	}
@@ -62,24 +56,49 @@ class oficial extends interna {
 	function consultarCierre() {
 		return this.ctx.oficial_consultarCierre();
 	}
-	function imprimirQuick_clicked(){
-		return this.ctx.oficial_imprimirQuick_clicked();
-	}
-	function imprimirQuick( codArqueo:String, impresora:String ) {
-		return this.ctx.oficial_imprimirQuick( codArqueo, impresora );
-	}
-	function imprimirArqueoPOS(codArqueo:String, impresora:String, qry:FLSqlQuery) {
-		return this.ctx.oficial_imprimirArqueoPOS(codArqueo, impresora, qry);
-	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration impresiones */
+/////////////////////////////////////////////////////////////////
+//// IMPRESIONES ////////////////////////////////////////////////
+class impresiones extends oficial {
+	var tbnImprimir:Object;
+	var tbnImprimirQuick:Object;
+
+    function impresiones( context ) { oficial ( context ); }
+	function init() { this.ctx.impresiones_init(); }
+	function imprimir_clicked() {
+		return this.ctx.impresiones_imprimir_clicked();
+	}
+	function imprimirArqueo(codArqueo:String):Boolean {
+		return this.ctx.impresiones_imprimirArqueo(codArqueo);
+	}
+	function imprimirQuick_clicked() {
+		return this.ctx.impresiones_imprimirQuick_clicked();
+	}
+	function imprimirQuick(codArqueo:String, impresora:String) {
+		return this.ctx.impresiones_imprimirQuick(codArqueo, impresora);
+	}
+	function imprimirArqueoQuick(codArqueo:String, impresora:String) {
+		return this.ctx.impresiones_imprimirArqueoQuick(codArqueo, impresora);
+	}
+	function imprimirArqueoTique(codPuntoVenta:String, impresora:String, qry:FLSqlQuery):Boolean {
+		return this.ctx.impresiones_imprimirArqueoTique(codPuntoVenta, impresora, qry);
+	}
+	function imprimirArqueoPOS(codArqueo:String, impresora:String, qry:FLSqlQuery) {
+		return this.ctx.impresiones_imprimirArqueoPOS(codArqueo, impresora, qry);
+	}
+}
+//// IMPRESIONES ////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends oficial {
-    function head( context ) { oficial ( context ); }
+class head extends impresiones {
+    function head( context ) { impresiones ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -123,10 +142,8 @@ function interna_init()
 	this.iface.ckbSoloPV = this.child("ckbSoloPV");
 
 	connect(this.child("tbnBlocDesbloc"), "clicked()", this, "iface.abrirCerrarArqueo_clicked()");
-	connect(this.child("toolButtonPrint"),"clicked()", this, "iface.imprimir_clicked()");
 	connect(this.child( "ckbSoloPV" ), "clicked()",  this, "iface.filtrarArqueos()");
 	connect(cursor, "bufferCommited()",  this, "iface.consultarCierre()");
-	connect( this.child( "tbnPrintQuick" ), "clicked()", this, "iface.imprimirQuick_clicked()" );
 	this.iface.filtrarArqueos();
 }
 
@@ -347,41 +364,6 @@ function oficial_generarFacturasVentas(idArqueo:String):Boolean
 	return true;
 }
 
-/** \C
-Imprime un tique para el arqueo seleccionado
-*/
-function oficial_imprimir_clicked()
-{
-	var cursor:FLSqlCursor = this.cursor();
-	var codArqueo:String = cursor.valueBuffer("idtpv_arqueo");
-	if(!codArqueo)
-		return false;
-	
-	if (!this.iface.imprimirTiqueArqueo(codArqueo)){
-		return false;
-	}
-}
-
-/** \D Lanza la función imprimir con los datos del arqueo
-Si no está cargado el módulo de informes mostrará un mensaje de aviso
-@param codArqueo código del arqueo del que queremos sacar el tique
-*/
-function oficial_imprimirTiqueArqueo(codArqueo:String):Boolean
-{
-	if (sys.isLoadedModule("flfactinfo")) {
-		if (!this.cursor().isValid())
-			return;
-		var curImprimir:FLSqlCursor = new FLSqlCursor("tpv_i_arqueos");
-		curImprimir.setModeAccess(curImprimir.Insert);
-		curImprimir.refreshBuffer();
-		curImprimir.setValueBuffer("descripcion", "temp");
-		curImprimir.setValueBuffer("d_tpv__arqueos_idtpv__arqueo", codArqueo);
-		curImprimir.setValueBuffer("h_tpv__arqueos_idtpv__arqueo", codArqueo);
-		flfactinfo.iface.pub_lanzarInforme(curImprimir, "tpv_i_arqueos");
-	} else
-		flfactppal.iface.pub_msgNoDisponible("Informes");
-}
-
 /** \D Activa o desactiva el filtro que muestra únicamente los arqueos del puesto por defecto.
 \end */
 function oficial_filtrarArqueos()
@@ -417,10 +399,63 @@ function oficial_consultarCierre()
 	}
 }
 
+//// OFICIAL /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition impresiones */
+/////////////////////////////////////////////////////////////////
+//// IMPRESIONES ////////////////////////////////////////////////
+
+function impresiones_init()
+{
+	this.iface.__init();
+
+	this.iface.tbnImprimir = this.child("toolButtonPrint");
+	this.iface.tbnImprimirQuick = this.child("tbnPrintQuick");
+
+	connect(this.iface.tbnImprimir,"clicked()", this, "iface.imprimir_clicked()");
+	connect(this.iface.tbnImprimirQuick, "clicked()", this, "iface.imprimirQuick_clicked()" );
+}
+
+/** \C
+Imprime un tique para el arqueo seleccionado
+*/
+function impresiones_imprimir_clicked()
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var codArqueo:String = cursor.valueBuffer("idtpv_arqueo");
+	if(!codArqueo)
+		return false;
+	
+	if (!this.iface.imprimirArqueo(codArqueo)){
+		return false;
+	}
+}
+
+/** \D Lanza la función imprimir con los datos del arqueo
+Si no está cargado el módulo de informes mostrará un mensaje de aviso
+@param codArqueo código del arqueo del que queremos sacar el tique
+*/
+function impresiones_imprimirArqueo(codArqueo:String):Boolean
+{
+	if (sys.isLoadedModule("flfactinfo")) {
+		if (!this.cursor().isValid())
+			return;
+		var curImprimir:FLSqlCursor = new FLSqlCursor("tpv_i_arqueos");
+		curImprimir.setModeAccess(curImprimir.Insert);
+		curImprimir.refreshBuffer();
+		curImprimir.setValueBuffer("descripcion", "temp");
+		curImprimir.setValueBuffer("d_tpv__arqueos_idtpv__arqueo", codArqueo);
+		curImprimir.setValueBuffer("h_tpv__arqueos_idtpv__arqueo", codArqueo);
+		flfactinfo.iface.pub_lanzarInforme(curImprimir, "tpv_i_arqueos");
+	} else
+		flfactppal.iface.pub_msgNoDisponible("Informes");
+}
+
 /** \D
 Manda a imprimir directamente a la impresora el arqueo actualmente seleccionada
 */
-function oficial_imprimirQuick_clicked()
+function impresiones_imprimirQuick_clicked()
 {
 	if (!this.cursor().isValid())
 		return;
@@ -434,15 +469,13 @@ function oficial_imprimirQuick_clicked()
 	var impresora:String = util.sqlSelect( "tpv_puntosventa", "impresora","codtpv_puntoventa = '" + pv + "'") ;	
 	
 	this.iface.imprimirQuick( this.cursor().valueBuffer( "idtpv_arqueo" ) , impresora );
-
 }
 
-function oficial_imprimirQuick( codArqueo:String, impresora:String )
+function impresiones_imprimirQuick( codArqueo:String, impresora:String )
 {
-	var util:FLUtil = new FLUtil();		
+	var util:FLUtil = new FLUtil();
+
 	var q:FLSqlQuery = new FLSqlQuery( "tpv_i_arqueos" );
-	var codPuntoVenta:String = util.readSettingEntry("scripts/fltpv_ppal/codTerminal");
-	
 	q.setWhere( "tpv_arqueos.idtpv_arqueo = '" + codArqueo + "'" );
 	if (q.exec() == false) {
 		MessageBox.critical(util.translate("scripts", "Falló la consulta"), MessageBox.Ok, MessageBox.NoButton);
@@ -454,30 +487,70 @@ function oficial_imprimirQuick( codArqueo:String, impresora:String )
 		}
 	}
 
+	var codPuntoVenta:String = util.readSettingEntry("scripts/fltpv_ppal/codTerminal");
 	var tipoImpresora:String = util.sqlSelect("tpv_puntosventa", "tipoimpresora", "codtpv_puntoventa = '" + codPuntoVenta + "'");
-	if (tipoImpresora == "ESC-POS") {
-		this.iface.imprimirArqueoPOS(codArqueo, impresora, q);
-	} else {
-		var pixel:Number = util.sqlSelect("tpv_puntosventa", "pixel", "codtpv_puntoventa = '" + codPuntoVenta + "'");
-		if (!pixel || isNaN(pixel)) {
-			pixel = 780;
+
+	switch (tipoImpresora) {
+		case "Común": {
+			this.iface.imprimirArqueoQuick(codArqueo, impresora);
+			break;
 		}
-		var resolucion:Number = util.sqlSelect("tpv_puntosventa", "resolucion", "codtpv_puntoventa = '" + codPuntoVenta + "'");
-		if (!resolucion || isNaN(resolucion)) {
-			resolucion = 300;
+		case "ESC-POS": {
+			this.iface.imprimirArqueoPOS(codArqueo, impresora, q);
+			break;
 		}
-		var rptViewer:FLReportViewer = new FLReportViewer();
-		rptViewer.setPixel(pixel);
-		rptViewer.setResolution(resolucion);
-		rptViewer.setReportTemplate( "tpv_i_arqueos" );
-		rptViewer.setReportData( q );
-		rptViewer.renderReport();
-		rptViewer.setPrinterName( impresora );
-		rptViewer.printReport();
+		case "Térmica": {
+			this.iface.imprimirArqueoTique(codPuntoVenta, impresora, q);
+			break;
+		}
 	}
 }
 
-function oficial_imprimirArqueoPOS(codArqueo:String, impresora:String, qryArqueo:FLSqlQuery)
+function impresiones_imprimirArqueoQuick(codArqueo:String, impresora:String):Boolean
+{
+	if (sys.isLoadedModule("flfactinfo")) {
+	
+		if (!this.cursor().isValid())
+			return;
+	
+		var nombreInforme:String = "tpv_i_arqueos";
+		var impDirecta:Boolean = true;
+	
+		var curImprimir:FLSqlCursor = new FLSqlCursor("tpv_i_arqueos");
+		curImprimir.setModeAccess(curImprimir.Insert);
+		curImprimir.refreshBuffer();
+		curImprimir.setValueBuffer("descripcion", "temp");
+		curImprimir.setValueBuffer("d_tpv__arqueos_idtpv__arqueo", codArqueo);
+		curImprimir.setValueBuffer("h_tpv__arqueos_idtpv__arqueo", codArqueo);
+	
+		flfactinfo.iface.pub_lanzarInforme(curImprimir, nombreInforme, "", "", false, impDirecta, "", nombreInforme, 1, impresora);
+	} else
+		flfactppal.iface.pub_msgNoDisponible("Informes");
+}
+
+function impresiones_imprimirArqueoTique(codPuntoVenta:String, impresora:String, qry:FLSqlQuery):Boolean
+{
+	var util:FLUtil = new FLUtil();
+
+	var pixel:Number = util.sqlSelect("tpv_puntosventa", "pixel", "codtpv_puntoventa = '" + codPuntoVenta + "'");
+	if (!pixel || isNaN(pixel)) {
+		pixel = 780;
+	}
+	var resolucion:Number = util.sqlSelect("tpv_puntosventa", "resolucion", "codtpv_puntoventa = '" + codPuntoVenta + "'");
+	if (!resolucion || isNaN(resolucion)) {
+		resolucion = 300;
+	}
+	var rptViewer:FLReportViewer = new FLReportViewer();
+	rptViewer.setPixel(pixel);
+	rptViewer.setResolution(resolucion);
+	rptViewer.setReportTemplate( "tpv_i_arqueos_tique" );
+	rptViewer.setReportData( qry );
+	rptViewer.renderReport();
+	rptViewer.setPrinterName( impresora );
+	rptViewer.printReport();
+}
+
+function impresiones_imprimirArqueoPOS(codArqueo:String, impresora:String, qryArqueo:FLSqlQuery)
 {
 	var util:FLUtil = new FLUtil;
 	flfact_tpv.iface.establecerImpresora(impresora);
@@ -555,7 +628,8 @@ function oficial_imprimirArqueoPOS(codArqueo:String, impresora:String, qryArqueo
 	printer.send( "ESC:1B,64,05,1B,69" );
 	printer.flush();
 }
-//// OFICIAL /////////////////////////////////////////////////////
+
+//// IMPRESIONES ////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
