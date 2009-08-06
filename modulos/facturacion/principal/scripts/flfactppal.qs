@@ -1284,7 +1284,7 @@ function oficial_crearProvinciasArg()
 		with(cursor) {
 			setModeAccess(cursor.Insert);
 			refreshBuffer();
-			setValueBuffer("codigo", provincias[i][0]);
+			setValueBuffer("idprovincia", provincias[i][0]);
 			setValueBuffer("codpais", provincias[i][1]);
 			setValueBuffer("provincia", provincias[i][2]);
 			commitBuffer();
