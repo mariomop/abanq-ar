@@ -28,7 +28,7 @@
 		INNER JOIN tpv_pagoscomanda ON tpv_arqueos.idtpv_arqueo = tpv_pagoscomanda.idtpv_arqueo
 		INNER JOIN tpv_comandas ON tpv_pagoscomanda.idtpv_comanda = tpv_comandas.idtpv_comanda
 		INNER JOIN tpv_puntosventa ON tpv_arqueos.ptoventa = tpv_puntosventa.codtpv_puntoventa
-		LEFT OUTER JOIN tpv_agentes ON tpv_pagoscomanda.codtpv_agente = tpv_AGENTES.codtpv_agente
+		LEFT OUTER JOIN tpv_agentes ON tpv_pagoscomanda.codtpv_agente = tpv_agentes.codtpv_agente
 	</from>
 	
 	<where>
