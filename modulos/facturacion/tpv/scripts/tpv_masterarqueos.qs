@@ -36,7 +36,6 @@ class interna {
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
 	var tdbRecords:FLTableDB;
-	var ckbSoloPV:Object;
     function oficial( context ) { interna( context ); } 
 	function abrirCerrarArqueo_clicked(){
 		return this.ctx.oficial_abrirCerrarArqueo_clicked();
@@ -46,9 +45,6 @@ class oficial extends interna {
 	}
 	function abrirCerrarPagos(idArqueo:String, abrir:Boolean):Boolean {
 		return this.ctx.oficial_abrirCerrarPagos(idArqueo, abrir);
-	}
-	function filtrarArqueos() {
-		return this.ctx.oficial_filtrarArqueos();
 	}
 	function generarFacturasVentas(idArqueo:String):Boolean {
 		return this.ctx.oficial_generarFacturasVentas(idArqueo);
@@ -94,11 +90,43 @@ class impresiones extends oficial {
 //// IMPRESIONES ////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration fechas */
+/////////////////////////////////////////////////////////////////
+//// FECHAS /////////////////////////////////////////////////
+class fechas extends impresiones {
+	var fechaDesde:Object;
+	var fechaHasta:Object;
+	var ckbSoloPV:Object;
+
+    function fechas( context ) { impresiones ( context ); }
+	function init() {
+		this.ctx.fechas_init();
+	}
+	function actualizarFiltro() {
+		return this.ctx.fechas_actualizarFiltro();
+	}
+}
+//// FECHAS /////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+
+/** @class_declaration head */
+/////////////////////////////////////////////////////////////////
+//// ORDEN_CAMPOS ///////////////////////////////////////////////
+class ordenCampos extends fechas {
+    function ordenCampos( context ) { fechas ( context ); }
+	function init() {
+		this.ctx.ordenCampos_init();
+	}
+}
+//// ORDEN_CAMPOS ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends impresiones {
-    function head( context ) { impresiones ( context ); }
+class head extends ordenCampos {
+    function head( context ) { ordenCampos ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -139,12 +167,9 @@ function interna_init()
 	var cursor:FLSqlCursor = this.cursor();
 
 	this.iface.tdbRecords = this.child("tableDBRecords");
-	this.iface.ckbSoloPV = this.child("ckbSoloPV");
 
 	connect(this.child("tbnBlocDesbloc"), "clicked()", this, "iface.abrirCerrarArqueo_clicked()");
-	connect(this.child( "ckbSoloPV" ), "clicked()",  this, "iface.filtrarArqueos()");
 	connect(cursor, "bufferCommited()",  this, "iface.consultarCierre()");
-	this.iface.filtrarArqueos();
 }
 
 
@@ -362,23 +387,6 @@ function oficial_generarFacturasVentas(idArqueo:String):Boolean
 	}
 	util.destroyProgressDialog();
 	return true;
-}
-
-/** \D Activa o desactiva el filtro que muestra únicamente los arqueos del puesto por defecto.
-\end */
-function oficial_filtrarArqueos()
-{
-	var util:FLUtil = new FLUtil;
-	var cursor:FLSqlCursor = this.cursor();
-	var filtro:String = "";
-	if (this.iface.ckbSoloPV.checked) {
-		var codTerminal:String = util.readSettingEntry("scripts/fltpv_ppal/codTerminal");
-		if (codTerminal) {
-			filtro += "ptoventa = '" + codTerminal + "'";
-		}
-	}
-	cursor.setMainFilter(filtro);
-	this.iface.tdbRecords.refresh();
 }
 
 /** \C Si el arqueo está abierto y se ha informado un movimiento de cierre se pregunta al usuario si desea cerrarlo
@@ -630,6 +638,73 @@ function impresiones_imprimirArqueoPOS(codArqueo:String, impresora:String, qryAr
 }
 
 //// IMPRESIONES ////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition fechas */
+/////////////////////////////////////////////////////////////////
+//// FECHAS /////////////////////////////////////////////////////
+
+function fechas_init()
+{
+	this.iface.__init();
+
+	this.iface.fechaDesde = this.child("dateFrom");
+	this.iface.fechaHasta = this.child("dateTo");
+	this.iface.ckbSoloPV = this.child("ckbSoloPV");
+
+	this.iface.fechaDesde.date = new Date();
+	this.iface.fechaHasta.date = new Date();
+
+	connect(this.iface.fechaDesde, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
+	connect(this.iface.fechaHasta, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
+	connect(this.child( "ckbSoloPV" ), "clicked()",  this, "iface.actualizarFiltro()" );
+
+	this.iface.actualizarFiltro();
+}
+
+function fechas_actualizarFiltro()
+{
+	var desde:String = this.iface.fechaDesde.date.toString().left(10);
+	var hasta:String = this.iface.fechaHasta.date.toString().left(10);
+
+	if (desde == "" || hasta == "")
+		return;
+
+	var util:FLUtil = new FLUtil;
+	var filtro:String = "diadesde >= '" + desde + "' AND diadesde <= '" + hasta + "'";
+
+	if (this.iface.ckbSoloPV.checked) {
+		var codTerminal:String = util.readSettingEntry("scripts/fltpv_ppal/codTerminal");
+		if (codTerminal) {
+			filtro += " AND ptoventa = '" + codTerminal + "'";
+		}
+	}
+
+	this.cursor().setMainFilter(filtro);
+
+	this.iface.tdbRecords.refresh();
+	this.cursor().last();
+	this.iface.tdbRecords.setCurrentRow(this.cursor().at());
+}
+
+//// FECHAS /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+
+/** @class_definition ordenCampos */
+/////////////////////////////////////////////////////////////////
+//// ORDEN_CAMPOS ///////////////////////////////////////////////
+
+function ordenCampos_init()
+{
+	this.iface.__init();
+
+	var orden:Array = [ "idtpv_arqueo", "abierta", "diadesde", "diahasta", "inicio", "totalcaja", "totalctacte", "totaltarjeta", "totalcheque", "totalvale", "totalmov", "sacadodecaja", "ptoventa", "idusuario", "nogenerarasiento" ];
+
+	this.iface.tdbRecords.setOrderCols(orden);
+}
+
+//// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

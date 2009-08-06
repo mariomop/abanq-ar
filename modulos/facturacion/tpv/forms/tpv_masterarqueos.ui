@@ -560,6 +560,83 @@
 							</size>
 						</property>
 					</spacer>
+					<widget class="QLayoutWidget">
+						<property name="name">
+							<cstring>layoutFiltroFecha</cstring>
+						</property>
+						<hbox>
+							<property name="name">
+								<cstring>unnamed</cstring>
+							</property>
+							<property name="spacing">
+								<number>0</number>
+							</property>
+							<widget class="QLabel">
+								<property name="name">
+									<cstring>lblFrom</cstring>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>35</width>
+										<height>16</height>
+									</size>
+								</property>
+								<property name="text">
+									<string>Desde</string>
+								</property>
+							</widget>
+							<widget class="QDateEdit">
+								<property name="name">
+									<cstring>dateFrom</cstring>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>100</width>
+										<height>16</height>
+									</size>
+								</property>
+							</widget>
+							<spacer>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<property name="orientation">
+									<enum>Horizontal</enum>
+								</property>
+								<property name="sizeHint">
+									<size>
+										<width>5</width>
+										<height>16</height>
+									</size>
+								</property>
+							</spacer>
+							<widget class="QLabel">
+								<property name="name">
+									<cstring>lblTo</cstring>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>35</width>
+										<height>16</height>
+									</size>
+								</property>
+								<property name="text">
+									<string>Hasta</string>
+								</property>
+							</widget>
+							<widget class="QDateEdit">
+								<property name="name">
+									<cstring>dateTo</cstring>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>100</width>
+										<height>16</height>
+									</size>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
 				</hbox>
 			</widget>
 			<widget class="FLTableDB">
