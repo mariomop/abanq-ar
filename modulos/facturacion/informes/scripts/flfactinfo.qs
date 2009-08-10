@@ -228,6 +228,15 @@ class datos extends pubInfoCliProv {
 	function obtenerCodigo(nodo:FLDomNode, campo:String):String {
 		return this.ctx.datos_obtenerCodigo(nodo, campo);
 	}
+	function obtenerListaRemitos(nodo:FLDomNode, campo:String):String {
+		return this.ctx.datos_obtenerListaRemitos(nodo, campo);
+	}
+	function obtenerRecargoFinanciero(nodo:FLDomNode, campo:String):String {
+		return this.ctx.datos_obtenerRecargoFinanciero(nodo, campo);
+	}
+	function acumularValor(nodo:FLDomNode, campo:String):String {
+		return this.ctx.datos_acumularValor(nodo, campo);
+	}
 
 }
 //// DATOS //////////////////////////////////////////////////////
@@ -1641,6 +1650,94 @@ function datos_obtenerCodigo(nodo:FLDomNode, campo:String):String
 	var nuevoCodigo:String = prefijo + serie + " " + puntoVenta + "-" + numero + sufijo;
 
 	return nuevoCodigo;
+}
+
+function datos_obtenerListaRemitos(nodo:FLDomNode, campo:String):String
+{
+	var util:FLUtil = new FLUtil;
+	var idFactura:Number = nodo.attributeValue("facturascli.idfactura");
+
+	var qryRemitos:FLSqlQuery = new FLSqlQuery();
+	with (qryRemitos) {
+		setTablesList("lineasfacturascli");
+		setSelect("DISTINCT(idalbaran)");
+		setFrom("lineasfacturascli");
+		setWhere("idfactura = " + idFactura);
+		setOrderBy("idalbaran");
+	}
+	qryRemitos.exec();
+
+	var listaRemitos:String = "";
+	var codigo:String, partesCodigo:Array, serie:String, puntoVenta:String, numero:String, nuevoCodigo:String;
+
+	while ( qryRemitos.next() ) {
+		codigo = util.sqlSelect("albaranescli", "codigo", "idalbaran = " + qryRemitos.value(0));
+		if (!codigo || codigo == "")
+			return "";
+
+		partesCodigo = codigo.split("-");
+	
+		serie = util.sqlSelect("series", "serie", "codserie = '" + partesCodigo[1] + "'");
+		puntoVenta = util.sqlSelect("series", "puntoventa", "codserie = '" + partesCodigo[1] + "'");
+		numero = partesCodigo[2];
+	
+		nuevoCodigo = serie + " " + puntoVenta + "-" + numero;
+
+		if (listaRemitos != "")
+			listaRemitos += ", ";
+		listaRemitos += nuevoCodigo;
+	}
+
+	return listaRemitos;
+}
+
+function datos_obtenerRecargoFinanciero(nodo:FLDomNode, campo:String):String
+{
+	var codigo:String = nodo.attributeValue(campo + ".codigo");
+	if (!codigo || codigo == "")
+		return 0;
+
+	var qryDoc:FLSqlQuery = new FLSqlQuery();
+	with (qryDoc) {
+		setTablesList(campo);
+		setSelect("recfinanciero,neto");
+		setFrom(campo);
+		setWhere("codigo = '" + codigo + "'");
+	}
+	if (!qryDoc.exec() || !qryDoc.first()) {
+		return 0;
+	}
+
+	var recargoFinanciero:Number = ( parseFloat(qryDoc.value("recfinanciero")) * (parseFloat(qryDoc.value("neto"))) ) / 100;
+
+	return recargoFinanciero;
+}
+
+function datos_acumularValor(nodo:FLDomNode, campo:String):String
+{
+	var campos:Array = campo.split("/");
+
+	if (campos[1] != "facturascli" && campos[1] != "facturasprov")
+		return this.iface.__datos_acumularValor(nodo, campo);
+
+
+	var valor:Number;
+	switch ( campos[2] ) {
+		case "recfinanciero": {
+			valor = this.iface.obtenerRecargoFinanciero(nodo, campos[1]);
+			break;
+		}
+		break;
+	}
+
+	if (!this.iface.acumulados[campos[0]]) {
+		this.iface.acumulados[campos[0]] = valor;
+		this.iface.cuentaAcum[campos[0]] = 1;
+	} else {
+		this.iface.acumulados[campos[0]] += valor;
+		this.iface.cuentaAcum[campos[0]]++;
+	}
+	return "0";
 }
 
 //// DATOS //////////////////////////////////////////////////////
