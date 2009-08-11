@@ -862,6 +862,8 @@ function lineasArticulos_init()
 {
 	this.iface.__init();
 
+	this.child("tdbEntradasArticulos").setReadOnly(true);
+
 	connect(this.child("toolButtonZoomEntradas"), "clicked()", this, "iface.verEntrada()");
 
 	connect(this.child("tbnImprimirEntradas"), "clicked()", this, "iface.imprimirEntradas()");

@@ -1336,6 +1336,8 @@ function lineasArticulos_init()
 {
 	this.iface.__init();
 
+	this.child("tdbSalidasArticulos").setReadOnly(true);
+
 	connect(this.child("toolButtonZoomSalidas"), "clicked()", this, "iface.verSalida()");
 
 	connect(this.child("tbnImprimirSalidas"), "clicked()", this, "iface.imprimirSalidas()");
