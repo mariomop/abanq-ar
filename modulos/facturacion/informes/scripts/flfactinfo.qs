@@ -1718,7 +1718,7 @@ function datos_acumularValor(nodo:FLDomNode, campo:String):String
 	var campos:Array = campo.split("/");
 
 	if (campos[1] != "facturascli" && campos[1] != "facturasprov")
-		return this.iface.__datos_acumularValor(nodo, campo);
+		return this.iface.__acumularValor(nodo, campo);
 
 
 	var valor:Number;
