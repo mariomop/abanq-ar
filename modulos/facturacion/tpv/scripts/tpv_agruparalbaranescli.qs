@@ -36,7 +36,8 @@ class interna {
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
 	var COL_INCLUIR:Number;
-	var COL_CODIGO:Number;
+	var COL_CODIGO_COMANDA:Number;
+	var COL_CODIGO_REMITO:Number;
 	var COL_FECHA:Number;
 	var COL_TOTAL:Number;
 	var COL_CLIENTE:Number;
@@ -242,10 +243,12 @@ function oficial_actualizar()
 function oficial_insertarLineaTabla(curAlbaranes:FLSqlCursor)
 {
 	var util:FLUtil = new FLUtil;
+	var codRemito:String = util.sqlSelect("albaranescli", "codigo", "idtpv_comanda = " + curAlbaranes.valueBuffer("idtpv_comanda"));
 	var numLinea:Number = this.iface.tblAlbaranes.numRows();
 	this.iface.tblAlbaranes.insertRows(numLinea);
 	this.iface.tblAlbaranes.setText(numLinea, this.iface.COL_INCLUIR, "Sí");
-	this.iface.tblAlbaranes.setText(numLinea, this.iface.COL_CODIGO, curAlbaranes.valueBuffer("codigo"));
+	this.iface.tblAlbaranes.setText(numLinea, this.iface.COL_CODIGO_COMANDA, curAlbaranes.valueBuffer("codigo"));
+	this.iface.tblAlbaranes.setText(numLinea, this.iface.COL_CODIGO_REMITO, codRemito);
 	this.iface.tblAlbaranes.setText(numLinea, this.iface.COL_FECHA, util.dateAMDtoDMA(curAlbaranes.valueBuffer("fecha")));
 	this.iface.tblAlbaranes.setText(numLinea, this.iface.COL_TOTAL, util.roundFieldValue(curAlbaranes.valueBuffer("total"), "tpv_comandas", "total"));
 	this.iface.tblAlbaranes.setText(numLinea, this.iface.COL_CLIENTE, curAlbaranes.valueBuffer("codcliente"));
@@ -279,21 +282,23 @@ function oficial_descontarExcepciones():Boolean
 function oficial_generarTabla()
 {
 	this.iface.COL_INCLUIR = 0;
-	this.iface.COL_CODIGO = 1;
-	this.iface.COL_FECHA = 2;
-	this.iface.COL_TOTAL = 3;
-	this.iface.COL_CLIENTE = 4;
-	this.iface.COL_NOMBRE = 5;
-	this.iface.COL_IDALBARAN = 6;
+	this.iface.COL_CODIGO_COMANDA = 1;
+	this.iface.COL_CODIGO_REMITO = 2;
+	this.iface.COL_FECHA = 3;
+	this.iface.COL_TOTAL = 4;
+	this.iface.COL_CLIENTE = 5;
+	this.iface.COL_NOMBRE = 6;
+	this.iface.COL_IDALBARAN = 7;
 
-	this.iface.tblAlbaranes.setNumCols(7);
+	this.iface.tblAlbaranes.setNumCols(8);
 	this.iface.tblAlbaranes.setColumnWidth(this.iface.COL_INCLUIR, 60);
-	this.iface.tblAlbaranes.setColumnWidth(this.iface.COL_CODIGO, 130);
+	this.iface.tblAlbaranes.setColumnWidth(this.iface.COL_CODIGO_COMANDA, 130);
+	this.iface.tblAlbaranes.setColumnWidth(this.iface.COL_CODIGO_REMITO, 130);
 	this.iface.tblAlbaranes.setColumnWidth(this.iface.COL_FECHA, 100);
 	this.iface.tblAlbaranes.setColumnWidth(this.iface.COL_TOTAL, 100);
 	this.iface.tblAlbaranes.setColumnWidth(this.iface.COL_CLIENTE, 80);
 	this.iface.tblAlbaranes.setColumnWidth(this.iface.COL_NOMBRE, 220);
-	this.iface.tblAlbaranes.setColumnLabels("/", "Incluir/Código/Fecha/Total/Cliente/Nombre/idalbaran");
+	this.iface.tblAlbaranes.setColumnLabels("/", "Incluir/Código venta/Remito/Fecha/Total/Cliente/Nombre/idalbaran");
 	this.iface.tblAlbaranes.hideColumn(this.iface.COL_IDALBARAN);
 }
 
