@@ -113,12 +113,55 @@ class fechas extends ivaIncluido {
 //// FECHAS /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends fechas {
+	var pbnAFactura:Object;
+	var curFactura:FLSqlCursor;
+	var curLineaFactura:FLSqlCursor;
+
+    function tipoVenta( context ) { fechas ( context ); }
+	function init() {
+		this.ctx.tipoVenta_init();
+	}
+	function asociarAFactura() {
+		this.ctx.tipoVenta_asociarAFactura();
+	}
+	function whereAgrupacion(curAgrupar:FLSqlCursor):String {
+		return this.ctx.tipoVenta_whereAgrupacion(curAgrupar);
+	}
+	function dameDatosAgrupacionAlbaranes(curAgruparAlbaranes:FLSqlCursor):Array {
+		return this.ctx.tipoVenta_dameDatosAgrupacionAlbaranes(curAgruparAlbaranes);
+	}
+
+	function generarFactura(where:String, curAlbaran:FLSqlCursor, datosAgrupacion):Number {
+		return this.ctx.tipoVenta_generarFactura(where, curAlbaran, datosAgrupacion);
+	}
+	function datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupacion:Array):Boolean {
+		return this.ctx.tipoVenta_datosFactura(curAlbaran, where, datosAgrupacion);
+	}
+	function copiaLineasAlbaran(idAlbaran:Number, idFactura:Number):Boolean {
+		return this.ctx.tipoVenta_copiaLineasAlbaran(idAlbaran, idFactura);
+	}
+	function copiaLineaAlbaran(curLineaAlbaran:FLSqlCursor, idFactura:Number):Number {
+		return this.ctx.tipoVenta_copiaLineaAlbaran(curLineaAlbaran, idFactura);
+	}
+	function datosLineaFactura(curLineaAlbaran:FLSqlCursor):Boolean {
+		return this.ctx.tipoVenta_datosLineaFactura(curLineaAlbaran);
+	}
+	function totalesFactura(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.tipoVenta_totalesFactura(curFactura);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends fechas {
-    function head( context ) { fechas ( context ); }
+class head extends tipoVenta {
+    function head( context ) { tipoVenta ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -138,10 +181,22 @@ class ifaceCtx extends head {
 		return this.imprimirQuick( codComanda, impresora );
 	}
 }
-
-const iface = new ifaceCtx( this );
 //// INTERFACE  /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_declaration pubTipoVenta */
+/////////////////////////////////////////////////////////////////
+//// PUB_TIPOVENTA  /////////////////////////////////////////////
+class pubTipoVenta extends ifaceCtx {
+	function pubTipoVenta( context ) { ifaceCtx( context ); }
+	function pub_whereAgrupacion(curAgrupar:FLSqlCursor):String {
+		return this.whereAgrupacion(curAgrupar);
+	}
+}
+//// PUB_TIPOVENTA //////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+const iface = new pubTipoVenta( this );
 
 /** @class_definition interna */
 ////////////////////////////////////////////////////////////////////////////
@@ -783,6 +838,416 @@ function fechas_actualizarFiltro()
 //// FECHAS /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoVenta_init()
+{
+	this.iface.__init();
+
+	this.iface.pbnAFactura = this.child("pbnAsociarAFactura");
+
+	connect(this.iface.pbnAFactura, "clicked()", this, "iface.asociarAFactura()");
+}
+
+/** \C
+Al pulsar el botón de asociar a factura se abre la ventana de agrupar remitos de cliente
+\end */
+function tipoVenta_asociarAFactura()
+{
+	var util:FLUtil = new FLUtil;
+	var f:Object = new FLFormSearchDB("tpv_agruparalbaranescli");
+	var cursor:FLSqlCursor = f.cursor();
+	var where:String;
+	var codCliente:String;
+	var codTPV:String;
+
+	cursor.setActivatedCheckIntegrity(false);
+	cursor.select();
+	if (!cursor.first())
+		cursor.setModeAccess(cursor.Insert);
+	else
+		cursor.setModeAccess(cursor.Edit);
+
+	f.setMainWidget();
+	cursor.refreshBuffer();
+	var acpt:String = f.exec("id");
+	if (acpt) {
+		cursor.commitBuffer();
+		var curAgruparAlbaranes:FLSqlCursor = new FLSqlCursor("tpv_agruparalbaranescli");
+		curAgruparAlbaranes.select();
+		if (curAgruparAlbaranes.first()) {
+			where = this.iface.whereAgrupacion(curAgruparAlbaranes);
+			var excepciones:String = curAgruparAlbaranes.valueBuffer("excepciones");
+			if (!excepciones.isEmpty())
+				where += " AND idtpv_comanda NOT IN (" + excepciones + ")";
+
+			var qryAgruparAlbaranes:FLSqlCursor = new FLSqlQuery;
+			qryAgruparAlbaranes.setTablesList("tpv_comandas");
+			qryAgruparAlbaranes.setSelect("codcliente,codtpv_puntoventa");
+			qryAgruparAlbaranes.setFrom("tpv_comandas");
+			qryAgruparAlbaranes.setWhere(where + " GROUP BY codcliente,codtpv_puntoventa");
+
+			if (!qryAgruparAlbaranes.exec())
+				return;
+
+			var totalClientes:Number = qryAgruparAlbaranes.size();
+			util.createProgressDialog(util.translate("scripts", "Generando facturas"), totalClientes);
+			util.setProgress(1);
+			var j:Number = 0;
+			
+			var curAlbaran:FLSqlCursor = new FLSqlCursor("tpv_comandas");
+			var whereFactura:String;
+			var datosAgrupacion:Array = [];
+			while (qryAgruparAlbaranes.next()) {
+				codCliente = qryAgruparAlbaranes.value(0);
+				codTPV = qryAgruparAlbaranes.value(1);
+				whereFactura = where;
+				if (codCliente && codCliente != "")
+					 whereFactura += " AND codcliente = '" + codCliente + "'";
+				if(codTPV && codTPV != "")
+					whereFactura += " AND codtpv_puntoventa = '" + codTPV + "'";
+				curAlbaran.transaction(false);
+				try {
+					curAlbaran.select(whereFactura);
+					if (!curAlbaran.first()) {
+						curAlbaran.rollback();
+						util.destroyProgressDialog();
+						return;
+					}
+					
+					datosAgrupacion = this.iface.dameDatosAgrupacionAlbaranes(curAgruparAlbaranes);
+					if (this.iface.generarFactura(whereFactura, curAlbaran, datosAgrupacion)) {
+						curAlbaran.commit();
+					} else {
+						MessageBox.warning(util.translate("scripts", "Falló la inserción de la factura correspondiente al cliente: ") + codCliente, MessageBox.Ok, MessageBox.NoButton);
+						curAlbaran.rollback();
+						util.destroyProgressDialog();
+						return;
+					}
+				} catch (e) {
+					curAlbaran.rollback();
+					MessageBox.critical(util.translate("scripts", "Error al generar la factura:") + e, MessageBox.Ok, MessageBox.NoButton);
+				}
+				util.setProgress(++j);
+			}
+			util.setProgress(totalClientes);
+			util.destroyProgressDialog();
+		}
+
+		f.close();
+		this.iface.tdbRecords.refresh();
+	}
+}
+
+/** \D
+Construye un array con los datos de la factura a generar especificados en el formulario de agrupación de remitos
+@param curAgruparAlbaranes: Cursor de la tabla agruparalbaranescli que contiene los valores
+@return Array
+\end */
+function tipoVenta_dameDatosAgrupacionAlbaranes(curAgruparAlbaranes:FLSqlCursor):Array
+{
+	var res:Array = [];
+	res["fecha"] = curAgruparAlbaranes.valueBuffer("fecha");
+	res["hora"] = curAgruparAlbaranes.valueBuffer("hora");
+	return res;
+}
+
+/** \D
+Construye la sentencia WHERE de la consulta que buscará los remitos a agrupar
+@param curAgrupar: Cursor de la tabla agruparalbaranescli que contiene los valores de los criterios de búsqueda
+@return Sentencia where
+\end */
+function tipoVenta_whereAgrupacion(curAgrupar:FLSqlCursor):String
+{
+	var codCliente:String = curAgrupar.valueBuffer("codcliente");
+	var nombreCliente:String = curAgrupar.valueBuffer("nombrecliente");
+	var cifNif:String = curAgrupar.valueBuffer("cifnif");
+	var fechaDesde:String = curAgrupar.valueBuffer("fechadesde");
+	var fechaHasta:String = curAgrupar.valueBuffer("fechahasta");
+	var where:String = "tpv_comandas.tipoventa = 'Remito' AND tpv_comandas.editable = true";
+	if (codCliente && !codCliente.isEmpty())
+		where += " AND tpv_comandas.codcliente = '" + codCliente + "'";
+	if (cifNif && !cifNif.isEmpty())
+		where += " AND tpv_comandas.cifnif = '" + cifNif + "'";
+	where += " AND tpv_comandas.fecha >= '" + fechaDesde + "'";
+	where += " AND tpv_comandas.fecha <= '" + fechaHasta + "'";
+
+	return where;
+}
+
+
+/** \D
+Genera la factura asociada a uno o más albaranes
+@param where: Sentencia where para la consulta de búsqueda de los albaranes a agrupar
+@param curAlbaran: Cursor con los datos principales que se copiarán del remito a la factura
+@param datosAgrupacion: Array con los datos indicados en el formulario de agrupación de albaranes
+@return True: Copia realizada con éxito, False: Error
+\end */
+function tipoVenta_generarFactura(where:String, curAlbaran:FLSqlCursor, datosAgrupacion:Array):Number
+{
+	if (!this.iface.curFactura)
+		this.iface.curFactura = new FLSqlCursor("tpv_comandas");
+
+	this.iface.curFactura.setModeAccess(this.iface.curFactura.Insert);
+	this.iface.curFactura.refreshBuffer();
+
+	if (!this.iface.datosFactura(curAlbaran, where, datosAgrupacion)) {
+		return false;
+	}
+
+	if (!this.iface.curFactura.commitBuffer()) {
+		return false;
+	}
+
+	var util:FLUtil = new FLUtil;
+	var idFactura:Number = this.iface.curFactura.valueBuffer("idtpv_comanda");
+
+	var curRemito:FLSqlCursor = new FLSqlCursor("albaranescli");
+	var curAlbaranes:FLSqlCursor = new FLSqlCursor("tpv_comandas");
+	curAlbaranes.select(where);
+	var idAlbaran:Number;
+	while (curAlbaranes.next()) {
+		curAlbaranes.setModeAccess(curAlbaranes.Edit);
+		curAlbaranes.refreshBuffer();
+		idAlbaran = curAlbaranes.valueBuffer("idtpv_comanda");
+		if (!this.iface.copiaLineasAlbaran(idAlbaran, idFactura)) {
+			return false;
+		}
+		curAlbaranes.setValueBuffer("idtpv_comanda_factura", idFactura);
+		curAlbaranes.setValueBuffer("editable", false);
+		curAlbaranes.setValueBuffer("estado", "Cerrada");
+		if (!curAlbaranes.commitBuffer()) {
+			return false;
+		}
+		curRemito.select("idtpv_comanda = " + curAlbaranes.valueBuffer("idtpv_comanda"));
+		curRemito.first();
+		curRemito.setModeAccess(curRemito.Edit);
+		curRemito.refreshBuffer();
+		curRemito.setValueBuffer("ptefactura", false);
+		curRemito.setValueBuffer("servido", "Sí");
+		if (!curRemito.commitBuffer()) {
+			return false;
+		}
+	}
+
+	this.iface.curFactura.select("idtpv_comanda = " + idFactura);
+	if (this.iface.curFactura.first()) {
+
+		this.iface.curFactura.setModeAccess(this.iface.curFactura.Edit);
+		this.iface.curFactura.refreshBuffer();
+
+		if (!this.iface.totalesFactura(this.iface.curFactura)) {
+			return false;
+		}
+
+		if (this.iface.curFactura.commitBuffer() == false)
+			return false;
+	}
+
+	return idFactura;
+}
+
+/** \D Informa los datos de una factura a partir de los de uno o varios albaranes
+@param	curAlbaran: Cursor que contiene los datos a incluir en la factura
+@param where: Sentencia where para la consulta de búsqueda de los albaranes a agrupar
+@param datosAgrupacion: Array con los datos indicados en el formulario de agrupación de albaranes
+@return	True si el cálculo se realiza correctamente, false en caso contrario
+\end */
+function tipoVenta_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupacion:Array):Boolean
+{
+	var util:FLUtil = new FLUtil();
+	var fecha:String, hora:String;
+
+	if (datosAgrupacion) {
+		fecha = datosAgrupacion["fecha"];
+		hora = datosAgrupacion["hora"];
+	} else {
+		var hoy:Date = new Date();
+		fecha = hoy.toString();
+		hora = hoy.toString().right(8);
+	}
+
+	var codSerie:String = util.sqlSelect("clientes", "codserie", "codcliente = '" + curAlbaran.valueBuffer("codcliente") + "'");
+	if (!codSerie || codSerie == "")
+		codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie");
+	var tipoVenta:String = "Factura " + util.sqlSelect("series", "serie", "codserie = '" + codSerie + "'");
+	var idSec:Number = util.sqlSelect("secuenciasejercicios", "id", "codejercicio = '" + flfactppal.iface.pub_ejercicioActual() + "' AND codserie = '" + codSerie + "'");
+	var numero:Number = util.sqlSelect("secuencias", "valorout", "id = " + idSec + " AND nombre = 'nfacturacli'");
+	if ( !numero || isNaN(numero) || numero == 0 )
+		numero = 1;
+	var codTerminal:String = util.readSettingEntry("scripts/fltpv_ppal/codTerminal");
+	var agente:String = util.sqlSelect("tpv_puntosventa","codtpv_agente","codtpv_puntoventa ='" + codTerminal + "'");
+
+	var codDir:Number = util.sqlSelect("dirclientes", "id", "codcliente = '" + curAlbaran.valueBuffer("codcliente") + "' AND domfacturacion = 'true'");
+	with (this.iface.curFactura) {
+		setValueBuffer("tipoventa", tipoVenta);
+		setValueBuffer("codserie", codSerie);
+		setValueBuffer("numerosecuencia", numero);
+		setValueBuffer("fecha", fecha);
+		setValueBuffer("hora", hora);
+		setValueBuffer("codtpv_puntoventa", codTerminal);
+		setValueBuffer("codtpv_agente", agente);
+		setValueBuffer("tipopago", curAlbaran.valueBuffer("tipopago"));
+		setValueBuffer("codpago", curAlbaran.valueBuffer("codpago"));
+		setValueBuffer("nombrecliente", curAlbaran.valueBuffer("nombrecliente"));
+		setValueBuffer("cifnif", curAlbaran.valueBuffer("cifnif"));
+		setValueBuffer("codcliente", curAlbaran.valueBuffer("codcliente"));
+		if (!codDir) {
+			codDir = curAlbaran.valueBuffer("coddir")
+			if (codDir == 0) {
+				this.setNull("coddir");
+			} else
+				setValueBuffer("coddir", curAlbaran.valueBuffer("coddir"));
+			setValueBuffer("direccion", curAlbaran.valueBuffer("direccion"));
+			setValueBuffer("codpostal", curAlbaran.valueBuffer("codpostal"));
+			setValueBuffer("ciudad", curAlbaran.valueBuffer("ciudad"));
+			setValueBuffer("provincia", curAlbaran.valueBuffer("provincia"));
+			setValueBuffer("codpais", curAlbaran.valueBuffer("codpais"));
+		} else {
+			setValueBuffer("coddir", codDir);
+			setValueBuffer("direccion", util.sqlSelect("dirclientes","direccion","id = " + codDir));
+			setValueBuffer("codpostal", util.sqlSelect("dirclientes","codpostal","id = " + codDir));
+			setValueBuffer("ciudad", util.sqlSelect("dirclientes","ciudad","id = " + codDir));
+			setValueBuffer("provincia", util.sqlSelect("dirclientes","provincia","id = " + codDir));
+			setValueBuffer("codpais", util.sqlSelect("dirclientes","codpais","id = " + codDir));
+		}
+		setValueBuffer("costototal", curAlbaran.valueBuffer("costototal"));
+		setValueBuffer("ganancia", curAlbaran.valueBuffer("ganancia"));
+		setValueBuffer("utilidad", curAlbaran.valueBuffer("utilidad"));
+		setValueBuffer("estado", "Abierta");
+		setValueBuffer("editable", true);
+		setValueBuffer("automatica", true);
+	}
+	return true;
+}
+
+/** \D Informa los datos de una factura referentes a totales (I.V.A., neto, etc.)
+@return	True si el cálculo se realiza correctamente, false en caso contrario
+\end */
+function tipoVenta_totalesFactura(curFactura:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil();
+	var neto:Number, totalIva:Number, total:Number;
+
+	neto = util.sqlSelect("tpv_lineascomanda", "SUM(pvptotal)", "idtpv_comanda = " + curFactura.valueBuffer("idtpv_comanda"));
+
+	totalIva = util.sqlSelect("tpv_lineascomanda", "SUM((pvptotal * iva) / 100)", "idtpv_comanda = " + curFactura.valueBuffer("idtpv_comanda"));
+
+	total = neto + totalIva;
+
+	neto = util.roundFieldValue(neto, "tpv_comandas", "neto");
+	totalIva = util.roundFieldValue(totalIva, "tpv_comandas", "totaliva");
+	total = util.roundFieldValue(total, "tpv_comandas", "total");
+
+	with (curFactura) {
+		setValueBuffer("neto", neto);
+		setValueBuffer("totaliva", totalIva);
+		setValueBuffer("total", total);
+		setValueBuffer("pendiente", total);
+	}
+	return true;
+}
+
+/** \D
+Copia las líneas de un remito como líneas de su factura asociada
+@param idAlbaran: Identificador del remito
+@param idFactura: Identificador de la factura
+@return	Verdadero si no hay error, falso en caso contrario
+\end */
+function tipoVenta_copiaLineasAlbaran(idAlbaran:Number, idFactura:Number):Boolean
+{
+	var util:FLUtil = new FLUtil;
+	var cantidad:Number, totalEnFactura:Number;
+	var curLineaAlbaran:FLSqlCursor = new FLSqlCursor("tpv_lineascomanda");
+	curLineaAlbaran.select("idtpv_comanda = " + idAlbaran);
+	
+	while (curLineaAlbaran.next()) {
+		curLineaAlbaran.setModeAccess(curLineaAlbaran.Browse);
+		curLineaAlbaran.refreshBuffer();
+		cantidad = parseFloat(curLineaAlbaran.valueBuffer("cantidad"));
+		totalEnFactura = parseFloat(curLineaAlbaran.valueBuffer("totalenfactura"));
+
+		if (cantidad > totalEnFactura) {
+			if (!this.iface.copiaLineaAlbaran(curLineaAlbaran, idFactura))
+				return false;
+		}
+	}
+	return true;
+}
+
+/** \D
+Copia una línea de remito en su factura asociada
+@param curLineaAlbaran: Cursor posicionado en la línea de remito a copiar
+@param idFactura: Identificador de la factura
+@return	Identificador de la línea de factura si no hay error, falso en caso contrario
+\end */
+function tipoVenta_copiaLineaAlbaran(curLineaAlbaran:FLSqlCursor, idFactura:Number):Number
+{
+	if (!this.iface.curLineaFactura)
+		this.iface.curLineaFactura = new FLSqlCursor("tpv_lineascomanda");
+	
+	with (this.iface.curLineaFactura) {
+		setModeAccess(Insert);
+		refreshBuffer();
+		setValueBuffer("idtpv_comanda", idFactura);
+	}
+	
+	if (!this.iface.datosLineaFactura(curLineaAlbaran))
+		return false;
+		
+	if (!this.iface.curLineaFactura.commitBuffer())
+		return false;
+	
+	return this.iface.curLineaFactura.valueBuffer("idtpv_linea");
+}
+
+/** \D Copia los datos de una línea de remito en una línea de factura
+@param	curLineaAlbaran: Cursor que contiene los datos a incluir en la línea de factura
+@return	True si la copia se realiza correctamente, false en caso contrario
+\end */
+function tipoVenta_datosLineaFactura(curLineaAlbaran:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil;
+
+	var cantidad:Number = parseFloat(curLineaAlbaran.valueBuffer("cantidad")) - parseFloat(curLineaAlbaran.valueBuffer("totalenfactura"));
+	var pvpSinDto:Number = parseFloat(curLineaAlbaran.valueBuffer("pvpsindto")) * cantidad / parseFloat(curLineaAlbaran.valueBuffer("cantidad"));
+	pvpSinDto = util.roundFieldValue(pvpSinDto, "lineasfacturascli", "pvpsindto");
+
+	with (this.iface.curLineaFactura) {
+		setValueBuffer("referencia", curLineaAlbaran.valueBuffer("referencia"));
+		setValueBuffer("descripcion", curLineaAlbaran.valueBuffer("descripcion"));
+		setValueBuffer("pvpunitario", curLineaAlbaran.valueBuffer("pvpunitario"));
+		setValueBuffer("cantidad", cantidad);
+		setValueBuffer("pvpsindto", pvpSinDto);
+		setValueBuffer("pvptotal", formRecordtpv_lineascomanda.iface.pub_commonCalculateField("pvptotal", this));
+		setValueBuffer("codimpuesto", curLineaAlbaran.valueBuffer("codimpuesto"));
+		setValueBuffer("iva", curLineaAlbaran.valueBuffer("iva"));
+		setValueBuffer("dtopor", curLineaAlbaran.valueBuffer("dtopor"));
+		setValueBuffer("dtolineal", curLineaAlbaran.valueBuffer("dtolineal"));
+
+		setValueBuffer("totalconiva", curLineaAlbaran.valueBuffer("totalconiva"));
+		setValueBuffer("costounitario", curLineaAlbaran.valueBuffer("costounitario"));
+		setValueBuffer("costototal", curLineaAlbaran.valueBuffer("costototal"));
+		setValueBuffer("ganancia", curLineaAlbaran.valueBuffer("ganancia"));
+		setValueBuffer("utilidad", curLineaAlbaran.valueBuffer("utilidad"));
+
+		setValueBuffer("ivaincluido", curLineaAlbaran.valueBuffer("ivaincluido"));
+		setValueBuffer("pvpunitarioiva", curLineaAlbaran.valueBuffer("pvpunitarioiva"));
+
+		setValueBuffer("numserie", curLineaAlbaran.valueBuffer("numserie"));
+
+		setValueBuffer("idtpv_comanda_albaran", curLineaAlbaran.valueBuffer("idtpv_comanda"));
+		setValueBuffer("idtpv_lineacomanda_albaran", curLineaAlbaran.valueBuffer("idtpv_linea"));
+	}
+
+	return true;
+}
+
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

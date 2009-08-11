@@ -328,165 +328,6 @@
 							</property>
 							<widget class="QPushButton">
 								<property name="name">
-									<cstring>tbnImprimirDocumento</cstring>
-								</property>
-								<property name="sizePolicy">
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>1</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>26</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="maximumSize">
-									<size>
-										<width>26</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="focusPolicy">
-									<enum>NoFocus</enum>
-								</property>
-								<property name="text">
-									<string></string>
-								</property>
-								<property name="accel">
-									<string>F</string>
-								</property>
-								<property name="iconSet">
-									<iconset>image8</iconset>
-								</property>
-								<property name="toolTip" stdset="0">
-									<string>Imprimir documento (F)</string>
-								</property>
-								<property name="whatsThis" stdset="0">
-									<string>Imprime el documento asociado a la venta seleccionada</string>
-								</property>
-							</widget>
-							<widget class="QPushButton">
-								<property name="name">
-									<cstring>tbnPrintQuick</cstring>
-								</property>
-								<property name="sizePolicy">
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>1</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>26</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="maximumSize">
-									<size>
-										<width>26</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="focusPolicy">
-									<enum>NoFocus</enum>
-								</property>
-								<property name="text">
-									<string></string>
-								</property>
-								<property name="accel">
-									<string>Q</string>
-								</property>
-								<property name="iconSet">
-									<iconset>image6</iconset>
-								</property>
-								<property name="toolTip" stdset="0">
-									<string>Imprimir rapido (Q)</string>
-								</property>
-								<property name="whatsThis" stdset="0">
-									<string>Imprime el tiquet sin mostrar el preview, por la impresora asignada al punto de ventas actual</string>
-								</property>
-							</widget>
-							<widget class="QPushButton">
-								<property name="name">
-									<cstring>toolButtonPrint</cstring>
-								</property>
-								<property name="sizePolicy">
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>1</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>26</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="maximumSize">
-									<size>
-										<width>26</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="focusPolicy">
-									<enum>NoFocus</enum>
-								</property>
-								<property name="text">
-									<string></string>
-								</property>
-								<property name="accel">
-									<string>I</string>
-								</property>
-								<property name="iconSet">
-									<iconset>image5</iconset>
-								</property>
-								<property name="toolTip" stdset="0">
-									<string>Imprimir tiquet (I)</string>
-								</property>
-								<property name="whatsThis" stdset="0">
-									<string>Para imprimir el tiquet</string>
-								</property>
-							</widget>
-						</hbox>
-					</widget>
-					<spacer>
-						<property name="name">
-							<cstring>unnamed</cstring>
-						</property>
-						<property name="orientation">
-							<enum>Horizontal</enum>
-						</property>
-						<property name="sizeType">
-							<enum>Expanding</enum>
-						</property>
-						<property name="sizeHint">
-							<size>
-								<width>10</width>
-								<height>16</height>
-							</size>
-						</property>
-					</spacer>
-					<widget class="QLayoutWidget" >
-						<property name="name" >
-							<cstring>layout22</cstring>
-						</property>
-						<hbox>
-							<property name="name" >
-								<cstring>unnamed</cstring>
-							</property>
-							<property name="spacing" >
-								<number>2</number>
-							</property>
-							<widget class="QPushButton">
-								<property name="name">
 									<cstring>tbnBlocDesbloc</cstring>
 								</property>
 								<property name="sizePolicy">
@@ -569,6 +410,218 @@
 								</property>
 								<property name="whatsThis" stdset="0">
 									<string>Abre el cajon portamodenadas</string>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Fixed</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>16</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="QLayoutWidget" >
+						<property name="name" >
+							<cstring>layout22</cstring>
+						</property>
+						<hbox>
+							<property name="name" >
+								<cstring>unnamed</cstring>
+							</property>
+							<property name="spacing" >
+								<number>2</number>
+							</property>
+							<widget class="QPushButton">
+								<property name="name">
+									<cstring>tbnImprimirDocumento</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>1</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>26</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>26</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="focusPolicy">
+									<enum>NoFocus</enum>
+								</property>
+								<property name="text">
+									<string></string>
+								</property>
+								<property name="accel">
+									<string>F</string>
+								</property>
+								<property name="iconSet">
+									<iconset>image8</iconset>
+								</property>
+								<property name="toolTip" stdset="0">
+									<string>Imprimir documento (F)</string>
+								</property>
+								<property name="whatsThis" stdset="0">
+									<string>Imprime el documento asociado a la venta seleccionada</string>
+								</property>
+							</widget>
+							<widget class="QPushButton">
+								<property name="name">
+									<cstring>tbnPrintQuick</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>1</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>26</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>26</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="focusPolicy">
+									<enum>NoFocus</enum>
+								</property>
+								<property name="text">
+									<string></string>
+								</property>
+								<property name="accel">
+									<string>Q</string>
+								</property>
+								<property name="iconSet">
+									<iconset>image6</iconset>
+								</property>
+								<property name="toolTip" stdset="0">
+									<string>Imprimir rapido (Q)</string>
+								</property>
+								<property name="whatsThis" stdset="0">
+									<string>Imprime el documento sin mostrar el preview, por la impresora asignada al punto de ventas actual</string>
+								</property>
+							</widget>
+							<widget class="QPushButton">
+								<property name="name">
+									<cstring>toolButtonPrint</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>1</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>26</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>26</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="focusPolicy">
+									<enum>NoFocus</enum>
+								</property>
+								<property name="text">
+									<string></string>
+								</property>
+								<property name="accel">
+									<string>I</string>
+								</property>
+								<property name="iconSet">
+									<iconset>image5</iconset>
+								</property>
+								<property name="toolTip" stdset="0">
+									<string>Imprimir tiquet (I)</string>
+								</property>
+								<property name="whatsThis" stdset="0">
+									<string>Para imprimir el tiquet</string>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Expanding</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>10</width>
+								<height>16</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="QLayoutWidget">
+						<property name="name">
+							<cstring>layout23</cstring>
+						</property>
+						<hbox>
+							<property name="name">
+								<cstring>unnamed</cstring>
+							</property>
+							<property name="spacing">
+								<number>2</number>
+							</property>
+							<widget class="QPushButton" >
+								<property name="name" >
+									<cstring>pbnAsociarAFactura</cstring>
+								</property>
+								<property name="font" >
+									<font>
+										<bold>1</bold>
+										<italic>1</italic>
+									</font>
+								</property>
+								<property name="text" >
+									<string>&amp;Asociar remitos</string>
+								</property>
+								<property name="accel" >
+									<string>Alt+A</string>
+								</property>
+								<property name="toolTip" stdset="0" >
+									<string>Asociar remitos en factura</string>
+								</property>
+								<property name="whatsThis" stdset="0" >
+									<string>Abre la ventana que permite asociar en una factura uno o mas remitos</string>
 								</property>
 							</widget>
 						</hbox>

@@ -144,4 +144,13 @@
         <form>master</form>
         <formrecord>tpv_secuenciascomanda</formrecord>
     </action>
+    <action>
+        <name>tpv_agruparalbaranescli</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","La agrupación de remitos permite generar de forma automática una factura a partir de uno o más remitos de cliente")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Agrupar remitos de cliente")</alias>
+        <scriptform>tpv_agruparalbaranescli</scriptform>
+        <table>tpv_agruparalbaranescli</table>
+        <form>tpv_agruparalbaranescli</form>
+        <formrecord>tpv_agruparalbaranescli</formrecord>
+    </action>
 </ACTIONS>

@@ -292,6 +292,9 @@ class tipoVenta extends controlUsuario {
 	function sincronizarConFacturacion(curComanda:FLSqlCursor):Boolean {
 		return this.ctx.tipoVenta_sincronizarConFacturacion(curComanda);
 	}
+	function datosLineaFactura(curLineaComanda:FLSqlCursor):Boolean {
+		return this.ctx.tipoVenta_datosLineaFactura(curLineaComanda);
+	}
 	function datosFactura(curComanda:FLSqlCursor):Boolean {
 		return this.ctx.tipoVenta_datosFactura(curComanda);
 	}
@@ -360,6 +363,40 @@ class tipoVenta extends controlUsuario {
 	}
 	function datosPresupuesto(curComanda:FLSqlCursor):Boolean {
 		return this.ctx.tipoVenta_datosPresupuesto(curComanda);
+	}
+	// Asociar remitos
+	function afterCommit_tpv_comandas(curComanda:FLSqlCursor):Boolean  {
+		return this.ctx.tipoVenta_afterCommit_tpv_comandas(curComanda);
+	}
+	function liberarAlbaranesCli(idFactura:Number):Boolean {
+		return this.ctx.tipoVenta_liberarAlbaranesCli(idFactura);
+	}
+	function liberarAlbaranCli(idAlbaran:Number):Boolean {
+		return this.ctx.tipoVenta_liberarAlbaranCli(idAlbaran);
+	}
+	function afterCommit_tpv_lineascomanda(curLinea:FLSqlCursor):Boolean {
+		return this.ctx.tipoVenta_afterCommit_tpv_lineascomanda(curLinea);
+	}
+	function actualizarAlbaranesLineaFacturaCli(curLF:FLSqlCursor):Boolean {
+		return this.ctx.tipoVenta_actualizarAlbaranesLineaFacturaCli(curLF);
+	}
+	function actualizarLineaAlbaranCli(idLineaAlbaran:Number, idAlbaran:Number, referencia:String, idFactura:Number, cantidadLineaFactura:Number):Boolean {
+		return this.ctx.tipoVenta_actualizarLineaAlbaranCli(idLineaAlbaran, idAlbaran, referencia, idFactura, cantidadLineaFactura);
+	}
+	function restarCantidadAlbaranCli(idLineaAlbaran:Number, idLineaFactura:Number):Boolean {
+		return this.ctx.tipoVenta_restarCantidadAlbaranCli(idLineaAlbaran, idLineaFactura);
+	}
+	function actualizarEstadoAlbaranCli(idAlbaran:Number, curFactura:FLSqlCursor):Boolean {
+		return this.ctx.tipoVenta_actualizarEstadoAlbaranCli(idAlbaran, curFactura);
+	}
+	function obtenerEstadoAlbaranCli(idAlbaran:Number):String {
+		return this.ctx.tipoVenta_obtenerEstadoAlbaranCli(idAlbaran);
+	}
+	function actualizarIdFacturaEnRemitos():Boolean {
+		return this.ctx.tipoVenta_actualizarIdFacturaEnRemitos();
+	}
+	function actualizarIdFacturaEnRemito(idRemitoComanda:Number, idFactura:Number):Boolean {
+		return this.ctx.tipoVenta_actualizarIdFacturaEnRemito(idRemitoComanda, idFactura);
 	}
 }
 //// TIPO DE VENTA //////////////////////////////////////////////
@@ -726,6 +763,9 @@ function oficial_crearFactura(curComanda:FLSqlCursor):Number
 
 	this.iface.curFactura.setModeAccess(this.iface.curFactura.Edit);
 	this.iface.curFactura.refreshBuffer();
+
+	if (!this.iface.actualizarIdFacturaEnRemitos())
+		return false;
 
 	if (!this.iface.totalesFactura())
 		return false;
@@ -2296,6 +2336,9 @@ function tipoVenta_sincronizarConFacturacion(curComanda:FLSqlCursor):Boolean
 			break;
 		}
 		case curComanda.Edit: {
+			if (curComanda.valueBuffer("idtpv_comanda_factura") != 0)
+				return true;
+
 			var idDocumento:String = curComanda.valueBuffer("iddocumento");
 			switch (curComanda.valueBuffer("tipoventa")) {
 				case "Presupuesto": {
@@ -2408,12 +2451,27 @@ function tipoVenta_sincronizarConFacturacion(curComanda:FLSqlCursor):Boolean
 	return true;
 }
 
+function tipoVenta_datosLineaFactura(curLineaComanda:FLSqlCursor):Boolean
+{
+	if (!this.iface.__datosLineaFactura(curLineaComanda))
+		return false;
+
+	var util:FLUtil;
+	var idAlbaran:Number = util.sqlSelect("albaranescli", "idalbaran", "idtpv_comanda = " + curLineaComanda.valueBuffer("idtpv_comanda_albaran"));
+	with (this.iface.curLineaFactura) {
+		setValueBuffer("idalbaran", idAlbaran);
+	}
+
+	return true;
+}
+
 function tipoVenta_datosFactura(curComanda:FLSqlCursor):Boolean
 {
 	if (!this.iface.__datosFactura(curComanda))
 		return false;
 
 	with (this.iface.curFactura) {
+		setValueBuffer("automatica", curComanda.valueBuffer("automatica"));
 		setValueBuffer("idtpv_comanda", curComanda.valueBuffer("idtpv_comanda"));
 	}
 	return true;
@@ -2533,6 +2591,7 @@ function tipoVenta_totalesRemito():Boolean
 		setValueBuffer("totaleuros", formalbaranescli.iface.pub_commonCalculateField("totaleuros", this));
 		setValueBuffer("codigo", formalbaranescli.iface.pub_commonCalculateField("codigo", this));
 	}
+
 	return true;
 }
 
@@ -2921,6 +2980,344 @@ function tipoVenta_datosPresupuesto(curComanda:FLSqlCursor):Boolean
 }
 
 
+//// Asociar remitos ////
+
+function tipoVenta_afterCommit_tpv_comandas(curComanda:FLSqlCursor):Boolean
+{
+	if (!this.iface.__afterCommit_tpv_comandas(curComanda))
+		return false;
+
+	if (curComanda.modeAccess() == curComanda.Del) {
+		if (!this.iface.liberarAlbaranesCli(curComanda.valueBuffer("idtpv_comanda"))) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/** \D
+Llama a la función liberarAlbaran para todos los remitos agrupados en una factura
+@param idFactura: Identificador de la factura
+\end */
+function tipoVenta_liberarAlbaranesCli(idFactura:Number):Boolean
+{
+	var curAlbaranes:FLSqlCursor = new FLSqlCursor("tpv_comandas");
+	curAlbaranes.select("idtpv_comanda_factura = " + idFactura);
+	while (curAlbaranes.next()) {
+		if (!this.iface.liberarAlbaranCli(curAlbaranes.valueBuffer("idtpv_comanda"))) {
+			return false;
+		}
+	}
+	return true;
+}
+
+/** \D
+Desbloquea un remito que estaba asociado a una factura
+@param idAlbaran: Identificador del remito
+\end */
+function tipoVenta_liberarAlbaranCli(idAlbaran:Number):Boolean
+{
+	var curRemito:FLSqlCursor = new FLSqlCursor("albaranescli");
+	with(curRemito) {
+		select("idtpv_comanda = " + idAlbaran);
+		first();
+		setUnLock("ptefactura", true);
+	}
+	with(curRemito) {
+		select("idtpv_comanda = " + idAlbaran);
+		first();
+		setModeAccess(Edit);
+		refreshBuffer();
+		setValueBuffer("idfactura", "0");
+		setValueBuffer("servido", "No");
+	}
+	if (!curRemito.commitBuffer()) {
+		return false;
+	}
+
+	var curAlbaran:FLSqlCursor = new FLSqlCursor("tpv_comandas");
+	with(curAlbaran) {
+		select("idtpv_comanda = " + idAlbaran);
+		first();
+		setUnLock("editable", true);
+	}
+	with(curAlbaran) {
+		select("idtpv_comanda = " + idAlbaran);
+		first();
+		setModeAccess(Edit);
+		refreshBuffer();
+		setValueBuffer("idtpv_comanda_factura", "0");
+		setValueBuffer("estado", "Abierta");
+	}
+	if (!curAlbaran.commitBuffer()) {
+		return false;
+	}
+	return true;
+}
+
+function tipoVenta_afterCommit_tpv_lineascomanda(curLinea:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__afterCommit_tpv_lineascomanda(curLinea) )
+		return false;
+
+	if ( !this.iface.actualizarAlbaranesLineaFacturaCli(curLinea) ) {
+		return false;
+	}
+
+	return true;
+}
+
+function tipoVenta_actualizarAlbaranesLineaFacturaCli(curLF:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil;
+	var idLineaAlbaran:Number = parseFloat(curLF.valueBuffer("idtpv_lineacomanda_albaran"));
+	if (idLineaAlbaran == 0) {
+		return true;
+	}
+	
+	switch (curLF.modeAccess()) {
+		case curLF.Insert: {
+			if (!this.iface.actualizarLineaAlbaranCli(curLF.valueBuffer("idtpv_lineacomanda_albaran"), curLF.valueBuffer("idtpv_comanda_albaran") , curLF.valueBuffer("referencia"), curLF.valueBuffer("idtpv_comanda"), curLF.valueBuffer("cantidad"))) {
+				return false;
+			}
+			if (!this.iface.actualizarEstadoAlbaranCli(curLF.valueBuffer("idtpv_comanda_albaran"), curLF)) {
+				return false;
+			}
+			break;
+		}
+		case curLF.Edit: {
+			if (curLF.valueBuffer("cantidad") != curLF.valueBufferCopy("cantidad")) {
+				if (!this.iface.actualizarLineaAlbaranCli(curLF.valueBuffer("idtpv_lineacomanda_albaran"), curLF.valueBuffer("idtpv_comanda_albaran") , curLF.valueBuffer("referencia"), curLF.valueBuffer("idtpv_comanda"), curLF.valueBuffer("cantidad"))) {
+					return false;
+				}
+				if (!this.iface.actualizarEstadoAlbaranCli(curLF.valueBuffer("idtpv_comanda_albaran"), curLF)) {
+					return false;
+				}
+			}
+			break;
+		}
+		case curLF.Del: {
+			var idAlbaran:Number = curLF.valueBuffer("idtpv_comanda_albaran");
+			var idLineaFactura:Number = curLF.valueBuffer("idtpv_linea");
+			if (!this.iface.restarCantidadAlbaranCli(idLineaAlbaran, idLineaFactura)) {
+				return false;
+			}
+			this.iface.actualizarEstadoAlbaranCli(idAlbaran);
+			break;
+		}
+	}
+	return true;
+}
+
+/** \C
+Actualiza el campo total en factura de la línea de remito correspondiente (si existe).
+@param	idLineaAlbaran: Id de la línea a actualizar
+@param	idAlbaran: Id del remito a actualizar
+@param	referencia del artículo contenido en la línea
+@param	idFactura: Id de la factura en la que se sirve el remito
+@param	cantidadLineaFactura: Cantidad total de artículos de la referencia actual en la factura
+@return	True si la actualización se realiza correctamente, false en caso contrario
+\end */
+function tipoVenta_actualizarLineaAlbaranCli(idLineaAlbaran:Number, idAlbaran:Number, referencia:String, idFactura:Number, cantidadLineaFactura:Number):Boolean
+{
+	if (idLineaAlbaran == 0) {
+		return true;
+	}
+
+	var cantidadServida:Number;
+	var curLineaAlbaran:FLSqlCursor = new FLSqlCursor("tpv_lineascomanda");
+	curLineaAlbaran.select("idtpv_linea = " + idLineaAlbaran);
+	curLineaAlbaran.setModeAccess(curLineaAlbaran.Edit);
+	if (!curLineaAlbaran.first()) {
+		return true;
+	}
+
+	var cantidadAlbaran:Number = parseFloat(curLineaAlbaran.valueBuffer("cantidad"));
+	var query:FLSqlQuery = new FLSqlQuery();
+	query.setTablesList("tpv_lineascomanda");
+	query.setSelect("SUM(cantidad)");
+	query.setFrom("tpv_lineascomanda");
+	query.setWhere("idtpv_lineacomanda_albaran = " + idLineaAlbaran + " AND idtpv_linea <> " + idFactura);
+	if (!query.exec()) {
+		return false;
+	}
+	if (query.next()) {
+		var canOtros:Number = parseFloat(query.value("SUM(cantidad)"));
+		if (isNaN(canOtros)) {
+			canOtros = 0;
+		}
+		cantidadServida = canOtros + parseFloat(cantidadLineaFactura);
+	}
+	if (cantidadServida > cantidadAlbaran) {
+		cantidadServida = cantidadAlbaran;
+	}
+		
+	curLineaAlbaran.setValueBuffer("totalenfactura", cantidadServida);
+	if (!curLineaAlbaran.commitBuffer()) {
+		return false;
+	}
+	
+	return true;
+}
+
+/** \D
+Cambia el valor del campo totalenfactura de una determinada línea de remito, calculándolo como la suma de cantidades en otras líneas distintas de la línea de factura indicada
+@param idLineaAlbaran: Identificador de la línea de remito
+@param idLineaFactura: Identificador de la línea de factura
+\end */
+function tipoVenta_restarCantidadAlbaranCli(idLineaAlbaran:Number, idLineaFactura:Number):Boolean
+{
+	var util:FLUtil = new FLUtil;
+	var cantidad:Number = parseFloat(util.sqlSelect("tpv_lineascomanda", "SUM(cantidad)", "idtpv_lineacomanda_albaran = " + idLineaAlbaran + " AND idtpv_linea <> " + idLineaFactura));
+	if (isNaN(cantidad))
+		cantidad = 0;
+
+	var curLineaAlbaran:FLSqlCursor = new FLSqlCursor("tpv_lineascomanda");
+	curLineaAlbaran.select("idtpv_linea = " + idLineaAlbaran);
+	if (curLineaAlbaran.first()) {
+		curLineaAlbaran.setModeAccess(curLineaAlbaran.Edit);
+		curLineaAlbaran.refreshBuffer();
+		curLineaAlbaran.setValueBuffer("totalenfactura", cantidad);
+		if (!curLineaAlbaran.commitBuffer()) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/** \C
+Marca el remito como servido o parcialmente servido según corresponda.
+@param	idAlbaran: Id del remito a actualizar
+@param	curFactura: Cursor posicionado en la factura que modifica el estado del remito
+@return	True si la actualización se realiza correctamente, false en caso contrario
+\end */
+function tipoVenta_actualizarEstadoAlbaranCli(idAlbaran:Number, curFactura:FLSqlCursor):Boolean
+{
+	var estado:String = this.iface.obtenerEstadoAlbaranCli(idAlbaran);
+	if (!estado) {
+		return false;
+	}
+
+	var curAlbaran:FLSqlCursor = new FLSqlCursor("tpv_comandas");
+	curAlbaran.select("idtpv_comanda = " + idAlbaran);
+	if (curAlbaran.first()) {
+		if (estado == curAlbaran.valueBuffer("estado")) {
+			return true;
+		}
+		curAlbaran.setUnLock("editable", true);
+	}
+
+	curAlbaran.select("idtpv_comanda = " + idAlbaran);
+	curAlbaran.setModeAccess(curAlbaran.Edit);
+	if (curAlbaran.first()) {
+		curAlbaran.setValueBuffer("estado", estado);
+		if (estado == "Cerrada") {
+			curAlbaran.setValueBuffer("editable", false);
+		}
+		if (!curAlbaran.commitBuffer()) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/** \C
+Obtiene el estado de un remito
+@param	idAlbaran: Id del remito a actualizar
+@return	Estado del remito
+\end */
+function tipoVenta_obtenerEstadoAlbaranCli(idAlbaran:Number):String
+{
+	var query:FLSqlQuery = new FLSqlQuery();
+
+	query.setTablesList("tpv_lineascomanda");
+	query.setSelect("cantidad,totalenfactura");
+	query.setFrom("tpv_lineascomanda");
+	query.setWhere("idtpv_comanda = " + idAlbaran);
+	if (!query.exec()) {
+		return false;
+	}
+
+	var estado:String = "";
+	var totalServida:Number = 0;
+	var parcial:Boolean = false;
+	var totalLineas:Number = query.size();
+
+	if (totalLineas == 0)
+		return "Abierta";
+
+	while (query.next()) {
+		var cantidad:Number = parseFloat(query.value("cantidad"));
+		var cantidadServida:Number = parseFloat(query.value("totalenfactura"));
+		if (cantidad == cantidadServida)
+			totalServida += 1;
+		else
+			if (cantidad > cantidadServida && cantidadServida != 0)
+				parcial = true;
+	}
+	
+	if (parcial) {
+		estado = "Parcial";
+	}
+	else {
+		if (totalServida == 0)
+			estado = "Abierta";
+		else {
+			if (totalServida == totalLineas)
+				estado = "Cerrada";
+			else
+				if (totalServida < totalLineas)
+					estado = "Parcial";
+		}
+	}
+	return estado;
+}
+
+function tipoVenta_actualizarIdFacturaEnRemitos():Boolean
+{
+	if (!this.iface.curFactura.valueBuffer("automatica"))
+		return true;
+
+	var util:FLUtil = new FLUtil;
+	var idFacturaComanda:Number = this.iface.curFactura.valueBuffer("idtpv_comanda");
+	var idFactura:Number = util.sqlSelect("facturascli", "idfactura", "idtpv_comanda = " + idFacturaComanda);
+	if (!idFactura)
+		idFactura = 0;
+
+	var curAlbaranes:FLSqlCursor = new FLSqlCursor("tpv_comandas");
+	curAlbaranes.select("idtpv_comanda_factura = " + idFacturaComanda);
+	while (curAlbaranes.next()) {
+		if (!this.iface.actualizarIdFacturaEnRemito(curAlbaranes.valueBuffer("idtpv_comanda"), idFactura)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+function tipoVenta_actualizarIdFacturaEnRemito(idRemitoComanda:Number, idFactura:Number):Boolean
+{
+	var curAlbaran:FLSqlCursor = new FLSqlCursor("albaranescli");
+	curAlbaran.select("idtpv_comanda = " + idRemitoComanda);
+	if (curAlbaran.first()) {
+		curAlbaran.setUnLock("ptefactura", true);
+	}
+	
+	curAlbaran.select("idtpv_comanda = " + idRemitoComanda);
+	curAlbaran.setModeAccess(curAlbaran.Edit);
+	if (curAlbaran.first()) {
+		curAlbaran.setValueBuffer("idfactura", idFactura);
+		curAlbaran.setValueBuffer("ptefactura", false);
+		if (!curAlbaran.commitBuffer()) {
+			return false;
+		}
+	}
+
+	return true;
+}
 //// TIPO DE VENTA //////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 

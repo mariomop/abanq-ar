@@ -226,4 +226,36 @@
 		<editable>false</editable>
 		<visiblegrid>false</visiblegrid>
 	</field>
+	<field>
+		<name>totalenfactura</name>
+		<!--Total de artículos que figuran en la/s factura/s asociada/s al remito-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Facturados")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>6</partI>
+		<partD>3</partD>
+		<default>0</default>
+		<editable>false</editable>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	<field>
+		<name>idtpv_comanda_albaran</name>
+		<!--Identificador del remito del que proviene la línea de factura-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id Remito")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	<field>
+		<name>idtpv_lineacomanda_albaran</name>
+		<!--Identificador de la línea de remito de la que proviene la línea-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","lineaalbaran")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>0</default>
+		<visiblegrid>false</visiblegrid>
+	</field>
 </TMD>
