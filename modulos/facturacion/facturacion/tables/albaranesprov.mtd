@@ -230,7 +230,6 @@
 		<length>12</length>
 		<default>0</default>
 		<editable>false</editable>
-		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>idfactura</name>

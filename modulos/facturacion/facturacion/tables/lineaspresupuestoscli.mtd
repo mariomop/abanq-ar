@@ -144,6 +144,7 @@
 		<null>true</null>
 		<pk>false</pk>
 		<type>bool</type>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>pvpunitarioiva</name>
@@ -154,6 +155,7 @@
 		<partI>6</partI>
 		<partD>2</partD>
 		<default>0</default>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>porcomision</name>

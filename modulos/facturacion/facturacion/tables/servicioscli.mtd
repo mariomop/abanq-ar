@@ -77,7 +77,7 @@
 	
 	<field>
 		<name>codcliente</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Cod. cliente")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Cliente")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>string</type>
@@ -90,6 +90,15 @@
 		</relation>
 	</field>
 	
+	<field>
+		<name>nombrecliente</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre cliente")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>100</length>
+	</field>
+
 	<field>
 		<name>codtecnico</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Técnico")</alias>

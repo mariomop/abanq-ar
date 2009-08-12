@@ -202,7 +202,6 @@
 		<type>string</type>
 		<length>12</length>
 		<editable>false</editable>
-		<visiblegrid>false</visiblegrid>
 		<default>0</default>
 	</field>
 	<field>
@@ -264,6 +263,7 @@
 		<pk>false</pk>
 		<type>bool</type>
 		<default>false</default>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>idasiento</name>

@@ -344,13 +344,10 @@
 									</font>
 								</property>
 								<property name="fieldName">
-									<string>nombre</string>
-								</property>
-								<property name="tableName">
-									<string>clientes</string>
+									<string>nombrecliente</string>
 								</property>
 								<property name="foreignField">
-									<string>codcliente</string>
+									<string>nombre</string>
 								</property>
 								<property name="fieldRelation">
 									<string>codcliente</string>

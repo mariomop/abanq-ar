@@ -202,11 +202,23 @@ class impresiones extends totalesIva {
 /////////////////////////////////////////////////////////////////
 
 
+/** @class_declaration ordenCampos */
+/////////////////////////////////////////////////////////////////
+//// ORDEN_CAMPOS ///////////////////////////////////////////////
+class ordenCampos extends impresiones {
+    function ordenCampos( context ) { impresiones ( context ); }
+	function init() {
+		this.ctx.ordenCampos_init();
+	}
+}
+//// ORDEN_CAMPOS ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends impresiones {
-    function head( context ) { impresiones ( context ); }
+class head extends ordenCampos {
+    function head( context ) { ordenCampos ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1280,6 +1292,21 @@ function impresiones_imprimirQuick(codPedido:String, impresora:String)
 //// IMPRESIONES ////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_definition ordenCampos */
+/////////////////////////////////////////////////////////////////
+//// ORDEN_CAMPOS ///////////////////////////////////////////////
+
+function ordenCampos_init()
+{
+	this.iface.__init();
+
+	var orden:Array = [ "codigo", "servido", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "pedidoweb", "pagado", "transactionid", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+
+	this.iface.tdbRecords.setOrderCols(orden);
+}
+
+//// ORDEN_CAMPOS ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

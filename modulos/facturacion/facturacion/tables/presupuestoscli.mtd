@@ -159,7 +159,6 @@
 		<type>string</type>
 		<length>12</length>
 		<default>0</default>
-		<visiblegrid>false</visiblegrid>
 	</field>
 	
 	<field>
@@ -350,6 +349,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>10</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	
 	<field>
@@ -441,6 +441,7 @@
 			<field>codoportunidad</field>
 			<card>M1</card>
 		</relation>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	
 	<field>
@@ -449,6 +450,7 @@
 		<null>true</null>
 		<pk>false</pk>
 		<type>date</type>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	
 	<field>
@@ -459,6 +461,7 @@
 		<type>string</type>
 		<length>25</length>
 		<optionslist>Borrador,En negociación,Enviado,Retenido,Confirmado,Aceptado,Rechazado</optionslist>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	
 	<field>

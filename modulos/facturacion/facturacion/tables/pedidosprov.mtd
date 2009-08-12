@@ -241,15 +241,15 @@
 		<length>12</length>
 		<default>0</default>
 		<editable>false</editable>
-		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>numcliente</name>
-		<!--Número asignado al cliente por el proveedor-->        <alias>QT_TRANSLATE_NOOP("MetaData","Kdnr. Lief.")</alias>
+		<!--Número asignado al cliente por el proveedor-->        <alias>QT_TRANSLATE_NOOP("MetaData","Núm. cliente")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
 		<length>30</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>idpedidoaut</name>

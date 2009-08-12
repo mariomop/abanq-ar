@@ -147,7 +147,6 @@
 		<type>string</type>
 		<length>12</length>
 		<default>0</default>
-		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>neto</name>
@@ -273,7 +272,7 @@
 	</field>
 	<field>
 		<name>coddir</name>
-		<!--Código asociado a la dirección del cliente-->        <alias>QT_TRANSLATE_NOOP("MetaData","Dirección")</alias>
+		<!--Código asociado a la dirección del cliente-->        <alias>QT_TRANSLATE_NOOP("MetaData","Dir.")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>uint</type>
@@ -353,6 +352,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>10</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>codpais</name>
@@ -393,7 +393,7 @@
 	</field>
 	<field>
 		<name>coddirenv</name>
-		<!--Código de dirección asociada al cliente-->        <alias>QT_TRANSLATE_NOOP("MetaData","E. Dirección")</alias>
+		<!--Código de dirección asociada al cliente-->        <alias>QT_TRANSLATE_NOOP("MetaData","E. Dir.")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>uint</type>
@@ -415,6 +415,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>100</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>codpostalenv</name>
@@ -423,6 +424,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>10</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>ciudadenv</name>
@@ -431,6 +433,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>100</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>provinciaenv</name>
@@ -439,6 +442,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>100</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>apartadoenv</name>
@@ -447,6 +451,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>10</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>codpaisenv</name>
@@ -455,6 +460,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>20</length>
+		<visiblegrid>false</visiblegrid>
 		<relation>
 			<table>paises</table>
 			<field>codpais</field>
@@ -468,6 +474,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>200</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>apellidosenv</name>
@@ -476,6 +483,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>200</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>empresaenv</name>
@@ -484,6 +492,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>200</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>codejercicio</name>
@@ -534,6 +543,7 @@
 		<pk>false</pk>
 		<type>bool</type>
 		<default>false</default>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>idasiento</name>
