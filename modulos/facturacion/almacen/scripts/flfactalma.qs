@@ -395,6 +395,9 @@ class costos extends funNumSerie {
 	function cambiarCosteMaximo(referencia:String):Boolean {
 		return this.ctx.costos_cambiarCosteMaximo(referencia);
 	}
+	function cambiarCosteProveedor(curL:FLSqlCursor):Boolean {
+		return this.ctx.costos_cambiarCosteProveedor(curL);
+	}
 }
 //// COSTOS /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -567,6 +570,9 @@ class pubCostos extends pubArticulosComp {
 	}
 	function pub_cambiarCosteMaximo(referencia:String):Boolean {
 		return this.cambiarCosteMaximo(referencia);
+	}
+	function pub_cambiarCosteProveedor(curL:FLSqlCursor):Boolean {
+		return this.cambiarCosteProveedor(curL);
 	}
 }
 //// PUB_COSTOS /////////////////////////////////////////////////
@@ -2628,6 +2634,37 @@ function costos_cambiarCosteMaximo(referencia:String):Boolean
 			curArticulo.setValueBuffer("costemaximo", costoUltimo);
 			curArticulo.commitBuffer();
 		}
+	}
+
+	return true;
+}
+
+function costos_cambiarCosteProveedor(curL:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil();
+
+	var referencia:String = curL.valueBuffer("referencia");
+	var codProveedor:String = util.sqlSelect("facturasprov","codproveedor","idfactura = " + curL.valueBuffer("idfactura"));
+	var coste:Number = 0;
+
+	var qryLineaFactura:FLSqlQuery = new FLSqlQuery();
+	qryLineaFactura.setTablesList("lineasfacturasprov");
+	qryLineaFactura.setSelect("pvptotal,cantidad");
+	qryLineaFactura.setFrom("lineasfacturasprov");
+	qryLineaFactura.setWhere("referencia = '" + referencia + "' AND idfactura IN (SELECT idfactura FROM facturasprov WHERE codproveedor = '" + codProveedor + "')");
+	qryLineaFactura.setOrderBy("idlinea DESC LIMIT 1");
+	qryLineaFactura.exec();
+	if (qryLineaFactura.first()) {
+		coste = parseFloat(qryLineaFactura.value("pvptotal"))/parseFloat(qryLineaFactura.value("cantidad"));
+	}
+
+	var curArticuloProv:FLSqlCursor = new FLSqlCursor("articulosprov");
+	curArticuloProv.select("referencia = '" + referencia + "' AND codproveedor = '" + codProveedor + "'");
+	if (curArticuloProv.first()) {
+		curArticuloProv.setModeAccess(curArticuloProv.Edit);
+		curArticuloProv.refreshBuffer();
+		curArticuloProv.setValueBuffer("coste", coste);
+		curArticuloProv.commitBuffer();
 	}
 
 	return true;

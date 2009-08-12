@@ -5946,6 +5946,9 @@ function costos_afterCommit_lineasfacturasprov(curLF:FLSqlCursor):Boolean
 			}
 			break;
 		}
+
+		flfactalma.iface.pub_cambiarCosteProveedor(curLF);
+
 	}
 
 	return true;
