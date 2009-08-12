@@ -256,7 +256,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>18</length>
-		<visiblegrid>true</visiblegrid>
+		<visiblegrid>false</visiblegrid>
 		<relation>
 			<table>articulos</table>
 			<field>referencia</field>
@@ -271,7 +271,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>25</length>
-		<visiblegrid>true</visiblegrid>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>ultentregado</name>
@@ -415,6 +415,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>18</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>codpais</name>
