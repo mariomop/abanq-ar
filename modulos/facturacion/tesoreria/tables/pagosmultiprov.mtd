@@ -82,6 +82,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>6</length>
+		<visiblegrid>false</visiblegrid>
 		<relation>
 			<table>cuentasbanco</table>
 			<field>codcuenta</field>
@@ -96,6 +97,7 @@
 		<type>string</type>
 		<length>3</length>
 		<editable>false</editable>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>ctaagencia</name>
@@ -105,6 +107,7 @@
 		<type>string</type>
 		<length>3</length>
 		<editable>false</editable>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>dc</name>
@@ -115,6 +118,7 @@
 		<length>2</length>
 		<calculated>true</calculated>
 		<editable>false</editable>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>cuenta</name>
@@ -124,6 +128,7 @@
 		<type>string</type>
 		<length>11</length>
 		<editable>false</editable>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>estado</name>
@@ -144,6 +149,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>15</length>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>idsubcuenta</name>
@@ -188,6 +194,7 @@
 		<pk>false</pk>
 		<type>bool</type>
 		<default>false</default>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>idusuario</name>
