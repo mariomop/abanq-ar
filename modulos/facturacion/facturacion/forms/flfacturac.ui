@@ -58,16 +58,12 @@
 			<action name="pedidoscli" />
 			<action name="albaranescli" />
 			<action name="facturascli" />
-			<separator/>
-			<action name="consultasalidas" />
 		</item>
 		<item name="Compras" text="&amp;Compras" >
 			<action name="pedidosprov" />
 			<action name="albaranesprov" />
 			<action name="facturasprov" />
 			<action name="pedidosaut" />
-			<separator/>
-			<action name="consultaentradas" />
 		</item>
 		<item name="Servicios" text="Servicios" >
 			<action name="servicioscli" />
@@ -351,58 +347,6 @@
 				<string>Ctrl+A</string>
 			</property>
 		</action>
-		<action>
-			<property name="name" >
-				<cstring>consultasalidas</cstring>
-			</property>
-			<property name="iconSet" >
-				<iconset></iconset>
-			</property>
-			<property name="text" >
-				<string>Documentos de venta</string>
-			</property>
-			<property name="menuText" >
-				<string>Documentos de venta</string>
-			</property>
-			<property name="toolTip" >
-				<string>Documentos de venta</string>
-			</property>
-			<property name="statusTip" >
-				<string>Documentos de venta</string>
-			</property>
-			<property name="whatsThis" >
-				<string>Documentos de venta</string>
-			</property>
-			<property name="accel" >
-				<string></string>
-			</property>
-		</action>
-		<action>
-			<property name="name" >
-				<cstring>consultaentradas</cstring>
-			</property>
-			<property name="iconSet" >
-				<iconset></iconset>
-			</property>
-			<property name="text" >
-				<string>Documentos de compra</string>
-			</property>
-			<property name="menuText" >
-				<string>Documentos de compra</string>
-			</property>
-			<property name="toolTip" >
-				<string>Documentos de compra</string>
-			</property>
-			<property name="statusTip" >
-				<string>Documentos de compra</string>
-			</property>
-			<property name="whatsThis" >
-				<string>Documentos de compra</string>
-			</property>
-			<property name="accel" >
-				<string></string>
-			</property>
-		</action>
 	</actions>
 	<images>
 		<image name="pedidos_autoimage8" >
@@ -517,18 +461,6 @@
 			<signal>activated()</signal>
 			<receiver>FLWidgetApplication</receiver>
 			<slot>execDefaultScript()</slot>
-		</connection>
-		<connection>
-			<sender>consultasalidas</sender>
-			<signal>activated()</signal>
-			<receiver>FLWidgetApplication</receiver>
-			<slot>openDefaultForm()</slot>
-		</connection>
-		<connection>
-			<sender>consultaentradas</sender>
-			<signal>activated()</signal>
-			<receiver>FLWidgetApplication</receiver>
-			<slot>openDefaultForm()</slot>
 		</connection>
 	</connections>
 	<slots>

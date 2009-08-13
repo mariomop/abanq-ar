@@ -325,20 +325,6 @@
         <form>cambiarejer</form>
         <formrecord>cambiarejer</formrecord>
     </action>
-    <action>
-        <name>consultasalidas</name>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Documentos de venta")</alias>
-        <table>consultasalidas</table>
-        <form>masterconsultasalidas</form>
-        <scriptform>masterconsultasalidas</scriptform>
-    </action>
-    <action>
-        <name>consultaentradas</name>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Documentos de compra")</alias>
-        <table>consultaentradas</table>
-        <form>masterconsultaentradas</form>
-        <scriptform>masterconsultaentradas</scriptform>
-    </action>
 	<action>
 	    <name>factvalores</name>
 	    <alias>QT_TRANSLATE_NOOP("MetaData","Valores")</alias>
