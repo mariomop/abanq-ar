@@ -1,0 +1,31 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>articulosprovqry</name>
+	
+	<tables>articulosprov,articulos,proveedores</tables>
+	
+	<select>
+		articulosprov.id,
+		articulosprov.referencia,
+		articulos.descripcion,
+		articulosprov.codproveedor,
+		proveedores.nombre,
+		articulosprov.pordefecto,
+		articulosprov.coste,
+		articulosprov.coddivisa,
+		articulosprov.refproveedor,
+		articulosprov.costediv,
+		articulosprov.vsp,
+		articulosprov.dto,
+		articulosprov.plazo
+	</select>
+	
+	<from>
+		articulosprov
+		INNER JOIN articulos ON articulosprov.referencia = articulos.referencia
+		INNER JOIN proveedores ON articulosprov.codproveedor = proveedores.codproveedor
+	</from>
+	
+	<where>
+	</where>
+</QRY>

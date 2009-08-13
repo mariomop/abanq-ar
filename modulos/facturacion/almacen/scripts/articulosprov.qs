@@ -130,19 +130,17 @@ function silixExtensiones_bufferChanged(fN:String)
 		case "codproveedor": {
 			var q:FLSqlQuery = new FLSqlQuery();
 			q.setTablesList("proveedores");
-			q.setSelect("nombre,coddivisa");
+			q.setSelect("coddivisa");
 			q.setFrom("proveedores");
 			q.setWhere("codproveedor = '" + cursor.valueBuffer("codproveedor") + "'");
 			if (!q.exec())
 				return;
 
-			var nomProv:String = "", codDivisa:String = "";
+			var codDivisa:String = "";
 			if (q.first()) {
-				nomProv = q.value("nombre");
 				codDivisa = q.value("coddivisa");
 			}
 
-			cursor.setValueBuffer("nombre", nomProv);
 			cursor.setValueBuffer("coddivisa", codDivisa);
 			break;
 		}

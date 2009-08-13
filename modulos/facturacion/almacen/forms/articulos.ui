@@ -2702,7 +2702,7 @@
 										</font>
 									</property>
 									<property name="tableName" >
-										<string>articulosprov</string>
+										<string>articulosprovqry</string>
 									</property>
 									<property name="foreignField" >
 										<string>referencia</string>

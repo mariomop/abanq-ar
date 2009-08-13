@@ -198,10 +198,10 @@
 									<string>nombre</string>
 								</property>
 								<property name="tableName">
-									<string></string>
+									<string>proveedores</string>
 								</property>
 								<property name="foreignField">
-									<string>nombre</string>
+									<string>codproveedor</string>
 								</property>
 								<property name="fieldRelation">
 									<string>codproveedor</string>
