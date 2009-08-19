@@ -233,8 +233,9 @@
 		</relation>
 	</field>
 	<field>
-		<name>codserie</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Serie de facturación")</alias>
+		<name>codserie_a</name>
+		<!-- Código serie A -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie A")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
@@ -246,8 +247,9 @@
 		</relation>
 	</field>
 	<field>
-		<name>codserieremitos</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Serie de remitos")</alias>
+		<name>codserie_b</name>
+		<!-- Código serie B -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie B")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
@@ -259,8 +261,9 @@
 		</relation>
 	</field>
 	<field>
-		<name>codseriepedidos</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Serie de pedidos")</alias>
+		<name>codserie_c</name>
+		<!-- Código serie C -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie C")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
@@ -272,8 +275,37 @@
 		</relation>
 	</field>
 	<field>
-		<name>codseriepresupuestos</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Serie de presupuestos")</alias>
+		<name>codserie_remito</name>
+		<!-- Código serie de remitos -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie Remito")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<relation>
+			<table>series</table>
+			<field>codserie</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codserie_pedido</name>
+		<!-- Código serie de pedidos -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie Pedido")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<relation>
+			<table>series</table>
+			<field>codserie</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codserie_presupuesto</name>
+		<!-- Código serie de presupuestos -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie Presupuesto")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>

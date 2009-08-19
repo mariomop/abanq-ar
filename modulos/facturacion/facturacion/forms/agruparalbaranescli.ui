@@ -108,34 +108,6 @@
 											<string>codejercicio</string>
 										</property>
 									</widget>
-									<widget class="FLFieldDB">
-										<property name="name">
-											<cstring>fdbCodSerie</cstring>
-										</property>
-										<property name="sizePolicy">
-											<sizepolicy>
-												<hsizetype>1</hsizetype>
-												<vsizetype>0</vsizetype>
-												<horstretch>0</horstretch>
-												<verstretch>0</verstretch>
-											</sizepolicy>
-										</property>
-										<property name="minimumSize">
-											<size>
-												<width>150</width>
-												<height>25</height>
-											</size>
-										</property>
-										<property name="font">
-											<font>
-												<bold>0</bold>
-												<italic>0</italic>
-											</font>
-										</property>
-										<property name="fieldName">
-											<string>codserie</string>
-										</property>
-									</widget>
 									<spacer>
 										<property name="name">
 											<cstring>spacer16</cstring>
@@ -1376,7 +1348,6 @@
 		<tabstop>fdbFechaHasta</tabstop>
 		<tabstop>pbnRefresh</tabstop>
 		<tabstop>fdbCodEjercicio</tabstop>
-		<tabstop>fdbCodSerie</tabstop>
 		<tabstop>tblAlbaranes</tabstop>
 	</tabstops>
 	<layoutdefaults spacing="6" margin="11"/>

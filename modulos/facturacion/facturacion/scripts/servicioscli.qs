@@ -83,11 +83,26 @@ class ordenCampos extends controlUsuario {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends ordenCampos {
+	function tipoVenta( context ) { ordenCampos ( context ); }
+	function init() {
+		this.ctx.tipoVenta_init();
+	}
+	function bufferChanged(fN:String) {
+		return this.ctx.tipoVenta_bufferChanged(fN);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends tipoVenta {
+    function head( context ) { tipoVenta ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -125,10 +140,6 @@ function interna_init()
 	connect(this.child("pbnGenerarCostes"), "clicked()", this, "iface.generarCostes");
 	connect(this.child("tbnTraza"), "clicked()", this, "iface.mostrarTraza()");
 
-	if (cursor.modeAccess() == cursor.Insert) {
-		this.child("fdbCodSerie").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codserie"));
-	}
-	
 	this.iface.refHora = "HMN";
 	this.iface.refDesp = "DSP";
 
@@ -377,6 +388,50 @@ function ordenCampos_init()
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoVenta_init()
+{
+	this.iface.__init();
+
+	if ( this.cursor().modeAccess() == this.cursor().Insert )
+		this.cursor().setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserie_b"));
+}
+
+function tipoVenta_bufferChanged(fN:String)
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	switch (fN) {
+		case "codcliente": {
+			if (cursor.valueBuffer("codcliente") && cursor.valueBuffer("codcliente") != "") {
+				var regimenIva:Boolean = util.sqlSelect("clientes", "regimeniva", "codcliente = '" + cursor.valueBuffer("codcliente") + "'");
+				switch ( regimenIva ) {
+					case "Consumidor Final":
+					case "Exento":
+					case "No Responsable":
+					case "Responsable Monotributo": {
+						cursor.setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserie_b"));
+						break;
+					}
+					case "Responsable Inscripto":
+					case "Responsable No Inscripto": {
+						cursor.setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserie_a"));
+						break;
+					}
+				}
+			}
+			break;
+		}
+		default:
+			this.iface.__bufferChanged(fN);
+	}
+}
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

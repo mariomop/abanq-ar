@@ -172,11 +172,23 @@ class ordenCampos extends impresiones {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends ordenCampos {
+	function tipoVenta( context ) { ordenCampos ( context ); }
+	function datosPedido(curPresupuesto:FLSqlCursor):Boolean {
+		return this.ctx.tipoVenta_datosPedido(curPresupuesto);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends tipoVenta {
+    function head( context ) { tipoVenta ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -356,7 +368,6 @@ function oficial_datosPedido(curPresupuesto:FLSqlCursor):Boolean
 	
 	var codDir:Number = curPresupuesto.valueBuffer("coddir");
 	with (this.iface.curPedido) {
-		setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codseriepedidos"));
 		setValueBuffer("codejercicio", codEjercicio);
 		setValueBuffer("fecha", fecha);
 		setValueBuffer("codagente", curPresupuesto.valueBuffer("codagente"));
@@ -957,13 +968,33 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "porcomision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "porcomision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoVenta_datosPedido(curPresupuesto:FLSqlCursor):Boolean
+{
+	if (!this.iface.__datosPedido(curPresupuesto))
+		return false;
+		
+	with (this.iface.curPedido) {
+		setValueBuffer("tipoventa", "Pedido");
+		setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserie_pedido"));
+	}
+	
+	return true;
+}
+
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

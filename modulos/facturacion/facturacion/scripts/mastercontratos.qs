@@ -281,7 +281,7 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 	var q:FLSqlQuery = new FLSqlQuery();
 	q.setTablesList("clientes");
 	q.setFrom("clientes");
-	q.setSelect("nombre,cifnif,coddivisa,codpago,codserie,codagente");
+	q.setSelect("nombre,cifnif,coddivisa,codpago,regimeniva,codagente");
 	q.setWhere("codcliente = '" + codCliente + "'");
 	
 	if (!q.exec()) return;
@@ -304,15 +304,36 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 		return;
 	}
 	
+	var tipoVenta:String, codSerie:String;
+	switch ( q.value(4) ) {
+		case "Consumidor Final":
+		case "Exento":
+		case "No Responsable":
+		case "Responsable Monotributo": {
+			tipoVenta = "Factura B";
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
+			break;
+		}
+		case "Responsable Inscripto":
+		case "Responsable No Inscripto": {
+			tipoVenta = "Factura A";
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
+			break;
+		}
+	}
+
 	var curFactura:FLSqlCursor = new FLSqlCursor("facturascli");
-	var numeroFactura:Number = flfacturac.iface.pub_siguienteNumero(q.value(4),flfactppal.iface.pub_ejercicioActual(), "nfacturacli");
+	var numeroFactura:Number = flfacturac.iface.pub_siguienteNumero(codSerie,flfactppal.iface.pub_ejercicioActual(), "nfacturacli");
 	var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
 
 	with(curFactura) {
 		setModeAccess(Insert);
 		refreshBuffer();
 		
-		setValueBuffer("codigo", flfacturac.iface.pub_construirCodigo(q.value(4), codEjercicio, numeroFactura));
+		setValueBuffer("tipoventa", tipoVenta);
+		setValueBuffer("codserie", codSerie);
+
+		setValueBuffer("codigo", flfacturac.iface.pub_construirCodigo(codSerie, codEjercicio, numeroFactura));
 		setValueBuffer("numero", numeroFactura);
 		setValueBuffer("recfinanciero", 0);
 		
@@ -324,7 +345,6 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 		setValueBuffer("coddivisa", q.value(2));
 		setValueBuffer("codpago", q.value(3));
 		setValueBuffer("codalmacen", flfactppal.iface.pub_valorDefectoEmpresa("codalmacen"));
-		setValueBuffer("codserie", q.value(4));
 		setValueBuffer("tasaconv", util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + q.value(2) + "'"));
 		setValueBuffer("fecha", fecha);
 		setValueBuffer("hora", hora);

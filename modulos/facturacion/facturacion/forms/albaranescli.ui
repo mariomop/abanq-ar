@@ -113,71 +113,133 @@
 							</size>
 						</property>
 					</spacer>
-					<widget class="FLFieldDB" >
-						<property name="name" >
-							<cstring>fdbCodEjercicio</cstring>
+					<widget class="QLayoutWidget">
+						<property name="name">
+							<cstring>layoutTipoVenta</cstring>
 						</property>
-						<property name="sizePolicy" >
-							<sizepolicy>
-								<hsizetype>1</hsizetype>
-								<vsizetype>0</vsizetype>
-								<horstretch>0</horstretch>
-								<verstretch>0</verstretch>
-							</sizepolicy>
-						</property>
-						<property name="minimumSize" >
-							<size>
-								<width>108</width>
-								<height>23</height>
-							</size>
-						</property>
-						<property name="fieldName" >
-							<string>codejercicio</string>
-						</property>
-					</widget>
-					<widget class="FLFieldDB" >
-						<property name="name" >
-							<cstring>fdbCodSerie</cstring>
-						</property>
-						<property name="sizePolicy" >
-							<sizepolicy>
-								<hsizetype>1</hsizetype>
-								<vsizetype>0</vsizetype>
-								<horstretch>0</horstretch>
-								<verstretch>0</verstretch>
-							</sizepolicy>
-						</property>
-						<property name="minimumSize" >
-							<size>
-								<width>67</width>
-								<height>23</height>
-							</size>
-						</property>
-						<property name="fieldName" >
-							<string>codserie</string>
-						</property>
-					</widget>
-					<widget class="FLFieldDB" >
-						<property name="name" >
-							<cstring>fdbNumero</cstring>
-						</property>
-						<property name="sizePolicy" >
-							<sizepolicy>
-								<hsizetype>1</hsizetype>
-								<vsizetype>0</vsizetype>
-								<horstretch>0</horstretch>
-								<verstretch>0</verstretch>
-							</sizepolicy>
-						</property>
-						<property name="minimumSize" >
-							<size>
-								<width>84</width>
-								<height>23</height>
-							</size>
-						</property>
-						<property name="fieldName" >
-							<string>numero</string>
-						</property>
+						<hbox>
+							<property name="name">
+								<cstring>unnamed</cstring>
+							</property>
+							<widget class="FLFieldDB" >
+								<property name="name" >
+									<cstring>fdbCodEjercicio</cstring>
+								</property>
+								<property name="sizePolicy" >
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>110</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="maximumSize" >
+									<size>
+										<width>110</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="fieldName" >
+									<string>codejercicio</string>
+								</property>
+							</widget>
+							<widget class="FLFieldDB">
+								<property name="name">
+									<cstring>fdbTipoVenta</cstring>
+								</property>
+								<property name="sizePolicy" >
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>100</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="maximumSize" >
+									<size>
+										<width>100</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="fieldName">
+									<string>tipoventa</string>
+								</property>
+							</widget>
+							<widget class="FLFieldDB" >
+								<property name="name" >
+									<cstring>fdbCodSerie</cstring>
+								</property>
+								<property name="sizePolicy" >
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>80</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="maximumSize" >
+									<size>
+										<width>80</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="fieldName" >
+									<string>codserie</string>
+								</property>
+								<property name="showAlias">
+									<bool>false</bool>
+								</property>
+							</widget>
+							<widget class="FLFieldDB" >
+								<property name="name" >
+									<cstring>fdbNumero</cstring>
+								</property>
+								<property name="sizePolicy" >
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>80</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="maximumSize" >
+									<size>
+										<width>80</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="fieldName" >
+									<string>numero</string>
+								</property>
+								<property name="showAlias">
+									<bool>false</bool>
+								</property>
+							</widget>
+						</hbox>
 					</widget>
 					<widget class="QToolButton" >
 						<property name="name" >

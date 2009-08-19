@@ -129,8 +129,7 @@ function interna_init()
 	this.child("lblStockFis").setText(this.iface.calculateField("lblStockFis"));
 
 	
-	// var serie:String = cursor.cursorRelation().valueBuffer("codserie");
-	var serie:String = flfactppal.iface.pub_valorDefectoEmpresa("codserie");
+	var serie:String = cursor.cursorRelation().valueBuffer("codserie");
 	var siniva:Boolean = util.sqlSelect("series","siniva","codserie = '" + serie + "'");
 	if(siniva){
 		this.child("fdbCodImpuesto").setDisabled(true);

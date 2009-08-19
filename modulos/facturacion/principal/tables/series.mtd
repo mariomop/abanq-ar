@@ -81,27 +81,32 @@
 		</relation>
 		<relation>
 			<table>empresa</table>
-			<field>codserie</field>
+			<field>codserie_a</field>
 			<card>1M</card>
 		</relation>
 		<relation>
 			<table>empresa</table>
-			<field>codserieremitos</field>
+			<field>codserie_b</field>
 			<card>1M</card>
 		</relation>
 		<relation>
 			<table>empresa</table>
-			<field>codseriepedidos</field>
+			<field>codserie_c</field>
 			<card>1M</card>
 		</relation>
 		<relation>
 			<table>empresa</table>
-			<field>codseriepresupuestos</field>
+			<field>codserie_remito</field>
 			<card>1M</card>
 		</relation>
 		<relation>
 			<table>empresa</table>
-			<field>codserieservicios</field>
+			<field>codserie_pedido</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>empresa</table>
+			<field>codserie_presupuesto</field>
 			<card>1M</card>
 		</relation>
 		<relation>

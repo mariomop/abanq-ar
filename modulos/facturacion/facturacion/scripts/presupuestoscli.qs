@@ -152,11 +152,29 @@ class ordenCampos extends controlUsuario {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends ordenCampos {
+	function tipoVenta( context ) { ordenCampos ( context ); }
+	function init() {
+		this.ctx.tipoVenta_init();
+	}
+	function calculateField(fN:String):String {
+		return this.ctx.tipoVenta_calculateField(fN);
+	}
+	function bufferChanged(fN:String) {
+		return this.ctx.tipoVenta_bufferChanged(fN);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends tipoVenta {
+    function head( context ) { tipoVenta ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -216,11 +234,8 @@ function interna_init()
 		this.child("fdbCodDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
 		this.child("fdbCodPago").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codpago"));
 		this.child("fdbCodAlmacen").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codalmacen"));
-		this.child("fdbCodSerie").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codseriepresupuestos"));
 		this.child("fdbTasaConv").setValue(util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + this.child("fdbCodDivisa").value() + "'"));
 	}
-	if (cursor.modeAccess() == cursor.Edit)
-		this.child("fdbCodSerie").setDisabled(true);
 
 	if (!cursor.valueBuffer("porcomision"))
 		this.child("fdbPorComision").setDisabled(true);
@@ -508,7 +523,7 @@ function numeroSecuencia_init()
 
 	if (cursor.modeAccess() == cursor.Insert) {
 		var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
-		var codSerie:String = flfactppal.iface.pub_valorDefectoEmpresa("codseriepresupuestos");
+		var codSerie:String = this.iface.calculateField("codserie");
 		// Inicialización del número de secuencia del presupuesto
 		var idSec:Number = util.sqlSelect("secuenciasejercicios", "id", "codejercicio = '" + codEjercicio + "' AND codserie = '" + codSerie + "'");
 		var numero:Number = util.sqlSelect("secuencias", "valorout", "id = " + idSec + " AND nombre = 'npresupuestocli'");
@@ -643,12 +658,15 @@ function habilitaciones_verificarHabilitaciones()
 {
 	this.iface.__verificarHabilitaciones();
 
-	// si ya se creó, no permitir cambiar el codserie ni número
+	// si ya se creó, no permitir cambiar el tipo de venta, codserie ni número
+	if ( this.cursor().modeAccess() == this.cursor().Insert ) {
+		this.child("fdbTipoVenta").setDisabled(false);
+	} else {
+		this.child("fdbTipoVenta").setDisabled(true);
+	}
 	if ( this.iface.modoAcceso == this.cursor().Insert ) {
-		this.child("fdbCodSerie").setDisabled(false);
 		this.child("fdbNumero").setDisabled(false);
 	} else {
-		this.child("fdbCodSerie").setDisabled(true);
 		this.child("fdbNumero").setDisabled(true);
 	}
 }
@@ -689,6 +707,73 @@ function ordenCampos_init()
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoVenta_init()
+{
+	this.iface.__init();
+
+	if ( this.iface.modoAcceso == this.cursor().Insert )
+		this.iface.bufferChanged("tipoventa");
+}
+
+function tipoVenta_calculateField(fN:String):String
+{
+	var valor:String;
+	
+	switch (fN) {
+		case "codserie": {
+			switch (this.cursor().valueBuffer("tipoventa")) {
+				case "Presupuesto": {
+					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_presupuesto");
+					break;
+				}
+			}
+			break;
+		}
+		default: {
+			valor = this.iface.__calculateField(fN);
+		}
+	}
+	return valor;
+}
+
+function tipoVenta_bufferChanged(fN:String)
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	switch (fN) {
+		case "tipoventa": {
+			this.child("fdbCodSerie").setValue(this.iface.calculateField("codserie"));
+			break;
+		}
+		case "codcliente": {
+			if (cursor.valueBuffer("codcliente") && cursor.valueBuffer("codcliente") != "") {
+				var regimenIva:Boolean = util.sqlSelect("clientes", "regimeniva", "codcliente = '" + cursor.valueBuffer("codcliente") + "'");
+				switch ( regimenIva ) {
+					case "Consumidor Final":
+					case "Exento":
+					case "No Responsable":
+					case "Responsable Monotributo":
+					case "Responsable Inscripto":
+					case "Responsable No Inscripto": {
+						cursor.setValueBuffer("tipoventa", "Presupuesto");
+						break;
+					}
+				}
+			}
+			this.iface.__bufferChanged(fN);
+			break;
+		}
+		default:
+			this.iface.__bufferChanged(fN);
+	}
+}
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 //////////////////////////////////////////////////////////////////

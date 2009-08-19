@@ -214,11 +214,23 @@ class ordenCampos extends impresiones {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends ordenCampos {
+	function tipoVenta( context ) { ordenCampos ( context ); }
+	function datosAlbaran(curPedido:FLSqlCursor, where:String, datosAgrupacion:Array):Boolean {
+		return this.ctx.tipoVenta_datosAlbaran(curPedido, where, datosAgrupacion);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends tipoVenta {
+    function head( context ) { tipoVenta ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -477,7 +489,6 @@ function oficial_datosAlbaran(curPedido:FLSqlCursor, where:String, datosAgrupaci
 	var codDir:Number = util.sqlSelect("dirclientes", "id", "codcliente = '" + curPedido.valueBuffer("codcliente") + "' AND domenvio = 'true'");
 		
 	with (this.iface.curAlbaran) {
-		setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserieremitos"));
 		setValueBuffer("codejercicio", codEjercicio);
 		setValueBuffer("fecha", fecha);
 		setValueBuffer("hora", hora);
@@ -1300,13 +1311,33 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "servido", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "pedidoweb", "pagado", "transactionid", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "servido", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "pedidoweb", "pagado", "transactionid", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoVenta_datosAlbaran(curPedido:FLSqlCursor,where:String, datosAgrupacion:Array):Boolean
+{
+	if (!this.iface.__datosAlbaran(curPedido, where, datosAgrupacion))
+		return false;
+		
+	with (this.iface.curAlbaran) {
+		setValueBuffer("tipoventa", "Remito");
+		setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserie_remito"));
+	}
+	
+	return true;
+}
+
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

@@ -1258,10 +1258,11 @@ function oficial_valoresIniciales()
 		setValueBuffer("codejercicio", "2009");
 		setValueBuffer("coddivisa", "$");
 		setValueBuffer("codpago", "CONTADO");
-		setValueBuffer("codserie", "B001");
-		setValueBuffer("codserieremitos", "R001");
-		setValueBuffer("codseriepedidos", "P001");
-		setValueBuffer("codseriepresupuestos", "X001");
+		setValueBuffer("codserie_a", "A001");
+		setValueBuffer("codserie_b", "B001");
+		setValueBuffer("codserie_remito", "R001");
+		setValueBuffer("codserie_pedido", "P001");
+		setValueBuffer("codserie_presupuesto", "X001");
 		setValueBuffer("codpostal", "3100");
 		setValueBuffer("ciudad", "PARANÁ");
 		setValueBuffer("provincia", "ENTRE RÍOS");

@@ -357,7 +357,7 @@ function oficial_datosAlbaran(cursor:FLSqlCursor,curAlbaran:FLSqlCursor,where:St
 	var util:FLUtil;
 
 	var codCliente:String = cursor.valueBuffer("codcliente");
-	var codSerie:String = flfactppal.iface.pub_valorDefectoEmpresa("codserieremitos");
+	var codSerie:String = flfactppal.iface.pub_valorDefectoEmpresa("codserie_remito");
 	var codAgente:String = cursor.valueBuffer("codagente");
 	var porComision:String = cursor.valueBuffer("porcomision");
 	var datosCliente:Array = flfactppal.iface.pub_ejecutarQry("clientes", "coddivisa,codpago", "codcliente = '" + codCliente + "'");

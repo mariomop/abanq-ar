@@ -52,6 +52,16 @@
 		<editable>false</editable>
 	</field>
 	<field>
+		<name>tipoventa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>20</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Factura A");QT_TRANSLATE_NOOP("MetaData","Factura B");QT_TRANSLATE_NOOP("MetaData","Factura C")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Factura B")</default>
+	</field>
+	<field>
 		<name>editable</name>
 		<!--Indicador de si la factura está pagada-->        <alias>QT_TRANSLATE_NOOP("MetaData","Pte. Pago")</alias>
 		<null>false</null>
@@ -133,6 +143,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>4</length>
+		<editable>false</editable>
 		<relation>
 			<table>series</table>
 			<field>codserie</field>

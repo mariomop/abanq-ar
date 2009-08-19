@@ -161,6 +161,7 @@ function interna_init()
 	switch(cursor.modeAccess()) {
 		case cursor.Insert: {
 			this.child("fdbDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
+			cursor.setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserie_pedido"));
 			break;
 		}
 		case cursor.Edit: {
@@ -186,7 +187,6 @@ function interna_init()
 		}
 	}
 		
-	cursor.setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codseriepedidos"));
 	this.iface.actualizarTotal();
 	tdbArticulos.cursor().setMainFilter("idpedidoaut = " + cursor.valueBuffer("idpedidoaut"));
 	tdbArticulos.refresh();

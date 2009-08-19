@@ -113,11 +113,41 @@ class ordenCampos extends cantLineas {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends ordenCampos {
+	function tipoVenta( context ) { ordenCampos ( context ); }
+	function init() {
+		this.ctx.tipoVenta_init();
+	}
+	function calculateField(fN:String):String {
+		return this.ctx.tipoVenta_calculateField(fN);
+	}
+	function bufferChanged(fN:String) {
+		return this.ctx.tipoVenta_bufferChanged(fN);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration habilitaciones */
+//////////////////////////////////////////////////////////////////
+//// HABILITACIONES //////////////////////////////////////////////
+class habilitaciones extends tipoVenta {
+	function habilitaciones( context ) { tipoVenta( context ); } 
+	function verificarHabilitaciones() {
+		return this.ctx.habilitaciones_verificarHabilitaciones();
+	}
+}
+//// HABILITACIONES //////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends habilitaciones {
+    function head( context ) { habilitaciones ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -164,12 +194,10 @@ function interna_init()
 		this.child("fdbCodDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
 		this.child("fdbCodPago").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codpago"));
 		this.child("fdbCodAlmacen").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codalmacen"));
-		this.child("fdbCodSerie").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codserie"));
 		this.child("fdbTasaConv").setValue(util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + this.child("fdbCodDivisa").value() + "'"));
 		this.child("tbnBuscarFactura").setDisabled(true);
 	}
 	else {
-		this.child("fdbCodSerie").setDisabled(true);
 		if (this.cursor().valueBuffer("decredito") == true || this.cursor().valueBuffer("dedebito") == true) {
 			this.child("tbnBuscarFactura").setDisabled(false);
 			this.iface.mostrarDatosFactura(util.sqlSelect("facturasprov", "idfacturarect", "codigo = '" + this.child("fdbCodigo").value() + "'"));
@@ -683,6 +711,106 @@ function ordenCampos_init()
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoVenta_init()
+{
+	this.iface.__init();
+
+	if ( this.cursor().modeAccess() == this.cursor().Insert )
+		this.iface.bufferChanged("tipoventa");
+
+	if ( this.cursor().modeAccess() == this.cursor().Edit )
+		this.child("fdbTipoVenta").setDisabled(true);
+}
+
+function tipoVenta_calculateField(fN:String):String
+{
+	var valor:String;
+	
+	switch (fN) {
+		case "codserie": {
+			switch (this.cursor().valueBuffer("tipoventa")) {
+				case "Factura A": {
+					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
+					break;
+				}
+				case "Factura B": {
+					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
+					break;
+				}
+				case "Factura C": {
+					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_c");
+					break;
+				}
+			}
+			break;
+		}
+		default: {
+			valor = this.iface.__calculateField(fN);
+		}
+	}
+	return valor;
+}
+
+function tipoVenta_bufferChanged(fN:String)
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	switch (fN) {
+		case "tipoventa": {
+			this.child("fdbCodSerie").setValue(this.iface.calculateField("codserie"));
+			break;
+		}
+		case "codproveedor": {
+			if (cursor.valueBuffer("codproveedor") && cursor.valueBuffer("codproveedor") != "") {
+				var regimenIva:Boolean = util.sqlSelect("proveedores", "regimeniva", "codproveedor = '" + cursor.valueBuffer("codproveedor") + "'");
+				switch ( regimenIva ) {
+					case "Consumidor Final":
+					case "Exento":
+					case "No Responsable":
+					case "Responsable Monotributo": {
+						cursor.setValueBuffer("tipoventa", "Factura B");
+						break;
+					}
+					case "Responsable Inscripto":
+					case "Responsable No Inscripto": {
+						cursor.setValueBuffer("tipoventa", "Factura A");
+						break;
+					}
+				}
+			}
+			this.iface.__bufferChanged(fN);
+			break;
+		}
+		default:
+			this.iface.__bufferChanged(fN);
+	}
+}
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition habilitaciones */
+//////////////////////////////////////////////////////////////////
+//// HABILITACIONES //////////////////////////////////////////////
+
+function habilitaciones_verificarHabilitaciones()
+{
+	this.iface.__verificarHabilitaciones();
+
+	// si ya se creó, no permitir cambiar el tipo de venta, codserie ni número
+	if ( this.cursor().modeAccess() == this.cursor().Insert ) {
+		this.child("fdbTipoVenta").setDisabled(false);
+	} else {
+		this.child("fdbTipoVenta").setDisabled(true);
+	}
+}
+
+//// HABILITACIONES //////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

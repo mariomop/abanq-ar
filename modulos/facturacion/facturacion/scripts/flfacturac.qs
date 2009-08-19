@@ -3939,7 +3939,7 @@ function oficial_comprobarCambioSerie(cursor:FLSqlCursor):Boolean
 		return true;
 	if(cursor.valueBuffer("codserie") != cursor.valueBufferCopy("codserie")) {
 		var util:FLUtil = new FLUtil();
-		MessageBox.warning(util.translate("scripts", "No se puede modificar la serie.\nSerie anterior:%1 - Serie actual:%2").arg(cursor.valueBufferCopy("codserie")).arg(cursor.valueBuffer("codserie")), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "No se puede modificar la serie.\nSerie anterior: %1 - Serie actual: %2").arg(cursor.valueBufferCopy("codserie")).arg(cursor.valueBuffer("codserie")), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 	return true;

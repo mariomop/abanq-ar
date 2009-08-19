@@ -181,11 +181,23 @@ class ordenCampos extends impresiones {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends ordenCampos {
+	function tipoVenta( context ) { ordenCampos ( context ); }
+	function datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupacion:Array):Boolean {
+		return this.ctx.tipoVenta_datosFactura(curAlbaran, where, datosAgrupacion);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends tipoVenta {
+    function head( context ) { tipoVenta ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -389,7 +401,6 @@ function oficial_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupac
 		fecha = datosDoc.fecha;
 	}
 	
-	var codSerie:String = util.sqlSelect("proveedores", "codserie", "codproveedor = '" + curAlbaran.valueBuffer("codproveedor") + "'");
 	with(this.iface.curFactura) {
 		setValueBuffer("codproveedor", curAlbaran.valueBuffer("codproveedor"));
 		setValueBuffer("nombre", curAlbaran.valueBuffer("nombre"));
@@ -402,7 +413,6 @@ function oficial_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupac
 		setValueBuffer("fecha", fecha);
 		setValueBuffer("hora", hora);
 		setValueBuffer("codejercicio", codEjercicio);
-		setValueBuffer("codserie", codSerie);
 		setValueBuffer("tasaconv", curAlbaran.valueBuffer("tasaconv"));
 		setValueBuffer("recfinanciero", curAlbaran.valueBuffer("recfinanciero"));
 		setValueBuffer("automatica", true);
@@ -686,7 +696,6 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 		var codAlmacen:String = curAgrupar.valueBuffer("codalmacen");
 		var codPago:String = curAgrupar.valueBuffer("codpago");
 		var codDivisa:String = curAgrupar.valueBuffer("coddivisa");
-		var codSerie:String = curAgrupar.valueBuffer("codserie");
 		var codEjercicio:String = curAgrupar.valueBuffer("codejercicio");
 		var fechaDesde:String = curAgrupar.valueBuffer("fechadesde");
 		var fechaHasta:String = curAgrupar.valueBuffer("fechahasta");
@@ -703,8 +712,6 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 				where = where + " AND codpago = '" + codPago + "'";
 		if (codDivisa && !codDivisa.isEmpty())
 				where = where + " AND coddivisa = '" + codDivisa + "'";
-		if (codSerie && !codSerie.isEmpty())
-				where = where + " AND codserie = '" + codSerie + "'";
 		if (codEjercicio && !codEjercicio.isEmpty())
 				where = where + " AND codejercicio = '" + codEjercicio + "'";
 		return where;
@@ -940,13 +947,53 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "ptefactura", "numproveedor", "nombre", "neto", "totaliva", "recfinanciero", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "ptefactura", "numproveedor", "nombre", "neto", "totaliva", "recfinanciero", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoVenta_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupacion:Array):Boolean
+{
+	if (!this.iface.__datosFactura(curAlbaran, where, datosAgrupacion))
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	
+	var tipoVenta:String, codSerie:String;
+	var regimenIva:Boolean = util.sqlSelect("proveedores", "regimeniva", "codproveedor = '" + curAlbaran.valueBuffer("codproveedor") + "'");
+	switch ( regimenIva ) {
+		case "Consumidor Final":
+		case "Exento":
+		case "No Responsable":
+		case "Responsable Monotributo": {
+			tipoVenta = "Factura B";
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
+			break;
+		}
+		case "Responsable Inscripto":
+		case "Responsable No Inscripto": {
+			tipoVenta = "Factura A";
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
+			break;
+		}
+	}
+
+	with (this.iface.curFactura) {
+		setValueBuffer("tipoventa", tipoVenta);
+		setValueBuffer("codserie", codSerie);
+	}
+	return true;
+}
+
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

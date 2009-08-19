@@ -123,7 +123,6 @@ function interna_init()
 
 	this.child("fdbCodEjercicio").setValue(flfactppal.iface.pub_ejercicioActual());
 	this.child("fdbCodEjercicio").setDisabled(true);
-	this.child("fdbCodSerie").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codserieremitos"));
 
 	var util:FLUtil = new FLUtil();
 	var hoy:Date = new Date();
@@ -176,7 +175,6 @@ function oficial_bufferChanged(fN:String)
 		case "fechahasta":
 		case "codpago":
 		case "coddivisa":
-		case "codserie":
 		case "codejercicio": {
 			if (this.iface.estado == "Seleccionando") {
 				this.iface.estado = "Buscando";

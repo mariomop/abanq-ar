@@ -42,6 +42,16 @@
 		<editable>false</editable>
 	</field>
 	<field>
+		<name>tipoventa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>20</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Pedido")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Pedido")</default>
+	</field>
+	<field>
 		<name>servido</name>
 		<!--Indicador de si el pedido se ha servido total o parcialmente-->        <alias>QT_TRANSLATE_NOOP("MetaData","Servido")</alias>
 		<null>false</null>
@@ -140,6 +150,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>4</length>
+		<editable>false</editable>
 		<relation>
 			<table>series</table>
 			<field>codserie</field>

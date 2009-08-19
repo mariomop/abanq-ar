@@ -96,11 +96,26 @@ class infoVencimtos extends oficial {
 //// INFO VENCIMIENTOS ///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends infoVencimtos {
+	function tipoVenta( context ) { infoVencimtos ( context ); }
+	function datosFacturaCli(qryFacturaCli:FLSqlQuery):Boolean {
+		return this.ctx.tipoVenta_datosFacturaCli(qryFacturaCli);
+	}
+	function datosFacturaProv(qryFacturaProv:FLSqlQuery):Boolean {
+		return this.ctx.tipoVenta_datosFacturaProv(qryFacturaProv);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends infoVencimtos {
-    function head( context ) { infoVencimtos ( context ); }
+class head extends tipoVenta {
+    function head( context ) { tipoVenta ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -456,7 +471,7 @@ function oficial_insertarFacturaDevolCli()
 
 	var qryFacturaCli:FLSqlQuery = new FLSqlQuery();
 	qryFacturaCli.setTablesList("facturascli");
-	qryFacturaCli.setSelect("codcliente, nombrecliente, cifnif, direccion, codpostal, ciudad, provincia, codpais, codalmacen, codpago, codserie, coddivisa, tasaconv");
+	qryFacturaCli.setSelect("codcliente, nombrecliente, cifnif, direccion, codpostal, ciudad, provincia, codpais, codalmacen, codpago, codserie, tipoventa, coddivisa, tasaconv");
 	qryFacturaCli.setFrom("facturascli");
 	qryFacturaCli.setWhere("idfactura = " + idFacturaRecibo);
 	qryFacturaCli.setForwardOnly(true);
@@ -623,7 +638,7 @@ function oficial_insertarFacturaDevolProv()
 	var qryFacturaProv:FLSqlQuery = new FLSqlQuery();
 
 	qryFacturaProv.setTablesList("proveedores");
-	qryFacturaProv.setSelect("codproveedor, nombre, cifnif, codpago, codserie, coddivisa");
+	qryFacturaProv.setSelect("codproveedor, nombre, cifnif, codpago, regimeniva, coddivisa");
 	qryFacturaProv.setFrom("proveedores");
 	qryFacturaProv.setWhere("codproveedor = '" + codProveedor + "'");
 
@@ -669,7 +684,6 @@ function oficial_datosFacturaProv(qryFacturaProv:FLSqlQuery):Boolean
 	this.iface.curFacturaProv.setValueBuffer("cifnif", qryFacturaProv.value("cifnif"));
 	this.iface.curFacturaProv.setValueBuffer("codalmacen", flfactppal.iface.pub_valorDefectoEmpresa("codalmacen"));
 	this.iface.curFacturaProv.setValueBuffer("codpago", qryFacturaProv.value("codpago"));
-	this.iface.curFacturaProv.setValueBuffer("codserie", qryFacturaProv.value("codserie"));
 	this.iface.curFacturaProv.setValueBuffer("codejercicio", flfactppal.iface.pub_ejercicioActual());
 	this.iface.curFacturaProv.setValueBuffer("coddivisa", qryFacturaProv.value("coddivisa"));
 	this.iface.curFacturaProv.setValueBuffer("tasaconv", util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + qryFacturaProv.value("coddivisa") + "'"));
@@ -707,6 +721,51 @@ function infoVencimtos_calculateField(fN:String):String
 }
 //// INFO VENCIMIENTOS //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoVenta_datosFacturaCli(qryFacturaCli:FLSqlQuery):Boolean
+{
+	if (!this.iface.__datosFacturaCli(qryFacturaCli))
+		return false;
+
+	this.iface.curFacturaCli.setValueBuffer("tipoventa", qryFacturaCli.value("tipoventa"));
+
+	return true;
+}
+
+function tipoVenta_datosFacturaProv(qryFacturaProv:FLSqlQuery):Boolean
+{
+	if (!this.iface.__datosFacturaProv(qryFacturaProv))
+		return false;
+
+	var tipoVenta:String, codSerie:String;
+	switch ( qryFacturaProv.value("regimeniva") ) {
+		case "Consumidor Final":
+		case "Exento":
+		case "No Responsable":
+		case "Responsable Monotributo": {
+			tipoVenta = "Factura B";
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
+			break;
+		}
+		case "Responsable Inscripto":
+		case "Responsable No Inscripto": {
+			tipoVenta = "Factura A";
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
+			break;
+		}
+	}
+	this.iface.curFacturaProv.setValueBuffer("tipoventa", tipoVenta);
+	this.iface.curFacturaProv.setValueBuffer("codserie", codSerie);
+
+	return true;
+}
+
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

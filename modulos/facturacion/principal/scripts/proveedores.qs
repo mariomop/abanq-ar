@@ -253,7 +253,6 @@ function interna_init()
 	if (cursor.modeAccess() == cursor.Insert) {
 		this.child("fdbCodDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
 		this.child("fdbCodPago").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codpago"));
-		this.child("fdbCodSerie").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codserie"));
 		if (sys.isLoadedModule("flcontppal"))
 			this.iface.bufferChanged("codproveedor");
 	}

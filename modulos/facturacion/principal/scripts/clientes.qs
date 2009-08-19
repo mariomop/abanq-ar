@@ -376,19 +376,17 @@ Cada cliente puede tener un conjunto de direcciones, de las cuales existen dos e
 	\end */
 	this.iface.cargarDomFacturacion();
 
-	/** \C En modo inserción, los campos --coddivisa--, --codpago--, --codcuentarem-- y --codserie-- toman los valores por defecto definidos para la empresa
+	/** \C En modo inserción, los campos --coddivisa--, --codpago-- y --codcuentarem-- toman los valores por defecto definidos para la empresa
 	\end */
 	if (cursor.modeAccess() == cursor.Insert) {
 		/*
 		this.child("fdbCodDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
 		this.child("fdbCodPago").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codpago"));
 		this.child("fdbCodCuentaRem").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codcuentarem"));
-		this.child("fdbCodSerie").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codserie"));
 		*/
 		cursor.setValueBuffer("coddivisa", flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
 		cursor.setValueBuffer("codpago", flfactppal.iface.pub_valorDefectoEmpresa("codpago"));
 		cursor.setValueBuffer("codcuentarem", flfactppal.iface.pub_valorDefectoEmpresa("codcuentarem"));
-		cursor.setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserie"));
 		if (sys.isLoadedModule("flcontppal"))
 			this.iface.bufferChanged("codcliente");
 	} else {

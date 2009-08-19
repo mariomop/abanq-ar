@@ -145,11 +145,23 @@ class ordenCampos extends impresiones {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends ordenCampos {
+	function tipoVenta( context ) { ordenCampos ( context ); }
+	function copiadatosFactura(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.tipoVenta_copiadatosFactura(curFactura);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends tipoVenta {
+    function head( context ) { tipoVenta ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -422,7 +434,6 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 	var codAlmacen:String = curAgrupar.valueBuffer("codalmacen");
 	var codPago:String = curAgrupar.valueBuffer("codpago");
 	var codDivisa:String = curAgrupar.valueBuffer("coddivisa");
-	var codSerie:String = curAgrupar.valueBuffer("codserie");
 	var codEjercicio:String = curAgrupar.valueBuffer("codejercicio");
 	var fechaDesde:String = curAgrupar.valueBuffer("fechadesde");
 	var fechaHasta:String = curAgrupar.valueBuffer("fechahasta");
@@ -439,8 +450,6 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 		where = where + " AND albaranescli.codpago = '" + codPago + "'";
 	if (codDivisa && !codDivisa.isEmpty())
 		where = where + " AND albaranescli.coddivisa = '" + codDivisa + "'";
-	if (codSerie && !codSerie.isEmpty())
-		where = where + " AND albaranescli.codserie = '" + codSerie + "'";
 	if (codEjercicio && !codEjercicio.isEmpty())
 		where = where + " AND albaranescli.codejercicio = '" + codEjercicio + "'";
 	return where;
@@ -898,13 +907,31 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoventa_copiadatosFactura(curFactura:FLSqlCursor):Boolean
+{
+	if (!this.iface.__copiadatosFactura(curFactura))
+		return false;
+
+	with (this.iface.curFactura) {
+		setValueBuffer("tipoventa", curFactura.valueBuffer("tipoventa"));
+	}
+	return true;
+}
+
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

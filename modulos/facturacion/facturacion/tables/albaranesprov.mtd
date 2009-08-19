@@ -31,6 +31,16 @@
 		<editable>false</editable>
 	</field>
 	<field>
+		<name>tipoventa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>20</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Remito")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Remito")</default>
+	</field>
+	<field>
 		<name>ptefactura</name>
 		<!--Indicador de si el remito ha sido ya facturado-->        <alias>QT_TRANSLATE_NOOP("MetaData","Pte. Factura")</alias>
 		<null>false</null>
@@ -214,6 +224,7 @@
 		<ck>true</ck>
 		<type>string</type>
 		<length>4</length>
+		<editable>false</editable>
 		<relation>
 			<table>series</table>
 			<field>codserie</field>
