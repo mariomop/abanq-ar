@@ -1082,10 +1082,25 @@ function tipoVenta_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrup
 		hora = hoy.toString().right(8);
 	}
 
-	var codSerie:String = util.sqlSelect("clientes", "codserie", "codcliente = '" + curAlbaran.valueBuffer("codcliente") + "'");
-	if (!codSerie || codSerie == "")
-		codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie");
-	var tipoVenta:String = "Factura " + util.sqlSelect("series", "serie", "codserie = '" + codSerie + "'");
+	var tipoVenta:String, codSerie:String;
+	var regimenIva:Boolean = util.sqlSelect("clientes", "regimeniva", "codcliente = '" + curAlbaran.valueBuffer("codcliente") + "'");
+	switch ( regimenIva ) {
+		case "Consumidor Final":
+		case "Exento":
+		case "No Responsable":
+		case "Responsable Monotributo": {
+			tipoVenta = "Factura B";
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
+			break;
+		}
+		case "Responsable Inscripto":
+		case "Responsable No Inscripto": {
+			tipoVenta = "Factura A";
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
+			break;
+		}
+	}
+
 	var idSec:Number = util.sqlSelect("secuenciasejercicios", "id", "codejercicio = '" + flfactppal.iface.pub_ejercicioActual() + "' AND codserie = '" + codSerie + "'");
 	var numero:Number = util.sqlSelect("secuencias", "valorout", "id = " + idSec + " AND nombre = 'nfacturacli'");
 	if ( !numero || isNaN(numero) || numero == 0 )

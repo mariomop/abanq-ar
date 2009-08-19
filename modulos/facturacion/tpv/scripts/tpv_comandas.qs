@@ -1939,7 +1939,7 @@ function tipoVenta_calculateField(fN:String):String
 			}
 			if (!valor || valor == "") {
 				MessageBox.warning("La serie '" + cursor.valueBuffer("tipoventa") + "' no está definida para este punto de venta\nPor favor, configure la serie correspondiente.", MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
-				valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie");
+				valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
 			}
 			break;
 		}
@@ -2232,7 +2232,7 @@ function numeroSecuencia_init()
 
 	var util:FLUtil = new FLUtil();
  	if ( this.cursor().modeAccess() == this.cursor().Insert ) {
-		this.child("fdbCodSerie").setValue(util.sqlSelect("clientes", "codserie", "codcliente = '" + this.cursor().valueBuffer("codcliente") + "'"));
+		this.iface.bufferChanged("codcliente");
 	}
 }
 

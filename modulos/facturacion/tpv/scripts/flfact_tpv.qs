@@ -807,7 +807,6 @@ function oficial_datosFactura(curComanda:FLSqlCursor):Boolean
 	var nomCliente:String = curComanda.valueBuffer("nombrecliente");
 	var cifCliente:String = curComanda.valueBuffer("cifnif");
 	var direccion:String = curComanda.valueBuffer("direccion");
-	var serieCliente:String;
 
 	if (!nomCliente || nomCliente == "")
 		nomCliente = "-";
@@ -816,13 +815,6 @@ function oficial_datosFactura(curComanda:FLSqlCursor):Boolean
 	if (!direccion || direccion == "")
 		direccion = "-";
 	
-	if (codCliente && codCliente != "") {
-		serieCliente = util.sqlSelect("clientes", "codserie", "codcliente = '" + codCliente + "'");
-	}
-	
-	if (!serieCliente || serieCliente == "") {
-		serieCliente = flfactppal.iface.pub_valorDefectoEmpresa("codserie");
-	}
 	with (this.iface.curFactura) {
 		if (codCliente && codCliente != "")
 			setValueBuffer("codcliente", codCliente);
@@ -841,7 +833,6 @@ function oficial_datosFactura(curComanda:FLSqlCursor):Boolean
 		setValueBuffer("coddivisa", flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
 		setValueBuffer("codpago", curComanda.valueBuffer("codpago"));
 		setValueBuffer("codalmacen", codAlmacen);
-		setValueBuffer("codserie", serieCliente);
 		setValueBuffer("tasaconv", util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + flfactppal.iface.pub_valorDefectoEmpresa("coddivisa") + "'"));
 		//setValueBuffer("automatica", true);
 		setValueBuffer("tpv", true);
@@ -2115,12 +2106,10 @@ function numeroSecuencia_datosFactura(curComanda:FLSqlCursor):Boolean
 	if (!this.iface.__datosFactura(curComanda))
 		return false;
 
-	var serieCliente:String = curComanda.valueBuffer("codserie");
-	var numeroSecuencia:String = curComanda.valueBuffer("numerosecuencia");
-
 	with (this.iface.curFactura) {
-		setValueBuffer("codserie", serieCliente);
-		setValueBuffer("numero", numeroSecuencia);
+		setValueBuffer("tipoventa", curComanda.valueBuffer("tipoventa"));
+		setValueBuffer("codserie", curComanda.valueBuffer("codserie"));
+		setValueBuffer("numero", curComanda.valueBuffer("numerosecuencia"));
 	}
 	return true;
 }
