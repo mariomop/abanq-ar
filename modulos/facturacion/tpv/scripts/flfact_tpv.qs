@@ -2458,7 +2458,11 @@ function tipoVenta_datosLineaFactura(curLineaComanda:FLSqlCursor):Boolean
 
 	var util:FLUtil;
 	var idAlbaran:Number = util.sqlSelect("albaranescli", "idalbaran", "idtpv_comanda = " + curLineaComanda.valueBuffer("idtpv_comanda_albaran"));
+	if (!idAlbaran)
+		idAlbaran = 0;
 	var idLineaAlbaran:Number = util.sqlSelect("lineasalbaranescli", "idlinea", "idalbaran = " + idAlbaran + " AND referencia = '" + curLineaComanda.valueBuffer("referencia") + "'");
+	if (!idLineaAlbaran)
+		idLineaAlbaran = 0;
 	with (this.iface.curLineaFactura) {
 		setValueBuffer("idalbaran", idAlbaran);
 		setValueBuffer("idlineaalbaran", idLineaAlbaran);
