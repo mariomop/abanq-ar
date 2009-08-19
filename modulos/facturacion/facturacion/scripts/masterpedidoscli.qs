@@ -468,13 +468,16 @@ function oficial_datosAlbaran(curPedido:FLSqlCursor, where:String, datosAgrupaci
 	var util:FLUtil = new FLUtil();
 	var fecha:String;
 	var hora:String;
+	var recFinanciero:Number;
 	if (datosAgrupacion) {
 		fecha = datosAgrupacion["fecha"];
 		hora = datosAgrupacion["hora"];
+		recFinanciero = datosAgrupacion["recfinanciero"];
 	} else {
 		var hoy:Date = new Date();
 		fecha = hoy.toString();
 		hora = hoy.toString().right(8);
+		recFinanciero = curPedido.valueBuffer("recfinanciero");
 	}
 	
 	var codEjercicio:String = curPedido.valueBuffer("codejercicio");
@@ -522,7 +525,7 @@ function oficial_datosAlbaran(curPedido:FLSqlCursor, where:String, datosAgrupaci
 			setValueBuffer("apartado", util.sqlSelect("dirclientes","apartado","id = " + codDir));
 			setValueBuffer("codpais", util.sqlSelect("dirclientes","codpais","id = " + codDir));
 		}
-		setValueBuffer("recfinanciero", curPedido.valueBuffer("recfinanciero"));
+		setValueBuffer("recfinanciero", recFinanciero);
 		setValueBuffer("observaciones", curPedido.valueBuffer("observaciones"));
 	}
 	

@@ -383,13 +383,16 @@ function oficial_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupac
 	var util:FLUtil = new FLUtil();
 	var fecha:String;
 	var hora:String;
+	var recFinanciero:Number;
 	if (datosAgrupacion) {
 		fecha = datosAgrupacion["fecha"];
 		hora = datosAgrupacion["hora"];
+		recFinanciero = datosAgrupacion["recfinanciero"];
 	} else {
 		var hoy:Date = new Date();
 		fecha = hoy.toString();
 		hora = hoy.toString().right(8);
+		recFinanciero = curAlbaran.valueBuffer("recfinanciero");
 	}
 	
 	var codEjercicio:String = curAlbaran.valueBuffer("codejercicio");
@@ -407,7 +410,7 @@ function oficial_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupac
 		setValueBuffer("cifnif", curAlbaran.valueBuffer("cifnif"));
 		setValueBuffer("coddivisa", curAlbaran.valueBuffer("coddivisa"));
 		setValueBuffer("tasaconv", curAlbaran.valueBuffer("tasaconv"));
-		setValueBuffer("recfinanciero", curAlbaran.valueBuffer("recfinanciero"));
+		setValueBuffer("recfinanciero", recFinanciero);
 		setValueBuffer("codpago", curAlbaran.valueBuffer("codpago"));
 		setValueBuffer("codalmacen", curAlbaran.valueBuffer("codalmacen"));
 		setValueBuffer("fecha", fecha);
@@ -602,7 +605,7 @@ function oficial_asociarAAlbaran()
 
 		f.setMainWidget();
 		cursor.refreshBuffer();
-		var acpt:String = f.exec("codejercicio");
+		var acpt:String = f.exec("id");
 		if (acpt) {
 				cursor.commitBuffer();
 				var curAgruparPedidos:FLSqlCursor = new FLSqlCursor("agruparpedidosprov");
@@ -623,7 +626,7 @@ function oficial_asociarAAlbaran()
 								return;
 
 						var totalProv:Number = qryAgruparPedidos.size();
-						util.createProgressDialog(util.translate("scripts", "Generando albaranes"), totalProv);
+						util.createProgressDialog(util.translate("scripts", "Generando remitos"), totalProv);
 						util.setProgress(1);
 						var j:Number = 0;
 
@@ -680,6 +683,7 @@ function oficial_dameDatosAgrupacionPedidos(curAgruparPedidos:FLSqlCursor):Array
 	var res:Array = [];
 	res["fecha"] = curAgruparPedidos.valueBuffer("fecha");
 	res["hora"] = curAgruparPedidos.valueBuffer("hora");
+	res["recfinanciero"] = curAgruparPedidos.valueBuffer("recfinanciero");
 	return res;
 }
 
@@ -696,7 +700,6 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 		var codAlmacen:String = curAgrupar.valueBuffer("codalmacen");
 		var codPago:String = curAgrupar.valueBuffer("codpago");
 		var codDivisa:String = curAgrupar.valueBuffer("coddivisa");
-		var codEjercicio:String = curAgrupar.valueBuffer("codejercicio");
 		var fechaDesde:String = curAgrupar.valueBuffer("fechadesde");
 		var fechaHasta:String = curAgrupar.valueBuffer("fechahasta");
 		var where:String = "servido <> 'Sí'";
@@ -712,8 +715,7 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 				where = where + " AND codpago = '" + codPago + "'";
 		if (codDivisa && !codDivisa.isEmpty())
 				where = where + " AND coddivisa = '" + codDivisa + "'";
-		if (codEjercicio && !codEjercicio.isEmpty())
-				where = where + " AND codejercicio = '" + codEjercicio + "'";
+
 		return where;
 }
 //// OFICIAL /////////////////////////////////////////////////////

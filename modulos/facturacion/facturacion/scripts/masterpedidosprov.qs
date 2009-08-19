@@ -442,13 +442,16 @@ function oficial_datosAlbaran(curPedido:FLSqlCursor, where:String, datosAgrupaci
 {
 	var fecha:String;
 	var hora:String;
+	var recFinanciero:Number;
 	if (datosAgrupacion) {
 		fecha = datosAgrupacion["fecha"];
 		hora = datosAgrupacion["hora"];
+		recFinanciero = datosAgrupacion["recfinanciero"];
 	} else {
 		var hoy:Date = new Date();
 		fecha = hoy.toString();
 		hora = hoy.toString().right(8);
+		recFinanciero = curPedido.valueBuffer("recfinanciero");
 	}
 	
 	var codEjercicio:String = curPedido.valueBuffer("codejercicio");
@@ -473,7 +476,7 @@ function oficial_datosAlbaran(curPedido:FLSqlCursor, where:String, datosAgrupaci
 		setValueBuffer("hora", hora);
 		setValueBuffer("codejercicio", codEjercicio);
 		setValueBuffer("tasaconv", curPedido.valueBuffer("tasaconv"));
-		setValueBuffer("recfinanciero", curPedido.valueBuffer("recfinanciero"));
+		setValueBuffer("recfinanciero", recFinanciero);
 		setValueBuffer("observaciones", curPedido.valueBuffer("observaciones"));
 	}
 	

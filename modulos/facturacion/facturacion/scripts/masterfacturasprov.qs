@@ -299,7 +299,7 @@ function oficial_asociarAFactura()
 
 	f.setMainWidget();
 	cursor.refreshBuffer();
-	var acpt:String = f.exec("codejercicio");
+	var acpt:String = f.exec("id");
 	if (acpt) {
 		cursor.commitBuffer();
 
@@ -380,6 +380,7 @@ function oficial_dameDatosAgrupacionAlbaranes(curAgruparAlbaranes:FLSqlCursor):A
 	var res:Array = [];
 	res["fecha"] = curAgruparAlbaranes.valueBuffer("fecha");
 	res["hora"] = curAgruparAlbaranes.valueBuffer("hora");
+	res["recfinanciero"] = curAgruparAlbaranes.valueBuffer("recfinanciero");
 	return res;
 }
 
@@ -396,7 +397,6 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 		var codAlmacen:String = curAgrupar.valueBuffer("codalmacen");
 		var codPago:String = curAgrupar.valueBuffer("codpago");
 		var codDivisa:String = curAgrupar.valueBuffer("coddivisa");
-		var codEjercicio:String = curAgrupar.valueBuffer("codejercicio");
 		var fechaDesde:String = curAgrupar.valueBuffer("fechadesde");
 		var fechaHasta:String = curAgrupar.valueBuffer("fechahasta");
 		var where:String = "albaranesprov.ptefactura = 'true'";
@@ -412,8 +412,6 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 				where = where + " AND albaranesprov.codpago = '" + codPago + "'";
 		if (codDivisa && !codDivisa.isEmpty())
 				where = where + " AND albaranesprov.coddivisa = '" + codDivisa + "'";
-		if (codEjercicio && !codEjercicio.isEmpty())
-				where = where + " AND albaranesprov.codejercicio = '" + codEjercicio + "'";
 
 		return where;
 }

@@ -121,9 +121,6 @@ function interna_init()
 	connect(this.child("pushButtonAccept"), "clicked()", this, "iface.descontarExcepciones");
 	connect(this.child("pbnAddDel"), "clicked()", this, "iface.pbnAddDel_clicked");
 
-	this.child("fdbCodEjercicio").setValue(flfactppal.iface.pub_ejercicioActual());
-	this.child("fdbCodEjercicio").setDisabled(true);
-
 	var util:FLUtil = new FLUtil();
 	var hoy:Date = new Date();
 	this.child("fdbFecha").setValue(hoy);
@@ -174,8 +171,7 @@ function oficial_bufferChanged(fN:String)
 		case "fechadesde":
 		case "fechahasta":
 		case "codpago":
-		case "coddivisa":
-		case "codejercicio": {
+		case "coddivisa": {
 			if (this.iface.estado == "Seleccionando") {
 				this.iface.estado = "Buscando";
 				this.iface.gestionEstado();
