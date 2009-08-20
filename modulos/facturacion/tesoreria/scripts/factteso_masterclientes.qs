@@ -44,6 +44,7 @@ class oficial extends interna {
 //// CTASCTES ///////////////////////////////////////////////////
 class ctasCtes extends oficial {
 	var comboBox1:Object;
+	var ckbSoloCtaActiva:Object;
 
 	function ctasCtes( context ) { oficial( context ); }
 	function init() {
@@ -116,9 +117,13 @@ function ctasCtes_init()
 		this.setCaptionWidget("Cuentas corrientes de Clientes");
 	} catch (e) {}
 
+	this.iface.comboBox1 = this.child("comboBox1");
+	this.iface.ckbSoloCtaActiva = this.child("ckbSoloCtaActiva");
+
 	this.child("tableDBRecords").setEditOnly(true);
 
-	connect(this.child("comboBox1"), "activated(int)", this, "iface.actualizarFiltroCombo");
+	connect(this.iface.comboBox1, "activated(int)", this, "iface.actualizarFiltroCombo");
+	connect(this.iface.ckbSoloCtaActiva, "clicked()",  this, "iface.actualizarFiltroCombo()");
 
 	this.iface.actualizarFiltroCombo();
 }
@@ -126,7 +131,7 @@ function ctasCtes_init()
 function ctasCtes_actualizarFiltroCombo()
 {
 	var util = new FLUtil();
-	var cuentas = this.child("comboBox1").currentItem;
+	var cuentas = this.iface.comboBox1.currentItem;
 	var filtro:String = "";
 
 	switch (cuentas) {
@@ -143,6 +148,12 @@ function ctasCtes_actualizarFiltroCombo()
 		filtro = "codcliente IN ( SELECT DISTINCT codcliente FROM reciboscli WHERE estado <> 'Pagado' AND fechav < '" + fechaV + "')";
 		break;
 		}
+	}
+
+	if (this.iface.ckbSoloCtaActiva.checked) {
+		if (filtro)
+			filtro += " AND ";
+		filtro += "cuentactiva = true";
 	}
 
 	this.child("tableDBRecords").setFilter(filtro);
