@@ -74,6 +74,7 @@
 		</item>
 		<item name="Ejercicio" text="Ejercicio" >
 			<action name="cambiarejer" />
+			<action name="piedocumentos" />
 		</item>
 	</menubar>
 	<toolbars>
@@ -101,6 +102,7 @@
 			<action name="contratos" />
 			<separator/>
 			<action name="cambiarejer" />
+			<action name="piedocumentos" />
 		</toolbar>
 	</toolbars>
 	<actions>
@@ -347,6 +349,26 @@
 				<string>Ctrl+A</string>
 			</property>
 		</action>
+		<action>
+			<property name="name" >
+				<cstring>piedocumentos</cstring>
+			</property>
+			<property name="iconSet" >
+				<iconset></iconset>
+			</property>
+			<property name="text" >
+				<string>Pie de documentos</string>
+			</property>
+			<property name="menuText" >
+				<string>Pie de documentos</string>
+			</property>
+			<property name="toolTip" >
+				<string>Pie de documentos</string>
+			</property>
+			<property name="accel" >
+				<string></string>
+			</property>
+		</action>
 	</actions>
 	<images>
 		<image name="pedidos_autoimage8" >
@@ -461,6 +483,12 @@
 			<signal>activated()</signal>
 			<receiver>FLWidgetApplication</receiver>
 			<slot>execDefaultScript()</slot>
+		</connection>
+		<connection>
+			<sender>piedocumentos</sender>
+			<signal>activated()</signal>
+			<receiver>FLWidgetApplication</receiver>
+			<slot>openDefaultForm()</slot>
 		</connection>
 	</connections>
 	<slots>

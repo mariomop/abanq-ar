@@ -157,11 +157,34 @@ class tipoVenta extends ordenCampos {
 //// TIPO DE VENTA  /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration pieDocumento */
+/////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ///////////////////////////////////////////
+class pieDocumento extends tipoVenta {
+	var curPieFactura:FLSqlCursor;
+
+	function pieDocumento( context ) { tipoVenta ( context ); }
+	function commonCalculateField(fN:String, cursor:FLSqlCursor):String {
+		return this.ctx.pieDocumento_commonCalculateField(fN, cursor);
+	}
+	function copiaPiesFactura(idFacturaOrigen:Number,idFacturaDestino:Number):Boolean {
+		return this.ctx.pieDocumento_copiaPiesFactura(idFacturaOrigen,idFacturaDestino);
+	}
+	function copiaPieFactura(curPieFactura:FLSqlCursor, idFactura:Number):Number {
+		return this.ctx.pieDocumento_copiaPieFactura(curPieFactura, idFactura);
+	}
+	function datosPieFactura(curPieFactura:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_datosPieFactura(curPieFactura);
+	}
+}
+//// PIE DE DOCUMENTO  //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends tipoVenta {
-    function head( context ) { tipoVenta ( context ); }
+class head extends pieDocumento {
+    function head( context ) { pieDocumento ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -482,7 +505,7 @@ function oficial_copiarFactura(curFactura:FLSqlCursor):Number
 	if (!this.iface.curFactura)
 		this.iface.curFactura = new FLSqlCursor("facturascli");
 
-	util.createProgressDialog(util.translate("scripts", "Copiando Factura...."), 3);
+	util.createProgressDialog(util.translate("scripts", "Copiando Factura...."), 4);
 	var progreso = 0;
 
 	this.iface.curFactura.setModeAccess(this.iface.curFactura.Insert);
@@ -511,12 +534,21 @@ function oficial_copiarFactura(curFactura:FLSqlCursor):Number
 		return false;
 	}
 	
+	progreso = 3;
+	util.setProgress(progreso);
+
+	// Copia los pies de factura
+	if (!this.iface.copiaPiesFactura(curFactura.valueBuffer("idfactura"), idFactura)) {
+		util.destroyProgressDialog();
+		return false;
+	}
+
 	this.iface.curFactura.select("idfactura = " + idFactura);
 	if (this.iface.curFactura.first()) {
 		this.iface.curFactura.setModeAccess(this.iface.curFactura.Edit);
 		this.iface.curFactura.refreshBuffer();
 	
-		progreso = 3;
+		progreso = 4;
 		util.setProgress(progreso);
 	
 		if (!this.iface.totalesFactura()) {
@@ -536,11 +568,15 @@ function oficial_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 {
 	var util:FLUtil = new FLUtil();
 	var fecha:String;
+	var hora:String;
 	if (curFactura.action() == "facturascli") {
 		var hoy:Date = new Date();
 		fecha = hoy.toString();
-	} else
+		hora = hoy.toString().right(8);
+	} else {
 		fecha = curFactura.valueBuffer("fecha");
+		hora = curFactura.valueBuffer("hora");
+	}
 		
 	var codEjercicio:String = curFactura.valueBuffer("codejercicio");
 	var datosDoc:Array = flfacturac.iface.pub_datosDocFacturacion(fecha, codEjercicio, "facturascli");
@@ -556,6 +592,7 @@ function oficial_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 		setValueBuffer("codserie", curFactura.valueBuffer("codserie"));
 		setValueBuffer("codejercicio", codEjercicio);
 		setValueBuffer("fecha", fecha);
+		setValueBuffer("hora", hora);
 		setValueBuffer("codagente", curFactura.valueBuffer("codagente"));
 		setValueBuffer("porcomision", curFactura.valueBuffer("porcomision"));
 		setValueBuffer("codalmacen", curFactura.valueBuffer("codalmacen"));
@@ -918,7 +955,7 @@ function ordenCampos_init()
 //////////////////////////////////////////////////////////////////
 //// TIPO VENTA //////////////////////////////////////////////////
 
-function tipoventa_copiadatosFactura(curFactura:FLSqlCursor):Boolean
+function tipoVenta_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 {
 	if (!this.iface.__copiadatosFactura(curFactura))
 		return false;
@@ -930,6 +967,103 @@ function tipoventa_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 }
 
 //// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition pieDocumento */
+//////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
+
+function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
+{
+	var util:FLUtil = new FLUtil();
+	var valor:String;
+	switch (fN) {
+		case "totalpie": {
+			var totalLineas:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totalinc)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND coniva = false"));
+			if (!totalLineas || isNaN(totalLineas))
+				totalLineas = 0;
+			valor = totalLineas;
+			break;
+		}
+		case "total": {
+			var totalPie:Number = parseFloat(cursor.valueBuffer("totalpie"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += totalPie;
+			valor = parseFloat(util.roundFieldValue(valor, "facturascli", "total"));
+			break;
+		}
+		case "neto": {
+			var netoPie:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totalinc)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND coniva = true"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += netoPie;
+			valor = parseFloat(util.roundFieldValue(valor, "facturascli", "neto"));
+			break;
+		}
+		case "totaliva": {
+			var ivaPie:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totaliva)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND coniva = true"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += ivaPie;
+			valor = parseFloat(util.roundFieldValue(valor, "facturascli", "totaliva"));
+			break;
+		}
+		default:{
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			break;
+		}
+	}
+	return valor;
+}
+
+function pieDocumento_copiaPiesFactura(idFacturaOrigen:Number, idFacturaDestino:Number):Boolean
+{
+	var curPieFactura:FLSqlCursor = new FLSqlCursor("piefacturascli");
+	curPieFactura.select("idfactura = " + idFacturaOrigen);
+	
+	while (curPieFactura.next()) {
+		curPieFactura.setModeAccess(curPieFactura.Browse);
+		if (!this.iface.copiaPieFactura(curPieFactura, idFacturaDestino))
+			return false;
+	}
+	return true;
+}
+
+function pieDocumento_copiaPieFactura(curPieFactura:FLSqlCursor, idFactura:Number):Number
+{
+	if (!this.iface.curPieFactura)
+		this.iface.curPieFactura = new FLSqlCursor("piefacturascli");
+	
+	with (this.iface.curPieFactura) {
+		setModeAccess(Insert);
+		refreshBuffer();
+		setValueBuffer("idfactura", idFactura);
+	}
+	
+	if (!this.iface.datosPieFactura(curPieFactura))
+		return false;
+		
+	if (!this.iface.curPieFactura.commitBuffer())
+		return false;
+	
+	return this.iface.curPieFactura.valueBuffer("idpie");
+}
+
+function pieDocumento_datosPieFactura(curPieFactura:FLSqlCursor):Boolean
+{
+	with (this.iface.curPieFactura) {
+		setValueBuffer("codpie", curPieFactura.valueBuffer("codpie"));
+		setValueBuffer("descripcion", curPieFactura.valueBuffer("descripcion"));
+		setValueBuffer("baseimponible", curPieFactura.valueBuffer("baseimponible"));
+		setValueBuffer("incporcentual", curPieFactura.valueBuffer("incporcentual"));
+		setValueBuffer("inclineal", curPieFactura.valueBuffer("inclineal"));
+		setValueBuffer("totalinc", curPieFactura.valueBuffer("totalinc"));
+		setValueBuffer("coniva", curPieFactura.valueBuffer("coniva"));
+		setValueBuffer("totaliva", curPieFactura.valueBuffer("totaliva"));
+		setValueBuffer("totallinea", curPieFactura.valueBuffer("totallinea"));
+	}
+	return true;
+}
+
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

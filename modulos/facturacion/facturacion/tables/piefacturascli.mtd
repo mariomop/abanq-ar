@@ -1,11 +1,9 @@
 <!DOCTYPE TMD>
 <TMD>
-	<name>lineasivafactcli</name>
-	<!--Líneas que contienen los acumulados según tipo de IVA de las facturas a cliente-->
-	<alias>QT_TRANSLATE_NOOP("MetaData","Lineas de IVA de facturas de cliente")</alias>
-	
+	<name>piefacturascli</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Pie de facturas de cliente")</alias>
 	<field>
-		<name>idlinea</name>
+		<name>idpie</name>
 		<!--Identificado interno de la tabla-->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Identificador")</alias>
 		<null>false</null>
@@ -13,16 +11,13 @@
 		<type>serial</type>
 		<visiblegrid>false</visiblegrid>
 	</field>
-	
 	<field>
 		<name>idfactura</name>
-		<!--Identificador de la factura a la que pertenece la línea-->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Identificador")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>uint</type>
 		<visiblegrid>false</visiblegrid>
-		
 		<relation>
 			<table>facturascli</table>
 			<field>idfactura</field>
@@ -30,38 +25,60 @@
 			<delC>true</delC>
 		</relation>
 	</field>
-	
 	<field>
-		<name>codimpuesto</name>
-		<!--Tipo de IVA aplicado-->
-		<alias>QT_TRANSLATE_NOOP("MetaData","I.V.A.")</alias>
+		<name>codpie</name>
+	        <alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
 		<length>10</length>
-		
 		<relation>
-			<table>impuestos</table>
-			<field>codimpuesto</field>
+			<table>piedocumentos</table>
+			<field>codpie</field>
 			<card>M1</card>
 		</relation>
 	</field>
-	
 	<field>
-		<name>iva</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","%I.V.A.")</alias>
+		<name>descripcion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Descripción")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>50</length>
+	</field>
+	<field>
+		<name>baseimponible</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Base imponible")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>
-		<partI>2</partI>
+		<partI>10</partI>
 		<partD>2</partD>
-		<visiblegrid>false</visiblegrid>
 	</field>
-	
 	<field>
-		<name>neto</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Neto")</alias>
-		<null>true</null>
+		<name>incporcentual</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Inc. Porcentual")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>3</partI>
+		<partD>2</partD>
+		<default>0</default>
+	</field>
+	<field>
+		<name>inclineal</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Inc. Lineal")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>8</partI>
+		<partD>2</partD>
+		<default>0</default>
+	</field>
+	<field>
+		<name>totalinc</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Incremento")</alias>
+		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>
 		<partI>10</partI>
@@ -70,12 +87,19 @@
 		<default>0</default>
 		<editable>false</editable>
 	</field>
-	
+	<field>
+		<name>coniva</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Con I.V.A.")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>true</default>
+		<editable>false</editable>
+	</field>
 	<field>
 		<name>totaliva</name>
-		<!--Total de IVA-->
 		<alias>QT_TRANSLATE_NOOP("MetaData","IVA")</alias>
-		<null>true</null>
+		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>
 		<partI>10</partI>
@@ -84,11 +108,10 @@
 		<default>0</default>
 		<editable>false</editable>
 	</field>
-	
 	<field>
 		<name>totallinea</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Total")</alias>
-		<null>true</null>
+		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>
 		<partI>10</partI>

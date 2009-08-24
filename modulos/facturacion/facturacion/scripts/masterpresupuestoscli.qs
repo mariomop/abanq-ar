@@ -184,11 +184,34 @@ class tipoVenta extends ordenCampos {
 //// TIPO DE VENTA  /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration pieDocumento */
+/////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ///////////////////////////////////////////
+class pieDocumento extends tipoVenta {
+	var curPiePedido:FLSqlCursor;
+
+	function pieDocumento( context ) { tipoVenta ( context ); }
+	function commonCalculateField(fN:String, cursor:FLSqlCursor):String {
+		return this.ctx.pieDocumento_commonCalculateField(fN, cursor);
+	}
+	function copiaPiesPresupuesto(idPresupuesto:Number, idPedido:Number):Boolean {
+		return this.ctx.pieDocumento_copiaPiesPresupuesto(idPresupuesto, idPedido);
+	}
+	function copiaPiePresupuesto(curPiePresupuesto:FLSqlCursor, idPedido:Number):Number {
+		return this.ctx.pieDocumento_copiaPiePresupuesto(curPiePresupuesto, idPedido);
+	}
+	function datosPiePedido(curPiePresupuesto:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_datosPiePedido(curPiePresupuesto);
+	}
+}
+//// PIE DE DOCUMENTO  //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends tipoVenta {
-    function head( context ) { tipoVenta ( context ); }
+class head extends pieDocumento {
+    function head( context ) { pieDocumento ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -324,6 +347,9 @@ function oficial_generarPedido(curPresupuesto:FLSqlCursor):Number
 	curPresupuestos.setModeAccess(curPresupuestos.Edit);
 	curPresupuestos.refreshBuffer();
 	if (!this.iface.copiaLineas(idPresupuesto, idPedido))
+		return false;
+	// Copia los pies de presupuesto
+	if (!this.iface.copiaPiesPresupuesto(idPresupuesto, idPedido))
 		return false;
 	curPresupuestos.setValueBuffer("editable", false);
 	if (!curPresupuestos.commitBuffer())
@@ -994,6 +1020,103 @@ function tipoVenta_datosPedido(curPresupuesto:FLSqlCursor):Boolean
 }
 
 //// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition pieDocumento */
+//////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
+
+function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
+{
+	var util:FLUtil = new FLUtil();
+	var valor:String;
+	switch (fN) {
+		case "totalpie": {
+			var totalLineas:Number = parseFloat(util.sqlSelect("piepresupuestoscli", "SUM(totalinc)", "idpresupuesto = " + cursor.valueBuffer("idpresupuesto") + " AND coniva = false"));
+			if (!totalLineas || isNaN(totalLineas))
+				totalLineas = 0;
+			valor = totalLineas;
+			break;
+		}
+		case "total": {
+			var totalPie:Number = parseFloat(cursor.valueBuffer("totalpie"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += totalPie;
+			valor = parseFloat(util.roundFieldValue(valor, "presupuestoscli", "total"));
+			break;
+		}
+		case "neto": {
+			var netoPie:Number = parseFloat(util.sqlSelect("piepresupuestoscli", "SUM(totalinc)", "idpresupuesto = " + cursor.valueBuffer("idpresupuesto") + " AND coniva = true"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += netoPie;
+			valor = parseFloat(util.roundFieldValue(valor, "presupuestoscli", "neto"));
+			break;
+		}
+		case "totaliva": {
+			var ivaPie:Number = parseFloat(util.sqlSelect("piepresupuestoscli", "SUM(totaliva)", "idpresupuesto = " + cursor.valueBuffer("idpresupuesto") + " AND coniva = true"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += ivaPie;
+			valor = parseFloat(util.roundFieldValue(valor, "presupuestoscli", "totaliva"));
+			break;
+		}
+		default:{
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			break;
+		}
+	}
+	return valor;
+}
+
+function pieDocumento_copiaPiesPresupuesto(idPresupuesto:Number, idPedido:Number):Boolean
+{
+	var curPiePresupuesto:FLSqlCursor = new FLSqlCursor("piepresupuestoscli");
+	curPiePresupuesto.select("idpresupuesto = " + idPresupuesto);
+
+	while (curPiePresupuesto.next()) {
+		curPiePresupuesto.setModeAccess(curPiePresupuesto.Browse);
+		if (!this.iface.copiaPiePresupuesto(curPiePresupuesto, idPedido))
+			return false;
+	}
+	return true;
+}
+
+function pieDocumento_copiaPiePresupuesto(curPiePresupuesto:FLSqlCursor, idPedido:Number):Number
+{
+	if (!this.iface.curPiePedido)
+		this.iface.curPiePedido = new FLSqlCursor("piepedidoscli");
+	
+	with (this.iface.curPiePedido) {
+		setModeAccess(Insert);
+		refreshBuffer();
+		setValueBuffer("idpedido", idPedido);
+	}
+	
+	if (!this.iface.datosPiePedido(curPiePresupuesto))
+		return false;
+		
+	if (!this.iface.curPiePedido.commitBuffer())
+		return false;
+	
+	return this.iface.curPiePedido.valueBuffer("idpie");
+}
+
+function pieDocumento_datosPiePedido(curPiePresupuesto:FLSqlCursor):Boolean
+{
+	with (this.iface.curPiePedido) {
+		setValueBuffer("codpie", curPiePresupuesto.valueBuffer("codpie"));
+		setValueBuffer("descripcion", curPiePresupuesto.valueBuffer("descripcion"));
+		setValueBuffer("baseimponible", curPiePresupuesto.valueBuffer("baseimponible"));
+		setValueBuffer("incporcentual", curPiePresupuesto.valueBuffer("incporcentual"));
+		setValueBuffer("inclineal", curPiePresupuesto.valueBuffer("inclineal"));
+		setValueBuffer("totalinc", curPiePresupuesto.valueBuffer("totalinc"));
+		setValueBuffer("coniva", curPiePresupuesto.valueBuffer("coniva"));
+		setValueBuffer("totaliva", curPiePresupuesto.valueBuffer("totaliva"));
+		setValueBuffer("totallinea", curPiePresupuesto.valueBuffer("totallinea"));
+	}
+	return true;
+}
+
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
