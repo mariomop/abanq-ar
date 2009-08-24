@@ -203,6 +203,9 @@ class pieDocumento extends tipoVenta {
 	function datosPiePedido(curPiePresupuesto:FLSqlCursor):Boolean {
 		return this.ctx.pieDocumento_datosPiePedido(curPiePresupuesto);
 	}
+	function datosPedido(curPresupuesto:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_datosPedido(curPresupuesto);
+	}
 }
 //// PIE DE DOCUMENTO  //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1113,6 +1116,18 @@ function pieDocumento_datosPiePedido(curPiePresupuesto:FLSqlCursor):Boolean
 		setValueBuffer("totaliva", curPiePresupuesto.valueBuffer("totaliva"));
 		setValueBuffer("totallinea", curPiePresupuesto.valueBuffer("totallinea"));
 	}
+	return true;
+}
+
+function pieDocumento_datosPedido(curPresupuesto:FLSqlCursor):Boolean
+{
+	if (!this.iface.__datosPedido(curPresupuesto))
+		return false;
+		
+	with (this.iface.curPedido) {
+		setValueBuffer("totalpie", curPresupuesto.valueBuffer("totalpie"));
+	}
+	
 	return true;
 }
 

@@ -176,6 +176,9 @@ class pieDocumento extends tipoVenta {
 	function datosPieFactura(curPieFactura:FLSqlCursor):Boolean {
 		return this.ctx.pieDocumento_datosPieFactura(curPieFactura);
 	}
+	function copiadatosFactura(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_copiadatosFactura(curFactura);
+	}
 }
 //// PIE DE DOCUMENTO  //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1059,6 +1062,17 @@ function pieDocumento_datosPieFactura(curPieFactura:FLSqlCursor):Boolean
 		setValueBuffer("coniva", curPieFactura.valueBuffer("coniva"));
 		setValueBuffer("totaliva", curPieFactura.valueBuffer("totaliva"));
 		setValueBuffer("totallinea", curPieFactura.valueBuffer("totallinea"));
+	}
+	return true;
+}
+
+function pieDocumento_copiadatosFactura(curFactura:FLSqlCursor):Boolean
+{
+	if (!this.iface.__copiadatosFactura(curFactura))
+		return false;
+
+	with (this.iface.curFactura) {
+		setValueBuffer("totalpie", curFactura.valueBuffer("totalpie"));
 	}
 	return true;
 }
