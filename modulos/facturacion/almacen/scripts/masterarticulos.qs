@@ -1401,12 +1401,15 @@ function silixSeleccionar_seleccionVerificarHabilitaciones()
 
 function silixSeleccionar_seleccionTodo()
 {
-	var cursor:FLSqlCursor = this.iface.tdbRecords.cursor();
+	var cursor = new FLSqlCursor("articulos");
+	cursor.setMainFilter(this.iface.tdbRecords.filter());
+	var clavePrimaria = cursor.primaryKey();
 	cursor.select();
 	while (cursor.next()) {
-		var codigo = cursor.valueBuffer(cursor.primaryKey());
-		this.iface.tdbRecords.setPrimaryKeyChecked(codigo, true)
+		this.iface.tdbRecords.setPrimaryKeyChecked(cursor.valueBuffer(clavePrimaria), true)
 	}
+	this.iface.tdbRecords.refresh();
+	this.iface.tdbRecords.setFocus();
 }
 
 function silixSeleccionar_seleccionNada()
@@ -1461,15 +1464,23 @@ function silixSeleccionar_seleccionCriterio()
 	}
 
 	var sel = flfactppal.iface.pub_seleccionar(tabla, campo, idCampo);
-	var cursor = this.iface.tdbRecords.cursor();
-
+	var cursor = new FLSqlCursor("articulos");
+	cursor.setMainFilter(this.iface.tdbRecords.filter());
+	var clavePrimaria = cursor.primaryKey();
+	var filtro:String = "";
 	for (var i = 0; i < sel.length; i++) {
-		cursor.select(idCampo + " = '" + sel[i] + "'");
-		while (cursor.next()) {
-			var codigo = cursor.valueBuffer(cursor.primaryKey());
-			this.iface.tdbRecords.setPrimaryKeyChecked(codigo, true)
-		}
+		if (i == 0)
+			filtro = idCampo + " = '" + sel[i] + "'";
+		else
+			filtro = filtro + " OR " + idCampo + " = '" + sel[i] + "'";
 	}
+
+	cursor.select(filtro);
+	while (cursor.next()) {
+		this.iface.tdbRecords.setPrimaryKeyChecked(cursor.valueBuffer(clavePrimaria), true)
+	}
+	this.iface.tdbRecords.refresh();
+	this.iface.tdbRecords.setFocus();
 }
 
 //// SILIXSELECCIONAR ///////////////////////////////////////////
