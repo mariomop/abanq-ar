@@ -226,11 +226,37 @@ class tipoVenta extends ordenCampos {
 //// TIPO DE VENTA  /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration pieDocumento */
+/////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ///////////////////////////////////////////
+class pieDocumento extends tipoVenta {
+	var curPieAlbaran:FLSqlCursor;
+
+	function pieDocumento( context ) { tipoVenta ( context ); }
+	function commonCalculateField(fN:String, cursor:FLSqlCursor):String {
+		return this.ctx.pieDocumento_commonCalculateField(fN, cursor);
+	}
+	function copiaPiesPedido(idPedido:Number, idAlbaran:Number):Boolean {
+		return this.ctx.pieDocumento_copiaPiesPedido(idPedido, idAlbaran);
+	}
+	function copiaPiePedido(curPiePedido:FLSqlCursor, idAlbaran:Number):Number {
+		return this.ctx.pieDocumento_copiaPiePedido(curPiePedido, idAlbaran);
+	}
+	function datosPieAlbaran(curPiePedido:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_datosPieAlbaran(curPiePedido);
+	}
+	function datosAlbaran(curPedido:FLSqlCursor, where:String, datosAgrupacion:Array):Boolean {
+		return this.ctx.pieDocumento_datosAlbaran(curPedido, where, datosAgrupacion);
+	}
+}
+//// PIE DE DOCUMENTO  //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends tipoVenta {
-    function head( context ) { tipoVenta ( context ); }
+class head extends pieDocumento {
+    function head( context ) { pieDocumento ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -440,6 +466,9 @@ function oficial_generarAlbaran(where:String, curPedido:FLSqlCursor, datosAgrupa
 	while (qryPedidos.next()) {
 		idPedido = qryPedidos.value(0);
 		if (!this.iface.copiaLineas(idPedido, idAlbaran))
+			return false;
+		// Crea los pies de remito a partir de los pies de pedido
+		if (!this.iface.copiaPiesPedido(idPedido, idAlbaran))
 			return false;
 	}
 
@@ -1340,6 +1369,115 @@ function tipoVenta_datosAlbaran(curPedido:FLSqlCursor,where:String, datosAgrupac
 }
 
 //// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition pieDocumento */
+//////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
+
+function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
+{
+	var util:FLUtil = new FLUtil();
+	var valor:String;
+	switch (fN) {
+		case "totalpie": {
+			var totalLineas:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totalinc)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND coniva = false"));
+			if (!totalLineas || isNaN(totalLineas))
+				totalLineas = 0;
+			valor = totalLineas;
+			break;
+		}
+		case "total": {
+			var totalPie:Number = parseFloat(cursor.valueBuffer("totalpie"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += totalPie;
+			valor = parseFloat(util.roundFieldValue(valor, "pedidoscli", "total"));
+			break;
+		}
+		case "neto": {
+			var netoPie:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totalinc)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND coniva = true"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += netoPie;
+			valor = parseFloat(util.roundFieldValue(valor, "pedidoscli", "neto"));
+			break;
+		}
+		case "totaliva": {
+			var ivaPie:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totaliva)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND coniva = true"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += ivaPie;
+			valor = parseFloat(util.roundFieldValue(valor, "pedidoscli", "totaliva"));
+			break;
+		}
+		default:{
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			break;
+		}
+	}
+	return valor;
+}
+
+function pieDocumento_copiaPiesPedido(idPedido:Number, idAlbaran:Number):Boolean
+{
+	var curPiePedido:FLSqlCursor = new FLSqlCursor("piepedidoscli");
+	curPiePedido.select("idpedido = " + idPedido);
+
+	while (curPiePedido.next()) {
+		curPiePedido.setModeAccess(curPiePedido.Browse);
+		if (!this.iface.copiaPiePedido(curPiePedido, idAlbaran))
+			return false;
+	}
+	return true;
+}
+
+function pieDocumento_copiaPiePedido(curPiePedido:FLSqlCursor, idAlbaran:Number):Number
+{
+	if (!this.iface.curPieAlbaran)
+		this.iface.curPieAlbaran = new FLSqlCursor("piealbaranescli");
+	
+	with (this.iface.curPieAlbaran) {
+		setModeAccess(Insert);
+		refreshBuffer();
+		setValueBuffer("idalbaran", idAlbaran);
+	}
+	
+	if (!this.iface.datosPieAlbaran(curPiePedido))
+		return false;
+		
+	if (!this.iface.curPieAlbaran.commitBuffer())
+		return false;
+	
+	return this.iface.curPieAlbaran.valueBuffer("idpie");
+}
+
+function pieDocumento_datosPieAlbaran(curPiePedido:FLSqlCursor):Boolean
+{
+	with (this.iface.curPieAlbaran) {
+		setValueBuffer("codpie", curPiePedido.valueBuffer("codpie"));
+		setValueBuffer("descripcion", curPiePedido.valueBuffer("descripcion"));
+		setValueBuffer("baseimponible", curPiePedido.valueBuffer("baseimponible"));
+		setValueBuffer("incporcentual", curPiePedido.valueBuffer("incporcentual"));
+		setValueBuffer("inclineal", curPiePedido.valueBuffer("inclineal"));
+		setValueBuffer("totalinc", curPiePedido.valueBuffer("totalinc"));
+		setValueBuffer("coniva", curPiePedido.valueBuffer("coniva"));
+		setValueBuffer("totaliva", curPiePedido.valueBuffer("totaliva"));
+		setValueBuffer("totallinea", curPiePedido.valueBuffer("totallinea"));
+	}
+	return true;
+}
+
+function pieDocumento_datosAlbaran(curPedido:FLSqlCursor,where:String, datosAgrupacion:Array):Boolean
+{
+	if (!this.iface.__datosAlbaran(curPedido, where, datosAgrupacion))
+		return false;
+		
+	with (this.iface.curAlbaran) {
+		setValueBuffer("totalpie", curPedido.valueBuffer("totalpie"));
+	}
+	
+	return true;
+}
+
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

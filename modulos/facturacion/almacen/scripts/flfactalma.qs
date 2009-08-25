@@ -379,6 +379,9 @@ class funNumSerie extends articuloscomp {
 	function afterCommit_numerosserie(curNS:FLSqlCursor):Boolean {
 		return this.ctx.funNumSerie_afterCommit_numerosSerie(curNS);
 	}
+	function controlStockLineasTrans(curLTS:FLSqlCursor):Boolean {
+		return this.ctx.funNumSerie_controlStockLineasTrans(curLTS);
+	}
 }
 //// FUN_NUMEROS_SERIE /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -2572,6 +2575,46 @@ function funNumSerie_afterCommit_numerosSerie(curNS:FLSqlCursor)
 		}
 	}
 	
+	
+	return true;
+}
+
+/** \C
+Actualiza el stock correspondiente al artículo seleccionado en la línea
+\end */
+function funNumSerie_controlStockLineasTrans(curLTS:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil();
+	
+	var referencia:String = curLTS.valueBuffer("referencia");
+	if (!util.sqlSelect("articulos", "controlnumserie", "referencia = '" + referencia + "'"))
+		return this.iface.__controlStockLineasTrans(curLTS);
+
+	var codAlmacenOrigen:String = util.sqlSelect("transstock", "codalmaorigen", "idtrans = " + curLTS.valueBuffer("idtrans"));
+	if (!codAlmacenOrigen || codAlmacenOrigen == "")
+		return true;
+
+	var codAlmacenDestino:String = util.sqlSelect("transstock", "codalmadestino", "idtrans = " + curLTS.valueBuffer("idtrans"));
+	if (!codAlmacenDestino || codAlmacenDestino == "")
+		return true;
+	
+	if (!this.iface.controlStock(curLTS, "cantidad", -1, codAlmacenOrigen))
+		return false;
+
+	if (!this.iface.controlStock(curLTS, "cantidad", 1, codAlmacenDestino))
+		return false;
+
+	var numSerie:String = curLTS.valueBuffer("numserie");
+	
+	switch (curLTS.modeAccess()) {
+		case curLTS.Insert: {
+			this.iface.modificarNumSerie(referencia, numSerie, "codalmacen", codAlmacenDestino);
+			break;
+		} case curLTS.Del: {
+			this.iface.modificarNumSerie(referencia, numSerie, "codalmacen", codAlmacenOrigen);
+			break;
+		}
+ 	}
 	
 	return true;
 }

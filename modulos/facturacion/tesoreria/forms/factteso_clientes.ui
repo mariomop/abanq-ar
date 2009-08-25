@@ -150,15 +150,20 @@
 								<property name="name" >
 									<cstring>unnamed</cstring>
 								</property>
-								<widget class="FLFieldDB" >
-									<property name="name" >
-										<cstring>fdbRiesgoAlcanzado</cstring>
+								<widget class="FLFieldDB">
+									<property name="name">
+										<cstring>fdbCuentaActiva</cstring>
 									</property>
-									<property name="enabled" >
-										<bool>false</bool>
+									<property name="sizePolicy">
+										<sizepolicy>
+											<hsizetype>0</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
 									</property>
-									<property name="fieldName" >
-										<string>riesgoalcanzado</string>
+									<property name="fieldName">
+										<string>cuentactiva</string>
 									</property>
 								</widget>
 								<spacer>
@@ -178,20 +183,15 @@
 										</size>
 									</property>
 								</spacer>
-								<widget class="FLFieldDB">
-									<property name="name">
-										<cstring>fdbCuentaActiva</cstring>
+								<widget class="FLFieldDB" >
+									<property name="name" >
+										<cstring>fdbRiesgoAlcanzado</cstring>
 									</property>
-									<property name="sizePolicy">
-										<sizepolicy>
-											<hsizetype>0</hsizetype>
-											<vsizetype>0</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
+									<property name="enabled" >
+										<bool>false</bool>
 									</property>
-									<property name="fieldName">
-										<string>cuentactiva</string>
+									<property name="fieldName" >
+										<string>riesgoalcanzado</string>
 									</property>
 								</widget>
 							</hbox>

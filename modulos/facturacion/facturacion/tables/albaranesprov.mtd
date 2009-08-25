@@ -19,6 +19,11 @@
 			<field>idalbaran</field>
 			<card>1M</card>
 		</relation>
+		<relation>
+			<table>piealbaranesprov</table>
+			<field>idalbaran</field>
+			<card>1M</card>
+		</relation>
 	</field>
 	<field>
 		<name>codigo</name>
@@ -139,6 +144,18 @@
 	<field>
 		<name>totaliva</name>
 		<!--Total de iva-->        <alias>QT_TRANSLATE_NOOP("MetaData","IVA")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>8</partI>
+		<partD>2</partD>
+		<default>0</default>
+		<editable>false</editable>
+	</field>
+	<field>
+		<name>totalpie</name>
+		<!--Total del Pie de documento-->
+	        <alias>QT_TRANSLATE_NOOP("MetaData","Otros conceptos")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>

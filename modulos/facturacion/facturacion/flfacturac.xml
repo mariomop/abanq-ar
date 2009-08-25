@@ -334,4 +334,69 @@
 	    <form>master_print</form>
 	    <formrecord>ctas_valores</formrecord>
 	</action>
+	<action>
+		<name>piedocumentos</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Pie de documentos")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pie de documentos")</alias>
+		<table>piedocumentos</table>
+		<form>master</form>
+		<formrecord>piedocumentos</formrecord>
+		<scriptformrecord>piedocumentos</scriptformrecord>
+	</action>
+	<action>
+		<name>piefacturascli</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Pie de facturas de cliente")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pie de facturas de cliente")</alias>
+		<table>piefacturascli</table>
+		<formrecord>piefacturascli</formrecord>
+		<scriptformrecord>piefacturascli</scriptformrecord>
+	</action>
+	<action>
+		<name>piealbaranescli</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Pie de remitos de cliente")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pie de remitos de cliente")</alias>
+		<table>piealbaranescli</table>
+		<formrecord>piealbaranescli</formrecord>
+		<scriptformrecord>piealbaranescli</scriptformrecord>
+	</action>
+	<action>
+		<name>piepedidoscli</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Pie de pedidos de cliente")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pie de pedidos de cliente")</alias>
+		<table>piepedidoscli</table>
+		<formrecord>piepedidoscli</formrecord>
+		<scriptformrecord>piepedidoscli</scriptformrecord>
+	</action>
+	<action>
+		<name>piepresupuestoscli</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Pie de presupuestos de cliente")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pie de presupuestos de cliente")</alias>
+		<table>piepresupuestoscli</table>
+		<formrecord>piepresupuestoscli</formrecord>
+		<scriptformrecord>piepresupuestoscli</scriptformrecord>
+	</action>
+	<action>
+		<name>piefacturasprov</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Pie de facturas de proveedor")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pie de facturas de proveedor")</alias>
+		<table>piefacturasprov</table>
+		<formrecord>piefacturasprov</formrecord>
+		<scriptformrecord>piefacturasprov</scriptformrecord>
+	</action>
+	<action>
+		<name>piealbaranesprov</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Pie de remitos de proveedor")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pie de remitos de proveedor")</alias>
+		<table>piealbaranesprov</table>
+		<formrecord>piealbaranesprov</formrecord>
+		<scriptformrecord>piealbaranesprov</scriptformrecord>
+	</action>
+	<action>
+		<name>piepedidosprov</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Pie de pedidos de proveedor")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pie de pedidos de proveedor")</alias>
+		<table>piepedidosprov</table>
+		<formrecord>piepedidosprov</formrecord>
+		<scriptformrecord>piepedidosprov</scriptformrecord>
+	</action>
 </ACTIONS>

@@ -167,11 +167,29 @@ class tipoVenta extends ordenCampos {
 //// TIPO DE VENTA  /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration pieDocumento */
+/////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ///////////////////////////////////////////
+class pieDocumento extends tipoVenta {
+	function pieDocumento( context ) { tipoVenta ( context ); }
+	function init() {
+		this.ctx.pieDocumento_init();
+	}
+	function calcularTotales() {
+		this.ctx.pieDocumento_calcularTotales();
+	}
+	function actualizarPieDocumento(curPedido:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_actualizarPieDocumento(curPedido);
+	}
+}
+//// PIE DE DOCUMENTO  //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends tipoVenta {
-    function head( context ) { tipoVenta ( context ); }
+class head extends pieDocumento {
+    function head( context ) { pieDocumento ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -689,6 +707,54 @@ function tipoVenta_bufferChanged(fN:String)
 	}
 }
 //// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition pieDocumento */
+//////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
+
+function pieDocumento_init()
+{
+	this.iface.__init();
+
+	connect(this.child("tdbPieDocumento").cursor(), "bufferCommited()", this, "iface.calcularTotales");
+
+	this.child("tdbPieDocumento").setFindHidden(true);
+	this.child("tdbPieDocumento").setFilterHidden(true);
+}
+
+function pieDocumento_bufferChanged(fN:String)
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	switch (fN) {
+		case "totalpie": {
+			this.child("fdbTotal").setValue(this.iface.calculateField("total"));
+			break;
+		}
+		default:
+			this.iface.__bufferChanged(fN);
+	}
+}
+
+function pieDocumento_calcularTotales()
+{
+	this.child("fdbTotalPie").setValue(this.iface.calculateField("totalpie"));
+
+	this.iface.__calcularTotales();
+
+	this.iface.actualizarPieDocumento(this.cursor());
+
+}
+
+function pieDocumento_actualizarPieDocumento(curPedido:FLSqlCursor):Boolean
+{
+	// Acá se deberían actualizar los pie de pedido que dependan del neto
+
+	return true;
+}
+
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

@@ -1,0 +1,256 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+	<class>piedocumentos</class>
+	<widget class="QWidget">
+		<property name="name">
+			<cstring>piedocumentos</cstring>
+		</property>
+		<property name="geometry">
+			<rect>
+				<x>0</x>
+				<y>0</y>
+				<width>700</width>
+				<height>180</height>
+			</rect>
+		</property>
+		<property name="caption">
+			<string>Pie de documentos</string>
+		</property>
+		<vbox>
+			<property name="name">
+				<cstring>unnamed</cstring>
+			</property>
+			<widget class="QFrame">
+				<property name="name">
+					<cstring>fdmIdentificacion</cstring>
+				</property>
+				<property name="frameShape">
+					<enum>GroupBoxPanel</enum>
+				</property>
+				<property name="frameShadow">
+					<enum>Sunken</enum>
+				</property>
+				<hbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbCodPie</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>0</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>130</width>
+								<height>25</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>codpie</string>
+						</property>
+					</widget>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbDescripcion</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>7</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>250</width>
+								<height>25</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>descripcion</string>
+						</property>
+					</widget>
+				</hbox>
+			</widget>
+			<widget class="QFrame">
+				<property name="name">
+					<cstring>frmIncrementos</cstring>
+				</property>
+				<property name="frameShape">
+					<enum>GroupBoxPanel</enum>
+				</property>
+				<property name="frameShadow">
+					<enum>Sunken</enum>
+				</property>
+				<hbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbIncPorcentual</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>230</width>
+								<height>25</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>incporcentual</string>
+						</property>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Fixed</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>16</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbIncLineal</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>230</width>
+								<height>25</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>inclineal</string>
+						</property>
+					</widget>
+				</hbox>
+			</widget>
+			<widget class="QFrame">
+				<property name="name">
+					<cstring>frmImpuestos</cstring>
+				</property>
+				<property name="frameShape">
+					<enum>GroupBoxPanel</enum>
+				</property>
+				<property name="frameShadow">
+					<enum>Sunken</enum>
+				</property>
+				<hbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbConIVA</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>230</width>
+								<height>25</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>coniva</string>
+						</property>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Fixed</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>16</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbCodImpuesto</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>230</width>
+								<height>25</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>codimpuesto</string>
+						</property>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Expanding</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>16</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+				</hbox>
+			</widget>
+		</vbox>
+	</widget>
+	<layoutdefaults spacing="6" margin="11"/>
+</UI>

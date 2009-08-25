@@ -221,6 +221,40 @@
 					<property name="spacing" >
 						<number>2</number>
 					</property>
+					<widget class="QCheckBox">
+						<property name="name">
+							<cstring>ckbSoloCtaActiva</cstring>
+						</property>
+						<property name="font">
+							<font>
+								<bold>0</bold>
+								<italic>1</italic>
+							</font>
+						</property>
+						<property name="text">
+							<string>Sólo cuentas corrientes activas</string>
+						</property>
+						<property name="checked">
+							<bool>true</bool>
+						</property>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Expanding</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>10</width>
+								<height>16</height>
+							</size>
+						</property>
+					</spacer>
 					<widget class="QLayoutWidget">
 						<property name="name">
 							<cstring>layoutFiltroEstado</cstring>
@@ -277,23 +311,6 @@
 							</widget>
 						</hbox>
 					</widget>
-					<spacer>
-						<property name="name">
-							<cstring>unnamed</cstring>
-						</property>
-						<property name="orientation">
-							<enum>Horizontal</enum>
-						</property>
-						<property name="sizeType">
-							<enum>Expanding</enum>
-						</property>
-						<property name="sizeHint">
-							<size>
-								<width>10</width>
-								<height>16</height>
-							</size>
-						</property>
-					</spacer>
 				</hbox>
 			</widget>
 			<widget class="FLTableDB">

@@ -193,11 +193,37 @@ class tipoVenta extends ordenCampos {
 //// TIPO DE VENTA  /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration pieDocumento */
+/////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ///////////////////////////////////////////
+class pieDocumento extends tipoVenta {
+	var curPieFactura:FLSqlCursor;
+
+	function pieDocumento( context ) { tipoVenta ( context ); }
+	function commonCalculateField(fN:String, cursor:FLSqlCursor):String {
+		return this.ctx.pieDocumento_commonCalculateField(fN, cursor);
+	}
+	function copiaPiesAlbaran(idAlbaran:Number, idFactura:Number):Boolean {
+		return this.ctx.pieDocumento_copiaPiesAlbaran(idAlbaran, idFactura);
+	}
+	function copiaPieAlbaran(curPieAlbaran:FLSqlCursor, idFactura:Number):Number {
+		return this.ctx.pieDocumento_copiaPieAlbaran(curPieAlbaran, idFactura);
+	}
+	function datosPieFactura(curPieAlbaran:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_datosPieFactura(curPieAlbaran);
+	}
+	function datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupacion:Array):Boolean {
+		return this.ctx.pieDocumento_datosFactura(curAlbaran, where, datosAgrupacion);
+	}
+}
+//// PIE DE DOCUMENTO  //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends tipoVenta {
-    function head( context ) { tipoVenta ( context ); }
+class head extends pieDocumento {
+    function head( context ) { pieDocumento ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -351,6 +377,11 @@ function oficial_generarFactura(where:String, curAlbaran:FLSqlCursor, datosAgrup
 		curAlbaranes.setValueBuffer("ptefactura", false);
 		if (!curAlbaranes.commitBuffer())
 			return false;
+
+		// Crea los pies de factura a partir de los pies de remito
+		if (!this.iface.copiaPiesAlbaran(idAlbaran, idFactura)) {
+			return false;
+		}
 	}
 
 	this.iface.curFactura.select("idfactura = " + idFactura);
@@ -995,6 +1026,114 @@ function tipoVenta_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrup
 }
 
 //// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition pieDocumento */
+//////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
+
+function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
+{
+	var util:FLUtil = new FLUtil();
+	var valor:String;
+	switch (fN) {
+		case "totalpie": {
+			var totalLineas:Number = parseFloat(util.sqlSelect("piealbaranesprov", "SUM(totalinc)", "idalbaran = " + cursor.valueBuffer("idalbaran") + " AND coniva = false"));
+			if (!totalLineas || isNaN(totalLineas))
+				totalLineas = 0;
+			valor = totalLineas;
+			break;
+		}
+		case "total": {
+			var totalPie:Number = parseFloat(cursor.valueBuffer("totalpie"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += totalPie;
+			valor = parseFloat(util.roundFieldValue(valor, "albaranesprov", "total"));
+			break;
+		}
+		case "neto": {
+			var netoPie:Number = parseFloat(util.sqlSelect("piealbaranesprov", "SUM(totalinc)", "idalbaran = " + cursor.valueBuffer("idalbaran") + " AND coniva = true"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += netoPie;
+			valor = parseFloat(util.roundFieldValue(valor, "albaranesprov", "neto"));
+			break;
+		}
+		case "totaliva": {
+			var ivaPie:Number = parseFloat(util.sqlSelect("piealbaranesprov", "SUM(totaliva)", "idalbaran = " + cursor.valueBuffer("idalbaran") + " AND coniva = true"));
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			valor += ivaPie;
+			valor = parseFloat(util.roundFieldValue(valor, "albaranesprov", "totaliva"));
+			break;
+		}
+		default:{
+			valor = this.iface.__commonCalculateField(fN, cursor);
+			break;
+		}
+	}
+	return valor;
+}
+
+function pieDocumento_copiaPiesAlbaran(idAlbaran:Number, idFactura:Number):Boolean
+{
+	var curPieAlbaran:FLSqlCursor = new FLSqlCursor("piealbaranesprov");
+	curPieAlbaran.select("idalbaran = " + idAlbaran);
+	
+	while (curPieAlbaran.next()) {
+		curPieAlbaran.setModeAccess(curPieAlbaran.Browse);
+		if (!this.iface.copiaPieAlbaran(curPieAlbaran, idFactura))
+			return false;
+	}
+	return true;
+}
+
+function pieDocumento_copiaPieAlbaran(curPieAlbaran:FLSqlCursor, idFactura:Number):Number
+{
+	if (!this.iface.curPieFactura)
+		this.iface.curPieFactura = new FLSqlCursor("piefacturasprov");
+	
+	with (this.iface.curPieFactura) {
+		setModeAccess(Insert);
+		refreshBuffer();
+		setValueBuffer("idfactura", idFactura);
+	}
+	
+	if (!this.iface.datosPieFactura(curPieAlbaran))
+		return false;
+		
+	if (!this.iface.curPieFactura.commitBuffer())
+		return false;
+	
+	return this.iface.curPieFactura.valueBuffer("idpie");
+}
+
+function pieDocumento_datosPieFactura(curPieAlbaran:FLSqlCursor):Boolean
+{
+	with (this.iface.curPieFactura) {
+		setValueBuffer("codpie", curPieAlbaran.valueBuffer("codpie"));
+		setValueBuffer("descripcion", curPieAlbaran.valueBuffer("descripcion"));
+		setValueBuffer("baseimponible", curPieAlbaran.valueBuffer("baseimponible"));
+		setValueBuffer("incporcentual", curPieAlbaran.valueBuffer("incporcentual"));
+		setValueBuffer("inclineal", curPieAlbaran.valueBuffer("inclineal"));
+		setValueBuffer("totalinc", curPieAlbaran.valueBuffer("totalinc"));
+		setValueBuffer("coniva", curPieAlbaran.valueBuffer("coniva"));
+		setValueBuffer("totaliva", curPieAlbaran.valueBuffer("totaliva"));
+		setValueBuffer("totallinea", curPieAlbaran.valueBuffer("totallinea"));
+	}
+	return true;
+}
+
+function pieDocumento_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupacion:Array):Boolean
+{
+	if (!this.iface.__datosFactura(curAlbaran, where, datosAgrupacion))
+		return false;
+
+	with (this.iface.curFactura) {
+		setValueBuffer("totalpie", curAlbaran.valueBuffer("totalpie"));
+	}
+	return true;
+}
+
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

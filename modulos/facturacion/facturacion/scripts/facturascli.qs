@@ -207,11 +207,32 @@ class tipoVenta extends ordenCampos {
 //// TIPO DE VENTA  /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration pieDocumento */
+/////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ///////////////////////////////////////////
+class pieDocumento extends tipoVenta {
+	function pieDocumento( context ) { tipoVenta ( context ); }
+	function init() {
+		this.ctx.pieDocumento_init();
+	}
+	function calcularTotales() {
+		this.ctx.pieDocumento_calcularTotales();
+	}
+	function actualizarPieDocumento(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_actualizarPieDocumento(curFactura);
+	}
+	function actualizarLineasIva(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_actualizarLineasIva(curFactura);
+	}
+}
+//// PIE DE DOCUMENTO  //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends tipoVenta {
-    function head( context ) { tipoVenta ( context ); }
+class head extends pieDocumento {
+    function head( context ) { pieDocumento ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -361,8 +382,9 @@ function oficial_calcularTotales()
 	var util:FLUtil = new FLUtil();
 
 	this.child("fdbNeto").setValue(this.iface.calculateField("neto"));
-	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 	this.child("fdbTotalIva").setValue(this.iface.calculateField("totaliva"));
+	this.child("fdbTotal").setValue(this.iface.calculateField("total"));
+	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 
 	this.iface.actualizarLineasIva(this.cursor());
 	this.child("tdbLineasIvaFactCli").refresh();
@@ -1202,6 +1224,154 @@ function tipoVenta_bufferChanged(fN:String)
 	}
 }
 //// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition pieDocumento */
+//////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
+
+function pieDocumento_init()
+{
+	this.iface.__init();
+
+	connect(this.child("tdbPieDocumento").cursor(), "bufferCommited()", this, "iface.calcularTotales");
+
+	this.child("tdbLineasIvaFactCli").setFindHidden(true);
+	this.child("tdbLineasIvaFactCli").setFilterHidden(true);
+
+	this.child("tdbPieDocumento").setFindHidden(true);
+	this.child("tdbPieDocumento").setFilterHidden(true);
+}
+
+function pieDocumento_bufferChanged(fN:String)
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	switch (fN) {
+		case "totalpie": {
+			this.child("fdbTotal").setValue(this.iface.calculateField("total"));
+			break;
+		}
+		default:
+			this.iface.__bufferChanged(fN);
+	}
+}
+
+function pieDocumento_calcularTotales()
+{
+	this.child("fdbTotalPie").setValue(this.iface.calculateField("totalpie"));
+
+	this.iface.__calcularTotales();
+
+	this.iface.actualizarPieDocumento(this.cursor());
+
+}
+
+function pieDocumento_actualizarPieDocumento(curFactura:FLSqlCursor):Boolean
+{
+	// Acá se deberían actualizar los pie de factura que dependan del neto
+
+	return true;
+}
+
+function pieDocumento_actualizarLineasIva(curFactura:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil;
+	var idFactura:String = curFactura.valueBuffer("idfactura");
+
+	var netoExacto:Number = curFactura.valueBuffer("neto");
+	var ivaExacto:Number = curFactura.valueBuffer("totaliva");
+	
+	if (!util.sqlDelete("lineasivafactcli", "idfactura = " + idFactura))
+		return false;
+
+	var codImpuestoAnt:Number = 0;
+	var codImpuesto:Number = 0;
+	var iva:Number;
+	var totalNeto:Number = 0;
+	var totalIva:Number = 0;
+	var totalLinea:Number = 0;
+	var acumNeto:Number = 0;
+	var acumIva:Number = 0;
+	
+	var curLineaIva:FLSqlCursor = new FLSqlCursor("lineasivafactcli");
+	var qryLineasFactura:FLSqlQuery = new FLSqlQuery;
+	with (qryLineasFactura) {
+		setTablesList("lineasfacturascli");
+		setSelect("codimpuesto, iva, pvptotal");
+		setFrom("lineasfacturascli");
+		setWhere("idfactura = " + idFactura + " AND pvptotal <> 0 ORDER BY codimpuesto");
+		setForwardOnly(true);
+	}
+	if (!qryLineasFactura.exec()) {
+		return false;
+	}
+
+	var regIva:String = flfacturac.iface.pub_regimenIVACliente(curFactura);
+	
+	while (qryLineasFactura.next()) {
+		codImpuesto = qryLineasFactura.value("codimpuesto");
+		if (codImpuestoAnt != 0 && codImpuestoAnt != codImpuesto) {
+
+			var netoPie:Number = parseFloat(util.sqlSelect("piefacturascli pf INNER JOIN piedocumentos pd ON pf.codpie = pd.codpie", "SUM(pf.totalinc)", "pf.idfactura = " + idFactura + " AND pf.coniva = true AND pd.codimpuesto = '" + codImpuestoAnt + "'", "piefacturascli,piedocumentos"));
+			if (isNaN(netoPie)) netoPie = 0;
+
+			totalNeto += netoPie;
+
+			totalNeto = util.roundFieldValue(totalNeto, "lineasivafactcli", "neto");
+			totalIva = util.roundFieldValue((iva * totalNeto) / 100, "lineasivafactcli", "totaliva");
+			totalLinea = parseFloat(totalNeto) + parseFloat(totalIva);
+			totalLinea = util.roundFieldValue(totalLinea, "lineasivafactcli", "totallinea");
+			
+			acumNeto += parseFloat(totalNeto);
+			acumIva += parseFloat(totalIva);
+
+			with(curLineaIva) {
+				setModeAccess(Insert);
+				refreshBuffer();
+				setValueBuffer("idfactura", idFactura);
+				setValueBuffer("codimpuesto", codImpuestoAnt);
+				setValueBuffer("iva", iva);
+				setValueBuffer("neto", totalNeto);
+				setValueBuffer("totaliva", totalIva);
+				setValueBuffer("totallinea", totalLinea);
+			}
+			if (!curLineaIva.commitBuffer())
+					return false;
+			totalNeto = 0;
+		}
+		codImpuestoAnt = codImpuesto;
+		if (regIva == "U.E." || regIva == "Exento" || regIva == "Exportaciones") {
+			iva = 0;
+		} else {
+			iva = parseFloat(qryLineasFactura.value("iva"));
+		}
+		totalNeto += parseFloat(qryLineasFactura.value("pvptotal"));
+	}
+
+	if (totalNeto != 0) {
+		totalNeto = util.roundFieldValue(netoExacto - acumNeto, "lineasivafactcli", "neto");
+		totalIva = util.roundFieldValue(ivaExacto - acumIva, "lineasivafactcli", "totaliva");
+		totalLinea = parseFloat(totalNeto) + parseFloat(totalIva);
+		totalLinea = util.roundFieldValue(totalLinea, "lineasivafactcli", "totallinea");
+
+		with(curLineaIva) {
+			setModeAccess(Insert);
+			refreshBuffer();
+			setValueBuffer("idfactura", idFactura);
+			setValueBuffer("codimpuesto", codImpuestoAnt);
+			setValueBuffer("iva", iva);
+			setValueBuffer("neto", totalNeto);
+			setValueBuffer("totaliva", totalIva);
+			setValueBuffer("totallinea", totalLinea);
+		}
+		if (!curLineaIva.commitBuffer())
+			return false;
+	}
+	return true;
+}
+
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
