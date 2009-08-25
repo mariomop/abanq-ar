@@ -43,6 +43,12 @@ class oficial extends interna {
 /////////////////////////////////////////////////////////////////
 //// PIE DE DOCUMENTO ///////////////////////////////////////////
 class pieDocumento extends oficial {
+	var ejercicioActual:String;
+	var longSubcuenta:Number;
+	var contabilidadCargada:Boolean;
+	var posActualPuntoSubcuenta:Number;
+	var bloqueoSubcuenta:Boolean;
+	
 	function pieDocumento( context ) { oficial ( context ); }
 	function init() {
 		this.ctx.pieDocumento_init();
@@ -104,6 +110,17 @@ function pieDocumento_init()
 	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
 
+	if (sys.isLoadedModule("flcontppal")) {
+		this.iface.contabilidadCargada = true;
+		this.iface.ejercicioActual = flfactppal.iface.pub_ejercicioActual();
+		this.iface.longSubcuenta = util.sqlSelect("ejercicios", "longsubcuenta", "codejercicio = '" + this.iface.ejercicioActual + "'");
+		this.iface.bloqueoSubcuenta = false;
+		this.iface.posActualPuntoSubcuenta = -1;
+		this.child("fdbIdSubcuenta").setFilter("codejercicio = '" + this.iface.ejercicioActual + "'");
+	} else {
+		this.child("gbxContabilidad").enabled = false;
+	}
+
 	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
 
 	this.iface.bufferChanged("coniva");
@@ -111,10 +128,21 @@ function pieDocumento_init()
 
 function pieDocumento_validateForm()
 {
+	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
+
 	if ( cursor.valueBuffer("coniva") && !cursor.valueBuffer("codimpuesto") ) {
 		MessageBox.warning("Si al pie de documento se le aplica IVA debe especificar el tipo de IVA.", MessageBox.Ok, MessageBox.NoButton);
 		return false;
+	}
+
+	if (sys.isLoadedModule("flcontppal")) {
+		var codSubcuenta:String = cursor.valueBuffer("codsubcuenta");
+		if ((!codSubcuenta || codSubcuenta == "") && !cursor.valueBuffer("coniva")) {
+			var res:Number = MessageBox.warning(util.translate("scripts", "No ha establecido la subcuenta contable asociada al pie de documento.\nEsto provocará que, al crear facturas con pies asociados a este pie de documento, la generación del asiento contable falle.\n¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
+			if (res != MessageBox.Yes)
+				return false;
+		}
 	}
 
 	return true;
@@ -131,6 +159,14 @@ function pieDocumento_bufferChanged(fN:String)
 			} else {
 				this.child("fdbCodImpuesto").setValue("");
 				this.child("fdbCodImpuesto").setDisabled(true);
+			}
+			break;
+		}
+		case "codsubcuenta": {
+			if (!this.iface.bloqueoSubcuenta) {
+				this.iface.bloqueoSubcuenta = true;
+				this.iface.posActualPuntoSubcuenta = flcontppal.iface.pub_formatearCodSubcta(this, "fdbCodSubcuenta", this.iface.longSubcuenta, this.iface.posActualPuntoSubcuenta);
+				this.iface.bloqueoSubcuenta = false;
 			}
 			break;
 		}

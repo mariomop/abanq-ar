@@ -684,11 +684,35 @@ class silixExtensiones extends controlUsuario {
 //// SILIX EXTENSIONES //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration pieDocumento */
+/////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ///////////////////////////////////////////
+class pieDocumento extends silixExtensiones {
+	function pieDocumento( context ) { silixExtensiones ( context ); }
+	function generarAsientoFacturaCli(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_generarAsientoFacturaCli(curFactura);
+	}
+	function generarAsientoFacturaProv(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.pieDocumento_generarAsientoFacturaProv(curFactura);
+	}
+	function generarPartidasCompra(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array, concepto:String):Boolean {
+		return this.ctx.pieDocumento_generarPartidasCompra(curFactura, idAsiento, valoresDefecto, concepto);
+	}
+	function generarPartidasPieFacturascli(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array):Boolean {
+		return this.ctx.pieDocumento_generarPartidasPieFacturascli(curFactura, idAsiento, valoresDefecto);
+	}
+	function generarPartidasPieFacturasprov(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array, concepto:String):Boolean {
+		return this.ctx.pieDocumento_generarPartidasPieFacturasprov(curFactura, idAsiento, valoresDefecto, concepto);
+	}
+}
+//// PIE DE DOCUMENTO  //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends silixExtensiones {
-	function head( context ) { silixExtensiones ( context ); }
+class head extends pieDocumento {
+    function head( context ) { pieDocumento( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -3611,7 +3635,7 @@ function oficial_datosPartidaFactura(curPartida:FLSqlCursor, curFactura:FLSqlCur
 		if (concepto)
 			curPartida.setValueBuffer("concepto", concepto);
 		else
-			curPartida.setValueBuffer("concepto", util.translate("scripts", "Su factura") + curFactura.valueBuffer("codigo") + " - " + curFactura.valueBuffer("nombre"));
+			curPartida.setValueBuffer("concepto", util.translate("scripts", "Su factura ") + curFactura.valueBuffer("codigo") + " - " + curFactura.valueBuffer("nombre"));
 		
 		// Si es de IVA
 		if (curPartida.valueBuffer("cifnif"))
@@ -6712,6 +6736,458 @@ function silixExtensiones_pagarRecibo(idRecibo:String, datosRecibo:Array, tabla:
 
 //// SILIX EXTENSIONES //////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
+
+/** @class_definition pieDocumento */
+//////////////////////////////////////////////////////////////////
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
+
+function pieDocumento_generarAsientoFacturaCli(curFactura:FLSqlCursor):Boolean
+{
+	if (curFactura.modeAccess() != curFactura.Insert && curFactura.modeAccess() != curFactura.Edit)
+		return true;
+
+	if (curFactura.valueBuffer("nogenerarasiento")) {
+		curFactura.setNull("idasiento");
+		return true;
+	}
+
+	if (!this.iface.comprobarRegularizacion(curFactura))
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	var datosAsiento:Array = [];
+	var valoresDefecto:Array;
+	valoresDefecto["codejercicio"] = curFactura.valueBuffer("codejercicio");
+	valoresDefecto["coddivisa"] = flfactppal.iface.pub_valorDefectoEmpresa("coddivisa");
+
+	var curTransaccion:FLSqlCursor = new FLSqlCursor("facturascli");
+	curTransaccion.transaction(false);
+	try {
+		datosAsiento = this.iface.regenerarAsiento(curFactura, valoresDefecto);
+		if (datosAsiento.error == true)
+			throw util.translate("scripts", "Error al regenerar el asiento");
+	
+		var ctaCliente = this.iface.datosCtaCliente(curFactura, valoresDefecto);
+		if (ctaCliente.error != 0)
+			throw util.translate("scripts", "Error al leer los datos de subcuenta de cliente");
+	
+		if (!this.iface.generarPartidasCliente(curFactura, datosAsiento.idasiento, valoresDefecto, ctaCliente))
+			throw util.translate("scripts", "Error al generar las partidas de cliente");
+	
+		if (!this.iface.generarPartidasIVACli(curFactura, datosAsiento.idasiento, valoresDefecto, ctaCliente))
+			throw util.translate("scripts", "Error al generar las partidas de IVA");
+	
+		if (!this.iface.generarPartidasPieFacturascli(curFactura, datosAsiento.idasiento, valoresDefecto))
+			throw util.translate("scripts", "Error al generar las partidas de pies de factura");
+
+		if (!this.iface.generarPartidasVenta(curFactura, datosAsiento.idasiento, valoresDefecto))
+			throw util.translate("scripts", "Error al generar las partidas de venta");
+
+		curFactura.setValueBuffer("idasiento", datosAsiento.idasiento);
+
+		if (curFactura.valueBuffer("decredito") == true)
+			if (!this.iface.asientoNotaCreditoCli(curFactura, valoresDefecto))
+				throw util.translate("scripts", "Error al generar el asiento correspondiente a la nota de crédito");
+	
+		if (curFactura.valueBuffer("dedebito") == true)
+			if (!this.iface.asientoNotaDebitoCli(curFactura, valoresDefecto))
+				throw util.translate("scripts", "Error al generar el asiento correspondiente a la nota de débito");
+
+		if (!flcontppal.iface.pub_comprobarAsiento(datosAsiento.idasiento))
+			throw util.translate("scripts", "Error al comprobar el asiento");
+	} catch (e) {
+		curTransaccion.rollback();
+		MessageBox.warning(util.translate("scripts", "Error al generar el asiento correspondiente a la factura %1:").arg(curFactura.valueBuffer("codigo")) + "\n" + e, MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+	curTransaccion.commit();
+
+	return true;
+}
+
+function pieDocumento_generarAsientoFacturaProv(curFactura:FLSqlCursor):Boolean
+{
+	if (curFactura.modeAccess() != curFactura.Insert && curFactura.modeAccess() != curFactura.Edit)
+		return true;
+
+	if (curFactura.valueBuffer("nogenerarasiento")) {
+		curFactura.setNull("idasiento");
+		return true;
+	}
+
+	if (!this.iface.comprobarRegularizacion(curFactura))
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	var datosAsiento:Array = [];
+	var valoresDefecto:Array;
+	valoresDefecto["codejercicio"] = curFactura.valueBuffer("codejercicio");
+	valoresDefecto["coddivisa"] = flfactppal.iface.pub_valorDefectoEmpresa("coddivisa");
+
+	datosAsiento = this.iface.regenerarAsiento(curFactura, valoresDefecto);
+	if (datosAsiento.error == true)
+		return false;
+
+	var numProveedor:String = curFactura.valueBuffer("numproveedor");
+	var concepto:String = "";
+	if (!numProveedor || numProveedor == "")
+		concepto = util.translate("scripts", "Su factura ") + curFactura.valueBuffer("codigo");
+	else
+		concepto = util.translate("scripts", "Su factura ") + numProveedor;
+	concepto += " - " + curFactura.valueBuffer("nombre");
+
+	// Las partidas generadas dependen del régimen de IVA del proveedor
+	var sinIva:Boolean = false;
+	var regimenIVA:String = util.sqlSelect("proveedores", "regimeniva", "codproveedor = '" + curFactura.valueBuffer("codproveedor") + "'");
+	if (regimenIVA == "Exento") sinIva = true;
+
+	var ctaProveedor:Array = this.iface.datosCtaProveedor(curFactura, valoresDefecto);
+	if (ctaProveedor.error != 0)
+		return false;
+
+	if (!this.iface.generarPartidasProveedor(curFactura, datosAsiento.idasiento, valoresDefecto, ctaProveedor, concepto, sinIva))
+		return false;
+
+	if (!this.iface.generarPartidasIVAProv(curFactura, datosAsiento.idasiento, valoresDefecto, ctaProveedor, concepto))
+		return false;
+
+	if (!this.iface.generarPartidasPieFacturasprov(curFactura, datosAsiento.idasiento, valoresDefecto, concepto))
+		return false;
+
+	if (!this.iface.generarPartidasCompra(curFactura, datosAsiento.idasiento, valoresDefecto, concepto))
+		return false;
+
+	curFactura.setValueBuffer("idasiento", datosAsiento.idasiento);
+
+	if (curFactura.valueBuffer("decredito") == true) {
+		if (!this.iface.asientoNotaCreditoProv(curFactura, valoresDefecto))
+			return false;
+	}
+	if (curFactura.valueBuffer("dedebito") == true) {
+		if (!this.iface.asientoNotaDebitoProv(curFactura, valoresDefecto))
+			return false;
+	}
+
+	if (!flcontppal.iface.pub_comprobarAsiento(datosAsiento.idasiento))
+		return false;
+
+	return true;
+}
+
+function pieDocumento_generarPartidasCompra(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array, concepto:String):Boolean
+{
+	var ctaCompras:Array = [];
+	var util:FLUtil = new FLUtil();
+	var monedaSistema:Boolean = (valoresDefecto.coddivisa == curFactura.valueBuffer("coddivisa"));
+	var debe:Number = 0;
+	var debeME:Number = 0;
+	var idUltimaPartida:Number = 0;
+	var debePie:Number = 0;
+
+	/** \C En el asiento correspondiente a las facturas de proveedor, se generarán tantas partidas de compra como subcuentas distintas existan en las líneas de factura
+	\end */
+	var qrySubcuentas:FLSqlQuery = new FLSqlQuery();
+	with (qrySubcuentas) {
+		setTablesList("lineasfacturasprov");
+		setSelect("codsubcuenta, SUM(pvptotal)");
+		setFrom("lineasfacturasprov");
+		setWhere("idfactura = " + curFactura.valueBuffer("idfactura") + " GROUP BY codsubcuenta");
+	}
+	try { qrySubcuentas.setForwardOnly( true ); } catch (e) {}
+	
+	if (!qrySubcuentas.exec())
+		return false;
+
+	if (qrySubcuentas.size() == 0 || curFactura.valueBuffer("decredito") || curFactura.valueBuffer("dedebito")) {
+	/// \D Si la factura es rectificativa se genera una sola partida de compras que luego se convertirá a partida de nota de crédito o de nota de débito
+		ctaCompras = this.iface.datosCtaEspecial("COMPRA", valoresDefecto.codejercicio);
+		if (ctaCompras.error != 0) {
+			MessageBox.warning(util.translate("scripts", "No existe ninguna subcuenta marcada como cuenta especial de COMPRA para %1").arg(valoresDefecto.codejercicio), MessageBox.Ok, MessageBox.NoButton);
+			return false;
+		}
+		if (monedaSistema) {
+			debe = this.iface.netoComprasFacturaProv(curFactura);
+			debeME = 0;
+		} else {
+			debe = parseFloat(curFactura.valueBuffer("neto")) * parseFloat(curFactura.valueBuffer("tasaconv"));
+			debeME = this.iface.netoComprasFacturaProv(curFactura);
+		}
+		debe = util.roundFieldValue(debe, "co_partidas", "debe");
+		debeME = util.roundFieldValue(debeME, "co_partidas", "debeme");
+		
+		var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
+		with (curPartida) {
+			setModeAccess(curPartida.Insert);
+			refreshBuffer();
+			setValueBuffer("idsubcuenta", ctaCompras.idsubcuenta);
+			setValueBuffer("codsubcuenta", ctaCompras.codsubcuenta);
+			setValueBuffer("idasiento", idAsiento);
+			setValueBuffer("debe", debe);
+			setValueBuffer("haber", 0);
+			setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
+			setValueBuffer("tasaconv", curFactura.valueBuffer("tasaconv"));
+			setValueBuffer("debeME", debeME);
+			setValueBuffer("haberME", 0);
+		}
+			
+		this.iface.datosPartidaFactura(curPartida, curFactura, "proveedor", concepto);
+		
+		if (!curPartida.commitBuffer())
+			return false;
+		idUltimaPartida = curPartida.valueBuffer("idpartida");
+	} else {
+		while (qrySubcuentas.next()) {
+			if (qrySubcuentas.value(0) == "" || !qrySubcuentas.value(0)) {
+				ctaCompras = this.iface.datosCtaEspecial("COMPRA", valoresDefecto.codejercicio);
+				if (ctaCompras.error != 0)
+					return false;
+				debePie = parseFloat(util.sqlSelect("piefacturasprov pf INNER JOIN piedocumentos pd ON pf.codpie = pd.codpie", "SUM(pf.totalinc)", "pf.idfactura = " + curFactura.valueBuffer("idfactura") + " AND pf.coniva = true AND pd.codsubcuenta IS NULL ", "piefacturasprov,piedocumentos"));
+				if (isNaN(debePie)) debePie = 0;
+			} else {
+				ctaCompras.codsubcuenta = qrySubcuentas.value(0);
+				ctaCompras.idsubcuenta = util.sqlSelect("co_subcuentas", "idsubcuenta", "codsubcuenta = '" + qrySubcuentas.value(0) + "' AND codejercicio = '" + valoresDefecto.codejercicio + "'");
+				if (!ctaCompras.idsubcuenta) {
+					MessageBox.warning(util.translate("scripts", "No existe la subcuenta ")  + ctaCompras.codsubcuenta + util.translate("scripts", " correspondiente al ejercicio ") + valoresDefecto.codejercicio + util.translate("scripts", ".\nPara poder crear la factura debe crear antes esta subcuenta"), MessageBox.Ok, MessageBox.NoButton);
+					return false;
+				}
+				debePie = 0;
+			}
+
+			if (monedaSistema) {
+				debe = parseFloat(qrySubcuentas.value(1)) + debePie;
+				debeME = 0;
+			} else {
+				debe = (parseFloat(qrySubcuentas.value(1)) + debePie) * parseFloat(curFactura.valueBuffer("tasaconv"));
+				debeME = parseFloat(qrySubcuentas.value(1)) + debePie;
+			}
+			debe = util.roundFieldValue(debe, "co_partidas", "debe");
+			debeME = util.roundFieldValue(debeME, "co_partidas", "debeme");
+			
+			var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
+			with (curPartida) {
+				setModeAccess(curPartida.Insert);
+				refreshBuffer();
+				setValueBuffer("idsubcuenta", ctaCompras.idsubcuenta);
+				setValueBuffer("codsubcuenta", ctaCompras.codsubcuenta);
+				setValueBuffer("idasiento", idAsiento);
+				setValueBuffer("debe", debe);
+				setValueBuffer("haber", 0);
+				setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
+				setValueBuffer("tasaconv", curFactura.valueBuffer("tasaconv"));
+				setValueBuffer("debeME", debeME);
+				setValueBuffer("haberME", 0);
+			}
+			
+			this.iface.datosPartidaFactura(curPartida, curFactura, "proveedor", concepto);
+			
+			if (!curPartida.commitBuffer())
+				return false;
+			idUltimaPartida = curPartida.valueBuffer("idpartida");
+		}
+	}
+
+	/** \C En los asientos de factura de proveedor, y en el caso de que se use moneda extranjera, la última partida de compras tiene un saldo tal que haga que el asiento cuadre perfectamente. Esto evita errores de redondeo de conversión de moneda entre las partidas del asiento.
+	\end */
+	if (!monedaSistema) {
+		debe = parseFloat(util.sqlSelect("co_partidas", "SUM(haber - debe)", "idasiento = " + idAsiento + " AND idpartida <> " + idUltimaPartida));
+		if (debe && !isNaN(debe) && debe != 0) {
+			debe = parseFloat(util.roundFieldValue(debe, "co_partidas", "debe"));
+			if (!util.sqlUpdate("co_partidas", "debe", debe, "idpartida = " + idUltimaPartida))
+				return false;
+		}
+	}
+
+	return true;
+}
+
+function pieDocumento_generarPartidasPieFacturascli(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array):Boolean
+{
+	var util:FLUtil = new FLUtil();
+
+	var qryPieFacturascli:FLSqlQuery = new FLSqlQuery();
+	with (qryPieFacturascli) {
+		setTablesList("piefacturascli,piedocumentos");
+		setSelect("pd.codsubcuenta, SUM(pf.totalinc)");
+		setFrom("piefacturascli pf INNER JOIN piedocumentos pd ON pf.codpie = pd.codpie");
+		setWhere("pf.idfactura = " + curFactura.valueBuffer("idfactura") + " AND pd.codsubcuenta IS NOT NULL GROUP BY pd.codsubcuenta");
+	}
+	try { qryPieFacturascli.setForwardOnly( true ); } catch (e) {}
+	
+	if (!qryPieFacturascli.exec())
+		return false;
+
+	if (qryPieFacturascli.size() == 0)
+		return true;
+
+	var monedaSistema:Boolean = (valoresDefecto.coddivisa == curFactura.valueBuffer("coddivisa"));
+	var debe:Number = 0, debeME:Number = 0;
+	var haber:Number = 0, haberME:Number = 0;
+
+	var ctaPie:Array = [];
+	var importePie:Number;
+	var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
+	while (qryPieFacturascli.next()) {
+		importePie = parseFloat(qryPieFacturascli.value(1));
+		if (!importePie || isNaN(importePie) || importePie == 0)
+			continue;
+
+		ctaPie.codsubcuenta = qryPieFacturascli.value(0);
+		ctaPie.idsubcuenta = util.sqlSelect("co_subcuentas", "idsubcuenta", "codsubcuenta = '" + qryPieFacturascli.value(0) + "' AND codejercicio = '" + valoresDefecto.codejercicio + "'");
+		if (!ctaPie.idsubcuenta) {
+			MessageBox.warning(util.translate("scripts", "No existe la subcuenta ")  + ctaPie.codsubcuenta + util.translate("scripts", " correspondiente al ejercicio ") + valoresDefecto.codejercicio + util.translate("scripts", ".\nPara poder crear la factura debe crear antes esta subcuenta"), MessageBox.Ok, MessageBox.NoButton);
+			return false;
+		}
+
+		if (importePie > 0) {
+			if (monedaSistema) {
+				debe = 0;
+				debeME = 0;
+				haber = importePie;
+				haberME = 0;
+			} else {
+				debe = 0;
+				debeME = 0;
+				haber = importePie * parseFloat(curFactura.valueBuffer("tasaconv"));
+				haberME = importePie;
+			}
+		} else {
+			importePie = importePie * -1;
+			if (monedaSistema) {
+				debe = importePie;
+				debeME = 0;
+				haber = 0;
+				haberME = 0;
+			} else {
+				debe = importePie * parseFloat(curFactura.valueBuffer("tasaconv"));
+				debeME = importePie;
+				haber = 0;
+				haberME = 0;
+			}
+		}
+
+		debe = util.roundFieldValue(debe, "co_partidas", "debe");
+		debeME = util.roundFieldValue(debeME, "co_partidas", "debeme");
+		haber = util.roundFieldValue(haber, "co_partidas", "haber");
+		haberME = util.roundFieldValue(haberME, "co_partidas", "haberme");
+		
+		with (curPartida) {
+			setModeAccess(curPartida.Insert);
+			refreshBuffer();
+			setValueBuffer("idsubcuenta", ctaPie.idsubcuenta);
+			setValueBuffer("codsubcuenta", ctaPie.codsubcuenta);
+			setValueBuffer("idasiento", idAsiento);
+			setValueBuffer("debe", debe);
+			setValueBuffer("haber", haber);
+			setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
+			setValueBuffer("tasaconv", curFactura.valueBuffer("tasaconv"));
+			setValueBuffer("debeME", debeME);
+			setValueBuffer("haberME", haberME);
+		}
+		
+		this.iface.datosPartidaFactura(curPartida, curFactura, "cliente")
+		
+		if (!curPartida.commitBuffer())
+			return false;
+	}
+
+	return true;
+}
+
+function pieDocumento_generarPartidasPieFacturasprov(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array, concepto:String):Boolean
+{
+	var util:FLUtil = new FLUtil();
+
+	var qryPieFacturasprov:FLSqlQuery = new FLSqlQuery();
+	with (qryPieFacturasprov) {
+		setTablesList("piefacturasprov,piedocumentos");
+		setSelect("pd.codsubcuenta, SUM(pf.totalinc)");
+		setFrom("piefacturasprov pf INNER JOIN piedocumentos pd ON pf.codpie = pd.codpie");
+		setWhere("pf.idfactura = " + curFactura.valueBuffer("idfactura") + " AND pd.codsubcuenta IS NOT NULL GROUP BY pd.codsubcuenta");
+	}
+	try { qryPieFacturasprov.setForwardOnly( true ); } catch (e) {}
+	
+	if (!qryPieFacturasprov.exec())
+		return false;
+
+	if (qryPieFacturasprov.size() == 0)
+		return true;
+
+	var monedaSistema:Boolean = (valoresDefecto.coddivisa == curFactura.valueBuffer("coddivisa"));
+	var debe:Number = 0, debeME:Number = 0;
+	var haber:Number = 0, haberME:Number = 0;
+
+	var ctaPie:Array = [];
+	var importePie:Number;
+	var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
+	while (qryPieFacturasprov.next()) {
+		importePie = parseFloat(qryPieFacturasprov.value(1));
+		if (!importePie || isNaN(importePie) || importePie == 0)
+			continue;
+
+		ctaPie.codsubcuenta = qryPieFacturasprov.value(0);
+		ctaPie.idsubcuenta = util.sqlSelect("co_subcuentas", "idsubcuenta", "codsubcuenta = '" + qryPieFacturasprov.value(0) + "' AND codejercicio = '" + valoresDefecto.codejercicio + "'");
+		if (!ctaPie.idsubcuenta) {
+			MessageBox.warning(util.translate("scripts", "No existe la subcuenta ")  + ctaPie.codsubcuenta + util.translate("scripts", " correspondiente al ejercicio ") + valoresDefecto.codejercicio + util.translate("scripts", ".\nPara poder crear la factura debe crear antes esta subcuenta"), MessageBox.Ok, MessageBox.NoButton);
+			return false;
+		}
+
+		if (importePie < 0) {
+			importePie = importePie * -1;
+			if (monedaSistema) {
+				debe = 0;
+				debeME = 0;
+				haber = importePie;
+				haberME = 0;
+			} else {
+				debe = 0;
+				debeME = 0;
+				haber = importePie * parseFloat(curFactura.valueBuffer("tasaconv"));
+				haberME = importePie;
+			}
+		} else {
+			if (monedaSistema) {
+				debe = importePie;
+				debeME = 0;
+				haber = 0;
+				haberME = 0;
+			} else {
+				debe = importePie * parseFloat(curFactura.valueBuffer("tasaconv"));
+				debeME = importePie;
+				haber = 0;
+				haberME = 0;
+			}
+		}
+
+		debe = util.roundFieldValue(debe, "co_partidas", "debe");
+		debeME = util.roundFieldValue(debeME, "co_partidas", "debeme");
+		haber = util.roundFieldValue(haber, "co_partidas", "haber");
+		haberME = util.roundFieldValue(haberME, "co_partidas", "haberme");
+		
+		with (curPartida) {
+			setModeAccess(curPartida.Insert);
+			refreshBuffer();
+			setValueBuffer("idsubcuenta", ctaPie.idsubcuenta);
+			setValueBuffer("codsubcuenta", ctaPie.codsubcuenta);
+			setValueBuffer("idasiento", idAsiento);
+			setValueBuffer("debe", debe);
+			setValueBuffer("haber", haber);
+			setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
+			setValueBuffer("tasaconv", curFactura.valueBuffer("tasaconv"));
+			setValueBuffer("debeME", debeME);
+			setValueBuffer("haberME", haberME);
+		}
+		
+		this.iface.datosPartidaFactura(curPartida, curFactura, "proveedor", concepto);
+		
+		if (!curPartida.commitBuffer())
+			return false;
+	}
+
+	return true;
+}
+
+//// PIE DE DOCUMENTO ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////
