@@ -1343,7 +1343,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "servido", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "pedidoweb", "pagado", "transactionid", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "servido", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "pedidoweb", "pagado", "transactionid", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 }
