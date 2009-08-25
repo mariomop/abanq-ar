@@ -110,6 +110,8 @@ function pieDocumento_init()
 		cursor.setValueBuffer("baseimponible", this.iface.calculateField("baseimponible"));
 	}
 
+	var filtro:String = "decompra";
+	this.child("fdbCodPie").setFilter(filtro);
 }
 
 function pieDocumento_bufferChanged(fN:String)

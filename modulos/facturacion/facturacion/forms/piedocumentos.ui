@@ -172,7 +172,7 @@
 					</property>
 					<widget class="FLFieldDB">
 						<property name="name">
-							<cstring>fdbConIVA</cstring>
+							<cstring>fdbDeCompra</cstring>
 						</property>
 						<property name="sizePolicy">
 							<sizepolicy>
@@ -182,36 +182,13 @@
 								<verstretch>0</verstretch>
 							</sizepolicy>
 						</property>
-						<property name="minimumSize">
-							<size>
-								<width>230</width>
-								<height>25</height>
-							</size>
-						</property>
 						<property name="fieldName">
-							<string>coniva</string>
+							<string>decompra</string>
 						</property>
 					</widget>
-					<spacer>
-						<property name="name">
-							<cstring>unnamed</cstring>
-						</property>
-						<property name="orientation">
-							<enum>Horizontal</enum>
-						</property>
-						<property name="sizeType">
-							<enum>Fixed</enum>
-						</property>
-						<property name="sizeHint">
-							<size>
-								<width>16</width>
-								<height>20</height>
-							</size>
-						</property>
-					</spacer>
 					<widget class="FLFieldDB">
 						<property name="name">
-							<cstring>fdbCodImpuesto</cstring>
+							<cstring>fdbDeVenta</cstring>
 						</property>
 						<property name="sizePolicy">
 							<sizepolicy>
@@ -221,14 +198,8 @@
 								<verstretch>0</verstretch>
 							</sizepolicy>
 						</property>
-						<property name="minimumSize">
-							<size>
-								<width>230</width>
-								<height>25</height>
-							</size>
-						</property>
 						<property name="fieldName">
-							<string>codimpuesto</string>
+							<string>deventa</string>
 						</property>
 					</widget>
 					<spacer>
@@ -248,6 +219,50 @@
 							</size>
 						</property>
 					</spacer>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbConIVA</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>230</width>
+								<height>0</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>coniva</string>
+						</property>
+					</widget>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbCodImpuesto</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>230</width>
+								<height>0</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>codimpuesto</string>
+						</property>
+					</widget>
 				</hbox>
 			</widget>
 		</vbox>

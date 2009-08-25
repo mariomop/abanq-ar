@@ -75,6 +75,22 @@
 		<default>0</default>
 	</field>
 	<field>
+		<name>decompra</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","De compra")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>true</default>
+	</field>
+	<field>
+		<name>deventa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","De venta")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>true</default>
+	</field>
+	<field>
 		<name>coniva</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Con I.V.A.")</alias>
 		<null>false</null>
