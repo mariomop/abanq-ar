@@ -105,6 +105,8 @@ function pieDocumento_init()
 	var cursor:FLSqlCursor = this.cursor();
 
 	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
+
+	this.iface.bufferChanged("coniva");
 }
 
 function pieDocumento_validateForm()
