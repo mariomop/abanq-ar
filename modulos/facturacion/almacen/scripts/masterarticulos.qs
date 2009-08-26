@@ -1464,6 +1464,8 @@ function silixSeleccionar_seleccionCriterio()
 	}
 
 	var sel = flfactppal.iface.pub_seleccionar(tabla, campo, idCampo);
+	if (sel.length == 0)
+		return;
 	var cursor = new FLSqlCursor("articulos");
 	cursor.setMainFilter(this.iface.tdbRecords.filter());
 	var clavePrimaria = cursor.primaryKey();
