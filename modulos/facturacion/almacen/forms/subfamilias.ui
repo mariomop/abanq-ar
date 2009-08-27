@@ -146,13 +146,13 @@
 								</property>
 								<property name="minimumSize">
 									<size>
-										<width>200</width>
+										<width>140</width>
 										<height>0</height>
 									</size>
 								</property>
 								<property name="maximumSize">
 									<size>
-										<width>200</width>
+										<width>150</width>
 										<height>32767</height>
 									</size>
 								</property>
@@ -160,23 +160,6 @@
 									<string>codfamilia</string>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>spacer5</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Fixed</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>16</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
 							<widget class="FLFieldDB">
 								<property name="name">
 									<cstring>fdbDescFamilia</cstring>
@@ -200,6 +183,48 @@
 								</property>
 								<property name="fieldRelation">
 									<string>codfamilia</string>
+								</property>
+								<property name="showAlias" >
+									<bool>false</bool>
+								</property>
+							</widget>
+							<spacer>
+								<property name="name">
+									<cstring>spacer5</cstring>
+								</property>
+								<property name="orientation">
+									<enum>Horizontal</enum>
+								</property>
+								<property name="sizeType">
+									<enum>Fixed</enum>
+								</property>
+								<property name="sizeHint">
+									<size>
+										<width>16</width>
+										<height>20</height>
+									</size>
+								</property>
+							</spacer>
+							<widget class="FLFieldDB">
+								<property name="name">
+									<cstring>fdbMarcacion</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>450</width>
+										<height>25</height>
+									</size>
+								</property>
+								<property name="fieldName">
+									<string>marcacion</string>
 								</property>
 							</widget>
 						</hbox>

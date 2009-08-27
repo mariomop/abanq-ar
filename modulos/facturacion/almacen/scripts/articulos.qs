@@ -425,11 +425,32 @@ class ordenCampos extends fechas {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration marcacion */
+/////////////////////////////////////////////////////////////////
+//// MARCACION //////////////////////////////////////////////////
+class marcacion extends ordenCampos {
+    function marcacion( context ) { ordenCampos ( context ); }
+	function init() {
+		this.ctx.marcacion_init();
+	}
+	function bufferChanged(fN:String) {
+		return this.ctx.marcacion_bufferChanged(fN);
+	}
+	function calculateField(fN:String):Number {
+		return this.ctx.marcacion_calculateField(fN);
+	}
+	function recalcularPvp() {
+		return this.ctx.marcacion_recalcularPvp();
+	}
+}
+//// MARCACION //////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends marcacion {
+    function head( context ) { marcacion ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -2784,6 +2805,109 @@ function ordenCampos_init()
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition marcacion */
+/////////////////////////////////////////////////////////////////
+//// MARCACION //////////////////////////////////////////////////
+
+function marcacion_init()
+{
+	this.iface.__init();
+
+	connect(this.child("tbnRecalcularPVP"), "clicked()", this, "iface.recalcularPvp");
+}
+
+function marcacion_bufferChanged(fN:String)
+{
+	switch (fN) {
+		case "codfamilia":
+		case "codsubfamilia": {
+			this.child("fdbMarcacion").setValue(this.iface.calculateField("marcacion"));
+			break;
+		}
+		case "recalcularPVP": {
+			this.child("fdbPvp").setValue(this.iface.calculateField("pvp"));
+			break;
+		}
+		case "costemaximo":
+		case "marcacion":
+		case "pvp": {
+			this.child("fdbVariacion").setValue(this.iface.calculateField("variacion"));
+			break;
+		}
+		default:
+			this.iface.__bufferChanged(fN);
+	}
+}
+
+function marcacion_calculateField(fN:String):Number
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	var valor:Number;
+
+	switch (fN) {
+		case "pvp": {
+			var costoMaximo:Number = cursor.valueBuffer("costemaximo");
+			if (!costoMaximo)
+				costoMaximo = 0;
+
+			var marcacion:Number = cursor.valueBuffer("marcacion");
+		
+			var variacion:Number = cursor.valueBuffer("variacion");
+
+			var precio:Number = costoMaximo * (1 + (marcacion + variacion)/100);
+			valor = util.roundFieldValue(precio, "articulos", "pvp");
+			break;
+		}
+		case "variacion": {
+			var costoMaximo:Number = cursor.valueBuffer("costemaximo");
+			if (!costoMaximo)
+				costoMaximo = 0;
+
+			var marcacion:Number = cursor.valueBuffer("marcacion");
+
+			var precio:Number = cursor.valueBuffer("pvp");
+
+			var variacion:Number = ((precio/costoMaximo)-1)*100-marcacion;
+			valor = util.roundFieldValue(variacion, "articulos", "variacion");
+			break;
+		}
+		case "marcacion": {
+			var codFamilia:String = cursor.valueBuffer("codfamilia");
+			var codSubfamilia:String = cursor.valueBuffer("codsubfamilia");
+
+			var marcacion:Number;
+			if (!codFamilia) {
+				marcacion = 0;
+			}
+			else if (!codSubfamilia) {
+				marcacion = parseFloat(util.sqlSelect("familias", "marcacion", "codfamilia = '" + codFamilia + "'"));
+			}
+			else {
+				marcacion = parseFloat(util.sqlSelect("subfamilias", "marcacion", "codsubfamilia = '" + codSubfamilia + "'"));
+			}
+
+			if (isNaN(marcacion))
+				marcacion = 0;
+
+			valor = util.roundFieldValue(marcacion, "articulos", "marcacion");
+			break;
+		}
+		default: {
+			valor = this.iface.__calculateField(fN);
+		}
+	}
+	return valor;
+}
+
+function marcacion_recalcularPvp()
+{
+	this.cursor().setValueBuffer("variacion",0);
+	this.iface.bufferChanged("recalcularPVP");
+}
+//// MARCACION //////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

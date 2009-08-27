@@ -1799,6 +1799,110 @@
 								</widget>
 								<widget class="QFrame" >
 									<property name="name" >
+										<cstring>frmMarcacion</cstring>
+									</property>
+									<property name="font" >
+										<font>
+											<bold>0</bold>
+										</font>
+									</property>
+									<property name="frameShape" >
+										<enum>GroupBoxPanel</enum>
+									</property>
+									<property name="frameShadow" >
+										<enum>Sunken</enum>
+									</property>
+									<vbox>
+										<property name="name" >
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbMarcacion</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>200</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="fieldName" >
+												<string>marcacion</string>
+											</property>
+										</widget>
+										<widget class="QLayoutWidget">
+											<property name="name">
+												<cstring>layoutIvaIncluido</cstring>
+											</property>
+											<hbox>
+												<property name="name">
+													<cstring>unnamed</cstring>
+												</property>
+												<widget class="FLFieldDB" >
+													<property name="name" >
+														<cstring>fdbVariacion</cstring>
+													</property>
+													<property name="sizePolicy" >
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize" >
+														<size>
+															<width>200</width>
+															<height>25</height>
+														</size>
+													</property>
+													<property name="fieldName" >
+														<string>variacion</string>
+													</property>
+												</widget>
+												<widget class="QToolButton" >
+													<property name="name" >
+														<cstring>tbnRecalcularPVP</cstring>
+													</property>
+													<property name="minimumSize" >
+														<size>
+															<width>26</width>
+															<height>26</height>
+														</size>
+													</property>
+													<property name="minimumSize" >
+														<size>
+															<width>26</width>
+															<height>26</height>
+														</size>
+													</property>
+													<property name="text" >
+														<string/>
+													</property>
+													<property name="iconSet" >
+														<iconset>imageRecalcularPVP</iconset>
+													</property>
+													<property name="toolTip" stdset="0" >
+														<string>Recalcular precio</string>
+													</property>
+													<property name="whatsThis" stdset="0" >
+														<string>Recalcula el precio de venta a partir del costo y la marcación</string>
+													</property>
+												</widget>
+											</hbox>
+										</widget>
+									</vbox>
+								</widget>
+								<widget class="QFrame" >
+									<property name="name" >
 										<cstring>frmIva</cstring>
 									</property>
 									<property name="font" >
@@ -1812,7 +1916,7 @@
 									<property name="frameShadow" >
 										<enum>Sunken</enum>
 									</property>
-									<hbox>
+									<vbox>
 										<property name="name" >
 											<cstring>unnamed</cstring>
 										</property>
@@ -1840,40 +1944,6 @@
 										</widget>
 										<widget class="FLFieldDB" >
 											<property name="name" >
-												<cstring>fdbDesImpuesto</cstring>
-											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>0</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>24</width>
-													<height>21</height>
-												</size>
-											</property>
-											<property name="fieldName" >
-												<string>descripcion</string>
-											</property>
-											<property name="tableName" >
-												<string>impuestos</string>
-											</property>
-											<property name="foreignField" >
-												<string>codimpuesto</string>
-											</property>
-											<property name="fieldRelation" >
-												<string>codimpuesto</string>
-											</property>
-											<property name="showAlias" >
-												<bool>false</bool>
-											</property>
-										</widget>
-										<widget class="FLFieldDB" >
-											<property name="name" >
 												<cstring>fdbIvaImpuesto</cstring>
 											</property>
 											<property name="sizePolicy" >
@@ -1897,7 +1967,7 @@
 												<string>codimpuesto</string>
 											</property>
 										</widget>
-									</hbox>
+									</vbox>
 								</widget>
 							</hbox>
 						</widget>
@@ -6363,6 +6433,9 @@
 		</image>
 		<image name="imagePrinter">
 			<data format="PNG" length="1197">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000047449444154789c8d94cf8b65c515c73ffdac17aaf03ad6659ec92dd20defc280bec62cda8dce809019dc4c0b8966674320f4d2242b1759f807649320415c0849565925928581de083da2f25a18a69f10993b9ac1db643ad6250e5395eecbd4412bfd5cbc37e3e02faccde7d481fa72ceb74ed5caf6332f12f1584a22018ba3cb7eb47571f3033771a72a6de7d20305c43e521516e9411766e5d26c7a7bff8dd9e37118ae55dad189e70e55272da0e9f00074b4a48cb16bfad485f3e714dfb614c5ce3f761ed468bacf96e7971c54ca0242a51cc01d9e94cacdbf55149098e656d90c6029f982c2a0cb0d207404b4d274048c02dffb6f904b77235d18628e30d4c46180a1a69306c99141a56ac84205488e8ccb1a94c659f70dc2e66e1425307ea8462b834d1a5287c52eace872070a3a3a92780e3e99a1e17f41e297ac485fa12d1c5df04772dcd2c41928f0d9a3818155163254aa4204426c5588edb62baae1d7577a0f338320b2dd76ad769490c12987002ae648cae9075ddffdaa5eab9fb223bbea2af74351b2f2d58a0d10801248949695736727bf91e87ee16ffaffc463792b887fd914a65dd97a6aeb113771ef6c3fb77dda8d6acab1e1eabb2d6d0c9c7be23150c0728e11400392d08561e7cd29b5b53cf6e83a4960767d9fe9a5bda34b6fef5c5452c86f5ff8f58ba7dd78d14a9284a8848c4a221062c21506df279c5eb054067f33518e37680ff6a8fb75dad8529f99a00b7d6a766dfa3bb5f1a38dc7dd6831830898c2e0b3e0ceac1332600dd30828c36e07a536f87ec1b687f3a3095a12024c0f5a36c7ebd4e37aa2b4d52525a4e384d18670d323bae6ef879014cc0ec10372bc74812f4886f440e0e93316d76b36aa1a21b131deb85fd5b61e0298070c7c02a576345d605760d6dea352dce3f51d463818d590a1ae1cf460ac413403353b68995c0ea023f56a8d64cfec86a3b9c6e2e2f2d7bc91e50fa2019f85a44b620c68d134d75aa403e58af2a48bed7d569534872de5aae5971b8917ce2e3cd40aba2583802b4032d416420f7551d25c0f20828f11674b02dd5cf9d8dedeac7ef6a0ef3d5697fce96faf402f80605545a4432b8d64c1a98a267768a0cd60b1ec11d185e5c2939bacafd6841c21a7cf0656d9a0334caa7562f6b47b339ac30637aa892a628b0a016c51e189385b214a6347155208f489dd4b3b58a5495a538f2a622fc7aae99af7b18c2912f56acdc6c50b6c9e3d8f7bc45152b2e8c411c563b5a5eb23565b62df51d98ad9f586c95e0316d6570d6de7d13d1ff1fccf9fdf7cedafaffd7f7e349fcf6fcde71f5fbd359fdf9e2fd6a74bded91f2de3ff2ee38f17e92bfbb7eee6afec5e39d97a6e6bfbbeb587d7fe75e3df373ebafcde65b53f6d3e1d9e56dfaf1f5e5b49c789a1191242c2a821212ee88f02ea7b869b47013530f49258b9ddf3fb57fef061f3de3fa7afbff5fa4b39e73f0eaaa24244fe120ee5a7b383ab7fbef0c4b995bb730d94a50105e5430b3a576214b8aac46828ada15e7520faedddd9f427a5d2af02a8ae17349a8363cf64327976fffdfd93b27027413ca5767c27166e40c18fc97ae0a39ca0349f0340ec64e639905a710000000049454e44ae426082</data>
+		</image>
+		<image name="imageRecalcularPVP" >
+			<data format="PNG" length="1262" >89504e470d0a1a0a0000000d4948445200000018000000180806000000e0773df8000004b549444154789ce5545f6c14451cfeae9dd259da9a3dd2ca3542dc4d80b84d1bbd95c4dcfa428fa2cd518cd63f41e0c1880f903e21ad8911e203f18194c64401a3921813ca83a4d54873f6c15ed59029913a0b89761b21ee859e74432fee859edda137edf9c095b4579af8e293bfe4cbececfee6fb667edf6f16f8ffc491db95ff264d6b1fd122eda7372ccdc9da8927b68158ef003c0ea0114e7f153a46f200bf032025a4b8a867133f8d8d3f5d78b0e6c5918d42b0114a681cc05f00105a4d5d0c691da7ce01e65e4571d6c5b6b4123b6b836a16e07158f526583ab590ab35f2c10d462c629db4f3a90f511bad08e05c05cc6d007f3c3dd473eba1025a7bef170ab55ea50d6e0d1005e418288d0384234c2d000c945800e1a030e1a49381efeb05487ebb696b4277a7920508d3708677665695486bef7d46a1e62bb4cea931668c452693150ab1e0cb812260ca1c199c8bb4b4aea7e055b18885d134c3c1b64e856798a2d397eb841a09b95396f4095b5ce2ac58b17d621e0a24aff17dbfe836b8217deb7e411bdcafd2433d1542f28d81349e73ede420b79db9e4afc9a216b1909c4cc1cb9b98266e2846140460210aac2100fe3c60869a0cc33fb86bbf2d04f3639bac5e00f0867bfcf4d0ce9fd3433d7b21f1ac3bd57875f4ca85bf3b9f8843aba7b0733a6c7058b042106b0aa03a5ce7fcb96fcbee4f9d197e1ec4fc7d2cc3fd729fd2c33dd78464efa210109eb5e1e504448681ea26986421855a0f04cadb744e6d4e7ce4d0894bb10633cbae0d7ca96e4fdcc5e7ab1aa1c522e6b73416ad4eb484614f731cddb51f761600cc902fed07022bbaa875c710196db517f1fef145ac1191b6138d94d27148342ac49c0fc0ef7f9000880948b60e141bd2df1ccfad12d03a7a6700b316e0004c948db300df65213ec9485201a2006cac1a65b43a3db4fb0e102a3eac446ad7eb2ab1367783791c56a41b29976370d8ba37edb3b7bde19eebe9fb79f700207af8972a4877fdd1a78e09974e84c7ae35591337063e033aea9708579a2c11b27413c72e0ec0bb11069b02e0d1c09f65a7bde19ef3e5e5a2d2d9a86ae6799b4e1c301a9ade98cea6fa146a2d2ccf29bf07b0331c429af0e1c20470617c14005ab4b6139b571942ac477219160bf24d07fa2ef577fbb3ba1648f6c78a94952b7828a675c36d0ea04a8afe4c0aa70f77297d5ff7ef9c701b27b58ede8f2d98e30cfc56d888139165a7629b2c75f4f2991d28448b002b405ae79633969bbcd0fd66a22232adc3a9b5214414ae9742a23e0e26c690cee8d2cfa70291332afc80d528044095025adb0a600cfe8c3f8bbc7834fdc371b1a60711a217bbbf3b93732e8abbcecdc1b97db1dd60620c667d14917a95746eefac339afd9aae3d07a16f3510d9de09101bc68c9187c491e5e4e527a8d43a460a00cf8b8cbdc7bb99f422cdfb5ea06ae3215d4f3cd6a8ba55548d570036848c42e4197cd104cf4b2e06b3c1bcc87927bdcb7d67018812e6cb05a8d6deeb8b5cf835efca5bbf01504aa0ea96d62755ad6b2f88638258d50a7821805909c901695cce65ce7e929b4c5e0710943057c20a8190d6f6de4be9ef3ff811000550bd0c55255482a855ea2663432eebfac87b7e69a7f74a0800cc969e8bab4c5e5eae65a44b20a5f745000b25144a98c7fd9fc5c2c3c8fed3f80729af18ab0f1b4e2f0000000049454e44ae426082</data>
 		</image>
 	</images>
 	<connections>
