@@ -781,6 +781,32 @@
 									</widget>
 									<widget class="QGroupBox">
 										<property name="name">
+											<cstring>gbxAsociarRemitos</cstring>
+										</property>
+										<property name="title">
+											<string>Al asociar remitos:</string>
+										</property>
+										<vbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="FLFieldDB">
+												<property name="name">
+													<cstring>fdbARAplicarPAgo</cstring>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+													</font>
+												</property>
+												<property name="fieldName">
+													<string>araplicarpago</string>
+												</property>
+											</widget>
+										</vbox>
+									</widget>
+									<widget class="QGroupBox">
+										<property name="name">
 											<cstring>gbxInsercionRapida</cstring>
 										</property>
 										<property name="title">

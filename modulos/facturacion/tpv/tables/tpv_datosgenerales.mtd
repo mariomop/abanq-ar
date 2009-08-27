@@ -295,5 +295,14 @@
 		<type>bool</type>
 		<default>false</default>
 	</field>
+	<field>
+		<name>araplicarpago</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Aplicar pago a facturas automáticas")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>true</default>
+	</field>
 </TMD>
 

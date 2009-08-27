@@ -153,6 +153,9 @@ class tipoVenta extends fechas {
 	function totalesFactura(curFactura:FLSqlCursor):Boolean {
 		return this.ctx.tipoVenta_totalesFactura(curFactura);
 	}
+	function aplicarPago(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.tipoVenta_aplicarPago(curFactura);
+	}
 }
 //// TIPO DE VENTA  /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1055,6 +1058,10 @@ function tipoVenta_generarFactura(where:String, curAlbaran:FLSqlCursor, datosAgr
 			return false;
 		}
 
+		if (util.sqlSelect("tpv_datosgenerales", "araplicarpago", "1 = 1"))
+			if (!this.iface.aplicarPago(this.iface.curFactura))
+				return false;
+
 		if (this.iface.curFactura.commitBuffer() == false)
 			return false;
 	}
@@ -1268,6 +1275,42 @@ function tipoVenta_datosLineaFactura(curLineaAlbaran:FLSqlCursor):Boolean
 
 		setValueBuffer("idtpv_comanda_albaran", curLineaAlbaran.valueBuffer("idtpv_comanda"));
 		setValueBuffer("idtpv_lineacomanda_albaran", curLineaAlbaran.valueBuffer("idtpv_linea"));
+	}
+
+	return true;
+}
+
+function tipoVenta_aplicarPago(curFactura:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil();
+	var fecha:Date = new Date();
+	var idComanda:String = curFactura.valueBuffer("idtpv_comanda");
+	var importe:Number = curFactura.valueBuffer("pendiente");
+
+	var curPago:FLSqlCursor = new FLSqlCursor("tpv_pagoscomanda");
+	var codTerminal:String = util.readSettingEntry("scripts/fltpv_ppal/codTerminal");
+	with (curPago) {
+		setModeAccess(Insert);
+		refreshBuffer();
+		setValueBuffer("idtpv_comanda", idComanda);
+		setValueBuffer("importe", importe);
+		setValueBuffer("fecha", fecha);
+		setValueBuffer("estado", util.translate("scripts", "Pagado"));
+		if (codTerminal) {
+			setValueBuffer("codtpv_puntoventa", codTerminal);
+			setValueBuffer("codtpv_agente", curFactura.valueBuffer("codtpv_agente"));
+		}
+	}
+	curPago.setValueBuffer("codpago", curFactura.valueBuffer("codpago"));
+	
+	if (!curPago.commitBuffer())
+		return false;
+
+	with (curFactura) {
+		setValueBuffer("pagado", curFactura.valueBuffer("pagado") + importe);
+		setValueBuffer("pendiente", 0);
+		setValueBuffer("estado", "Cerrada");
+		setValueBuffer("editable", false);
 	}
 
 	return true;
