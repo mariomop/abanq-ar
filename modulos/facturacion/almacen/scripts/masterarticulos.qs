@@ -282,9 +282,21 @@ class silixSeleccionar extends subfamilias
 
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
+//// SILIXORDENCAMPOS ///////////////////////////////////////////
+class silixOrdenCampos extends silixSeleccionar {
+    function silixOrdenCampos( context ) { silixSeleccionar ( context ); }
+	function init() {
+		this.ctx.silixOrdenCampos_init();
+	}
+}
+//// SILIXORDENCAMPOS ///////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration head */
+/////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends silixSeleccionar {
-    function head( context ) { silixSeleccionar ( context ); }
+class head extends silixOrdenCampos {
+    function head( context ) { silixOrdenCampos ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1487,6 +1499,22 @@ function silixSeleccionar_seleccionCriterio()
 
 //// SILIXSELECCIONAR ///////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
+
+/** @class_definition silixOrdenCampos */
+/////////////////////////////////////////////////////////////////
+//// SILIXORDENCAMPOS ///////////////////////////////////////////
+
+function silixOrdenCampos_init()
+{
+	this.iface.__init();
+
+	var orden:Array = [ "descripcion", "referencia", "codunidad", "pvp", "ivaincluido", "codimpuesto", "stockfis", "codfamilia", "codsubfamilia", "codfabricante", "nostock", "secompra", "sevende", "variable", "costeultimo", "costemedio", "costemaximo", "marcacion", "variacion", "stockmin", "stockmax", "controlnumserie", "porlotes", "diasconsumo", "publico", "fechapub", "enportada", "ordenportada", "enoferta", "pvpoferta", "codbarras", "observaciones" ];
+	this.iface.tdbRecords.setOrderCols(orden);
+	this.iface.tdbRecords.setFocus();
+}
+
+//// SILIXORDENCAMPOS ///////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////
