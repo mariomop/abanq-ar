@@ -635,13 +635,13 @@ function ivaIncluido_commonCalculateField(fN, cursor):String
 
 	switch (fN) {
 		case "codimpuesto": {
-// 			var codCliente:String = util.sqlSelect(tablaPadre, "codcliente", wherePadre);
-// 			var codSerie:String = util.sqlSelect(tablaPadre, "codserie", wherePadre);
-// 			if (flfacturac.iface.pub_tieneIvaDocCliente(codSerie, codCliente)) {
+			var codCliente:String = util.sqlSelect(tablaPadre, "codcliente", wherePadre);
+			var codSerie:String = util.sqlSelect(tablaPadre, "codserie", wherePadre);
+			if (flfacturac.iface.pub_tieneIvaDocCliente(codSerie, codCliente)) {
 				valor = util.sqlSelect("articulos", "codimpuesto", "referencia = '" + cursor.valueBuffer("referencia") + "'");
-// 			} else {
-// 				valor = "";
-// 			}
+			} else {
+				valor = "EXENTO";
+			}
 			break;
 		}
 		case "pvpunitarioiva": {
