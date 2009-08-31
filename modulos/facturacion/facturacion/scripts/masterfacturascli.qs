@@ -878,6 +878,10 @@ function impresiones_imprimir(codFactura:String)
 			nombreInforme = "i_facturascli_serv";
 		}
 
+		var nombreReport:String = nombreInforme;
+		if ( util.sqlSelect("facturascli", "tipoventa", "codigo = '" + codigo + "'") == "Factura A" )
+			nombreReport += "_a";
+
 		var curImprimir:FLSqlCursor = new FLSqlCursor("i_facturascli");
 		curImprimir.setModeAccess(curImprimir.Insert);
 		curImprimir.refreshBuffer();
@@ -885,7 +889,7 @@ function impresiones_imprimir(codFactura:String)
 		curImprimir.setValueBuffer("d_facturascli_codigo", codigo);
 		curImprimir.setValueBuffer("h_facturascli_codigo", codigo);
 
-		flfactinfo.iface.pub_lanzarInforme(curImprimir, nombreInforme, "", "", false, false, "", nombreInforme, numCopias);
+		flfactinfo.iface.pub_lanzarInforme(curImprimir, nombreInforme, "", "", false, false, "", nombreReport, numCopias);
 	} else
 		flfactppal.iface.pub_msgNoDisponible("Informes");
 }
@@ -932,6 +936,10 @@ function impresiones_imprimirQuick(codFactura:String, impresora:String)
 			}
 		}
 
+		var nombreReport:String = nombreInforme;
+		if ( util.sqlSelect("facturascli", "tipoventa", "codigo = '" + codigo + "'") == "Factura A" )
+			nombreReport += "_a";
+
 		var curImprimir:FLSqlCursor = new FLSqlCursor("i_facturascli");
 		curImprimir.setModeAccess(curImprimir.Insert);
 		curImprimir.refreshBuffer();
@@ -939,7 +947,7 @@ function impresiones_imprimirQuick(codFactura:String, impresora:String)
 		curImprimir.setValueBuffer("d_facturascli_codigo", codigo);
 		curImprimir.setValueBuffer("h_facturascli_codigo", codigo);
 
-		flfactinfo.iface.pub_lanzarInforme(curImprimir, nombreInforme, "", "", false, impDirecta, "", nombreInforme, numCopias, impresora);
+		flfactinfo.iface.pub_lanzarInforme(curImprimir, nombreInforme, "", "", false, impDirecta, "", nombreReport, numCopias, impresora);
 	} else
 		flfactppal.iface.pub_msgNoDisponible("Informes");
 }
