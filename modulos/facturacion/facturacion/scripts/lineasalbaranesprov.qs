@@ -163,13 +163,10 @@ function interna_init()
 	this.child("lblDtoPor").setText(this.iface.calculateField("lbldtopor"));
 	
 	if (cursor.modeAccess() == cursor.Insert || cursor.modeAccess() == cursor.Edit) {
-		var serie:String = cursor.cursorRelation().valueBuffer("codserie");
-		var siniva:Boolean = util.sqlSelect("series","siniva","codserie = '" + serie + "'");
-		if(siniva){
+		if ( !flfacturac.iface.pub_tieneIvaDocProveedor(cursor.cursorRelation().valueBuffer("codserie"), cursor.cursorRelation().valueBuffer("codproveedor")) ) {
+			this.child("fdbCodImpuesto").setValue("EXENTO");
 			this.child("fdbCodImpuesto").setDisabled(true);
 			this.child("fdbIva").setDisabled(true);
-			cursor.setValueBuffer("codimpuesto","");
-			cursor.setValueBuffer("iva",0);
 		}
 	}
 

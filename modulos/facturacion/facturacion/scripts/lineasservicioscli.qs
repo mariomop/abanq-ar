@@ -142,14 +142,13 @@ function interna_init()
 
 		this.child("lblDtoPor").setText(this.iface.calculateField("lbldtopor"));
 		
-		var serie:String = cursor.cursorRelation().valueBuffer("codserie");
-		var siniva:Boolean = util.sqlSelect("series","siniva","codserie = '" + serie + "'");
-		if(siniva){
+	if (cursor.modeAccess() == cursor.Insert || cursor.modeAccess() == cursor.Edit) {
+		if ( !flfacturac.iface.pub_tieneIvaDocCliente(cursor.cursorRelation().valueBuffer("codserie"), cursor.cursorRelation().valueBuffer("codcliente")) ) {
+			this.child("fdbCodImpuesto").setValue("EXENTO");
 			this.child("fdbCodImpuesto").setDisabled(true);
 			this.child("fdbIva").setDisabled(true);
-			cursor.setValueBuffer("codimpuesto","");
-			cursor.setValueBuffer("iva",0);
 		}
+	}
 }
 
 /** \C
@@ -273,7 +272,7 @@ function oficial_calculateField(fN:String):String
 // 			if (flfacturac.iface.pub_tieneIvaDocCliente(codSerie, codCliente))
 // 				valor = util.sqlSelect("articulos", "codimpuesto", "referencia = '" + cursor.valueBuffer("referencia") + "'");
 // 			else
-// 				valor = "";
+// 				valor = "EXENTO";
 // 			break;
 // 		}
 // 	}

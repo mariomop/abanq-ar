@@ -174,10 +174,10 @@ class oficial extends interna {
 	function datosDocFacturacion(fecha:String, codEjercicio:String, tipoDoc:String):Array {
 		return this.ctx.oficial_datosDocFacturacion(fecha, codEjercicio, tipoDoc);
 	}
-	function tieneIvaDocCliente(codSerie:String, codCliente:String, codEjercicio:String):Number {
+	function tieneIvaDocCliente(codSerie:String, codCliente:String, codEjercicio:String):Boolean {
 		return this.ctx.oficial_tieneIvaDocCliente(codSerie, codCliente, codEjercicio);
 	}
-	function tieneIvaDocProveedor(codSerie:String, codProveedor:String, codEjercicio:String):Number {
+	function tieneIvaDocProveedor(codSerie:String, codProveedor:String, codEjercicio:String):Boolean {
 		return this.ctx.oficial_tieneIvaDocProveedor(codSerie, codProveedor, codEjercicio);
 	}
 	function automataActivado():Boolean {
@@ -746,10 +746,10 @@ class ifaceCtx extends head {
 	function pub_datosDocFacturacion(fecha:String, codEjercicio:String, tipoDoc:String):Array {
 		return this.datosDocFacturacion(fecha, codEjercicio, tipoDoc);
 	}
-	function pub_tieneIvaDocCliente(codSerie:String, codCliente:String, codEjercicio:String):Number {
+	function pub_tieneIvaDocCliente(codSerie:String, codCliente:String, codEjercicio:String):Boolean {
 		return this.tieneIvaDocCliente(codSerie, codCliente, codEjercicio);
 	}
-	function pub_tieneIvaDocProveedor(codSerie:String, codProveedor:String, codEjercicio:String):Number {
+	function pub_tieneIvaDocProveedor(codSerie:String, codProveedor:String, codEjercicio:String):Boolean {
 		return this.tieneIvaDocProveedor(codSerie, codProveedor, codEjercicio);
 	}
 	function pub_automataActivado():Boolean {
@@ -1986,7 +1986,7 @@ function oficial_regimenIVACliente(curDocCliente:FLSqlCursor):String
 	if (codCliente && codCliente != "") {
 		regimen = util.sqlSelect("clientes", "regimeniva", "codcliente = '" + codCliente + "'");
 	} else {
-		regimen = "General";
+		regimen = "Consumidor Final";
 	}
 	return regimen;
 }
@@ -3416,56 +3416,46 @@ function oficial_datosDocFacturacion(fecha:String, codEjercicio:String, tipoDoc:
 	return res;
 }
 
-/** \C Establece si un documento de cliente debe tener IVA. No lo tendrá si el cliente seleccionado está exento o es UE, o la serie seleccionada sea sin IVA
+/** \C Establece si un documento de cliente debe tener IVA. No lo tendrá si el cliente seleccionado está exento, o la serie seleccionada sea sin IVA
 @param	codSerie: Serie del documento
 @param	codCliente: Código del cliente
-@return	Devuelve 3 posibles valores:
-	0: Si no debe tener IVA,
-	1: Si debe tener IVA,
-	2: Si debe tener IVA
+@return	Devuelve verdadero si lleva iva o falso si no lleva
 \end */
-function oficial_tieneIvaDocCliente(codSerie:String, codCliente:String, codEjercicio:String):Number
+function oficial_tieneIvaDocCliente(codSerie:String, codCliente:String, codEjercicio:String):Boolean
 {
 	var util:FLUtil = new FLUtil;
 	var conIva:Boolean = true;
 	
 	if (util.sqlSelect("series", "siniva", "codserie = '" + codSerie + "'"))
-		return 0;
+		return false;
 	else {
 		var regIva:String = util.sqlSelect("clientes", "regimeniva", "codcliente = '" + codCliente + "'");
 		if (regIva == "Exento")
-			return 0;
+			return false;
 		else
-			return 1;
+			return true;
 	}
-	
-	return 2;
 }
 
-/** \C Establece si un documento de proveedor debe tener IVA. No lo tendrá si el proveedor seleccionado está exento o es UE, o la serie seleccionada sea sin IVA
+/** \C Establece si un documento de proveedor debe tener IVA. No lo tendrá si el proveedor seleccionado está exento, o la serie seleccionada sea sin IVA
 @param	codSerie: Serie del documento
 @param	codProveedor: Código del proveedor
-@return	Devuelve 3 posibles valores:
-	0: Si no debe tener IVA,
-	1: Si debe tener IVA,
-	2: Si debe tener IVA
+@return	Devuelve verdadero si lleva iva o falso si no lleva
 \end */
-function oficial_tieneIvaDocProveedor(codSerie:String, codProveedor:String, codEjercicio:String):Number
+function oficial_tieneIvaDocProveedor(codSerie:String, codProveedor:String, codEjercicio:String):Boolean
 {
 	var util:FLUtil = new FLUtil;
 	var conIva:Boolean = true;
 	
 	if (util.sqlSelect("series", "siniva", "codserie = '" + codSerie + "'"))
-		return 0;
+		return false;
 	else {
 		var regIva:String = util.sqlSelect("proveedores", "regimeniva", "codproveedor = '" + codProveedor + "'");
 		if (regIva == "Exento")
-			return 0;
+			return false;
 		else
-			return 1;
+			return true;
 	}
-	
-	return 2;
 }
 
 /** \D Indica si el módulo de autómata está instalado y activado
@@ -3698,7 +3688,11 @@ function oficial_validarIvaCliente(codCliente:String,id:Number,tabla:String,iden
 
 		if(!preguntadoIva) {
 			switch (regimenIva) {
-				case "General": {
+				case "Consumidor Final":
+				case "No Responsable":
+				case "Responsable Monotributo":
+				case "Responsable Inscripto":
+				case "Responsable No Inscripto": {
 					if (iva == 0) {
 						var res:Number = MessageBox.warning(util.translate("scripts", "El cliente %1 tiene establecido un régimen de I.V.A. %2\ny en alguna o varias de las lineas no hay establecido un % de I.V.A.\n¿Desea continuar de todas formas?").arg(codCliente).arg(regimenIva), MessageBox.Yes,MessageBox.No);
 						preguntadoIva = true;
@@ -3749,8 +3743,11 @@ function oficial_validarIvaProveedor(codProveedor:String,id:Number,tabla:String,
 
 		if(!preguntadoIva) {
 			switch (regimenIva) {
-				case "General":
-				case "U.E.": {
+				case "Consumidor Final":
+				case "No Responsable":
+				case "Responsable Monotributo":
+				case "Responsable Inscripto":
+				case "Responsable No Inscripto": {
 					if (iva == 0) {
 						var res:Number = MessageBox.warning(util.translate("scripts", "El proveedor %1 tiene establecido un régimen de I.V.A. %2\ny en alguna o varias de las lineas no hay establecido un % de I.V.A.\n¿Desea continuar de todas formas?").arg(codProveedor).arg(regimenIva), MessageBox.Yes,MessageBox.No);
 						preguntadoIva = true;

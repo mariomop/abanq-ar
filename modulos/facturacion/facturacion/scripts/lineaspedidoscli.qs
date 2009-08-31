@@ -194,15 +194,12 @@ function interna_init()
 	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 	this.child("lblDtoPor").setText(this.iface.calculateField("lbldtopor"));
 	
-	var opcionIvaRec:Number = flfacturac.iface.pub_tieneIvaDocCliente(codSerie, codCliente);
-		
-	switch (opcionIvaRec) {
-		case 0:
+	if (cursor.modeAccess() == cursor.Insert || cursor.modeAccess() == cursor.Edit) {
+		if ( !flfacturac.iface.pub_tieneIvaDocCliente(codSerie, codCliente) ) {
+			this.child("fdbCodImpuesto").setValue("EXENTO");
 			this.child("fdbCodImpuesto").setDisabled(true);
 			this.child("fdbIva").setDisabled(true);
-			break;
-		default: 
-			break;
+		}
 	}
 
 	var filtroReferencia:String = ""; //this.child("fdbReferencia").filter();
@@ -384,7 +381,7 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			if (flfacturac.iface.pub_tieneIvaDocCliente(codSerie, codCliente))
 				valor = util.sqlSelect("articulos", "codimpuesto", "referencia = '" + cursor.valueBuffer("referencia") + "'");
 			else
-				valor = "";
+				valor = "EXENTO";
 			break;
 		}
 		case "porcomision": {

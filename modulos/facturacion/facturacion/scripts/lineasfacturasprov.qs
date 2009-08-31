@@ -151,6 +151,14 @@ function interna_init()
 	} else
 		this.child("gbxContabilidad").enabled = false;
 		
+	if (cursor.modeAccess() == cursor.Insert || cursor.modeAccess() == cursor.Edit) {
+		if ( !flfacturac.iface.pub_tieneIvaDocProveedor(cursor.cursorRelation().valueBuffer("codserie"), cursor.cursorRelation().valueBuffer("codproveedor")) ) {
+			this.child("fdbCodImpuesto").setValue("EXENTO");
+			this.child("fdbCodImpuesto").setDisabled(true);
+			this.child("fdbIva").setDisabled(true);
+		}
+	}
+
 	this.iface.filtrarArticulos();
 }
 

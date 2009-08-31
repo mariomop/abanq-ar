@@ -765,7 +765,7 @@ function oficial_actualizarLineasIva(curFactura:FLSqlCursor):Boolean
 			totalNeto = 0;
 		}
 		codImpuestoAnt = codImpuesto;
-		if (regIva == "U.E." || regIva == "Exento" || regIva == "Exportaciones") {
+		if (regIva == "Exento") {
 			iva = 0;
 		} else {
 			iva = parseFloat(qryLineasFactura.value("iva"));
@@ -1341,7 +1341,7 @@ function pieDocumento_actualizarLineasIva(curFactura:FLSqlCursor):Boolean
 			totalNeto = 0;
 		}
 		codImpuestoAnt = codImpuesto;
-		if (regIva == "U.E." || regIva == "Exento" || regIva == "Exportaciones") {
+		if (regIva == "Exento") {
 			iva = 0;
 		} else {
 			iva = parseFloat(qryLineasFactura.value("iva"));

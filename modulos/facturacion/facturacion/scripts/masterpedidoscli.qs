@@ -645,13 +645,11 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			El --totaliva-- es la suma del iva correspondiente a las líneas de factura
 			\end */
 			case "totaliva": {
-				var codCli:String = cursor.valueBuffer("codcliente");
-				var regIva:String = flfacturac.iface.pub_regimenIVACliente(cursor);
-				if(regIva == "U.E." || regIva == "Exento" || regIva == "Exportaciones") {
+				if (formfacturascli.iface.pub_sinIVA(cursor)) {
 					valor = 0;
-					break;
+				} else {
+					valor = util.sqlSelect("lineaspedidoscli", "SUM((pvptotal * iva) / 100)", "idpedido = " + cursor.valueBuffer("idpedido"));
 				}
-				valor = util.sqlSelect("lineaspedidoscli", "SUM((pvptotal * iva) / 100)", "idpedido = " + cursor.valueBuffer("idpedido"));
 				valor = parseFloat(util.roundFieldValue(valor, "pedidoscli", "totaliva"));
 				break;
 			}
@@ -1402,9 +1400,13 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "totaliva": {
-			var ivaPie:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totaliva)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND coniva = true"));
-			valor = this.iface.__commonCalculateField(fN, cursor);
-			valor += ivaPie;
+			if (formfacturascli.iface.pub_sinIVA(cursor))
+				valor = 0;
+			else {
+				var ivaPie:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totaliva)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND coniva = true"));
+				valor = this.iface.__commonCalculateField(fN, cursor);
+				valor += ivaPie;
+			}
 			valor = parseFloat(util.roundFieldValue(valor, "pedidoscli", "totaliva"));
 			break;
 		}

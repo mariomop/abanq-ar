@@ -176,15 +176,12 @@ function interna_init()
 	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 	this.child("lblDtoPor").setText(this.iface.calculateField("lbldtopor"));
 	
-	var opcionIvaRec:Number = flfacturac.iface.pub_tieneIvaDocCliente(cursor.cursorRelation().valueBuffer("codserie"), cursor.cursorRelation().valueBuffer("codcliente"));
-		
-	switch (opcionIvaRec) {
-		case 0:
+	if (cursor.modeAccess() == cursor.Insert || cursor.modeAccess() == cursor.Edit) {
+		if ( !flfacturac.iface.pub_tieneIvaDocCliente(cursor.cursorRelation().valueBuffer("codserie"), cursor.cursorRelation().valueBuffer("codcliente")) ) {
+			this.child("fdbCodImpuesto").setValue("EXENTO");
 			this.child("fdbCodImpuesto").setDisabled(true);
 			this.child("fdbIva").setDisabled(true);
-			break;
-		default: 
-			break;
+		}
 	}
 
 	this.iface.filtrarArticulos();

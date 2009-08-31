@@ -51,6 +51,9 @@ class oficial extends interna {
 	function whereAgrupacion(curAgrupar:FLSqlCursor):String {
 		return this.ctx.oficial_whereAgrupacion(curAgrupar);
 	}
+	function sinIVA(cursor:FLSqlCursor):Boolean {
+		return this.ctx.oficial_sinIVA(cursor);
+	}
 	function copiarFactura_clicked() {
 		return this.ctx.oficial_copiarFactura_clicked();
 	}
@@ -209,6 +212,9 @@ class ifaceCtx extends head {
 	function pub_imprimirQuick(codFactura:String, impresora:String) {
 		return this.imprimirQuick(codFactura, impresora);
 	}
+	function pub_sinIVA(cursor:FLSqlCursor):Boolean {
+		return this.sinIVA(cursor);
+	}
 }
 //// INTERFACE  /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -309,14 +315,12 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "totaliva": {
-			var codCli:String = cursor.valueBuffer("codcliente");
-			var regIva:String = flfacturac.iface.pub_regimenIVACliente(cursor);
-			if(regIva == "U.E." || regIva == "Exento" || regIva == "Exportaciones"){
+			if (this.iface.sinIVA(cursor))
 				valor = 0;
-				break;
+			else {
+				valor = util.sqlSelect("lineasfacturascli", "SUM((pvptotal * iva) / 100)", "idfactura = " + cursor.valueBuffer("idfactura"));
+				valor = parseFloat(util.roundFieldValue(valor, "facturascli", "totaliva"));
 			}
-			valor = util.sqlSelect("lineasfacturascli", "SUM((pvptotal * iva) / 100)", "idfactura = " + cursor.valueBuffer("idfactura"));
-			valor = parseFloat(util.roundFieldValue(valor, "facturascli", "totaliva"));
 			break;
 		}
 		case "coddir": {
@@ -478,6 +482,11 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 		where = where + " AND albaranescli.coddivisa = '" + codDivisa + "'";
 
 	return where;
+}
+
+function oficial_sinIVA(cursor:FLSqlCursor):Boolean
+{
+	return !flfacturac.iface.pub_tieneIvaDocCliente(cursor.valueBuffer("codserie"), cursor.valueBuffer("codcliente"));
 }
 
 function oficial_copiarFactura_clicked()
@@ -1003,9 +1012,13 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "totaliva": {
-			var ivaPie:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totaliva)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND coniva = true"));
-			valor = this.iface.__commonCalculateField(fN, cursor);
-			valor += ivaPie;
+			if (this.iface.sinIVA(cursor))
+				valor = 0;
+			else {
+				var ivaPie:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totaliva)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND coniva = true"));
+				valor = this.iface.__commonCalculateField(fN, cursor);
+				valor += ivaPie;
+			}
 			valor = parseFloat(util.roundFieldValue(valor, "facturascli", "totaliva"));
 			break;
 		}

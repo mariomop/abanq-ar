@@ -129,13 +129,12 @@ function interna_init()
 	this.child("lblStockFis").setText(this.iface.calculateField("lblStockFis"));
 
 	
-	var serie:String = cursor.cursorRelation().valueBuffer("codserie");
-	var siniva:Boolean = util.sqlSelect("series","siniva","codserie = '" + serie + "'");
-	if(siniva){
-		this.child("fdbCodImpuesto").setDisabled(true);
-		this.child("fdbIva").setDisabled(true);
-		cursor.setValueBuffer("codimpuesto","");
-		cursor.setValueBuffer("iva",0);
+	if (cursor.modeAccess() == cursor.Insert || cursor.modeAccess() == cursor.Edit) {
+		if ( !flfacturac.iface.pub_tieneIvaDocProveedor(cursor.cursorRelation().valueBuffer("codserie"), cursor.cursorRelation().valueBuffer("codproveedor")) ) {
+			this.child("fdbCodImpuesto").setValue("EXENTO");
+			this.child("fdbCodImpuesto").setDisabled(true);
+			this.child("fdbIva").setDisabled(true);
+		}
 	}
 }
 
@@ -206,12 +205,9 @@ function oficial_commonBufferChanged(fN:String, miForm:Object)
 		case "referencia":{
 			var util:FLUtil = new FLUtil();
 			miForm.child("fdbPvpUnitario").setValue(this.iface.commonCalculateField("pvpunitario", miForm.cursor()));
-			var serie:String = miForm.cursor().cursorRelation().valueBuffer("codserie");
-			var sinIva:Boolean = util.sqlSelect("series","siniva","codserie = '" + serie + "'");
 			miForm.child("lblStockFis").setText(this.iface.commonCalculateField("lblStockFis", miForm.cursor()));
 			miForm.child("fdbRefProveedor").setValue(this.iface.commonCalculateField("fdbRefProveedor", miForm.cursor()));
-			if(sinIva == false)
-				miForm.child("fdbCodImpuesto").setValue(this.iface.commonCalculateField("codimpuesto", miForm.cursor()));
+			miForm.child("fdbCodImpuesto").setValue(this.iface.commonCalculateField("codimpuesto", miForm.cursor()));
 			break;
 		}
 		case "codimpuesto":{
@@ -251,7 +247,12 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "codimpuesto":{
-			valor = util.sqlSelect("articulos", "codimpuesto", "referencia = '" + cursor.valueBuffer("referencia") + "'");
+			var codProveedor:String = util.sqlSelect(tablaPadre, "codproveedor", wherePadre);
+			var codSerie:String = util.sqlSelect(tablaPadre, "codserie", wherePadre);
+			if (flfacturac.iface.pub_tieneIvaDocProveedor(codSerie, codProveedor))
+				valor = util.sqlSelect("articulos", "codimpuesto", "referencia = '" + cursor.valueBuffer("referencia") + "'");
+			else
+				valor = "EXENTO";
 			break;
 		}
 		case "iva":{

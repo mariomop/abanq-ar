@@ -541,13 +541,11 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 		El --totaliva-- es la suma del iva correspondiente a las líneas de remito
 		\end */
 		case "totaliva":
-			var codCli:String = cursor.valueBuffer("codcliente");
-			var regIva:String = util.sqlSelect("clientes","regimeniva","codcliente = '" + codCli + "'");
-			if(regIva == "U.E." || regIva == "Exento"){
+			if (formfacturascli.iface.pub_sinIVA(cursor)) {
 				valor = 0;
-				break;
+			} else {
+				valor = util.sqlSelect("lineasservicioscli", "SUM((pvptotal * iva) / 100)", "idservicio = " + cursor.valueBuffer("idservicio"));
 			}
-			valor = util.sqlSelect("lineasservicioscli", "SUM((pvptotal * iva) / 100)", "idservicio = " + cursor.valueBuffer("idservicio"));
 			valor = parseFloat(util.roundFieldValue(valor, "servicioscli", "totaliva"));
 			break;
 	}

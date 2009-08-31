@@ -1244,9 +1244,13 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "totaliva": {
-			var ivaPie:Number = parseFloat(util.sqlSelect("piepedidosprov", "SUM(totaliva)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND coniva = true"));
-			valor = this.iface.__commonCalculateField(fN, cursor);
-			valor += ivaPie;
+			if (formfacturasprov.iface.pub_sinIVA(cursor)) {
+				valor = 0;
+			} else {
+				var ivaPie:Number = parseFloat(util.sqlSelect("piepedidosprov", "SUM(totaliva)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND coniva = true"));
+				valor = this.iface.__commonCalculateField(fN, cursor);
+				valor += ivaPie;
+			}
 			valor = parseFloat(util.roundFieldValue(valor, "pedidosprov", "totaliva"));
 			break;
 		}

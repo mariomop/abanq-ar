@@ -444,18 +444,7 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 
 function oficial_sinIVA(cursor:FLSqlCursor):Boolean
 {
-	var util:FLUtil = new FLUtil();
-	
-	var serie:String = cursor.valueBuffer("codserie");
-	if (util.sqlSelect("series","siniva","codserie = '" + serie + "'"))
-		return true;
-	
-	var codProveedor:String = cursor.valueBuffer("codproveedor");
-	var regimenIVA:String = util.sqlSelect("proveedores", "regimeniva", "codproveedor = '" + codProveedor + "'");
-	if (regimenIVA == "Exento" || regimenIVA == "UE")
-		return true;
-	
-	return false;
+	return !flfacturac.iface.pub_tieneIvaDocProveedor(cursor.valueBuffer("codserie"), cursor.valueBuffer("codproveedor"));
 }
 
 function oficial_copiarFactura_clicked()
@@ -877,9 +866,13 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "totaliva": {
-			var ivaPie:Number = parseFloat(util.sqlSelect("piefacturasprov", "SUM(totaliva)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND coniva = true"));
-			valor = this.iface.__commonCalculateField(fN, cursor);
-			valor += ivaPie;
+			if (this.iface.sinIVA(cursor))
+				valor = 0;
+			else {
+				var ivaPie:Number = parseFloat(util.sqlSelect("piefacturasprov", "SUM(totaliva)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND coniva = true"));
+				valor = this.iface.__commonCalculateField(fN, cursor);
+				valor += ivaPie;
+			}
 			valor = parseFloat(util.roundFieldValue(valor, "facturasprov", "totaliva"));
 			break;
 		}
