@@ -2863,8 +2863,10 @@ function marcacion_calculateField(fN:String):Number
 		}
 		case "variacion": {
 			var costoMaximo:Number = cursor.valueBuffer("costemaximo");
-			if (!costoMaximo)
-				costoMaximo = 0;
+			if (!costoMaximo) {
+				valor = 0;
+				break;
+			}
 
 			var marcacion:Number = cursor.valueBuffer("marcacion");
 
