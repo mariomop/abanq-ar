@@ -1,0 +1,31 @@
+<!DOCTYPE TMD>
+<TMD>
+	<!--Tipos de retenciones: Ingresos Brutos, Ganancias, IVA, Empleadores, etc-->
+	<name>tiposretencion</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Tipos de retención")</alias>
+	
+	<field>
+		<name>codtipo</name>
+		<!--Identificador interno del tipo de retención-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>4</length>
+		
+		<relation>
+			<table>ctas_retenciones</table>
+			<field>codretencion</field>
+			<card>1M</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>descripcion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Descripción")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>40</length>
+	</field>
+</TMD>

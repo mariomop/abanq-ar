@@ -437,4 +437,12 @@
         <form>master</form>
         <formrecord>idiomas</formrecord>
     </action>
+	<action>
+	    <name>tiposretencion</name>
+	    <alias>QT_TRANSLATE_NOOP("MetaData","Tipos de retenciones")</alias>
+	    <description>QT_TRANSLATE_NOOP("MetaData","Tipos de retenciones")</description>
+	    <table>tiposretencion</table>
+	    <form>master_print</form>
+	    <formrecord>tiposretencion</formrecord>
+	</action>
 </ACTIONS>

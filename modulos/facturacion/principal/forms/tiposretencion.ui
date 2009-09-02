@@ -1,0 +1,133 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+	<class>tiposretencion</class>
+	<widget class="QWidget">
+		<property name="name">
+			<cstring>tiposretencion</cstring>
+		</property>
+		<property name="geometry">
+			<rect>
+				<x>0</x>
+				<y>0</y>
+				<width>504</width>
+				<height>135</height>
+			</rect>
+		</property>
+		<property name="caption">
+			<string>tiposretencion</string>
+		</property>
+		<vbox>
+			<property name="name">
+				<cstring>unnamed</cstring>
+			</property>
+			<widget class="QGroupBox">
+				<property name="name">
+					<cstring>gbxTipoRetencion</cstring>
+				</property>
+				<property name="font">
+					<font>
+						<bold>1</bold>
+						<italic>1</italic>
+					</font>
+				</property>
+				<property name="title">
+					<string></string>
+				</property>
+				<vbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<widget class="QLayoutWidget">
+						<property name="name">
+							<cstring>layoutCodTipoRetencion</cstring>
+						</property>
+						<hbox>
+							<property name="name">
+								<cstring>unnamed</cstring>
+							</property>
+							<widget class="FLFieldDB">
+								<property name="name">
+									<cstring>fdbCodTipo</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>460</width>
+										<height>25</height>
+									</size>
+								</property>
+								<property name="font">
+									<font>
+										<bold>0</bold>
+										<italic>0</italic>
+									</font>
+								</property>
+								<property name="fieldName">
+									<string>codtipo</string>
+								</property>
+							</widget>
+							<spacer>
+								<property name="name">
+									<cstring>SpacerCodTipo</cstring>
+								</property>
+								<property name="orientation">
+									<enum>Horizontal</enum>
+								</property>
+								<property name="sizeType">
+									<enum>Expanding</enum>
+								</property>
+								<property name="sizeHint">
+									<size>
+										<width>136</width>
+										<height>16</height>
+									</size>
+								</property>
+							</spacer>
+						</hbox>
+					</widget>
+					<widget class="FLFieldDB">
+						<property name="name">
+							<cstring>fdbDesTipo</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>200</width>
+								<height>25</height>
+							</size>
+						</property>
+						<property name="font">
+							<font>
+								<bold>0</bold>
+								<italic>0</italic>
+							</font>
+						</property>
+						<property name="fieldName">
+							<string>descripcion</string>
+						</property>
+					</widget>
+				</vbox>
+			</widget>
+		</vbox>
+	</widget>
+	<layoutdefaults spacing="6" margin="11"/>
+	<includehints>
+		<includehint>FLFieldDB.h</includehint>
+		<includehint>FLFieldDB.h</includehint>
+		<includehint>FLFieldDB.h</includehint>
+		<includehint>FLFieldDB.h</includehint>
+	</includehints>
+</UI>

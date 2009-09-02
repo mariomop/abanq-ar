@@ -912,6 +912,31 @@ function oficial_valoresIniciales()
 	}
 	delete cursor;
 
+	cursor = new FLSqlCursor("tiposretencion");
+	with(cursor) {
+		setModeAccess(cursor.Insert);
+		refreshBuffer();
+		setValueBuffer("codtipo", "IIBB");
+		setValueBuffer("descripcion", "Ingresos Brutos");
+		commitBuffer();
+		setModeAccess(cursor.Insert);
+		refreshBuffer();
+		setValueBuffer("codtipo", "GANA");
+		setValueBuffer("descripcion", "Ganancias");
+		commitBuffer();
+		setModeAccess(cursor.Insert);
+		refreshBuffer();
+		setValueBuffer("codtipo", "EMPL");
+		setValueBuffer("descripcion", "Empleadores");
+		commitBuffer();
+		setModeAccess(cursor.Insert);
+		refreshBuffer();
+		setValueBuffer("codtipo", "IVA");
+		setValueBuffer("descripcion", "IVA");
+		commitBuffer();
+	}
+	delete cursor;
+
 	cursor = new FLSqlCursor("paises");
 	with(cursor) {
 		setModeAccess(cursor.Insert);
