@@ -14,6 +14,7 @@
 		albaranescli.codcliente, albaranescli.nombrecliente,
 		albaranescli.cifnif, albaranescli.ptefactura,
 		albaranescli.neto, albaranescli.totaliva,
+		albaranescli.totalpie,
 		albaranescli.total,
 		albaranescli.coddivisa,
 		empresa.nombre, empresa.cifnif,

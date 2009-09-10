@@ -10,7 +10,8 @@
 	</group>
 	
 	<select>
-		recibosprov.codigo, recibosprov.fecha, recibosprov.fechav,
+		recibosprov.codigo, recibosprov.idfactura,
+		recibosprov.fecha, recibosprov.fechav,
 		recibosprov.codproveedor, recibosprov.nombreproveedor,
 		recibosprov.cifnif, recibosprov.estado,
 		recibosprov.importe, recibosprov.coddivisa,

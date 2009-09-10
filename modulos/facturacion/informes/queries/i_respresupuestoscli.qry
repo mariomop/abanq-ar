@@ -14,6 +14,7 @@
 		presupuestoscli.codcliente, presupuestoscli.nombrecliente,
 		presupuestoscli.cifnif, 
 		presupuestoscli.neto, presupuestoscli.totaliva,
+		presupuestoscli.totalpie,
 		presupuestoscli.total,
 		presupuestoscli.coddivisa,
 		empresa.nombre, empresa.cifnif,

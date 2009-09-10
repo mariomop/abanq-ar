@@ -15,7 +15,8 @@
 	</group>
 	
 	<select>
-		reciboscli.codigo, reciboscli.fecha, reciboscli.fechav,
+		reciboscli.codigo, reciboscli.idfactura,
+		reciboscli.fecha, reciboscli.fechav,
 		reciboscli.codcliente, reciboscli.nombrecliente,
 		reciboscli.cifnif, reciboscli.estado,
 		reciboscli.importe, reciboscli.coddivisa,

@@ -10,10 +10,11 @@
 	</group>
 	
 	<select>
-		albaranesprov.codigo, albaranesprov.fecha,
+		albaranesprov.codigo, albaranesprov.fecha, albaranesprov.numproveedor,
 		albaranesprov.codproveedor, albaranesprov.nombre,
 		albaranesprov.cifnif, albaranesprov.ptefactura,
 		albaranesprov.neto*albaranesprov.tasaconv, albaranesprov.totaliva*albaranesprov.tasaconv,
+		albaranesprov.totalpie*albaranesprov.tasaconv,
 		albaranesprov.total*albaranesprov.tasaconv,
 		empresa.nombre, empresa.cifnif,
 		empresa.direccion,

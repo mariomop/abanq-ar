@@ -10,10 +10,11 @@
 	</group>
 	
 	<select>
-		pedidosprov.codigo, pedidosprov.fecha,
+		pedidosprov.codigo, pedidosprov.fecha, pedidosprov.numproveedor,
 		pedidosprov.codproveedor, pedidosprov.nombre,
 		pedidosprov.cifnif, pedidosprov.servido,
 		pedidosprov.neto, pedidosprov.totaliva,
+		pedidosprov.totalpie,
 		pedidosprov.total,
 		pedidosprov.coddivisa, empresa.nombre,
 		empresa.cifnif, empresa.direccion,

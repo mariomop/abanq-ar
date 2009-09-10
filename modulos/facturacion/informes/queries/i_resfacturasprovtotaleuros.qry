@@ -10,10 +10,11 @@
 	</group>
 	
 	<select>
-		facturasprov.codigo, facturasprov.fecha,
+		facturasprov.codigo, facturasprov.fecha, facturasprov.numproveedor,
 		facturasprov.codproveedor, facturasprov.nombre,
 		facturasprov.cifnif, facturasprov.neto,
 		facturasprov.totaliva,
+		facturasprov.totalpie,
 		facturasprov.total, facturasprov.coddivisa,facturasprov.totaleuros,
 		empresa.nombre, empresa.cifnif,
 		empresa.direccion,

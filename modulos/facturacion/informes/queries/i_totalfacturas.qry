@@ -12,6 +12,7 @@
 	<select>
 		i_totalfacturas_buffer.fecha,
 		i_totalfacturas_buffer.neto, i_totalfacturas_buffer.totaliva,
+		i_totalfacturas_buffer.totalpie,
 		i_totalfacturas_buffer.totaleuros, i_totalfacturas_buffer.numero,
 		i_totalfacturas_buffer.tipo_total,
 		empresa.nombre, empresa.cifnif,

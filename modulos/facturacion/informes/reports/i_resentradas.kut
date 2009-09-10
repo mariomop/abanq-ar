@@ -1,48 +1,50 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KugarTemplate SYSTEM "kugartemplate.dtd">
 <KugarTemplate BottomMargin="10" TopMargin="40" RightMargin="10" LeftMargin="20" PageOrientation="0" PageSize="0" >
+
 	<Detail Height="100" Level="0" >
-		
 		<!-- EMPRESA -->
 		<Line Width="1" Y1="0" Y2="0" X1="0" X2="370" Style="1" Color="100,100,100" />
 		<Line Width="1" Y1="80" Y2="80" X1="0" X2="370" Style="1" Color="100,100,100" />
 		<Line Width="1" Y1="0" Y2="80" X1="0" X2="0" Style="1" Color="100,100,100" />
 		<Line Width="1" Y1="0" Y2="80" X1="370" X2="370" Style="1" Color="100,100,100" />
 		
-		<Field WordWrap="1" Width="260" X="2" Y="2" BorderStyle="0" NegValueColor="0,0,0" Height="35" HAlignment="1" DataType="0" Field="empresa.nombre" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.nombre]" FontWeight="65" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial" />
-		
-		<CalculatedField CalculationType="6" FunctionName="flfactinfo.pub_logo" WordWrap="0" Width="109" X="260" Y="2" BorderStyle="0" NegValueColor="0,0,0" Height="34" HAlignment="0" DataType="5" Field="empresa.logo" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.logo]" FontWeight="50" FontSize="12" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="1" Width="282" X="2" Y="2" BorderStyle="0" NegValueColor="0,0,0" Height="35" HAlignment="1" DataType="0" Field="empresa.nombre" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.nombre]" FontWeight="65" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial" />
+		<CalculatedField CalculationType="6" FunctionName="flfactinfo.pub_logo" WordWrap="0" Width="85" X="284" Y="2" BorderStyle="0" NegValueColor="0,0,0" Height="34" HAlignment="0" DataType="5" Field="empresa.logo" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.logo]" FontWeight="50" FontSize="12" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		
 		<Label WordWrap="0" Width="60" X="5" Y="40" BorderStyle="0" Height="18" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="CUIT" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />
-		<Field WordWrap="0" Width="80" X="45" Y="40" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.cifnif" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.cifnif]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="100" X="65" Y="40" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.cifnif" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.cifnif]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		
-		<Field WordWrap="0" Width="235" X="125" Y="40" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.direccion" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.direccion]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="135" X="215" Y="40" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.direccion" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.direccion]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		<Field WordWrap="0" Width="45" X="5" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.codpostal" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.codpostal]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		<Field WordWrap="0" Width="150" X="65" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.ciudad" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.ciudad]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		<Field WordWrap="0" Width="100" X="215" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.provincia" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.provincia]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
-		
 	</Detail>
 	
 	<DetailHeader Height="30" Level="1" >
-		<!--titulo-->
+		<!--Título-->
 		<Label WordWrap="0" Width="300" X="1" Y="0" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Resumen de Documentos de Proveedores" FontWeight="65" FontSize="12" BorderWidth="1" FontFamily="Arial" />
 		<!--Fecha-->
 		<Label WordWrap="0" Width="50" X="320" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Fecha" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Special WordWrap="0" Width="65" X="370" Y="0" BorderStyle="0" Height="20" HAlignment="0" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="0" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />
-		<!--página-->
+		<!--Página-->
 		<Label WordWrap="0" Width="60" X="500" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Página" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Special WordWrap="0" Width="20" X="560" Y="0" BorderStyle="0" Height="20" HAlignment="2" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="1" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />
+		<!--Línea-->
+		<Line Width="1" Y1="24" Y2="24" X1="0" X2="610" Style="1" Color="150,150,150" />
 	</DetailHeader>
 	
 	<AddOnHeader Height="30" Level="1" >
-		<!--titulo-->
+		<!--Título-->
 		<Label WordWrap="0" Width="300" X="1" Y="0" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Resumen de Documentos de Proveedores" FontWeight="65" FontSize="12" BorderWidth="1" FontFamily="Arial" />
 		<!--Fecha-->
 		<Label WordWrap="0" Width="50" X="320" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Fecha" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Special WordWrap="0" Width="65" X="370" Y="0" BorderStyle="0" Height="20" HAlignment="0" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="0" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />
-		<!--página-->
+		<!--Página-->
 		<Label WordWrap="0" Width="60" X="500" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Página" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Special WordWrap="0" Width="20" X="560" Y="0" BorderStyle="0" Height="20" HAlignment="2" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="1" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />
+		<!--Línea-->
+		<Line Width="1" Y1="24" Y2="24" X1="0" X2="610" Style="1" Color="150,150,150" />
 	</AddOnHeader>
 	
 	
@@ -51,36 +53,37 @@
 	</Detail>
 	
 	<DetailHeader Height="20" Level="2" >
-		<Line Width="1" Y1="0" Y2="0" X1="0" X2="600" Style="1" Color="150,150,150" />
 		<!--cabecera -->
-		<Label WordWrap="0" Width="199" X="0" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Documento" FontWeight="65"  FontSize="10" BorderWidth="1" FontFamily="Arial" />
-		<Label WordWrap="0" Width="199" X="200" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Código" FontWeight="65"  FontSize="10" BorderWidth="1" FontFamily="Arial" />
-		<Label WordWrap="0" Width="99" X="400" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Fecha" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
-		<Label WordWrap="0" Width="100" X="500" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Importe" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="79" X="0" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Fecha" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="249" X="80" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Documento" FontWeight="65"  FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="149" X="330" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Código" FontWeight="65"  FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="99" X="480" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Importe" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="30" X="580" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Div." FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
 	</DetailHeader>
 	
 	<AddOnHeader Height="20" Level="2" >
-		<Line Width="1" Y1="0" Y2="0" X1="0" X2="600" Style="1" Color="150,150,150" />
 		<!--cabecera -->
-		<Label WordWrap="0" Width="199" X="0" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Documento" FontWeight="65"  FontSize="10" BorderWidth="1" FontFamily="Arial" />
-		<Label WordWrap="0" Width="199" X="200" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Código" FontWeight="65"  FontSize="10" BorderWidth="1" FontFamily="Arial" />
-		<Label WordWrap="0" Width="99" X="400" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Fecha" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
-		<Label WordWrap="0" Width="100" X="500" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Importe" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="79" X="0" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Fecha" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="249" X="80" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Documento" FontWeight="65"  FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="149" X="330" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Código" FontWeight="65"  FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="99" X="480" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Importe" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="30" X="580" Y="1" BorderStyle="0" Height="19" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Div." FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
 	</AddOnHeader>
 	
 	<Detail Height="15" Level="2" >
-		<Field WordWrap="0" Width="200" X="0" Y="1" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="1" DataType="0" Field="consultaentradas.tipo" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[consultaentradas.tipo]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
-		<Field WordWrap="0" Width="200" X="200" Y="1" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="1" DataType="0" Field="consultaentradas.codigo" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[consultaentradas.codigo]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
-		<Field WordWrap="0" Width="100" X="400" Y="1" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="1" DataType="3" Field="consultaentradas.fecha" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[consultaentradas.fecha]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
-		<Field WordWrap="0" Width="100" X="500" Y="1" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="2" DataType="2" Field="consultaentradas.total" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[consultaentradas.total]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="80" X="0" Y="1" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="1" DataType="3" Field="consultaentradas.fecha" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[consultaentradas.fecha]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="250" X="80" Y="1" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="1" DataType="0" Field="consultaentradas.tipo" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[consultaentradas.tipo]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="150" X="330" Y="1" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="1" DataType="0" Field="consultaentradas.codigo" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[consultaentradas.codigo]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="100" X="480" Y="1" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="2" DataType="2" Field="consultaentradas.total" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[consultaentradas.total]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="30" X="580" Y="1" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="0" DataType="0" Field="consultaentradas.coddivisa" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[consultaentradas.divisa]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 	</Detail>
 	
 	<AddOnFooter Height="5" Level="2" >
-		<Line Width="1" Y1="2" Y2="2" X1="0" X2="600" Style="1" Color="150,150,150" />
+		<Line Width="1" Y1="2" Y2="2" X1="0" X2="610" Style="1" Color="150,150,150" />
 	</AddOnFooter>
 	
 	<DetailFooter Height="25" Level="2" >
-		<Line Width="1" Y1="2" Y2="2" X1="0" X2="600" Style="1" Color="150,150,150" />
+		<Line Width="1" Y1="2" Y2="2" X1="0" X2="610" Style="1" Color="150,150,150" />
 	</DetailFooter>
 	
 	<DetailFooter Height="0" Level="1" >

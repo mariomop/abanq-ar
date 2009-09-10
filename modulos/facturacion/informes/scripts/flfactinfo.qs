@@ -1603,13 +1603,17 @@ function datos_obtenerCodigo(nodo:FLDomNode, campo:String):String
 	var sufijo:String = "";
 
 	switch (tabla[0]) {
-		case "reciboscli": {
-			var idFactura:Number = nodo.attributeValue("reciboscli.idfactura");
+		case "reciboscli":
+		case "recibosprov": {
+			var tablaFactura:String = "facturascli";
+			if (tabla[0] == "recibosprov")
+				tablaFactura = "facturasprov";
+			var idFactura:Number = nodo.attributeValue(tabla[0] + ".idfactura");
 			var qryTipoFactura:FLSqlQuery = new FLSqlQuery();
 			with (qryTipoFactura) {
-				setTablesList("facturascli");
+				setTablesList(tablaFactura);
 				setSelect("decredito,dedebito");
-				setFrom("facturascli");
+				setFrom(tablaFactura);
 				setWhere("idfactura = " + idFactura);
 			}
 			if (!qryTipoFactura.exec() || !qryTipoFactura.first()) {
@@ -1637,6 +1641,17 @@ function datos_obtenerCodigo(nodo:FLDomNode, campo:String):String
 				prefijo = "F ";
 
 			break;
+		}
+		case "pedidosprov":
+		case "albaranesprov":
+		case "facturasprov": {
+			var nuevoCodigo:String;
+			if (nodo.attributeValue(tabla[0] + ".numproveedor") != "")
+				nuevoCodigo = nodo.attributeValue(tabla[0] + ".numproveedor");
+			else
+				nuevoCodigo = serie + "-" + puntoVenta + "-" + numero;
+
+			return nuevoCodigo;
 		}
 		break;
 	}

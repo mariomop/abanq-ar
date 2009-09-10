@@ -14,6 +14,7 @@
 		pedidoscli.codcliente, pedidoscli.nombrecliente,
 		pedidoscli.cifnif, pedidoscli.servido,
 		pedidoscli.neto, pedidoscli.totaliva,
+		pedidoscli.totalpie,
 		pedidoscli.total,
 		pedidoscli.coddivisa,
 		empresa.nombre, empresa.cifnif,

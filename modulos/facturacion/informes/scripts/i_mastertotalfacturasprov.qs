@@ -170,7 +170,7 @@ function oficial_rellenarDatos(cursor:FLSqlCursor)
 
 	q = new FLSqlQuery();
 	q.setTablesList("facturasprov");
-	q.setSelect("fecha,SUM(neto) as neto,SUM(totaliva) as totaliva,SUM(totaleuros) as totaleuros,COUNT(*) as numero");
+	q.setSelect("fecha,SUM(neto) as neto,SUM(totaliva) as totaliva,SUM(totalpie) as totalpie,SUM(totaleuros) as totaleuros,COUNT(*) as numero");
 	q.setFrom("facturasprov");
 	q.setWhere(where);
 	q.setOrderBy("fecha");
@@ -229,10 +229,11 @@ function oficial_rellenarDatos(cursor:FLSqlCursor)
 		curTab.setValueBuffer("fecha", fecha);
 		curTab.setValueBuffer("neto",        curTab.valueBuffer("neto")+q.value(1));
 		curTab.setValueBuffer("totaliva",    curTab.valueBuffer("totaliva")+q.value(2));
-		curTab.setValueBuffer("totaleuros",  curTab.valueBuffer("totaleuros")+q.value(3));
+		curTab.setValueBuffer("totalpie",    curTab.valueBuffer("totalpie")+q.value(3));
+		curTab.setValueBuffer("totaleuros",  curTab.valueBuffer("totaleuros")+q.value(4));
 		if (curTab.valueBuffer("numero") == "")
 			curTab.setValueBuffer("numero", 0);
-		curTab.setValueBuffer("numero",      parseInt(curTab.valueBuffer("numero"))+q.value(4));
+		curTab.setValueBuffer("numero",      parseInt(curTab.valueBuffer("numero"))+q.value(5));
 		curTab.setValueBuffer("idsesion", idSesion);
 		curTab.setValueBuffer("tipo_total", util.translate("scripts", tipo_total));
 		fecha_ant = fecha;
