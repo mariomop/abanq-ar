@@ -3664,6 +3664,8 @@ function oficial_siGenerarRecibosCli(curFactura:FLSqlCursor, masCampos:Array):Bo
 
 function oficial_validarIvaCliente(codCliente:String,id:Number,tabla:String,identificador:String):Boolean
 {
+	return true; // No valida por ahora
+
 	var util:FLUtil;
 
 	if(!codCliente)
@@ -3719,6 +3721,8 @@ function oficial_validarIvaCliente(codCliente:String,id:Number,tabla:String,iden
 
 function oficial_validarIvaProveedor(codProveedor:String,id:Number,tabla:String,identificador:String):Boolean
 {
+	return true; // No valida por ahora
+
 	var util:FLUtil;
 
 	if(!codProveedor)
