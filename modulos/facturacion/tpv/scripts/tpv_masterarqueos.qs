@@ -702,6 +702,7 @@ function ordenCampos_init()
 	var orden:Array = [ "idtpv_arqueo", "abierta", "diadesde", "diahasta", "inicio", "totalcaja", "totalctacte", "totaltarjeta", "totalcheque", "totalvale", "totalmov", "sacadodecaja", "ptoventa", "idusuario", "nogenerarasiento" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
+	this.iface.tdbRecords.setFocus();
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////

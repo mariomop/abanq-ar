@@ -513,6 +513,7 @@ function ordenCampos_init()
 	var orden:Array = [ "codigo", "estado", "codcliente", "tipocontrato", "referencia", "descripcion", "coste", "totalconiva", "codimpuesto", "periodopago", "ultimopago", "fechainicio", "idusuario", "observaciones" ];
 
 	this.iface.tableDBRecords.setOrderCols(orden);
+	this.iface.tableDBRecords.setFocus();
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////

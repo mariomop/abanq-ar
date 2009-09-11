@@ -1509,8 +1509,8 @@ function silixOrdenCampos_init()
 	this.iface.__init();
 
 	var orden:Array = [ "descripcion", "referencia", "codunidad", "pvp", "ivaincluido", "codimpuesto", "stockfis", "codfamilia", "codsubfamilia", "codfabricante", "nostock", "secompra", "sevende", "variable", "costeultimo", "costemedio", "costemaximo", "marcacion", "variacion", "stockmin", "stockmax", "controlnumserie", "porlotes", "diasconsumo", "publico", "fechapub", "enportada", "ordenportada", "enoferta", "pvpoferta", "codbarras", "observaciones" ];
+
 	this.iface.tdbRecords.setOrderCols(orden);
-	this.iface.tdbRecords.setFocus();
 }
 
 //// SILIXORDENCAMPOS ///////////////////////////////////////////

@@ -276,6 +276,7 @@ function ordenCampos_init()
 	var orden:Array = [ "codigo", "estado", "nombreproveedor", "importe", "coddivisa", "importeeuros", "fecha", "fechav", "idremesa", "idpagomulti", "codproveedor", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "texto" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
+	this.iface.tdbRecords.setFocus();
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////

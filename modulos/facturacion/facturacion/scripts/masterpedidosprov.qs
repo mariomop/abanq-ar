@@ -1188,6 +1188,7 @@ function ordenCampos_init()
 	var orden:Array = [ "codigo", "tipoventa", "servido", "editable", "numproveedor", "nombre", "neto", "totaliva", "recfinanciero", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
+	this.iface.tdbRecords.setFocus();
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////

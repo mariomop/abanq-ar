@@ -190,6 +190,7 @@ function ordenCampos_init()
 	var orden:Array = [ "idpagomulti", "estado", "codcliente", "nombrecliente", "total", "coddivisa", "tasaconv", "importeeuros", "fecha", "idusuario" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
+	this.iface.tdbRecords.setFocus();
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////

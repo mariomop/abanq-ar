@@ -833,6 +833,7 @@ function ordenCampos_init()
 	var orden:Array = [ "numservicio", "editable", "codcliente", "nombrecliente", "neto", "totaliva", "total", "tasaconv", "fecha", "referencia", "numserieap", "accesorios", "desperfectos", "codtecnico", "descripcion", "solucion", "horas", "minutos", "contratomant", "tiposervicio", "estado", "codserie", "codagente", "porcomision", "idusuario" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
+	this.iface.tdbRecords.setFocus();
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////

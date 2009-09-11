@@ -1330,6 +1330,7 @@ function ordenCampos_init()
 	var orden:Array = [ "codigo", "tipoventa", "nombrecliente", "neto", "totaliva", "total", "fecha", "hora", "estado", "editable", "codserie", "numerosecuencia", "codtpv_puntoventa", "codtpv_agente", "pagado", "pendiente", "tipopago", "codpago", "codtarifa", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "automatica" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
+	this.iface.tdbRecords.setFocus();
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
