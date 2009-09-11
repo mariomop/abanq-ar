@@ -613,6 +613,11 @@ function totalesIva_commonBufferChanged(fN:String, miForm:Object)
 	var util:FLUtil = new FLUtil();
 	
 	switch (fN) {
+		case "pvptotal": {
+			miForm.child("fdbTotalConIVA").setValue(this.iface.commonCalculateField("totalconiva", miForm.cursor()));
+			return this.iface.__commonBufferChanged(fN, miForm);
+			break;
+		}
 		default:
 			return this.iface.__commonBufferChanged(fN, miForm);
 	}

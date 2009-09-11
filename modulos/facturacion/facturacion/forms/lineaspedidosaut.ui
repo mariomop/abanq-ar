@@ -495,6 +495,61 @@
 									</widget>
 								</hbox>
 							</widget>
+							<widget class="QLayoutWidget">
+								<property name="name">
+									<cstring>layout39</cstring>
+								</property>
+								<hbox>
+									<property name="name">
+										<cstring>unnamed</cstring>
+									</property>
+									<spacer>
+										<property name="name">
+											<cstring>spacer17</cstring>
+										</property>
+										<property name="orientation">
+											<enum>Horizontal</enum>
+										</property>
+										<property name="sizeType">
+											<enum>Expanding</enum>
+										</property>
+										<property name="sizeHint">
+											<size>
+												<width>101</width>
+												<height>20</height>
+											</size>
+										</property>
+									</spacer>
+									<widget class="FLFieldDB">
+										<property name="name">
+											<cstring>fdbTotalConIVA</cstring>
+										</property>
+										<property name="sizePolicy">
+											<sizepolicy>
+												<hsizetype>1</hsizetype>
+												<vsizetype>0</vsizetype>
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="minimumSize">
+											<size>
+												<width>170</width>
+												<height>25</height>
+											</size>
+										</property>
+										<property name="font">
+											<font>
+												<pointsize>11</pointsize>
+												<italic>0</italic>
+											</font>
+										</property>
+										<property name="fieldName">
+											<string>totalconiva</string>
+										</property>
+									</widget>
+								</hbox>
+							</widget>
 						</vbox>
 					</widget>
 				</hbox>

@@ -156,7 +156,7 @@
 		<name>descripcion</name>
 		<!-- Descripción del artículo -->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Artículo")</alias>
-		<null>false</null>
+		<null>true</null>
 		<pk>false</pk>
 		<type>stringlist</type>
 	</field>

@@ -87,6 +87,7 @@
 		<type>double</type>
 		<partI>6</partI>
 		<partD>2</partD>
+		<default>0</default>
 	</field>
 	<field>
 		<name>pvptotal</name>
@@ -97,6 +98,7 @@
 		<partI>6</partI>
 		<partD>2</partD>
 		<editable>false</editable>
+		<default>0</default>
 	</field>
 	<field>
 		<name>totalconiva</name>
@@ -108,6 +110,7 @@
 		<partD>2</partD>
 		<calculated>true</calculated>
 		<editable>false</editable>
+		<default>0</default>
 	</field>
 	<field>
 		<name>codimpuesto</name>
@@ -196,6 +199,7 @@
 		<type>double</type>
 		<partI>3</partI>
 		<partD>2</partD>
+		<default>0</default>
 	</field>
 	<field>
 		<name>idalbaran</name>

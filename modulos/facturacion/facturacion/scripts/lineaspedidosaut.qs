@@ -166,9 +166,9 @@ function interna_validateForm():Boolean
 	/** \C
 	La cantidad de artículos especificada será mayor o igual que la del --totalenalbaran--
 	\end */
-	if (parseFloat(this.cursor().valueBuffer("cantidad")) < parseFloat(this.cursor().valueBuffer("totalenalbaran")))
+/*	if (parseFloat(this.cursor().valueBuffer("cantidad")) < parseFloat(this.cursor().valueBuffer("totalenalbaran")))
 		return false;
-	else
+	else*/
 		return true;
 }
 //// INTERNA /////////////////////////////////////////////////////
@@ -358,6 +358,10 @@ function totalesIva_commonBufferChanged(fN:String, miForm:Object)
 	var util:FLUtil = new FLUtil();
 	
 	switch (fN) {
+		case "pvptotal": {
+			miForm.child("fdbTotalConIVA").setValue(this.iface.commonCalculateField("totalconiva", miForm.cursor()));
+			break;
+		}
 		default:
 			return this.iface.__commonBufferChanged(fN, miForm);
 	}
