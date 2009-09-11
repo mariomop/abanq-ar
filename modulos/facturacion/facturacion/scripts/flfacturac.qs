@@ -5835,22 +5835,7 @@ function ganancias_obtenerGananciaLinea(lineaDoc:FLSqlCursor, doc:String):Boolea
 
 		var util:FLUtil = new FLUtil();
 
-		var costounitario:Number;
-		var costototal:Number;
-		var ganancia:Number;
-		var utilidad:Number;
-
 		var idDoc:String;
-
-		// CONTEMPLAR MANEJO DE VARIAS DIVISAS
-
-		costounitario = parseFloat(util.sqlSelect("articulos", "costeultimo",  "referencia = '" + lineaDoc.valueBuffer("referencia") + "'"));
-		if (!costounitario || isNaN(costounitario)) {
-			costounitario = parseFloat(util.sqlSelect("articulos", "costemaximo",  "referencia = '" + lineaDoc.valueBuffer("referencia") + "'"));
-		}
-		if (!costounitario || isNaN(costounitario)) {
-			costounitario = 0;
-		}
 		switch (doc) {
 			case "facturascli":
 				idDoc = "idfactura";
@@ -5868,9 +5853,31 @@ function ganancias_obtenerGananciaLinea(lineaDoc:FLSqlCursor, doc:String):Boolea
 				idDoc = "idtpv_comanda";
 				break;
 		}
+
+		var costounitario:Number;
+		var costototal:Number;
+		var ganancia:Number;
+		var utilidad:Number;
+
+		// CONTEMPLAR MANEJO DE VARIAS DIVISAS
+
+		costounitario = parseFloat(util.sqlSelect("articulos", "costeultimo",  "referencia = '" + lineaDoc.valueBuffer("referencia") + "'"));
+		if (!costounitario || isNaN(costounitario)) {
+			costounitario = parseFloat(util.sqlSelect("articulos", "costemaximo",  "referencia = '" + lineaDoc.valueBuffer("referencia") + "'"));
+		}
+		if (!costounitario || isNaN(costounitario)) {
+			costounitario = 0;
+		}
+		costounitario = util.roundFieldValue(costounitario, lineaDoc.table(), "costounitario");
+
 		costototal = costounitario * parseFloat(lineaDoc.valueBuffer("cantidad"));
+		costototal = util.roundFieldValue(costototal, lineaDoc.table(), "costototal");
+
 		ganancia = parseFloat(lineaDoc.valueBuffer("pvptotal")) - costototal;
+		ganancia = util.roundFieldValue(ganancia, lineaDoc.table(), "ganancia");
+
 		utilidad = (ganancia / parseFloat(lineaDoc.valueBuffer("pvptotal")))*100 ;
+		utilidad = util.roundFieldValue(utilidad, lineaDoc.table(), "utilidad");
 	
 		lineaDoc.setValueBuffer("costounitario", costounitario);
 		lineaDoc.setValueBuffer("costototal", costototal);
@@ -5924,8 +5931,12 @@ function ganancias_obtenerGanancia(doc:FLSqlCursor, linea:String):Boolean
 		var utilidad:Number;
 
 		costototal = parseFloat(util.sqlSelect(lineaDoc, "SUM(costototal)", idLineaDoc + " = " + doc.valueBuffer(idLineaDoc)));
+
 		ganancia = parseFloat(doc.valueBuffer("neto")) - costototal;
+		ganancia = util.roundFieldValue(ganancia, doc.table(), "ganancia");
+
 		utilidad = (ganancia / parseFloat(doc.valueBuffer("neto")))*100 ;
+		utilidad = util.roundFieldValue(utilidad, doc.table(), "utilidad");
 
 		doc.setValueBuffer("costototal", costototal);
 		doc.setValueBuffer("ganancia", ganancia);

@@ -111,11 +111,26 @@ class totalesIva extends serviciosCli {
 //// TOTALES CON IVA ////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration informacionLineas */
+/////////////////////////////////////////////////////////////////
+//// INFORMACION LINEAS /////////////////////////////////////////
+class informacionLineas extends totalesIva {
+    function informacionLineas( context ) { totalesIva ( context ); }
+	function commonBufferChanged(fN:String, miForm:Object) {
+		return this.ctx.informacionLineas_commonBufferChanged(fN, miForm);
+	}
+	function commonCalculateField(fN:String, cursor:FLSqlCursor):String {
+		return this.ctx.informacionLineas_commonCalculateField(fN, cursor);
+	}
+}
+//// INFORMACION LINEAS /////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends totalesIva {
-    function head( context ) { totalesIva ( context ); }
+class head extends informacionLineas {
+    function head( context ) { informacionLineas ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -646,6 +661,98 @@ function totalesIva_commonCalculateField(fN, cursor):String
 }
 
 //// TOTALES CON IVA ////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition informacionLineas */
+/////////////////////////////////////////////////////////////////
+//// INFORMACION LINEAS /////////////////////////////////////////
+
+function informacionLineas_commonBufferChanged(fN:String, miForm:Object)
+{
+	var util:FLUtil = new FLUtil();
+
+	if (miForm.cursor().table() == "lineasservicioscli")
+		return this.iface.__commonBufferChanged(fN, miForm);
+
+	switch (fN) {
+		case "referencia": {
+			miForm.child("lblStockFisico").setText(this.iface.commonCalculateField("lblStockFisico", miForm.cursor()));
+			miForm.child("fdbCostoUnitario").setValue(this.iface.commonCalculateField("costounitario", miForm.cursor()));
+			this.iface.__commonBufferChanged(fN, miForm);
+			break;
+		}
+		case "costounitario":
+		case "cantidad": {
+			miForm.child("fdbCostoTotal").setValue(this.iface.commonCalculateField("costototal", miForm.cursor()));
+			this.iface.__commonBufferChanged(fN, miForm);
+			break;
+		}
+		case "pvptotal": {
+			miForm.child("fdbGanancia").setValue(this.iface.commonCalculateField("ganancia", miForm.cursor()));
+			this.iface.__commonBufferChanged(fN, miForm);
+			break;
+		}
+		case "ganancia": {
+			miForm.child("fdbUtilidad").setValue(this.iface.commonCalculateField("utilidad", miForm.cursor()));
+			break;
+		}
+		default:
+			this.iface.__commonBufferChanged(fN, miForm);
+	}
+}
+
+function informacionLineas_commonCalculateField(fN, cursor):String
+{
+	var util:FLUtil = new FLUtil();
+	var valor:String;
+	
+	switch (fN) {
+		case "lblStockFisico":{
+			var stockFisico:Number = util.sqlSelect("articulos", "stockfis", "referencia = '" + cursor.valueBuffer("referencia") + "'");
+			if (!stockFisico || isNaN(stockFisico))
+				valor = 0;
+			else
+				valor = stockFisico;
+			break;
+		}
+		case "costounitario":{
+			var costounitario:Number;
+			costounitario = parseFloat(util.sqlSelect("articulos", "costeultimo",  "referencia = '" + cursor.valueBuffer("referencia") + "'"));
+			if (!costounitario || isNaN(costounitario)) {
+				costounitario = parseFloat(util.sqlSelect("articulos", "costemaximo",  "referencia = '" + cursor.valueBuffer("referencia") + "'"));
+			}
+			if (!costounitario || isNaN(costounitario)) {
+				costounitario = 0;
+			}
+			valor = util.roundFieldValue(costounitario, cursor.table(), "costounitario");
+			break;
+		}
+		case "costototal":{
+			var costototal:Number;
+			costototal = parseFloat(cursor.valueBuffer("costounitario")) * parseFloat(cursor.valueBuffer("cantidad"));
+			valor = util.roundFieldValue(costototal, cursor.table(), "costototal");
+			break;
+		}
+		case "ganancia":{
+			var ganancia:Number;
+			ganancia = parseFloat(cursor.valueBuffer("pvptotal")) - parseFloat(cursor.valueBuffer("costototal"));
+			valor = util.roundFieldValue(ganancia, cursor.table(), "ganancia");
+			break;
+		}
+		case "utilidad":{
+			var utilidad:Number;
+			utilidad = (parseFloat(cursor.valueBuffer("ganancia")) / parseFloat(cursor.valueBuffer("pvptotal")))*100 ;
+			valor = util.roundFieldValue(utilidad, cursor.table(), "utilidad");
+			break;
+		}
+		default:
+			return this.iface.__commonCalculateField(fN, cursor);
+	}
+
+	return valor;
+}
+
+//// INFORMACION LINEAS /////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
