@@ -786,7 +786,6 @@ function oficial_totalesFactura():Boolean
 		setValueBuffer("totaliva", formfacturascli.iface.pub_commonCalculateField("totaliva", this));
 		setValueBuffer("total", formfacturascli.iface.pub_commonCalculateField("total", this));
 		setValueBuffer("totaleuros", formfacturascli.iface.pub_commonCalculateField("totaleuros", this));
-		setValueBuffer("codigo", formfacturascli.iface.pub_commonCalculateField("codigo", this));
 	}
 	return true;
 }
@@ -2110,6 +2109,7 @@ function numeroSecuencia_datosFactura(curComanda:FLSqlCursor):Boolean
 		setValueBuffer("tipoventa", curComanda.valueBuffer("tipoventa"));
 		setValueBuffer("codserie", curComanda.valueBuffer("codserie"));
 		setValueBuffer("numero", curComanda.valueBuffer("numerosecuencia"));
+		setValueBuffer("codigo", formfacturascli.iface.pub_commonCalculateField("codigo", this));
 	}
 	return true;
 }
@@ -2584,7 +2584,6 @@ function tipoVenta_totalesRemito():Boolean
 		setValueBuffer("totaliva", formalbaranescli.iface.pub_commonCalculateField("totaliva", this));
 		setValueBuffer("total", formalbaranescli.iface.pub_commonCalculateField("total", this));
 		setValueBuffer("totaleuros", formalbaranescli.iface.pub_commonCalculateField("totaleuros", this));
-		setValueBuffer("codigo", formalbaranescli.iface.pub_commonCalculateField("codigo", this));
 	}
 
 	return true;
@@ -2631,6 +2630,7 @@ function tipoVenta_datosRemito(curComanda:FLSqlCursor):Boolean
 		setValueBuffer("codalmacen", codAlmacen);
 		setValueBuffer("codserie", curComanda.valueBuffer("codserie"));
 		setValueBuffer("numero", numeroSecuencia);
+		setValueBuffer("codigo", formalbaranescli.iface.pub_commonCalculateField("codigo", this));
 		setValueBuffer("tasaconv", util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + flfactppal.iface.pub_valorDefectoEmpresa("coddivisa") + "'"));
 		setValueBuffer("tpv", true);
 		setValueBuffer("idtpv_comanda", curComanda.valueBuffer("idtpv_comanda"));
@@ -2752,7 +2752,6 @@ function tipoVenta_totalesPedido():Boolean
 		setValueBuffer("totaliva", formpedidoscli.iface.pub_commonCalculateField("totaliva", this));
 		setValueBuffer("total", formpedidoscli.iface.pub_commonCalculateField("total", this));
 		setValueBuffer("totaleuros", formpedidoscli.iface.pub_commonCalculateField("totaleuros", this));
-		setValueBuffer("codigo", formpedidoscli.iface.pub_commonCalculateField("codigo", this));
 	}
 	return true;
 }
@@ -2797,6 +2796,7 @@ function tipoVenta_datosPedido(curComanda:FLSqlCursor):Boolean
 		setValueBuffer("codalmacen", codAlmacen);
 		setValueBuffer("codserie", curComanda.valueBuffer("codserie"));
 		setValueBuffer("numero", numeroSecuencia);
+		setValueBuffer("codigo", formpedidoscli.iface.pub_commonCalculateField("codigo", this));
 		setValueBuffer("tasaconv", util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + flfactppal.iface.pub_valorDefectoEmpresa("coddivisa") + "'"));
 		setValueBuffer("tpv", true);
 		setValueBuffer("idtpv_comanda", curComanda.valueBuffer("idtpv_comanda"));
@@ -2918,7 +2918,6 @@ function tipoVenta_totalesPresupuesto():Boolean
 		setValueBuffer("totaliva", formpresupuestoscli.iface.pub_commonCalculateField("totaliva", this));
 		setValueBuffer("total", formpresupuestoscli.iface.pub_commonCalculateField("total", this));
 		setValueBuffer("totaleuros", formpresupuestoscli.iface.pub_commonCalculateField("totaleuros", this));
-		setValueBuffer("codigo", formpresupuestoscli.iface.pub_commonCalculateField("codigo", this));
 	}
 	return true;
 }
@@ -2964,6 +2963,7 @@ function tipoVenta_datosPresupuesto(curComanda:FLSqlCursor):Boolean
 		setValueBuffer("codalmacen", codAlmacen);
 		setValueBuffer("codserie", curComanda.valueBuffer("codserie"));
 		setValueBuffer("numero", numeroSecuencia);
+		setValueBuffer("codigo", formpresupuestoscli.iface.pub_commonCalculateField("codigo", this));
 		setValueBuffer("tasaconv", util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + flfactppal.iface.pub_valorDefectoEmpresa("coddivisa") + "'"));
 		setValueBuffer("tpv", true);
 		setValueBuffer("idtpv_comanda", curComanda.valueBuffer("idtpv_comanda"));
