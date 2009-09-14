@@ -231,9 +231,6 @@ class datos extends pubInfoCliProv {
 	function obtenerListaRemitos(nodo:FLDomNode, campo:String):String {
 		return this.ctx.datos_obtenerListaRemitos(nodo, campo);
 	}
-	function obtenerRecargoFinanciero(nodo:FLDomNode, campo:String):String {
-		return this.ctx.datos_obtenerRecargoFinanciero(nodo, campo);
-	}
 	function acumularValor(nodo:FLDomNode, campo:String):String {
 		return this.ctx.datos_acumularValor(nodo, campo);
 	}
@@ -1700,28 +1697,6 @@ function datos_obtenerListaRemitos(nodo:FLDomNode, campo:String):String
 	return listaRemitos;
 }
 
-function datos_obtenerRecargoFinanciero(nodo:FLDomNode, campo:String):String
-{
-	var codigo:String = nodo.attributeValue(campo + ".codigo");
-	if (!codigo || codigo == "")
-		return 0;
-
-	var qryDoc:FLSqlQuery = new FLSqlQuery();
-	with (qryDoc) {
-		setTablesList(campo);
-		setSelect("recfinanciero,neto");
-		setFrom(campo);
-		setWhere("codigo = '" + codigo + "'");
-	}
-	if (!qryDoc.exec() || !qryDoc.first()) {
-		return 0;
-	}
-
-	var recargoFinanciero:Number = ( parseFloat(qryDoc.value("recfinanciero")) * (parseFloat(qryDoc.value("neto"))) ) / 100;
-
-	return recargoFinanciero;
-}
-
 function datos_acumularValor(nodo:FLDomNode, campo:String):String
 {
 	var campos:Array = campo.split("/");
@@ -1732,8 +1707,8 @@ function datos_acumularValor(nodo:FLDomNode, campo:String):String
 
 	var valor:Number;
 	switch ( campos[2] ) {
-		case "recfinanciero": {
-			valor = this.iface.obtenerRecargoFinanciero(nodo, campos[1]);
+		default: {
+			valor = 0;
 			break;
 		}
 		break;

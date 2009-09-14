@@ -121,16 +121,6 @@
 		</relation>
 	</field>
 	<field>
-		<name>recfinanciero</name>
-		<!--Recargo financiero-->        <alias>QT_TRANSLATE_NOOP("MetaData","R. Financiero")</alias>
-		<null>false</null>
-		<pk>false</pk>
-		<type>double</type>
-		<partI>3</partI>
-		<partD>2</partD>
-		<default>0</default>
-	</field>
-	<field>
 		<name>neto</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Neto")</alias>
 		<null>false</null>

@@ -471,16 +471,13 @@ function oficial_datosAlbaran(curPedido:FLSqlCursor, where:String, datosAgrupaci
 {
 	var fecha:String;
 	var hora:String;
-	var recFinanciero:Number;
 	if (datosAgrupacion) {
 		fecha = datosAgrupacion["fecha"];
 		hora = datosAgrupacion["hora"];
-		recFinanciero = datosAgrupacion["recfinanciero"];
 	} else {
 		var hoy:Date = new Date();
 		fecha = hoy.toString();
 		hora = hoy.toString().right(8);
-		recFinanciero = curPedido.valueBuffer("recfinanciero");
 	}
 	
 	var codEjercicio:String = curPedido.valueBuffer("codejercicio");
@@ -498,14 +495,12 @@ function oficial_datosAlbaran(curPedido:FLSqlCursor, where:String, datosAgrupaci
 		setValueBuffer("cifnif", curPedido.valueBuffer("cifnif"));
 		setValueBuffer("coddivisa", curPedido.valueBuffer("coddivisa"));
 		setValueBuffer("tasaconv", curPedido.valueBuffer("tasaconv"));
-		setValueBuffer("recfinanciero", curPedido.valueBuffer("recfinanciero"));
 		setValueBuffer("codpago", curPedido.valueBuffer("codpago"));
 		setValueBuffer("codalmacen", curPedido.valueBuffer("codalmacen"));
 		setValueBuffer("fecha", fecha);
 		setValueBuffer("hora", hora);
 		setValueBuffer("codejercicio", codEjercicio);
 		setValueBuffer("tasaconv", curPedido.valueBuffer("tasaconv"));
-		setValueBuffer("recfinanciero", recFinanciero);
 		setValueBuffer("observaciones", curPedido.valueBuffer("observaciones"));
 	}
 	
@@ -556,14 +551,12 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):FLSqlCursor
 
 	switch (fN) {
 		/** \C
-		El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+		El --total-- es el --neto-- más el --totaliva--
 		\end */
 		case "total": {
 			var neto:Number = parseFloat(cursor.valueBuffer("neto"));
 			var totalIva:Number = parseFloat(cursor.valueBuffer("totaliva"));
-			var recFinanciero:Number = (parseFloat(cursor.valueBuffer("recfinanciero")) * neto) / 100;
-			recFinanciero = parseFloat(util.roundFieldValue(recFinanciero, "pedidosprov", "total"));
-			valor = neto + totalIva + recFinanciero;
+			valor = neto + totalIva;
 			valor = parseFloat(util.roundFieldValue(valor, "pedidosprov", "total"));
 			break;
 		}
@@ -1185,7 +1178,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "servido", "editable", "numproveedor", "nombre", "neto", "totaliva", "recfinanciero", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "servido", "editable", "numproveedor", "nombre", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

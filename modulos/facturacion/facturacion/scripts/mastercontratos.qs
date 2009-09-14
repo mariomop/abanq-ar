@@ -335,7 +335,6 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 
 		setValueBuffer("codigo", flfacturac.iface.pub_construirCodigo(codSerie, codEjercicio, numeroFactura));
 		setValueBuffer("numero", numeroFactura);
-		setValueBuffer("recfinanciero", 0);
 		
 		setValueBuffer("codcliente", codCliente);
 		setValueBuffer("nombrecliente", q.value(0));

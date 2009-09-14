@@ -358,16 +358,9 @@ function oficial_totalesPedido():Boolean
 	var util:FLUtil = new FLUtil;
 	var curPedido:FLSqlCursor = this.iface.curPedido;
 	var neto:Number = formpedidosprov.iface.pub_commonCalculateField("neto", this.iface.curPedido);
-	/* recfinanciero seems always to be set manually in the form and finally is calculated in factura:
-	(caveat: recfinanciero in proveedores(string of optionlist) is mot the same as in documents of facturacion(number of actual sum) !
-	=> we don't set it here, but leave it to default 0 via mtd
-	var recFinanciero:Number = util.sqlSelect("proveedores", "recfinanciero", "codProveedor = '" + curPedido.valueBuffer("codproveedor") + "'");
-	recFinanciero = (parseFloat(recFinanciero) * neto) / 100;
-	recFinanciero = parseFloat(util.roundFieldValue(recFinanciero, "pedidosprov", "total"));
-	*/
+
 	with (this.iface.curPedido) {
 		setValueBuffer("neto", neto);
-		// setValueBuffer("recfinanciero", recFinanciero);
 		setValueBuffer("totaliva", formpedidosprov.iface.pub_commonCalculateField("totaliva", curPedido));
 		setValueBuffer("total", formpedidosprov.iface.pub_commonCalculateField("total", curPedido));
 		setValueBuffer("totaleuros", formpedidosprov.iface.pub_commonCalculateField("totaleuros", curPedido));

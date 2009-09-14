@@ -258,14 +258,12 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 
 	switch (fN) {
 	/** \C
-	El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+	El --total-- es el --neto-- más el --totaliva--
 	\end */
 	case "total": {
 			var neto:Number = parseFloat(cursor.valueBuffer("neto"));
 			var totalIva:Number = parseFloat(cursor.valueBuffer("totaliva"));
-			var recFinanciero:Number = (parseFloat(cursor.valueBuffer("recfinanciero")) * neto) / 100;
-			recFinanciero = parseFloat(util.roundFieldValue(recFinanciero, "facturasprov", "total"));
-			valor = neto + totalIva + recFinanciero;
+			valor = neto + totalIva;
 			valor = parseFloat(util.roundFieldValue(valor, "facturasprov", "total"));
 			break;
 		}
@@ -406,7 +404,6 @@ function oficial_dameDatosAgrupacionAlbaranes(curAgruparAlbaranes:FLSqlCursor):A
 	var res:Array = [];
 	res["fecha"] = curAgruparAlbaranes.valueBuffer("fecha");
 	res["hora"] = curAgruparAlbaranes.valueBuffer("hora");
-	res["recfinanciero"] = curAgruparAlbaranes.valueBuffer("recfinanciero");
 	return res;
 }
 
@@ -569,7 +566,6 @@ function oficial_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 		setValueBuffer("cifnif", curFactura.valueBuffer("cifnif"));
 		setValueBuffer("nombre", curFactura.valueBuffer("nombre"));
 		setValueBuffer("numproveedor", curFactura.valueBuffer("numproveedor"));
-		setValueBuffer("recfinanciero", curFactura.valueBuffer("recfinanciero"));
 		setValueBuffer("automatica", false);
 		setValueBuffer("observaciones", curFactura.valueBuffer("observaciones"));
 		setValueBuffer("nogenerarasiento", curFactura.valueBuffer("nogenerarasiento"));
@@ -809,7 +805,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "numproveedor", "nombre", "neto", "totaliva", "recfinanciero", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "editable", "numproveedor", "nombre", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

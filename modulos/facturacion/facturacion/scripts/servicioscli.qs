@@ -165,7 +165,7 @@ function interna_calculateField(fN:String, cursor:FLSqlCursor):String
 
 		switch (fN) {
 		/** \C
-		El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+		El --total-- es el --neto-- más el --totaliva--
 		\end */
 		case "total":
 			var neto:Number = parseFloat(cursor.valueBuffer("neto"));
@@ -223,7 +223,7 @@ function oficial_bufferChanged(fN:String)
 		var util:FLUtil = new FLUtil();
 		switch (fN) {
 			/** \C
-			El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+			El --total-- es el --neto-- más el --totaliva--
 			\end */
 			case "neto":
 			case "totaliva": {

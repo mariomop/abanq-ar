@@ -239,7 +239,6 @@ function interna_init()
 		this.child("fdbNombreProveedor").setDisabled(true);
 		this.child("fdbCifNif").setDisabled(true);
 		this.child("fdbCodDivisa").setDisabled(true);
-		this.child("fdbRecFinanciero").setDisabled(true);
 		this.child("fdbTasaConv").setDisabled(true);
 	}
 	this.iface.inicializarControles();
@@ -251,7 +250,6 @@ function interna_calculateField(fN:String):String
 	var cursor:FLSqlCursor = this.cursor();
 	switch (fN) {
 		case "total": {
-			this.child("lblRecFinanciero").setText((parseFloat(cursor.valueBuffer("recfinanciero")) * parseFloat(cursor.valueBuffer("neto"))) / 100);
 			valor = formfacturasprov.iface.pub_commonCalculateField(fN, cursor);
 			break;
 		}
@@ -313,9 +311,6 @@ function oficial_inicializarControles()
 		this.child("tdbPartidas").setReadOnly(true);
 	}
 
-	if (this.cursor().valueBuffer("recfinanciero")) {
-		this.child("lblRecFinanciero").setText((parseFloat(this.cursor().valueBuffer("recfinanciero")) * parseFloat(this.cursor().valueBuffer("neto"))) / 100);
-	}
 	this.child("tdbLineasIvaFactprov").setReadOnly(true);
 	this.child("tbnActualizarIva").enabled = false;
 	this.iface.verificarHabilitaciones();
@@ -339,9 +334,8 @@ function oficial_bufferChanged(fN:String)
 		var util:FLUtil = new FLUtil();
 		switch (fN) {
 		/** \C
-		El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+		El --total-- es el --neto-- más el --totaliva--
 		\end */
-		case "recfinanciero":
 		case "neto":
 		case "totaliva":{
 						this.child("fdbTotal").setValue(this.iface.calculateField("total"));

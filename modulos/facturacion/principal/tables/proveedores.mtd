@@ -190,15 +190,6 @@
 		<partD>2</partD>
 	</field>
 	<field>
-		<name>recfinanciero</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Recargo financiero")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>20</length>
-		<optionslist>QT_TRANSLATE_NOOP("MetaData","Base Imponible");QT_TRANSLATE_NOOP("MetaData","Total Factura")</optionslist>
-	</field>
-	<field>
 		<name>regimeniva</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Condición I.V.A.")</alias>
 		<null>true</null>

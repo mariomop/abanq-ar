@@ -522,7 +522,7 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 
 	switch (fN) {
 		/** \C
-		El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+		El --total-- es el --neto-- más el --totaliva--
 		\end */
 		case "total":
 			var neto:Number = parseFloat(cursor.valueBuffer("neto"));

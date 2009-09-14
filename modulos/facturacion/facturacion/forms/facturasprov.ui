@@ -774,96 +774,6 @@
 										</widget>
 									</hbox>
 								</widget>
-								<widget class="QLayoutWidget" >
-									<property name="name" >
-										<cstring>layout191</cstring>
-									</property>
-									<hbox>
-										<property name="name" >
-											<cstring>unnamed</cstring>
-										</property>
-										<spacer>
-											<property name="name" >
-												<cstring>spacer10</cstring>
-											</property>
-											<property name="orientation" >
-												<enum>Horizontal</enum>
-											</property>
-											<property name="sizeType" >
-												<enum>Expanding</enum>
-											</property>
-											<property name="sizeHint" >
-												<size>
-													<width>130</width>
-													<height>20</height>
-												</size>
-											</property>
-										</spacer>
-										<widget class="FLFieldDB" >
-											<property name="name" >
-												<cstring>fdbRecFinanciero</cstring>
-											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>0</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>24</width>
-													<height>22</height>
-												</size>
-											</property>
-											<property name="font" >
-												<font>
-													<bold>0</bold>
-												</font>
-											</property>
-											<property name="fieldName" >
-												<string>recfinanciero</string>
-											</property>
-										</widget>
-										<widget class="QLabel" >
-											<property name="name" >
-												<cstring>lblRecFinanciero</cstring>
-											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>0</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>100</width>
-													<height>25</height>
-												</size>
-											</property>
-											<property name="font" >
-												<font>
-													<bold>0</bold>
-												</font>
-											</property>
-											<property name="frameShape" >
-												<enum>GroupBoxPanel</enum>
-											</property>
-											<property name="frameShadow" >
-												<enum>Plain</enum>
-											</property>
-											<property name="text" >
-												<string>0</string>
-											</property>
-											<property name="alignment" >
-												<set>WordBreak|AlignVCenter|AlignRight</set>
-											</property>
-										</widget>
-									</hbox>
-								</widget>
 							</vbox>
 						</widget>
 						<widget class="QGroupBox" >
@@ -2357,7 +2267,6 @@
 		<tabstop>fdbNombreAlmacen</tabstop>
 		<tabstop>fdbCodPago</tabstop>
 		<tabstop>fdbDesFormaPago</tabstop>
-		<tabstop>fdbRecFinanciero</tabstop>
 		<tabstop>fdbCodDivisa</tabstop>
 		<tabstop>fdbBenderaDivisa</tabstop>
 		<tabstop>fdbTasaConv</tabstop>

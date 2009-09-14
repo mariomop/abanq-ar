@@ -414,16 +414,13 @@ function oficial_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupac
 	var util:FLUtil = new FLUtil();
 	var fecha:String;
 	var hora:String;
-	var recFinanciero:Number;
 	if (datosAgrupacion) {
 		fecha = datosAgrupacion["fecha"];
 		hora = datosAgrupacion["hora"];
-		recFinanciero = datosAgrupacion["recfinanciero"];
 	} else {
 		var hoy:Date = new Date();
 		fecha = hoy.toString();
 		hora = hoy.toString().right(8);
-		recFinanciero = curAlbaran.valueBuffer("recfinanciero");
 	}
 	
 	var codEjercicio:String = curAlbaran.valueBuffer("codejercicio");
@@ -441,14 +438,12 @@ function oficial_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupac
 		setValueBuffer("cifnif", curAlbaran.valueBuffer("cifnif"));
 		setValueBuffer("coddivisa", curAlbaran.valueBuffer("coddivisa"));
 		setValueBuffer("tasaconv", curAlbaran.valueBuffer("tasaconv"));
-		setValueBuffer("recfinanciero", recFinanciero);
 		setValueBuffer("codpago", curAlbaran.valueBuffer("codpago"));
 		setValueBuffer("codalmacen", curAlbaran.valueBuffer("codalmacen"));
 		setValueBuffer("fecha", fecha);
 		setValueBuffer("hora", hora);
 		setValueBuffer("codejercicio", codEjercicio);
 		setValueBuffer("tasaconv", curAlbaran.valueBuffer("tasaconv"));
-		setValueBuffer("recfinanciero", curAlbaran.valueBuffer("recfinanciero"));
 		setValueBuffer("automatica", true);
 		setValueBuffer("observaciones", curAlbaran.valueBuffer("observaciones"));
 	}
@@ -570,14 +565,12 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 
 	switch (fN) {
 		/** \C
-		El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+		El --total-- es el --neto-- más el --totaliva--
 		\end */
 		case "total": {
 			var neto:Number = parseFloat(cursor.valueBuffer("neto"));
 			var totalIva:Number = parseFloat(cursor.valueBuffer("totaliva"));
-			var recFinanciero:Number = (parseFloat(cursor.valueBuffer("recfinanciero")) * neto) / 100;
-			recFinanciero = parseFloat(util.roundFieldValue(recFinanciero, "albaranesprov", "total"));
-			valor = neto+ totalIva + recFinanciero;
+			valor = neto + totalIva;
 			valor = parseFloat(util.roundFieldValue(valor, "albaranesprov", "total"));
 			break;
 		}
@@ -714,7 +707,6 @@ function oficial_dameDatosAgrupacionPedidos(curAgruparPedidos:FLSqlCursor):Array
 	var res:Array = [];
 	res["fecha"] = curAgruparPedidos.valueBuffer("fecha");
 	res["hora"] = curAgruparPedidos.valueBuffer("hora");
-	res["recfinanciero"] = curAgruparPedidos.valueBuffer("recfinanciero");
 	return res;
 }
 
@@ -980,7 +972,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "ptefactura", "numproveedor", "nombre", "neto", "totaliva", "recfinanciero", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "ptefactura", "numproveedor", "nombre", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

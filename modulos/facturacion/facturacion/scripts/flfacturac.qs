@@ -120,12 +120,6 @@ class oficial extends interna {
 	function generarPartidasIVACli(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array, ctaCliente:Array):Boolean {
 		return this.ctx.oficial_generarPartidasIVACli(curFactura, idAsiento, valoresDefecto, ctaCliente);
 	}
-	function generarPartidasRecFinCli(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array):Boolean {
-		return this.ctx.oficial_generarPartidasRecFinCli(curFactura, idAsiento, valoresDefecto);
-	}
-	function generarPartidasRecFinProv(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array):Boolean {
-		return this.ctx.oficial_generarPartidasRecFinProv(curFactura, idAsiento, valoresDefecto);
-	}
 	function generarPartidasCliente(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array, ctaCliente:Array):Boolean {
 		return this.ctx.oficial_generarPartidasCliente(curFactura, idAsiento, valoresDefecto, ctaCliente);
 	}
@@ -1991,62 +1985,6 @@ function oficial_regimenIVACliente(curDocCliente:FLSqlCursor):String
 	return regimen;
 }
 
-/** \D Genera la parte del asiento de factura correspondiente a la subcuenta de recargo financiero para clientes, si la factura lo tiene
-@param	curFactura: Cursor de la factura
-@param	idAsiento: Id del asiento asociado
-@param	valoresDefecto: Array con los valores por defecto de ejercicio y divisa
-@return	VERDADERO si no hay error, FALSO en otro caso
-\end */
-function oficial_generarPartidasRecFinCli(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array):Boolean
-{
-	var util:FLUtil = new FLUtil();
-	var recFinanciero:Number = parseFloat(curFactura.valueBuffer("recfinanciero") * curFactura.valueBuffer("neto") / 100);
-	if (!recFinanciero)
-		return true;
-	var haber:Number = 0;
-	var haberME:Number = 0;
-
-	var ctaRecfin:Array = [];
-	ctaRecfin = this.iface.datosCtaEspecial("INGRF", valoresDefecto.codejercicio);
-	if (ctaRecfin.error != 0) {
-		MessageBox.warning(util.translate("scripts", "No tiene ninguna cuenta contable marcada como cuenta especial\nINGRF (recargo financiero en ingresos) \nDebe asociar una cuenta contable a esta cuenta especial en el módulo Principal del área Financiera"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-		return false;
-	}
-
-	var monedaSistema:Boolean = (valoresDefecto.coddivisa == curFactura.valueBuffer("coddivisa"));
-	if (monedaSistema) {
-		haber = recFinanciero;
-		haberME = 0;
-	} else {
-		haber = recFinanciero * parseFloat(curFactura.valueBuffer("tasaconv"));
-		haberME = recFinanciero;
-	}
-	haber = util.roundFieldValue(haber, "co_partidas", "haber");
-	haberME = util.roundFieldValue(haberME, "co_partidas", "haberme");
-
-	var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
-	with (curPartida) {
-		setModeAccess(curPartida.Insert);
-		refreshBuffer();
-		setValueBuffer("idsubcuenta", ctaRecfin.idsubcuenta);
-		setValueBuffer("codsubcuenta", ctaRecfin.codsubcuenta);
-		setValueBuffer("idasiento", idAsiento);
-		setValueBuffer("haber", haber);
-		setValueBuffer("debe", 0);
-		setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
-		setValueBuffer("tasaconv", curFactura.valueBuffer("tasaconv"));
-		setValueBuffer("haberME", haberME);
-		setValueBuffer("debeME", 0);
-	}
-	
-	this.iface.datosPartidaFactura(curPartida, curFactura, "cliente")
-	
-	if (!curPartida.commitBuffer())
-			return false;
-
-	return true;
-}
-
 /** \D Genera la parte del asiento de factura correspondiente a la subcuenta de clientes
 @param	curFactura: Cursor de la factura
 @param	idAsiento: Id del asiento asociado
@@ -2332,9 +2270,6 @@ function oficial_generarAsientoFacturaProv(curFactura:FLSqlCursor):Boolean
 			if (!this.iface.generarPartidasProveedor(curFactura, datosAsiento.idasiento, valoresDefecto, ctaProveedor, concepto, true))
 				return false;
 				
-			if (!this.iface.generarPartidasRecFinProv(curFactura, datosAsiento.idasiento, valoresDefecto))
-				return false;				
-			
 			if (!this.iface.generarPartidasIVAProv(curFactura, datosAsiento.idasiento, valoresDefecto, ctaProveedor, concepto))
 				return false;
 		
@@ -2346,9 +2281,6 @@ function oficial_generarAsientoFacturaProv(curFactura:FLSqlCursor):Boolean
 			if (!this.iface.generarPartidasProveedor(curFactura, datosAsiento.idasiento, valoresDefecto, ctaProveedor, concepto, true))
 				return false;
 				
-			if (!this.iface.generarPartidasRecFinProv(curFactura, datosAsiento.idasiento, valoresDefecto))
-				return false;				
-			
 			if (!this.iface.generarPartidasIVAProv(curFactura, datosAsiento.idasiento, valoresDefecto, ctaProveedor, concepto))
 				return false;
 		
@@ -2360,9 +2292,6 @@ function oficial_generarAsientoFacturaProv(curFactura:FLSqlCursor):Boolean
 			if (!this.iface.generarPartidasProveedor(curFactura, datosAsiento.idasiento, valoresDefecto, ctaProveedor, concepto))
 				return false;
 				
-			if (!this.iface.generarPartidasRecFinProv(curFactura, datosAsiento.idasiento, valoresDefecto))
-				return false;				
-			
 			if (!this.iface.generarPartidasIVAProv(curFactura, datosAsiento.idasiento, valoresDefecto, ctaProveedor, concepto))
 				return false;
 		
@@ -2713,62 +2642,6 @@ function oficial_generarPartidasProveedor(curFactura:FLSqlCursor, idAsiento:Numb
 		if (!curPartida.commitBuffer())
 				return false;
 		return true;
-}
-
-/** \D Genera la parte del asiento de factura correspondiente a la subcuenta de recargo financiero para proveedores, si la factura lo tiene
-@param	curFactura: Cursor de la factura
-@param	idAsiento: Id del asiento asociado
-@param	valoresDefecto: Array con los valores por defecto de ejercicio y divisa
-@return	VERDADERO si no hay error, FALSO en otro caso
-\end */
-function oficial_generarPartidasRecFinProv(curFactura:FLSqlCursor, idAsiento:Number, valoresDefecto:Array):Boolean
-{
-	var util:FLUtil = new FLUtil();
-	var recFinanciero:Number = parseFloat(curFactura.valueBuffer("recfinanciero") * curFactura.valueBuffer("neto") / 100);
-	if (!recFinanciero)
-		return true;
-	var debe:Number = 0;
-	var debeME:Number = 0;
-
-	var ctaRecfin:Array = [];
-	ctaRecfin = this.iface.datosCtaEspecial("GTORF", valoresDefecto.codejercicio);
-	if (ctaRecfin.error != 0) {
-		MessageBox.warning(util.translate("scripts", "No tiene ninguna cuenta contable marcada como cuenta especial\nGTORF (recargo financiero en gastos).\nDebe asociar una cuenta contable a esta cuenta especial en el módulo Principal del área Financiera"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-		return false;
-	}
-
-	var monedaSistema:Boolean = (valoresDefecto.coddivisa == curFactura.valueBuffer("coddivisa"));
-	if (monedaSistema) {
-		debe = recFinanciero;
-		debeME = 0;
-	} else {
-		debe = recFinanciero * parseFloat(curFactura.valueBuffer("tasaconv"));
-		debeME = recFinanciero;
-	}
-	debe = util.roundFieldValue(debe, "co_partidas", "debe");
-	debeME = util.roundFieldValue(debeME, "co_partidas", "debeme");
-
-	var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
-	with (curPartida) {
-		setModeAccess(curPartida.Insert);
-		refreshBuffer();
-		setValueBuffer("idsubcuenta", ctaRecfin.idsubcuenta);
-		setValueBuffer("codsubcuenta", ctaRecfin.codsubcuenta);
-		setValueBuffer("idasiento", idAsiento);
-		setValueBuffer("debe", debe);
-		setValueBuffer("haber", 0);
-		setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
-		setValueBuffer("tasaconv", curFactura.valueBuffer("tasaconv"));
-		setValueBuffer("debeME", debeME);
-		setValueBuffer("haberME", 0);
-	}
-		
-	this.iface.datosPartidaFactura(curPartida, curFactura, "proveedor", concepto);
-	
-	if (!curPartida.commitBuffer())
-			return false;
-
-	return true;
 }
 
 /* \D Devuelve el código e id de la subcuenta especial correspondiente a un determinado ejercicio. Primero trata de obtener los datos a partir del campo cuenta de co_cuentasesp. Si este no existe o no produce resultados, busca los datos de la cuenta (co_cuentas) marcada con el tipo especial buscado.

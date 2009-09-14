@@ -308,7 +308,6 @@ function interna_validateForm()
 //// OFICIAL /////////////////////////////////////////////////////
 function oficial_inicializarControles()
 {
-	this.child("lblRecFinanciero").setText(this.iface.calculateField("lblRecFinanciero"));
 	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 	this.iface.verificarHabilitaciones();
 }
@@ -329,13 +328,10 @@ function oficial_bufferChanged(fN:String)
 	var cursor:FLSqlCursor = this.cursor();
 	var util:FLUtil = new FLUtil();
 	switch (fN) {
-		case "recfinanciero":
-		case "neto": {
-			this.child("lblRecFinanciero").setText(this.iface.calculateField("lblRecFinanciero"));
-		}
 		/** \C
-		El --total-- es el --neto-- mas el --totaliva-- mas el --recfinanciero--
+		El --total-- es el --neto-- mas el --totaliva--
 		\end */
+		case "neto":
 		case "totaliva": {
 			this.child("fdbTotal").setValue(this.iface.calculateField("total"));
 			break;
@@ -466,7 +462,6 @@ function funServiciosCli_init()
 		this.child("fdbNombreCliente").setDisabled(true);
 		this.child("fdbCifNif").setDisabled(true);
 		this.child("fdbCodDivisa").setDisabled(true);
-		this.child("fdbRecFinanciero").setDisabled(true);
 		this.child("fdbTasaConv").setDisabled(true);
 	}
 }

@@ -214,7 +214,6 @@ function interna_calculateField(fN:String):String
 		var cursor:FLSqlCursor = this.cursor();
 		switch (fN) {
 		case "total":{
-						this.child("lblRecFinanciero").setText((parseFloat(cursor.valueBuffer("recfinanciero")) * cursor.valueBuffer("neto")) / 100);
 						valor = formalbaranesprov.iface.pub_commonCalculateField(fN, cursor);
 						break;
 				}
@@ -250,7 +249,6 @@ function interna_validateForm()
 //// OFICIAL /////////////////////////////////////////////////////
 function oficial_inicializarControles()
 {
-		this.child("lblRecFinanciero").setText(this.iface.calculateField("lblRecFinanciero"));
 		this.iface.verificarHabilitaciones();
 }
 
@@ -266,9 +264,8 @@ function oficial_bufferChanged(fN:String)
 {
 		switch (fN) {
 		/** \C
-		El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+		El --total-- es el --neto-- más el --totaliva--
 		\end */
-		case "recfinanciero":
 		case "neto":
 		case "totaliva":{
 						var total:Number = this.iface.calculateField("total");

@@ -418,7 +418,6 @@ function oficial_datosPedido(curPresupuesto:FLSqlCursor):Boolean
 		setValueBuffer("provincia", curPresupuesto.valueBuffer("provincia"));
 		setValueBuffer("apartado", curPresupuesto.valueBuffer("apartado"));
 		setValueBuffer("codpais", curPresupuesto.valueBuffer("codpais"));
-		setValueBuffer("recfinanciero", curPresupuesto.valueBuffer("recfinanciero"));
 		setValueBuffer("fechasalida", curPresupuesto.valueBuffer("fechasalida"));
 		setValueBuffer("observaciones", curPresupuesto.valueBuffer("observaciones"));
 	}
@@ -454,24 +453,17 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 
 	switch (fN) {
 		/** \C
-		El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+		El --total-- es el --neto-- más el --totaliva--
 		\end */
 		case "total": {
 			var neto:Number = parseFloat(cursor.valueBuffer("neto"));
 			var totalIva:Number = parseFloat(cursor.valueBuffer("totaliva"));
-			var recFinanciero:Number = (parseFloat(cursor.valueBuffer("recfinanciero")) * neto) / 100;
-			recFinanciero = parseFloat(util.roundFieldValue(recFinanciero, "presupuestoscli", "total"));
-			valor = neto + totalIva + recFinanciero;
+			valor = neto + totalIva;
 			valor = parseFloat(util.roundFieldValue(valor, "presupuestoscli", "total"));
 			break;
 		}
 		case "lblComision": {
 			valor = (parseFloat(cursor.valueBuffer("porcomision")) * (parseFloat(cursor.valueBuffer("neto")))) / 100;
-			valor = parseFloat(util.roundFieldValue(valor, "presupuestoscli", "total"));
-			break;
-		}
-		case "lblRecFinanciero": {
-			valor = (parseFloat(cursor.valueBuffer("recfinanciero")) * (parseFloat(cursor.valueBuffer("neto")))) / 100;
 			valor = parseFloat(util.roundFieldValue(valor, "presupuestoscli", "total"));
 			break;
 		}
@@ -995,7 +987,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "porcomision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "porcomision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

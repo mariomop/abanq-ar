@@ -292,7 +292,6 @@ function interna_validateForm()
 //// OFICIAL /////////////////////////////////////////////////////
 function oficial_inicializarControles()
 {
-		this.child("lblRecFinanciero").setText(this.iface.calculateField("lblRecFinanciero"));
 		this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 		this.iface.verificarHabilitaciones();
 }
@@ -301,12 +300,8 @@ function oficial_bufferChanged(fN:String)
 {
 		var cursor:FLSqlCursor = this.cursor();
 		switch (fN) {
-		case "recfinanciero":
-		case "neto": {
-			this.child("lblRecFinanciero").setText(this.iface.calculateField("lblRecFinanciero"));
-		}
 		/** \C
-		El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+		El --total-- es el --neto-- más el --totaliva--
 		\end */
 		case "neto":
 		case "totaliva": {

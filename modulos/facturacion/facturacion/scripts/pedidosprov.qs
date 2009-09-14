@@ -245,7 +245,6 @@ function interna_validateForm():Boolean
 //// OFICIAL /////////////////////////////////////////////////////
 function oficial_inicializarControles()
 {
-		this.child("lblRecFinanciero").setText(this.iface.calculateField("lblRecFinanciero"));
 		this.iface.verificarHabilitaciones();
 }
 
@@ -265,9 +264,8 @@ function oficial_bufferChanged(fN:String)
 		var util:FLUtil = new FLUtil();
 		switch (fN) {
 		/** \C
-		El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+		El --total-- es el --neto-- más el --totaliva--
 		*/
-		case "recfinanciero":
 		case "neto":
 		case "totaliva":{
 						var total:String = this.iface.calculateField("total");

@@ -251,7 +251,7 @@ function interna_calculateField(fN:String):String
 	El --código-- se construye como la concatenación de --codserie--, --codejercicio-- y --numero--
 	\end */
 	/** \C
-	El --total-- es el --neto-- más el --totaliva-- más el --recfinanciero--
+	El --total-- es el --neto-- más el --totaliva--
 	\end */
 	/** \C
 	El --totaleuros-- es el producto del --total-- por la --tasaconv--
@@ -285,19 +285,12 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 		case "total": {
 			var neto:Number = parseFloat(cursor.valueBuffer("neto"));
 			var totalIva:Number = parseFloat(cursor.valueBuffer("totaliva"));
-			var recFinanciero:Number = (parseFloat(cursor.valueBuffer("recfinanciero")) * neto) / 100;
-			recFinanciero = parseFloat(util.roundFieldValue(recFinanciero, "facturascli", "total"));
-			valor = neto + totalIva + recFinanciero;
+			valor = neto + totalIva;
 			valor = parseFloat(util.roundFieldValue(valor, "facturascli", "total"));
 			break;
 		}
 		case "lblComision": {
 			valor = (parseFloat(cursor.valueBuffer("porcomision")) * (parseFloat(cursor.valueBuffer("neto")))) / 100;
-			valor = parseFloat(util.roundFieldValue(valor, "facturascli", "total"));
-			break;
-		}
-		case "lblRecFinanciero": {
-			valor = (parseFloat(cursor.valueBuffer("recfinanciero")) * (parseFloat(cursor.valueBuffer("neto")))) / 100;
 			valor = parseFloat(util.roundFieldValue(valor, "facturascli", "total"));
 			break;
 		}
@@ -448,7 +441,6 @@ function oficial_dameDatosAgrupacionAlbaranes(curAgruparAlbaranes:FLSqlCursor):A
 	var res:Array = [];
 	res["fecha"] = curAgruparAlbaranes.valueBuffer("fecha");
 	res["hora"] = curAgruparAlbaranes.valueBuffer("hora");
-	res["recfinanciero"] = curAgruparAlbaranes.valueBuffer("recfinanciero");
 	return res;
 }
 
@@ -635,7 +627,6 @@ function oficial_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 			setValueBuffer("apartado", util.sqlSelect("dirclientes","apartado","id = " + codDir));
 			setValueBuffer("codpais", util.sqlSelect("dirclientes","codpais","id = " + codDir));
 		}
-		setValueBuffer("recfinanciero", curFactura.valueBuffer("recfinanciero"));
 		setValueBuffer("automatica", false);
 		setValueBuffer("observaciones", curFactura.valueBuffer("observaciones"));
 		setValueBuffer("editable", true);
@@ -963,7 +954,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "recfinanciero", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();
