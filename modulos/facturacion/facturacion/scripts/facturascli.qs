@@ -1297,10 +1297,11 @@ function pieDocumento_actualizarLineasIva(curFactura:FLSqlCursor):Boolean
 	var curLineaIva:FLSqlCursor = new FLSqlCursor("lineasivafactcli");
 	var qryLineasFactura:FLSqlQuery = new FLSqlQuery;
 	with (qryLineasFactura) {
-		setTablesList("lineasfacturascli");
-		setSelect("codimpuesto, iva, pvptotal");
-		setFrom("lineasfacturascli");
-		setWhere("idfactura = " + idFactura + " AND pvptotal <> 0 ORDER BY codimpuesto");
+		setTablesList("lineasfacturascli,piefacturascli,piedocumentos");
+		setSelect("li.codimpuesto, li.iva, li.pvptotal");
+		setFrom("( SELECT lf.codimpuesto, lf.iva, lf.pvptotal FROM lineasfacturascli AS lf WHERE lf.idfactura = " + idFactura + " AND lf.pvptotal <> 0 UNION SELECT pd.codimpuesto, pf.totaliva, pf.totalinc FROM piefacturascli AS pf INNER JOIN piedocumentos AS pd ON pf.codpie = pd.codpie WHERE pf.idfactura = " + idFactura + " AND pf.coniva = true AND pf.totalinc <> 0) AS li");
+		setWhere("1=1");
+		setOrderBy("li.codimpuesto");
 		setForwardOnly(true);
 	}
 	if (!qryLineasFactura.exec()) {
@@ -1310,13 +1311,8 @@ function pieDocumento_actualizarLineasIva(curFactura:FLSqlCursor):Boolean
 	var regIva:String = flfacturac.iface.pub_regimenIVACliente(curFactura);
 	
 	while (qryLineasFactura.next()) {
-		codImpuesto = qryLineasFactura.value("codimpuesto");
+		codImpuesto = qryLineasFactura.value("li.codimpuesto");
 		if (codImpuestoAnt != 0 && codImpuestoAnt != codImpuesto) {
-
-			var netoPie:Number = parseFloat(util.sqlSelect("piefacturascli pf INNER JOIN piedocumentos pd ON pf.codpie = pd.codpie", "SUM(pf.totalinc)", "pf.idfactura = " + idFactura + " AND pf.coniva = true AND pd.codimpuesto = '" + codImpuestoAnt + "'", "piefacturascli,piedocumentos"));
-			if (isNaN(netoPie)) netoPie = 0;
-
-			totalNeto += netoPie;
 
 			totalNeto = util.roundFieldValue(totalNeto, "lineasivafactcli", "neto");
 			totalIva = util.roundFieldValue((iva * totalNeto) / 100, "lineasivafactcli", "totaliva");
@@ -1344,9 +1340,9 @@ function pieDocumento_actualizarLineasIva(curFactura:FLSqlCursor):Boolean
 		if (regIva == "Exento") {
 			iva = 0;
 		} else {
-			iva = parseFloat(qryLineasFactura.value("iva"));
+			iva = parseFloat(qryLineasFactura.value("li.iva"));
 		}
-		totalNeto += parseFloat(qryLineasFactura.value("pvptotal"));
+		totalNeto += parseFloat(qryLineasFactura.value("li.pvptotal"));
 	}
 
 	if (totalNeto != 0) {
