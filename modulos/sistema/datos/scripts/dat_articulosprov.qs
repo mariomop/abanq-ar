@@ -207,7 +207,7 @@ function oficial_asociarArticuloProveedor(refArticulo:String, codProveedor:Strin
 {
 	var queryArticulo:FLSqlQuery = new FLSqlQuery();
 	queryArticulo.setTablesList("articulos");
-	queryArticulo.setSelect("costemedio,coddivisa");
+	queryArticulo.setSelect("costemaximo");
 	queryArticulo.setFrom("articulos");
 	queryArticulo.setWhere("referencia = '" + refArticulo + "'");
 
@@ -217,7 +217,7 @@ function oficial_asociarArticuloProveedor(refArticulo:String, codProveedor:Strin
 
 	var queryProveedor:FLSqlQuery = new FLSqlQuery();
 	queryProveedor.setTablesList("proveedores");
-	queryProveedor.setSelect("nombre");
+	queryProveedor.setSelect("nombre,coddivisa");
 	queryProveedor.setFrom("proveedores");
 	queryProveedor.setWhere("codproveedor = '" + codProveedor + "'");
 
@@ -231,8 +231,9 @@ function oficial_asociarArticuloProveedor(refArticulo:String, codProveedor:Strin
 	curArtProv.setValueBuffer("referencia", refArticulo);
 	curArtProv.setValueBuffer("codproveedor", codProveedor);
 	curArtProv.setValueBuffer("nombre", queryProveedor.value(0));
-	curArtProv.setValueBuffer("coddivisa", queryArticulo.value(1));
+	curArtProv.setValueBuffer("coddivisa", queryProveedor.value(1));
 	curArtProv.setValueBuffer("coste", queryArticulo.value(0));
+	curArtProv.setValueBuffer("pordefecto", true);
 	curArtProv.setValueBuffer("iddat_articulosprov", this.cursor().valueBuffer("iddat_articulosprov"));
 
 	if ( !curArtProv.commitBuffer() )

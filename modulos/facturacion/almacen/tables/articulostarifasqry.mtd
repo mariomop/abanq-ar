@@ -107,4 +107,14 @@
 		<partD>2</partD>
 		<editable>false</editable>
 	</field>
+
+	<field>
+		<name>iddat_articulostarifas</name>
+		<!-- Identificador -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. de Migración")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
 </TMD>

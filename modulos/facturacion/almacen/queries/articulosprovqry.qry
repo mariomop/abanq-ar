@@ -17,7 +17,8 @@
 		articulosprov.costediv,
 		articulosprov.vsp,
 		articulosprov.dto,
-		articulosprov.plazo
+		articulosprov.plazo,
+		articulosprov.iddat_articulosprov
 	</select>
 	
 	<from>

@@ -12,7 +12,8 @@
 		articulos.descripcion as descripcion,
 		articulostarifas.pvp,
 		tarifas.inclineal,
-		tarifas.incporcentual
+		tarifas.incporcentual,
+		tarifas.iddat_articulostarifas
 	</select>
 	
 	<from>

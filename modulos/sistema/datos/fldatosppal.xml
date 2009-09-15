@@ -155,7 +155,6 @@
 		<form>master</form>
 		<formrecord>dat_articulosprov</formrecord>
 		<scriptformrecord>dat_articulosprov</scriptformrecord>
-		<scriptform>dat_articulosprov</scriptform>
 	</action>
 	
 	<action>
@@ -175,7 +174,6 @@
 		<form>master</form>
 		<formrecord>dat_articulostarifas</formrecord>
 		<scriptformrecord>dat_articulostarifas</scriptformrecord>
-		<scriptform>dat_articulostarifas</scriptform>
 	</action>
 	
 	<action>

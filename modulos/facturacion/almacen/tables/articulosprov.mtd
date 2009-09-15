@@ -140,4 +140,13 @@
 		<pk>false</pk>
 		<type>uint</type>
 	</field>
+	<field>
+		<name>iddat_articulosprov</name>
+		<!-- Identificador -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. de Migración")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
 </TMD>

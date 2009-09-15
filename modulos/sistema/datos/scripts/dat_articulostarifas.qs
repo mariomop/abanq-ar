@@ -221,7 +221,6 @@ function oficial_asociarArticuloTarifa(refArticulo:String, codTarifa:String):Boo
 	curArticuloTarifa.setValueBuffer("codtarifa", codTarifa);
 	curArticuloTarifa.setValueBuffer("referencia", refArticulo);
 	curArticuloTarifa.setValueBuffer("pvp", queryArticulo.value(0));
-	curArticuloTarifa.setValueBuffer("pvpconiva", queryArticulo.value(0));
 	curArticuloTarifa.setValueBuffer("iddat_articulostarifas", this.cursor().valueBuffer("iddat_articulostarifas"));
 
 	if ( !curArticuloTarifa.commitBuffer() )
