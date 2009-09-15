@@ -13,7 +13,7 @@
 		articulostarifas.pvp,
 		tarifas.inclineal,
 		tarifas.incporcentual,
-		tarifas.iddat_articulostarifas
+		articulostarifas.iddat_articulostarifas
 	</select>
 	
 	<from>
