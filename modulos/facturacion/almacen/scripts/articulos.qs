@@ -2881,14 +2881,11 @@ function marcacion_calculateField(fN:String):Number
 			var codSubfamilia:String = cursor.valueBuffer("codsubfamilia");
 
 			var marcacion:Number;
-			if (!codFamilia) {
-				marcacion = 0;
-			}
-			else if (!codSubfamilia) {
+
+			marcacion = parseFloat(util.sqlSelect("subfamilias", "marcacion", "codsubfamilia = '" + codSubfamilia + "'"));
+			if (isNaN(marcacion)) {
+
 				marcacion = parseFloat(util.sqlSelect("familias", "marcacion", "codfamilia = '" + codFamilia + "'"));
-			}
-			else {
-				marcacion = parseFloat(util.sqlSelect("subfamilias", "marcacion", "codsubfamilia = '" + codSubfamilia + "'"));
 			}
 
 			if (isNaN(marcacion))
