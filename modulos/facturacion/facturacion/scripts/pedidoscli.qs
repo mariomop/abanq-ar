@@ -322,6 +322,7 @@ function oficial_bufferChanged(fN:String)
 		case "codcliente": {
 			this.child("fdbCodDir").setValue("0");
 			this.child("fdbCodDir").setValue(this.iface.calculateField("coddir"));
+			this.child("fdbCodTarifa").setValue(this.iface.calculateField("codtarifa"));
 			break;
 		}
 		case "provincia": {
@@ -382,10 +383,12 @@ function oficial_verificarHabilitaciones()
 				this.child("fdbCodAlmacen").setDisabled(false);
 				this.child("fdbCodDivisa").setDisabled(false);
 				this.child("fdbTasaConv").setDisabled(false);
+				this.child("fdbCodTarifa").setDisabled(false);
 		} else {
 				this.child("fdbCodAlmacen").setDisabled(true);
 				this.child("fdbCodDivisa").setDisabled(true);
 				this.child("fdbTasaConv").setDisabled(true);
+				this.child("fdbCodTarifa").setDisabled(true);
 		}
 }
 

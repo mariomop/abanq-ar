@@ -1345,10 +1345,16 @@
 													<verstretch>0</verstretch>
 												</sizepolicy>
 											</property>
-											<property name="minimumSize" >
+											<property name="minimumSize">
 												<size>
-													<width>109</width>
-													<height>23</height>
+													<width>150</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>150</width>
+													<height>24</height>
 												</size>
 											</property>
 											<property name="fieldName" >
@@ -1411,10 +1417,16 @@
 													<verstretch>0</verstretch>
 												</sizepolicy>
 											</property>
-											<property name="minimumSize" >
+											<property name="minimumSize">
 												<size>
-													<width>68</width>
-													<height>23</height>
+													<width>150</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>150</width>
+													<height>24</height>
 												</size>
 											</property>
 											<property name="fieldName" >
@@ -1465,6 +1477,78 @@
 								</widget>
 								<widget class="QLayoutWidget" >
 									<property name="name" >
+										<cstring>layoutTarifa</cstring>
+									</property>
+									<hbox>
+										<property name="name" >
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbCodTarifa</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>150</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>150</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="fieldName" >
+												<string>codtarifa</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbNombreTarifa</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>18</width>
+													<height>23</height>
+												</size>
+											</property>
+											<property name="fieldName" >
+												<string>nombre</string>
+											</property>
+											<property name="tableName" >
+												<string>tarifas</string>
+											</property>
+											<property name="foreignField" >
+												<string>codtarifa</string>
+											</property>
+											<property name="fieldRelation" >
+												<string>codtarifa</string>
+											</property>
+											<property name="showAlias" >
+												<bool>false</bool>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget" >
+									<property name="name" >
 										<cstring>lytFLUXEC</cstring>
 									</property>
 									<hbox>
@@ -1483,10 +1567,16 @@
 													<verstretch>0</verstretch>
 												</sizepolicy>
 											</property>
-											<property name="minimumSize" >
+											<property name="minimumSize">
 												<size>
-													<width>130</width>
-													<height>25</height>
+													<width>150</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>150</width>
+													<height>24</height>
 												</size>
 											</property>
 											<property name="fieldName" >
@@ -2712,6 +2802,8 @@
 		<tabstop>fdbDesAlmacen</tabstop>
 		<tabstop>fdbCodPago</tabstop>
 		<tabstop>fdbDesPago</tabstop>
+		<tabstop>fdbCodTarifa</tabstop>
+		<tabstop>fdbNombreTarifa</tabstop>
 		<tabstop>fdbCodAgente</tabstop>
 		<tabstop>fdbApellidosAgente</tabstop>
 		<tabstop>fdbComision</tabstop>

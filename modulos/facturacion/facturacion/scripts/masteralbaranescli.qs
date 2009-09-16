@@ -517,6 +517,7 @@ function oficial_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupac
 		setValueBuffer("codagente", curAlbaran.valueBuffer("codagente"));
 		setValueBuffer("codalmacen", curAlbaran.valueBuffer("codalmacen"));
 		setValueBuffer("codpago", curAlbaran.valueBuffer("codpago"));
+		setValueBuffer("codtarifa", curAlbaran.valueBuffer("codtarifa"));
 		setValueBuffer("coddivisa", curAlbaran.valueBuffer("coddivisa"));
 		setValueBuffer("tasaconv", curAlbaran.valueBuffer("tasaconv"));
 		setValueBuffer("codcliente", curAlbaran.valueBuffer("codcliente"));
@@ -709,6 +710,12 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			valor = util.sqlSelect("dirclientes", "codpais", "id = " + cursor.valueBuffer("coddir"));
 			if (!valor)
 				valor = cursor.valueBuffer("codpais");
+			break;
+		}
+		case "codtarifa": {
+			valor = util.sqlSelect("clientes c INNER JOIN gruposclientes gc ON c.codgrupo = gc.codgrupo", "gc.codtarifa", "codcliente = '" + cursor.valueBuffer("codcliente") + "'", "clientes,gruposclientes");
+			if (!valor)
+				valor = "";
 			break;
 		}
 	}
@@ -1338,7 +1345,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "servido", "ptefactura", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "servido", "ptefactura", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

@@ -324,7 +324,10 @@ function oficial_commonBufferChanged(fN:String, miForm:Object)
 function oficial_obtenerTarifa(codCliente:String, cursor:FLSqlCursor):String
 {
 	var util:FLUtil = new FLUtil;
-	return util.sqlSelect("clientes c INNER JOIN gruposclientes gc ON c.codgrupo = gc.codgrupo", "gc.codtarifa", "codcliente = '" + codCliente + "'", "clientes,gruposclientes");
+	if (cursor.table() == "lineasservicioscli")
+		return util.sqlSelect("clientes c INNER JOIN gruposclientes gc ON c.codgrupo = gc.codgrupo", "gc.codtarifa", "codcliente = '" + codCliente + "'", "clientes,gruposclientes");
+
+	return cursor.cursorRelation().valueBuffer("codtarifa");
 }
 
 function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String

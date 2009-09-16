@@ -288,6 +288,21 @@
 	</field>
 	
 	<field>
+		<name>codtarifa</name>
+		<!--Tarifa que se aplica a las lineas-->
+	        <alias>QT_TRANSLATE_NOOP("MetaData","Tarifa")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+		<relation>
+			<table>tarifas</table>
+			<field>codtarifa</field>
+			<card>M1</card>
+		</relation>
+	</field>
+
+	<field>
 		<name>coddir</name>
 		<!--Código de la dirección asociada al cliente-->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Dir.")</alias>

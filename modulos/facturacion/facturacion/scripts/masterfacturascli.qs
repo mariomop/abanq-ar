@@ -335,6 +335,12 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 				valor = cursor.valueBuffer("codpais");
 			break;
 		}
+		case "codtarifa": {
+			valor = util.sqlSelect("clientes c INNER JOIN gruposclientes gc ON c.codgrupo = gc.codgrupo", "gc.codtarifa", "codcliente = '" + cursor.valueBuffer("codcliente") + "'", "clientes,gruposclientes");
+			if (!valor)
+				valor = "";
+			break;
+		}
 	}
 	return valor;
 }
@@ -603,6 +609,7 @@ function oficial_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 		setValueBuffer("codagente", curFactura.valueBuffer("codagente"));
 		setValueBuffer("codalmacen", curFactura.valueBuffer("codalmacen"));
 		setValueBuffer("codpago", curFactura.valueBuffer("codpago"));
+		setValueBuffer("codtarifa", curFactura.valueBuffer("codtarifa"));
 		setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
 		setValueBuffer("tasaconv", curFactura.valueBuffer("tasaconv"));
 		setValueBuffer("codcliente", curFactura.valueBuffer("codcliente"));
@@ -957,7 +964,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

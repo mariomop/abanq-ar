@@ -402,6 +402,7 @@ function oficial_datosPedido(curPresupuesto:FLSqlCursor):Boolean
 		setValueBuffer("codagente", curPresupuesto.valueBuffer("codagente"));
 		setValueBuffer("codalmacen", curPresupuesto.valueBuffer("codalmacen"));
 		setValueBuffer("codpago", curPresupuesto.valueBuffer("codpago"));
+		setValueBuffer("codtarifa", curPresupuesto.valueBuffer("codtarifa"));
 		setValueBuffer("coddivisa", curPresupuesto.valueBuffer("coddivisa"));
 		setValueBuffer("tasaconv", curPresupuesto.valueBuffer("tasaconv"));
 		setValueBuffer("codcliente", curPresupuesto.valueBuffer("codcliente"));
@@ -517,6 +518,12 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			valor = util.sqlSelect("dirclientes", "codpais", "id = " + cursor.valueBuffer("coddir"));
 			if (!valor)
 				valor = cursor.valueBuffer("codpais");
+			break;
+		}
+		case "codtarifa": {
+			valor = util.sqlSelect("clientes c INNER JOIN gruposclientes gc ON c.codgrupo = gc.codgrupo", "gc.codtarifa", "codcliente = '" + cursor.valueBuffer("codcliente") + "'", "clientes,gruposclientes");
+			if (!valor)
+				valor = "";
 			break;
 		}
 	}
@@ -987,7 +994,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "comision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codtarifa", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "comision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

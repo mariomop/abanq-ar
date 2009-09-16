@@ -524,6 +524,7 @@ function oficial_datosAlbaran(curPedido:FLSqlCursor, where:String, datosAgrupaci
 		setValueBuffer("codagente", curPedido.valueBuffer("codagente"));
 		setValueBuffer("codalmacen", curPedido.valueBuffer("codalmacen"));
 		setValueBuffer("codpago", curPedido.valueBuffer("codpago"));
+		setValueBuffer("codtarifa", curPedido.valueBuffer("codtarifa"));
 		setValueBuffer("coddivisa", curPedido.valueBuffer("coddivisa"));
 		setValueBuffer("tasaconv", curPedido.valueBuffer("tasaconv"));
 		setValueBuffer("codcliente", curPedido.valueBuffer("codcliente"));
@@ -662,6 +663,12 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 				valor = util.sqlSelect("dirclientes", "codpais", "id = " + cursor.valueBuffer("coddir"));
 				if (!valor)
 					valor = cursor.valueBuffer("codpais");
+				break;
+			}
+			case "codtarifa": {
+				valor = util.sqlSelect("clientes c INNER JOIN gruposclientes gc ON c.codgrupo = gc.codgrupo", "gc.codtarifa", "codcliente = '" + cursor.valueBuffer("codcliente") + "'", "clientes,gruposclientes");
+				if (!valor)
+					valor = "";
 				break;
 			}
 		}
@@ -1330,7 +1337,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "servido", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "pedidoweb", "pagado", "transactionid", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "servido", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "pedidoweb", "pagado", "transactionid", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

@@ -40,6 +40,26 @@
 			<field>tarifa</field>
 			<card>1M</card>
 		</relation>
+		<relation>
+			<table>presupuestoscli</table>
+			<field>codtarifa</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>pedidoscli</table>
+			<field>codtarifa</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>albaranescli</table>
+			<field>codtarifa</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>facturascli</table>
+			<field>codtarifa</field>
+			<card>1M</card>
+		</relation>
 	</field>
 	<field>
 		<name>nombre</name>
