@@ -991,7 +991,7 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 	var valor:String;
 	switch (fN) {
 		case "totalpie": {
-			var totalLineas:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totalinc)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND coniva = false"));
+			var totalLineas:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totalinc)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND incluidoneto = false"));
 			if (!totalLineas || isNaN(totalLineas))
 				totalLineas = 0;
 			valor = totalLineas;
@@ -1005,7 +1005,7 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "neto": {
-			var netoPie:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totalinc)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND coniva = true"));
+			var netoPie:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totalinc)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND incluidoneto = true"));
 			valor = this.iface.__commonCalculateField(fN, cursor);
 			valor += netoPie;
 			valor = parseFloat(util.roundFieldValue(valor, "facturascli", "neto"));
@@ -1015,7 +1015,7 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			if (this.iface.sinIVA(cursor))
 				valor = 0;
 			else {
-				var ivaPie:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totaliva)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND coniva = true"));
+				var ivaPie:Number = parseFloat(util.sqlSelect("piefacturascli", "SUM(totaliva)", "idfactura = " + cursor.valueBuffer("idfactura") + " AND incluidoneto = true"));
 				valor = this.iface.__commonCalculateField(fN, cursor);
 				valor += ivaPie;
 			}
@@ -1072,7 +1072,7 @@ function pieDocumento_datosPieFactura(curPieFactura:FLSqlCursor):Boolean
 		setValueBuffer("incporcentual", curPieFactura.valueBuffer("incporcentual"));
 		setValueBuffer("inclineal", curPieFactura.valueBuffer("inclineal"));
 		setValueBuffer("totalinc", curPieFactura.valueBuffer("totalinc"));
-		setValueBuffer("coniva", curPieFactura.valueBuffer("coniva"));
+		setValueBuffer("incluidoneto", curPieFactura.valueBuffer("incluidoneto"));
 		setValueBuffer("totaliva", curPieFactura.valueBuffer("totaliva"));
 		setValueBuffer("totallinea", curPieFactura.valueBuffer("totallinea"));
 	}

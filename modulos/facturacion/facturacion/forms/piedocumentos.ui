@@ -221,7 +221,7 @@
 					</spacer>
 					<widget class="FLFieldDB">
 						<property name="name">
-							<cstring>fdbConIVA</cstring>
+							<cstring>fdbIncluidoNeto</cstring>
 						</property>
 						<property name="sizePolicy">
 							<sizepolicy>
@@ -238,7 +238,7 @@
 							</size>
 						</property>
 						<property name="fieldName">
-							<string>coniva</string>
+							<string>incluidoneto</string>
 						</property>
 					</widget>
 					<widget class="FLFieldDB">

@@ -123,7 +123,7 @@ function pieDocumento_init()
 
 	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
 
-	this.iface.bufferChanged("coniva");
+	this.iface.bufferChanged("incluidoneto");
 }
 
 function pieDocumento_validateForm()
@@ -131,14 +131,14 @@ function pieDocumento_validateForm()
 	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
 
-	if ( cursor.valueBuffer("coniva") && !cursor.valueBuffer("codimpuesto") ) {
-		MessageBox.warning("Si al pie de documento se le aplica IVA debe especificar el tipo de IVA.", MessageBox.Ok, MessageBox.NoButton);
+	if ( cursor.valueBuffer("incluidoneto") && !cursor.valueBuffer("codimpuesto") ) {
+		MessageBox.warning("Si el pie de documento se incluye en el Neto debe especificar el tipo de IVA que se le aplica.", MessageBox.Ok, MessageBox.NoButton);
 		return false;
 	}
 
 	if (sys.isLoadedModule("flcontppal")) {
 		var codSubcuenta:String = cursor.valueBuffer("codsubcuenta");
-		if ((!codSubcuenta || codSubcuenta == "") && !cursor.valueBuffer("coniva")) {
+		if ((!codSubcuenta || codSubcuenta == "") && !cursor.valueBuffer("incluidoneto")) {
 			var res:Number = MessageBox.warning(util.translate("scripts", "No ha establecido la subcuenta contable asociada al pie de documento.\nEsto provocará que, al crear facturas con pies asociados a este pie de documento, la generación del asiento contable falle.\n¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
 			if (res != MessageBox.Yes)
 				return false;
@@ -153,8 +153,8 @@ function pieDocumento_bufferChanged(fN:String)
 	var cursor:FLSqlCursor = this.cursor();
 
 	switch (fN) {
-		case "coniva": {
-			if (cursor.valueBuffer("coniva")) {
+		case "incluidoneto": {
+			if (cursor.valueBuffer("incluidoneto")) {
 				this.child("fdbCodImpuesto").setDisabled(false);
 			} else {
 				this.child("fdbCodImpuesto").setValue("");

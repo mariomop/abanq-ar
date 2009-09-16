@@ -91,8 +91,8 @@
 		<default>true</default>
 	</field>
 	<field>
-		<name>coniva</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Con I.V.A.")</alias>
+		<name>incluidoneto</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Incluido en Neto")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>bool</type>

@@ -1369,7 +1369,7 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 	var valor:String;
 	switch (fN) {
 		case "totalpie": {
-			var totalLineas:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totalinc)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND coniva = false"));
+			var totalLineas:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totalinc)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND incluidoneto = false"));
 			if (!totalLineas || isNaN(totalLineas))
 				totalLineas = 0;
 			valor = totalLineas;
@@ -1383,7 +1383,7 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "neto": {
-			var netoPie:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totalinc)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND coniva = true"));
+			var netoPie:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totalinc)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND incluidoneto = true"));
 			valor = this.iface.__commonCalculateField(fN, cursor);
 			valor += netoPie;
 			valor = parseFloat(util.roundFieldValue(valor, "pedidoscli", "neto"));
@@ -1393,7 +1393,7 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			if (formfacturascli.iface.pub_sinIVA(cursor))
 				valor = 0;
 			else {
-				var ivaPie:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totaliva)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND coniva = true"));
+				var ivaPie:Number = parseFloat(util.sqlSelect("piepedidoscli", "SUM(totaliva)", "idpedido = " + cursor.valueBuffer("idpedido") + " AND incluidoneto = true"));
 				valor = this.iface.__commonCalculateField(fN, cursor);
 				valor += ivaPie;
 			}
@@ -1450,7 +1450,7 @@ function pieDocumento_datosPieAlbaran(curPiePedido:FLSqlCursor):Boolean
 		setValueBuffer("incporcentual", curPiePedido.valueBuffer("incporcentual"));
 		setValueBuffer("inclineal", curPiePedido.valueBuffer("inclineal"));
 		setValueBuffer("totalinc", curPiePedido.valueBuffer("totalinc"));
-		setValueBuffer("coniva", curPiePedido.valueBuffer("coniva"));
+		setValueBuffer("incluidoneto", curPiePedido.valueBuffer("incluidoneto"));
 		setValueBuffer("totaliva", curPiePedido.valueBuffer("totaliva"));
 		setValueBuffer("totallinea", curPiePedido.valueBuffer("totallinea"));
 	}

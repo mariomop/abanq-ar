@@ -6826,7 +6826,7 @@ function pieDocumento_generarPartidasCompra(curFactura:FLSqlCursor, idAsiento:Nu
 				ctaCompras = this.iface.datosCtaEspecial("COMPRA", valoresDefecto.codejercicio);
 				if (ctaCompras.error != 0)
 					return false;
-				debePie = parseFloat(util.sqlSelect("piefacturasprov pf INNER JOIN piedocumentos pd ON pf.codpie = pd.codpie", "SUM(pf.totalinc)", "pf.idfactura = " + curFactura.valueBuffer("idfactura") + " AND pf.coniva = true AND pd.codsubcuenta IS NULL ", "piefacturasprov,piedocumentos"));
+				debePie = parseFloat(util.sqlSelect("piefacturasprov pf INNER JOIN piedocumentos pd ON pf.codpie = pd.codpie", "SUM(pf.totalinc)", "pf.idfactura = " + curFactura.valueBuffer("idfactura") + " AND pf.incluidoneto = true AND pd.codsubcuenta IS NULL ", "piefacturasprov,piedocumentos"));
 				if (isNaN(debePie)) debePie = 0;
 			} else {
 				ctaCompras.codsubcuenta = qrySubcuentas.value(0);

@@ -1394,7 +1394,7 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 	var valor:String;
 	switch (fN) {
 		case "totalpie": {
-			var totalLineas:Number = parseFloat(util.sqlSelect("piealbaranescli", "SUM(totalinc)", "idalbaran = " + cursor.valueBuffer("idalbaran") + " AND coniva = false"));
+			var totalLineas:Number = parseFloat(util.sqlSelect("piealbaranescli", "SUM(totalinc)", "idalbaran = " + cursor.valueBuffer("idalbaran") + " AND incluidoneto = false"));
 			if (!totalLineas || isNaN(totalLineas))
 				totalLineas = 0;
 			valor = totalLineas;
@@ -1408,7 +1408,7 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "neto": {
-			var netoPie:Number = parseFloat(util.sqlSelect("piealbaranescli", "SUM(totalinc)", "idalbaran = " + cursor.valueBuffer("idalbaran") + " AND coniva = true"));
+			var netoPie:Number = parseFloat(util.sqlSelect("piealbaranescli", "SUM(totalinc)", "idalbaran = " + cursor.valueBuffer("idalbaran") + " AND incluidoneto = true"));
 			valor = this.iface.__commonCalculateField(fN, cursor);
 			valor += netoPie;
 			valor = parseFloat(util.roundFieldValue(valor, "albaranescli", "neto"));
@@ -1418,7 +1418,7 @@ function pieDocumento_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			if (formfacturascli.iface.pub_sinIVA(cursor))
 				valor = 0;
 			else {
-				var ivaPie:Number = parseFloat(util.sqlSelect("piealbaranescli", "SUM(totaliva)", "idalbaran = " + cursor.valueBuffer("idalbaran") + " AND coniva = true"));
+				var ivaPie:Number = parseFloat(util.sqlSelect("piealbaranescli", "SUM(totaliva)", "idalbaran = " + cursor.valueBuffer("idalbaran") + " AND incluidoneto = true"));
 				valor = this.iface.__commonCalculateField(fN, cursor);
 				valor += ivaPie;
 			}
@@ -1475,7 +1475,7 @@ function pieDocumento_datosPieFactura(curPieAlbaran:FLSqlCursor):Boolean
 		setValueBuffer("incporcentual", curPieAlbaran.valueBuffer("incporcentual"));
 		setValueBuffer("inclineal", curPieAlbaran.valueBuffer("inclineal"));
 		setValueBuffer("totalinc", curPieAlbaran.valueBuffer("totalinc"));
-		setValueBuffer("coniva", curPieAlbaran.valueBuffer("coniva"));
+		setValueBuffer("incluidoneto", curPieAlbaran.valueBuffer("incluidoneto"));
 		setValueBuffer("totaliva", curPieAlbaran.valueBuffer("totaliva"));
 		setValueBuffer("totallinea", curPieAlbaran.valueBuffer("totallinea"));
 	}

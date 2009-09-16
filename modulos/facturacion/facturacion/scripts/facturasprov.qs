@@ -901,7 +901,7 @@ function pieDocumento_actualizarLineasIva(curFactura:FLSqlCursor):Boolean
 	with (qryLineasFactura) {
 		setTablesList("lineasfacturasprov,piefacturasprov,piedocumentos");
 		setSelect("li.codimpuesto, li.iva, li.pvptotal");
-		setFrom("( SELECT lf.codimpuesto, lf.iva, lf.pvptotal FROM lineasfacturasprov AS lf WHERE lf.idfactura = " + idFactura + " AND lf.pvptotal <> 0 UNION SELECT pd.codimpuesto, pf.totaliva, pf.totalinc FROM piefacturasprov AS pf INNER JOIN piedocumentos AS pd ON pf.codpie = pd.codpie WHERE pf.idfactura = " + idFactura + " AND pf.coniva = true AND pf.totalinc <> 0) AS li");
+		setFrom("( SELECT lf.codimpuesto, lf.iva, lf.pvptotal FROM lineasfacturasprov AS lf WHERE lf.idfactura = " + idFactura + " AND lf.pvptotal <> 0 UNION SELECT pd.codimpuesto, pf.totaliva, pf.totalinc FROM piefacturasprov AS pf INNER JOIN piedocumentos AS pd ON pf.codpie = pd.codpie WHERE pf.idfactura = " + idFactura + " AND pf.incluidoneto = true AND pf.totalinc <> 0) AS li");
 		setWhere("1=1");
 		setOrderBy("li.codimpuesto");
 		setForwardOnly(true);

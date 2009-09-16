@@ -155,7 +155,7 @@ function pieDocumento_calculateField(fN:String):String
 			break;
 		}
 		case "totaliva": {
-			if (!cursor.valueBuffer("coniva")) {
+			if (!cursor.valueBuffer("incluidoneto")) {
 				valor = 0;
 				break;
 			}

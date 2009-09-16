@@ -194,7 +194,7 @@
 					</spacer>
 					<widget class="FLFieldDB">
 						<property name="name">
-							<cstring>fdbConIva</cstring>
+							<cstring>fdbIncluidoNeto</cstring>
 						</property>
 						<property name="sizePolicy">
 							<sizepolicy>
@@ -211,10 +211,10 @@
 							</size>
 						</property>
 						<property name="fieldName">
-							<string>coniva</string>
+							<string>incluidoneto</string>
 						</property>
 						<property name="foreignField">
-							<string>coniva</string>
+							<string>incluidoneto</string>
 						</property>
 						<property name="fieldRelation">
 							<string>codpie</string>
