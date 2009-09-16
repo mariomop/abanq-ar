@@ -131,17 +131,22 @@ Este formulario realiza la gestión de las líneas de servicios a clientes.
 \end */
 function interna_init()
 {
-		var util:FLUtil = new FLUtil();
-		var cursor:FLSqlCursor = this.cursor();
-		connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
-		connect(this, "closed()", this, "iface.desconectar");
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
+	connect(this, "closed()", this, "iface.desconectar");
 
-		if (cursor.modeAccess() == cursor.Insert) {
-			this.child("fdbDtoPor").setValue(this.iface.calculateField("dtopor"));
-		}
+	if (cursor.modeAccess() == cursor.Insert) {
+		this.child("fdbDtoPor").setValue(this.iface.calculateField("dtopor"));
+		if(!cursor.cursorRelation().valueBuffer("codagente") || cursor.cursorRelation().valueBuffer("codagente") == "")
+			this.child("fdbPorComision").setDisabled(true);
+		else
+			this.child("fdbPorComision").setValue(this.iface.calculateField("porcomision"));
+	}
 
-		this.child("lblDtoPor").setText(this.iface.calculateField("lbldtopor"));
-		
+	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
+	this.child("lblDtoPor").setText(this.iface.calculateField("lbldtopor"));
+
 	if (cursor.modeAccess() == cursor.Insert || cursor.modeAccess() == cursor.Edit) {
 		if ( !flfacturac.iface.pub_tieneIvaDocCliente(cursor.cursorRelation().valueBuffer("codserie"), cursor.cursorRelation().valueBuffer("codcliente")) ) {
 			this.child("fdbCodImpuesto").setValue("EXENTO");

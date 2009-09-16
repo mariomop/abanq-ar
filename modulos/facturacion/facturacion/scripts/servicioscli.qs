@@ -41,6 +41,7 @@ class oficial extends interna
 {
 	var refHora:String;
 	var refDesp:String;
+	var pbnAplicarComision:Object;
 
     function oficial( context ) { interna( context ); } 
 	function bufferChanged(fN:String) {
@@ -54,6 +55,9 @@ class oficial extends interna
 	}
 	function mostrarTraza() {
 		return this.ctx.oficial_mostrarTraza();
+	}
+	function aplicarComision_clicked() {
+		return this.ctx.oficial_aplicarComision_clicked();
 	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
@@ -143,6 +147,10 @@ function interna_init()
 	this.iface.refHora = "HMN";
 	this.iface.refDesp = "DSP";
 
+	this.iface.pbnAplicarComision = this.child("pbnAplicarComision");
+	connect(this.iface.pbnAplicarComision, "clicked()", this, "iface.aplicarComision_clicked()");
+	this.iface.pbnAplicarComision.setDisabled(true);
+
 	if ( !sys.isLoadedModule("flcrm_ppal") ) {
 		this.child("tbwServicio").setTabEnabled("incidencias", false);
 		this.child("tbwServicio").setTabEnabled("comunicaciones", false);
@@ -185,8 +193,13 @@ function interna_calculateField(fN:String, cursor:FLSqlCursor):String
 			valor = util.sqlSelect("lineasservicioscli", "SUM((pvptotal * iva) / 100)", "idservicio = " + cursor.valueBuffer("idservicio"));
 			valor = parseFloat(util.roundFieldValue(valor, "servicioscli", "totaliva"));
 			break;
-		
+
+		case "comision":
+			valor = util.sqlSelect("lineasservicioscli", "SUM((porcomision*pvptotal)/100)", "idservicio = " + cursor.valueBuffer("idservicio"));
+			valor = parseFloat(util.roundFieldValue(valor, "servicioscli", "comision"));
+			break;
 		}
+
 		return valor;
 }
 
@@ -216,6 +229,7 @@ function oficial_calcularTotales()
 
 	this.child("fdbNeto").setValue(this.iface.calculateField("neto"));
 	this.child("fdbTotalIva").setValue(this.iface.calculateField("totaliva"));
+	this.child("fdbComision").setValue(this.iface.calculateField("comision"));
 }
 
 function oficial_bufferChanged(fN:String)
@@ -228,6 +242,14 @@ function oficial_bufferChanged(fN:String)
 			case "neto":
 			case "totaliva": {
 				this.child("fdbTotal").setValue(this.iface.calculateField("total"));
+				break;
+			}
+			case "total": {
+				this.child("fdbComision").setValue(this.iface.calculateField("comision"));
+				break;
+			}
+			case "codagente": {
+				this.iface.pbnAplicarComision.setDisabled(false);
 				break;
 			}
 		}
@@ -350,6 +372,44 @@ function oficial_mostrarTraza()
 function mostrarfabricante()
 {
 	//flfacturac.iface.
+}
+
+function oficial_aplicarComision_clicked()
+{
+	var util:FLUtil;
+	
+	var idServicio:Number = this.cursor().valueBuffer("idservicio");
+	if(!idServicio)
+		return;
+	var codAgente:String = this.cursor().valueBuffer("codagente");
+	if(!codAgente || codAgente == "")
+		return;
+
+	var res:Number = MessageBox.information(util.translate("scripts", "¿Seguro que desea actualizar la comisión en todas las líneas?"), MessageBox.Yes, MessageBox.No);
+	if(res != MessageBox.Yes)
+		return;
+
+	var cursor:FLSqlCursor = new FLSqlCursor("empresa");
+	cursor.transaction(false);
+
+	try {
+		if(!flfacturac.iface.pub_aplicarComisionLineas(codAgente,"lineasservicioscli","idservicio = " + idServicio)) {
+			cursor.rollback();
+			return;
+		}
+		else {
+			cursor.commit();
+		}
+	} catch (e) {
+		MessageBox.critical(util.translate("scripts", "Hubo un error al aplicarse la comisión en las líneas.\n%1").arg(e), MessageBox.Ok, MessageBox.NoButton);
+		cursor.rollback();
+		return false;
+	}
+
+	MessageBox.information(util.translate("scripts", "La comisión se actualizó correctamente."), MessageBox.Ok, MessageBox.NoButton);
+
+	this.iface.pbnAplicarComision.setDisabled(true);
+	this.child("tdbLineasServiciosCli").refresh()
 }
 
 //// OFICIAL /////////////////////////////////////////////////////

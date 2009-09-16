@@ -858,67 +858,6 @@
 							</widget>
 							<widget class="QLayoutWidget">
 								<property name="name">
-									<cstring>layout66</cstring>
-								</property>
-								<hbox>
-									<property name="name">
-										<cstring>unnamed</cstring>
-									</property>
-									<widget class="FLFieldDB">
-										<property name="name">
-											<cstring>fdbPorComision</cstring>
-										</property>
-										<property name="sizePolicy">
-											<sizepolicy>
-												<hsizetype>1</hsizetype>
-												<vsizetype>0</vsizetype>
-												<horstretch>0</horstretch>
-												<verstretch>0</verstretch>
-											</sizepolicy>
-										</property>
-										<property name="minimumSize">
-											<size>
-												<width>150</width>
-												<height>25</height>
-											</size>
-										</property>
-										<property name="font">
-											<font>
-												<bold>0</bold>
-												<italic>0</italic>
-											</font>
-										</property>
-										<property name="fieldName">
-											<string>porcomision</string>
-										</property>
-										<property name="foreignField">
-											<string>porcomision</string>
-										</property>
-										<property name="fieldRelation">
-											<string>codagente</string>
-										</property>
-									</widget>
-									<spacer>
-										<property name="name">
-											<cstring>spacer21_2</cstring>
-										</property>
-										<property name="orientation">
-											<enum>Horizontal</enum>
-										</property>
-										<property name="sizeType">
-											<enum>Expanding</enum>
-										</property>
-										<property name="sizeHint">
-											<size>
-												<width>16</width>
-												<height>20</height>
-											</size>
-										</property>
-									</spacer>
-								</hbox>
-							</widget>
-							<widget class="QLayoutWidget">
-								<property name="name">
 									<cstring>layout55</cstring>
 								</property>
 								<hbox>
@@ -1191,7 +1130,6 @@
 		<tabstop>fdbNombreCodAlmacen</tabstop>
 		<tabstop>fdbCodAgente</tabstop>
 		<tabstop>fdbApellidosAgente</tabstop>
-		<tabstop>fdbPorComision</tabstop>
 		<tabstop>fdbFecha</tabstop>
 		<tabstop>pbnAddDel</tabstop>
 		<tabstop>fdbFechaDesde</tabstop>

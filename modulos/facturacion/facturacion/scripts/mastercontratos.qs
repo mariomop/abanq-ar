@@ -349,7 +349,6 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 		setValueBuffer("hora", hora);
 		
 		setValueBuffer("codagente", q.value(5));
-		setValueBuffer("porcomision", util.sqlSelect("agentes", "porcomision", "codagente = '" + q.value(5) + "'"));
 				
 		setValueBuffer("coddir", qDir.value(0));
 		setValueBuffer("direccion", qDir.value(1));
@@ -411,6 +410,7 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 			setValueBuffer("totaliva", formfacturascli.iface.pub_commonCalculateField("totaliva", curFactura));
 			setValueBuffer("total", formfacturascli.iface.pub_commonCalculateField("total", curFactura));
 			setValueBuffer("totaleuros", formfacturascli.iface.pub_commonCalculateField("totaleuros", curFactura));
+			setValueBuffer("comision", formfacturascli.iface.pub_commonCalculateField("comision", curFactura));
 			setValueBuffer("codigo", formfacturascli.iface.pub_commonCalculateField("codigo", curFactura));
 		}
 		

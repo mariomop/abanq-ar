@@ -261,9 +261,6 @@ function interna_init()
 		this.child("fdbTasaConv").setValue(util.sqlSelect("divisas", "tasaconv","coddivisa = '" + this.child("fdbCodDivisa").value() + "'"));
 	}
 
-	if (!cursor.valueBuffer("porcomision"))
-		this.child("fdbPorComision").setDisabled(true);
-
 	this.iface.inicializarControles();
 }
 
@@ -308,7 +305,6 @@ function interna_validateForm()
 //// OFICIAL /////////////////////////////////////////////////////
 function oficial_inicializarControles()
 {
-	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 	this.iface.verificarHabilitaciones();
 }
 
@@ -319,7 +315,7 @@ function oficial_calcularTotales()
 	this.child("fdbNeto").setValue(this.iface.calculateField("neto"));
 	this.child("fdbTotalIva").setValue(this.iface.calculateField("totaliva"));
 	this.child("fdbTotal").setValue(this.iface.calculateField("total"));
-	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
+	this.child("fdbComision").setValue(this.iface.calculateField("comision"));
 	this.iface.verificarHabilitaciones();
 }
 
@@ -341,18 +337,11 @@ function oficial_bufferChanged(fN:String)
 		\end */
 		case "total": {
 			this.child("fdbTotalEuros").setValue(this.iface.calculateField("totaleuros"));
-			this.child("lblComision").setText(this.iface.calculateField("lblComision"));
+			this.child("fdbComision").setValue(this.iface.calculateField("comision"));
 			break;
 		}
 		case "tasaconv": {
 			this.child("fdbTotalEuros").setValue(this.iface.calculateField("totaleuros"));
-			break;
-		}
-		/** \C
-		Al cambiar el --porcomision-- se mostrara el total de comision aplicada
-		\end \end */
-		case "porcomision": {
-			this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 			break;
 		}
 		/** \C

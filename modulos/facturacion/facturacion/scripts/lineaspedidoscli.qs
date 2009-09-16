@@ -170,22 +170,18 @@ function interna_init()
 	connect(form, "closed()", this, "iface.desconectar");
 	
 	var codSerie:String = "";
-	var porComision:Number = 0;
 	var codAgente:String = "";
 	var codCliente:String = "";
 	
-	if(cursor.cursorRelation()) {debug("con cursorRelation");
+	if(cursor.cursorRelation()) {
 		codSerie = cursor.cursorRelation().valueBuffer("codserie");
-		porComision = cursor.cursorRelation().valueBuffer("porcomision");
 		codAgente = cursor.cursorRelation().valueBuffer("codagente");
 		codCliente = cursor.cursorRelation().valueBuffer("codcliente");
 	}
-	else {debug("sin cursorRelation");
+	else {
 		var idPedido:Number = cursor.valueBuffer("idpedido");
-		debug("idPedido " + idPedido);
 		if(idPedido) {
 			codSerie = util.sqlSelect("pedidoscli", "codserie", "idpedido = " + idPedido);
-			porComision = util.sqlSelect("pedidoscli", "porcomision", "idpedido = " + idPedido);
 			codAgente = util.sqlSelect("pedidoscli", "codagente", "idpedido = " + idPedido);
 			codCliente = util.sqlSelect("pedidoscli", "codcliente", "idpedido = " + idPedido);
 		}
@@ -193,18 +189,11 @@ function interna_init()
 
 	if (cursor.modeAccess() == cursor.Insert) {
 		this.child("fdbDtoPor").setValue(this.iface.calculateField("dtopor"));
-		if(porComision)
+		if(!codAgente || codAgente == "")
 			this.child("fdbPorComision").setDisabled(true);
-		else {
-			if(!codAgente || codAgente == "")
-				this.child("fdbPorComision").setDisabled(true);
-			else
-				this.child("fdbPorComision").setValue(this.iface.calculateField("porcomision"));
-		}
+		else
+			this.child("fdbPorComision").setValue(this.iface.calculateField("porcomision"));
 	}
-
-	if(porComision)
-		this.child("fdbPorComision").setDisabled(true);
 
 	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 	this.child("lblDtoPor").setText(this.iface.calculateField("lbldtopor"));
@@ -400,11 +389,6 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "porcomision": {
-				var porComisionPadre:String = util.sqlSelect(tablaPadre, "porcomision", wherePadre);
-				if(porComisionPadre) {
-					valor = "";
-					break;
-				}
 				var codAgente:String = util.sqlSelect(tablaPadre, "codagente", wherePadre);
 				if(!codAgente || codAgente == "") {
 					valor = "";

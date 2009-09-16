@@ -171,6 +171,7 @@ function oficial_bufferChanged(fN:String)
 		case "fechadesde":
 		case "fechahasta":
 		case "codpago":
+		case "codagente":
 		case "coddivisa": {
 			if (this.iface.estado == "Seleccionando") {
 				this.iface.estado = "Buscando";

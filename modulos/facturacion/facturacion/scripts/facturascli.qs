@@ -72,9 +72,6 @@ class oficial extends interna {
 	function actualizarIvaClicked() {
 		return this.ctx.oficial_actualizarIvaClicked();
 	}
-	function calcularComisionAgente():Number {
-		return this.ctx.oficial_calcularComisionAgente();
-	}
 	function copiarLineasRec(idFacturaOriginal:String, factor:Number):Boolean {
 		return this.ctx.oficial_copiarLineasRec(idFacturaOriginal, factor);
 	}
@@ -312,9 +309,6 @@ function interna_init()
 		}
 	}
 
-	if (!cursor.valueBuffer("porcomision"))
-		this.child("fdbPorComision").setDisabled(true);
-
 	if (parseFloat(cursor.valueBuffer("idasiento")) != 0)
 		this.child("ckbContabilizada").checked = true;
 
@@ -368,7 +362,6 @@ function oficial_inicializarControles()
 		this.child("tdbPartidas").setReadOnly(true);
 	}
 
-	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 	this.child("tdbLineasIvaFactCli").setReadOnly(true);
 	this.child("tbnActualizarIva").enabled = false;
 	this.iface.verificarHabilitaciones();
@@ -382,17 +375,13 @@ function oficial_calcularTotales()
 	this.child("fdbNeto").setValue(this.iface.calculateField("neto"));
 	this.child("fdbTotalIva").setValue(this.iface.calculateField("totaliva"));
 	this.child("fdbTotal").setValue(this.iface.calculateField("total"));
-	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
+	this.child("fdbComision").setValue(this.iface.calculateField("comision"));
 
 	this.iface.actualizarLineasIva(this.cursor());
 	this.child("tdbLineasIvaFactCli").refresh();
 	this.child("tbnActualizarIva").enabled = false;
 
 	this.iface.verificarHabilitaciones();
-	
-// 	var codAgente:String = cursor.valueBuffer("codagente");
-// 	if (codAgente)
-// 		this.child("fdbPorComision").setValue(this.iface.calcularComisionAgente());
 }
 
 function oficial_bufferChanged(fN:String)
@@ -413,18 +402,11 @@ function oficial_bufferChanged(fN:String)
 		\end */
 		case "total": {
 			this.child("fdbTotalEuros").setValue(this.iface.calculateField("totaleuros"));
-			this.child("lblComision").setText(this.iface.calculateField("lblComision"));
+			this.child("fdbComision").setValue(this.iface.calculateField("comision"));
 			break;
 		}
 		case "tasaconv": {
 			this.child("fdbTotalEuros").setValue(this.iface.calculateField("totaleuros"));
-			break;
-		}
-		/** \C
-		Al cambiar el --porcomision-- se mostrará el total de comisión aplicada
-		\end */
-		case "porcomision":{
-			this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 			break;
 		}
 		/** \C
@@ -505,7 +487,6 @@ function oficial_bufferChanged(fN:String)
 		}
 		case "codagente": {
 			this.iface.pbnAplicarComision.setDisabled(false);
-// 			this.child("fdbPorComision").setValue(this.iface.calcularComisionAgente());
 			break;
 		}
 	}
@@ -797,41 +778,6 @@ function oficial_actualizarIvaClicked()
 	this.iface.actualizarLineasIva(this.cursor());
 	this.child("tdbLineasIvaFactCli").refresh();
 	this.child("tbnActualizarIva").enabled = false;
-}
-
-function oficial_calcularComisionAgente():Number
-{
-	var cursor:FLSqlCursor = this.cursor();
-	var util:FLUtil = new FLUtil();
-	var comision:Number = 0;
-	var cont:Number = 0;
-	var total:Number = 0;
-
-	var qry:FLSqlQuery = new FLSqlQuery();
-	
-	qry.setTablesList("lineasfacturascli");
-	qry.setSelect("referencia");
-	qry.setFrom("lineasfacturascli");
-	qry.setWhere("idfactura = " + cursor.valueBuffer("idfactura"));
-	if (!qry.exec())
-		return false;
-
-	while (qry.next()) {
-		var com:Number = util.sqlSelect("articulosagen", "comision", "referencia = '" + qry.value("referencia") + "' AND codagente = '" + cursor.valueBuffer("codagente") + "'");
-		if (com) {
-			comision += com;
-			cont ++;
-		}
-		else {
-			comision += util.sqlSelect("agentes", "porcomision", "codagente = '" + cursor.valueBuffer("codagente") + "'");
-			cont ++;
-		}
-	}
-
-	total = parseFloat(comision/cont);
-	if (comision == 0)
-		total = 0;
-	return total;
 }
 
 function oficial_aplicarComision_clicked()

@@ -872,12 +872,6 @@
 									<property name="fieldName" >
 										<string>porcomision</string>
 									</property>
-									<property name="foreignField" >
-										<string/>
-									</property>
-									<property name="fieldRelation" >
-										<string/>
-									</property>
 								</widget>
 								<spacer>
 									<property name="name" >
@@ -927,7 +921,7 @@
 										<string>Comisión</string>
 									</property>
 									<property name="alignment" >
-										<set>AlignVCenter|AlignLeft</set>
+										<set>AlignVCenter|AlignRight</set>
 									</property>
 								</widget>
 								<widget class="QLabel" >
@@ -955,7 +949,7 @@
 										</font>
 									</property>
 									<property name="frameShape" >
-										<enum>Box</enum>
+										<enum>LineEditPanel</enum>
 									</property>
 									<property name="text" >
 										<string>0</string>

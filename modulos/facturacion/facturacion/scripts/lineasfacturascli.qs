@@ -160,18 +160,11 @@ function interna_init()
 
 	if (cursor.modeAccess() == cursor.Insert) {
 		this.child("fdbDtoPor").setValue(this.iface.calculateField("dtopor"));
-		if(cursor.cursorRelation().valueBuffer("porcomision"))
+		if(!cursor.cursorRelation().valueBuffer("codagente") || cursor.cursorRelation().valueBuffer("codagente") == "")
 			this.child("fdbPorComision").setDisabled(true);
-		else {
-			if(!cursor.cursorRelation().valueBuffer("codagente") || cursor.cursorRelation().valueBuffer("codagente") == "")
-				this.child("fdbPorComision").setDisabled(true);
-			else
-				this.child("fdbPorComision").setValue(this.iface.calculateField("porcomision"));
-		}
+		else
+			this.child("fdbPorComision").setValue(this.iface.calculateField("porcomision"));
 	}
-
-	if(cursor.cursorRelation().valueBuffer("porcomision"))
-		this.child("fdbPorComision").setDisabled(true);
 
 	this.child("lblComision").setText(this.iface.calculateField("lblComision"));
 	this.child("lblDtoPor").setText(this.iface.calculateField("lbldtopor"));

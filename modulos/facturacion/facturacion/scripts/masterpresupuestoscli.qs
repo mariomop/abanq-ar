@@ -400,7 +400,6 @@ function oficial_datosPedido(curPresupuesto:FLSqlCursor):Boolean
 		setValueBuffer("codejercicio", codEjercicio);
 		setValueBuffer("fecha", fecha);
 		setValueBuffer("codagente", curPresupuesto.valueBuffer("codagente"));
-		setValueBuffer("porcomision", curPresupuesto.valueBuffer("porcomision"));
 		setValueBuffer("codalmacen", curPresupuesto.valueBuffer("codalmacen"));
 		setValueBuffer("codpago", curPresupuesto.valueBuffer("codpago"));
 		setValueBuffer("coddivisa", curPresupuesto.valueBuffer("coddivisa"));
@@ -435,6 +434,7 @@ function oficial_totalesPedido():Boolean
 		setValueBuffer("totaliva", formpedidoscli.iface.pub_commonCalculateField("totaliva", this));
 		setValueBuffer("total", formpedidoscli.iface.pub_commonCalculateField("total", this));
 		setValueBuffer("totaleuros", formpedidoscli.iface.pub_commonCalculateField("totaleuros", this));
+		setValueBuffer("comision", formpedidoscli.iface.pub_commonCalculateField("comision", this));
 	}
 	return true;
 }
@@ -462,9 +462,9 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			valor = parseFloat(util.roundFieldValue(valor, "presupuestoscli", "total"));
 			break;
 		}
-		case "lblComision": {
-			valor = (parseFloat(cursor.valueBuffer("porcomision")) * (parseFloat(cursor.valueBuffer("neto")))) / 100;
-			valor = parseFloat(util.roundFieldValue(valor, "presupuestoscli", "total"));
+		case "comision": {
+			valor = util.sqlSelect("lineaspresupuestoscli", "SUM((porcomision*pvptotal)/100)", "idpresupuesto = " + cursor.valueBuffer("idpresupuesto"));
+			valor = parseFloat(util.roundFieldValue(valor, "presupuestoscli", "comision"));
 			break;
 		}
 		/** \C
@@ -987,7 +987,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "porcomision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "comision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

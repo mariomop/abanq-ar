@@ -347,6 +347,7 @@ function oficial_totalesAlbaran(curAlbaran:FLSqlCursor):Boolean
 		setValueBuffer("totaliva", formalbaranescli.iface.pub_commonCalculateField("totaliva", curAlbaran));
 		setValueBuffer("total", formalbaranescli.iface.pub_commonCalculateField("total", curAlbaran));
 		setValueBuffer("totaleuros", formalbaranescli.iface.pub_commonCalculateField("totaleuros", curAlbaran));
+		setValueBuffer("comision", formalbaranescli.iface.pub_commonCalculateField("comision", curAlbaran));
 		setValueBuffer("codigo", formalbaranescli.iface.pub_commonCalculateField("codigo", curAlbaran));
 	}
 	return true;
@@ -359,7 +360,6 @@ function oficial_datosAlbaran(cursor:FLSqlCursor,curAlbaran:FLSqlCursor,where:St
 	var codCliente:String = cursor.valueBuffer("codcliente");
 	var codSerie:String = flfactppal.iface.pub_valorDefectoEmpresa("codserie_remito");
 	var codAgente:String = cursor.valueBuffer("codagente");
-	var porComision:String = cursor.valueBuffer("porcomision");
 	var datosCliente:Array = flfactppal.iface.pub_ejecutarQry("clientes", "coddivisa,codpago", "codcliente = '" + codCliente + "'");
 	
 	var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();	
@@ -412,7 +412,6 @@ function oficial_datosAlbaran(cursor:FLSqlCursor,curAlbaran:FLSqlCursor,where:St
 		setValueBuffer("codpago", codPago);
 		setValueBuffer("codalmacen", codAlmacen);
 		setValueBuffer("codagente", codAgente);
-		setValueBuffer("porcomision", porComision);
 		setValueBuffer("codserie", codSerie);
 		setValueBuffer("tasaconv", util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + codDivisa + "'"));
 		
@@ -830,7 +829,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "numservicio", "editable", "codcliente", "nombrecliente", "neto", "totaliva", "total", "tasaconv", "fecha", "referencia", "numserieap", "accesorios", "desperfectos", "codtecnico", "descripcion", "solucion", "horas", "minutos", "contratomant", "tiposervicio", "estado", "codserie", "codagente", "porcomision", "idusuario" ];
+	var orden:Array = [ "numservicio", "editable", "codcliente", "nombrecliente", "neto", "totaliva", "total", "tasaconv", "fecha", "referencia", "numserieap", "accesorios", "desperfectos", "codtecnico", "descripcion", "solucion", "horas", "minutos", "contratomant", "tiposervicio", "estado", "codserie", "codagente", "comision", "idusuario" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

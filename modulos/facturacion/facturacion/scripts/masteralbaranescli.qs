@@ -515,7 +515,6 @@ function oficial_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupac
 		setValueBuffer("fecha", fecha);
 		setValueBuffer("hora", hora);
 		setValueBuffer("codagente", curAlbaran.valueBuffer("codagente"));
-		setValueBuffer("porcomision", curAlbaran.valueBuffer("porcomision"));
 		setValueBuffer("codalmacen", curAlbaran.valueBuffer("codalmacen"));
 		setValueBuffer("codpago", curAlbaran.valueBuffer("codpago"));
 		setValueBuffer("coddivisa", curAlbaran.valueBuffer("coddivisa"));
@@ -583,6 +582,7 @@ function oficial_totalesFactura():Boolean
 		setValueBuffer("totaliva", formfacturascli.iface.pub_commonCalculateField("totaliva", this));
 		setValueBuffer("total", formfacturascli.iface.pub_commonCalculateField("total", this));
 		setValueBuffer("totaleuros", formfacturascli.iface.pub_commonCalculateField("totaleuros", this));
+		setValueBuffer("comision", formfacturascli.iface.pub_commonCalculateField("comision", this));
 	}
 	return true;
 }
@@ -654,9 +654,9 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			valor = parseFloat(util.roundFieldValue(valor, "albaranescli", "total"));
 			break;
 		}
-		case "lblComision": {
-			valor = (parseFloat(cursor.valueBuffer("porcomision")) * (parseFloat(cursor.valueBuffer("neto")))) / 100;
-			valor = parseFloat(util.roundFieldValue(valor, "albaranescli", "total"));
+		case "comision": {
+			valor = util.sqlSelect("lineasalbaranescli", "SUM((porcomision*pvptotal)/100)", "idalbaran = " + cursor.valueBuffer("idalbaran"));
+			valor = parseFloat(util.roundFieldValue(valor, "albaranescli", "comision"));
 			break;
 		}
 		/** \C
@@ -830,6 +830,7 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 		var cifNif:String = curAgrupar.valueBuffer("cifnif");
 		var codAlmacen:String = curAgrupar.valueBuffer("codalmacen");
 		var codPago:String = curAgrupar.valueBuffer("codpago");
+		var codAgente:String = curAgrupar.valueBuffer("codagente");
 		var codDivisa:String = curAgrupar.valueBuffer("coddivisa");
 		var fechaDesde:String = curAgrupar.valueBuffer("fechadesde");
 		var fechaHasta:String = curAgrupar.valueBuffer("fechahasta");
@@ -844,6 +845,8 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 		where = where + " AND fecha <= '" + fechaHasta + "'";
 		if (codPago && !codPago.isEmpty() != "")
 				where = where + " AND codpago = '" + codPago + "'";
+		if (codAgente && !codAgente.isEmpty() != "")
+				where = where + " AND codagente = '" + codAgente + "'";
 		if (codDivisa && !codDivisa.isEmpty())
 				where = where + " AND coddivisa = '" + codDivisa + "'";
 
@@ -1335,7 +1338,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "servido", "ptefactura", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "servido", "ptefactura", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

@@ -191,13 +191,15 @@
 	</field>
 	
 	<field>
-		<name>porcomision</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","% Comision")</alias>
+		<name>comision</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Comisión")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>double</type>
-		<partI>3</partI>
+		<partI>8</partI>
 		<partD>2</partD>
+		<default>0</default>
+		<editable>false</editable>
 	</field>
 	
 	<field>
