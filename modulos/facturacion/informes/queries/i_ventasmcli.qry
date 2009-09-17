@@ -4,6 +4,11 @@
 	
 	<tables>empresa,i_ventasmcli_buffer</tables>
 	
+	<group>
+		<level>0</level>
+		<field>empresa.cifnif</field>
+	</group>
+	
 	<select>
 		i_ventasmcli_buffer.codcliente,i_ventasmcli_buffer.nombre,
 		sum(ventas01),sum(ventas02),sum(ventas03),sum(ventas04),
@@ -11,7 +16,11 @@
 		sum(ventas09),sum(ventas10),sum(ventas11),sum(ventas12),
 		sum(ventascli),
 		
-		empresa.nombre,
+		empresa.nombre, empresa.cifnif,
+		empresa.direccion,
+		empresa.codpostal, empresa.ciudad,
+		empresa.provincia, empresa.apartado,
+		empresa.codpais,
 		
 		i_ventasmcli.clientedesde, i_ventasmcli.clientehasta,
 		i_ventasmcli.fechainicio, i_ventasmcli.fechafin,

@@ -232,7 +232,7 @@ function oficial_lanzar()
 			orderBy += ", " + o;
 	}
 	
- 	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy, "codcliente,i_ventasmcli_buffer.nombre,empresa.nombre,i_ventasmcli.fechainicio,i_ventasmcli.fechafin,i_ventasmcli.codejercicio,i_ventasmcli.clientedesde,i_ventasmcli.clientehasta,i_ventasmcli.codserie", false, false, "i_ventasmcli.id = " + seleccion);
+ 	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy, "codcliente,i_ventasmcli_buffer.nombre,empresa.nombre,empresa.cifnif,empresa.direccion,empresa.codpostal,empresa.ciudad,empresa.provincia,empresa.apartado,empresa.codpais,i_ventasmcli.fechainicio,i_ventasmcli.fechafin,i_ventasmcli.codejercicio,i_ventasmcli.clientedesde,i_ventasmcli.clientehasta,i_ventasmcli.codserie", false, false, "i_ventasmcli.id = " + seleccion);
 }
 
 
