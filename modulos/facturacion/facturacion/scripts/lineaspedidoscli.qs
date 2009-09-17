@@ -727,8 +727,9 @@ function informacionLineas_commonCalculateField(fN, cursor):String
 			break;
 		}
 		case "utilidad":{
-			var utilidad:Number;
-			utilidad = (parseFloat(cursor.valueBuffer("ganancia")) / parseFloat(cursor.valueBuffer("pvptotal")))*100 ;
+			var utilidad:Number = 0;
+			if (parseFloat(cursor.valueBuffer("pvptotal")) != 0)
+				utilidad = (parseFloat(cursor.valueBuffer("ganancia")) / parseFloat(cursor.valueBuffer("pvptotal")))*100 ;
 			valor = util.roundFieldValue(utilidad, cursor.table(), "utilidad");
 			break;
 		}
