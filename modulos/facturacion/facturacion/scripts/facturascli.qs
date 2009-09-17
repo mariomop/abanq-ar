@@ -1016,6 +1016,9 @@ function silixExtensiones_init()
 	if (sys.isLoadedModule("flfactcuentas") && flfactppal.iface.pub_valorDefectoEmpresa("cuentascajaintegrada")) {
 		this.cursor().setValueBuffer("codcaja", util.sqlSelect("ctas_datosgenerales","cajafacturascli","1 = 1"));
 	}
+	this.child("tdbValores").setFindHidden(true);
+	this.child("tdbValores").setFilterHidden(true);
+
 	this.child("tdbValores").cursor().setAction("factclivalores");
 
 	this.iface.__init();

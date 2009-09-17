@@ -224,7 +224,7 @@
 	</field>
 	<field>
 		<name>codpago</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Forma de Pago")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","F. Pago")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>string</type>
@@ -250,7 +250,7 @@
 	</field>
 	<field>
 		<name>tasaconv</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Tasa de conversión")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","T. Conv.")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>

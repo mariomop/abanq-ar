@@ -534,7 +534,7 @@
 										<enum>Horizontal</enum>
 									</property>
 									<property name="sizeType" >
-										<enum>Fixed</enum>
+										<enum>Expanding</enum>
 									</property>
 									<property name="sizeHint" >
 										<size>
@@ -543,39 +543,6 @@
 										</size>
 									</property>
 								</spacer>
-								<widget class="QCheckBox" >
-									<property name="name" >
-										<cstring>ckbContabilizada</cstring>
-									</property>
-									<property name="enabled" >
-										<bool>false</bool>
-									</property>
-									<property name="text" >
-										<string>Contabilizada</string>
-									</property>
-								</widget>
-								<widget class="FLFieldDB" >
-									<property name="name" >
-										<cstring>fdbAutomatica</cstring>
-									</property>
-									<property name="sizePolicy" >
-										<sizepolicy>
-											<hsizetype>1</hsizetype>
-											<vsizetype>0</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
-									</property>
-									<property name="minimumSize" >
-										<size>
-											<width>102</width>
-											<height>23</height>
-										</size>
-									</property>
-									<property name="fieldName" >
-										<string>automatica</string>
-									</property>
-								</widget>
 							</hbox>
 						</widget>
 					</vbox>
@@ -636,10 +603,16 @@
 													<verstretch>0</verstretch>
 												</sizepolicy>
 											</property>
-											<property name="minimumSize" >
+											<property name="minimumSize">
 												<size>
-													<width>24</width>
-													<height>22</height>
+													<width>150</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>150</width>
+													<height>24</height>
 												</size>
 											</property>
 											<property name="font" >
@@ -712,10 +685,16 @@
 													<verstretch>0</verstretch>
 												</sizepolicy>
 											</property>
-											<property name="minimumSize" >
+											<property name="minimumSize">
 												<size>
-													<width>24</width>
-													<height>22</height>
+													<width>150</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>150</width>
+													<height>24</height>
 												</size>
 											</property>
 											<property name="font" >
@@ -807,10 +786,16 @@
 													<verstretch>0</verstretch>
 												</sizepolicy>
 											</property>
-											<property name="minimumSize" >
+											<property name="minimumSize">
 												<size>
-													<width>24</width>
-													<height>22</height>
+													<width>150</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>150</width>
+													<height>24</height>
 												</size>
 											</property>
 											<property name="font" >
@@ -828,69 +813,6 @@
 												<string>codproveedor</string>
 											</property>
 										</widget>
-										<widget class="FLFieldDB" >
-											<property name="name" >
-												<cstring>fdbBenderaDivisa</cstring>
-											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>0</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>24</width>
-													<height>22</height>
-												</size>
-											</property>
-											<property name="font" >
-												<font>
-													<bold>0</bold>
-												</font>
-											</property>
-											<property name="fieldName" >
-												<string>bandera</string>
-											</property>
-											<property name="tableName" >
-												<string>divisas</string>
-											</property>
-											<property name="foreignField" >
-												<string>coddivisa</string>
-											</property>
-											<property name="fieldRelation" >
-												<string>coddivisa</string>
-											</property>
-										</widget>
-									</hbox>
-								</widget>
-								<widget class="QLayoutWidget" >
-									<property name="name" >
-										<cstring>layout193</cstring>
-									</property>
-									<hbox>
-										<property name="name" >
-											<cstring>unnamed</cstring>
-										</property>
-										<spacer>
-											<property name="name" >
-												<cstring>spacer79</cstring>
-											</property>
-											<property name="orientation" >
-												<enum>Horizontal</enum>
-											</property>
-											<property name="sizeType" >
-												<enum>Expanding</enum>
-											</property>
-											<property name="sizeHint" >
-												<size>
-													<width>196</width>
-													<height>20</height>
-												</size>
-											</property>
-										</spacer>
 										<widget class="FLFieldDB" >
 											<property name="name" >
 												<cstring>fdbTasaConv</cstring>
@@ -946,7 +868,7 @@
 											</property>
 											<property name="sizeHint" >
 												<size>
-													<width>196</width>
+													<width>20</width>
 													<height>20</height>
 												</size>
 											</property>
@@ -965,8 +887,8 @@
 											</property>
 											<property name="minimumSize" >
 												<size>
-													<width>24</width>
-													<height>22</height>
+													<width>100</width>
+													<height>23</height>
 												</size>
 											</property>
 											<property name="font" >
@@ -995,6 +917,91 @@
 						<property name="name" >
 							<cstring>unnamed</cstring>
 						</property>
+						<widget class="QGroupBox" >
+							<property name="name" >
+								<cstring>groupBox6</cstring>
+							</property>
+							<property name="maximumSize" >
+								<size>
+									<width>32767</width>
+									<height>50</height>
+								</size>
+							</property>
+							<property name="title" >
+								<string/>
+							</property>
+							<hbox>
+								<property name="name" >
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="FLFieldDB" >
+									<property name="name" >
+										<cstring>fdbAutomatica</cstring>
+									</property>
+									<property name="sizePolicy" >
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>170</horstretch>
+											<verstretch>25</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize" >
+										<size>
+											<width>25</width>
+											<height>22</height>
+										</size>
+									</property>
+									<property name="maximumSize" >
+										<size>
+											<width>90</width>
+											<height>32767</height>
+										</size>
+									</property>
+									<property name="font" >
+										<font>
+											<bold>0</bold>
+										</font>
+									</property>
+									<property name="fieldName" >
+										<string>automatica</string>
+									</property>
+								</widget>
+								<widget class="QCheckBox" >
+									<property name="name" >
+										<cstring>ckbContabilizada</cstring>
+									</property>
+									<property name="enabled" >
+										<bool>false</bool>
+									</property>
+									<property name="text" >
+										<string>Contabilizada</string>
+									</property>
+									<property name="font" >
+										<font>
+											<bold>0</bold>
+										</font>
+									</property>
+								</widget>
+								<spacer>
+									<property name="name" >
+										<cstring>spacer21</cstring>
+									</property>
+									<property name="orientation" >
+										<enum>Horizontal</enum>
+									</property>
+									<property name="sizeType" >
+										<enum>Expanding</enum>
+									</property>
+									<property name="sizeHint" >
+										<size>
+											<width>20</width>
+											<height>21</height>
+										</size>
+									</property>
+								</spacer>
+							</hbox>
+						</widget>
 						<widget class="QGroupBox">
 							<property name="name">
 								<cstring>groupBoxAbono</cstring>
@@ -1033,7 +1040,7 @@
 											<property name="maximumSize">
 												<size>
 													<width>120</width>
-													<height>32767</height>
+													<height>26</height>
 												</size>
 											</property>
 											<property name="font">
@@ -1058,7 +1065,7 @@
 											<property name="maximumSize">
 												<size>
 													<width>120</width>
-													<height>32767</height>
+													<height>26</height>
 												</size>
 											</property>
 											<property name="font">
@@ -1152,7 +1159,7 @@
 									<verstretch>0</verstretch>
 								</sizepolicy>
 							</property>
-							<property name="maximumSize">
+							<property name="maximumSize" >
 								<size>
 									<width>32767</width>
 									<height>70</height>
@@ -1165,6 +1172,9 @@
 							</property>
 							<property name="fieldName" >
 								<string>observaciones</string>
+							</property>
+							<property name="showAlias">
+								<bool>false</bool>
 							</property>
 						</widget>
 					</vbox>
@@ -1376,12 +1386,6 @@
 									<horstretch>0</horstretch>
 									<verstretch>0</verstretch>
 								</sizepolicy>
-							</property>
-							<property name="minimumSize" >
-								<size>
-									<width>0</width>
-									<height>120</height>
-								</size>
 							</property>
 							<property name="font" >
 								<font>

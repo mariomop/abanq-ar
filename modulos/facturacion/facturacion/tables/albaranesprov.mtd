@@ -193,7 +193,7 @@
 	</field>
 	<field>
 		<name>tasaconv</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Tasa de conversión")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","T. Conv.")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>
