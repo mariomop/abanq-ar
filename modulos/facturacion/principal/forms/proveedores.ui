@@ -1032,28 +1032,6 @@
 												</widget>
 											</hbox>
 										</widget>
-										<widget class="FLFieldDB" >
-											<property name="name" >
-												<cstring>fdbIvaPortes</cstring>
-											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>0</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>180</width>
-													<height>25</height>
-												</size>
-											</property>
-											<property name="fieldName" >
-												<string>ivaportes</string>
-											</property>
-										</widget>
 										<spacer>
 											<property name="name" >
 												<cstring>unnamed</cstring>
