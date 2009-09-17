@@ -4,6 +4,11 @@
 	
 	<tables>empresa,i_ventasmensual_buffer,articulos</tables>
 	
+	<group>
+		<level>0</level>
+		<field>empresa.cifnif</field>
+	</group>
+	
 	<select>
 		i_ventasmensual_buffer.referencia,i_ventasmensual_buffer.descripcion,
 		sum(ventas01),sum(ventas02),sum(ventas03),sum(ventas04),
@@ -11,7 +16,11 @@
 		sum(ventas09),sum(ventas10),sum(ventas11),sum(ventas12),
 		sum(ventasart),
 		
-		empresa.nombre,
+		empresa.nombre, empresa.cifnif,
+		empresa.direccion,
+		empresa.codpostal, empresa.ciudad,
+		empresa.provincia, empresa.apartado,
+		empresa.codpais,
 		
 		i_ventasmensual.fechainicio, i_ventasmensual.fechafin,
 		i_ventasmensual.codejercicio, i_ventasmensual.codfamilia,

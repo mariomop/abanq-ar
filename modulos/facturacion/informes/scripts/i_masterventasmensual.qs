@@ -184,7 +184,7 @@ function oficial_lanzar()
 	
 	var nombreInforme:String = cursor.action();
 	
- 	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, "referencia", "referencia,i_ventasmensual_buffer.descripcion,empresa.nombre,i_ventasmensual.fechainicio,i_ventasmensual.fechafin,i_ventasmensual.codejercicio,i_ventasmensual.codfamilia,i_ventasmensual.codserie", false, false, "i_ventasmensual.id = " + seleccion);
+ 	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, "referencia", "referencia,i_ventasmensual_buffer.descripcion,empresa.nombre,empresa.cifnif,empresa.direccion,empresa.codpostal,empresa.ciudad,empresa.provincia,empresa.apartado,empresa.codpais,i_ventasmensual.fechainicio,i_ventasmensual.fechafin,i_ventasmensual.codejercicio,i_ventasmensual.codfamilia,i_ventasmensual.codserie", false, false, "i_ventasmensual.id = " + seleccion);
 }
 
 function oficial_whereExtra():String
