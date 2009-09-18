@@ -67,6 +67,9 @@ class oficial extends interna {
 	function whereExtra() {
 		return this.ctx.oficial_whereExtra();
 	}
+	function obtenerCodigo(recibo:String, codigo:String):String {
+		return this.ctx.oficial_obtenerCodigo(recibo, codigo);
+	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -312,11 +315,11 @@ debug(curCriterios.isNull("fechavtodesde"));
 		if (tipo == "CLI") {
 			cobro = importe;
 			pago = 0;
-			concepto = util.translate("scripts", "Cobro recibo ") + qryRecibosCli.value(3);
+			concepto = util.translate("scripts", "Cobro recibo ") + this.iface.obtenerCodigo("reciboscli", qryRecibosCli.value(3));
 		} else {
 			cobro = 0;
 			pago = importe;
-			concepto = util.translate("scripts", "Pago recibo ") + qryRecibosCli.value(3);
+			concepto = util.translate("scripts", "Pago recibo ") + this.iface.obtenerCodigo("recibosprov", qryRecibosCli.value(3));
 		}
 		
 		curVtoTemp.setModeAccess(curVtoTemp.Insert);
@@ -360,6 +363,51 @@ function oficial_whereExtra()
 {
 	return "";
 }
+
+function oficial_obtenerCodigo(recibo:String, codigo:String):String
+{
+	if (!codigo || codigo == "")
+		return "";
+
+	var util:FLUtil = new FLUtil;
+
+	var partesCodigo:Array = codigo.split("-");
+
+	var serie:String = util.sqlSelect("series", "serie", "codserie = '" + partesCodigo[1] + "'");
+	var puntoVenta:String = util.sqlSelect("series", "puntoventa", "codserie = '" + partesCodigo[1] + "'");
+	var numero:String = partesCodigo[2];
+
+	var prefijo:String = "";
+	var sufijo:String = "";
+
+	var tablaFactura:String;
+	if (recibo == "reciboscli")
+		tablaFactura = "facturascli";
+	else
+		tablaFactura = "facturasprov";
+	var idFactura:Number = util.sqlSelect(recibo, "idfactura", "codigo = '" + codigo + "'");
+	var qryTipoFactura:FLSqlQuery = new FLSqlQuery();
+	with (qryTipoFactura) {
+		setTablesList(tablaFactura);
+		setSelect("decredito,dedebito");
+		setFrom(tablaFactura);
+		setWhere("idfactura = " + idFactura);
+	}
+
+	if (qryTipoFactura.value(0))
+		prefijo = "C ";
+	else if (qryTipoFactura.value(1))
+		prefijo = "D ";
+	else
+		prefijo = "F ";
+
+	sufijo = " / " + partesCodigo[3];
+
+	var nuevoCodigo:String = prefijo + serie + " " + puntoVenta + "-" + numero + sufijo;
+
+	return nuevoCodigo;
+}
+
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 

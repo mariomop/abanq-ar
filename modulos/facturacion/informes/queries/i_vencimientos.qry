@@ -6,6 +6,11 @@
 	
 	<group>
 		<level>0</level>
+		<field>empresa.cifnif</field>
+	</group>
+	
+	<group>
+		<level>1</level>
 		<field>buffer.fechavto</field>
 	</group>
 	
