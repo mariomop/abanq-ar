@@ -4,6 +4,11 @@
 	
 	<tables>empresa,i_trazaarticulos_buffer</tables>
 	
+	<group>
+		<level>0</level>
+		<field>empresa.cifnif</field>
+	</group>
+	
 	<select>
 		i_trazaarticulos_buffer.referencia,i_trazaarticulos_buffer.descripcion,
 		i_trazaarticulos_buffer.movimiento,i_trazaarticulos_buffer.nombrecliprov,
@@ -12,7 +17,11 @@
 		i_trazaarticulos_buffer.codalbaran,i_trazaarticulos_buffer.fechaalbaran,
 		i_trazaarticulos_buffer.codfactura,i_trazaarticulos_buffer.fechafactura,
 		
-		empresa.nombre,
+		empresa.nombre, empresa.cifnif,
+		empresa.direccion,
+		empresa.codpostal, empresa.ciudad,
+		empresa.provincia, empresa.apartado,
+		empresa.codpais,
 		
 		i_trazaarticulos.fechadesde, i_trazaarticulos.fechahasta,
 		i_trazaarticulos.referenciadesde, i_trazaarticulos.referenciahasta,

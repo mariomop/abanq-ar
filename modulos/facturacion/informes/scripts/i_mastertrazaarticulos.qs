@@ -59,6 +59,9 @@ class oficial extends interna {
 	function whereExtraRStock():String {
 		return this.ctx.oficial_whereExtraRStock();
 	}
+	function obtenerCodigo(documento:String, codigo:String):String {
+		return this.ctx.oficial_obtenerCodigo(documento, codigo);
+	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -290,15 +293,15 @@ function oficial_rellenarDatos(cursor:FLSqlCursor)
 		curTab.setValueBuffer("cantidad", q.value(3));
 		curTab.setValueBuffer("precio", q.value(4));
 		curTab.setValueBuffer("fechaalbaran", q.value(5));
-		curTab.setValueBuffer("codalbaran", q.value(6));
+		curTab.setValueBuffer("codalbaran", this.iface.obtenerCodigo("albaranescli", q.value(6)));
 		curTab.setValueBuffer("fechafactura", q.value(7));
-		curTab.setValueBuffer("codfactura", q.value(8));
+		curTab.setValueBuffer("codfactura", this.iface.obtenerCodigo("facturascli", q.value(8)));
 		curTab.setValueBuffer("idsesion", idSesion);
 		curTab.setValueBuffer("dtopor", q.value(10));
 		curTab.setValueBuffer("preciounidad", q.value(11));
 		
 		if (q.value(9))
-			curTab.setValueBuffer("movimiento", "D");
+			curTab.setValueBuffer("movimiento", "DV");
 		else
 			curTab.setValueBuffer("movimiento", "V");
 		
@@ -372,15 +375,15 @@ function oficial_rellenarDatos(cursor:FLSqlCursor)
 		curTab.setValueBuffer("cantidad", q.value(3));
 		curTab.setValueBuffer("precio", q.value(4));
 		curTab.setValueBuffer("fechaalbaran", q.value(5));
-		curTab.setValueBuffer("codalbaran", q.value(6));
+		curTab.setValueBuffer("codalbaran", this.iface.obtenerCodigo("albaranesprov", q.value(6)));
 		curTab.setValueBuffer("fechafactura", q.value(7));
-		curTab.setValueBuffer("codfactura", q.value(8));
+		curTab.setValueBuffer("codfactura", this.iface.obtenerCodigo("facturasprov", q.value(8)));
 		curTab.setValueBuffer("idsesion", idSesion);
 		curTab.setValueBuffer("dtopor", q.value(10));
 		curTab.setValueBuffer("preciounidad", q.value(11));
 		
 		if (q.value(9))
-			curTab.setValueBuffer("movimiento", "E");
+			curTab.setValueBuffer("movimiento", "DC");
 		else
 			curTab.setValueBuffer("movimiento", "C");
 		
@@ -494,6 +497,41 @@ function oficial_whereExtraRStock():String
 {
 	return "";
 }
+
+function oficial_obtenerCodigo(documento:String, codigo:String):String
+{
+	if (!codigo || codigo == "")
+		return "";
+
+	var util:FLUtil = new FLUtil;
+
+	var partesCodigo:Array = codigo.split("-");
+
+	var serie:String = util.sqlSelect("series", "serie", "codserie = '" + partesCodigo[1] + "'");
+	var puntoVenta:String = util.sqlSelect("series", "puntoventa", "codserie = '" + partesCodigo[1] + "'");
+	var numero:String = partesCodigo[2];
+
+	var nuevoCodigo:String;
+	switch (documento) {
+		case "albaranescli":
+		case "facturascli": {
+			nuevoCodigo = serie + " " + puntoVenta + "-" + numero;
+			break;
+		}
+		case "albaranesprov":
+		case "facturasprov": {
+			nuevoCodigo = util.sqlSelect(documento, "numproveedor", "codigo = '" + codigo + "'");
+			if (!nuevoCodigo  || nuevoCodigo == "") {
+				nuevoCodigo = serie + " " + puntoVenta + "-" + numero;
+			}
+			break;
+		}
+		break;
+	}
+
+	return nuevoCodigo;
+}
+
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
