@@ -53,6 +53,9 @@ class pieDocumento extends oficial {
 	function calculateField(fN:String):String {
 		return this.ctx.pieDocumento_calculateField(fN);
 	}
+	function verificarHabilitaciones() {
+		this.ctx.pieDocumento_verificarHabilitaciones();
+	}
 }
 //// PIE DE DOCUMENTO  //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -112,6 +115,8 @@ function pieDocumento_init()
 
 	var filtro:String = "deventa";
 	this.child("fdbCodPie").setFilter(filtro);
+
+	this.iface.verificarHabilitaciones();
 }
 
 function pieDocumento_bufferChanged(fN:String)
@@ -128,6 +133,10 @@ function pieDocumento_bufferChanged(fN:String)
  		case "totalinc":{
 			cursor.setValueBuffer("totaliva", this.iface.calculateField("totaliva"));
 			cursor.setValueBuffer("totallinea", this.iface.calculateField("totallinea"));
+			break;
+		}
+ 		case "codpie":{
+			this.iface.verificarHabilitaciones();
 			break;
 		}
 	}
@@ -159,7 +168,7 @@ function pieDocumento_calculateField(fN:String):String
 				valor = 0;
 				break;
 			}
-			var codImpuesto:String = util.sqlSelect("piedocumentos", "codimpuesto", "codpie = '" + cursor.valueBuffer("codpie") + "'")
+			var codImpuesto:String = util.sqlSelect("piedocumentos", "codimpuesto", "codpie = '" + cursor.valueBuffer("codpie") + "'");
 			if (!codImpuesto) {
 				valor = 0;
 				break;
@@ -174,6 +183,29 @@ function pieDocumento_calculateField(fN:String):String
 		}
 	}
 	return valor;
+}
+
+function pieDocumento_verificarHabilitaciones()
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var util:FLUtil = new FLUtil();
+
+	var tipoIncremento:String = util.sqlSelect("piedocumentos", "tipoincremento", "codpie = '" + cursor.valueBuffer("codpie") + "'")
+
+	if (!cursor.valueBuffer("codpie") || !tipoIncremento) {
+		this.child("fdbIncLineal").setValue(0);
+		this.child("fdbIncLineal").setDisabled(true);
+	}
+	else if (tipoIncremento == "Porcentual") {
+			this.child("fdbIncPorcentual").setDisabled(false);
+			this.child("fdbIncLineal").setValue(0);
+			this.child("fdbIncLineal").setDisabled(true);
+		}
+		else {
+			this.child("fdbIncLineal").setDisabled(false);
+			this.child("fdbIncPorcentual").setValue(0);
+			this.child("fdbIncPorcentual").setDisabled(true);
+		}
 }
 
 //// PIE DE DOCUMENTO ////////////////////////////////////////////

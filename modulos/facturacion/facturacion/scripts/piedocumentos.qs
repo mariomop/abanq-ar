@@ -59,6 +59,9 @@ class pieDocumento extends oficial {
 	function bufferChanged(fN:String) {
 		this.ctx.pieDocumento_bufferChanged(fN);
 	}
+	function verificarHabilitaciones() {
+		this.ctx.pieDocumento_verificarHabilitaciones();
+	}
 }
 //// PIE DE DOCUMENTO  //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -124,6 +127,8 @@ function pieDocumento_init()
 	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
 
 	this.iface.bufferChanged("incluidoneto");
+
+	this.iface.verificarHabilitaciones();
 }
 
 function pieDocumento_validateForm()
@@ -153,13 +158,9 @@ function pieDocumento_bufferChanged(fN:String)
 	var cursor:FLSqlCursor = this.cursor();
 
 	switch (fN) {
+		case "tipoincremento":
 		case "incluidoneto": {
-			if (cursor.valueBuffer("incluidoneto")) {
-				this.child("fdbCodImpuesto").setDisabled(false);
-			} else {
-				this.child("fdbCodImpuesto").setValue("");
-				this.child("fdbCodImpuesto").setDisabled(true);
-			}
+			this.iface.verificarHabilitaciones();
 			break;
 		}
 		case "codsubcuenta": {
@@ -170,6 +171,28 @@ function pieDocumento_bufferChanged(fN:String)
 			}
 			break;
 		}
+	}
+}
+
+function pieDocumento_verificarHabilitaciones()
+{
+	var cursor:FLSqlCursor = this.cursor();
+
+	if (cursor.valueBuffer("tipoincremento") == "Porcentual") {
+		this.child("fdbIncPorcentual").setDisabled(false);
+		this.child("fdbIncLineal").setValue(0);
+		this.child("fdbIncLineal").setDisabled(true);
+	} else {
+		this.child("fdbIncLineal").setDisabled(false);
+		this.child("fdbIncPorcentual").setValue(0);
+		this.child("fdbIncPorcentual").setDisabled(true);
+	}
+
+	if (cursor.valueBuffer("incluidoneto")) {
+		this.child("fdbCodImpuesto").setDisabled(false);
+	} else {
+		this.child("fdbCodImpuesto").setValue("");
+		this.child("fdbCodImpuesto").setDisabled(true);
 	}
 }
 

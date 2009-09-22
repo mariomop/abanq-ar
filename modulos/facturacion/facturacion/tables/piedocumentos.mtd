@@ -55,8 +55,17 @@
 		<length>50</length>
 	</field>
 	<field>
+		<name>tipoincremento</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo de incremento")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Porcentual");QT_TRANSLATE_NOOP("MetaData","Lineal")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Porcentual")</default>
+	</field>
+	<field>
 		<name>incporcentual</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Incremento Porcentual")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Inc. Porcentual")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>
@@ -66,7 +75,7 @@
 	</field>
 	<field>
 		<name>inclineal</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Incremento Lineal")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Inc. Lineal")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>

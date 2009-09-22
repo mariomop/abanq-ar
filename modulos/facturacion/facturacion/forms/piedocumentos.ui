@@ -95,6 +95,45 @@
 					</property>
 					<widget class="FLFieldDB">
 						<property name="name">
+							<cstring>fdbTipoIncremento</cstring>
+						</property>
+						<property name="sizePolicy">
+							<sizepolicy>
+								<hsizetype>1</hsizetype>
+								<vsizetype>0</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>230</width>
+								<height>25</height>
+							</size>
+						</property>
+						<property name="fieldName">
+							<string>tipoincremento</string>
+						</property>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Fixed</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>16</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="FLFieldDB">
+						<property name="name">
 							<cstring>fdbIncPorcentual</cstring>
 						</property>
 						<property name="sizePolicy">
