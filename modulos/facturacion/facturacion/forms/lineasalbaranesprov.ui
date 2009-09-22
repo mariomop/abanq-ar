@@ -64,6 +64,9 @@
 								<property name="text" >
 									<string>Mostrar sólo los artículos del proveedor</string>
 								</property>
+								<property name="checked">
+									<bool>true</bool>
+								</property>
 							</widget>
 							<spacer>
 								<property name="name" >
