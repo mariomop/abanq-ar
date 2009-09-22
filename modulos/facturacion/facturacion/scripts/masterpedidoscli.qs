@@ -915,7 +915,7 @@ function lotes_copiaLineaPedido(curLineaPedido:FLSqlCursor, idAlbaran:Number):Nu
 			curMoviLote.setValueBuffer("codlote", codLote);
 			curMoviLote.setValueBuffer("fecha", fecha);
 			curMoviLote.setValueBuffer("tipo", "Salida");
-			curMoviLote.setValueBuffer("docorigen", "AC");
+			curMoviLote.setValueBuffer("docorigen", "RC");
 			curMoviLote.setValueBuffer("idlineaac", idLineaAlbaran);
 			curMoviLote.setValueBuffer("idstock", idStock);
 			curMoviLote.setValueBuffer("cantidad", (nuevaCantidad * -1));
@@ -960,7 +960,7 @@ function lotes_copiaLineaPedido(curLineaPedido:FLSqlCursor, idAlbaran:Number):Nu
 // 		curMoviLote.setValueBuffer("codlote", codLote);
 // 		curMoviLote.setValueBuffer("fecha", fecha);
 // 		curMoviLote.setValueBuffer("tipo", "Salida");
-// 		curMoviLote.setValueBuffer("docorigen", "AC");
+// 		curMoviLote.setValueBuffer("docorigen", "RC");
 // 		curMoviLote.setValueBuffer("idorigen", idLineaAlbaran);
 // 		curMoviLote.setValueBuffer("idstock", idStock);
 // 		if (hayMasLotes) {

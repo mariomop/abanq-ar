@@ -107,7 +107,7 @@ function lotes_validateForm():Boolean
 	curMoviLotes.setValueBuffer("codlote",cursor.valueBuffer("codloteorigen"));
 	curMoviLotes.setValueBuffer("fecha",cursor.valueBuffer("fecha"));
 	curMoviLotes.setValueBuffer("tipo","Regularización");
-	curMoviLotes.setValueBuffer("docorigen","NO");
+	curMoviLotes.setValueBuffer("docorigen","RE");
 	curMoviLotes.setValueBuffer("idstock",cursor.valueBuffer("idstockorigen"));
 	curMoviLotes.setValueBuffer("cantidad","-" + cursor.valueBuffer("cantidad"));
 	curMoviLotes.setValueBuffer("descripcion",cursor.valueBuffer("descripcion"));
@@ -120,7 +120,7 @@ function lotes_validateForm():Boolean
 	curMoviLotes.setValueBuffer("codlote",cursor.valueBuffer("codlotedestino"));
 	curMoviLotes.setValueBuffer("fecha",cursor.valueBuffer("fecha"));
 	curMoviLotes.setValueBuffer("tipo","Regularización");
-	curMoviLotes.setValueBuffer("docorigen","NO");
+	curMoviLotes.setValueBuffer("docorigen","RE");
 	debug(cursor.valueBuffer("idstockdestino"));
 	curMoviLotes.setValueBuffer("idstock",cursor.valueBuffer("idstockdestino"));
 	debug("asdfas");

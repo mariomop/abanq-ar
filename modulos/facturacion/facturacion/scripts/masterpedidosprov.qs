@@ -932,7 +932,7 @@ function lotes_copiaLineaPedido(curLineaPedido:FLSqlCursor, idAlbaran:Number):Nu
 			curMoviLote.setValueBuffer("codlote", codLote);
 			curMoviLote.setValueBuffer("fecha", fecha);
 			curMoviLote.setValueBuffer("tipo", "Entrada");
-			curMoviLote.setValueBuffer("docorigen", "AP");
+			curMoviLote.setValueBuffer("docorigen", "RP");
 			curMoviLote.setValueBuffer("idlineaap", idLineaAlbaran);
 			curMoviLote.setValueBuffer("idstock", idStock);
 			curMoviLote.setValueBuffer("cantidad", nuevaCantidad);

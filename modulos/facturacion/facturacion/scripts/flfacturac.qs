@@ -4567,7 +4567,7 @@ function lotes_afterCommit_lineasalbaranesprov(curLA:FLSqlCursor):Boolean
 	switch (curLA.modeAccess()) {
 		case curLA.Del: {
 			if (util.sqlSelect("articulos", "porlotes", "referencia = '" + curLA.valueBuffer("referencia") + "'")) {
-				if (!util.sqlDelete("movilote", "docorigen = 'AP' AND idorigen = " + curLA.valueBuffer("idlinea")))
+				if (!util.sqlDelete("movilote", "docorigen = 'RP' AND idorigen = " + curLA.valueBuffer("idlinea")))
 					return false;
 			}
 			break;
@@ -4602,7 +4602,7 @@ function lotes_afterCommit_lineasalbaranescli(curLA:FLSqlCursor):Boolean
 	switch (curLA.modeAccess()) {
 		case curLA.Del: {
 			if (util.sqlSelect("articulos", "porlotes", "referencia = '" + curLA.valueBuffer("referencia") + "'")) {
-				if (!util.sqlDelete("movilote", "docorigen = 'AC' AND idorigen = " + curLA.valueBuffer("idlinea")))
+				if (!util.sqlDelete("movilote", "docorigen = 'RC' AND idorigen = " + curLA.valueBuffer("idlinea")))
 					return false;
 			}
 			break;

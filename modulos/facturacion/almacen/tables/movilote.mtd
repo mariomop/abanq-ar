@@ -47,7 +47,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>15</length>
-		<optionslist>Entrada,Salida,Regularización,T.Interna</optionslist>
+		<optionslist>Entrada,Salida,Regularización,Transferencia,M.Interno</optionslist>
 		<default>Entrada</default>
 	</field>
 	
@@ -59,8 +59,8 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>2</length>
-		<optionslist>AP,FP,AC,FC,NO,TI</optionslist>
-		<default>AP</default>
+		<optionslist>RP,FP,RC,FC,RE,TR,MI</optionslist>
+		<default>RP</default>
 	</field>
 	
 	<field>
@@ -161,7 +161,7 @@
 	<field>
 		<name>idlineati</name>
 		<!-- Identificador de la línea de trazabilidad interna-->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Id. línea trazabilidad interna")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. línea movimiento interno")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>uint</type>

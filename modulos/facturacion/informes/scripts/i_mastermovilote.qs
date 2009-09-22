@@ -109,7 +109,7 @@ function oficial_origenDest(nodo:FLDomNode, campo:String):String
 	var valor:String = "";
 
 	switch (docOrigen) {
-		case "AC" : {
+		case "RC" : {
 			var idOrigen:String = nodo.attributeValue("movilote.idlineaac");
 			var idAlbaran = util.sqlSelect("lineasalbaranescli", "idalbaran", "idlinea = " + idOrigen);
 			if (idAlbaran)
@@ -123,7 +123,7 @@ function oficial_origenDest(nodo:FLDomNode, campo:String):String
 				valor = util.translate("scripts", "Factura: %1 del cliente %2: %3").arg(util.sqlSelect("facturascli", "codigo", "idfactura = " + idFactura)).arg(util.sqlSelect("facturascli", "codcliente", "idfactura = " + idFactura)).arg(util.sqlSelect("facturascli", "nombrecliente", "idfactura = " + idFactura));
 			break;
 		}
-		case "AP" : {
+		case "RP" : {
 			var idOrigen:String = nodo.attributeValue("movilote.idlineaap");
 			var idAlbaran = util.sqlSelect("lineasalbaranesprov", "idalbaran", "idlinea = " + idOrigen);
 			if (idAlbaran)
@@ -146,7 +146,7 @@ function oficial_origenDest(nodo:FLDomNode, campo:String):String
 			}
 			break;
 		}
-		case "TI" : {
+		case "MI" : {
 			var q:FLSqlQuery = new FLSqlQuery();
 			q.setTablesList("lineastrazabilidadinterna,trazabilidadinterna");
 			q.setSelect("t.fecha");
@@ -158,7 +158,7 @@ function oficial_origenDest(nodo:FLDomNode, campo:String):String
 			}
 			if (q.first()) {
 				var fecha:String = util.dateAMDtoDMA(q.value("t.fecha"));
-				valor = util.translate("scripts", "Trazabilidad interna del día %1.").arg(fecha);
+				valor = util.translate("scripts", "Movimiento interno del día %1.").arg(fecha);
 			}
 			break;
 		}

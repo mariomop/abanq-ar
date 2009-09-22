@@ -150,7 +150,7 @@ function interna_init()
 			*/
 			curMoviLotes.setValueBuffer("idstock", datosMovimiento.idStock);
 			codLoteDefecto = util.sqlSelect("lotes", "codlote", "referencia = '" + referencia + "' AND (enalmacen > 0 AND caducidad >= CURRENT_DATE) ORDER BY caducidad ASC");
-			if (curMoviLotes.valueBuffer("docorigen") == "FC" || curMoviLotes.valueBuffer("docorigen") == "AC")
+			if (curMoviLotes.valueBuffer("docorigen") == "FC" || curMoviLotes.valueBuffer("docorigen") == "RC")
 				curMoviLotes.setValueBuffer("codlote", codLoteDefecto);
 			break;
 		}
@@ -204,7 +204,7 @@ function interna_validateForm():Boolean
 		return false;
 	}
 	
-	if (curMoviLotes.valueBuffer("tipo") != "Regularización"  && curRelacionado.valueBuffer("codlote") && curMoviLotes.valueBuffer("tipo") == "NO"){
+	if (curMoviLotes.valueBuffer("tipo") != "Regularización"  && curRelacionado.valueBuffer("codlote") && curMoviLotes.valueBuffer("docorigen") == "RE"){
 		MessageBox.warning(util.translate("scripts", "El movimiento debe ser de Regularización"),MessageBox.Ok, MessageBox.NoButton);
 		this.iface.tratarCantidad(curRelacionado.action());
 		return false;
@@ -224,7 +224,7 @@ function interna_validateForm():Boolean
 		//this.iface.tratarCantidad(curRelacionado.action());
 	}
 
-	if (curMoviLotes.valueBuffer("docorigen") == "AC") {
+	if (curMoviLotes.valueBuffer("docorigen") == "RC") {
 		var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLotes.valueBuffer("idstock") + " AND codlote = '" + codLote + "' AND (idlineaac IS NULL OR idlineaac <> " + curMoviLotes.valueBuffer("idlineaac") + ")");
 		if ((curMoviLotes.valueBuffer("cantidad") * -1) > cantidadLote) {
 			var resp = MessageBox.warning(util.translate("scripts", "No hay suficiente cantidad de artículos con referencia %1 del lote %2\nen el almacén %3 \n¿Desea continuar generando un stock negativo?").arg(curRelacionado.valueBuffer("referencia")).arg(codLote).arg(curRelacionado.cursorRelation().valueBuffer("codalmacen")), MessageBox.Yes, MessageBox.No);
@@ -296,7 +296,7 @@ function oficial_docJustificativo()
 	var cursor:FLSqlCursor = this.cursor();
 	
 	switch (cursor.valueBuffer("docorigen")) {
-		case "AC" : {
+		case "RC" : {
 			var idAlbaran = util.sqlSelect("lineasalbaranescli", "idalbaran", "idlinea = " + cursor.valueBuffer("idlineaac"));
 			if (idAlbaran)
 				this.child("lblDocumento").text = util.translate("scripts", "Remito: %1 del cliente %2").arg(util.sqlSelect("albaranescli", "codigo", "idalbaran = " + idAlbaran)).arg(util.sqlSelect("albaranescli", "nombrecliente", "idalbaran = " + idAlbaran));
@@ -308,7 +308,7 @@ function oficial_docJustificativo()
 				this.child("lblDocumento").text = util.translate("scripts", "Factura: %1 del cliente %2").arg(util.sqlSelect("facturascli", "codigo", "idfactura = " + idFactura)).arg(util.sqlSelect("facturascli", "nombrecliente", "idfactura = " + idFactura));
 			break;
 		}
-		case "AP" : {
+		case "RP" : {
 			var idAlbaran = util.sqlSelect("lineasalbaranesprov", "idalbaran", "idlinea = " + cursor.valueBuffer("idlineaap"));
 			if (idAlbaran)
 				this.child("lblDocumento").text = util.translate("scripts", "Remito: %1 del proveedor %2").arg(util.sqlSelect("albaranesprov", "codigo", "idalbaran = " + idAlbaran)).arg(util.sqlSelect("albaranesprov", "nombre", "idalbaran = " + idAlbaran));
@@ -344,7 +344,7 @@ function oficial_pbnConsultarDocClicked()
 	var cursor:FLSqlCursor = this.cursor();
 	
 	switch (cursor.valueBuffer("docorigen")) {
-		case "AC" : {
+		case "RC" : {
 			var idAlbaran = util.sqlSelect("lineasalbaranescli", "idalbaran", "idlinea = " + cursor.valueBuffer("idlineaac"));
 			if (idAlbaran) {
 				var curDocumento:FLSqlCursor = new FLSqlCursor("albaranescli");
@@ -370,7 +370,7 @@ function oficial_pbnConsultarDocClicked()
 			}
 			break;
 		}
-		case "AP" : {
+		case "RP" : {
 			var idAlbaran = util.sqlSelect("lineasalbaranesprov", "idalbaran", "idlinea = " + cursor.valueBuffer("idlineaap"));
 			if (idAlbaran) {
 				var curDocumento:FLSqlCursor = new FLSqlCursor("albaranesprov");
@@ -431,7 +431,7 @@ function oficial_datosMoviLote(accion:String):Array
 	switch (accion) {
 		case "lineasalbaranescli": {
 			datos.tipo = "Salida";
-			datos.docOrigen = "AC";
+			datos.docOrigen = "RC";
 			//datos.idorigen = curRelacionado.valueBuffer("idlinea");
 			datos.codAlmacen = util.sqlSelect("albaranescli", "codalmacen", "idalbaran = " + curRelacionado.valueBuffer("idalbaran"));
 			datos.idStock = util.sqlSelect("stocks", "idstock", "codalmacen = '" + datos.codAlmacen + "' AND referencia = '" + referencia + "'");
@@ -445,7 +445,7 @@ function oficial_datosMoviLote(accion:String):Array
 		}
 		case "lineasalbaranesprov":{
 			datos.tipo = "Entrada";
-			datos.docOrigen = "AP";
+			datos.docOrigen = "RP";
 			//datos.idorigen = curRelacionado.valueBuffer("idlinea");
 			datos.codAlmacen = util.sqlSelect("albaranesprov", "codalmacen", "idalbaran = " + curRelacionado.valueBuffer("idalbaran"));
 			datos.idStock = util.sqlSelect("stocks", "idstock", "codalmacen = '" + datos.codAlmacen + "' AND referencia = '" + referencia + "'");
@@ -486,8 +486,8 @@ function oficial_datosMoviLote(accion:String):Array
 			break;
 		}
 		case "lineastrazabilidadinterna":{
-			datos.tipo = "T.Interna";
-			datos.docOrigen = "TI";
+			datos.tipo = "M.Interno";
+			datos.docOrigen = "MI";
 			//datos.idorigen = curRelacionado.valueBuffer("idlinea");
 			datos.codAlmacen = util.sqlSelect("trazabilidadinterna", "codalmacen", "codigo = '" + curRelacionado.valueBuffer("codtrazainterna") + "'");
 			datos.idStock = util.sqlSelect("stocks", "idstock", "codalmacen = '" + datos.codAlmacen + "' AND referencia = '" + referencia + "'");
@@ -502,7 +502,7 @@ function oficial_datosMoviLote(accion:String):Array
 		case "lotes": {
 			datos.idStock = curRelacionado.valueBuffer("idstock");
 			datos.tipo = "Regularización";
-			datos.docOrigen = "NO";
+			datos.docOrigen = "RE";
 			this.child("fdbCodLote").setFilter("1=1 AND lotes.referencia = '" + referencia + "'");
 			break;
 		}

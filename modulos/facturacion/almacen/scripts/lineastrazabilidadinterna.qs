@@ -114,7 +114,7 @@ function interna_calculateField(fN:String):String
 		case "cantidad": {
 			if (this.iface.porLotes) {
 debug("idlinea " + cursor.valueBuffer("idlinea"));
-				res = util.sqlSelect("movilote", "SUM(cantidad)", "docorigen = 'TI' AND idlineati = " + cursor.valueBuffer("idlinea"));
+				res = util.sqlSelect("movilote", "SUM(cantidad)", "docorigen = 'MI' AND idlineati = " + cursor.valueBuffer("idlinea"));
 			}
 			break;
 		}

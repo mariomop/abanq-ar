@@ -2178,7 +2178,7 @@ function lotes_controlStockLineasTrans(curLTS:FLSqlCursor):Boolean
 				setValueBuffer("codlote", codLote);
 				setValueBuffer("idstock", idStockOrigen);
 				setValueBuffer("cantidad", (-1 * cantidad));
-				setValueBuffer("descripcion", util.translate("scripts", "Traspaso a almacén %1").arg(codAlmacenDestino));
+				setValueBuffer("descripcion", util.translate("scripts", "Transferencia hacia almacén %1").arg(codAlmacenDestino));
 				setValueBuffer("fecha", fechaTrans);
 				setValueBuffer("tipo", "Transferencia");
 				setValueBuffer("docorigen", "TR");
@@ -2192,7 +2192,7 @@ function lotes_controlStockLineasTrans(curLTS:FLSqlCursor):Boolean
 				setValueBuffer("codlote", codLote);
 				setValueBuffer("idstock", idStockDestino);
 				setValueBuffer("cantidad", cantidad);
-				setValueBuffer("descripcion", util.translate("scripts", "Traspaso desde almacén %1").arg(codAlmacenOrigen));
+				setValueBuffer("descripcion", util.translate("scripts", "Transferencia desde almacén %1").arg(codAlmacenOrigen));
 				setValueBuffer("fecha", fechaTrans);
 				setValueBuffer("tipo", "Transferencia");
 				setValueBuffer("docorigen", "TR");
