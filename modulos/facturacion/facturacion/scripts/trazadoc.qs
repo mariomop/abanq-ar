@@ -153,6 +153,12 @@ class funServiciosCli extends oficial {
 	function dibOrigenAlbCli(codigo:String, fila:Number):Number {
 		return this.ctx.funServiciosCli_dibOrigenAlbCli(codigo, fila);
 	}
+	function tblDocsClicked(row:Number, col:Number) {
+		return this.ctx.funServiciosCli_tblDocsClicked(row, col);
+	}
+	function verDocumento() {
+		return this.ctx.funServiciosCli_verDocumento();
+	}
 }
 //// FUN_SERVICIOS_CLI /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -197,12 +203,12 @@ function interna_init()
 	var tipo:String = cursor.valueBuffer("tipo");
 	
 	this.iface.tblDocs.setNumCols(7);
-	this.iface.tblDocs.setColumnWidth(0, 120);
-	this.iface.tblDocs.setColumnWidth(1, 120);
-	this.iface.tblDocs.setColumnWidth(2, 120);
-	this.iface.tblDocs.setColumnWidth(3, 120);
-	this.iface.tblDocs.setColumnWidth(4, 120);
-	this.iface.tblDocs.setColumnWidth(5, 120);
+	this.iface.tblDocs.setColumnWidth(0, 130);
+	this.iface.tblDocs.setColumnWidth(1, 130);
+	this.iface.tblDocs.setColumnWidth(2, 130);
+	this.iface.tblDocs.setColumnWidth(3, 130);
+	this.iface.tblDocs.setColumnWidth(4, 150);
+	this.iface.tblDocs.setColumnWidth(5, 90);
 	this.iface.tblDocs.hideColumn(6);
 	this.iface.tblDocs.setColumnLabels("/", "Presupuestos/Pedidos/Remitos/Facturas/Recibos/Pagos/");
 
@@ -1127,13 +1133,13 @@ function funServiciosCli_init()
 	var codigo:String = cursor.valueBuffer("codigo");
 	
 	this.iface.tblDocs.setNumCols(8);
-	this.iface.tblDocs.setColumnWidth(0, 100);
-	this.iface.tblDocs.setColumnWidth(1, 100);
-	this.iface.tblDocs.setColumnWidth(2, 100);
-	this.iface.tblDocs.setColumnWidth(3, 100);
-	this.iface.tblDocs.setColumnWidth(4, 100);
-	this.iface.tblDocs.setColumnWidth(5, 100);
-	this.iface.tblDocs.setColumnWidth(7, 100);
+	this.iface.tblDocs.setColumnWidth(0, 130);
+	this.iface.tblDocs.setColumnWidth(1, 130);
+	this.iface.tblDocs.setColumnWidth(2, 130);
+	this.iface.tblDocs.setColumnWidth(3, 130);
+	this.iface.tblDocs.setColumnWidth(4, 150);
+	this.iface.tblDocs.setColumnWidth(5, 90);
+	this.iface.tblDocs.setColumnWidth(7, 90);
 	this.iface.tblDocs.hideColumn(6);
 	this.iface.tblDocs.setColumnLabels("/", "Presupuestos/Pedidos/Remitos/Facturas/Recibos/Pagos/Servicios/Servicios");
 
@@ -1162,9 +1168,9 @@ function funServiciosCli_datosServicioCli(codigo:String)
 	var qry:FLSqlQuery = new FLSqlQuery();
 	with (qry) {
 		setTablesList("servicioscli");
-		setSelect("codcliente, total, fecha");
+		setSelect("codcliente, nombrecliente, total, fecha");
 		setFrom("servicioscli");
-		setWhere("codigo = '" + codigo + "'");
+		setWhere("numservicio = '" + codigo + "'");
 		setForwardOnly(true);
 	}
 	if (!qry.exec())
@@ -1172,7 +1178,7 @@ function funServiciosCli_datosServicioCli(codigo:String)
 	if (!qry.first())
 		return false;
 
-	var texto:String = util.translate("scripts", "Servicio %1\nCliente %2 - \nImporte: %3\nFecha: %4").arg(codigo).arg(qry.value("codcliente")).arg(util.roundFieldValue(qry.value("total"), "servicioscli", "total")).arg(util.dateAMDtoDMA(qry.value("fecha")));
+	var texto:String = util.translate("scripts", "Servicio %1\nCliente %2 - %3\nImporte: %4\nFecha: %5").arg(codigo).arg(qry.value("codcliente")).arg(qry.value("nombrecliente")).arg(util.roundFieldValue(qry.value("total"), "servicioscli", "total")).arg(util.dateAMDtoDMA(qry.value("fecha")));
 	this.child("lblDatosDoc").text = texto;
 }
 
@@ -1259,6 +1265,140 @@ function funServiciosCli_dibOrigenSerCli(codigo:String, fila:Number):Number
 		if (this.iface.tblDocs.numRows() == fila)
 			this.iface.tblDocs.insertRows(fila);
 		this.iface.tblDocs.setText(fila, this.iface.SERVICIOS, qryAlbaranes.value("s.numservicio"));
+	}
+}
+
+function funServiciosCli_verDocumento()
+{
+	var columna:Number = this.iface.tblDocs.currentColumn();
+	var fila:Number = this.iface.tblDocs.currentRow();
+	
+	var codigo:String;
+	if (columna == this.iface.PAGOS)
+		return;
+	
+	codigo = this.iface.tblDocs.text(fila, columna);
+	if (!codigo || codigo == "")
+		return;
+
+	var cursor:FLSqlCursor;
+	switch (columna) {
+		case this.iface.PRESUPUESTOS: {
+			if (this.iface.clienteProveedor == "cliente")
+				cursor = new FLSqlCursor("presupuestoscli");
+			else
+				cursor = new FLSqlCursor("presupuestosprov");
+			cursor.select("codigo = '" + codigo + "'");
+			break;
+		}
+		case this.iface.PEDIDOS: {
+			if (this.iface.clienteProveedor == "cliente")
+				cursor = new FLSqlCursor("pedidoscli");
+			else
+				cursor = new FLSqlCursor("pedidosprov");
+			cursor.select("codigo = '" + codigo + "'");
+			break;
+		}
+		case this.iface.ALBARANES: {
+			if (this.iface.clienteProveedor == "cliente")
+				cursor = new FLSqlCursor("albaranescli");
+			else
+				cursor = new FLSqlCursor("albaranesprov");
+			cursor.select("codigo = '" + codigo + "'");
+			break;
+		}
+		case this.iface.FACTURAS: {
+			if (this.iface.clienteProveedor == "cliente")
+				cursor = new FLSqlCursor("facturascli");
+			else
+				cursor = new FLSqlCursor("facturasprov");
+			cursor.select("codigo = '" + codigo + "'");
+			break;
+		}
+		case this.iface.RECIBOS: {
+			if (this.iface.clienteProveedor == "cliente")
+				cursor = new FLSqlCursor("reciboscli");
+			else
+				cursor = new FLSqlCursor("recibosprov");
+			cursor.select("codigo = '" + codigo + "'");
+			break;
+		}
+		case this.iface.SERVICIOS: {
+			cursor = new FLSqlCursor("servicioscli");
+			cursor.select("numservicio = '" + codigo + "'");
+			break;
+		}
+	}
+	if (!cursor.first())
+		return false;
+	cursor.browseRecord();
+}
+
+function funServiciosCli_tblDocsClicked(row:Number, col:Number)
+{
+	var codigo:String;
+	if (col == this.iface.PAGOS)
+		codigo = this.iface.tblDocs.text(row, this.iface.PAGOS_ID);
+	else
+		codigo = this.iface.tblDocs.text(row, col);
+	if (!codigo || codigo == "") {
+		this.child("lblDatosDoc").text = "";
+		this.child("pbnVerDocumento").enabled = false;
+		return;
+	}
+
+	switch (col) {
+		case this.iface.PRESUPUESTOS: {
+			if (this.iface.clienteProveedor == "cliente")
+				this.iface.datosPresupuestoCli(codigo);
+			this.child("pbnVerDocumento").enabled = true;
+			break;
+		}
+		case this.iface.PEDIDOS: {
+			if (this.iface.clienteProveedor == "cliente")
+				this.iface.datosPedidoCli(codigo);
+			else
+				this.iface.datosPedidoProv(codigo);
+			this.child("pbnVerDocumento").enabled = true;
+			break;
+		}
+		case this.iface.ALBARANES: {
+			if (this.iface.clienteProveedor == "cliente")
+				this.iface.datosAlbaranCli(codigo);
+			else
+				this.iface.datosAlbaranProv(codigo);
+			this.child("pbnVerDocumento").enabled = true;
+			break;
+		}
+		case this.iface.FACTURAS: {
+			if (this.iface.clienteProveedor == "cliente")
+				this.iface.datosFacturaCli(codigo);
+			else
+				this.iface.datosFacturaProv(codigo);
+			this.child("pbnVerDocumento").enabled = true;
+			break;
+		}
+		case this.iface.RECIBOS: {
+			if (this.iface.clienteProveedor == "cliente")
+				this.iface.datosReciboCli(codigo);
+			else
+				this.iface.datosReciboProv(codigo);
+			this.child("pbnVerDocumento").enabled = true;
+			break;
+		}
+		case this.iface.PAGOS: {
+			if (this.iface.clienteProveedor == "cliente")
+				this.iface.datosPagoDevolCli(codigo);
+			else
+				this.iface.datosPagoDevolProv(codigo);
+			this.child("pbnVerDocumento").enabled = false;
+			break;
+		}
+		case this.iface.SERVICIOS: {
+			this.iface.datosServicioCli(codigo);
+			this.child("pbnVerDocumento").enabled = true;
+			break;
+		}
 	}
 }
 //// FUN_SERVICIOS_CLI ///////////////////////////////////////////
