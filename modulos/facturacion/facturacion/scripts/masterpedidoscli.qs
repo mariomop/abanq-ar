@@ -961,7 +961,7 @@ function lotes_copiaLineaPedido(curLineaPedido:FLSqlCursor, idAlbaran:Number):Nu
 // 		curMoviLote.setValueBuffer("fecha", fecha);
 // 		curMoviLote.setValueBuffer("tipo", "Salida");
 // 		curMoviLote.setValueBuffer("docorigen", "RC");
-// 		curMoviLote.setValueBuffer("idorigen", idLineaAlbaran);
+// 		curMoviLote.setValueBuffer("idlineaac", idLineaAlbaran);
 // 		curMoviLote.setValueBuffer("idstock", idStock);
 // 		if (hayMasLotes) {
 // 			if (!canStock || canStock <= 0)

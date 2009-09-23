@@ -273,9 +273,7 @@ function lotes_init() {
 	this.iface.__init();
 	
 	if (this.cursor().cursorRelation().valueBuffer("automatica")) {
-		this.child("gbxMoviLote").setDisabled(true);
-// 		this.child("tdbMoviLote").cursor().setMainFilter("1 = 2");
-		this.child("tdbMoviLote").refresh();
+		this.child("tdbMoviLote").setReadOnly(true);
 	} else {
 		connect(this.child("tdbMoviLote").cursor(), "bufferCommited()", this, "iface.calcularCantidad()");
 		this.iface.habilitarControlesPorLotes();
@@ -348,11 +346,11 @@ function lotes_habilitarControlesPorLotes()
 	var cursor:FLSqlCursor = this.cursor();
 	this.iface.porLotes = util.sqlSelect("articulos", "porlotes", "referencia = '" + cursor.valueBuffer("referencia") + "'");
 	if (this.iface.porLotes) {
-		this.child("gbxMoviLote").setDisabled(false);
+		this.child("tbwLinea").setTabEnabled("lotes", true);
 		this.child("fdbCantidad").setDisabled(true);
 		this.iface.calcularCantidad();
 	} else {
-		this.child("gbxMoviLote").setDisabled(true);
+		this.child("tbwLinea").setTabEnabled("lotes", false);
 		this.child("fdbCantidad").setDisabled(false);
 		this.child("fdbReferencia").setDisabled(false);
 	}

@@ -377,11 +377,11 @@ function lotes_habilitarControlesPorLotes()
 	var cursor:FLSqlCursor = this.cursor();
 	this.iface.porLotes = util.sqlSelect("articulos", "porlotes", "referencia = '" + cursor.valueBuffer("referencia") + "'");
 	if (this.iface.porLotes) {
-		this.child("gbxMoviLote").setDisabled(false);
+		this.child("tbwLinea").setTabEnabled("lotes", true);
 		this.child("fdbCantidad").setDisabled(true);
 		this.iface.calcularCantidad();
 	} else {
-		this.child("gbxMoviLote").setDisabled(true);
+		this.child("tbwLinea").setTabEnabled("lotes", false);
 		this.child("fdbCantidad").setDisabled(false);
 		this.child("fdbReferencia").setDisabled(false);
 	}

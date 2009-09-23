@@ -131,9 +131,7 @@ function interna_init()
 			var tipo:String;
 			var docOrigen:String;
 			var idStock:String;
-			//var idorigen:Number;
 			var codAlmacen:String;
-			var codLoteDefecto:String;
 			var referencia:String = curRelacionado.valueBuffer("referencia");
 			var datosMovimiento:Array = this.iface.datosMoviLote(curRelacionado.action());
 			if (!datosMovimiento) {
@@ -144,14 +142,15 @@ function interna_init()
 
 			curMoviLotes.setValueBuffer("tipo", datosMovimiento.tipo);
 			curMoviLotes.setValueBuffer("docorigen", datosMovimiento.docOrigen);
-			/*
-			if (curRelacionado.action() != "lotes")
-				curMoviLotes.setValueBuffer("idorigen", datosMovimiento.idorigen);
-			*/
 			curMoviLotes.setValueBuffer("idstock", datosMovimiento.idStock);
-			codLoteDefecto = util.sqlSelect("lotes", "codlote", "referencia = '" + referencia + "' AND (enalmacen > 0 AND caducidad >= CURRENT_DATE) ORDER BY caducidad ASC");
-			if (curMoviLotes.valueBuffer("docorigen") == "FC" || curMoviLotes.valueBuffer("docorigen") == "RC")
+
+			if (curMoviLotes.valueBuffer("docorigen") == "FC" || curMoviLotes.valueBuffer("docorigen") == "RC") {
+				var codLoteDefecto:String = util.sqlSelect("lotes", "codlote", "referencia = '" + referencia + "' AND (enalmacen > 0 AND caducidad >= CURRENT_DATE) ORDER BY caducidad ASC");
 				curMoviLotes.setValueBuffer("codlote", codLoteDefecto);
+			}
+
+			this.child("fdbCodLote").editor().setFocus();
+			this.child("pbnConsultarDoc").setDisabled(true);
 			break;
 		}
 	}
@@ -432,7 +431,6 @@ function oficial_datosMoviLote(accion:String):Array
 		case "lineasalbaranescli": {
 			datos.tipo = "Salida";
 			datos.docOrigen = "RC";
-			//datos.idorigen = curRelacionado.valueBuffer("idlinea");
 			datos.codAlmacen = util.sqlSelect("albaranescli", "codalmacen", "idalbaran = " + curRelacionado.valueBuffer("idalbaran"));
 			datos.idStock = util.sqlSelect("stocks", "idstock", "codalmacen = '" + datos.codAlmacen + "' AND referencia = '" + referencia + "'");
 			if (!datos.idStock) {
@@ -446,7 +444,6 @@ function oficial_datosMoviLote(accion:String):Array
 		case "lineasalbaranesprov":{
 			datos.tipo = "Entrada";
 			datos.docOrigen = "RP";
-			//datos.idorigen = curRelacionado.valueBuffer("idlinea");
 			datos.codAlmacen = util.sqlSelect("albaranesprov", "codalmacen", "idalbaran = " + curRelacionado.valueBuffer("idalbaran"));
 			datos.idStock = util.sqlSelect("stocks", "idstock", "codalmacen = '" + datos.codAlmacen + "' AND referencia = '" + referencia + "'");
 			if (!datos.idStock) {
@@ -460,7 +457,6 @@ function oficial_datosMoviLote(accion:String):Array
 		case "lineasfacturascli":{
 			datos.tipo = "Salida";
 			datos.docOrigen = "FC";
-			//datos.idorigen = curRelacionado.valueBuffer("idlinea");
 			datos.codAlmacen = util.sqlSelect("facturascli", "codalmacen", "idfactura = " + curRelacionado.valueBuffer("idfactura"));
 			datos.idStock = util.sqlSelect("stocks", "idstock", "codalmacen = '" + datos.codAlmacen + "' AND referencia = '" + referencia + "'");
 			if (!datos.idStock) {
@@ -474,7 +470,6 @@ function oficial_datosMoviLote(accion:String):Array
 		case "lineasfacturasprov":{
 			datos.tipo = "Entrada";
 			datos.docOrigen = "FP";
-			//datos.idorigen = curRelacionado.valueBuffer("idlinea");
 			datos.codAlmacen = util.sqlSelect("facturasprov", "codalmacen", "idfactura = " + curRelacionado.valueBuffer("idfactura"));
 			datos.idStock = util.sqlSelect("stocks", "idstock", "codalmacen = '" + datos.codAlmacen + "' AND referencia = '" + referencia + "'");
 			if (!datos.idStock) {
@@ -488,7 +483,6 @@ function oficial_datosMoviLote(accion:String):Array
 		case "lineastrazabilidadinterna":{
 			datos.tipo = "M.Interno";
 			datos.docOrigen = "MI";
-			//datos.idorigen = curRelacionado.valueBuffer("idlinea");
 			datos.codAlmacen = util.sqlSelect("trazabilidadinterna", "codalmacen", "codigo = '" + curRelacionado.valueBuffer("codtrazainterna") + "'");
 			datos.idStock = util.sqlSelect("stocks", "idstock", "codalmacen = '" + datos.codAlmacen + "' AND referencia = '" + referencia + "'");
 			if (!datos.idStock) {
@@ -500,9 +494,9 @@ function oficial_datosMoviLote(accion:String):Array
 			break;
 		}
 		case "lotes": {
-			datos.idStock = curRelacionado.valueBuffer("idstock");
 			datos.tipo = "Regularización";
 			datos.docOrigen = "RE";
+			datos.idStock = "";
 			this.child("fdbCodLote").setFilter("1=1 AND lotes.referencia = '" + referencia + "'");
 			break;
 		}

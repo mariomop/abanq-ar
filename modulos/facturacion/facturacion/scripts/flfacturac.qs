@@ -345,14 +345,8 @@ class pedidosauto extends fluxEcommerce {
 //// LOTES //////////////////////////////////////////////////////
 class lotes extends pedidosauto {
 	function lotes( context ) { pedidosauto ( context ); }
-	function afterCommit_lineasalbaranesprov(curLA:FLSqlCursor):Boolean {
-		return this.ctx.lotes_afterCommit_lineasalbaranesprov(curLA);
-	}
 	function beforeCommit_lineasfacturasprov(curLF:FLSqlCursor):Boolean {
 		return this.ctx.lotes_beforeCommit_lineasfacturasprov(curLF);
-	}
-	function afterCommit_lineasalbaranescli(curLA:FLSqlCursor):Boolean {
-		return this.ctx.lotes_afterCommit_lineasalbaranescli(curLA);
 	}
 	function beforeCommit_lineasfacturascli(curLF:FLSqlCursor):Boolean {
 		return this.ctx.lotes_beforeCommit_lineasfacturascli(curLF);
@@ -4560,33 +4554,21 @@ function pedidosauto_cambiarStockOrd(referencia:String, variacion:Number):Boolea
 /** @class_definition lotes */
 /////////////////////////////////////////////////////////////////
 //// LOTES //////////////////////////////////////////////////////
-function lotes_afterCommit_lineasalbaranesprov(curLA:FLSqlCursor):Boolean 
-{
-	var util:FLUtil = new FLUtil;
-	/*
-	switch (curLA.modeAccess()) {
-		case curLA.Del: {
-			if (util.sqlSelect("articulos", "porlotes", "referencia = '" + curLA.valueBuffer("referencia") + "'")) {
-				if (!util.sqlDelete("movilote", "docorigen = 'RP' AND idorigen = " + curLA.valueBuffer("idlinea")))
-					return false;
-			}
-			break;
-		}
-		
-	}
-	*/
-	return interna_afterCommit_lineasalbaranesprov(curLA);
-}
-
 function lotes_beforeCommit_lineasfacturasprov(curLF:FLSqlCursor):Boolean
 {
 	var util:FLUtil = new FLUtil;
 
 	switch (curLF.modeAccess()) {
 		case curLF.Del: {
-			if (util.sqlSelect("movilote", "idlineaap","idlineafp = " + curLF.valueBuffer("idlinea"))) {
-				if (!util.sqlUpdate("movilote", "idlineafp","NULL","idlineafp = " + curLF.valueBuffer("idlinea")))
+			if (util.sqlSelect("articulos", "porlotes", "referencia = '" + curLF.valueBuffer("referencia") + "'")) {
+				if (util.sqlSelect("movilote", "idlineaap","idlineafp = " + curLF.valueBuffer("idlinea"))) {
+					if (!util.sqlUpdate("movilote", "idlineafp","NULL","idlineafp = " + curLF.valueBuffer("idlinea"))) {
+						return false;
+					}
+				}
+				if (!util.sqlDelete("movilote", "idlineafp = " + curLF.valueBuffer("idlinea"))) {
 					return false;
+				}
 			}
 			break;
 		}
@@ -4595,32 +4577,20 @@ function lotes_beforeCommit_lineasfacturasprov(curLF:FLSqlCursor):Boolean
 	return true;
 }
 
-function lotes_afterCommit_lineasalbaranescli(curLA:FLSqlCursor):Boolean
-{
-	var util:FLUtil = new FLUtil;
-	/*
-	switch (curLA.modeAccess()) {
-		case curLA.Del: {
-			if (util.sqlSelect("articulos", "porlotes", "referencia = '" + curLA.valueBuffer("referencia") + "'")) {
-				if (!util.sqlDelete("movilote", "docorigen = 'RC' AND idorigen = " + curLA.valueBuffer("idlinea")))
-					return false;
-			}
-			break;
-		}
-	}
-	*/
-	return interna_afterCommit_lineasalbaranescli(curLA);
-}
-
 function lotes_beforeCommit_lineasfacturascli(curLF:FLSqlCursor):Boolean
 {
 	var util:FLUtil = new FLUtil;
-	
 	switch (curLF.modeAccess()) {
 		case curLF.Del: {
-			if (util.sqlSelect("movilote", "idlineaac","idlineafc = " + curLF.valueBuffer("idlinea"))) {
-				if (!util.sqlUpdate("movilote", "idlineafc","NULL","idlineafc = " + curLF.valueBuffer("idlinea")))
+			if (util.sqlSelect("articulos", "porlotes", "referencia = '" + curLF.valueBuffer("referencia") + "'")) {
+				if (util.sqlSelect("movilote", "idlineaac","idlineafc = " + curLF.valueBuffer("idlinea"))) {
+					if (!util.sqlUpdate("movilote", "idlineafc","NULL","idlineafc = " + curLF.valueBuffer("idlinea"))) {
+						return false;
+					}
+				}
+				if (!util.sqlDelete("movilote", "idlineafc = " + curLF.valueBuffer("idlinea"))) {
 					return false;
+				}
 			}
 			break;
 		}
@@ -4711,6 +4681,9 @@ function funServiciosCli_afterCommit_albaranescli(curAlbaran:FLSqlCursor):Boolea
 */
 function funNumSerie_beforeCommit_lineasfacturascli(curLF:FLSqlCursor):Boolean
 {
+	if ( !this.iface.__beforeCommit_lineasfacturascli(curLF) )
+		return false;
+
 	if (curLF.modeAccess() != curLF.Insert) 
 		return true;	
 	
@@ -4730,6 +4703,9 @@ function funNumSerie_beforeCommit_lineasfacturascli(curLF:FLSqlCursor):Boolean
 */
 function funNumSerie_beforeCommit_lineasfacturasprov(curLF:FLSqlCursor):Boolean
 {
+	if ( !this.iface.__beforeCommit_lineasfacturasprov(curLF) )
+		return false;
+
 	if (curLF.modeAccess() != curLF.Insert) 
 		return true;	
 	
@@ -4750,7 +4726,7 @@ function funNumSerie_beforeCommit_lineasfacturasprov(curLF:FLSqlCursor):Boolean
 */
 function funNumSerie_afterCommit_lineasalbaranesprov(curLA:FLSqlCursor):Boolean
 {
-	if (!interna_afterCommit_lineasalbaranesprov(curLA))
+	if (!this.iface.__afterCommit_lineasalbaranesprov(curLA))
 		return false;
 		
 	if (!curLA.valueBuffer("numserie")) return true;
@@ -4776,10 +4752,10 @@ de líneas de factura en caso de que no se trate de una factura automática
 */
 function funNumSerie_afterCommit_lineasfacturasprov(curLF:FLSqlCursor):Boolean
 {
-	var util:FLUtil = new FLUtil;
-	
 	if (!interna_afterCommit_lineasfacturasprov(curLF))
 		return false;
+	
+	var util:FLUtil = new FLUtil;
 	
 	if (!curLF.valueBuffer("numserie")) return true;
 	
@@ -4826,7 +4802,7 @@ function funNumSerie_afterCommit_lineasfacturasprov(curLF:FLSqlCursor):Boolean
 */
 function funNumSerie_afterCommit_lineasalbaranescli(curLA:FLSqlCursor):Boolean
 {
-	if (!interna_afterCommit_lineasalbaranescli(curLA))
+	if (!this.iface.__afterCommit_lineasalbaranescli(curLA))
 		return false;
 		
 	if (!curLA.valueBuffer("numserie")) return true;

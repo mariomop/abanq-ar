@@ -64,16 +64,6 @@
 	</field>
 	
 	<field>
-		<name>idorigen</name>
-		<!-- Identificador de la línea de documento (remito o factura) que da origen al movimiento (sin valor para las regularizaciones) -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Id. origen")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>uint</type>
-		<visiblegrid>false</visiblegrid>
-	</field>
-	
-	<field>
 		<name>idlineaac</name>
 		<!-- Identificador de la línea de remito de cliente relacionada -->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Id. linea remito cliente")</alias>
@@ -98,13 +88,6 @@
 		<pk>false</pk>
 		<type>uint</type>
 		<visiblegrid>false</visiblegrid>
-		
-		<relation>
-			<field>idlinea</field>
-			<table>lineasfacturascli</table>
-			<card>M1</card>
-			<delC>true</delC>
-		</relation>
 	</field>
 	
 	<field>
@@ -132,13 +115,6 @@
 		<pk>false</pk>
 		<type>uint</type>
 		<visiblegrid>false</visiblegrid>
-		
-		<relation>
-			<field>idlinea</field>
-			<table>lineasfacturasprov</table>
-			<card>M1</card>
-			<delC>true</delC>
-		</relation>
 	</field>
 	
 	<field>
