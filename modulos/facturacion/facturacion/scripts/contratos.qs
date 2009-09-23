@@ -148,6 +148,8 @@ function interna_init()
 		this.child("tdbFacturas").cursor().setMainFilter("idfactura = -1");
 
 	connect(this.cursor(), "bufferChanged(QString)", this, "iface.bufferChanged");
+
+	this.child("tdbFacturas").setReadOnly(true);
 }
 
 function interna_calculateCounter()
