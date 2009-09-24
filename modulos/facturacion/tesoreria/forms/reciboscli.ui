@@ -2049,6 +2049,42 @@
 			<receiver>tdbPagosDevolCli</receiver>
 			<slot>browseRecord()</slot>
 		</connection>
+		<connection>
+			<sender>tdbPagosDevolCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtomInsert</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbPagosDevolCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbPagosDevolCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDelete</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbPagosDevolCli</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbPagosDevolCli</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>toolButtonDelete</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbPagosDevolCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>fdbImporte</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
 	</connections>
 	<tabstops>
 		<tabstop>fdbCodigo</tabstop>

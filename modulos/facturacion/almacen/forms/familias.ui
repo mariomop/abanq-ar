@@ -1200,6 +1200,24 @@
 			<slot>browseRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbArticulos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsert</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbArticulos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbArticulos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDelete</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>toolButtomInsertSF</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbsubfamilias</receiver>
@@ -1222,6 +1240,24 @@
 			<signal>clicked()</signal>
 			<receiver>tdbsubfamilias</receiver>
 			<slot>browseRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbsubfamilias</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtomInsertSF</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbsubfamilias</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditSF</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbsubfamilias</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteSF</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 	</connections>
 	<slots>

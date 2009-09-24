@@ -3168,6 +3168,24 @@
 			<slot>browseRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbLineasPedidosCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtomInsert</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasPedidosCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasPedidosCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDelete</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>tbAntInsert</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbAnticiposCli</receiver>
@@ -3190,6 +3208,24 @@
 			<signal>clicked()</signal>
 			<receiver>tdbAnticiposCli</receiver>
 			<slot>browseRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbAnticiposCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbAntInsert</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbAnticiposCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbAntEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbAnticiposCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbAntDelete</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
 			<sender>toolButtomInsertPie</sender>

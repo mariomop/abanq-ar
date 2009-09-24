@@ -823,6 +823,24 @@
 			<receiver>tdbLineasVale</receiver>
 			<slot>browseRecord()</slot>
 		</connection>
+		<connection>
+			<sender>tdbLineasVale</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsertAD</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasVale</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditAD</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasVale</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteAD</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
 	</connections>
 	<tabstops>
 		<tabstop>fdbFechaEmision</tabstop>

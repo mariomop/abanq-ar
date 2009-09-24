@@ -6044,10 +6044,22 @@
 			<slot>browseRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbCuentas</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>pbnCuentaDom</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>toolButtonInsertDir</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbDirecciones</receiver>
 			<slot>insertRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsertDir</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
 			<sender>toolButtonEditDir</sender>
@@ -6056,10 +6068,46 @@
 			<slot>editRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditDir</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditDir</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>toolButtonDeleteDir</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbDirecciones</receiver>
 			<slot>deleteRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteDir</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteDir</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>pbDomFacturacion</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>pbDomEnvio</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
 			<sender>toolButtonZoomDir</sender>
@@ -6074,16 +6122,46 @@
 			<slot>insertRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbDescuentos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsertDto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>toolButtonEditDto</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbDescuentos</receiver>
 			<slot>editRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbDescuentos</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditDto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbDescuentos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditDto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>toolButtonDeleteDto</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbDescuentos</receiver>
 			<slot>deleteRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbDescuentos</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteDto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbDescuentos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteDto</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
 			<sender>toolButtonZoomDto</sender>
@@ -6138,6 +6216,48 @@
 			<signal>clicked()</signal>
 			<receiver>tdbContactos</receiver>
 			<slot>browseRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonBuscarContacto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsertContacto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditContacto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteContacto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsertContactoCliente</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteContactoCliente</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 	</connections>
 	<tabstops>

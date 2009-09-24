@@ -3735,6 +3735,24 @@
 			<slot>browseRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbLineasFacturasCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtomInsert</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasFacturasCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasFacturasCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDelete</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>toolButtomInsertValores</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbValores</receiver>
@@ -3757,6 +3775,24 @@
 			<signal>clicked()</signal>
 			<receiver>tdbValores</receiver>
 			<slot>browseRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbValores</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtomInsertValores</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbValores</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditValores</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbValores</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteValores</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
 			<sender>toolButtomInsertPie</sender>

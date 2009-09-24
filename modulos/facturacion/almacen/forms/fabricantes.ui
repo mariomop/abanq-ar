@@ -768,6 +768,24 @@
 			<receiver>tdbArticulos</receiver>
 			<slot>browseRecord()</slot>
 		</connection>
+		<connection>
+			<sender>tdbArticulos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsert</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbArticulos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbArticulos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDelete</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
 	</connections>
 	<slots>
 		<slot>eliminarGruposImpuestos()</slot>

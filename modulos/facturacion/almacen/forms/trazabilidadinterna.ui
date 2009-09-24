@@ -524,6 +524,12 @@
 	</images>
 	<connections>
 		<connection>
+			<sender>toolButtonInsertTrazaInt</sender>
+			<signal>clicked()</signal>
+			<receiver>tdbLineasTrazaInterna</receiver>
+			<slot>insertRecord()</slot>
+		</connection>
+		<connection>
 			<sender>toolButtonEditTrazaInt</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbLineasTrazaInterna</receiver>
@@ -542,10 +548,22 @@
 			<slot>browseRecord()</slot>
 		</connection>
 		<connection>
-			<sender>toolButtonInsertTrazaInt</sender>
-			<signal>clicked()</signal>
-			<receiver>tdbLineasTrazaInterna</receiver>
-			<slot>insertRecord()</slot>
+			<sender>tdbLineasTrazaInterna</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsertTrazaInt</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasTrazaInterna</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditTrazaInt</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasTrazaInterna</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteTrazaInt</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 	</connections>
 	<tabstops>

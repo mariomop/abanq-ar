@@ -4864,10 +4864,28 @@
 			<slot>insertRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbInsertDirecciones</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>tbEditDirecciones</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbDirecciones</receiver>
 			<slot>editRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>tbEditDirecciones</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbEditDirecciones</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
 			<sender>tbDeleteDirecciones</sender>
@@ -4876,10 +4894,28 @@
 			<slot>deleteRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>tbDeleteDirecciones</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbDeleteDirecciones</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>tbBrowseDirecciones</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbDirecciones</receiver>
 			<slot>browseRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbDirecciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>pbDireccion</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
 			<sender>tbInsertDescuentos</sender>
@@ -4888,16 +4924,46 @@
 			<slot>insertRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbDescuentos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbInsertDescuentos</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>tbEditDescuentos</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbDescuentos</receiver>
 			<slot>editRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbDescuentos</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>tbEditDescuentos</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbDescuentos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbEditDescuentos</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>tbDeleteDescuentos</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbDescuentos</receiver>
 			<slot>deleteRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbDescuentos</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>tbDeleteDescuentos</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbDescuentos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbDeleteDescuentos</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
 			<sender>tbBrowseDescuentos</sender>
@@ -4912,16 +4978,46 @@
 			<slot>insertRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbCuentas</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbInsertCuentas</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>tbEditCuentas</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbCuentas</receiver>
 			<slot>editRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbCuentas</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>tbEditCuentas</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbCuentas</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbEditCuentas</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>tbDeleteCuentas</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbCuentas</receiver>
 			<slot>deleteRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbCuentas</sender>
+			<signal>insertOnlyChanged(bool)</signal>
+			<receiver>tbDeleteCuentas</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbCuentas</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbDeleteCuentas</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
 			<sender>tbBrowseCuentas</sender>
@@ -5000,6 +5096,48 @@
 			<signal>clicked()</signal>
 			<receiver>tdbRecibos</receiver>
 			<slot>browseRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonBuscarContacto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbInsertContacto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbEditContacto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbDeleteContacto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsertContactoProveedor</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbContactos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteContactoProveedor</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 	</connections>
 	<tabstops>

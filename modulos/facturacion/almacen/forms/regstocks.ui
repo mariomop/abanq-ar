@@ -501,6 +501,24 @@
 			<receiver>tdbLineasRegStocks</receiver>
 			<slot>browseRecord()</slot>
 		</connection>
+		<connection>
+			<sender>tdbLineasRegStocks</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtomInsert</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasRegStocks</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasRegStocks</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDelete</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
 	</connections>
 	<layoutdefaults spacing="6" margin="11"/>
 	<includehints>

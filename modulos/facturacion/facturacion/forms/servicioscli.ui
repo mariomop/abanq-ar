@@ -2257,6 +2257,30 @@
 			<slot>browseRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbLineasServiciosCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtomInsert</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasServiciosCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasServiciosCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDelete</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbLineasServiciosCli</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>pbnGenerarCostes</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>toolButtonInsertInc</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbIncidencias</receiver>
@@ -2281,6 +2305,24 @@
 			<slot>browseRecord()</slot>
 		</connection>
 		<connection>
+			<sender>tdbIncidencias</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsertInc</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbIncidencias</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditInc</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbIncidencias</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteInc</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>toolButtonInsertCom</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbComunicaciones</receiver>
@@ -2303,6 +2345,24 @@
 			<signal>clicked()</signal>
 			<receiver>tdbComunicaciones</receiver>
 			<slot>browseRecord()</slot>
+		</connection>
+		<connection>
+			<sender>tdbComunicaciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsertCom</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbComunicaciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditCom</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbComunicaciones</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteCom</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 	</connections>
 	<tabstops>

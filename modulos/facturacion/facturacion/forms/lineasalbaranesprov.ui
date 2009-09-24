@@ -1137,6 +1137,24 @@
 			<receiver>tdbMoviLote</receiver>
 			<slot>browseRecord()</slot>
 		</connection>
+		<connection>
+			<sender>tdbMoviLote</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonInsertMov</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbMoviLote</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEditMov</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbMoviLote</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonDeleteMov</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
 	</connections>
 	<tabstops>
 		<tabstop>fdbReferencia</tabstop>

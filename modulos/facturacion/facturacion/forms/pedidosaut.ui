@@ -589,16 +589,34 @@
 	</images>
 	<connections>
 		<connection>
+			<sender>toolButtonEdit</sender>
+			<signal>clicked()</signal>
+			<receiver>tdbArticulos</receiver>
+			<slot>editRecord()</slot>
+		</connection>
+		<connection>
 			<sender>toolButtonZoom</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbArticulos</receiver>
 			<slot>browseRecord()</slot>
 		</connection>
 		<connection>
-			<sender>toolButtonEdit</sender>
-			<signal>clicked()</signal>
-			<receiver>tdbArticulos</receiver>
-			<slot>editRecord()</slot>
+			<sender>tdbArticulos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbInsert</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbArticulos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>toolButtonEdit</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbArticulos</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbDelete</receiver>
+			<slot>setDisabled(bool)</slot>
 		</connection>
 	</connections>
 	<tabstops>
