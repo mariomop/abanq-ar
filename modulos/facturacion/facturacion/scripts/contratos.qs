@@ -45,26 +45,11 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-/** @class_declaration ivaIncluido */
-//////////////////////////////////////////////////////////////////
-//// IVAINCLUIDO /////////////////////////////////////////////////////
-class ivaIncluido extends oficial {
-    function ivaIncluido( context ) { oficial( context ); } 	
-	function calculateField(fN:String):String {
-		return this.ctx.ivaIncluido_calculateField(fN);
-	}
-	function bufferChanged(fN:String) {
-		return this.ctx.ivaIncluido_bufferChanged(fN);
-	}
-}
-//// IVAINCLUIDO /////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-
 /** @class_declaration totalesIva */
 /////////////////////////////////////////////////////////////////
 //// TOTALES CON IVA ////////////////////////////////////////////
-class totalesIva extends ivaIncluido {
-    function totalesIva( context ) { ivaIncluido ( context ); }
+class totalesIva extends oficial {
+    function totalesIva( context ) { oficial ( context ); }
 	function calculateField(fN:String):String {
 		return this.ctx.totalesIva_calculateField(fN);
 	}
@@ -205,72 +190,6 @@ function oficial_bufferChanged(fN:String)
 /////////////////////////////////////////////////////////////////
 
 
-/** @class_definition ivaIncluido */
-//////////////////////////////////////////////////////////////////
-//// IVAINCLUIDO /////////////////////////////////////////////////////
-
-function ivaIncluido_bufferChanged(fN:String)
-{
-	var cursor:FLSqlCursor = this.cursor();
-	
-	switch (fN) {
-		case "tipocontrato": {
-			this.iface.__bufferChanged(fN);
-			cursor.setValueBuffer("referencia", this.iface.calculateField("referencia"));
-			break;
-		}
-		case "referencia": {
-			cursor.setValueBuffer("coste", this.iface.calculateField("coste"));
-			break;
-		}
-		default:
-			this.iface.__bufferChanged(fN);
-	}
-}
-
-function ivaIncluido_calculateField(fN:String)
-{
-	var util:FLUtil = new FLUtil();
-	var cursor:FLSqlCursor = this.cursor();
-
-	var valor:String;
-	var referencia:String = cursor.valueBuffer("referencia");
-	
-	switch (fN) {
-		case "referencia": {
-			valor = util.sqlSelect("tiposcontrato", "referencia", "codigo = '" + cursor.valueBuffer("tipocontrato") + "'");
-			break;
-		}
-		case "coste": {
-			var q:FLSqlQuery = new FLSqlQuery();
-			
-			q.setTablesList("articulos");
-			q.setSelect("pvp,ivaincluido,codimpuesto");
-			q.setFrom("articulos");
-			q.setWhere("referencia = '" + referencia + "'");
-			if (!q.exec())
-				return false;
-			if (!q.first())
-				return false;
-
-			valor = parseFloat(q.value("pvp"));
-
-			var ivaIncluido:Boolean = q.value("ivaincluido");
-			if (ivaIncluido) {
-				var iva:Number = util.sqlSelect("impuestos", "iva", "codimpuesto = '" + q.value("codimpuesto") + "'");
-				valor = parseFloat(valor) / (1 + iva / 100);
-			}
-			break;
-		}
-		default:
-			valor = this.iface.__calculateField(fN);
-	}
-	return valor;
-}
-//// IVAINCLUIDO /////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-
-
 /** @class_definition totalesIva */
 /////////////////////////////////////////////////////////////////
 //// TOTALES CON IVA ////////////////////////////////////////////
@@ -288,7 +207,7 @@ function totalesIva_calculateField(fN:String):String
 			valor = parseFloat(cursor.valueBuffer("coste"));
 
 			var ivaIncluido:Boolean = util.sqlSelect("articulos", "ivaincluido", "referencia = '" + referencia + "'");
-			if (ivaIncluido) {
+			if (!ivaIncluido) {
 				var iva:Number = util.sqlSelect("impuestos", "iva", "codimpuesto = '" + cursor.valueBuffer("codimpuesto") + "'");
 				valor = parseFloat(valor) * (1 + iva / 100);
 			}

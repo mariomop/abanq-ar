@@ -368,8 +368,10 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 	var iva:Number = 0;
 	var datosImpuesto = flfactppal.iface.pub_ejecutarQry("impuestos", "iva", "codimpuesto = '" + datosPeriodo.codimpuesto + "'");
 	if (datosImpuesto.result == 1) {
-		iva = datosImpuesto.iva;
+		iva = parseFloat(datosImpuesto.iva);
 	}
+	if ( parseFloat(datosPeriodo.coste) == parseFloat(datosPeriodo.totalconiva) )
+		datosPeriodo.coste = parseFloat(datosPeriodo.totalconiva) / (1 + iva / 100);
 	
 	var idFactura:Number = curFactura.valueBuffer("idfactura");
 	var curLineaFactura:FLSqlCursor = new FLSqlCursor("lineasfacturascli");

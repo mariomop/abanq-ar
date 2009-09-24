@@ -339,6 +339,12 @@
 											<property name="fieldName">
 												<string>referencia</string>
 											</property>
+											<property name="foreignField">
+												<string>referencia</string>
+											</property>
+											<property name="fieldRelation">
+												<string>tipocontrato</string>
+											</property>
 										</widget>
 										<widget class="FLFieldDB">
 											<property name="name">
@@ -398,6 +404,48 @@
 											</property>
 											<property name="fieldName">
 												<string>coste</string>
+											</property>
+											<property name="foreignField">
+												<string>coste</string>
+											</property>
+											<property name="fieldRelation">
+												<string>tipocontrato</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbIVAIncluido</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>0</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>100</width>
+													<height>26</height>
+												</size>
+											</property>
+											<property name="font">
+												<font>
+													<bold>0</bold>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>ivaincluido</string>
+											</property>
+											<property name="tableName" >
+												<string>articulos</string>
+											</property>
+											<property name="foreignField" >
+												<string>referencia</string>
+											</property>
+											<property name="fieldRelation" >
+												<string>referencia</string>
 											</property>
 										</widget>
 										<spacer>
@@ -477,31 +525,6 @@
 											</property>
 											<property name="showAlias">
 												<bool>false</bool>
-											</property>
-										</widget>
-										<widget class="FLFieldDB">
-											<property name="name">
-												<cstring>fdbIvaImpuesto</cstring>
-											</property>
-											<property name="sizePolicy">
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>0</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="fieldName">
-												<string>iva</string>
-											</property>
-											<property name="tableName">
-												<string>impuestos</string>
-											</property>
-											<property name="foreignField">
-												<string>codimpuesto</string>
-											</property>
-											<property name="fieldRelation">
-												<string>codimpuesto</string>
 											</property>
 										</widget>
 									</hbox>

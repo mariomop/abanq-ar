@@ -19,6 +19,12 @@
 			<property name="name">
 				<cstring>unnamed</cstring>
 			</property>
+			<property name="margin">
+				<number>0</number>
+			</property>
+			<property name="spacing">
+				<number>2</number>
+			</property>
 			<widget class="QGroupBox">
 				<property name="name">
 					<cstring>groupBox15</cstring>
@@ -91,6 +97,24 @@
 							</widget>
 						</hbox>
 					</widget>
+				</vbox>
+			</widget>
+			<widget class="QGroupBox">
+				<property name="name">
+					<cstring>groupBox14</cstring>
+				</property>
+				<property name="font">
+					<font>
+						<bold>1</bold>
+					</font>
+				</property>
+				<property name="title">
+					<string></string>
+				</property>
+				<vbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
 					<widget class="QLayoutWidget">
 						<property name="name">
 							<cstring>layout104</cstring>
@@ -133,7 +157,7 @@
 								</property>
 								<property name="sizeHint">
 									<size>
-										<width>96</width>
+										<width>100</width>
 										<height>20</height>
 									</size>
 								</property>
@@ -181,55 +205,19 @@
 									<string></string>
 								</property>
 							</widget>
-							<widget class="FLFieldDB">
-								<property name="name">
-									<cstring>fdbDescReferencia</cstring>
-								</property>
-								<property name="sizePolicy">
-									<sizepolicy>
-										<hsizetype>7</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>200</width>
-										<height>0</height>
-									</size>
-								</property>
-								<property name="font">
-									<font>
-										<bold>0</bold>
-									</font>
-								</property>
-								<property name="fieldName">
-									<string>descripcion</string>
-								</property>
-								<property name="foreignField">
-									<string>descripcion</string>
-								</property>
-								<property name="fieldRelation">
-									<string>referencia</string>
-								</property>
-								<property name="showAlias">
-									<bool>false</bool>
-								</property>
-							</widget>
 							<spacer>
 								<property name="name">
-									<cstring>spacer44</cstring>
+									<cstring>spacer102</cstring>
 								</property>
 								<property name="orientation">
 									<enum>Horizontal</enum>
 								</property>
 								<property name="sizeType">
-									<enum>Fixed</enum>
+									<enum>Expanding</enum>
 								</property>
 								<property name="sizeHint">
 									<size>
-										<width>20</width>
+										<width>16</width>
 										<height>20</height>
 									</size>
 								</property>
@@ -251,6 +239,48 @@
 								</property>
 								<property name="fieldName">
 									<string>coste</string>
+								</property>
+								<property name="foreignField">
+									<string>pvp</string>
+								</property>
+								<property name="fieldRelation">
+									<string>referencia</string>
+								</property>
+							</widget>
+							<widget class="FLFieldDB">
+								<property name="name">
+									<cstring>fdbIVAIncluido</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>0</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>100</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="font">
+									<font>
+										<bold>0</bold>
+									</font>
+								</property>
+								<property name="fieldName" >
+									<string>ivaincluido</string>
+								</property>
+								<property name="tableName" >
+									<string>articulos</string>
+								</property>
+								<property name="foreignField" >
+									<string>referencia</string>
+								</property>
+								<property name="fieldRelation" >
+									<string>referencia</string>
 								</property>
 							</widget>
 						</hbox>
@@ -286,6 +316,12 @@
 						</property>
 						<property name="fieldName">
 							<string>descripcion</string>
+						</property>
+						<property name="foreignField">
+							<string>descripcion</string>
+						</property>
+						<property name="fieldRelation">
+							<string>referencia</string>
 						</property>
 					</widget>
 				</vbox>
