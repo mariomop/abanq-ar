@@ -153,6 +153,10 @@ function interna_init()
 			this.child("pbnConsultarDoc").setDisabled(true);
 			break;
 		}
+		case curMoviLotes.Browse: {
+			this.child("pbnCrearLote").setDisabled(true);
+			break;
+		}
 	}
 
 	this.child("fdbDocOrigen").setDisabled(true);
