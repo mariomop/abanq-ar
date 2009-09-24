@@ -100,33 +100,6 @@
 									<string>codpostal</string>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>SpacerCodPostal</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>136</width>
-										<height>16</height>
-									</size>
-								</property>
-							</spacer>
-						</hbox>
-					</widget>
-					<widget class="QLayoutWidget">
-						<property name="name">
-							<cstring>layoutProvincia</cstring>
-						</property>
-						<hbox>
-							<property name="name">
-								<cstring>unnamed</cstring>
-							</property>
 							<widget class="FLFieldDB">
 								<property name="name">
 									<cstring>fdbProvincia</cstring>
@@ -195,23 +168,6 @@
 									<string>idprovincia</string>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>SpacerProvincia</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>136</width>
-										<height>16</height>
-									</size>
-								</property>
-							</spacer>
 						</hbox>
 					</widget>
 				</vbox>

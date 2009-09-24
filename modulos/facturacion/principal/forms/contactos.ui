@@ -399,6 +399,36 @@
 							</property>
 							<widget class="FLFieldDB">
 								<property name="name">
+									<cstring>fdbCodPostal</cstring>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>200</width>
+										<height>0</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>32767</width>
+										<height>32767</height>
+									</size>
+								</property>
+								<property name="font">
+									<font>
+									</font>
+								</property>
+								<property name="fieldName">
+									<string>codpostal</string>
+								</property>
+								<property name="foreignField">
+									<string>codpostal</string>
+								</property>
+								<property name="fieldRelation">
+									<string>idciudad</string>
+								</property>
+							</widget>
+							<widget class="FLFieldDB">
+								<property name="name">
 									<cstring>fdbTelefono1_2</cstring>
 								</property>
 								<property name="minimumSize">
@@ -467,36 +497,6 @@
 								</property>
 								<property name="fieldName">
 									<string>fax</string>
-								</property>
-							</widget>
-							<widget class="FLFieldDB">
-								<property name="name">
-									<cstring>fdbCodPostal</cstring>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>200</width>
-										<height>0</height>
-									</size>
-								</property>
-								<property name="maximumSize">
-									<size>
-										<width>32767</width>
-										<height>32767</height>
-									</size>
-								</property>
-								<property name="font">
-									<font>
-									</font>
-								</property>
-								<property name="fieldName">
-									<string>codpostal</string>
-								</property>
-								<property name="foreignField">
-									<string>codpostal</string>
-								</property>
-								<property name="fieldRelation">
-									<string>idciudad</string>
 								</property>
 							</widget>
 						</hbox>

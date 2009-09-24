@@ -467,7 +467,7 @@
 									<enum>Horizontal</enum>
 								</property>
 								<property name="sizeType">
-									<enum>Expanding</enum>
+									<enum>Fixed</enum>
 								</property>
 								<property name="sizeHint">
 									<size>
@@ -681,23 +681,6 @@
 									<string>codpais</string>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>spacer56</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>16</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
 						</hbox>
 					</widget>
 					<widget class="QLayoutWidget">
@@ -738,17 +721,17 @@
 							</widget>
 							<spacer>
 								<property name="name">
-									<cstring>spacer57_2</cstring>
+									<cstring>spacer61</cstring>
 								</property>
 								<property name="orientation">
 									<enum>Horizontal</enum>
 								</property>
 								<property name="sizeType">
-									<enum>Expanding</enum>
+									<enum>Fixed</enum>
 								</property>
 								<property name="sizeHint">
 									<size>
-										<width>20</width>
+										<width>16</width>
 										<height>20</height>
 									</size>
 								</property>
