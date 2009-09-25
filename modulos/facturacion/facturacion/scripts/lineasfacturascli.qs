@@ -272,13 +272,9 @@ function ivaIncluido_init()
 function lotes_init() {
 	this.iface.__init();
 	
-	if (this.cursor().cursorRelation().valueBuffer("automatica")) {
-		this.child("tdbMoviLote").setReadOnly(true);
-	} else {
-		connect(this.child("tdbMoviLote").cursor(), "bufferCommited()", this, "iface.calcularCantidad()");
-		this.iface.habilitarControlesPorLotes();
-		this.child("fdbReferencia").editor().setFocus();
-	}
+	connect(this.child("tdbMoviLote").cursor(), "bufferCommited()", this, "iface.calcularCantidad()");
+	this.iface.habilitarControlesPorLotes();
+	this.child("fdbReferencia").editor().setFocus();
 }
 
 

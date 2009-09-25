@@ -867,25 +867,62 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 /////////////////////////////////////////////////////////////////
 //// LOTES //////////////////////////////////////////////////////
 function lotes_copiaLineaAlbaran(curLineaAlbaran:FLSqlCursor, idFactura:Number):Number
-{debug("lotes_copiaLineaAlbaran");
-	var util:FLUtil;
-
+{
 	var idLineaFactura:Number = this.iface.__copiaLineaAlbaran(curLineaAlbaran, idFactura);
-
-	if(!idLineaFactura)
-		return false
-debug("iLineaFactura " + idLineaFactura);
-	var idLineaAlbaran:Number = curLineaAlbaran.valueBuffer("idlinea");
-
-	if(!idLineaAlbaran)
+	if (!idLineaFactura)
 		return false;
-debug("iLineaAlbaran " + idLineaAlbaran);
 
-debug("Movimiento " + util.sqlSelect("movilote","codlote","idlineaac = " + idLineaAlbaran));
-	if(!util.sqlUpdate("movilote","idlineafc",idLineaFactura,"idlineaac = " + idLineaAlbaran))
-		return false;
-debug("update hecho");	
-	return this.iface.curLineaFactura.valueBuffer("idlinea");
+	var util:FLUtil = new FLUtil();
+	if (util.sqlSelect("articulos", "porlotes", "referencia = '" + curLineaAlbaran.valueBuffer("referencia") + "'")) {
+
+		var idLineaAlbaran:Number = curLineaAlbaran.valueBuffer("idlinea");
+		if(!idLineaAlbaran)
+			return false;
+
+		var hoy:Date = new Date();
+		var fecha:String = hoy.toString();
+
+		var cant:Number;
+		var curMoviLoteOrigen:FLSqlCursor = new FLSqlCursor("movilote");
+		var curMoviLoteAutomatico:FLSqlCursor = new FLSqlCursor("movilote");
+
+		curMoviLoteOrigen.select("idlineaac = " + idLineaAlbaran);
+		while(curMoviLoteOrigen.next()) {
+
+			cant = curMoviLoteOrigen.valueBuffer("cantidad") - curMoviLoteOrigen.valueBuffer("cantidad_automatica");
+			if (cant != 0) {
+				with (curMoviLoteAutomatico) {
+					setModeAccess(Insert);
+					refreshBuffer();
+					setValueBuffer("codlote", curMoviLoteOrigen.valueBuffer("codlote"));
+					setValueBuffer("idstock", curMoviLoteOrigen.valueBuffer("idstock"));
+					setValueBuffer("cantidad", cant);
+					setValueBuffer("descripcion", curMoviLoteOrigen.valueBuffer("descripcion"));
+					setValueBuffer("fecha", fecha);
+					setValueBuffer("tipo", "Salida");
+					setValueBuffer("docorigen", "FC");
+					setValueBuffer("idlineafc", idLineaFactura);
+	
+					setValueBuffer("automatico", true);
+					setValueBuffer("idmovilote_orig", curMoviLoteOrigen.valueBuffer("id"));
+	
+					if (!commitBuffer())
+						return false;
+				}
+	
+				cant += curMoviLoteOrigen.valueBuffer("cantidad_automatica");
+				with (curMoviLoteOrigen) {
+					setModeAccess(Edit);
+					refreshBuffer();
+					setValueBuffer("cantidad_automatica", cant);
+					if (!commitBuffer())
+						return false;
+				}
+			}
+		}
+	}
+
+	return idLineaFactura;
 }
 //// LOTES /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

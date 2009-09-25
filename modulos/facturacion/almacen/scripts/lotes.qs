@@ -109,7 +109,8 @@ function interna_init()
 	
 	this.iface.articuloCaduca();
 
-	return;
+	this.child("tdbMoviLote").cursor().setMainFilter("NOT automatico");
+	this.child("tdbMoviLote").refresh();
 }
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

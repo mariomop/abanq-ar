@@ -2101,21 +2101,30 @@ function lotes_afterCommit_movilote(curMoviLote:FLSqlCursor):Boolean
 	
 	if (curMoviLote.cursorRelation() && curMoviLote.cursorRelation().action() == "lotes") {
 	} else {
-		var enAlmacen:Number = util.sqlSelect("movilote", "SUM(cantidad)", "codlote = '" + codLote + "'");
+		var enAlmacen:Number = util.sqlSelect("movilote", "SUM(cantidad)", "codlote = '" + codLote + "' AND NOT automatico");
 		if (!enAlmacen)
 			enAlmacen = 0;
 		if (!util.sqlUpdate("lotes", "enalmacen", enAlmacen, "codlote = '" + codLote + "'"))
 			return false;
 		if (curMoviLote.modeAccess == curMoviLote.Edit && codLote != curMoviLote.valueBufferCopy("codlote")) {
-			enAlmacen = util.sqlSelect("movilote", "SUM(cantidad)", "codlote = '" + curMoviLote.valueBufferCopy("codlote") + "'");
+			enAlmacen = util.sqlSelect("movilote", "SUM(cantidad)", "codlote = '" + curMoviLote.valueBufferCopy("codlote") + "' AND NOT automatico");
 			if (!enAlmacen)
 				enAlmacen = 0;
 			if (!util.sqlUpdate("lotes", "enalmacen", enAlmacen, "codlote = '" + curMoviLote.valueBufferCopy("codlote") + "'"))
 				return false;
 		}
+		if (curMoviLote.valueBuffer("automatico")) {
+			var idMovilote:Number = curMoviLote.valueBuffer("idmovilote_orig");
+			var cantAutomatica:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idmovilote_orig = " + idMovilote);
+			if (!cantAutomatica)
+				cantAutomatica = 0;
+			if (!util.sqlUpdate("movilote", "cantidad_automatica", cantAutomatica, "id = " +  idMovilote))
+				return false;
+		}
+		
 	}
 	
-	var cantidadStock:Number = util.sqlSelect("movilote INNER JOIN lotes ON movilote.codlote = lotes.codlote", "SUM(movilote.cantidad)", "movilote.idstock = " + idStock, "movilote,lotes");
+	var cantidadStock:Number = util.sqlSelect("movilote INNER JOIN lotes ON movilote.codlote = lotes.codlote", "SUM(movilote.cantidad)", "movilote.idstock = " + idStock + " AND NOT movilote.automatico", "movilote,lotes");
 	if (!cantidadStock)
 		cantidadStock = 0;
 	if (!util.sqlUpdate("stocks", "cantidad", cantidadStock, "idstock = " + idStock))

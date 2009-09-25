@@ -22,7 +22,7 @@
 		<null>false</null>
 		<pk>false</pk>
 		<type>string</type>
-		<length>15</length>
+		<length>30</length>
 		
 		<relation>
 			<field>codlote</field>
@@ -65,6 +65,94 @@
 	</field>
 	
 	<field>
+		<name>idlineaac</name>
+		<!-- Identificador de la línea de remito de cliente relacionada -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. linea remito cliente")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineasalbaranescli</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idlineafc</name>
+		<!-- Identificador de la línea de factura de cliente relacionada -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. línea factura cliente")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>idlineaap</name>
+		<!-- Identificador de la línea de remito de proveedor relacionada -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. linea remito proveedor")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineasalbaranesprov</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idlineafp</name>
+		<!-- Identificador de la línea de factura de proveedor relacionada -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. línea factura proveedor")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>idlineats</name>
+		<!-- Identificador de la línea de transferencia de stock -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. línea transferencia stock")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineastransstock</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<field>
+		<name>idlineati</name>
+		<!-- Identificador de la línea de trazabilidad interna-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. línea movimiento interno")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineastrazabilidadinterna</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+	
+	<field>
 		<name>idstock</name>
 		<!-- Identificador del stock (combinación referencia - almacén) asociado al movimiento -->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Stock")</alias>
@@ -99,5 +187,60 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>200</length>
+	</field>
+	
+	<field>
+		<name>idusuario</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Usuario")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>30</length>
+		<relation>
+			<table>usuarios</table>
+			<field>idusuario</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>automatico</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Automático")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>idmovilote_orig</name>
+		<!-- Identificador del movimiento de lote que origina un movimiento automático -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. movilote original")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<table>movilote</table>
+			<field>id</field>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+
+	<field>
+		<name>cantidad_automatica</name>
+		<!-- Cantidad que figuran en los movimientos de lotes automáticos a partir de este -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Cantidad automática")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>10</partI>
+		<partD>2</partD>
+		<default>0</default>
+		<editable>false</editable>
+		<visiblegrid>false</visiblegrid>
 	</field>
 </TMD>

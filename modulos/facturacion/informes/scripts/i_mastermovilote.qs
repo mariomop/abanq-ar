@@ -96,7 +96,8 @@ function oficial_lanzar()
 		return;
 			
 	var nombreInforme:String = cursor.action();
-	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme);
+	var where:String = "NOT movilote.automatico";
+	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, "", "", false, false, where);
 }
 
 /** \D Construye la descripción del documento de destino con sus datos más relevantes 

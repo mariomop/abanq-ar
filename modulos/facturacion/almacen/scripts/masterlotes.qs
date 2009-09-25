@@ -122,12 +122,16 @@ function oficial_imprimir()
 		var util:FLUtil = new FLUtil;
 		var codLote:String = this.iface.tdbRecords.cursor().valueBuffer("codlote");
 
+		var nombreInforme:String = "i_movilote";
+		var where:String = "NOT movilote.automatico";
+
 		var curImprimir:FLSqlCursor = new FLSqlCursor("i_movilote");
 		curImprimir.setModeAccess(curImprimir.Insert);
 		curImprimir.refreshBuffer();
 		curImprimir.setValueBuffer("descripcion", "temp");
 		curImprimir.setValueBuffer("i_lotes_codlote", codLote);
-		flfactinfo.iface.pub_lanzarInforme(curImprimir, "i_movilote");
+
+		flfactinfo.iface.pub_lanzarInforme(curImprimir, nombreInforme, "", "", false, false, where);
 	} else
 		flfactppal.iface.pub_msgNoDisponible("Informes");
 }
