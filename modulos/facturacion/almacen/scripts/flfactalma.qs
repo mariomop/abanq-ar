@@ -599,7 +599,7 @@ function interna_init()
 	if (!cursor.first()) {
 		var util:FLUtil = new FLUtil();
 		MessageBox.information(util.translate("scripts",
-			"Se insertará un almacén por defecto para empezar a trabajar."),
+			"Se insertará un almacén por defecto y algunos valores iniciales para empezar a trabajar."),
 			MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		with (cursor) {
 			setModeAccess(Insert);
@@ -608,27 +608,33 @@ function interna_init()
 			setValueBuffer("nombre", util.translate("scripts","ALMACEN GENERAL"));
 			commitBuffer();
 		}
-	}
+		delete cursor;
 
-	cursor = new FLSqlCursor("empresa");
-	cursor.select();
-	if (cursor.first()) {
-		with (cursor) {
-			setModeAccess(cursor.Edit);
-			refreshBuffer();
-			if (!valueBuffer("codalmacen")) {
-				setValueBuffer("codalmacen","ALG");
+		cursor = new FLSqlCursor("empresa");
+		cursor.select();
+		if (cursor.first()) {
+			with (cursor) {
+				setModeAccess(cursor.Edit);
+				refreshBuffer();
+				if (!valueBuffer("codalmacen")) {
+					setValueBuffer("codalmacen","ALG");
+					commitBuffer();
+				}
+			}
+		}
+		delete cursor;
+
+		cursor = new FLSqlCursor("factalma_general");
+		cursor.select();
+		if (!cursor.first()) {
+			with (cursor) {
+				setModeAccess(cursor.Insert);
+				refreshBuffer();
+				setValueBuffer("codimpuesto","GRAVADO");
+				setValueBuffer("ivaincluido", false);
 				commitBuffer();
 			}
 		}
-	}
-	cursor = new FLSqlCursor("factalma_general");
-	with (cursor) {
-		setModeAccess(cursor.Insert);
-		refreshBuffer();
-		setValueBuffer("codimpuesto","GRAVADO");
-		setValueBuffer("ivaincluido", true);
-		commitBuffer();
 	}
 
 // 	///////////// BORRAR 25/09/08 ///////////////////////////////
