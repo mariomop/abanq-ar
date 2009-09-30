@@ -109,7 +109,7 @@ function interna_init()
 	
 	this.iface.articuloCaduca();
 
-	this.child("tdbMoviLote").cursor().setMainFilter("NOT automatico");
+	this.child("tdbMoviLote").cursor().setMainFilter("NOT automatico AND NOT reserva");
 	this.child("tdbMoviLote").refresh();
 }
 //// INTERNA /////////////////////////////////////////////////////

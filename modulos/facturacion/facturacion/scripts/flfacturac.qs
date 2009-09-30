@@ -345,6 +345,9 @@ class pedidosauto extends fluxEcommerce {
 //// LOTES //////////////////////////////////////////////////////
 class lotes extends pedidosauto {
 	function lotes( context ) { pedidosauto ( context ); }
+	function beforeCommit_lineasalbaranescli(curLA:FLSqlCursor):Boolean {
+		return this.ctx.lotes_beforeCommit_lineasalbaranescli(curLA);
+	}
 	function beforeCommit_lineasfacturasprov(curLF:FLSqlCursor):Boolean {
 		return this.ctx.lotes_beforeCommit_lineasfacturasprov(curLF);
 	}
@@ -4554,6 +4557,30 @@ function pedidosauto_cambiarStockOrd(referencia:String, variacion:Number):Boolea
 /** @class_definition lotes */
 /////////////////////////////////////////////////////////////////
 //// LOTES //////////////////////////////////////////////////////
+
+function lotes_beforeCommit_lineasalbaranescli(curLA:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil;
+	switch (curLA.modeAccess()) {
+		case curLA.Del: {
+			if (util.sqlSelect("articulos", "porlotes", "referencia = '" + curLA.valueBuffer("referencia") + "'")) {
+				if (util.sqlSelect("movilote", "idlineapc","idlineaac = " + curLA.valueBuffer("idlinea"))) {
+					if (!util.sqlUpdate("movilote", "idlineaac","NULL","idlineaac = " + curLF.valueBuffer("idlinea"))) {
+						return false;
+					}
+				}
+				if (!util.sqlDelete("movilote", "idlineaac = " + curLA.valueBuffer("idlinea"))) {
+					return false;
+				}
+			}
+			break;
+		}
+		
+	}
+	
+	return true;
+}
+
 function lotes_beforeCommit_lineasfacturasprov(curLF:FLSqlCursor):Boolean
 {
 	var util:FLUtil = new FLUtil;
@@ -5627,6 +5654,9 @@ function ganancias_beforeCommit_lineaspedidoscli(curLP:FLSqlCursor):Boolean
 
 function ganancias_beforeCommit_lineasalbaranescli(curLA:FLSqlCursor):Boolean
 {
+	if ( !this.iface.__beforeCommit_lineasalbaranescli(curLA) )
+		return false;
+
 	return this.iface.obtenerGananciaLinea(curLA, "albaranescli");
 }
 

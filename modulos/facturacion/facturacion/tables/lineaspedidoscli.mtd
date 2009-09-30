@@ -10,6 +10,11 @@
 		<type>serial</type>
 		<visiblegrid>false</visiblegrid>
 		<relation>
+			<table>movilote</table>
+			<field>idlineapc</field>
+			<card>1M</card>
+		</relation>
+		<relation>
 			<table>lineassalidasarticulos</table>
 			<field>idlineapedido</field>
 			<card>1M</card>

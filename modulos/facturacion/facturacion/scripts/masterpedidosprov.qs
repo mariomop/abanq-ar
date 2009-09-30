@@ -883,7 +883,7 @@ function lotes_copiaLineaPedido(curLineaPedido:FLSqlCursor, idAlbaran:Number):Nu
 		return idLineaAlbaran;
 	var codAlmacen:String = util.sqlSelect("albaranesprov","codalmacen","idalbaran = " + idAlbaran);
 
-	var canLinea:Number = parseFloat(curLineaPedido.valueBuffer("cantidad"));
+	var canLinea:Number = parseFloat(curLineaPedido.valueBuffer("cantidad"))-parseFloat(curLineaPedido.valueBuffer("totalenalbaran"));
 	if(!canLinea || canLinea == 0)
 		return idLineaAlbaran;
 

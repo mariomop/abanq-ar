@@ -144,9 +144,13 @@ function interna_init()
 			curMoviLotes.setValueBuffer("docorigen", datosMovimiento.docOrigen);
 			curMoviLotes.setValueBuffer("idstock", datosMovimiento.idStock);
 
-			if (curMoviLotes.valueBuffer("docorigen") == "FC" || curMoviLotes.valueBuffer("docorigen") == "RC") {
+			if (curMoviLotes.valueBuffer("docorigen") == "FC" || curMoviLotes.valueBuffer("docorigen") == "RC" || curMoviLotes.valueBuffer("docorigen") == "PC") {
 				var codLoteDefecto:String = util.sqlSelect("lotes", "codlote", "referencia = '" + referencia + "' AND (enalmacen > 0 AND caducidad >= CURRENT_DATE) ORDER BY caducidad ASC");
 				curMoviLotes.setValueBuffer("codlote", codLoteDefecto);
+			}
+
+			if (curMoviLotes.valueBuffer("docorigen") == "PC" && !flfactppal.iface.pub_valorDefectoEmpresa("stockpedidos") && flfactppal.iface.pub_valorDefectoEmpresa("lotepedidos")) {
+				curMoviLotes.setValueBuffer("reserva", true);
 			}
 
 			this.child("fdbCodLote").editor().setFocus();
@@ -227,6 +231,16 @@ function interna_validateForm():Boolean
 		//this.iface.tratarCantidad(curRelacionado.action());
 	}
 
+	if (curMoviLotes.valueBuffer("docorigen") == "PC" && flfactppal.iface.pub_valorDefectoEmpresa("stockpedidos")) {
+		var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLotes.valueBuffer("idstock") + " AND codlote = '" + codLote + "' AND (idlineapc IS NULL OR idlineapc <> " + curMoviLotes.valueBuffer("idlineapc") + ")");
+		if ((curMoviLotes.valueBuffer("cantidad") * -1) > cantidadLote) {
+			var resp = MessageBox.warning(util.translate("scripts", "No hay suficiente cantidad de artículos con referencia %1 del lote %2\nen el almacén %3 \n¿Desea continuar generando un stock negativo?").arg(curRelacionado.valueBuffer("referencia")).arg(codLote).arg(curRelacionado.cursorRelation().valueBuffer("codalmacen")), MessageBox.Yes, MessageBox.No);
+			if (resp != MessageBox.Yes) {
+				this.iface.tratarCantidad(curRelacionado.action());
+				return false;
+			}
+		}
+	}
 	if (curMoviLotes.valueBuffer("docorigen") == "RC") {
 		var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLotes.valueBuffer("idstock") + " AND codlote = '" + codLote + "' AND (idlineaac IS NULL OR idlineaac <> " + curMoviLotes.valueBuffer("idlineaac") + ")");
 		if ((curMoviLotes.valueBuffer("cantidad") * -1) > cantidadLote) {
@@ -299,6 +313,12 @@ function oficial_docJustificativo()
 	var cursor:FLSqlCursor = this.cursor();
 	
 	switch (cursor.valueBuffer("docorigen")) {
+		case "PC" : {
+			var idPedido = util.sqlSelect("lineaspedidoscli", "idpedido", "idlinea = " + cursor.valueBuffer("idlineapc"));
+			if (idPedido)
+				this.child("lblDocumento").text = util.translate("scripts", "Pedido: %1 del cliente %2").arg(util.sqlSelect("pedidoscli", "codigo", "idpedido = " + idPedido)).arg(util.sqlSelect("pedidoscli", "nombrecliente", "idpedido = " + idPedido));
+			break;
+		}
 		case "RC" : {
 			var idAlbaran = util.sqlSelect("lineasalbaranescli", "idalbaran", "idlinea = " + cursor.valueBuffer("idlineaac"));
 			if (idAlbaran)
@@ -347,6 +367,19 @@ function oficial_pbnConsultarDocClicked()
 	var cursor:FLSqlCursor = this.cursor();
 	
 	switch (cursor.valueBuffer("docorigen")) {
+		case "PC" : {
+			var idPedido = util.sqlSelect("lineaspedidoscli", "idpedido", "idlinea = " + cursor.valueBuffer("idlineapc"));
+			if (idPedido) {
+				var curDocumento:FLSqlCursor = new FLSqlCursor("pedidoscli");
+				curDocumento.select("idpedido = " + idPedido);
+				if (curDocumento.first()) {
+					try {
+						curDocumento.browseRecord();
+					} catch (e) {}
+				}
+			}
+			break;
+		}
 		case "RC" : {
 			var idAlbaran = util.sqlSelect("lineasalbaranescli", "idalbaran", "idlinea = " + cursor.valueBuffer("idlineaac"));
 			if (idAlbaran) {
@@ -432,6 +465,20 @@ function oficial_datosMoviLote(accion:String):Array
 	var datos:Array = [];
 	var referencia:String = curRelacionado.valueBuffer("referencia");
 	switch (accion) {
+		case "lineaspedidoscli": {
+			datos.tipo = "Salida";
+			datos.docOrigen = "PC";
+			datos.codAlmacen = util.sqlSelect("pedidoscli", "codalmacen", "idpedido = " + curRelacionado.valueBuffer("idpedido"));
+			datos.idStock = util.sqlSelect("stocks", "idstock", "codalmacen = '" + datos.codAlmacen + "' AND referencia = '" + referencia + "'");
+			if (!datos.idStock) {
+				datos.idStock = flfactalma.iface.pub_crearStock(datos.codAlmacen, referencia);
+				if (!datos.idStock)
+					return false;
+			}
+
+			this.child("fdbCodLote").setFilter("1=1 AND lotes.referencia = '" + referencia + "' AND enalmacen > 0");
+			break;
+		}
 		case "lineasalbaranescli": {
 			datos.tipo = "Salida";
 			datos.docOrigen = "RC";
@@ -515,6 +562,7 @@ function oficial_tratarCantidad(accion:String):Boolean
 {
 	var cursor:FLSqlCursor = this.cursor();
 	switch (accion) {
+		case "lineaspedidoscli":
 		case "lineasalbaranescli":
 		case "lineasfacturascli":
 		case "tpv_lineascomanda": {

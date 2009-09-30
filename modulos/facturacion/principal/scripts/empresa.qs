@@ -61,8 +61,17 @@ class oficial extends interna {
 //// SILIX EXTENSIONES //////////////////////////////////////////
 class silixExtensiones extends oficial {
     function silixExtensiones( context ) { oficial ( context ); }
+	function init() {
+		this.ctx.silixExtensiones_init();
+	}
 	function validateForm():Boolean {
 		return this.ctx.silixExtensiones_validateForm();
+	}
+	function bufferChanged(fN:String) {
+		return this.ctx.silixExtensiones_bufferChanged(fN);
+	}
+	function verificarHabilitaciones() {
+		this.ctx.silixExtensiones_verificarHabilitaciones();
 	}
 }
 //// SILIX EXTENSIONES //////////////////////////////////////////
@@ -239,6 +248,13 @@ function oficial_bufferChanged(fN:String)
 /////////////////////////////////////////////////////////////////
 //// SILIX EXTENSIONES //////////////////////////////////////////
 
+function silixExtensiones_init()
+{
+	this.iface.__init();
+
+	this.iface.verificarHabilitaciones();
+}
+
 function silixExtensiones_validateForm():Boolean
 {
 	var util:FLUtil = new FLUtil();
@@ -252,6 +268,29 @@ function silixExtensiones_validateForm():Boolean
 	}
 
 	return true;
+}
+
+function silixExtensiones_bufferChanged(fN:String)
+{
+	switch (fN) {
+		case "stockpedidos": {
+			if ( this.cursor().valueBuffer("stockpedidos") )
+				this.cursor().setValueBuffer("lotepedidos", true);
+ 			this.iface.verificarHabilitaciones();
+			break;
+		}
+		default:
+			this.iface.__bufferChanged(fN);
+	}
+}
+
+function silixExtensiones_verificarHabilitaciones()
+{
+	if ( this.cursor().valueBuffer("stockpedidos") ) {
+		this.child("fdbLotePedidos").setDisabled(true);
+	} else {
+		this.child("fdbLotePedidos").setDisabled(false);
+	}
 }
 
 //// SILIX EXTENSIONES //////////////////////////////////////////

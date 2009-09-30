@@ -344,6 +344,15 @@
 		<default>false</default>
 	</field>
 	<field>
+		<name>lotepedidos</name>
+		<!--Indica si el control de lotes se realizará desde los pedidos de cliente-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Asignar lotes desde pedidos de cliente")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	<field>
 		<name>autenticar</name>
 		<!--Indica si se debe autenticar al usuario al generar documentos comerciales -->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Autenticar usuarios al generar documentos comerciales")</alias>

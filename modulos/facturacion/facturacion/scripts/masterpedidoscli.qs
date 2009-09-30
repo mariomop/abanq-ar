@@ -869,130 +869,116 @@ function lotes_copiaLineaPedido(curLineaPedido:FLSqlCursor, idAlbaran:Number):Nu
 	var referencia:String = curLineaPedido.valueBuffer("referencia");
 	if (!util.sqlSelect("articulos", "porlotes", "referencia = '" + referencia + "'"))
 		return idLineaAlbaran;
-	var codAlmacen:String = util.sqlSelect("albaranescli","codalmacen","idalbaran = " + idAlbaran);
 
-	var canLinea:Number = parseFloat(curLineaPedido.valueBuffer("cantidad"));
-	if(!canLinea || canLinea == 0)
-		return idLineaAlbaran;
+	if (!flfactppal.iface.pub_valorDefectoEmpresa("lotepedidos")) {
 
-	var canLote:Number;
-	var descArticulo:String = curLineaPedido.valueBuffer("descripcion");
-
-
-	var canTotal:Number = 0;
-
-	while (canTotal < canLinea) {
-		var f:Object = new FLFormSearchDB("seleclote");
-		var curLote:FLSqlCursor = f.cursor();
-		curLote.select();
-		if (!curLote.first())
+		var codAlmacen:String = util.sqlSelect("albaranescli","codalmacen","idalbaran = " + idAlbaran);
+	
+		var canLinea:Number = parseFloat(curLineaPedido.valueBuffer("cantidad"))-parseFloat(curLineaPedido.valueBuffer("totalenalbaran")) ;
+		if(!canLinea || canLinea == 0)
+			return idLineaAlbaran;
+	
+		var canLote:Number;
+		var descArticulo:String = curLineaPedido.valueBuffer("descripcion");
+		var canTotal:Number = 0;
+	
+		while (canTotal < canLinea) {
+			var f:Object = new FLFormSearchDB("seleclote");
+			var curLote:FLSqlCursor = f.cursor();
+			curLote.select();
+			if (!curLote.first())
 				curLote.setModeAccess(curLote.Insert);
-		else
+			else
 				curLote.setModeAccess(curLote.Edit);
+		
+			f.setMainWidget();
+		
+			canLote = canLinea - canTotal;
+		
+			curLote.refreshBuffer();
+			curLote.setValueBuffer("referencia",referencia);
+			curLote.setValueBuffer("descripcion",descArticulo);
+			curLote.setValueBuffer("canlinea",canLinea);
+			curLote.setValueBuffer("canlote",canLote);
+			curLote.setValueBuffer("resto",canLote);
 	
-		f.setMainWidget();
+			var acpt:String = f.exec("id");
+			if (acpt) {
+				var nuevaCantidad:Number = parseFloat(curLote.valueBuffer("canlote"));
+				var codLote:String = curLote.valueBuffer("codlote");
 	
-		canLote = canLinea - canTotal;
+				var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
+				var fecha:Date = util.sqlSelect("albaranescli","fecha","idalbaran = " + idAlbaran);
+				var idStock:Number = util.sqlSelect("stocks", "idstock", "codalmacen = '" + codAlmacen + "' AND referencia = '" + referencia + "'");
 	
-		curLote.refreshBuffer();
-		curLote.setValueBuffer("referencia",referencia);
-		curLote.setValueBuffer("descripcion",descArticulo);
-		curLote.setValueBuffer("canlinea",canLinea);
-		curLote.setValueBuffer("canlote",canLote);
-		curLote.setValueBuffer("resto",canLote);
-
-		var acpt:String = f.exec("id");
-		if (acpt) {
-			var nuevaCantidad:Number = parseFloat(curLote.valueBuffer("canlote"));
-			var codLote:String = curLote.valueBuffer("codlote");
-
-		 	var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
-			var fecha:Date = util.sqlSelect("albaranescli","fecha","idalbaran = " + idAlbaran);
-			 var idStock:Number = util.sqlSelect("stocks", "idstock", "codalmacen = '" + codAlmacen + "' AND referencia = '" + referencia + "'");
-
-			curMoviLote.setModeAccess(curMoviLote.Insert);
-			curMoviLote.refreshBuffer();
-			curMoviLote.setValueBuffer("codlote", codLote);
-			curMoviLote.setValueBuffer("fecha", fecha);
-			curMoviLote.setValueBuffer("tipo", "Salida");
-			curMoviLote.setValueBuffer("docorigen", "RC");
-			curMoviLote.setValueBuffer("idlineaac", idLineaAlbaran);
-			curMoviLote.setValueBuffer("idstock", idStock);
-			curMoviLote.setValueBuffer("cantidad", (nuevaCantidad * -1));
-			if(!curMoviLote.commitBuffer())
+				curMoviLote.setModeAccess(curMoviLote.Insert);
+				curMoviLote.refreshBuffer();
+				curMoviLote.setValueBuffer("codlote", codLote);
+				curMoviLote.setValueBuffer("fecha", fecha);
+				curMoviLote.setValueBuffer("tipo", "Salida");
+				curMoviLote.setValueBuffer("docorigen", "RC");
+				curMoviLote.setValueBuffer("idlineaac", idLineaAlbaran);
+				curMoviLote.setValueBuffer("idstock", idStock);
+				curMoviLote.setValueBuffer("cantidad", (nuevaCantidad * -1));
+				if(!curMoviLote.commitBuffer())
+					return false;
+				canTotal += nuevaCantidad;
+			}
+			else
 				return false;
-			canTotal += nuevaCantidad;
 		}
-		else
-			return false;
 	}
-// 	var qryLotes:FLSqlQuery = new FLSqlQuery();
-// 	qryLotes.setTablesList("lotes");
-// 	qryLotes.setSelect("codlote");
-// 	qryLotes.setFrom("lotes");
-// 	qryLotes.setWhere("referencia = '" + referencia + "' AND caducidad > CURRENT_DATE ORDER BY caducidad");
-// 	if (!qryLotes.exec())
-// 		return false;
-// 	
-// 	var canStock:Number;
-// 	var codAlmacen = util.sqlSelect("albaranescli", "codalmacen", "idalbaran = " + idAlbaran);
-// 	var fecha = util.sqlSelect("albaranescli", "fecha", "idalbaran = " + idAlbaran);
-// 	var idStock = util.sqlSelect("stocks", "idstock", "codalmacen = '" + codAlmacen + "' AND referencia = '" + referencia + "'");
-// 	var cantidad:Number = parseFloat(curLineaPedido.valueBuffer("cantidad"));
-// 	var hayMasLotes:Boolean = true;
-// 	var hayLotes:Boolean = false;
-// 	var codLote:String;
-// 	var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
-// 	while (qryLotes.next() && cantidad > 0) {
-// 		hayLotes = true;
-// 		codLote = qryLotes.value("codlote");
-// 		if (!qryLotes.next())
-// 			hayMasLotes = false;
-// 			
-// 		qryLotes.prev();
-// 		if(!idStock)
-// 			canStock = 0;
-// 		else
-// 			canStock = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + idStock + " AND codlote = '" + codLote + "'");
-// 		
-// 		curMoviLote.setModeAccess(curMoviLote.Insert);
-// 		curMoviLote.refreshBuffer();
-// 		curMoviLote.setValueBuffer("codlote", codLote);
-// 		curMoviLote.setValueBuffer("fecha", fecha);
-// 		curMoviLote.setValueBuffer("tipo", "Salida");
-// 		curMoviLote.setValueBuffer("docorigen", "RC");
-// 		curMoviLote.setValueBuffer("idlineaac", idLineaAlbaran);
-// 		curMoviLote.setValueBuffer("idstock", idStock);
-// 		if (hayMasLotes) {
-// 			if (!canStock || canStock <= 0)
-// 				continue;
-// 			if (cantidad > canStock) {
-// 				curMoviLote.setValueBuffer("cantidad", -1 * canStock);
-// 				cantidad -= canStock;
-// 			} else {
-// 				curMoviLote.setValueBuffer("cantidad", -1 * cantidad);
-// 				cantidad = 0;
-// 			}
-// 		} else {
-// 			if (cantidad > canStock) {
-// 				var respuesta:Number = MessageBox.warning(util.translate("scripts", "No hay suficientes artículos ") + referencia + util.translate("scripts", " en el almacén ") + codAlmacen + ".\n" + util.translate("scripts", "¿Desea crear un stock negativo para el lote ") + codLote + util.translate("scripts", "?"), MessageBox.Yes, MessageBox.No);
-// 				if (respuesta !=  MessageBox.Yes)
-// 					return false;
-// 			}
-// 			if (!idStock) {
-// 				idStock = flfactalma.iface.pub_crearStock(codAlmacen, referencia);
-// 				curMoviLote.setValueBuffer("idstock", idStock);
-// 			}
-// 			curMoviLote.setValueBuffer("cantidad", -1 * cantidad);
-// 			cantidad = 0;
-// 		}
-// 		if (!curMoviLote.commitBuffer())
-// 			return false;
-// 	}
-// 	if (!hayLotes) {
-// 		MessageBox.warning(util.translate("scripts", "No hay lotes disponibles para el artículo  ") + referencia, MessageBox.Ok, MessageBox.NoButton);
-// 		return false;
-// 	}
+	else {
+
+		var idLineaPedido:Number = curLineaPedido.valueBuffer("idlinea");
+		if(!idLineaPedido)
+			return false;
+
+		var hoy:Date = new Date();
+		var fecha:String = hoy.toString();
+
+		var cant:Number;
+		var curMoviLoteOrigen:FLSqlCursor = new FLSqlCursor("movilote");
+		var curMoviLoteAutomatico:FLSqlCursor = new FLSqlCursor("movilote");
+
+		curMoviLoteOrigen.select("idlineapc = " + idLineaPedido);
+		while(curMoviLoteOrigen.next()) {
+
+			cant = curMoviLoteOrigen.valueBuffer("cantidad") - curMoviLoteOrigen.valueBuffer("cantidad_automatica");
+			if (cant != 0) {
+				with (curMoviLoteAutomatico) {
+					setModeAccess(Insert);
+					refreshBuffer();
+					setValueBuffer("codlote", curMoviLoteOrigen.valueBuffer("codlote"));
+					setValueBuffer("idstock", curMoviLoteOrigen.valueBuffer("idstock"));
+					setValueBuffer("cantidad", cant);
+					setValueBuffer("descripcion", curMoviLoteOrigen.valueBuffer("descripcion"));
+					setValueBuffer("fecha", fecha);
+					setValueBuffer("tipo", "Salida");
+					setValueBuffer("docorigen", "RC");
+					setValueBuffer("idlineaac", idLineaAlbaran);
+	
+					setValueBuffer("idmovilote_orig", curMoviLoteOrigen.valueBuffer("id"));
+					if (!curMoviLoteOrigen.valueBuffer("reserva"))
+						setValueBuffer("automatico", true);
+
+					if (!commitBuffer())
+						return false;
+				}
+	
+				cant += curMoviLoteOrigen.valueBuffer("cantidad_automatica");
+				with (curMoviLoteOrigen) {
+					setModeAccess(Edit);
+					refreshBuffer();
+					setValueBuffer("cantidad_automatica", cant);
+					if (!commitBuffer())
+						return false;
+				}
+			}
+		}
+
+	}
+
 
 	return idLineaAlbaran;
 }

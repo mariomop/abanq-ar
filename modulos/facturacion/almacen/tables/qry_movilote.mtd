@@ -60,10 +60,27 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>2</length>
-		<optionslist>RP,FP,RC,FC,RE,TR,MI</optionslist>
+		<optionslist>RP,FP,PC,RC,FC,RE,TR,MI</optionslist>
 		<default>RP</default>
 	</field>
 	
+	<field>
+		<name>idlineapc</name>
+		<!-- Identificador de la línea de pedido de cliente relacionada -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. linea pedido cliente")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
+		
+		<relation>
+			<field>idlinea</field>
+			<table>lineaspedidoscli</table>
+			<card>M1</card>
+			<delC>true</delC>
+		</relation>
+	</field>
+
 	<field>
 		<name>idlineaac</name>
 		<!-- Identificador de la línea de remito de cliente relacionada -->
@@ -72,13 +89,6 @@
 		<pk>false</pk>
 		<type>uint</type>
 		<visiblegrid>false</visiblegrid>
-		
-		<relation>
-			<field>idlinea</field>
-			<table>lineasalbaranescli</table>
-			<card>M1</card>
-			<delC>true</delC>
-		</relation>
 	</field>
 	
 	<field>
@@ -241,6 +251,16 @@
 		<partD>2</partD>
 		<default>0</default>
 		<editable>false</editable>
+		<visiblegrid>false</visiblegrid>
+	</field>
+
+	<field>
+		<name>reserva</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Reserva")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
 		<visiblegrid>false</visiblegrid>
 	</field>
 </TMD>

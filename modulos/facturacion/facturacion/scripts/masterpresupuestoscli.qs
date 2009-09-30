@@ -94,11 +94,23 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration lotes */
+/////////////////////////////////////////////////////////////////
+//// LOTES //////////////////////////////////////////////////////
+class lotes extends oficial {
+    function lotes( context ) { oficial ( context ); }
+	function copiaLineaPresupuesto(curLineaPresupuesto:FLSqlCursor, idPedido:Number):Number {
+		return this.ctx.lotes_copiaLineaPresupuesto(curLineaPresupuesto, idPedido);
+	}
+}
+//// LOTES //////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration ivaIncluido */
 //////////////////////////////////////////////////////////////////
 //// IVAINCLUIDO /////////////////////////////////////////////////////
-class ivaIncluido extends oficial {
-    function ivaIncluido( context ) { oficial( context ); } 	
+class ivaIncluido extends lotes {
+    function ivaIncluido( context ) { lotes( context ); } 	
 	function datosLineaPedido(curLineaPresupuesto:FLSqlCursor):Boolean {
 		return this.ctx.ivaIncluido_datosLineaPedido(curLineaPresupuesto);
 	}
@@ -761,6 +773,89 @@ function oficial_copiarCampoLineaPresupuesto(nombreCampo:String, curLineaOrigen:
 }
 
 //// OFICIAL /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition lotes */
+/////////////////////////////////////////////////////////////////
+//// LOTES //////////////////////////////////////////////////////
+
+function lotes_copiaLineaPresupuesto(curLineaPresupuesto:FLSqlCursor, idPedido:Number):Number
+{
+	var util:FLUtil = new FLUtil;
+	var idLineaPedido:Number = this.iface.__copiaLineaPresupuesto(curLineaPresupuesto, idPedido);
+	
+	var referencia:String = curLineaPresupuesto.valueBuffer("referencia");
+	if (!util.sqlSelect("articulos", "porlotes", "referencia = '" + referencia + "'"))
+		return idLineaPedido;
+
+	if (flfactppal.iface.pub_valorDefectoEmpresa("lotepedidos")) {
+
+		var codAlmacen:String = util.sqlSelect("pedidoscli","codalmacen","idpedido = " + idPedido);
+	
+		var canLinea:Number = parseFloat(curLineaPresupuesto.valueBuffer("cantidad"));
+		if(!canLinea || canLinea == 0)
+			return idLineaPedido;
+	
+		var canLote:Number;
+		var descArticulo:String = curLineaPresupuesto.valueBuffer("descripcion");
+		var canTotal:Number = 0;
+	
+		while (canTotal < canLinea) {
+			var f:Object = new FLFormSearchDB("seleclote");
+			var curLote:FLSqlCursor = f.cursor();
+			curLote.select();
+			if (!curLote.first())
+				curLote.setModeAccess(curLote.Insert);
+			else
+				curLote.setModeAccess(curLote.Edit);
+		
+			f.setMainWidget();
+		
+			canLote = canLinea - canTotal;
+		
+			curLote.refreshBuffer();
+			curLote.setValueBuffer("referencia",referencia);
+			curLote.setValueBuffer("descripcion",descArticulo);
+			curLote.setValueBuffer("canlinea",canLinea);
+			curLote.setValueBuffer("canlote",canLote);
+			curLote.setValueBuffer("resto",canLote);
+	
+			var acpt:String = f.exec("id");
+			if (acpt) {
+				var nuevaCantidad:Number = parseFloat(curLote.valueBuffer("canlote"));
+				var codLote:String = curLote.valueBuffer("codlote");
+	
+				var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
+				var fecha:Date = util.sqlSelect("pedidoscli","fecha","idpedido = " + idPedido);
+				var idStock:Number = util.sqlSelect("stocks", "idstock", "codalmacen = '" + codAlmacen + "' AND referencia = '" + referencia + "'");
+	
+				curMoviLote.setModeAccess(curMoviLote.Insert);
+				curMoviLote.refreshBuffer();
+				curMoviLote.setValueBuffer("codlote", codLote);
+				curMoviLote.setValueBuffer("fecha", fecha);
+				curMoviLote.setValueBuffer("tipo", "Salida");
+				curMoviLote.setValueBuffer("docorigen", "PC");
+				curMoviLote.setValueBuffer("idlineapc", idLineaPedido);
+				curMoviLote.setValueBuffer("idstock", idStock);
+				curMoviLote.setValueBuffer("cantidad", (nuevaCantidad * -1));
+
+				if (!flfactppal.iface.pub_valorDefectoEmpresa("stockpedidos"))
+					curMoviLote.setValueBuffer("reserva", true);
+
+				if(!curMoviLote.commitBuffer())
+					return false;
+				canTotal += nuevaCantidad;
+			}
+			else
+				return false;
+		}
+
+	}
+
+	return idLineaPedido;
+}
+
+//// LOTES //////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition ivaIncluido */
