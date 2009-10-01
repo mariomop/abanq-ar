@@ -221,7 +221,9 @@ function oficial_lanzarGrafico( cursor:FLSqlCursor, nombreInforme:String, orderB
 			stdin += "\ne\n"
 			stdin += datos;
 			stdin += "\ne\n"
-			Process.execute( ["gnuplot","-persist"], stdin);
+
+			try { Process.execute( ["gnuplot","-persist"], stdin); }
+			catch (e) { MessageBox.critical("Necesita tener instalado gnuplot\npara poder generar gráficos", MessageBox.Ok, MessageBox.NoButton);}
 		}
 	}
 }
