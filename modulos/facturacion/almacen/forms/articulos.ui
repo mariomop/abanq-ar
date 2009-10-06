@@ -382,6 +382,11 @@
 											<height>25</height>
 										</size>
 									</property>
+									<property name="font" >
+										<font>
+											<bold>0</bold>
+										</font>
+									</property>
 									<property name="fieldName" >
 										<string>nombre</string>
 									</property>
@@ -406,15 +411,42 @@
 										<enum>Horizontal</enum>
 									</property>
 									<property name="sizeType" >
-										<enum>Expanding</enum>
+										<enum>Fixed</enum>
 									</property>
 									<property name="sizeHint" >
 										<size>
-											<width>252</width>
+											<width>16</width>
 											<height>20</height>
 										</size>
 									</property>
 								</spacer>
+								<widget class="FLFieldDB" >
+									<property name="name" >
+										<cstring>fdbModelo</cstring>
+									</property>
+									<property name="sizePolicy" >
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize" >
+										<size>
+											<width>200</width>
+											<height>25</height>
+										</size>
+									</property>
+									<property name="font" >
+										<font>
+											<bold>0</bold>
+										</font>
+									</property>
+									<property name="fieldName" >
+										<string>modelo</string>
+									</property>
+								</widget>
 							</hbox>
 						</widget>
 						<widget class="QFrame" >
@@ -6754,6 +6786,9 @@
 		<tabstop>fdbCodUnidad</tabstop>
 		<tabstop>fdbCodFabricante</tabstop>
 		<tabstop>fdbNomFabricante</tabstop>
+		<tabstop>fdbModelo</tabstop>
+		<tabstop>fdbCodSubfamilia</tabstop>
+		<tabstop>fdbdescsubfamilia</tabstop>
 		<tabstop>fieldCodBarras</tabstop>
 		<tabstop>fieldTipoCodBarras</tabstop>
 		<tabstop>fdbObservaciones</tabstop>

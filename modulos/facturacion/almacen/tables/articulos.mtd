@@ -176,6 +176,14 @@
 		</relation>
 	</field>
 	<field>
+		<name>modelo</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Modelo")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>50</length>
+	</field>
+	<field>
 		<name>secompra</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Se compra")</alias>
 		<null>true</null>
