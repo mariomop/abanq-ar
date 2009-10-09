@@ -48,6 +48,7 @@ class oficial extends interna {
 	var toolButtonDeleteContactoProveedor:Object;
 	var toolButtonInsertContactoProveedor:Object;
 	var toolButtonBuscarContacto:Object;
+	var toolButtonEditContacto:Object;
 	var tbnMayor:Object;
 
 	function oficial( context ) { interna( context ); } 
@@ -92,6 +93,9 @@ class oficial extends interna {
 	}
 	function lanzarEdicionContacto() {
 		return this.ctx.oficial_lanzarEdicionContacto();
+	}
+	function editarContacto() {
+		return this.ctx.oficial_editarContacto();
 	}
 	function buscarContacto() {
 		return this.ctx.oficial_buscarContacto();
@@ -243,6 +247,7 @@ function interna_init()
 	this.iface.toolButtonDeleteContactoProveedor = this.child("toolButtonDeleteContactoProveedor");
 	this.iface.toolButtonInsertContactoProveedor = this.child("toolButtonInsertContactoProveedor");
 	this.iface.toolButtonBuscarContacto = this.child("toolButtonBuscarContacto");
+	this.iface.toolButtonEditContacto = this.child("tbEditContacto");
 	this.iface.tbnMayor = this.child("tbnMayor");
 	
 	this.iface.ejercicioActual = flfactppal.iface.pub_ejercicioActual();
@@ -268,7 +273,7 @@ function interna_init()
 	connect(this.child("tdbSubcuentas").cursor(), "newBuffer()", this, "iface.establecerSubcuenta()");
 	connect(this.iface.toolButtonInsertSub, "clicked()", this, "iface.toolButtonInsertSub_clicked()");
 	connect(this.iface.toolButtonDelSub, "clicked()", this, "iface.toolButtonDelSub_clicked()");
-
+	connect(this.iface.toolButtonEditContacto, "clicked()", this, "iface.editarContacto()");
 	connect(this.iface.toolButtonInsertContacto, "clicked()", this, "iface.insertContacto()");
 	connect(this.iface.toolButtonDeleteContacto, "clicked()", this, "iface.deleteContacto()");
 	connect(this.iface.toolButtonDeleteContactoProveedor, "clicked()", this, "iface.deleteContactoAsociado()");
@@ -279,6 +284,15 @@ function interna_init()
 
 	this.child("tdbContactos").cursor().setMainFilter("codcontacto IN(SELECT codcontacto FROM contactosproveedores WHERE codproveedor = '" + cursor.valueBuffer("codproveedor") + "')");
 	this.child("tdbContactos").setReadOnly(false);
+	if (cursor.modeAccess() == cursor.Browse) {
+		this.child("toolButtonEdit").setDisabled(true);
+		this.iface.toolButtonEditContacto.setDisabled(true);
+		this.iface.toolButtonInsertContacto.setDisabled(true);
+		this.iface.toolButtonDeleteContacto.setDisabled(true);
+		this.iface.toolButtonDeleteContactoProveedor.setDisabled(true);
+		this.iface.toolButtonInsertContactoProveedor.setDisabled(true);
+		this.iface.toolButtonBuscarContacto.setDisabled(true);
+	}
 
 	this.iface.cargarDireccion();
 	
@@ -694,6 +708,39 @@ function oficial_insertContactoAsociado()
 			return false;
 	}
 	this.child("tdbContactos").refresh();
+}
+
+function oficial_editarContacto()
+{
+	var util:FLUtil;
+	
+	var accion:String = "";
+	if (sys.isLoadedModule("flcrm_ppal"))
+		accion = "crm_editcontacto";
+	else
+		accion = "editcontacto";
+
+	var codContacto:String = this.child("tdbContactos").cursor().valueBuffer("codcontacto");
+	if(!codContacto || codContacto == "") {
+		MessageBox.information(util.translate("scripts", "No hay ningún registro seleccionado"), MessageBox.Ok, MessageBox.NoButton);
+		return;
+	}
+
+	var f:Object = new FLFormSearchDB(accion);
+	var curContactos:FLSqlCursor = f.cursor();
+	curContactos.select("codcontacto = '" + codContacto + "'");
+	if (!curContactos.first())
+		return;
+	curContactos.setModeAccess(curContactos.Edit);
+	
+	f.setMainWidget();
+	curContactos.refreshBuffer();
+	f.exec("codcontacto");
+
+	if (f.accepted()) {
+		curContactos.commitBuffer();
+		this.child("tdbContactos").refresh();
+	}
 }
 
 function oficial_lanzarEdicionContacto()

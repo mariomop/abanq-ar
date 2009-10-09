@@ -5026,12 +5026,6 @@
 			<slot>browseRecord()</slot>
 		</connection>
 		<connection>
-			<sender>tbEditContacto</sender>
-			<signal>clicked()</signal>
-			<receiver>tdbContactos</receiver>
-			<slot>editRecord()</slot>
-		</connection>
-		<connection>
 			<sender>tbBrowseContacto</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbContactos</receiver>
@@ -5096,48 +5090,6 @@
 			<signal>clicked()</signal>
 			<receiver>tdbRecibos</receiver>
 			<slot>browseRecord()</slot>
-		</connection>
-		<connection>
-			<sender>tdbContactos</sender>
-			<signal>readOnlyChanged(bool)</signal>
-			<receiver>toolButtonEdit</receiver>
-			<slot>setDisabled(bool)</slot>
-		</connection>
-		<connection>
-			<sender>tdbContactos</sender>
-			<signal>readOnlyChanged(bool)</signal>
-			<receiver>toolButtonBuscarContacto</receiver>
-			<slot>setDisabled(bool)</slot>
-		</connection>
-		<connection>
-			<sender>tdbContactos</sender>
-			<signal>readOnlyChanged(bool)</signal>
-			<receiver>tbInsertContacto</receiver>
-			<slot>setDisabled(bool)</slot>
-		</connection>
-		<connection>
-			<sender>tdbContactos</sender>
-			<signal>readOnlyChanged(bool)</signal>
-			<receiver>tbEditContacto</receiver>
-			<slot>setDisabled(bool)</slot>
-		</connection>
-		<connection>
-			<sender>tdbContactos</sender>
-			<signal>readOnlyChanged(bool)</signal>
-			<receiver>tbDeleteContacto</receiver>
-			<slot>setDisabled(bool)</slot>
-		</connection>
-		<connection>
-			<sender>tdbContactos</sender>
-			<signal>readOnlyChanged(bool)</signal>
-			<receiver>toolButtonInsertContactoProveedor</receiver>
-			<slot>setDisabled(bool)</slot>
-		</connection>
-		<connection>
-			<sender>tdbContactos</sender>
-			<signal>readOnlyChanged(bool)</signal>
-			<receiver>toolButtonDeleteContactoProveedor</receiver>
-			<slot>setDisabled(bool)</slot>
 		</connection>
 	</connections>
 	<tabstops>

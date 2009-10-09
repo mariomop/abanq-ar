@@ -367,10 +367,17 @@ Cada cliente puede tener un conjunto de direcciones, de las cuales existen dos e
 	connect(this.child("toolButtonBuscarContacto"), "clicked()", this, "iface.buscarContacto()");
 	connect(this.iface.tbnMayor, "clicked()", this, "iface.mostrarLibroMayor()");
 
-// 	this.child("fdbCodContacto").setFilter("codcontacto IN(SELECT codcontacto FROM contactosclientes WHERE codcliente = '" + cursor.valueBuffer("codcliente") + "')");
-
 	this.child("tdbContactos").cursor().setMainFilter("codcontacto IN(SELECT codcontacto FROM contactosclientes WHERE codcliente = '" + cursor.valueBuffer("codcliente") + "')");
 	this.child("tdbContactos").setReadOnly(false);
+	if (cursor.modeAccess() == cursor.Browse) {
+		this.child("toolButtonEdit").setDisabled(true);
+		this.iface.toolButtonEditContacto.setDisabled(true);
+		this.iface.toolButtonInsertContacto.setDisabled(true);
+		this.iface.toolButtonDeleteContacto.setDisabled(true);
+		this.iface.toolButtonDeleteContactoCliente.setDisabled(true);
+		this.iface.toolButtonInsertContactoCliente.setDisabled(true);
+		this.iface.toolButtonBuscarContacto.setDisabled(true);
+	}
 
 	/** \D Se carga el domicilio de facturación
 	\end */
