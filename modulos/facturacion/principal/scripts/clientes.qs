@@ -1494,15 +1494,8 @@ function cuitDni_init()
 {
 	this.iface.__init();
 
-	var cursor:FLSqlCursor = this.cursor();
-	var cuitDni:String = "";
-	if (cursor.modeAccess() == cursor.Edit) {
-		cuitDni = cursor.valueBuffer("cifnif");
-	}
-
-	this.iface.bufferChanged("tipoidfiscal");
-
-	cursor.setValueBuffer("cifnif", cuitDni);
+	if (this.cursor().modeAccess() == this.cursor().Insert)
+		this.iface.bufferChanged("tipoidfiscal");
 }
 
 function cuitDni_bufferChanged(fN:String)
