@@ -232,7 +232,7 @@ function interna_validateForm():Boolean
 	}
 
 	if (curMoviLotes.valueBuffer("docorigen") == "PC" && flfactppal.iface.pub_valorDefectoEmpresa("stockpedidos")) {
-		var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLotes.valueBuffer("idstock") + " AND codlote = '" + codLote + "' AND (idlineapc IS NULL OR idlineapc <> " + curMoviLotes.valueBuffer("idlineapc") + ")");
+		var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLotes.valueBuffer("idstock") + " AND codlote = '" + codLote + "' AND (idlineapc IS NULL OR idlineapc <> " + curMoviLotes.valueBuffer("idlineapc") + ") AND NOT automatico AND NOT reserva");
 		if ((curMoviLotes.valueBuffer("cantidad") * -1) > cantidadLote) {
 			var resp = MessageBox.warning(util.translate("scripts", "No hay suficiente cantidad de artículos con referencia %1 del lote %2\nen el almacén %3 \n¿Desea continuar generando un stock negativo?").arg(curRelacionado.valueBuffer("referencia")).arg(codLote).arg(curRelacionado.cursorRelation().valueBuffer("codalmacen")), MessageBox.Yes, MessageBox.No);
 			if (resp != MessageBox.Yes) {
@@ -242,7 +242,7 @@ function interna_validateForm():Boolean
 		}
 	}
 	if (curMoviLotes.valueBuffer("docorigen") == "RC") {
-		var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLotes.valueBuffer("idstock") + " AND codlote = '" + codLote + "' AND (idlineaac IS NULL OR idlineaac <> " + curMoviLotes.valueBuffer("idlineaac") + ")");
+		var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLotes.valueBuffer("idstock") + " AND codlote = '" + codLote + "' AND (idlineaac IS NULL OR idlineaac <> " + curMoviLotes.valueBuffer("idlineaac") + ") AND NOT automatico AND NOT reserva");
 		if ((curMoviLotes.valueBuffer("cantidad") * -1) > cantidadLote) {
 			var resp = MessageBox.warning(util.translate("scripts", "No hay suficiente cantidad de artículos con referencia %1 del lote %2\nen el almacén %3 \n¿Desea continuar generando un stock negativo?").arg(curRelacionado.valueBuffer("referencia")).arg(codLote).arg(curRelacionado.cursorRelation().valueBuffer("codalmacen")), MessageBox.Yes, MessageBox.No);
 			if (resp != MessageBox.Yes) {
@@ -252,7 +252,7 @@ function interna_validateForm():Boolean
 		}
 	}
 	if (curMoviLotes.valueBuffer("docorigen") == "FC") {
-		var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLotes.valueBuffer("idstock") + " AND codlote = '" + codLote + "' AND (idlineafc IS NULL OR idlineaac <> " + curMoviLotes.valueBuffer("idlineafc") + ")");
+		var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLotes.valueBuffer("idstock") + " AND codlote = '" + codLote + "' AND (idlineafc IS NULL OR idlineaac <> " + curMoviLotes.valueBuffer("idlineafc") + ") AND NOT automatico AND NOT reserva");
 		if ((curMoviLotes.valueBuffer("cantidad") * -1) > cantidadLote) {
 			var resp = MessageBox.warning(util.translate("scripts", "No hay suficiente cantidad de artículos con referencia %1 del lote %2\nen el almacén %3 \n¿Desea continuar generando un stock negativo?").arg(curRelacionado.valueBuffer("referencia")).arg(codLote).arg(curRelacionado.cursorRelation().valueBuffer("codalmacen")), MessageBox.Yes, MessageBox.No);
 			if (resp != MessageBox.Yes) {

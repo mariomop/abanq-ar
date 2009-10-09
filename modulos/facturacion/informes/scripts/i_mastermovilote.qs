@@ -96,7 +96,7 @@ function oficial_lanzar()
 		return;
 			
 	var nombreInforme:String = cursor.action();
-	var where:String = "NOT movilote.automatico";
+	var where:String = "NOT movilote.automatico AND NOT movilote.reserva";
 	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, "", "", false, false, where);
 }
 

@@ -123,7 +123,7 @@ function oficial_imprimir()
 		var codLote:String = this.iface.tdbRecords.cursor().valueBuffer("codlote");
 
 		var nombreInforme:String = "i_movilote";
-		var where:String = "NOT movilote.automatico";
+		var where:String = "NOT movilote.automatico AND NOT movilote.reserva";
 
 		var curImprimir:FLSqlCursor = new FLSqlCursor("i_movilote");
 		curImprimir.setModeAccess(curImprimir.Insert);
