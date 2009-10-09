@@ -142,6 +142,9 @@ class totalesIva extends serviciosCli {
 //// INFORMACION LINEAS /////////////////////////////////////////
 class informacionLineas extends totalesIva {
     function informacionLineas( context ) { totalesIva ( context ); }
+	function init() {
+		return this.ctx.informacionLineas_init();
+	}
 	function commonBufferChanged(fN:String, miForm:Object) {
 		return this.ctx.informacionLineas_commonBufferChanged(fN, miForm);
 	}
@@ -769,6 +772,13 @@ function totalesIva_commonCalculateField(fN, cursor):String
 /** @class_definition informacionLineas */
 /////////////////////////////////////////////////////////////////
 //// INFORMACION LINEAS /////////////////////////////////////////
+
+function informacionLineas_init() {
+	this.iface.__init();
+	
+	if (this.cursor().modeAccess() == this.cursor().Edit || this.cursor().modeAccess() == this.cursor().Browse)
+		this.child("lblStockFisico").setText(this.iface.commonCalculateField("lblStockFisico", this.cursor()));
+}
 
 function informacionLineas_commonBufferChanged(fN:String, miForm:Object)
 {
