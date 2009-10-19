@@ -285,11 +285,23 @@ class pieDocumento extends tipoVenta {
 //// PIE DE DOCUMENTO  //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration periodosFiscales */
+/////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES //////////////////////////////////////////
+class periodosFiscales extends pieDocumento {
+	function periodosFiscales( context ) { pieDocumento ( context ); }
+	function datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupacion:Array):Boolean {
+		return this.ctx.periodosFiscales_datosFactura(curAlbaran, where, datosAgrupacion);
+	}
+}
+//// PERIODOS FISCALES //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends pieDocumento {
-    function head( context ) { pieDocumento ( context ); }
+class head extends periodosFiscales {
+    function head( context ) { periodosFiscales ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1541,6 +1553,48 @@ function pieDocumento_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAg
 }
 
 //// PIE DE DOCUMENTO ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition periodosFiscales */
+//////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES ///////////////////////////////////////////
+
+function periodosFiscales_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupacion:Array):Boolean
+{
+	if (!this.iface.__datosFactura(curAlbaran, where, datosAgrupacion))
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	var codPeriodo:String;
+
+	if (datosAgrupacion) {
+		codPeriodo = datosAgrupacion["codperiodo"];
+		if (!codPeriodo) {
+			MessageBox.warning(util.translate("scripts", "Debe indicar el período fiscal al que se imputa la factura"), MessageBox.Ok, MessageBox.NoButton);
+			return false;
+		}
+	} else {
+		var fecha:String = this.iface.curFactura.valueBuffer("fecha");
+		codPeriodo = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + fecha + "' AND fechafin >= '" + fecha + "' AND codejercicio = '" + this.iface.curFactura.valueBuffer("codejercicio") + "'");
+		if (!codPeriodo) {
+			MessageBox.warning(util.translate("scripts", "No hay abierto un período fiscal para esta fecha.\nDebe crear un nuevo período fiscal para el ejercicio actual."), MessageBox.Ok, MessageBox.NoButton);
+			return false;
+		}
+	}
+
+	var estado:String = util.sqlSelect("periodos", "estado", "codperiodo = '" + codPeriodo + "'");
+	if (estado == "CERRADO") {
+		MessageBox.warning(util.translate("scripts", "El período fiscal para esta fecha ya está cerrado.\nDebe crear un nuevo período fiscal para el ejercicio actual."), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+
+	with (this.iface.curFactura) {
+		setValueBuffer("codperiodo", codPeriodo);
+	}
+	return true;
+}
+
+//// PERIODOS FISCALES ///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

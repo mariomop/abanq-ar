@@ -186,11 +186,23 @@ class pieDocumento extends tipoVenta {
 //// PIE DE DOCUMENTO  //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration periodosFiscales */
+/////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES //////////////////////////////////////////
+class periodosFiscales extends pieDocumento {
+	function periodosFiscales( context ) { pieDocumento ( context ); }
+	function copiadatosFactura(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.periodosFiscales_copiadatosFactura(curFactura);
+	}
+}
+//// PERIODOS FISCALES //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends pieDocumento {
-    function head( context ) { pieDocumento ( context ); }
+class head extends periodosFiscales {
+    function head( context ) { periodosFiscales ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -447,6 +459,7 @@ function oficial_dameDatosAgrupacionAlbaranes(curAgruparAlbaranes:FLSqlCursor):A
 	var res:Array = [];
 	res["fecha"] = curAgruparAlbaranes.valueBuffer("fecha");
 	res["hora"] = curAgruparAlbaranes.valueBuffer("hora");
+	res["codperiodo"] = curAgruparAlbaranes.valueBuffer("codperiodo");
 	return res;
 }
 
@@ -964,7 +977,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codperiodo", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();
@@ -1101,6 +1114,39 @@ function pieDocumento_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 }
 
 //// PIE DE DOCUMENTO ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition periodosFiscales */
+//////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES ///////////////////////////////////////////
+
+function periodosFiscales_copiadatosFactura(curFactura:FLSqlCursor):Boolean
+{
+	if (!this.iface.__copiadatosFactura(curFactura))
+		return false;
+
+	var util:FLUtil = new FLUtil();
+
+	var fecha:String = curFactura.valueBuffer("fecha");
+	var codPeriodo:String = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + fecha + "' AND fechafin >= '" + fecha + "' AND codejercicio = '" + curFactura.valueBuffer("codejercicio") + "'");
+
+	if (!codPeriodo) {
+		MessageBox.warning(util.translate("scripts", "No hay abierto un período fiscal para esta fecha"), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+	var estado:String = util.sqlSelect("periodos", "estado", "codperiodo = '" + codPeriodo + "'");
+	if (estado == "CERRADO") {
+		MessageBox.warning(util.translate("scripts", "El período fiscal para esta fecha ya está cerrado"), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+
+	with (this.iface.curFactura) {
+		setValueBuffer("codperiodo", codPeriodo);
+	}
+	return true;
+}
+
+//// PERIODOS FISCALES ///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

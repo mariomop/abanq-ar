@@ -30,16 +30,6 @@
 			<card>1M</card>
 		</relation>
 		<relation>
-			<table>clientes</table>
-			<field>codserie</field>
-			<card>1M</card>
-		</relation>
-		<relation>
-			<table>proveedores</table>
-			<field>codserie</field>
-			<card>1M</card>
-		</relation>
-		<relation>
 			<table>presupuestoscli</table>
 			<field>codserie</field>
 			<card>1M</card>
@@ -71,11 +61,6 @@
 		</relation>
 		<relation>
 			<table>facturasprov</table>
-			<field>codserie</field>
-			<card>1M</card>
-		</relation>
-		<relation>
-			<table>agruparpedidosprov</table>
 			<field>codserie</field>
 			<card>1M</card>
 		</relation>
@@ -122,16 +107,6 @@
 		<relation>
 			<table>i_facturasprov</table>
 			<field>i_facturasprov_codserie</field>
-			<card>1M</card>
-		</relation>
-		<relation>
-			<table>co_datos347</table>
-			<field>codserie</field>
-			<card>1M</card>
-		</relation>
-		<relation>
-			<table>co_modelo347</table>
-			<field>codserie</field>
 			<card>1M</card>
 		</relation>
 		<relation>

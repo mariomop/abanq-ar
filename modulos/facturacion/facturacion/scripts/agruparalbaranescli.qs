@@ -121,11 +121,17 @@ function interna_init()
 	connect(this.child("pushButtonAccept"), "clicked()", this, "iface.descontarExcepciones");
 	connect(this.child("pbnAddDel"), "clicked()", this, "iface.pbnAddDel_clicked");
 
+	this.child("fdbCodEjercicio").setValue(flfactppal.iface.pub_ejercicioActual());
+	this.child("fdbCodEjercicio").setDisabled(true);
+
 	var util:FLUtil = new FLUtil();
 	var hoy:Date = new Date();
 	this.child("fdbFecha").setValue(hoy);
 	this.child("fdbFechaHasta").setValue(hoy);
 	this.child("fdbFechaDesde").setValue(util.addDays(hoy,-1));
+
+	var codPeriodo:String = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + cursor.valueBuffer("fecha") + "' AND fechafin >= '" + cursor.valueBuffer("fecha") + "' AND codejercicio = '" + cursor.valueBuffer("codejercicio") + "'");
+	this.child("fdbCodPeriodo").setValue(codPeriodo);
 
 	this.iface.generarTabla();
 

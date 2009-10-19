@@ -445,4 +445,13 @@
 	    <form>master_print</form>
 	    <formrecord>tiposretencion</formrecord>
 	</action>
+    <action>
+        <name>periodos</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Períodos fiscales")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Períodos fiscales")</description>
+        <scriptformrecord>periodos</scriptformrecord>
+        <table>periodos</table>
+        <form>master</form>
+        <formrecord>periodos</formrecord>
+    </action>
 </ACTIONS>

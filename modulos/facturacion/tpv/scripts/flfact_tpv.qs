@@ -402,11 +402,23 @@ class tipoVenta extends controlUsuario {
 //// TIPO DE VENTA //////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration periodosFiscales */
+/////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES //////////////////////////////////////////
+class periodosFiscales extends tipoVenta {
+	function periodosFiscales( context ) { tipoVenta ( context ); }
+	function datosFactura(curComanda:FLSqlCursor):Boolean {
+		return this.ctx.periodosFiscales_datosFactura(curComanda);
+	}
+}
+//// PERIODOS FISCALES //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends tipoVenta {
-	function head( context ) { tipoVenta ( context ); }
+class head extends periodosFiscales {
+    function head( context ) { periodosFiscales ( context ); }
 	function pub_crearFactura(curComanda:FLSqlCursor):Number {
 		return this.crearFactura(curComanda);
 	}
@@ -3315,6 +3327,38 @@ function tipoVenta_actualizarIdFacturaEnRemito(idRemitoComanda:Number, idFactura
 }
 //// TIPO DE VENTA //////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_definition periodosFiscales */
+//////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES ///////////////////////////////////////////
+
+function periodosFiscales_datosFactura(curComanda:FLSqlCursor):Boolean
+{
+	if (!this.iface.__datosFactura(curComanda))
+		return false;
+
+	var util:FLUtil = new FLUtil();
+
+	var fecha:String = this.iface.curFactura.valueBuffer("fecha");
+	var codPeriodo:String = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + fecha + "' AND fechafin >= '" + fecha + "' AND codejercicio = '" + this.iface.curFactura.valueBuffer("codejercicio") + "'");
+	if (!codPeriodo) {
+		MessageBox.warning(util.translate("scripts", "No hay abierto un período fiscal para esta fecha.\nDebe crear un nuevo período fiscal para el ejercicio actual."), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+	var estado:String = util.sqlSelect("periodos", "estado", "codperiodo = '" + codPeriodo + "'");
+	if (estado == "CERRADO") {
+		MessageBox.warning(util.translate("scripts", "El período fiscal para esta fecha ya está cerrado.\nDebe crear un nuevo período fiscal para el ejercicio actual."), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+
+	with (this.iface.curFactura) {
+		setValueBuffer("codperiodo", codPeriodo);
+	}
+	return true;
+}
+
+//// PERIODOS FISCALES ///////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

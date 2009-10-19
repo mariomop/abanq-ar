@@ -202,8 +202,8 @@ function oficial_facturar(codigo:String)
 		// Generar factura si procede de todos los periodos ptes de facturar hasta hoy
 		curPed.select("codcontrato ='" + codContrato + "' AND facturado = false AND fechainicio <= '" + hoy + "'");
 		while (curPed.next()) {
-			this.iface.generarFactura(curPed.valueBuffer("id"), codCliente, codContrato, curTab.valueBuffer("coste"));
-			clientesFacturados += "\n- Contrato: " + codContrato + "  |  Cliente: " + util.sqlSelect("clientes", "nombre", "codcliente = '" +  codCliente + "'");
+			if (this.iface.generarFactura(curPed.valueBuffer("id"), codCliente, codContrato, curTab.valueBuffer("coste")))
+				clientesFacturados += "\n- Contrato: " + codContrato + "  |  Cliente: " + util.sqlSelect("clientes", "nombre", "codcliente = '" +  codCliente + "'");
 		}
 		
 		util.setProgress( step );
@@ -326,6 +326,18 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 	var numeroFactura:Number = flfacturac.iface.pub_siguienteNumero(codSerie,flfactppal.iface.pub_ejercicioActual(), "nfacturacli");
 	var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
 
+	var codPeriodo:String = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + fecha + "' AND fechafin >= '" + fecha + "' AND codejercicio = '" + codEjercicio + "'");
+	if (!codPeriodo) {
+		MessageBox.warning(util.translate("scripts", "No hay abierto un período fiscal para esta fecha.\nDebe crear un nuevo período fiscal para el ejercicio actual."), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+	var estado:String = util.sqlSelect("periodos", "estado", "codperiodo = '" + codPeriodo + "'");
+	if (estado == "CERRADO") {
+		MessageBox.warning(util.translate("scripts", "El período fiscal para esta fecha ya está cerrado.\nDebe crear un nuevo período fiscal para el ejercicio actual."), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+
+
 	with(curFactura) {
 		setModeAccess(Insert);
 		refreshBuffer();
@@ -341,6 +353,7 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 		setValueBuffer("cifnif", q.value(1));
 		
 		setValueBuffer("codejercicio", codEjercicio);
+		setValueBuffer("codperiodo", codPeriodo);
 		setValueBuffer("coddivisa", q.value(2));
 		setValueBuffer("codpago", q.value(3));
 		setValueBuffer("codalmacen", flfactppal.iface.pub_valorDefectoEmpresa("codalmacen"));

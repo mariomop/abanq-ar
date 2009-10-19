@@ -183,6 +183,41 @@
 	</field>
 	
 	<field>
+		<name>codejercicio</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Ejercicio")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		
+		<relation>
+			<table>ejercicios</table>
+			<field>codejercicio</field>
+			<card>M1</card>
+		</relation>
+		
+	</field>
+	
+	<field>
+		<name>codperiodo</name>
+		<!--Código del período al que pertenece la factura -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Período")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+		<associated>
+			<with>codejercicio</with>
+			<by>codejercicio</by>
+		</associated>
+		<relation>
+			<table>periodos</table>
+			<field>codperiodo</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
 		<name>cifnif</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","CUIT/DNI")</alias>
 		<null>true</null>

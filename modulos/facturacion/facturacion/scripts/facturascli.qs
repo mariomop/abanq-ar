@@ -225,11 +225,26 @@ class pieDocumento extends tipoVenta {
 //// PIE DE DOCUMENTO  //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration periodosFiscales */
+/////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES //////////////////////////////////////////
+class periodosFiscales extends pieDocumento {
+	function periodosFiscales( context ) { pieDocumento ( context ); }
+	function init() {
+		this.ctx.periodosFiscales_init();
+	}
+	function validateForm():Boolean {
+		return this.ctx.periodosFiscales_validateForm();
+	}
+}
+//// PERIODOS FISCALES //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends pieDocumento {
-    function head( context ) { pieDocumento ( context ); }
+class head extends periodosFiscales {
+    function head( context ) { periodosFiscales ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1315,6 +1330,49 @@ function pieDocumento_actualizarLineasIva(curFactura:FLSqlCursor):Boolean
 }
 
 //// PIE DE DOCUMENTO ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition periodosFiscales */
+//////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES ///////////////////////////////////////////
+
+function periodosFiscales_init()
+{
+	this.iface.__init();
+
+	if ( this.cursor().modeAccess() == this.cursor().Insert ) {
+		var util:FLUtil = new FLUtil();
+		var cursor:FLSqlCursor = this.cursor();
+
+		var fecha:String = cursor.valueBuffer("fecha");
+		var codPeriodo:String = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + fecha + "' AND fechafin >= '" + fecha + "' AND codejercicio = '" + cursor.valueBuffer("codejercicio") + "'");
+
+		this.child("fdbCodPeriodo").setValue(codPeriodo);
+	}
+}
+
+function periodosFiscales_validateForm():Boolean
+{
+	if (!this.iface.__validateForm())
+		return false;
+
+	var util:FLUtil = new FLUtil();
+
+	var codPeriodo:String = this.cursor().valueBuffer("codperiodo");
+	if (!codPeriodo) {
+		MessageBox.warning(util.translate("scripts", "Debe indicar el período fiscal al que se imputa la factura"), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+	var estado:String = util.sqlSelect("periodos", "estado", "codperiodo = '" + codPeriodo + "'");
+	if (estado == "CERRADO") {
+		MessageBox.warning(util.translate("scripts", "No puede incluirse la factura en un período fiscal cerrado.\nDebe crear un nuevo período fiscal para el ejercicio actual."), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+
+	return true;
+}
+
+//// PERIODOS FISCALES ///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

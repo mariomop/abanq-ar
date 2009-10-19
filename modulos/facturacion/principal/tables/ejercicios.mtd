@@ -26,7 +26,22 @@
 			<card>1M</card>
 		</relation>
 		<relation>
+			<table>facturasprov</table>
+			<field>codejercicio</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>pedidoscli</table>
+			<field>codejercicio</field>
+			<card>1M</card>
+		</relation>
+		<relation>
 			<table>pedidosprov</table>
+			<field>codejercicio</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>albaranescli</table>
 			<field>codejercicio</field>
 			<card>1M</card>
 		</relation>
@@ -36,12 +51,17 @@
 			<card>1M</card>
 		</relation>
 		<relation>
-			<table>facturasprov</table>
+			<table>presupuestoscli</table>
 			<field>codejercicio</field>
 			<card>1M</card>
 		</relation>
 		<relation>
-			<table>agruparpedidosprov</table>
+			<table>agruparfacturascli</table>
+			<field>codejercicio</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>agruparfacturasprov</table>
 			<field>codejercicio</field>
 			<card>1M</card>
 		</relation>
@@ -106,26 +126,6 @@
 			<card>1M</card>
 		</relation>
 		<relation>
-			<table>co_modelo300</table>
-			<field>codejercicio</field>
-			<card>1M</card>
-		</relation>
-		<relation>
-			<table>co_modelo390</table>
-			<field>codejercicio</field>
-			<card>1M</card>
-		</relation>
-		<relation>
-			<table>co_modelo347</table>
-			<field>codejercicio</field>
-			<card>1M</card>
-		</relation>
-		<relation>
-			<table>co_datos347</table>
-			<field>codejercicio</field>
-			<card>1M</card>
-		</relation>
-		<relation>
 			<table>fechaejercicio</table>
 			<field>codejercicio</field>
 			<card>1M</card>
@@ -147,6 +147,11 @@
 		</relation>
 		<relation>
 			<table>i_vencimientos</table>
+			<field>codejercicio</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>periodos</table>
 			<field>codejercicio</field>
 			<card>1M</card>
 		</relation>

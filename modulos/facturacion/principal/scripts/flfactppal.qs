@@ -851,6 +851,8 @@ function oficial_espaciosDerecha(texto:String, totalLongitud:Number):String
 
 function oficial_valoresIniciales()
 {
+	var util:FLUtil = new FLUtil();
+
 	var cursor:FLSqlCursor = new FLSqlCursor("bancos");
 	var bancos:Array = [
 		["005", "A.B.N. AMRO BANK N.V."], ["007", "BANCO DE GALICIA Y BUENOS AIRES S.A."],
@@ -1123,6 +1125,24 @@ function oficial_valoresIniciales()
 	delete cursor;
 
 	this.iface.cambiarEjercicioActual( codEjercicio );
+
+	cursor = new FLSqlCursor("periodos");
+	fechaInicio = new Date(hoy.getYear(), hoy.getMonth(), 1);
+	fechaFin = new Date(hoy.getYear(), hoy.getMonth() + 1, 1);
+	fechaFin = util.addDays(fechaFin, -1);
+	var codPeriodo:String = hoy.getYear() + "" + this.iface.cerosIzquierda(hoy.getMonth(),2);
+	with(cursor) {
+		setModeAccess(cursor.Insert);
+		refreshBuffer();
+		setValueBuffer("codperiodo", codPeriodo);
+		setValueBuffer("nombre", "EJERCICIO " + codEjercicio);
+		setValueBuffer("fechainicio", fechaInicio);
+		setValueBuffer("fechafin", fechaFin);
+		setValueBuffer("codejercicio", codEjercicio);
+		setValueBuffer("estado", "ABIERTO");
+		commitBuffer();
+	}
+	delete cursor;
 
 	cursor = new FLSqlCursor("series");
 	with(cursor) {

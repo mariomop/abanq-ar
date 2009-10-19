@@ -234,7 +234,7 @@
 										</property>
 										<property name="sizePolicy">
 											<sizepolicy>
-												<hsizetype>1</hsizetype>
+												<hsizetype>0</hsizetype>
 												<vsizetype>0</vsizetype>
 												<horstretch>0</horstretch>
 												<verstretch>0</verstretch>
@@ -242,7 +242,13 @@
 										</property>
 										<property name="minimumSize">
 											<size>
-												<width>130</width>
+												<width>120</width>
+												<height>25</height>
+											</size>
+										</property>
+										<property name="maximumSize">
+											<size>
+												<width>120</width>
 												<height>25</height>
 											</size>
 										</property>
@@ -264,48 +270,11 @@
 									</widget>
 									<widget class="FLFieldDB">
 										<property name="name">
-											<cstring>fdbBanderaDivisa</cstring>
-										</property>
-										<property name="sizePolicy">
-											<sizepolicy>
-												<hsizetype>1</hsizetype>
-												<vsizetype>0</vsizetype>
-												<horstretch>0</horstretch>
-												<verstretch>0</verstretch>
-											</sizepolicy>
-										</property>
-										<property name="minimumSize">
-											<size>
-												<width>50</width>
-												<height>25</height>
-											</size>
-										</property>
-										<property name="font">
-											<font>
-												<bold>0</bold>
-												<italic>0</italic>
-											</font>
-										</property>
-										<property name="fieldName">
-											<string>bandera</string>
-										</property>
-										<property name="tableName">
-											<string>divisas</string>
-										</property>
-										<property name="foreignField">
-											<string>coddivisa</string>
-										</property>
-										<property name="fieldRelation">
-											<string>coddivisa</string>
-										</property>
-									</widget>
-									<widget class="FLFieldDB">
-										<property name="name">
 											<cstring>fdbTasaConv</cstring>
 										</property>
 										<property name="sizePolicy">
 											<sizepolicy>
-												<hsizetype>1</hsizetype>
+												<hsizetype>7</hsizetype>
 												<vsizetype>0</vsizetype>
 												<horstretch>0</horstretch>
 												<verstretch>0</verstretch>
@@ -353,7 +322,7 @@
 										</property>
 										<property name="sizePolicy">
 											<sizepolicy>
-												<hsizetype>1</hsizetype>
+												<hsizetype>0</hsizetype>
 												<vsizetype>0</vsizetype>
 												<horstretch>0</horstretch>
 												<verstretch>0</verstretch>
@@ -361,7 +330,13 @@
 										</property>
 										<property name="minimumSize">
 											<size>
-												<width>130</width>
+												<width>120</width>
+												<height>25</height>
+											</size>
+										</property>
+										<property name="maximumSize">
+											<size>
+												<width>120</width>
 												<height>25</height>
 											</size>
 										</property>
@@ -387,7 +362,7 @@
 										</property>
 										<property name="sizePolicy">
 											<sizepolicy>
-												<hsizetype>1</hsizetype>
+												<hsizetype>7</hsizetype>
 												<vsizetype>0</vsizetype>
 												<horstretch>0</horstretch>
 												<verstretch>0</verstretch>
@@ -417,6 +392,9 @@
 										<property name="fieldRelation">
 											<string>codpago</string>
 										</property>
+										<property name="showAlias">
+											<bool>false</bool>
+										</property>
 									</widget>
 								</hbox>
 							</widget>
@@ -438,7 +416,7 @@
 										</property>
 										<property name="sizePolicy">
 											<sizepolicy>
-												<hsizetype>1</hsizetype>
+												<hsizetype>0</hsizetype>
 												<vsizetype>0</vsizetype>
 												<horstretch>0</horstretch>
 												<verstretch>0</verstretch>
@@ -446,7 +424,13 @@
 										</property>
 										<property name="minimumSize">
 											<size>
-												<width>130</width>
+												<width>120</width>
+												<height>25</height>
+											</size>
+										</property>
+										<property name="maximumSize">
+											<size>
+												<width>120</width>
 												<height>25</height>
 											</size>
 										</property>
@@ -466,7 +450,7 @@
 										</property>
 										<property name="sizePolicy">
 											<sizepolicy>
-												<hsizetype>1</hsizetype>
+												<hsizetype>7</hsizetype>
 												<vsizetype>0</vsizetype>
 												<horstretch>0</horstretch>
 												<verstretch>0</verstretch>
@@ -495,6 +479,9 @@
 										</property>
 										<property name="fieldRelation">
 											<string>codalmacen</string>
+										</property>
+										<property name="showAlias">
+											<bool>false</bool>
 										</property>
 									</widget>
 								</hbox>
@@ -769,7 +756,6 @@
 		<tabstop>fLFieldDB8</tabstop>
 		<tabstop>fLFieldDB9</tabstop>
 		<tabstop>fdbCodDivisa</tabstop>
-		<tabstop>fdbBanderaDivisa</tabstop>
 		<tabstop>fdbTasaConv</tabstop>
 		<tabstop>fdbCodPago</tabstop>
 		<tabstop>fdbDesCodPago</tabstop>
