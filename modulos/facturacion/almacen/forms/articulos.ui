@@ -1783,49 +1783,184 @@
 										<property name="name" >
 											<cstring>unnamed</cstring>
 										</property>
-										<widget class="FLFieldDB" >
+										<widget class="QLayoutWidget" >
 											<property name="name" >
-												<cstring>fdbPvp</cstring>
+												<cstring>layout52</cstring>
 											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>0</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>200</width>
-													<height>25</height>
-												</size>
-											</property>
-											<property name="fieldName" >
-												<string>pvp</string>
-											</property>
+											<hbox>
+												<property name="name" >
+													<cstring>unnamed</cstring>
+												</property>
+												<property name="spacing" >
+													<number>12</number>
+												</property>
+												<widget class="FLFieldDB" >
+													<property name="name" >
+														<cstring>fdbPvp</cstring>
+													</property>
+													<property name="sizePolicy" >
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize" >
+														<size>
+															<width>200</width>
+															<height>25</height>
+														</size>
+													</property>
+													<property name="fieldName" >
+														<string>pvp</string>
+													</property>
+												</widget>
+												<widget class="FLFieldDB" >
+													<property name="name" >
+														<cstring>fdbCodDivisa</cstring>
+													</property>
+													<property name="sizePolicy" >
+														<sizepolicy>
+															<hsizetype>0</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize" >
+														<size>
+															<width>60</width>
+															<height>25</height>
+														</size>
+													</property>
+													<property name="fieldName" >
+														<string>coddivisa</string>
+													</property>
+													<property name="showAlias" >
+														<bool>false</bool>
+													</property>
+												</widget>
+											</hbox>
 										</widget>
-										<widget class="FLFieldDB" >
+										<widget class="QLayoutWidget" >
 											<property name="name" >
-												<cstring>fdbIvaIncluido</cstring>
+												<cstring>layout53</cstring>
 											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>0</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>200</width>
-													<height>25</height>
-												</size>
-											</property>
-											<property name="fieldName" >
-												<string>ivaincluido</string>
-											</property>
+											<hbox>
+												<property name="name" >
+													<cstring>unnamed</cstring>
+												</property>
+												<property name="spacing" >
+													<number>12</number>
+												</property>
+												<widget class="FLFieldDB" >
+													<property name="name" >
+														<cstring>fdbIvaIncluido</cstring>
+													</property>
+													<property name="sizePolicy" >
+														<sizepolicy>
+															<hsizetype>0</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize" >
+														<size>
+															<width>76</width>
+															<height>25</height>
+														</size>
+													</property>
+													<property name="fieldName" >
+														<string>ivaincluido</string>
+													</property>
+													<property name="toolTip" stdset="0" >
+														<string>Indica si el IVA está incluido en el precio de venta</string>
+													</property>
+													<property name="whatsThis" stdset="0" >
+														<string>Indica si el IVA está incluido en el precio de venta</string>
+													</property>
+												</widget>
+												<widget class="QLayoutWidget">
+													<property name="name">
+														<cstring>layoutPvpPesos</cstring>
+													</property>
+													<hbox>
+														<property name="name">
+															<cstring>unnamed</cstring>
+														</property>
+														<widget class="QLabel" >
+															<property name="name" >
+																<cstring>lblTxtPvpPesos</cstring>
+															</property>
+															<property name="sizePolicy" >
+																<sizepolicy>
+																	<hsizetype>0</hsizetype>
+																	<vsizetype>0</vsizetype>
+																	<horstretch>0</horstretch>
+																	<verstretch>0</verstretch>
+																</sizepolicy>
+															</property>
+															<property name="minimumSize" >
+																<size>
+																	<width>135</width>
+																	<height>25</height>
+																</size>
+															</property>
+															<property name="font" >
+																<font>
+																	<bold>1</bold>
+																	<italic>0</italic>
+																</font>
+															</property>
+															<property name="frameShape" >
+																<enum>NoFrame</enum>
+															</property>
+															<property name="text" >
+																<string>Precio final en Pesos</string>
+															</property>
+															<property name="alignment" >
+																<set>AlignVCenter|AlignRight</set>
+															</property>
+														</widget>
+														<widget class="QLabel" >
+															<property name="name" >
+																<cstring>lblPvpPesos</cstring>
+															</property>
+															<property name="sizePolicy" >
+																<sizepolicy>
+																	<hsizetype>1</hsizetype>
+																	<vsizetype>0</vsizetype>
+																	<horstretch>0</horstretch>
+																	<verstretch>0</verstretch>
+																</sizepolicy>
+															</property>
+															<property name="minimumSize" >
+																<size>
+																	<width>53</width>
+																	<height>20</height>
+																</size>
+															</property>
+															<property name="font" >
+																<font>
+																	<bold>1</bold>
+																	<italic>0</italic>
+																</font>
+															</property>
+															<property name="frameShape" >
+																<enum>LineEditPanel</enum>
+															</property>
+															<property name="text" >
+																<string>0</string>
+															</property>
+															<property name="alignment" >
+																<set>AlignVCenter|AlignRight</set>
+															</property>
+														</widget>
+													</hbox>
+												</widget>
+											</hbox>
 										</widget>
 									</vbox>
 								</widget>
@@ -2358,6 +2493,12 @@
 									<property name="fieldName" >
 										<string>costemaximo</string>
 									</property>
+									<property name="toolTip" stdset="0" >
+										<string>Costo máximo alcanzado en Pesos</string>
+									</property>
+									<property name="whatsThis" stdset="0" >
+										<string>Costo máximo alcanzado en Pesos</string>
+									</property>
 								</widget>
 								<widget class="FLFieldDB" >
 									<property name="name" >
@@ -2383,6 +2524,12 @@
 									<property name="fieldName" >
 										<string>costeultimo</string>
 									</property>
+									<property name="toolTip" stdset="0" >
+										<string>Costo en Pesos de la última compra</string>
+									</property>
+									<property name="whatsThis" stdset="0" >
+										<string>Costo en Pesos de la última compra</string>
+									</property>
 								</widget>
 								<widget class="FLFieldDB" >
 									<property name="name" >
@@ -2407,6 +2554,12 @@
 									</property>
 									<property name="fieldName" >
 										<string>costemedio</string>
+									</property>
+									<property name="toolTip" stdset="0" >
+										<string>Costo promedio en Pesos de las compras</string>
+									</property>
+									<property name="whatsThis" stdset="0" >
+										<string>Costo promedio en Pesos de las compras</string>
 									</property>
 								</widget>
 								<spacer>
@@ -2446,40 +2599,6 @@
 									</property>
 									<property name="fieldName" >
 										<string>codimpuesto</string>
-									</property>
-								</widget>
-								<widget class="FLFieldDB" >
-									<property name="name" >
-										<cstring>fdbDesImpuestoC</cstring>
-									</property>
-									<property name="sizePolicy" >
-										<sizepolicy>
-											<hsizetype>1</hsizetype>
-											<vsizetype>0</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
-									</property>
-									<property name="minimumSize" >
-										<size>
-											<width>22</width>
-											<height>22</height>
-										</size>
-									</property>
-									<property name="fieldName" >
-										<string>descripcion</string>
-									</property>
-									<property name="tableName" >
-										<string>impuestos</string>
-									</property>
-									<property name="foreignField" >
-										<string>codimpuesto</string>
-									</property>
-									<property name="fieldRelation" >
-										<string>codimpuesto</string>
-									</property>
-									<property name="showAlias" >
-										<bool>false</bool>
 									</property>
 								</widget>
 								<widget class="FLFieldDB" >
@@ -6526,6 +6645,12 @@
 			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
+			<sender>tdbArticulosProv</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbnProvDefecto</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
 			<sender>toolButtonInsertPTarifa</sender>
 			<signal>clicked()</signal>
 			<receiver>tdbArticulosTarifas</receiver>
@@ -6577,6 +6702,12 @@
 			<sender>tdbArticulosTarifas</sender>
 			<signal>insertOnlyChanged(bool)</signal>
 			<receiver>toolButtonDeletePTarifa</receiver>
+			<slot>setDisabled(bool)</slot>
+		</connection>
+		<connection>
+			<sender>tdbArticulosTarifas</sender>
+			<signal>readOnlyChanged(bool)</signal>
+			<receiver>tbnRecalcularPVP</receiver>
 			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
@@ -6793,8 +6924,9 @@
 		<tabstop>fieldTipoCodBarras</tabstop>
 		<tabstop>fdbObservaciones</tabstop>
 		<tabstop>fdbPvp</tabstop>
+		<tabstop>fdbCodDivisa</tabstop>
+		<tabstop>fdbIvaIncluido</tabstop>
 		<tabstop>fdbImpuesto</tabstop>
-		<tabstop>fdbDesImpuesto</tabstop>
 		<tabstop>fdbIvaImpuesto</tabstop>
 		<tabstop>tdbArticulosTarifas</tabstop>
 		<tabstop>fdbStockFisico</tabstop>

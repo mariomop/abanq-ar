@@ -45,12 +45,6 @@ class oficial extends interna {
 	function bufferChanged(fN:String) {
 		return this.ctx.oficial_bufferChanged(fN);
 	}
-// 	function obtenerTarifa(codCliente:String):String {
-// 		return this.ctx.oficial_obtenerTarifa(codCliente);
-// 	}
-// 	function calculateField(fN:String):String {
-// 		return this.ctx.oficial_calculateField(fN);
-// 	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -187,103 +181,6 @@ function oficial_bufferChanged(fN:String)
 {
 	formRecordlineaspedidoscli.iface.pub_commonBufferChanged(fN, form);
 }
-// function oficial_bufferChanged(fN:String)
-// {
-// 	formRecordlineaspedidoscli.iface.pub_commonBufferChanged(fN, form);
-// 	switch (fN) {
-// 	case "referencia":{
-// 			this.child("fdbPvpUnitario").setValue(this.iface.calculateField("pvpunitario"));
-// 			this.child("fdbCodImpuesto").setValue(this.iface.calculateField("codimpuesto"));
-// 			break;
-// 		}
-// 	case "codimpuesto":{
-// 			this.child("fdbIva").setValue(this.iface.calculateField("iva"));
-// 			break;
-// 		}
-// 	case "cantidad":
-// 	case "pvpunitario":{
-// 			this.child("fdbPvpSinDto").setValue(this.iface.calculateField("pvpsindto"));
-// 			break;
-// 		}
-// 	case "pvpsindto":
-// 	case "dtopor":{
-// 			this.child("lblDtoPor").setText(this.iface.calculateField("lbldtopor"));
-// 		}
-// 	case "dtolineal":{
-// 			this.child("fdbPvpTotal").setValue(this.iface.calculateField("pvptotal"));
-// 			break;
-// 		}
-// 	}
-// }
-
-/** \D Obtiene la tarifa asociada a un cliente
-@param codCliente: código del cliente
-@return Código de la tarifa asociada o false si no tiene ninguna tarifa asociada
-\end */
-// function oficial_obtenerTarifa(codCliente:String):String
-// {
-// 	var util:FLUtil = new FLUtil;
-// 	return util.sqlSelect("clientes c INNER JOIN gruposclientes gc ON c.codgrupo = gc.codgrupo", "gc.codtarifa", "codcliente = '" + codCliente + "'", "clientes,gruposclientes");
-// }
-/*
-function oficial_calculateField(fN:String):String
-{
-	return formRecordlineaspedidoscli.iface.pub_commonCalculateField(fN, this.cursor());*/
-// 	var util:FLUtil = new FLUtil();
-// 	var cursor:FLSqlCursor = this.cursor();
-// 	
-// 	var valor:String;
-// 	switch (fN) {
-// 		case "pvpunitario":{
-// 			var codCliente:String = util.sqlSelect("servicioscli", "codcliente", "idservicio = " + cursor.valueBuffer("idservicio"));
-// 			var referencia:String = cursor.valueBuffer("referencia");
-// 			var codTarifa:String = this.iface.obtenerTarifa(codCliente);
-// 			if (codTarifa)
-// 				valor = util.sqlSelect("articulostarifas", "pvp", "referencia = '" + referencia + "' AND codtarifa = '" + codTarifa + "'");
-// 			if (!valor)
-// 				valor = util.sqlSelect("articulos", "pvp", "referencia = '" + referencia + "'");
-// 			var tasaConv:Number = util.sqlSelect("servicioscli", "tasaconv", "idservicio = " + cursor.valueBuffer("idservicio"));
-// 			valor = parseFloat(valor) / tasaConv;
-// 			break;
-// 		}
-// 		case "pvpsindto":{
-// 			valor = parseFloat(cursor.valueBuffer("pvpunitario")) * parseFloat(cursor.valueBuffer("cantidad"));
-// 			valor = util.roundFieldValue(valor, "lineaspedidoscli", "pvpsindto");
-// 			break;
-// 		}
-// 		case "iva":{
-// 			valor = util.sqlSelect("impuestos", "iva", "codimpuesto = '" + cursor.valueBuffer("codimpuesto") + "'");
-// 			break;
-// 		}
-// 		case "lbldtopor":{
-// 			valor = (cursor.valueBuffer("pvpsindto") * cursor.valueBuffer("dtopor")) / 100;
-// 			valor = util.roundFieldValue(valor, "lineaspedidoscli", "pvpsindto");
-// 			break;
-// 		}
-// 		case "pvptotal":{
-// 			var dtoPor:Number = (cursor.valueBuffer("pvpsindto") * cursor.valueBuffer("dtopor")) / 100;
-// 			dtoPor = util.roundFieldValue(dtoPor, "lineaspedidoscli", "pvpsindto");
-// 			valor = cursor.valueBuffer("pvpsindto") - parseFloat(dtoPor) - cursor.valueBuffer("dtolineal");
-// 			break;
-// 		}
-// 		case "dtopor":{
-// 			var codCliente:String = util.sqlSelect("servicioscli", "codcliente", "idservicio = " + cursor.valueBuffer("idservicio"));
-// 			valor = flfactppal.iface.pub_valorQuery("descuentosclientes,descuentos", "SUM(d.dto)", "descuentosclientes dc INNER JOIN descuentos d ON dc.coddescuento = d.coddescuento", "dc.codcliente = '" + codCliente + "';");
-// 			break;
-// 		}
-// 		case "codimpuesto": {
-// 			var codCliente:String = util.sqlSelect("servicioscli", "codcliente", "idservicio = " + cursor.valueBuffer("idservicio"));
-// 			var codSerie:String = util.sqlSelect("servicioscli", "codserie", "idservicio = " + cursor.valueBuffer("idservicio"));
-// 			if (flfacturac.iface.pub_tieneIvaDocCliente(codSerie, codCliente))
-// 				valor = util.sqlSelect("articulos", "codimpuesto", "referencia = '" + cursor.valueBuffer("referencia") + "'");
-// 			else
-// 				valor = "EXENTO";
-// 			break;
-// 		}
-// 	}
-// 	return valor;
-// }
-
 
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

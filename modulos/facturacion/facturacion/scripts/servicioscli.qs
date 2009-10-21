@@ -102,11 +102,29 @@ class tipoVenta extends ordenCampos {
 //// TIPO DE VENTA  /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration multiDivisa */
+/////////////////////////////////////////////////////////////////
+//// MULTI DIVISA ///////////////////////////////////////////////
+class multiDivisa extends tipoVenta {
+    function multiDivisa( context ) { tipoVenta ( context ); }
+	function init() {
+		this.ctx.multiDivisa_init();
+	}
+	function calcularTotales() {
+		this.ctx.multiDivisa_calcularTotales();
+	}
+	function verificarHabilitaciones() {
+		this.ctx.multiDivisa_verificarHabilitaciones();
+	}
+}
+//// MULTI DIVISA ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends tipoVenta {
-    function head( context ) { tipoVenta ( context ); }
+class head extends multiDivisa {
+    function head( context ) { multiDivisa ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -492,6 +510,46 @@ function tipoVenta_bufferChanged(fN:String)
 }
 //// TIPO VENTA //////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
+
+/** @class_definition multiDivisa */
+/////////////////////////////////////////////////////////////////
+//// MULTI DIVISA ///////////////////////////////////////////////
+
+function multiDivisa_init()
+{
+	this.iface.__init();
+
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+
+	if ( cursor.modeAccess() == cursor.Insert ) {
+		this.child("fdbCodDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
+	}
+
+	this.iface.verificarHabilitaciones();
+}
+
+function multiDivisa_calcularTotales()
+{
+	this.iface.__calcularTotales();
+
+	this.iface.verificarHabilitaciones();
+}
+
+function multiDivisa_verificarHabilitaciones()
+{
+	var util:FLUtil = new FLUtil();
+	if (!util.sqlSelect("lineasservicioscli", "idservicio", "idservicio = " + this.cursor().valueBuffer("idservicio"))) {
+		this.child("fdbCodDivisa").setDisabled(false);
+		this.child("fdbTasaConv").setDisabled(false);
+	} else {
+		this.child("fdbCodDivisa").setDisabled(true);
+		this.child("fdbTasaConv").setDisabled(true);
+	}
+}
+
+//// MULTI DIVISA ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

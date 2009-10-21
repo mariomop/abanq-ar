@@ -446,11 +446,29 @@ class marcacion extends ordenCampos {
 //// MARCACION //////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration multiDivisa */
+/////////////////////////////////////////////////////////////////
+//// MULTI DIVISA ///////////////////////////////////////////////
+class multiDivisa extends marcacion {
+    function multiDivisa( context ) { marcacion ( context ); }
+	function init() {
+		this.ctx.multiDivisa_init();
+	}
+	function bufferChanged(fN:String) {
+		this.ctx.multiDivisa_bufferChanged(fN);
+	}
+	function calculateField(fN:String):Number {
+		return this.ctx.multiDivisa_calculateField(fN);
+	}
+}
+//// MULTI DIVISA ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends marcacion {
-    function head( context ) { marcacion ( context ); }
+class head extends multiDivisa {
+    function head( context ) { multiDivisa ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -2907,6 +2925,122 @@ function marcacion_recalcularPvp()
 	this.iface.bufferChanged("recalcularPVP");
 }
 //// MARCACION //////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition multiDivisa */
+/////////////////////////////////////////////////////////////////
+//// MULTI DIVISA ///////////////////////////////////////////////
+
+function multiDivisa_init()
+{
+	this.iface.__init();
+
+	if ( this.cursor().modeAccess() != this.cursor().Insert )
+		this.iface.bufferChanged("calcularPvpPesos");
+}
+
+function multiDivisa_bufferChanged(fN:String)
+{
+	switch (fN) {
+		case "pvp":
+			this.iface.__bufferChanged(fN);
+		case "ivaincluido":
+		case "calcularPvpPesos":
+			this.child("lblPvpPesos").setText(this.iface.calculateField("pvppesos"));
+			break;
+
+		case "coddivisa":
+			this.child("lblPvpPesos").setText(this.iface.calculateField("pvppesos"));
+			this.child("fdbVariacion").setValue(this.iface.calculateField("variacion"));
+			break;
+
+		default:
+			this.iface.__bufferChanged(fN);
+	}
+}
+
+function multiDivisa_calculateField(fN:String):Number
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	var valor:Number;
+
+	switch (fN) {
+		case "pvp": {
+			var costoMaximo:Number = cursor.valueBuffer("costemaximo");
+			if (!costoMaximo)
+				costoMaximo = 0;
+
+			var marcacion:Number = cursor.valueBuffer("marcacion");
+			var variacion:Number = cursor.valueBuffer("variacion");
+			var tasaConv:Number = parseFloat(util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + cursor.valueBuffer("coddivisa") + "'"));
+
+			var precio:Number = ( costoMaximo * (1 + (marcacion + variacion)/100) ) / tasaConv;
+
+			valor = util.roundFieldValue(precio, "articulos", "pvp");
+			break;
+		}
+		case "variacion": {
+			var costoMaximo:Number = cursor.valueBuffer("costemaximo");
+			if (!costoMaximo) {
+				valor = 0;
+				break;
+			}
+
+			var marcacion:Number = cursor.valueBuffer("marcacion");
+			var tasaConv:Number = parseFloat(util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + cursor.valueBuffer("coddivisa") + "'"));
+
+			var precio:Number = cursor.valueBuffer("pvp") * tasaConv;
+
+			var variacion:Number = ((precio/costoMaximo)-1)*100-marcacion;
+			valor = util.roundFieldValue(variacion, "articulos", "variacion");
+			break;
+		}
+		case "marcacion": {
+			var codFamilia:String = cursor.valueBuffer("codfamilia");
+			var codSubfamilia:String = cursor.valueBuffer("codsubfamilia");
+
+			var marcacion:Number;
+
+			marcacion = parseFloat(util.sqlSelect("subfamilias", "marcacion", "codsubfamilia = '" + codSubfamilia + "'"));
+			if (isNaN(marcacion)) {
+
+				marcacion = parseFloat(util.sqlSelect("familias", "marcacion", "codfamilia = '" + codFamilia + "'"));
+			}
+
+			if (isNaN(marcacion))
+				marcacion = 0;
+
+			valor = util.roundFieldValue(marcacion, "articulos", "marcacion");
+			break;
+		}
+		case "pvppesos": {
+			var pvp:Number = cursor.valueBuffer("pvp");
+			if (!pvp)
+				pvp = 0;
+
+			var tasaConv:Number = parseFloat(util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + cursor.valueBuffer("coddivisa") + "'"));
+			if (!tasaConv)
+				tasaConv = 1;
+
+			valor = pvp * tasaConv;
+
+			if (!cursor.valueBuffer("ivaincluido")) {
+				var iva:Number = parseFloat(util.sqlSelect("impuestos", "iva", "codimpuesto = '" + cursor.valueBuffer("codimpuesto") + "'"));
+				valor = valor * (1 + (iva/100));
+			}
+
+			valor = util.roundFieldValue(valor, "articulos", "pvp");
+			break;
+		}
+		default: {
+			valor = this.iface.__calculateField(fN);
+		}
+	}
+	return valor;
+}
+
+//// MULTI DIVISA ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

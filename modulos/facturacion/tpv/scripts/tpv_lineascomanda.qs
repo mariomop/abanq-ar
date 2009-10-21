@@ -130,11 +130,23 @@ class totalesIva extends ivaIncluido {
 //// TOTALES CON IVA ////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration multiDivisa */
+/////////////////////////////////////////////////////////////////
+//// MULTI DIVISA ///////////////////////////////////////////////
+class multiDivisa extends totalesIva {
+    function multiDivisa( context ) { totalesIva ( context ); }
+	function commonCalculateField(fN:String, cursor:FLSqlCursor):String {
+		return this.ctx.multiDivisa_commonCalculateField(fN, cursor);
+	}
+}
+//// MULTI DIVISA ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends totalesIva {
-    function head( context ) { totalesIva ( context ); }
+class head extends multiDivisa {
+    function head( context ) { multiDivisa ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -635,8 +647,8 @@ function ivaIncluido_commonCalculateField(fN, cursor):String
 
 	switch (fN) {
 		case "codimpuesto": {
-			var codCliente:String = util.sqlSelect(tablaPadre, "codcliente", wherePadre);
-			var codSerie:String = util.sqlSelect(tablaPadre, "codserie", wherePadre);
+			var codCliente:String = cursor.cursorRelation().valueBuffer("codcliente");
+			var codSerie:String = cursor.cursorRelation().valueBuffer("codserie");
 			if (flfacturac.iface.pub_tieneIvaDocCliente(codSerie, codCliente)) {
 				valor = util.sqlSelect("articulos", "codimpuesto", "referencia = '" + cursor.valueBuffer("referencia") + "'");
 			} else {
@@ -739,6 +751,43 @@ function totalesIva_commonCalculateField(fN, cursor):String
 }
 
 //// TOTALES CON IVA ////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition multiDivisa */
+/////////////////////////////////////////////////////////////////
+//// MULTI DIVISA ///////////////////////////////////////////////
+
+function multiDivisa_commonCalculateField(fN, cursor):String
+{
+	var util:FLUtil = new FLUtil();
+	var valor:String;
+	
+	switch (fN) {
+		case "pvpunitario":
+		case "pvpunitarioiva": {
+			var referencia:String = cursor.valueBuffer("referencia");
+			var codTarifa:String = cursor.cursorRelation().valueBuffer("codtarifa");
+
+			valor = this.iface.calcularPvpTarifa(referencia, codTarifa);
+
+			var codDivisaArt:String = util.sqlSelect("articulos", "coddivisa", "referencia = '" + referencia + "'");
+			var tasaConvArt:Number = util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + codDivisaArt + "'");
+			var tasaConvDoc:Number = cursor.cursorRelation().valueBuffer("tasaconv");
+
+			if (codDivisaArt != cursor.cursorRelation().valueBuffer("coddivisa"))
+				valor = parseFloat(valor) * (parseFloat(tasaConvArt)/parseFloat(tasaConvDoc));
+
+			valor = util.roundFieldValue(valor, "tpv_lineascomanda", "pvpunitario");
+			break;
+		}
+		default:
+			return this.iface.__commonCalculateField(fN, cursor);
+	}
+
+	return valor;
+}
+
+//// MULTI DIVISA ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

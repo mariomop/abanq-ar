@@ -5452,7 +5452,7 @@ function lineasArticulos_generarLineaSalida(documento:String, curLS:FLSqlCursor)
 
 	var query:FLSqlQuery = new FLSqlQuery();
 	query.setTablesList(tabla);
-	query.setSelect("fecha,codigo,codcliente,nombrecliente");
+	query.setSelect("fecha,codigo,codcliente,nombrecliente,tasaconv");
 	query.setFrom(tabla);
 	query.setWhere(nombreIdTabla + " = " + idDocumento);
 	if (!query.exec() || !query.next())
@@ -5472,11 +5472,11 @@ function lineasArticulos_generarLineaSalida(documento:String, curLS:FLSqlCursor)
 		setValueBuffer("codcliente", query.value("codcliente"));
 		setValueBuffer("nombrecliente", query.value("nombrecliente"));
 		setValueBuffer("cantidad", curLS.valueBuffer("cantidad"));
-		setValueBuffer("pvpunitario", curLS.valueBuffer("pvpunitario"));
-		setValueBuffer("pvpsindto", curLS.valueBuffer("pvpsindto"));
-		setValueBuffer("pvptotal", curLS.valueBuffer("pvptotal"));
-		setValueBuffer("totalconiva", curLS.valueBuffer("totalconiva"));
-		setValueBuffer("dtolineal", curLS.valueBuffer("dtolineal"));
+		setValueBuffer("pvpunitario", curLS.valueBuffer("pvpunitario")*query.value("tasaconv"));
+		setValueBuffer("pvpsindto", curLS.valueBuffer("pvpsindto")*query.value("tasaconv"));
+		setValueBuffer("pvptotal", curLS.valueBuffer("pvptotal")*query.value("tasaconv"));
+		setValueBuffer("totalconiva", curLS.valueBuffer("totalconiva")*query.value("tasaconv"));
+		setValueBuffer("dtolineal", curLS.valueBuffer("dtolineal")*query.value("tasaconv"));
 		setValueBuffer("dtopor", curLS.valueBuffer("dtopor"));
 		setValueBuffer("costounitario", curLS.valueBuffer("costounitario"));
 		setValueBuffer("costototal", curLS.valueBuffer("costototal"));
@@ -5567,7 +5567,7 @@ function lineasArticulos_generarLineaEntrada(documento:String, curLE:FLSqlCursor
 
 	var query:FLSqlQuery = new FLSqlQuery();
 	query.setTablesList(tabla);
-	query.setSelect("fecha,codigo,codproveedor,nombre");
+	query.setSelect("fecha,codigo,codproveedor,nombre,tasaconv");
 	query.setFrom(tabla);
 	query.setWhere(nombreIdTabla + " = " + idDocumento);
 	if (!query.exec() || !query.next())
@@ -5587,11 +5587,11 @@ function lineasArticulos_generarLineaEntrada(documento:String, curLE:FLSqlCursor
 		setValueBuffer("codproveedor", query.value("codproveedor") );
 		setValueBuffer("nombreproveedor", query.value("nombre") );
 		setValueBuffer("cantidad", curLE.valueBuffer("cantidad"));
-		setValueBuffer("pvpunitario", curLE.valueBuffer("pvpunitario"));
-		setValueBuffer("pvpsindto", curLE.valueBuffer("pvpsindto"));
-		setValueBuffer("pvptotal", curLE.valueBuffer("pvptotal"));
-		setValueBuffer("totalconiva", curLE.valueBuffer("totalconiva"));
-		setValueBuffer("dtolineal", curLE.valueBuffer("dtolineal"));
+		setValueBuffer("pvpunitario", curLE.valueBuffer("pvpunitario")*query.value("tasaconv"));
+		setValueBuffer("pvpsindto", curLE.valueBuffer("pvpsindto")*query.value("tasaconv"));
+		setValueBuffer("pvptotal", curLE.valueBuffer("pvptotal")*query.value("tasaconv"));
+		setValueBuffer("totalconiva", curLE.valueBuffer("totalconiva")*query.value("tasaconv"));
+		setValueBuffer("dtolineal", curLE.valueBuffer("dtolineal")*query.value("tasaconv"));
 		setValueBuffer("dtopor", curLE.valueBuffer("dtopor"));
 	}
 	if (!curLineaEntrada.commitBuffer())
@@ -5737,8 +5737,7 @@ function ganancias_obtenerGananciaLinea(lineaDoc:FLSqlCursor, doc:String):Boolea
 		var costototal:Number;
 		var ganancia:Number;
 		var utilidad:Number;
-
-		// CONTEMPLAR MANEJO DE VARIAS DIVISAS
+		var tasaConv:Number = parseFloat(util.sqlSelect(doc, "tasaconv",  idDoc + " = " + lineaDoc.valueBuffer(idDoc)));
 
 		costounitario = parseFloat(util.sqlSelect("articulos", "costeultimo",  "referencia = '" + lineaDoc.valueBuffer("referencia") + "'"));
 		if (!costounitario || isNaN(costounitario)) {
@@ -5752,10 +5751,10 @@ function ganancias_obtenerGananciaLinea(lineaDoc:FLSqlCursor, doc:String):Boolea
 		costototal = costounitario * parseFloat(lineaDoc.valueBuffer("cantidad"));
 		costototal = util.roundFieldValue(costototal, lineaDoc.table(), "costototal");
 
-		ganancia = parseFloat(lineaDoc.valueBuffer("pvptotal")) - costototal;
+		ganancia = parseFloat(lineaDoc.valueBuffer("pvptotal")*tasaConv) - costototal;
 		ganancia = util.roundFieldValue(ganancia, lineaDoc.table(), "ganancia");
 
-		utilidad = (ganancia / parseFloat(lineaDoc.valueBuffer("pvptotal")))*100 ;
+		utilidad = (ganancia / parseFloat(lineaDoc.valueBuffer("pvptotal")*tasaConv))*100 ;
 		utilidad = util.roundFieldValue(utilidad, lineaDoc.table(), "utilidad");
 	
 		lineaDoc.setValueBuffer("costounitario", costounitario);
@@ -5808,13 +5807,14 @@ function ganancias_obtenerGanancia(doc:FLSqlCursor, linea:String):Boolean
 		var costototal:Number;
 		var ganancia:Number;
 		var utilidad:Number;
+		var tasaConv:Number = parseFloat(doc.valueBuffer("tasaconv"));
 
 		costototal = parseFloat(util.sqlSelect(lineaDoc, "SUM(costototal)", idLineaDoc + " = " + doc.valueBuffer(idLineaDoc)));
 
-		ganancia = parseFloat(doc.valueBuffer("neto")) - costototal;
+		ganancia = parseFloat(doc.valueBuffer("neto")*tasaConv) - costototal;
 		ganancia = util.roundFieldValue(ganancia, doc.table(), "ganancia");
 
-		utilidad = (ganancia / parseFloat(doc.valueBuffer("neto")))*100 ;
+		utilidad = (ganancia / parseFloat(doc.valueBuffer("neto")*tasaConv))*100 ;
 		utilidad = util.roundFieldValue(utilidad, doc.table(), "utilidad");
 
 		doc.setValueBuffer("costototal", costototal);

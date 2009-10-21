@@ -208,6 +208,12 @@
 									<property name="fieldName">
 										<string>coddivisa</string>
 									</property>
+									<property name="foreignField">
+										<string>coddivisa</string>
+									</property>
+									<property name="fieldRelation">
+										<string>codproveedor</string>
+									</property>
 								</widget>
 								<widget class="FLFieldDB">
 									<property name="name">

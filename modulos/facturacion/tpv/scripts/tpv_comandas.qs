@@ -337,11 +337,26 @@ class ordenCampos extends cantLineas {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration multiDivisa */
+/////////////////////////////////////////////////////////////////
+//// MULTI DIVISA ///////////////////////////////////////////////
+class multiDivisa extends ordenCampos {
+    function multiDivisa( context ) { ordenCampos ( context ); }
+	function init() {
+		this.ctx.multiDivisa_init();
+	}
+	function calculateField(fN:String):String {
+		return this.ctx.multiDivisa_calculateField(fN);
+	}
+}
+//// MULTI DIVISA ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends multiDivisa {
+    function head( context ) { multiDivisa ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -2709,6 +2724,56 @@ function ordenCampos_init()
 }
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition multiDivisa */
+/////////////////////////////////////////////////////////////////
+//// MULTI DIVISA ///////////////////////////////////////////////
+
+function multiDivisa_init()
+{
+	this.iface.__init();
+
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+
+	if ( cursor.modeAccess() == cursor.Insert ) {
+		var codDivisa:String = flfactppal.iface.pub_valorDefectoEmpresa("coddivisa");
+		cursor.setValueBuffer("coddivisa", codDivisa);
+		cursor.setValueBuffer("tasaconv", util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + codDivisa + "'"));
+	}
+}
+
+function multiDivisa_calculateField(fN:String):String
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	var valor:String;
+
+	switch (fN) {
+		case "pvparticulo": {
+			valor = this.iface.__calculateField("pvparticulo");
+
+			var codDivisaArt:String = util.sqlSelect("articulos", "coddivisa", "referencia = '" + cursor.valueBuffer("referencia") + "'");
+			var tasaConvArt:Number = util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + codDivisaArt + "'");
+			var tasaConvDoc:Number = cursor.valueBuffer("tasaconv");
+	
+			if (codDivisaArt != cursor.valueBuffer("coddivisa"))
+				valor = parseFloat(valor) * (parseFloat(tasaConvArt)/parseFloat(tasaConvDoc));
+	
+			if (isNaN(valor))
+				valor = 0;
+			valor = util.roundFieldValue(valor, "tpv_lineascomanda", "pvpunitario");
+			break;
+		}
+		default: {
+			valor = this.iface.__calculateField(fN);
+		}
+	}
+	return valor;
+}
+
+//// MULTI DIVISA ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

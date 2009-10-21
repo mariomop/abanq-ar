@@ -138,6 +138,20 @@
 		<default>0</default>
 	</field>
 	<field>
+		<name>coddivisa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Divisa")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>3</length>
+		<default>$</default>
+		<relation>
+			<table>divisas</table>
+			<field>coddivisa</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
 		<name>codimpuesto</name>
 		<!-- Tipo de I.V.A. aplicado al artículo	-->        <alias>QT_TRANSLATE_NOOP("MetaData","Tipo de I.V.A.")</alias>
 		<pk>false</pk>
@@ -475,6 +489,7 @@
 		<null>true</null>
 		<pk>false</pk>
 		<type>bool</type>
+		<default>false</default>
 	</field>
 	<field>
 		<name>tipoimagen</name>

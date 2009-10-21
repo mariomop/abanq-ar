@@ -155,11 +155,23 @@ class informacionLineas extends totalesIva {
 //// INFORMACION LINEAS /////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration multiDivisa */
+/////////////////////////////////////////////////////////////////
+//// MULTI DIVISA ///////////////////////////////////////////////
+class multiDivisa extends informacionLineas {
+    function multiDivisa( context ) { informacionLineas ( context ); }
+	function commonCalculateField(fN:String, cursor:FLSqlCursor):String {
+		return this.ctx.multiDivisa_commonCalculateField(fN, cursor);
+	}
+}
+//// MULTI DIVISA ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends informacionLineas {
-    function head( context ) { informacionLineas ( context ); }
+class head extends multiDivisa {
+    function head( context ) { multiDivisa ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -867,6 +879,66 @@ function informacionLineas_commonCalculateField(fN, cursor):String
 }
 
 //// INFORMACION LINEAS /////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition multiDivisa */
+/////////////////////////////////////////////////////////////////
+//// MULTI DIVISA ///////////////////////////////////////////////
+
+function multiDivisa_commonCalculateField(fN, cursor):String
+{
+	var util:FLUtil = new FLUtil();
+	var valor:String;
+	
+	switch (fN) {
+		case "pvpunitarioiva": {
+			var codCliente:String = cursor.cursorRelation().valueBuffer("codcliente");
+			var referencia:String = cursor.valueBuffer("referencia");
+			var codTarifa:String = this.iface.obtenerTarifa(codCliente, cursor);
+			if (codTarifa)
+				valor = util.sqlSelect("articulostarifas", "pvp", "referencia = '" + referencia + "' AND codtarifa = '" + codTarifa + "'");
+			if (!valor)
+				valor = util.sqlSelect("articulos", "pvp", "referencia = '" + referencia + "'");
+
+			var codDivisaArt:String = util.sqlSelect("articulos", "coddivisa", "referencia = '" + referencia + "'");
+			var tasaConvArt:Number = util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + codDivisaArt + "'");
+			var tasaConvDoc:Number = cursor.cursorRelation().valueBuffer("tasaconv");
+
+			if (codDivisaArt != cursor.cursorRelation().valueBuffer("coddivisa"))
+				valor = parseFloat(valor) * (parseFloat(tasaConvArt)/parseFloat(tasaConvDoc));
+			break;
+		}
+		case "pvpunitario": {
+			valor = cursor.valueBuffer("pvpunitarioiva");
+			if (cursor.valueBuffer("ivaincluido")) {
+				var iva:Number = cursor.valueBuffer("iva");
+				if (!iva)
+					iva = util.sqlSelect("impuestos", "iva", "codimpuesto = '" + cursor.valueBuffer("codimpuesto") + "'");
+				valor = parseFloat(valor) / (1 + iva / 100);
+			}
+			break;
+		}
+		case "ganancia":{
+			var ganancia:Number;
+			ganancia = parseFloat(cursor.valueBuffer("pvptotal")*cursor.cursorRelation().valueBuffer("tasaconv")) - parseFloat(cursor.valueBuffer("costototal"));
+			valor = util.roundFieldValue(ganancia, cursor.table(), "ganancia");
+			break;
+		}
+		case "utilidad":{
+			var utilidad:Number = 0;
+			if (parseFloat(cursor.valueBuffer("pvptotal")) != 0)
+				utilidad = (parseFloat(cursor.valueBuffer("ganancia")) / parseFloat(cursor.valueBuffer("pvptotal")*cursor.cursorRelation().valueBuffer("tasaconv")))*100 ;
+			valor = util.roundFieldValue(utilidad, cursor.table(), "utilidad");
+			break;
+		}
+		default:
+			return this.iface.__commonCalculateField(fN, cursor);
+	}
+
+	return valor;
+}
+
+//// MULTI DIVISA ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

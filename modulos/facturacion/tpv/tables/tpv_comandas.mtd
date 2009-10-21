@@ -483,4 +483,29 @@
 		<default>0</default>
 		<visiblegrid>false</visiblegrid>
 	</field>
+	<field>
+		<name>coddivisa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Divisa")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>3</length>
+		<visiblegrid>false</visiblegrid>
+		<relation>
+			<table>divisas</table>
+			<field>coddivisa</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>tasaconv</name>
+		<!--Tasa de conversión de divisa-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","T. Conv.")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>6</partI>
+		<partD>3</partD>
+		<visiblegrid>false</visiblegrid>
+	</field>
 </TMD>

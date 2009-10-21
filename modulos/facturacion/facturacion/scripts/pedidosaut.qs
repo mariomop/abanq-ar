@@ -432,14 +432,14 @@ function oficial_insertarLineas(datos:String, curPedidoAut:FLSqlCursor):Boolean 
 			qryDivisaLineasSel.first();
 			var codDivisa:String = qryDivisaLineasSel.value("ap.coddivisa");
 			if (codDivisa != curPedidoAut.valueBuffer("coddivisa")) {
-				var res:Number = MessageBox.information(util.translate("scripts", "Die Währung für die ausgewählten Einkaufspreise weicht von der Auftragswährung ab.\nSoll diese Währung ins Hauptformular übernommen werden?"), MessageBox.Ok, MessageBox.No);
+				var res:Number = MessageBox.information(util.translate("scripts", "La divisa para el precio de compra difiere de la divisa seleccionada. \nDesea cambiar la divisa en el formulario principal?"), MessageBox.Ok, MessageBox.No);
 				if (res == MessageBox.Ok)
-					cursor.setValueBuffer("coddivisa", codDivisa);
+					curPedidoAut.setValueBuffer("coddivisa", codDivisa);
 			}
 			break;
 		}
 		default: {
-			MessageBox.warning(util.translate("scripts", "Hinweis: Den Einkaufspreisen der ausgewählten Artikeln liegen verschiedene Währungen zugrunde!"), MessageBox.Ok, MessageBox.NoButton);
+			MessageBox.warning(util.translate("scripts", "Los precios de compra de los artículos seleccionados se basan en diferentes divisas"), MessageBox.Ok, MessageBox.NoButton);
 			break;
 		}
 	}

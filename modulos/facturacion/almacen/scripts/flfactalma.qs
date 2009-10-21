@@ -824,7 +824,7 @@ function oficial_cambiarCosteMedio(referencia:String):Boolean
 	var sumCant:Number = util.sqlSelect("lineasfacturasprov", "SUM(cantidad)", "referencia = '" + referencia + "'" + whereCantidad);
 	if ( !sumCant || sumCant == 0)
 		return true;
-	var cM:Number = util.sqlSelect("lineasfacturasprov", "(SUM(pvptotal) / SUM(cantidad))", "referencia = '" + referencia + "'" + whereCantidad);
+	var cM:Number = util.sqlSelect("lineasfacturasprov lf INNER JOIN facturasprov f ON lf.idfactura = f.idfactura", "(SUM(lf.pvptotal*f.tasaconv) / SUM(lf.cantidad))", "lf.referencia = '" + referencia + "'" + whereCantidad, "lineasfacturasprov,facturasprov");
 	if (!cM)
 		cM = 0;
 
@@ -2646,7 +2646,7 @@ function costos_cambiarCosteUltimo(referencia:String):Boolean
 	if ( !cant || cant == 0)
 		return true;
 
-	var costoUltimo:Number = parseFloat(util.sqlSelect("lineasfacturasprov", "(pvptotal / cantidad)", "referencia = '" + referencia + "' ORDER BY idlinea DESC LIMIT 1"));
+	var costoUltimo:Number = parseFloat(util.sqlSelect("lineasfacturasprov lf INNER JOIN facturasprov f ON lf.idfactura = f.idfactura", "(lf.pvptotal / lf.cantidad)*f.tasaconv", "lf.referencia = '" + referencia + "' ORDER BY lf.idlinea DESC LIMIT 1", "lineasfacturasprov,facturasprov"));
 	if (!costoUltimo)
 		costoUltimo = 0;
 
@@ -2697,17 +2697,18 @@ function costos_cambiarCosteProveedor(curL:FLSqlCursor):Boolean
 
 	var referencia:String = curL.valueBuffer("referencia");
 	var codProveedor:String = util.sqlSelect("facturasprov","codproveedor","idfactura = " + curL.valueBuffer("idfactura"));
+	var codDivisa:String = util.sqlSelect("articulosprov","coddivisa","referencia = '" + referencia + "' AND codproveedor = '" + codProveedor + "'");
 	var coste:Number = 0;
 
 	var qryLineaFactura:FLSqlQuery = new FLSqlQuery();
-	qryLineaFactura.setTablesList("lineasfacturasprov");
-	qryLineaFactura.setSelect("pvptotal,cantidad");
-	qryLineaFactura.setFrom("lineasfacturasprov");
-	qryLineaFactura.setWhere("referencia = '" + referencia + "' AND idfactura IN (SELECT idfactura FROM facturasprov WHERE codproveedor = '" + codProveedor + "')");
-	qryLineaFactura.setOrderBy("idlinea DESC LIMIT 1");
+	qryLineaFactura.setTablesList("lineasfacturasprov,facturasprov");
+	qryLineaFactura.setSelect("lf.pvptotal/lf.cantidad");
+	qryLineaFactura.setFrom("lineasfacturasprov lf INNER JOIN facturasprov f ON lf.idfactura = f.idfactura");
+	qryLineaFactura.setWhere("lf.referencia = '" + referencia + "' AND f.codproveedor = '" + codProveedor + "' AND f.coddivisa = '" + codDivisa + "'");
+	qryLineaFactura.setOrderBy("lf.idlinea DESC LIMIT 1");
 	qryLineaFactura.exec();
 	if (qryLineaFactura.first()) {
-		coste = parseFloat(qryLineaFactura.value("pvptotal"))/parseFloat(qryLineaFactura.value("cantidad"));
+		coste = parseFloat(qryLineaFactura.value(0));
 	}
 
 	var curArticuloProv:FLSqlCursor = new FLSqlCursor("articulosprov");
