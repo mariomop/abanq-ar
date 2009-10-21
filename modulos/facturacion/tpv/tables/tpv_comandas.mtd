@@ -490,6 +490,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>3</length>
+		<default>$</default>
 		<visiblegrid>false</visiblegrid>
 		<relation>
 			<table>divisas</table>

@@ -196,6 +196,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>3</length>
+		<default>$</default>
 		<relation>
 			<table>divisas</table>
 			<field>coddivisa</field>
