@@ -308,12 +308,11 @@ function oficial_datosPedido(curPedidoAut:FLSqlCursor):Boolean
 	var codProveedor:String = curPedidoAut.valueBuffer("codproveedor");
 	var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
 	var codAlmacen:String = flfactppal.iface.pub_valorDefectoEmpresa("codalmacen");
-	var codPago:String = flfactppal.iface.pub_valorDefectoEmpresa("codpago");
 	var tasaConv:Number = util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + curPedidoAut.valueBuffer("coddivisa") + "'");
 	var qryDatosProv:FLSqlQuery = new FLSqlQuery();
 	with (qryDatosProv) {
 		setTablesList("proveedores");
-		setSelect("cifnif,numcliente");
+		setSelect("cifnif,numcliente,codpago");
 		setFrom("proveedores");
 		setWhere("codproveedor = '" + codProveedor + "'");
 		setForwardOnly(true);
@@ -322,6 +321,7 @@ function oficial_datosPedido(curPedidoAut:FLSqlCursor):Boolean
 		return;
 	qryDatosProv.first();
 	
+	var codPago:String = qryDatosProv.value("codpago");
 	var cifNif:String = qryDatosProv.value("cifnif");
 	var numCliente:String = qryDatosProv.value("numcliente");
 	
