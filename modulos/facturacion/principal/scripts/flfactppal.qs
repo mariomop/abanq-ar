@@ -852,6 +852,8 @@ function oficial_espaciosDerecha(texto:String, totalLongitud:Number):String
 function oficial_valoresIniciales()
 {
 	var util:FLUtil = new FLUtil();
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Cargando valores iniciales..." ), 15 );
 
 	var cursor:FLSqlCursor = new FLSqlCursor("bancos");
 	var bancos:Array = [
@@ -890,6 +892,7 @@ function oficial_valoresIniciales()
 		}
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("impuestos");
 	with(cursor) {
@@ -913,6 +916,7 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("tiposretencion");
 	with(cursor) {
@@ -938,6 +942,7 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("paises");
 	with(cursor) {
@@ -950,6 +955,7 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("divisas");
 	with(cursor) {
@@ -976,6 +982,7 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("formaspago");
 	with(cursor) {
@@ -1011,6 +1018,7 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("plazos");
 	with(cursor) {
@@ -1046,6 +1054,7 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("ejercicios");
 	var hoy:Date = new Date()
@@ -1063,8 +1072,10 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	this.iface.cambiarEjercicioActual( codEjercicio );
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("periodos");
 	fechaInicio = new Date(hoy.getYear(), hoy.getMonth(), 1);
@@ -1083,6 +1094,7 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("series");
 	with(cursor) {
@@ -1123,6 +1135,7 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("secuenciasejercicios");
 	var idSec1:Number;
@@ -1163,6 +1176,7 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("secuencias");
 	with(cursor) {
@@ -1231,6 +1245,7 @@ function oficial_valoresIniciales()
 		commitBuffer();
 	}
 	delete cursor;
+	util.setProgress( ++paso );
 	
 	cursor = new FLSqlCursor("empresa");
 	with(cursor) {
@@ -1258,7 +1273,12 @@ function oficial_valoresIniciales()
 		setValueBuffer("logo", "/* XPM */\nstatic char *g____[] = {\n\"125 43 172 2\",\n \"   c #555555\",\n \".  c #565656\",\n \"X  c gray34\",\n \"o  c #585858\",\n \"O  c gray35\",\n \"+  c #5A5A5A\",\n \"@  c #5B5B5B\",\n \"#  c gray36\",\n \"$  c gray37\",\n \"%  c #5F5F5F\",\n \"&  c #606060\",\n \"*  c gray38\",\n \"=  c #626262\",\n \"-  c gray39\",\n \";  c #646464\",\n \":  c #656565\",\n \">  c gray40\",\n \",  c #676767\",\n \"<  c #686868\",\n \"1  c DimGray\",\n \"2  c #6A6A6A\",\n \"3  c gray42\",\n \"4  c #6C6C6C\",\n \"5  c #6D6D6D\",\n \"6  c #6F6F6F\",\n \"7  c gray44\",\n \"8  c #717171\",\n \"9  c #727272\",\n \"0  c gray45\",\n \"q  c #747474\",\n \"w  c gray46\",\n \"e  c #767676\",\n \"r  c #797979\",\n \"t  c gray48\",\n \"y  c #7B7B7B\",\n \"u  c #7C7C7C\",\n \"i  c gray49\",\n \"p  c #7E7E7E\",\n \"a  c #7F7F7F\",\n \"s  c #164891\",\n \"d  c #808080\",\n \"f  c #818181\",\n \"g  c gray51\",\n \"h  c #838383\",\n \"j  c #848484\",\n \"k  c gray52\",\n \"l  c #868686\",\n \"z  c gray53\",\n \"x  c #888888\",\n \"c  c #898989\",\n \"v  c gray54\",\n \"b  c #8B8B8B\",\n \"n  c gray55\",\n \"m  c #8D8D8D\",\n \"M  c #8E8E8E\",\n \"N  c #909090\",\n \"B  c gray57\",\n \"V  c #929292\",\n \"C  c #939393\",\n \"Z  c gray58\",\n \"A  c #959595\",\n \"S  c gray59\",\n \"D  c #979797\",\n \"F  c #989898\",\n \"G  c gray60\",\n \"H  c #9A9A9A\",\n \"J  c #9B9B9B\",\n \"K  c gray61\",\n \"L  c #9D9D9D\",\n \"P  c gray62\",\n \"I  c #9F9F9F\",\n \"U  c #A0A0A0\",\n \"Y  c gray63\",\n \"T  c #A2A2A2\",\n \"R  c gray64\",\n \"E  c #A4A4A4\",\n \"W  c #A5A5A5\",\n \"Q  c gray65\",\n \"!  c #A7A7A7\",\n \"~  c gray66\",\n \"^  c #A9A9A9\",\n \"/  c #AAAAAA\",\n \"(  c gray67\",\n \")  c #ACACAC\",\n \"_  c gray68\",\n \"`  c #AEAEAE\",\n \"'  c #AFAFAF\",\n \"]  c gray69\",\n \"[  c #B1B1B1\",\n \"{  c #B2B2B2\",\n \"}  c #B4B4B4\",\n \"|  c gray71\",\n \" . c #B6B6B6\",\n \".. c #B7B7B7\",\n \"X. c gray72\",\n \"o. c #B9B9B9\",\n \"O. c gray73\",\n \"+. c #BBBBBB\",\n \"@. c #BCBCBC\",\n \"#. c gray74\",\n \"$. c gray\",\n \"%. c gray75\",\n \"&. c #8AA3C8\",\n \"*. c #8BA4C8\",\n \"=. c #95ABCD\",\n \"-. c #95ACCD\",\n \";. c #97ADCE\",\n \":. c #9DB2D1\",\n \">. c #9EB3D2\",\n \",. c #ABBDD8\",\n \"<. c #C0C0C0\",\n \"1. c gray76\",\n \"2. c #C3C3C3\",\n \"3. c gray77\",\n \"4. c #C5C5C5\",\n \"5. c #C6C6C6\",\n \"6. c gray78\",\n \"7. c #C8C8C8\",\n \"8. c gray79\",\n \"9. c #CACACA\",\n \"0. c #CBCBCB\",\n \"q. c gray80\",\n \"w. c #CDCDCD\",\n \"e. c #CECECE\",\n \"r. c gray81\",\n \"t. c #D0D0D0\",\n \"y. c gray82\",\n \"u. c #D2D2D2\",\n \"i. c LightGray\",\n \"p. c gray83\",\n \"a. c #D5D5D5\",\n \"s. c gray84\",\n \"d. c #D7D7D7\",\n \"f. c #D8D8D8\",\n \"g. c gray85\",\n \"h. c #DADADA\",\n \"j. c gray86\",\n \"k. c gainsboro\",\n \"l. c gray87\",\n \"z. c #DFDFDF\",\n \"x. c #C5D1E4\",\n \"c. c gray88\",\n \"v. c #E1E1E1\",\n \"b. c #E2E2E2\",\n \"n. c gray89\",\n \"m. c #E4E4E4\",\n \"M. c gray90\",\n \"N. c #E6E6E6\",\n \"B. c #E7E7E7\",\n \"V. c gray91\",\n \"C. c #E9E9E9\",\n \"Z. c #EAEAEA\",\n \"A. c gray92\",\n \"S. c #ECECEC\",\n \"D. c gray93\",\n \"F. c #EEEEEE\",\n \"G. c #EFEFEF\",\n \"H. c gray94\",\n \"J. c #F1F1F1\",\n \"K. c gray95\",\n \"L. c #F3F3F3\",\n \"P. c #F4F4F4\",\n \"I. c gray96\",\n \"U. c #F6F6F6\",\n \"Y. c #F8F8F8\",\n \"T. c #F9F9F9\",\n \"R. c gray98\",\n \"E. c #FBFBFB\",\n \"W. c gray99\",\n \"Q. c #FDFDFD\",\n \"!. c #FEFEFE\",\n \"~. c gray100\",\n \"s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s \",\n \"s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s \",\n \"&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.\",\n \"~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.I.s.8.@.| } } } } } } } } } } } } } } } } { } } } } } } } } Q F } } } } } } } } } N.~.~.~.~.~.~.~.~.~.~.~.~.~.n.} } } } ( v v v v v ^ } } } } } } } N.~.~.~.~.~.~.~.~.~.~.5.} } } } } } } } } } } } 5.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.~.~.~.Q. .t X                                         +                                       3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.                                    e W.~.~.~.~.~.~.~.~.u..                       o d.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.~.~.k.e         + 7 j k k k k k k k k k k k k k a     +   ; f f f f f 4       q f f f f f @   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    w f f f f f o . i f f f f f f -   ~ ~.~.~.~.~.~.~.U.1   * f f f f f f i .     { ~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.W.P .     m t.C.!.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.Z.    +   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   M Q.~.~.~.~.~.|   X j.~.~.~.~.~.~.D     [ ~.~.~.~.~.!.B     n ~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.{     4 r.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.Z.    +   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   . / ~.~.~.~.~.!.n   6 T.~.~.~.~.e.    x Q.~.~.~.~.~.'     5 U.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.A.#   6 Y.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.Z.    +   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$     $ 0.~.~.~.~.~.V.3   P ~.~.~.P.>   , n.~.~.~.~.~.e.&   @ c.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.c   . g.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.Z.    +   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$       7 B.~.~.~.~.~.#.X . p.~.~.V   .  .~.~.~.~.~.Z.0     %.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.C.    K ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.Z.    +   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   @     z E.~.~.~.~.~.V   1 U.7.    m !.~.~.~.~.W.v     F ~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.0.    9.~.~.~.~.~.U._ M v v v v v v v v v v v v v v j     +   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   !       R ~.~.~.~.~.F.7   m ;   4 V.~.~.~.~.~.W     e R.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.`     V.~.~.~.~.R.9                                       +   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.I     O 2.~.~.~.~.~.4.O     o @.~.~.~.~.~.4.@   & V.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.N   o !.~.~.~.~.s.                                        +   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.W.t     2 v.~.~.~.~.~.G     V ~.~.~.~.~.n.3   . 0.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.v     G.~.~.~.~.A.+                           + A %.%.%.%.+   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.~.S.=     d Y.~.~.~.~.L.e 6 D.~.~.~.~.T.g     E ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.U     u.~.~.~.~.~.y.q o                           q <.~.~.+   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.~.~.r..     J ~.~.~.~.~.i.w.~.~.~.~.~.K     a Q.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~...    / ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.W.B.t.X.C o     H !.+   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.~.~.~.~     o +.~.~.~.~.~.~.~.~.~.~.@.o   : G.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.h.    $ F.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.V.Z X   M +   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.~.~.~.Q.f     ; h.~.~.~.~.~.~.~.~.j.:   X a.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.u     B ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    X   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.~.~.~.~.H.>     c ~.~.~.~.~.~.~.~.c     ] ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.q.      H I.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.N   .   f ~.~.~.~.~.S       [ ~.~.~.~.E.<   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.~.~.~.~.Y.7   # 9.~.~.~.~.~.~.~.~.9.#   2.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.!.z       : 5.!.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.U.-     f ~.~.~.~.~.S       ` ~.~.~.~.W.2   3.~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.~.~.~.~.F     E ~.~.~.~.~.~.~.~.~.~.E   $ V.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.E.b         + 9 n W o.O.O.O.O.O.O.O.1.S.~.~.~.~.~.~.x     f ~.~.~.~.~.S       L ~.~.~.~.~.i   | ~.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.~.~.~.7.    h E.~.~.~.~.~.~.~.~.~.~.E.h   r W.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.~.W.A .                               o 3.~.~.~.~.~.~     f ~.~.~.~.~.S       l ~.~.~.~.~.Z   d !.~.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.~.~.A.&   < v.~.~.~.~.~.) T ~.~.~.~.~.b.<   R ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.~.~.~.V.E ;                             5 ~.~.~.~.~.7.    f ~.~.~.~.~.S       8 !.~.~.~.~.w.#   V Z.~.~.~.~.~.~.~.~.~.~.~.%.    ..~.~.~.~.U.$   r.~.Q.p   o @.~.~.~.~.~.s.* # 0.~.~.~.~.~.$.X . t.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.h.v v v v v l @                           t ~.~.~.~.~.q.    f ~.~.~.~.~.S   X   + B.~.~.~.~.~.W .   X 6 g v v v v v v v v v e     ..~.~.~.~.U.$   r.~./     D ~.~.~.~.~.R.a     e L.~.~.~.~.~.G   ; H.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.9.                                      O 5.~.~.~.~.~.`     f ~.~.~.~.~.S   -      .~.~.~.~.~.Q.$.i .                             ..~.~.~.~.U.$   r.d.X   r L.~.~.~.~.~.Q         J ~.~.~.~.~.I.t   j !.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.9.    M ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] $.L.~.~.~.~.~.~.N     f ~.~.~.~.~.S   8     4 C.~.~.~.~.~.~.Q.i.%._ T T T T T T T T T <     ..~.~.~.~.U.$   7.1   * a.~.~.~.~.~.p.&   O     # 9.~.~.~.~.~.s.-   [ ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.9.    <.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.W.3     f ~.~.~.~.~.S   k @     B ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.w     ..~.~.~.~.U.$   i   . ` ~.~.~.~.~.T.p     2.j     w L.~.~.~.~.~.{   o k.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.9.    <.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.E       f ~.~.~.~.~.S   v Y     X $.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.w     ..~.~.~.~.U.$       m Q.~.~.~.~.~.W     b ~.S.$     J ~.~.~.~.~.!.M   4 U.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.9.    <.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.t..   .   f ~.~.~.~.~.S   v K.<     % H A.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.w     ..~.~.~.~.U.$     6 Z.~.~.~.~.~.u.%   = H.~.~.#.    + 9.~.~.~.~.~.D.9   B ~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.9.    <.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.J.E #   . o   f ~.~.~.~.~.S   v ~.z.#       < ^ Y.~.~.~.~.~.~.~.~.~.~.~.~.~.~.w     ..~.~.~.~.U.$   @ 6.~.~.~.~.~.Y.u     3.~.~.~.~.k     w K.~.~.~.~.~.0.#   %.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.9.    <.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.H.h.1.P #       P +   f U.U.U.U.U.S   v ~.~.y.*         7 m U { 3.v.U.U.U.U.U.U.U.U.U.w     | U.U.U.U.F.$   I U.U.U.U.U.U.T     n ~.~.~.~.~.S.%     H U.U.U.U.U.U.T   # N.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.9.    # & & & & & & & & & & & & & & @             . N R.+   + ; ; ; ; ; #   v ~.~.~.S.y                 X = ; ; ; ; ; ; ; ; O     & ; ; ; ; ; . . - ; ; ; ; ; ; o   = H.~.~.~.~.~.~.$.    X ; ; ; ; ; ; - .   e E.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.9.                                              g l.~.~.+                   v ~.~.~.~.!.0.p                                                                         5.~.~.~.~.~.~.~.~.l                         I ~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.9.                                    % e m E u.~.~.~.~.+                   v ~.~.~.~.~.~.~.m.O.B 5 $                                                             m ~.~.~.~.~.~.~.~.~.D.&                         q.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.Y.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.K.~.~.~.~.~.~.~.~.~.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.H.~.~.~.~.~.~.~.~.~.~.~.~.W.J.Z.Z.Z.Z.Z.Z.Z.Z.Z.n.f.b.Z.Z.V.f.f.f.f.f.M.Z.Z.Z.Z.Z.Z.Z.T.~.~.~.~.~.~.~.~.~.~.J.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.Z.H.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.\",\n \"&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.&.\",\n \"s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s \",\n \"s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s \"};\n");
 		commitBuffer();
 	}
+	delete cursor;
+	util.setProgress( ++paso );
+
 	this.iface.crearProvinciasArg();
+	util.setProgress( ++paso );
+	util.destroyProgressDialog();
 }
 
 function oficial_crearProvinciasArg()

@@ -294,16 +294,29 @@ Genera el remito asociado a uno o más servicios
 function oficial_generarAlbaran(where:String, cursor:FLSqlCursor):Number
 {
 	var util:FLUtil = new FLUtil();
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Generando remito..." ), 9 );
+	
 
 	var curAlbaran:FLSqlCursor = new FLSqlCursor("albaranescli");
 	curAlbaran.setModeAccess(curAlbaran.Insert);
 	curAlbaran.refreshBuffer();
 
-	if(!this.iface.datosAlbaran(cursor,curAlbaran,where))
-		return false;
+	util.setProgress( ++paso );
 
-	if (!curAlbaran.commitBuffer())
+	if(!this.iface.datosAlbaran(cursor,curAlbaran,where)) {
+		util.destroyProgressDialog();
 		return false;
+	}
+
+	util.setProgress( ++paso );
+
+	if (!curAlbaran.commitBuffer()) {
+		util.destroyProgressDialog();
+		return false;
+	}
+
+	util.setProgress( ++paso );
 
 	var idAlbaran:Number = curAlbaran.valueBuffer("idalbaran");
 	var qryServicios:FLSqlQuery = new FLSqlQuery();
@@ -312,31 +325,54 @@ function oficial_generarAlbaran(where:String, cursor:FLSqlCursor):Number
 	qryServicios.setFrom("servicioscli");
 	qryServicios.setWhere(where);
 
-	if (!qryServicios.exec())
+	if (!qryServicios.exec()) {
+		util.destroyProgressDialog();
 		return false;
+	}
+
+	util.setProgress( ++paso );
 
 	var idServicio:String;
 	while (qryServicios.next()) {
 		idServicio = qryServicios.value(0);
-		if (!this.iface.copiaLineas(idServicio, idAlbaran))
+		if (!this.iface.copiaLineas(idServicio, idAlbaran)) {
+			util.destroyProgressDialog();
 			return false;
+		}
 	}
 		
+	util.setProgress( ++paso );
+	
 	curAlbaran.select("idalbaran = " + idAlbaran);
 	if (curAlbaran.first()) {
 		curAlbaran.setModeAccess(curAlbaran.Edit);
 		curAlbaran.refreshBuffer();
 		
-		if(!this.iface.totalesAlbaran(curAlbaran))
-			return false;
+		util.setProgress( ++paso );
 		
-		if (!curAlbaran.commitBuffer())
+		if(!this.iface.totalesAlbaran(curAlbaran)) {
+			util.destroyProgressDialog();
 			return false;
+		}
+		
+		util.setProgress( ++paso );
+		
+		if (!curAlbaran.commitBuffer()) {
+			util.destroyProgressDialog();
+			return false;
+		}
+		
+		util.setProgress( ++paso );
 	}
 
-	if(!this.iface.actualizarDatosServicio(where, idAlbaran))
+	if(!this.iface.actualizarDatosServicio(where, idAlbaran)) {
+		util.destroyProgressDialog();
 		return false;
+	}
 	
+	util.setProgress( ++paso );
+	util.destroyProgressDialog();
+
 	return idAlbaran;
 }
 

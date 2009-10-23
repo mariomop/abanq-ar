@@ -480,66 +480,74 @@ function oficial_copiarFactura_clicked()
 function oficial_copiarFactura(curFactura:FLSqlCursor):Number
 {
 	var util:FLUtil = new FLUtil();
-
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Copiando factura..." ), 9 );
+	
 	if (!this.iface.curFactura)
 		this.iface.curFactura = new FLSqlCursor("facturasprov");
 
-	util.createProgressDialog(util.translate("scripts", "Copiando Factura...."), 4);
-	var progreso = 0;
-
+	util.setProgress( ++paso );
+	
 	this.iface.curFactura.setModeAccess(this.iface.curFactura.Insert);
 	this.iface.curFactura.refreshBuffer();
 	
-	progreso = 1;
-	util.setProgress(progreso);
-
+	util.setProgress( ++paso );
+	
 	if (!this.iface.copiadatosFactura(curFactura)) {
 		util.destroyProgressDialog();
 		return false;
 	}
-
+	
+	util.setProgress( ++paso );
+	
 	if (!this.iface.curFactura.commitBuffer()) {
 		util.destroyProgressDialog();
 		return false;
 	}
 	
+	util.setProgress( ++paso );
+	
 	var idFactura:Number = this.iface.curFactura.valueBuffer("idfactura");
-
-	progreso = 2;
-	util.setProgress(progreso);
 
 	if (!this.iface.copiaLineasFactura(curFactura.valueBuffer("idfactura"), idFactura)) {
 		util.destroyProgressDialog(); 
 		return false;
 	}
 	
-	progreso = 3;
-	util.setProgress(progreso);
-
+	util.setProgress( ++paso );
+	
 	// Copia los pies de factura
 	if (!this.iface.copiaPiesFactura(curFactura.valueBuffer("idfactura"), idFactura)) {
 		util.destroyProgressDialog();
 		return false;
 	}
 
+	util.setProgress( ++paso );
+	
 	this.iface.curFactura.select("idfactura = " + idFactura);
 	if (this.iface.curFactura.first()) {
 		this.iface.curFactura.setModeAccess(this.iface.curFactura.Edit);
 		this.iface.curFactura.refreshBuffer();
 	
-		progreso = 4;
-		util.setProgress(progreso);
-	
+		util.setProgress( ++paso );
+		
 		if (!this.iface.totalesFactura()) {
 			util.destroyProgressDialog();
 			return false;
 		}
+		
+		util.setProgress( ++paso );
+		
 		if (this.iface.curFactura.commitBuffer() == false) {
 			util.destroyProgressDialog();
 			return false;
 		}
+		
+		util.setProgress( ++paso );
 	}
+	
 	util.destroyProgressDialog();
+	
 	return idFactura;
 }
 

@@ -338,8 +338,14 @@ Genera el pedido asociado a un presupuesto
 \end */
 function oficial_generarPedido(curPresupuesto:FLSqlCursor):Number
 {
+	var util:FLUtil = new FLUtil();
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Generando pedido..." ), 11 );
+
 	if (!this.iface.curPedido)
 		this.iface.curPedido = new FLSqlCursor("pedidoscli");
+	
+	util.setProgress( ++paso );
 	
 	var idPresupuesto:String = curPresupuesto.valueBuffer("idpresupuesto");
 	
@@ -347,29 +353,57 @@ function oficial_generarPedido(curPresupuesto:FLSqlCursor):Number
 	this.iface.curPedido.refreshBuffer();
 	this.iface.curPedido.setValueBuffer("idpresupuesto", idPresupuesto);
 	
-	if (!this.iface.datosPedido(curPresupuesto))
-		return false;
+	util.setProgress( ++paso );
 	
-	if (!this.iface.curPedido.commitBuffer())
+	if (!this.iface.datosPedido(curPresupuesto)) {
+		util.destroyProgressDialog();
 		return false;
+	}
+	
+	util.setProgress( ++paso );
+	
+	if (!this.iface.curPedido.commitBuffer()) {
+		util.destroyProgressDialog();
+		return false;
+	}
+	
+	util.setProgress( ++paso );
 	
 	var idPedido:Number = this.iface.curPedido.valueBuffer("idpedido");
 	var curPresupuestos:FLSqlCursor = new FLSqlCursor("presupuestoscli");
 	curPresupuestos.select("idpresupuesto = " + idPresupuesto);
-	if (!curPresupuestos.first())
+	if (!curPresupuestos.first()) {
+		util.destroyProgressDialog();
 		return false;
+	}
+	
+	util.setProgress( ++paso );
 	
 	curPresupuestos.setModeAccess(curPresupuestos.Edit);
 	curPresupuestos.refreshBuffer();
-	if (!this.iface.copiaLineas(idPresupuesto, idPedido))
+	if (!this.iface.copiaLineas(idPresupuesto, idPedido)) {
+		util.destroyProgressDialog();
 		return false;
+	}
+	
+	util.setProgress( ++paso );
+	
 	// Copia los pies de presupuesto
-	if (!this.iface.copiaPiesPresupuesto(idPresupuesto, idPedido))
+	if (!this.iface.copiaPiesPresupuesto(idPresupuesto, idPedido)) {
+		util.destroyProgressDialog();
 		return false;
+	}
+	
+	util.setProgress( ++paso );
+	
 	curPresupuestos.setValueBuffer("fechasalida", this.iface.curPedido.valueBuffer("fecha"));
 	curPresupuestos.setValueBuffer("editable", false);
-	if (!curPresupuestos.commitBuffer())
+	if (!curPresupuestos.commitBuffer()) {
+		util.destroyProgressDialog();
 		return false;
+	}
+	
+	util.setProgress( ++paso );
 	
 	this.iface.curPedido.select("idpedido = " + idPedido);
 	if (this.iface.curPedido.first()) {
@@ -377,12 +411,25 @@ function oficial_generarPedido(curPresupuesto:FLSqlCursor):Number
 		this.iface.curPedido.refreshBuffer();
 		this.iface.curPedido.setValueBuffer("idpresupuesto", idPresupuesto);
 		
-		if (!this.iface.totalesPedido())
-			return false;
+		util.setProgress( ++paso );
 		
-		if (this.iface.curPedido.commitBuffer() == false)
+		if (!this.iface.totalesPedido()) {
+			util.destroyProgressDialog();
 			return false;
+		}
+		
+		util.setProgress( ++paso );
+		
+		if (this.iface.curPedido.commitBuffer() == false) {
+			util.destroyProgressDialog();
+			return false;
+		}
+		
+		util.setProgress( ++paso );
 	}
+
+	util.destroyProgressDialog();
+
 	return idPedido;
 }
 
@@ -629,34 +676,60 @@ function oficial_duplicarPresupuesto_clicked()
 
 function oficial_duplicarPresupuesto(curOrigen:FLSqlCursor):String
 {
-	var util:FLUtil = new FLUtil;
+	var util:FLUtil = new FLUtil();
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Copiando presupuesto..." ), 7 );
 
 	if (!this.iface.curPresupuesto_) {
 		this.iface.curPresupuesto_ = new FLSqlCursor("presupuestoscli");
 	}
+	
+	util.setProgress( ++paso );
+	
 	this.iface.curPresupuesto_.setModeAccess(this.iface.curPresupuesto_.Insert);
 	this.iface.curPresupuesto_.refreshBuffer();
 
 	var campos:Array = util.nombreCampos("presupuestoscli");
 	var totalCampos:Number = campos[0];
-
+	
+	util.setProgress( ++paso );
+	
 	var campoInformado:Array = [];
 	for (var i:Number = 1; i <= totalCampos; i++) {
 		campoInformado[campos[i]] = false;
 	}
+	
+	util.setProgress( ++paso );
+	
 	for (var i:Number = 1; i <= totalCampos; i++) {
 		if (!this.iface.copiarCampoPresupuesto(campos[i], curOrigen, campoInformado)) {
+			util.destroyProgressDialog();
 			return false;
 		}
 	}
+	
+	util.setProgress( ++paso );
+	
 	if (!this.iface.curPresupuesto_.commitBuffer()) {
+		util.destroyProgressDialog();
 		return false;
 	}
+	
+	util.setProgress( ++paso );
+	
 	var idPresDestino:String = this.iface.curPresupuesto_.valueBuffer("idpresupuesto");
 	if (!this.iface.duplicarHijosPresupuesto(curOrigen.valueBuffer("idpresupuesto"), idPresDestino)) {
+		util.destroyProgressDialog();
 		return false;
 	}
+	
+	util.setProgress( ++paso );
+	
 	var codPresupuesto:String = this.iface.curPresupuesto_.valueBuffer("codigo");
+	
+	util.setProgress( ++paso );
+	util.destroyProgressDialog();
+	
 	return codPresupuesto;
 }
 

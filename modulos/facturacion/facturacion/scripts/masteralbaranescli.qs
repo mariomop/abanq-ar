@@ -426,19 +426,37 @@ Genera la factura asociada a uno o más albaranes
 \end */
 function oficial_generarFactura(where:String, curAlbaran:FLSqlCursor, datosAgrupacion:Array):Number
 {
+	var util:FLUtil = new FLUtil();
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Generando factura..." ), 9 );
+	
 	if (!this.iface.curFactura)
 		this.iface.curFactura = new FLSqlCursor("facturascli");
+	
+	
+	util.setProgress( ++paso );
 	
 	this.iface.curFactura.setModeAccess(this.iface.curFactura.Insert);
 	this.iface.curFactura.refreshBuffer();
 	
+	
+	util.setProgress( ++paso );
+	
 	if (!this.iface.datosFactura(curAlbaran, where, datosAgrupacion)) {
+		util.destroyProgressDialog();
 		return false;
 	}
 	
+	
+	util.setProgress( ++paso );
+	
 	if (!this.iface.curFactura.commitBuffer()) {
+		util.destroyProgressDialog();
 		return false;
 	}
+	
+	
+	util.setProgress( ++paso );
 	
 	var idFactura:Number = this.iface.curFactura.valueBuffer("idfactura");
 	
@@ -450,19 +468,24 @@ function oficial_generarFactura(where:String, curAlbaran:FLSqlCursor, datosAgrup
 		curAlbaranes.refreshBuffer();
 		idAlbaran = curAlbaranes.valueBuffer("idalbaran");
 		if (!this.iface.copiaLineasAlbaran(idAlbaran, idFactura)) {
+			util.destroyProgressDialog();
 			return false;
 		}
 		curAlbaranes.setValueBuffer("idfactura", idFactura);
 		curAlbaranes.setValueBuffer("ptefactura", false);
 		if (!curAlbaranes.commitBuffer()) {
+			util.destroyProgressDialog();
 			return false;
 		}
 		// Crea los pies de factura a partir de los pies de remito
 		if (!this.iface.copiaPiesAlbaran(idAlbaran, idFactura)) {
+			util.destroyProgressDialog();
 			return false;
 		}
 	}
 
+	util.setProgress( ++paso );
+	
 	this.iface.curFactura.select("idfactura = " + idFactura);
 	if (this.iface.curFactura.first()) {
 /*
@@ -473,15 +496,32 @@ function oficial_generarFactura(where:String, curAlbaran:FLSqlCursor, datosAgrup
 		this.iface.curFactura.setModeAccess(this.iface.curFactura.Edit);
 		this.iface.curFactura.refreshBuffer();
 		
-		if (!this.iface.totalesFactura())
-			return false;
 		
-		if (this.iface.curFactura.commitBuffer() == false)
+		util.setProgress( ++paso );
+		
+		if (!this.iface.totalesFactura()) {
+			util.destroyProgressDialog();
 			return false;
+		}
+		
+		
+		util.setProgress( ++paso );
+		
+		if (this.iface.curFactura.commitBuffer() == false) {
+			util.destroyProgressDialog();
+			return false;
+		}
+		
+		util.setProgress( ++paso );
 	}
 	if (!this.iface.validarFactura(idFactura)) {
+		util.destroyProgressDialog();
 		return false;
 	}
+
+	util.setProgress( ++paso );
+	util.destroyProgressDialog();
+
 	return idFactura;
 }
 

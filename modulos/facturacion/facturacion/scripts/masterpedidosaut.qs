@@ -248,8 +248,14 @@ Genera el pedido asociado a un pedido automatico
 \end */
 function oficial_generarPedido(curPedidoAut:FLSqlCursor):Number
 {
+	var util:FLUtil = new FLUtil();
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Generando pedido..." ), 10 );
+
 	if (!this.iface.curPedido)
 		this.iface.curPedido = new FLSqlCursor("pedidosprov");
+	
+	util.setProgress( ++paso );
 	
 	var idPedidoAut:String = curPedidoAut.valueBuffer("idpedidoaut");
 	
@@ -257,37 +263,75 @@ function oficial_generarPedido(curPedidoAut:FLSqlCursor):Number
 	this.iface.curPedido.refreshBuffer();
 	this.iface.curPedido.setValueBuffer("idpedidoaut", idPedidoAut);
 	
-	if (!this.iface.datosPedido(curPedidoAut))
+	util.setProgress( ++paso );
+	
+	if (!this.iface.datosPedido(curPedidoAut)) {
+		util.destroyProgressDialog();
 		return false;
-	if (!this.iface.curPedido.commitBuffer())
+	}
+	
+	util.setProgress( ++paso );
+	
+	if (!this.iface.curPedido.commitBuffer()) {
+		util.destroyProgressDialog();
 		return false;
+	}
+	
+	util.setProgress( ++paso );
 	
 	var idPedido:Number = this.iface.curPedido.valueBuffer("idpedido");
 	var curPedidoAuts:FLSqlCursor = new FLSqlCursor("pedidosaut");
 	curPedidoAuts.select("idpedidoaut = " + idPedidoAut);
-	if (!curPedidoAuts.first())
+	if (!curPedidoAuts.first()) {
+		util.destroyProgressDialog();
 		return false;
+	}
+	
+	util.setProgress( ++paso );
 	
 	curPedidoAuts.setModeAccess(curPedidoAuts.Edit);
 	curPedidoAuts.refreshBuffer();
-	if (!this.iface.copiaLineas(idPedidoAut, idPedido))
+	if (!this.iface.copiaLineas(idPedidoAut, idPedido)) {
+		util.destroyProgressDialog();
 		return false;
+	}
+	
+	util.setProgress( ++paso );
 	
 	curPedidoAuts.setValueBuffer("idpedido", idPedido);
 	curPedidoAuts.setValueBuffer("editable", false);
-	if (!curPedidoAuts.commitBuffer())
+	if (!curPedidoAuts.commitBuffer()) {
+		util.destroyProgressDialog();
 		return false;
+	}
+	
+	util.setProgress( ++paso );
 	
 	this.iface.curPedido.select("idpedido = " + idPedido);
 	if (this.iface.curPedido.first()) {
 		this.iface.curPedido.setModeAccess(this.iface.curPedido.Edit);
 		this.iface.curPedido.refreshBuffer();
 		this.iface.curPedido.setValueBuffer("idpedidoaut", idPedidoAut);
-		if (!this.iface.totalesPedido())
+		
+		util.setProgress( ++paso );
+		
+		if (!this.iface.totalesPedido()) {
+			util.destroyProgressDialog();
 			return false;
-		if (this.iface.curPedido.commitBuffer() == false)
+		}
+		
+		util.setProgress( ++paso );
+		
+		if (this.iface.curPedido.commitBuffer() == false) {
+			util.destroyProgressDialog();
 			return false;
+		}
+		
+		util.setProgress( ++paso );
 	}
+
+	util.destroyProgressDialog();
+
 	return idPedido;
 }
 

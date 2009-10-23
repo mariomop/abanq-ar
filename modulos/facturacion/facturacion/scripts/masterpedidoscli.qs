@@ -438,18 +438,33 @@ Genera el remito asociado a uno o más pedidos
 \end */
 function oficial_generarAlbaran(where:String, curPedido:FLSqlCursor, datosAgrupacion:Array):Number
 {
+	var util:FLUtil = new FLUtil();
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Generando remito..." ), 9 );
+	
 	if (!this.iface.curAlbaran)
 		this.iface.curAlbaran = new FLSqlCursor("albaranescli");
+	
+	util.setProgress( ++paso );
 	
 	this.iface.curAlbaran.setModeAccess(this.iface.curAlbaran.Insert);
 	this.iface.curAlbaran.refreshBuffer();
 	
-	if (!this.iface.datosAlbaran(curPedido, where, datosAgrupacion))
-		return false;
+	util.setProgress( ++paso );
 	
-	if (!this.iface.curAlbaran.commitBuffer()) {
+	if (!this.iface.datosAlbaran(curPedido, where, datosAgrupacion)) {
+		util.destroyProgressDialog();
 		return false;
 	}
+	
+	util.setProgress( ++paso );
+	
+	if (!this.iface.curAlbaran.commitBuffer()) {
+		util.destroyProgressDialog();
+		return false;
+	}
+	
+	util.setProgress( ++paso );
 	
 	var idAlbaran:Number = this.iface.curAlbaran.valueBuffer("idalbaran");
 	
@@ -459,30 +474,53 @@ function oficial_generarAlbaran(where:String, curPedido:FLSqlCursor, datosAgrupa
 	qryPedidos.setFrom("pedidoscli");
 	qryPedidos.setWhere(where);
 
-	if (!qryPedidos.exec())
+	if (!qryPedidos.exec()) {
+		util.destroyProgressDialog();
 		return false;
+	}
 
+	util.setProgress( ++paso );
+	
 	var idPedido:String;
 	while (qryPedidos.next()) {
 		idPedido = qryPedidos.value(0);
-		if (!this.iface.copiaLineas(idPedido, idAlbaran))
+		if (!this.iface.copiaLineas(idPedido, idAlbaran)) {
+			util.destroyProgressDialog();
 			return false;
+		}
 		// Crea los pies de remito a partir de los pies de pedido
-		if (!this.iface.copiaPiesPedido(idPedido, idAlbaran))
+		if (!this.iface.copiaPiesPedido(idPedido, idAlbaran)) {
+			util.destroyProgressDialog();
 			return false;
+		}
 	}
 
+	util.setProgress( ++paso );
+	
 	this.iface.curAlbaran.select("idalbaran = " + idAlbaran);
 	if (this.iface.curAlbaran.first()) {
 		this.iface.curAlbaran.setModeAccess(this.iface.curAlbaran.Edit);
 		this.iface.curAlbaran.refreshBuffer();
 		
-		if (!this.iface.totalesAlbaran())
-			return false;
+		util.setProgress( ++paso );
 		
-		if (this.iface.curAlbaran.commitBuffer() == false)
+		if (!this.iface.totalesAlbaran()) {
+			util.destroyProgressDialog();
 			return false;
+		}
+		
+		util.setProgress( ++paso );
+		
+		if (this.iface.curAlbaran.commitBuffer() == false) {
+			util.destroyProgressDialog();
+			return false;
+		}
+		
+		util.setProgress( ++paso );
 	}
+
+	util.destroyProgressDialog();
+
 	return idAlbaran;
 }
 
