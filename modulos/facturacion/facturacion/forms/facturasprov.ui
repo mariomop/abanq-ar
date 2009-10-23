@@ -1664,8 +1664,11 @@
 											<property name="iconSet" >
 												<iconset>image28628</iconset>
 											</property>
+											<property name="accel" >
+												<string>Ctrl+A</string>
+											</property>
 											<property name="toolTip" stdset="0" >
-												<string>Insertar registro (A)</string>
+												<string>Insertar registro (Ctrl+A)</string>
 											</property>
 											<property name="whatsThis" stdset="0" >
 												<string>Para crear un nuevo registro en la tabla</string>
