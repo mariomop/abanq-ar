@@ -2968,7 +2968,6 @@ function tipoVenta_datosPresupuesto(curComanda:FLSqlCursor):Boolean
 		setValueBuffer("provincia", curComanda.valueBuffer("provincia"));
 		setValueBuffer("codpais", curComanda.valueBuffer("codpais"));
 		setValueBuffer("fecha", curComanda.valueBuffer("fecha"));
-		setValueBuffer("fechasalida", curComanda.valueBuffer("fecha"));
 		setValueBuffer("codejercicio",flfactppal.iface.pub_ejercicioActual());
 		setValueBuffer("coddivisa", curComanda.valueBuffer("coddivisa"));
 		setValueBuffer("codpago", curComanda.valueBuffer("codpago"));

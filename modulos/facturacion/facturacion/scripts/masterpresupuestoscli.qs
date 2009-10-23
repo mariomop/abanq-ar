@@ -366,6 +366,7 @@ function oficial_generarPedido(curPresupuesto:FLSqlCursor):Number
 	// Copia los pies de presupuesto
 	if (!this.iface.copiaPiesPresupuesto(idPresupuesto, idPedido))
 		return false;
+	curPresupuestos.setValueBuffer("fechasalida", this.iface.curPedido.valueBuffer("fecha"));
 	curPresupuestos.setValueBuffer("editable", false);
 	if (!curPresupuestos.commitBuffer())
 		return false;
@@ -430,7 +431,7 @@ function oficial_datosPedido(curPresupuesto:FLSqlCursor):Boolean
 		setValueBuffer("provincia", curPresupuesto.valueBuffer("provincia"));
 		setValueBuffer("apartado", curPresupuesto.valueBuffer("apartado"));
 		setValueBuffer("codpais", curPresupuesto.valueBuffer("codpais"));
-		setValueBuffer("fechasalida", curPresupuesto.valueBuffer("fechasalida"));
+		setValueBuffer("fechasalida", fecha);
 		setValueBuffer("observaciones", curPresupuesto.valueBuffer("observaciones"));
 	}
 	

@@ -130,7 +130,7 @@
 		<name>fechasalida</name>
 		<!--Fecha prevista de envío del pedido asociado al presupuesto-->
 		<alias>QT_TRANSLATE_NOOP("MetaData","F. Salida")</alias>
-		<null>false</null>
+		<null>true</null>
 		<pk>false</pk>
 		<type>date</type>
 	</field>

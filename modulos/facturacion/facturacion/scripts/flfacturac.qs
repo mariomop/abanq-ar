@@ -4240,6 +4240,9 @@ function oficial_actualizarEstadoPedidoCli(idPedido:Number, curAlbaran:FLSqlCurs
 	if (curPedido.first()) {
 		curPedido.setValueBuffer("servido", estado);
 		if (estado == "Sí") {
+			var util:FLUtil = new FLUtil();
+			var fecha:String = util.sqlSelect("albaranescli", "fecha", "idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			curPedido.setValueBuffer("fechasalida", fecha);
 			curPedido.setValueBuffer("editable", false);
 		}
 		if (!curPedido.commitBuffer()) {
