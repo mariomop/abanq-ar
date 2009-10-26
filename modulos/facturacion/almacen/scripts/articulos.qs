@@ -2945,6 +2945,7 @@ function multiDivisa_bufferChanged(fN:String)
 		case "pvp":
 			this.iface.__bufferChanged(fN);
 		case "ivaincluido":
+		case "codimpuesto":
 		case "calcularPvpPesos":
 			this.child("lblPvpPesos").setText(this.iface.calculateField("pvppesos"));
 			break;
@@ -3012,6 +3013,8 @@ function multiDivisa_calculateField(fN:String):Number
 				valor = valor * (1 + (iva/100));
 			}
 
+			if (isNaN(valor))
+				valor = 0;
 			valor = util.roundFieldValue(valor, "articulos", "pvp");
 			break;
 		}
