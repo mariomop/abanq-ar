@@ -171,23 +171,6 @@
 									<bool>false</bool>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>spacer23</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>101</width>
-										<height>21</height>
-									</size>
-								</property>
-							</spacer>
 						</hbox>
 					</widget>
 					<widget class="QLayoutWidget">
@@ -278,23 +261,6 @@
 									<bool>false</bool>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>spacer23_2</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>101</width>
-										<height>21</height>
-									</size>
-								</property>
-							</spacer>
 						</hbox>
 					</widget>
 					<widget class="QLayoutWidget">
@@ -385,23 +351,6 @@
 									<bool>false</bool>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>spacer33</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>141</width>
-										<height>21</height>
-									</size>
-								</property>
-							</spacer>
 						</hbox>
 					</widget>
 					<widget class="QLayoutWidget">
@@ -509,8 +458,14 @@
 								</property>
 								<property name="minimumSize">
 									<size>
-										<width>160</width>
+										<width>140</width>
 										<height>25</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>140</width>
+										<height>32767</height>
 									</size>
 								</property>
 								<property name="font">
@@ -537,8 +492,14 @@
 								</property>
 								<property name="minimumSize">
 									<size>
-										<width>300</width>
+										<width>0</width>
 										<height>25</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>27591</width>
+										<height>32767</height>
 									</size>
 								</property>
 								<property name="font">
@@ -548,7 +509,7 @@
 									</font>
 								</property>
 								<property name="fieldName">
-									<string>descripcion</string>
+									<string>descripcionextendida</string>
 								</property>
 								<property name="tableName">
 									<string>familias</string>

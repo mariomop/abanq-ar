@@ -34,7 +34,7 @@
 		<null>false</null>
 		<pk>false</pk>
 		<type>string</type>
-		<length>4</length>
+		<length>10</length>
 		
 		<relation>
 			<table>familias</table>

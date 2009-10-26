@@ -230,7 +230,7 @@
 									</font>
 								</property>
 								<property name="fieldName">
-									<string>descripcion</string>
+									<string>descripcionextendida</string>
 								</property>
 								<property name="tableName">
 									<string>familias</string>

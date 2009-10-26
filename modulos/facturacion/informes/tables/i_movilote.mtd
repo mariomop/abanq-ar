@@ -44,7 +44,7 @@
 		<alias>QT_TRANSLATE_NOOP("MetaData","Familia")</alias>
 		<pk>false</pk>
 		<type>string</type>
-		<length>4</length>
+		<length>10</length>
 		
 		<relation>
 			<table>familias</table>
