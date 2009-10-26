@@ -448,14 +448,6 @@
         <scriptform>masternumerosserie</scriptform>
     </action>
     <action>
-        <name>subfamilias</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Subfamilias, varias subfamilias se agrupan en una familia")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Subfamilias")</alias>
-        <table>subfamilias</table>
-        <form>master</form>
-        <formrecord>subfamilias</formrecord>
-    </action>
-    <action>
         <name>factalma_proveedores</name>
         <alias>QT_TRANSLATE_NOOP("MetaData","Proveedores")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Gestiona los artículos de proveedores")</description>

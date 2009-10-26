@@ -382,68 +382,6 @@
 										<bool>false</bool>
 									</property>
 								</widget>
-								<widget class="FLFieldDB" >
-									<property name="name" >
-										<cstring>fdbCodSubfamilia</cstring>
-									</property>
-									<property name="sizePolicy" >
-										<sizepolicy>
-											<hsizetype>0</hsizetype>
-											<vsizetype>0</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
-									</property>
-									<property name="minimumSize" >
-										<size>
-											<width>85</width>
-											<height>25</height>
-										</size>
-									</property>
-									<property name="maximumSize" >
-										<size>
-											<width>150</width>
-											<height>25</height>
-										</size>
-									</property>
-									<property name="fieldName" >
-										<string>codsubfamilia</string>
-									</property>
-								</widget>
-								<widget class="FLFieldDB" >
-									<property name="name" >
-										<cstring>fdbdescsubfamilia</cstring>
-									</property>
-									<property name="sizePolicy" >
-										<sizepolicy>
-											<hsizetype>7</hsizetype>
-											<vsizetype>0</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
-									</property>
-									<property name="minimumSize" >
-										<size>
-											<width>25</width>
-											<height>25</height>
-										</size>
-									</property>
-									<property name="fieldName" >
-										<string>descripcion</string>
-									</property>
-									<property name="tableName" >
-										<string>subfamilias</string>
-									</property>
-									<property name="foreignField" >
-										<string>codsubfamilia</string>
-									</property>
-									<property name="fieldRelation" >
-										<string>codsubfamilia</string>
-									</property>
-									<property name="showAlias" >
-										<bool>false</bool>
-									</property>
-								</widget>
 							</hbox>
 						</widget>
 						<widget class="QGroupBox" >
@@ -6949,7 +6887,6 @@
 		<tabstop>fdbDescripcion</tabstop>
 		<tabstop>fdbCodUnidad</tabstop>
 		<tabstop>fdbCodFamilia</tabstop>
-		<tabstop>fdbCodSubfamilia</tabstop>
 		<tabstop>fdbCodFabricante</tabstop>
 		<tabstop>fdbModelo</tabstop>
 		<tabstop>fieldCodBarras</tabstop>

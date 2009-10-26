@@ -332,23 +332,11 @@ class funNumSerie extends articuloscomp {
 //////////////////////////////////////////////////////////////////
 
 
-/** @class_declaration sfamilia */
-//////////////////////////////////////////////////////////////////
-//// SUBFAMILIA //////////////////////////////////////////////////
-class sfamilia extends funNumSerie {
-    function sfamilia( context ) { funNumSerie( context ); } 
-	function bufferChanged(fN:String){return this.ctx.sfamilia_bufferChanged(fN);}
-	function calculateField(fN:String):Number{return this.ctx.sfamilia_calculateField(fN);}
-	function validateForm():Boolean {return this.ctx.sfamilia_validateForm();}
-}
-//// SUBFAMILIA //////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-
 /** @class_declaration silixUploadimage */
 //////////////////////////////////////////////////////////////////
 //// SILIXUPLOADIMAGE ///////////////////////////////////////////
-class silixUploadimage extends sfamilia {
-    function silixUploadimage( context ) { sfamilia( context ); } 
+class silixUploadimage extends funNumSerie {
+    function silixUploadimage( context ) { funNumSerie( context ); } 
 	function seleccionarImagen() {
 		return this.ctx.silixUploadimage_seleccionarImagen();
 	}
@@ -2371,63 +2359,6 @@ function funNumSerie_borrarNS()
 //// FUN_NUMEROS_SERIE /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-/** @class_definition sfamilia */
-/////////////////////////////////////////////////////////////////
-//// SUBFAMILIA /////////////////////////////////////////////////
-function sfamilia_bufferChanged(fN:String)
-{
-	switch (fN) {
-		case "codsubfamilia":
-			this.child("fdbCodFamilia").setValue(this.iface.calculateField("codfamilia"));
-			break;
-		default:
-			this.iface.__bufferChanged(fN);
-	}
-}
-
-function sfamilia_calculateField(fN:String):Number
-{
-	var util:FLUtil = new FLUtil();
-	var valor:Number;
-
-	switch (fN) {
-		case "codfamilia": {
-			valor =  util.sqlSelect("subfamilias", "codfamilia", "codsubfamilia='" + this.cursor().valueBuffer("codsubfamilia") + "';");
-			break;
-		}
-		default: {
-			valor = this.iface.__calculateField(fN);
-		}
-	}
-	return valor;
-}
-
-function sfamilia_validateForm():Boolean 
-{
-	var util:FLUtil = new FLUtil();
-	var cursor:FLSqlCursor = this.cursor();
-
-	if (!this.iface.__validateForm())
-		return false;
-	
-	var codFamilia:String = cursor.valueBuffer("codfamilia");
-	var codSubfamilia:String = cursor.valueBuffer("codsubfamilia");
-	
-	if (!codFamilia || !codSubfamilia) return true;
-	
-	var codFamiliaSF:String = util.sqlSelect("subfamilias", "codfamilia", "codsubfamilia='" + codSubfamilia + "';");
-	
-	if (codFamiliaSF != codFamilia) {
-		MessageBox.critical(util.translate("scripts", "La subfamilia no pertenece a la familia"), MessageBox.Ok, MessageBox.NoButton);
-		return false;
-	}
-	
-	return true;
-}
-
-//// SUBFAMILIA /////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-
 /** @class_declaration silixUploadimage */
 //////////////////////////////////////////////////////////////////
 //// SILIXUPLOADIMAGE ///////////////////////////////////////////
@@ -2839,8 +2770,7 @@ function marcacion_init()
 function marcacion_bufferChanged(fN:String)
 {
 	switch (fN) {
-		case "codfamilia":
-		case "codsubfamilia": {
+		case "codfamilia": {
 			this.child("fdbMarcacion").setValue(this.iface.calculateField("marcacion"));
 			break;
 		}
@@ -2896,16 +2826,10 @@ function marcacion_calculateField(fN:String):Number
 		}
 		case "marcacion": {
 			var codFamilia:String = cursor.valueBuffer("codfamilia");
-			var codSubfamilia:String = cursor.valueBuffer("codsubfamilia");
 
 			var marcacion:Number;
 
-			marcacion = parseFloat(util.sqlSelect("subfamilias", "marcacion", "codsubfamilia = '" + codSubfamilia + "'"));
-			if (isNaN(marcacion)) {
-
-				marcacion = parseFloat(util.sqlSelect("familias", "marcacion", "codfamilia = '" + codFamilia + "'"));
-			}
-
+			marcacion = parseFloat(util.sqlSelect("familias", "marcacion", "codfamilia = '" + codFamilia + "'"));
 			if (isNaN(marcacion))
 				marcacion = 0;
 

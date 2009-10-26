@@ -10,11 +10,6 @@
 		<type>string</type>
 		<length>10</length>
 		<relation>
-			<table>subfamilias</table>
-			<field>codfamilia</field>
-			<card>1M</card>
-		</relation>
-		<relation>
 			<table>articulos</table>
 			<field>codfamilia</field>
 			<card>1M</card>
