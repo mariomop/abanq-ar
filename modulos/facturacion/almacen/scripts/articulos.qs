@@ -2996,24 +2996,6 @@ function multiDivisa_calculateField(fN:String):Number
 			valor = util.roundFieldValue(variacion, "articulos", "variacion");
 			break;
 		}
-		case "marcacion": {
-			var codFamilia:String = cursor.valueBuffer("codfamilia");
-			var codSubfamilia:String = cursor.valueBuffer("codsubfamilia");
-
-			var marcacion:Number;
-
-			marcacion = parseFloat(util.sqlSelect("subfamilias", "marcacion", "codsubfamilia = '" + codSubfamilia + "'"));
-			if (isNaN(marcacion)) {
-
-				marcacion = parseFloat(util.sqlSelect("familias", "marcacion", "codfamilia = '" + codFamilia + "'"));
-			}
-
-			if (isNaN(marcacion))
-				marcacion = 0;
-
-			valor = util.roundFieldValue(marcacion, "articulos", "marcacion");
-			break;
-		}
 		case "pvppesos": {
 			var pvp:Number = cursor.valueBuffer("pvp");
 			if (!pvp)
