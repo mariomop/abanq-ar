@@ -726,6 +726,62 @@
 						</spacer>
 					</vbox>
 				</widget>
+				<widget class="QWidget" >
+					<property name="name" >
+						<cstring>imagen</cstring>
+					</property>
+					<attribute name="title" >
+						<string>&amp;Imagen</string>
+					</attribute>
+					<vbox>
+						<property name="name" >
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="QGroupBox" >
+							<property name="name" >
+								<cstring>gbxImagen</cstring>
+							</property>
+							<property name="font" >
+								<font>
+									<bold>0</bold>
+								</font>
+							</property>
+							<property name="title" >
+								<string/>
+							</property>
+							<vbox>
+								<property name="name" >
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="FLFieldDB" >
+									<property name="name" >
+										<cstring>fdbImagen</cstring>
+									</property>
+									<property name="sizePolicy" >
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>7</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize" >
+										<size>
+											<width>340</width>
+											<height>80</height>
+										</size>
+									</property>
+									<property name="font" >
+										<font/>
+									</property>
+									<property name="fieldName" >
+										<string>imagen</string>
+									</property>
+								</widget>
+							</vbox>
+						</widget>
+					</vbox>
+				</widget>
 			</widget>
 		</vbox>
 	</widget>
