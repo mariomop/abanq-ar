@@ -240,24 +240,12 @@ class pesosMedidas extends articuloscomp {
 //// PESOSMEDIDAS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-/** @class_declaration subfamilias */
-/////////////////////////////////////////////////////////////////
-//// SUBFAMILIAS ////////////////////////////////////////////////
-class subfamilias extends pesosMedidas {
-    function subfamilias( context ) { pesosMedidas ( context ); }
-	function datosArticulo(cursor:FLSqlCursor,referencia:String):Boolean {
-		return this.ctx.subfamilias_datosArticulo(cursor,referencia);
-	}
-}
-//// SUBFAMILIAS ////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 /** @class_declaration silixSeleccionar */
 /////////////////////////////////////////////////////////////////
 //// SILIXSELECCIONAR ///////////////////////////////////////////
-class silixSeleccionar extends subfamilias
+class silixSeleccionar extends pesosMedidas
 {
-    function silixSeleccionar( context ) { subfamilias ( context ); }
+    function silixSeleccionar( context ) { pesosMedidas ( context ); }
 	function init() {
 		this.ctx.silixSeleccionar_init();
 	}
@@ -1341,21 +1329,6 @@ function pesosMedidas_datosArticulo(cursor:FLSqlCursor,referencia:String):Boolea
 //// PESOSMEDIDAS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-/** @class_definition subfamilias */
-/////////////////////////////////////////////////////////////////
-//// SUBFAMILIAS ////////////////////////////////////////////////
-function subfamilias_datosArticulo(cursor:FLSqlCursor,referencia:String):Boolean 
-{
-	if (!this.iface.__datosArticulo(cursor,referencia))
-		return false;
-
-	cursor.setValueBuffer("codsubfamilia",this.iface.curArticulo.valueBuffer("codsubfamilia"));
-
-	return true;
-}
-//// SUBFAMILIAS ////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 /** @class_definition silixSeleccionar */
 /////////////////////////////////////////////////////////////////
 //// SILIXSELECCIONAR //////////////////////////////////////////////////
@@ -1436,7 +1409,7 @@ function silixSeleccionar_seleccionCriterio()
 	var util:FLUtil = new FLUtil();
 	var seleccionado;
 	
-	var lista = ["Familias", "Subfamilias", "Fabricantes"];
+	var lista = ["Familias", "Fabricantes"];
 
 	var dialog = new Dialog(util.translate ( "scripts", "Seleccionar" ), 0);
 	dialog.caption = "Selección";
@@ -1459,12 +1432,6 @@ function silixSeleccionar_seleccionCriterio()
 			tabla = "familias";
 			campo = "descripcion";
 			idCampo = "codfamilia";
-			break;
-		}
-		case "Subfamilias": {
-			tabla = "subfamilias";
-			campo = "descripcion";
-			idCampo = "codsubfamilia";
 			break;
 		}
 		case "Fabricantes": {
@@ -1508,7 +1475,7 @@ function silixOrdenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "descripcion", "referencia", "codunidad", "pvp", "coddivisa", "ivaincluido", "codimpuesto", "stockfis", "codfamilia", "codsubfamilia", "codfabricante", "modelo", "nostock", "secompra", "sevende", "variable", "costeultimo", "costemedio", "costemaximo", "marcacion", "variacion", "stockmin", "stockmax", "controlnumserie", "porlotes", "diasconsumo", "publico", "fechapub", "enportada", "ordenportada", "enoferta", "pvpoferta", "codbarras", "observaciones" ];
+	var orden:Array = [ "descripcion", "referencia", "codunidad", "pvp", "coddivisa", "ivaincluido", "codimpuesto", "stockfis", "codfamilia", "codfabricante", "modelo", "nostock", "secompra", "sevende", "variable", "costeultimo", "costemedio", "costemaximo", "marcacion", "variacion", "stockmin", "stockmax", "controlnumserie", "porlotes", "diasconsumo", "publico", "fechapub", "enportada", "ordenportada", "enoferta", "pvpoferta", "codbarras", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 }

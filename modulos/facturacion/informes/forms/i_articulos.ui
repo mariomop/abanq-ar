@@ -147,23 +147,6 @@
 									<string>referencia</string>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>spacer19</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>20</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
 						</hbox>
 					</widget>
 					<widget class="QLayoutWidget">
@@ -239,23 +222,6 @@
 									<string>referencia</string>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>spacer20</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>20</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
 						</hbox>
 					</widget>
 					<widget class="QLayoutWidget">
@@ -269,6 +235,20 @@
 							<widget class="FLFieldDB">
 								<property name="name">
 									<cstring>fLFieldDB28</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>0</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>160</width>
+										<height>0</height>
+									</size>
 								</property>
 								<property name="font">
 									<font>
@@ -286,7 +266,7 @@
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
-										<hsizetype>1</hsizetype>
+										<hsizetype>7</hsizetype>
 										<vsizetype>0</vsizetype>
 										<horstretch>0</horstretch>
 										<verstretch>0</verstretch>
@@ -305,7 +285,7 @@
 									</font>
 								</property>
 								<property name="fieldName">
-									<string>descripcion</string>
+									<string>descripcionextendida</string>
 								</property>
 								<property name="tableName">
 									<string>familias</string>
@@ -317,23 +297,6 @@
 									<string>codfamilia</string>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>spacer23</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>30</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
 						</hbox>
 					</widget>
 					<widget class="QLayoutWidget">

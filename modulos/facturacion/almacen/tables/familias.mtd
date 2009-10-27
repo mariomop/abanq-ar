@@ -8,12 +8,7 @@
 		<null>false</null>
 		<pk>true</pk>
 		<type>string</type>
-		<length>4</length>
-		<relation>
-			<table>subfamilias</table>
-			<field>codfamilia</field>
-			<card>1M</card>
-		</relation>
+		<length>10</length>
 		<relation>
 			<table>articulos</table>
 			<field>codfamilia</field>
@@ -70,6 +65,16 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>100</length>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	<field>
+		<name>descripcionextendida</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Descripción ")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>150</length>
+		<calculated>true</calculated>
 	</field>
 	<field>
 		<name>codmadre</name>
@@ -77,7 +82,8 @@
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
-		<length>18</length>
+		<length>10</length>
+		<visiblegrid>false</visiblegrid>
 		<relation>
 			<table>familias</table>
 			<field>codfamilia</field>
@@ -113,5 +119,6 @@
 		<null>true</null>
 		<pk>false</pk>
 		<type>pixmap</type>
+		<visiblegrid>false</visiblegrid>
 	</field>
 </TMD>

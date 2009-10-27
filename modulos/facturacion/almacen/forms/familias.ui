@@ -70,13 +70,13 @@
 								</property>
 								<property name="minimumSize" >
 									<size>
-										<width>140</width>
+										<width>180</width>
 										<height>25</height>
 									</size>
 								</property>
 								<property name="maximumSize" >
 									<size>
-										<width>150</width>
+										<width>185</width>
 										<height>32767</height>
 									</size>
 								</property>
@@ -84,30 +84,13 @@
 									<string>codfamilia</string>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name" >
-									<cstring>spacer119</cstring>
-								</property>
-								<property name="orientation" >
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType" >
-									<enum>Fixed</enum>
-								</property>
-								<property name="sizeHint" >
-									<size>
-										<width>16</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
 							<widget class="FLFieldDB" >
 								<property name="name" >
 									<cstring>fdbDescripcion</cstring>
 								</property>
 								<property name="sizePolicy" >
 									<sizepolicy>
-										<hsizetype>1</hsizetype>
+										<hsizetype>7</hsizetype>
 										<vsizetype>0</vsizetype>
 										<horstretch>0</horstretch>
 										<verstretch>0</verstretch>
@@ -121,6 +104,9 @@
 								</property>
 								<property name="fieldName" >
 									<string>descripcion</string>
+								</property>
+								<property name="showAlias" >
+									<bool>false</bool>
 								</property>
 							</widget>
 							<widget class="QPushButton" >
@@ -151,6 +137,179 @@
 							</widget>
 						</hbox>
 					</widget>
+					<widget class="QLayoutWidget" >
+						<property name="name" >
+							<cstring>layoutFamiliaMadre</cstring>
+						</property>
+						<hbox>
+							<property name="name" >
+								<cstring>unnamed</cstring>
+							</property>
+							<widget class="QLayoutWidget">
+								<property name="name">
+									<cstring>layoutCodFamiliaMadre</cstring>
+								</property>
+								<hbox>
+									<property name="name">
+										<cstring>unnamed</cstring>
+									</property>
+									<property name="margin" >
+										<number>0</number>
+									</property>
+									<property name="spacing" >
+										<number>0</number>
+									</property>
+									<widget class="QLabel" >
+										<property name="name" >
+											<cstring>lblTxtFamiliaMadre</cstring>
+										</property>
+										<property name="sizePolicy" >
+											<sizepolicy>
+												<hsizetype>0</hsizetype>
+												<vsizetype>0</vsizetype>
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="minimumSize" >
+											<size>
+												<width>81</width>
+												<height>25</height>
+											</size>
+										</property>
+										<property name="font" >
+											<font>
+												<bold>0</bold>
+												<italic>0</italic>
+											</font>
+										</property>
+										<property name="frameShape" >
+											<enum>NoFrame</enum>
+										</property>
+										<property name="text" >
+											<string>Familia madre</string>
+										</property>
+										<property name="alignment" >
+											<set>AlignVCenter|AlignLeft</set>
+										</property>
+									</widget>
+									<widget class="QPushButton" >
+										<property name="name" >
+											<cstring>pbnBuscarFamiliaMadre</cstring>
+										</property>
+										<property name="minimumSize" >
+											<size>
+												<width>22</width>
+												<height>22</height>
+											</size>
+										</property>
+										<property name="maximumSize" >
+											<size>
+												<width>22</width>
+												<height>22</height>
+											</size>
+										</property>
+										<property name="focusPolicy" >
+											<enum>NoFocus</enum>
+										</property>
+										<property name="text" >
+											<string/>
+										</property>
+										<property name="iconSet" >
+											<iconset>image4</iconset>
+										</property>
+										<property name="flat" >
+											<bool>true</bool>
+										</property>
+										<property name="toolTip" stdset="0" >
+											<string>Busca el valor en la tabla relacionada</string>
+										</property>
+									</widget>
+									<widget class="FLFieldDB" >
+										<property name="name" >
+											<cstring>fdbCodMadre</cstring>
+										</property>
+										<property name="sizePolicy" >
+											<sizepolicy>
+												<hsizetype>1</hsizetype>
+												<vsizetype>0</vsizetype>
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="minimumSize" >
+											<size>
+												<width>180</width>
+												<height>25</height>
+											</size>
+										</property>
+										<property name="maximumSize" >
+											<size>
+												<width>80</width>
+												<height>32767</height>
+											</size>
+										</property>
+										<property name="fieldName" >
+											<string>codmadre</string>
+										</property>
+										<property name="showAlias" >
+											<bool>false</bool>
+										</property>
+									</widget>
+								</hbox>
+							</widget>
+							<widget class="FLFieldDB" >
+								<property name="name" >
+									<cstring>fdbDescripcionMadre</cstring>
+								</property>
+								<property name="sizePolicy" >
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>200</width>
+										<height>25</height>
+									</size>
+								</property>
+								<property name="fieldName" >
+									<string>descripcionextendida</string>
+								</property>
+								<property name="tableName" >
+									<string>familias</string>
+								</property>
+								<property name="foreignField" >
+									<string>codmadre</string>
+								</property>
+								<property name="fieldRelation" >
+									<string>codfamilia</string>
+								</property>
+								<property name="showAlias" >
+									<bool>false</bool>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
+				</vbox>
+			</widget>
+			<widget class="QFrame" >
+				<property name="name" >
+					<cstring>frmDatosFamilia</cstring>
+				</property>
+				<property name="frameShape" >
+					<enum>GroupBoxPanel</enum>
+				</property>
+				<property name="frameShadow" >
+					<enum>Sunken</enum>
+				</property>
+				<vbox>
+					<property name="name" >
+						<cstring>unnamed</cstring>
+					</property>
 					<widget class="QLayoutWidget" >
 						<property name="name" >
 							<cstring>layoutUnidad</cstring>
@@ -185,6 +344,12 @@
 								</property>
 								<property name="fieldName" >
 									<string>codunidad</string>
+								</property>
+								<property name="foreignField" >
+									<string>codunidad</string>
+								</property>
+								<property name="fieldRelation" >
+									<string>codmadre</string>
 								</property>
 							</widget>
 							<widget class="FLFieldDB" >
@@ -262,94 +427,6 @@
 							</widget>
 						</hbox>
 					</widget>
-				</vbox>
-			</widget>
-			<widget class="QFrame" >
-				<property name="name" >
-					<cstring>frmDatosFamilia</cstring>
-				</property>
-				<property name="frameShape" >
-					<enum>GroupBoxPanel</enum>
-				</property>
-				<property name="frameShadow" >
-					<enum>Sunken</enum>
-				</property>
-				<vbox>
-					<property name="name" >
-						<cstring>unnamed</cstring>
-					</property>
-					<widget class="QLayoutWidget" >
-						<property name="name" >
-							<cstring>layoutFamiliaMadre</cstring>
-						</property>
-						<hbox>
-							<property name="name" >
-								<cstring>unnamed</cstring>
-							</property>
-							<widget class="FLFieldDB" >
-								<property name="name" >
-									<cstring>fdbCodMadre</cstring>
-								</property>
-								<property name="sizePolicy" >
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize" >
-									<size>
-										<width>180</width>
-										<height>25</height>
-									</size>
-								</property>
-								<property name="maximumSize" >
-									<size>
-										<width>150</width>
-										<height>32767</height>
-									</size>
-								</property>
-								<property name="fieldName" >
-									<string>codmadre</string>
-								</property>
-							</widget>
-							<widget class="FLFieldDB" >
-								<property name="name" >
-									<cstring>fdbDescripcionMadre</cstring>
-								</property>
-								<property name="sizePolicy" >
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize" >
-									<size>
-										<width>200</width>
-										<height>25</height>
-									</size>
-								</property>
-								<property name="fieldName" >
-									<string>descripcion</string>
-								</property>
-								<property name="tableName" >
-									<string>familias</string>
-								</property>
-								<property name="foreignField" >
-									<string>codmadre</string>
-								</property>
-								<property name="fieldRelation" >
-									<string>codfamilia</string>
-								</property>
-								<property name="showAlias" >
-									<bool>false</bool>
-								</property>
-							</widget>
-						</hbox>
-					</widget>
 					<widget class="QLayoutWidget" >
 						<property name="name" >
 							<cstring>layout4</cstring>
@@ -372,7 +449,7 @@
 								</property>
 								<property name="minimumSize" >
 									<size>
-										<width>180</width>
+										<width>140</width>
 										<height>25</height>
 									</size>
 								</property>
@@ -871,289 +948,6 @@
 						</widget>
 					</vbox>
 				</widget>
-				<widget class="QWidget" >
-					<property name="name" >
-						<cstring>subfamilias</cstring>
-					</property>
-					<attribute name="title" >
-						<string>&amp;Subfamilias</string>
-					</attribute>
-					<vbox>
-						<property name="name" >
-							<cstring>unnamed</cstring>
-						</property>
-						<widget class="QGroupBox" >
-							<property name="name" >
-								<cstring>gbxSubfamilias</cstring>
-							</property>
-							<property name="sizePolicy" >
-								<sizepolicy>
-									<hsizetype>1</hsizetype>
-									<vsizetype>1</vsizetype>
-									<horstretch>0</horstretch>
-									<verstretch>0</verstretch>
-								</sizepolicy>
-							</property>
-							<property name="font" >
-								<font>
-									<italic>1</italic>
-								</font>
-							</property>
-							<property name="title" >
-								<string/>
-							</property>
-							<vbox>
-								<property name="name" >
-									<cstring>unnamed</cstring>
-								</property>
-								<widget class="QFrame" >
-									<property name="name" >
-										<cstring>barraBotonesSF</cstring>
-									</property>
-									<property name="sizePolicy" >
-										<sizepolicy>
-											<hsizetype>1</hsizetype>
-											<vsizetype>1</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
-									</property>
-									<property name="focusPolicy" >
-										<enum>NoFocus</enum>
-									</property>
-									<property name="frameShape" >
-										<enum>NoFrame</enum>
-									</property>
-									<property name="frameShadow" >
-										<enum>Raised</enum>
-									</property>
-									<hbox>
-										<property name="name" >
-											<cstring>unnamed</cstring>
-										</property>
-										<property name="margin" >
-											<number>0</number>
-										</property>
-										<property name="spacing" >
-											<number>4</number>
-										</property>
-										<widget class="QToolButton" >
-											<property name="name" >
-												<cstring>toolButtomInsertSF</cstring>
-											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>1</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>26</width>
-													<height>26</height>
-												</size>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>26</width>
-													<height>26</height>
-												</size>
-											</property>
-											<property name="focusPolicy" >
-												<enum>NoFocus</enum>
-											</property>
-											<property name="text" >
-												<string/>
-											</property>
-											<property name="iconSet" >
-												<iconset>image0</iconset>
-											</property>
-											<property name="toolTip" stdset="0" >
-												<string>Insertar registro (A)</string>
-											</property>
-											<property name="whatsThis" stdset="0" >
-												<string>Para crear un nuevo registro en la tabla</string>
-											</property>
-										</widget>
-										<widget class="QToolButton" >
-											<property name="name" >
-												<cstring>toolButtonEditSF</cstring>
-											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>1</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>26</width>
-													<height>26</height>
-												</size>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>26</width>
-													<height>26</height>
-												</size>
-											</property>
-											<property name="focusPolicy" >
-												<enum>NoFocus</enum>
-											</property>
-											<property name="text" >
-												<string/>
-											</property>
-											<property name="iconSet" >
-												<iconset>image1</iconset>
-											</property>
-											<property name="toolTip" stdset="0" >
-												<string>Modificar registro (M)</string>
-											</property>
-											<property name="whatsThis" stdset="0" >
-												<string>Para modificar el registro activo de la tabla</string>
-											</property>
-										</widget>
-										<widget class="QToolButton" >
-											<property name="name" >
-												<cstring>toolButtonDeleteSF</cstring>
-											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>1</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>26</width>
-													<height>26</height>
-												</size>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>26</width>
-													<height>26</height>
-												</size>
-											</property>
-											<property name="focusPolicy" >
-												<enum>NoFocus</enum>
-											</property>
-											<property name="text" >
-												<string/>
-											</property>
-											<property name="iconSet" >
-												<iconset>image2</iconset>
-											</property>
-											<property name="toolTip" stdset="0" >
-												<string>Eliminar registro (E)</string>
-											</property>
-											<property name="whatsThis" stdset="0" >
-												<string>Elimina el registro actual de la tabla</string>
-											</property>
-										</widget>
-										<widget class="QToolButton" >
-											<property name="name" >
-												<cstring>toolButtonZoomSF</cstring>
-											</property>
-											<property name="sizePolicy" >
-												<sizepolicy>
-													<hsizetype>1</hsizetype>
-													<vsizetype>1</vsizetype>
-													<horstretch>0</horstretch>
-													<verstretch>0</verstretch>
-												</sizepolicy>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>26</width>
-													<height>26</height>
-												</size>
-											</property>
-											<property name="minimumSize" >
-												<size>
-													<width>26</width>
-													<height>26</height>
-												</size>
-											</property>
-											<property name="focusPolicy" >
-												<enum>NoFocus</enum>
-											</property>
-											<property name="text" >
-												<string/>
-											</property>
-											<property name="iconSet" >
-												<iconset>image3</iconset>
-											</property>
-											<property name="toolTip" stdset="0" >
-												<string>Ver registro (V)</string>
-											</property>
-											<property name="whatsThis" stdset="0" >
-												<string>Para ver registro, sin permitir editar</string>
-											</property>
-										</widget>
-										<spacer>
-											<property name="name" >
-												<cstring>SpacerBotonesSubfamilias</cstring>
-											</property>
-											<property name="orientation" >
-												<enum>Horizontal</enum>
-											</property>
-											<property name="sizeType" >
-												<enum>Expanding</enum>
-											</property>
-											<property name="sizeHint" >
-												<size>
-													<width>56</width>
-													<height>0</height>
-												</size>
-											</property>
-										</spacer>
-									</hbox>
-								</widget>
-								<widget class="FLTableDB" >
-									<property name="name" >
-										<cstring>tdbsubfamilias</cstring>
-									</property>
-									<property name="sizePolicy" >
-										<sizepolicy>
-											<hsizetype>5</hsizetype>
-											<vsizetype>7</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
-									</property>
-									<property name="minimumSize" >
-										<size>
-											<width>0</width>
-											<height>200</height>
-										</size>
-									</property>
-									<property name="font" >
-										<font>
-											<bold>0</bold>
-											<italic>0</italic>
-										</font>
-									</property>
-									<property name="tableName" >
-										<string>subfamilias</string>
-									</property>
-									<property name="foreignField" >
-										<string>codfamilia</string>
-									</property>
-									<property name="fieldRelation" >
-										<string>codfamilia</string>
-									</property>
-								</widget>
-							</vbox>
-						</widget>
-					</vbox>
-				</widget>
 			</widget>
 		</vbox>
 	</widget>
@@ -1172,6 +966,9 @@
 		</image>
 		<image name="image3" >
 			<data format="PNG" length="774">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000002cd49444154789cb595b16b1b571cc73f6a4ee577218627c82041061fa4c3194a2b158a2532698b9d21c1b84be9504a8666ed3fe041dd9aad6996864cc9944c89b4249103012943b009862890c1860e3298f63db0f1fb810faec349a7b8964a1cc86ff9bd7bc77d7f9ff77def77af90a6299f2282f1a050fde9ab6a7d694dd51909044d94d36450b7b9b9b1c6ab3f5e0390a629699a52fff9c1fae161fad1f1cf619a567ffcfd29f039c0676362a78e303cfd92fd519625004dc49c101691d3ab026111381a65349fcf8555f5e4571f40ea8f8022780f3081cb37cf88f97fa13d4ff76517b7e7a84411cdc5c671e2107c3281cb859dba99a2dd475d7a7f59e26a13ce2b56e1b7bbf768c431f1620d09c0ed83f353886779fcf07e9bcde202adeb4d284ee6df5cfc9ece7a1b4d36a88ec43fd8e3375bdbb8b90aadabd1315180104b1c37e90d06a8825378dfe35c789ac76e7748345f3b216a872041890503952f9a749eb731b388a7793c783700f1c7e6867b1e0250b52340c50edd6ce2691e8b11d049d7f87d301242022225bc821101019119c4fff5d81f41a51461dd76f6ec81009c66c4562d009d7e8f467d093b933878cfe35127d52f3570830dba5b9e3000920971494af4771cb1384cb994bd67ca39de762e270d8b607db6bc721cb1f1a243ef6d4c3c1f018a2af4b636d157f7a819859d2af6428da99d87484eea3d9402f00934176b2c5c88e9ae77183ce9109523866e979a99a77cbdc5b2de84835fd9def9653a31aa30260d60a860243b9fa61cd2bcb60209d8034fe35c8807c200dab73dcb75880e6eb28472ff84c76272d2cccbac960459364136ae9c9f88a210fd708b76bf0ce70c7faefa6f1e5f31df1d23d6c4b9feee7823c16a56c4269988d72cdb64524c462be2f22d1ef65bac7ce968acc6779ecd0dff9efc84de0dd6966fb4e6442a26f34a38553e907d76ecd995d5c6b771e2bf2e8c2fd342a1007006f8887b248f33372eb2e49417ff022b9b80061ae58c0f0000000049454e44ae426082</data>
+		</image>
+		<image name="image4">
+			<data format="PNG" length="737">89504e470d0a1a0a0000000d49484452000000100000001008060000001ff3ff61000002a849444154789c8d914b4c137110877fffddee6e4b5b4adff65d4409208f684408d8407a5202f1a2f1623c7930261c0d0743bc9378f3aa1eb8a8511382270f24c618940882a9b65468a162059647b7dd3e77bbf5001a4231f22593cc65befc6686609fc1a121180cb5da867a77bdcfebb54a9244229145e1d193f168262366f00fe83f4d4f4fb7b3abf3c288d5d5764fa69dc3a58af106a3aebddce0333bb2b9ec2acf6f6d1f2550058341b89c8e138140ff43d3c9e080c2993987854559519058cff989ce73a78fa8cf712c7b7beef342b82a416beb999a40e0e25d6fc7959b855a37e7717260d534284e05bd510359efa2018d2fbd1eb54517231300ca070554bddfe373789b0678cac28125e0b3009f05b6b2002f0284e3c0b95b50dfd8decf32aaa6c309a8a6c6461ba3339f221c837401d8ca019bd9bddace03b202d8ec66d4d9bd5a93c9d851750380501405daa6af202b11e465a0ac0084005a0630a801ba42214e815084305582f8ea6adaea6bde30b3659f4143a17840c0d0400d0308820831b52eed0ae995aa15425f23d1643cfcba92de90752c60d502b6fd32d7002c2521195d4068767a3e9f2f4c577d616969a9e4723ad6b42a7419cd56a75aa3819aa5c0d0802217f13d340f914fa02eb3f36334b71d9fe4536bf9039fa001c06e77f065a9f829b5993c5d12536651d8c1af445c09cf7d2c4c4dbe08d714c4ccc0f54b6d9ef68d805fd8dd4a0972249197cb00400ec6f1783c3ab7cbd5e9723aceca6599598eafc4225f426fde0d765ff30fe91fd8dbc4dad518bd3bf138363c32f5f37901900eaf7424af6818673ba93161d452a9bcefad44c7fb62f73b2c57b57b77fe3fcf2a28f40b9829a54aac56ceb43bcf9bac9c51df4cc2c2db630900e0a584625b529955c412278bd9966fcbf9990f8bb989e3ceff658cc0f4b443d57bcb42fb5500f51bedcd0c3036d1d9910000000049454e44ae426082</data>
 		</image>
 	</images>
 	<connections>
@@ -1218,45 +1015,9 @@
 			<slot>setDisabled(bool)</slot>
 		</connection>
 		<connection>
-			<sender>toolButtomInsertSF</sender>
-			<signal>clicked()</signal>
-			<receiver>tdbsubfamilias</receiver>
-			<slot>insertRecord()</slot>
-		</connection>
-		<connection>
-			<sender>toolButtonEditSF</sender>
-			<signal>clicked()</signal>
-			<receiver>tdbsubfamilias</receiver>
-			<slot>editRecord()</slot>
-		</connection>
-		<connection>
-			<sender>toolButtonDeleteSF</sender>
-			<signal>clicked()</signal>
-			<receiver>tdbsubfamilias</receiver>
-			<slot>deleteRecord()</slot>
-		</connection>
-		<connection>
-			<sender>toolButtonZoomSF</sender>
-			<signal>clicked()</signal>
-			<receiver>tdbsubfamilias</receiver>
-			<slot>browseRecord()</slot>
-		</connection>
-		<connection>
-			<sender>tdbsubfamilias</sender>
+			<sender>tdbArticulos</sender>
 			<signal>readOnlyChanged(bool)</signal>
-			<receiver>toolButtomInsertSF</receiver>
-			<slot>setDisabled(bool)</slot>
-		</connection>
-		<connection>
-			<sender>tdbsubfamilias</sender>
-			<signal>readOnlyChanged(bool)</signal>
-			<receiver>toolButtonEditSF</receiver>
-			<slot>setDisabled(bool)</slot>
-		</connection>
-		<connection>
-			<sender>tdbsubfamilias</sender>
-			<signal>readOnlyChanged(bool)</signal>
-			<receiver>toolButtonDeleteSF</receiver>
+			<receiver>pbnBuscarFamiliaMadre</receiver>
 			<slot>setDisabled(bool)</slot>
 		</connection>
 	</connections>

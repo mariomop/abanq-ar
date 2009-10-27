@@ -47,26 +47,11 @@
 		<pk>false</pk>
 		<type>string</type>
 		<null>true</null>
-		<length>4</length>
+		<length>10</length>
 		
 		<relation>
 			<table>familias</table>
 			<field>codfamilia</field>
-			<card>M1</card>
-		</relation>
-	</field>
-	
-	<field>
-		<name>codsubfamilia</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Subfamilia")</alias>
-		<pk>false</pk>
-		<type>string</type>
-		<null>true</null>
-		<length>10</length>
-		
-		<relation>
-			<table>subfamilias</table>
-			<field>codsubfamilia</field>
 			<card>M1</card>
 		</relation>
 	</field>

@@ -56,11 +56,29 @@ class fluxEcommerce extends oficial {
 //// FLUX ECOMMERCE //////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration multiFamilia */
+/////////////////////////////////////////////////////////////////
+//// MULTI FAMILIA //////////////////////////////////////////////
+class multiFamilia extends fluxEcommerce {
+    function multiFamilia( context ) { fluxEcommerce ( context ); }
+	function init() {
+		this.ctx.multiFamilia_init();
+	}
+	function calculateField(fN:String):Number {
+		return this.ctx.multiFamilia_calculateField(fN);
+	}
+	function buscarFamiliaMadre() {
+		this.ctx.multiFamilia_buscarFamiliaMadre();
+	}
+}
+//// MULTI FAMILIA //////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends fluxEcommerce {
-    function head( context ) { fluxEcommerce ( context ); }
+class head extends multiFamilia {
+    function head( context ) { multiFamilia ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -119,6 +137,57 @@ function fluxEcommerce_traducirDescripcion()
 //// OFICIAL /////////////////////////////////////////////////////
 
 //// OFICIAL /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition multiFamilia */
+/////////////////////////////////////////////////////////////////
+//// MULTI FAMILIA //////////////////////////////////////////////
+
+function multiFamilia_init()
+{
+	this.iface.__init();
+	connect(this.child("pbnBuscarFamiliaMadre"), "clicked()", this, "iface.buscarFamiliaMadre()");
+	connect(this.child("fdbCodMadre"), "keyF2Pressed()", this, "iface.buscarFamiliaMadre()");
+}
+
+function multiFamilia_calculateField(fN:String):Number
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	var valor:Number;
+
+	switch (fN) {
+		case "descripcionextendida": {
+			var descExtFamiliaMadre:String = "";
+			if (cursor.valueBuffer("codmadre")) {
+				descExtFamiliaMadre = util.sqlSelect("familias", "descripcionextendida", "codfamilia = '" + cursor.valueBuffer("codmadre") + "'");
+				descExtFamiliaMadre += " > ";
+			}
+			valor = descExtFamiliaMadre + cursor.valueBuffer("descripcion");
+			break;
+		}
+	}
+	return valor;
+}
+
+function multiFamilia_buscarFamiliaMadre()
+{
+	var cursor:FLSqlCursor = this.cursor();
+
+	var familias:Object = new FLFormSearchDB("familias");
+	var curFamilias:FLSqlCursor = familias.cursor();
+	curFamilias.setMainFilter("codfamilia <> '" + cursor.valueBuffer("codfamilia") + "'");
+
+	familias.setMainWidget();
+	var codFamilia:String = familias.exec("codfamilia");
+
+	if (!codFamilia)
+		return;
+
+	cursor.setValueBuffer("codmadre", codFamilia);
+}
+
+//// MULTI FAMILIA //////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

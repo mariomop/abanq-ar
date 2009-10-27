@@ -131,7 +131,7 @@
 						</property>
 						<widget class="QFrame" >
 							<property name="name" >
-								<cstring>frmFamilia</cstring>
+								<cstring>frmConf</cstring>
 							</property>
 							<property name="font" >
 								<font>
@@ -150,67 +150,11 @@
 								</property>
 								<widget class="FLFieldDB" >
 									<property name="name" >
-										<cstring>fdbCodFamilia</cstring>
-									</property>
-									<property name="sizePolicy" >
-										<sizepolicy>
-											<hsizetype>1</hsizetype>
-											<vsizetype>0</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
-									</property>
-									<property name="minimumSize" >
-										<size>
-											<width>107</width>
-											<height>22</height>
-										</size>
-									</property>
-									<property name="fieldName" >
-										<string>codfamilia</string>
-									</property>
-								</widget>
-								<widget class="FLFieldDB" >
-									<property name="name" >
-										<cstring>fdbDesFamilia</cstring>
-									</property>
-									<property name="sizePolicy" >
-										<sizepolicy>
-											<hsizetype>7</hsizetype>
-											<vsizetype>0</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
-									</property>
-									<property name="minimumSize" >
-										<size>
-											<width>24</width>
-											<height>21</height>
-										</size>
-									</property>
-									<property name="fieldName" >
-										<string>descripcion</string>
-									</property>
-									<property name="tableName" >
-										<string>familias</string>
-									</property>
-									<property name="foreignField" >
-										<string>codfamilia</string>
-									</property>
-									<property name="fieldRelation" >
-										<string>codfamilia</string>
-									</property>
-									<property name="showAlias" >
-										<bool>false</bool>
-									</property>
-								</widget>
-								<widget class="FLFieldDB" >
-									<property name="name" >
 										<cstring>fdbCodUnidad</cstring>
 									</property>
 									<property name="sizePolicy" >
 										<sizepolicy>
-											<hsizetype>7</hsizetype>
+											<hsizetype>0</hsizetype>
 											<vsizetype>0</vsizetype>
 											<horstretch>0</horstretch>
 											<verstretch>0</verstretch>
@@ -219,20 +163,57 @@
 									<property name="minimumSize" >
 										<size>
 											<width>85</width>
-											<height>21</height>
+											<height>25</height>
+										</size>
+									</property>
+									<property name="maximumSize" >
+										<size>
+											<width>150</width>
+											<height>25</height>
 										</size>
 									</property>
 									<property name="fieldName" >
 										<string>codunidad</string>
-									</property>
-									<property name="tableName" >
-										<string/>
 									</property>
 									<property name="foreignField" >
 										<string>codunidad</string>
 									</property>
 									<property name="fieldRelation" >
 										<string>codfamilia</string>
+									</property>
+								</widget>
+								<widget class="FLFieldDB" >
+									<property name="name" >
+										<cstring>fdbDesUnidad</cstring>
+									</property>
+									<property name="sizePolicy" >
+										<sizepolicy>
+											<hsizetype>7</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize" >
+										<size>
+											<width>25</width>
+											<height>25</height>
+										</size>
+									</property>
+									<property name="fieldName" >
+										<string>descripcion</string>
+									</property>
+									<property name="tableName" >
+										<string>pesosmedidas</string>
+									</property>
+									<property name="foreignField" >
+										<string>codunidad</string>
+									</property>
+									<property name="fieldRelation" >
+										<string>codunidad</string>
+									</property>
+									<property name="showAlias" >
+										<bool>false</bool>
 									</property>
 								</widget>
 								<spacer>
@@ -243,7 +224,7 @@
 										<enum>Horizontal</enum>
 									</property>
 									<property name="sizeType" >
-										<enum>Expanding</enum>
+										<enum>Fixed</enum>
 									</property>
 									<property name="sizeHint" >
 										<size>
@@ -320,6 +301,89 @@
 								</widget>
 							</hbox>
 						</widget>
+						<widget class="QFrame" >
+							<property name="name" >
+								<cstring>frmFamilia</cstring>
+							</property>
+							<property name="font" >
+								<font>
+									<bold>0</bold>
+								</font>
+							</property>
+							<property name="frameShape" >
+								<enum>GroupBoxPanel</enum>
+							</property>
+							<property name="frameShadow" >
+								<enum>Sunken</enum>
+							</property>
+							<hbox>
+								<property name="name" >
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="FLFieldDB" >
+									<property name="name" >
+										<cstring>fdbCodFamilia</cstring>
+									</property>
+									<property name="sizePolicy" >
+										<sizepolicy>
+											<hsizetype>0</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize" >
+										<size>
+											<width>85</width>
+											<height>25</height>
+										</size>
+									</property>
+									<property name="maximumSize" >
+										<size>
+											<width>150</width>
+											<height>25</height>
+										</size>
+									</property>
+									<property name="fieldName" >
+										<string>codfamilia</string>
+									</property>
+								</widget>
+								<widget class="FLFieldDB" >
+									<property name="name" >
+										<cstring>fdbDesFamilia</cstring>
+									</property>
+									<property name="sizePolicy" >
+										<sizepolicy>
+											<hsizetype>7</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="minimumSize" >
+										<size>
+											<width>25</width>
+											<height>25</height>
+										</size>
+									</property>
+									<property name="fieldName" >
+										<string>descripcionextendida</string>
+									</property>
+									<property name="tableName" >
+										<string>familias</string>
+									</property>
+									<property name="foreignField" >
+										<string>codfamilia</string>
+									</property>
+									<property name="fieldRelation" >
+										<string>codfamilia</string>
+									</property>
+									<property name="showAlias" >
+										<bool>false</bool>
+									</property>
+								</widget>
+							</hbox>
+						</widget>
 						<widget class="QGroupBox" >
 							<property name="name" >
 								<cstring>gbxFabricante</cstring>
@@ -337,7 +401,7 @@
 									</property>
 									<property name="sizePolicy" >
 										<sizepolicy>
-											<hsizetype>1</hsizetype>
+											<hsizetype>0</hsizetype>
 											<vsizetype>0</vsizetype>
 											<horstretch>0</horstretch>
 											<verstretch>0</verstretch>
@@ -345,14 +409,14 @@
 									</property>
 									<property name="minimumSize" >
 										<size>
-											<width>200</width>
+											<width>85</width>
 											<height>25</height>
 										</size>
 									</property>
 									<property name="maximumSize" >
 										<size>
-											<width>200</width>
-											<height>32767</height>
+											<width>150</width>
+											<height>25</height>
 										</size>
 									</property>
 									<property name="font" >
@@ -447,97 +511,6 @@
 										<string>modelo</string>
 									</property>
 								</widget>
-							</hbox>
-						</widget>
-						<widget class="QFrame" >
-							<property name="name" >
-								<cstring>frmSubfamilia</cstring>
-							</property>
-							<property name="font" >
-								<font>
-									<bold>0</bold>
-								</font>
-							</property>
-							<property name="frameShape" >
-								<enum>GroupBoxPanel</enum>
-							</property>
-							<property name="frameShadow" >
-								<enum>Sunken</enum>
-							</property>
-							<hbox>
-								<property name="name" >
-									<cstring>unnamed</cstring>
-								</property>
-								<widget class="FLFieldDB" >
-									<property name="name" >
-										<cstring>fdbCodSubfamilia</cstring>
-									</property>
-									<property name="sizePolicy" >
-										<sizepolicy>
-											<hsizetype>1</hsizetype>
-											<vsizetype>0</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
-									</property>
-									<property name="minimumSize" >
-										<size>
-											<width>120</width>
-											<height>25</height>
-										</size>
-									</property>
-									<property name="fieldName" >
-										<string>codsubfamilia</string>
-									</property>
-								</widget>
-								<widget class="FLFieldDB" >
-									<property name="name" >
-										<cstring>fdbdescsubfamilia</cstring>
-									</property>
-									<property name="sizePolicy" >
-										<sizepolicy>
-											<hsizetype>7</hsizetype>
-											<vsizetype>0</vsizetype>
-											<horstretch>0</horstretch>
-											<verstretch>0</verstretch>
-										</sizepolicy>
-									</property>
-									<property name="minimumSize" >
-										<size>
-											<width>270</width>
-											<height>25</height>
-										</size>
-									</property>
-									<property name="fieldName" >
-										<string>descripcion</string>
-									</property>
-									<property name="tableName" >
-										<string>subfamilias</string>
-									</property>
-									<property name="foreignField" >
-										<string>codsubfamilia</string>
-									</property>
-									<property name="fieldRelation" >
-										<string>codsubfamilia</string>
-									</property>
-								</widget>
-								<spacer>
-									<property name="name" >
-										<cstring>spacersubfamilia</cstring>
-									</property>
-									<property name="orientation" >
-										<enum>Horizontal</enum>
-									</property>
-									<property name="sizeType" >
-										<enum>Expanding</enum>
-									</property>
-									<property name="sizeHint" >
-										<size>
-											<width>262</width>
-											<height>20</height>
-										</size>
-									</property>
-								</spacer>
 							</hbox>
 						</widget>
 						<widget class="QLayoutWidget" >
@@ -6912,14 +6885,10 @@
 	<tabstops>
 		<tabstop>fdbReferencia</tabstop>
 		<tabstop>fdbDescripcion</tabstop>
-		<tabstop>fdbCodFamilia</tabstop>
-		<tabstop>fdbDesFamilia</tabstop>
 		<tabstop>fdbCodUnidad</tabstop>
+		<tabstop>fdbCodFamilia</tabstop>
 		<tabstop>fdbCodFabricante</tabstop>
-		<tabstop>fdbNomFabricante</tabstop>
 		<tabstop>fdbModelo</tabstop>
-		<tabstop>fdbCodSubfamilia</tabstop>
-		<tabstop>fdbdescsubfamilia</tabstop>
 		<tabstop>fieldCodBarras</tabstop>
 		<tabstop>fieldTipoCodBarras</tabstop>
 		<tabstop>fdbObservaciones</tabstop>
