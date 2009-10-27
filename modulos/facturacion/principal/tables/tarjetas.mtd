@@ -1,0 +1,72 @@
+<!DOCTYPE TMD>
+<TMD>
+	<!--Tarjetas de crédito o débito utilizadas en la empresa-->
+	<name>tarjetas</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Tarjetas")</alias>
+	
+	<field>
+		<name>codtarjeta</name>
+		<!--Identificador interno de la tarjeta de crédito-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>4</length>
+		<counter>true</counter>
+		
+		<relation>
+			<table>planestarjeta</table>
+			<field>codtarjeta</field>
+			<card>1M</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>nombre</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>50</length>
+	</field>
+	
+	<field>
+		<name>codcuenta</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Cuenta")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+		
+		<relation>
+			<table>cuentasbanco</table>
+			<field>codcuenta</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>coddivisa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Moneda")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>3</length>
+		
+		<relation>
+			<table>divisas</table>
+			<field>coddivisa</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>activa</name>
+		<!-- Indica si la tarjeta se encuentra activa -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Activa")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>true</default>
+	</field>
+</TMD>
