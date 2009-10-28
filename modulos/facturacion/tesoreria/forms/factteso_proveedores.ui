@@ -196,6 +196,145 @@
 								</widget>
 							</hbox>
 						</widget>
+						<widget class="QFrame" >
+							<property name="name" >
+								<cstring>frame10</cstring>
+							</property>
+							<property name="font" >
+								<font>
+									<bold>0</bold>
+								</font>
+							</property>
+							<property name="frameShape" >
+								<enum>GroupBoxPanel</enum>
+							</property>
+							<property name="frameShadow" >
+								<enum>Sunken</enum>
+							</property>
+							<vbox>
+								<property name="name" >
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="QLayoutWidget" >
+									<property name="name" >
+										<cstring>layout80</cstring>
+									</property>
+									<property name="font" >
+										<font/>
+									</property>
+									<hbox>
+										<property name="name" >
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbDeBaja</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>120</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>150</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+													<italic>0</italic>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>debaja</string>
+											</property>
+											<property name="tableName" >
+												<string/>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name" >
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation" >
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType" >
+												<enum>Expanding</enum>
+											</property>
+											<property name="sizeHint" >
+												<size>
+													<width>5</width>
+													<height>20</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbFechaBaja</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>120</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>200</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+													<italic>0</italic>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>fechabaja</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<spacer>
+									<property name="name" >
+										<cstring>unnamed</cstring>
+									</property>
+									<property name="orientation" >
+										<enum>Vertical</enum>
+									</property>
+									<property name="sizeType" >
+										<enum>Expanding</enum>
+									</property>
+									<property name="sizeHint" >
+										<size>
+											<width>20</width>
+											<height>5</height>
+										</size>
+									</property>
+								</spacer>
+							</vbox>
+						</widget>
 						<spacer>
 							<property name="name" >
 								<cstring>spacer51_2_2</cstring>

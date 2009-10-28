@@ -29,6 +29,7 @@ class interna {
     function interna( context ) { this.ctx = context; }
     function init() { this.ctx.interna_init(); }
 	function calculateCounter():String { return this.ctx.interna_calculateCounter(); }
+	function validateForm():Boolean { return this.ctx.interna_validateForm(); }
 }
 //// INTERNA /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -328,6 +329,19 @@ function interna_calculateCounter():String
 	return util.nextCounter("codproveedor", this.cursor());
 }
 
+function interna_validateForm():Boolean
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var util:FLUtil = new FLUtil;
+	/** \C Si el proveedor está de baja, la fecha de comienzo de la baja debe estar informada
+	\end */
+	if (cursor.valueBuffer("debaja") && cursor.isNull("fechabaja")) {
+		MessageBox.warning(util.translate("scripts", "Si el proveedor está de baja debe introducir la correspondiente fecha de inicio de la baja"), MessageBox.Ok, MessageBox.NoButton)
+		return false;
+	}
+
+	return true;
+}
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
@@ -415,6 +429,14 @@ function oficial_bufferChanged(fN:String)
 			}
 			break;
 		}
+		case "debaja": {
+			var fecha:String = this.iface.calculateField("fechabaja");
+			this.child("fdbFechaBaja").setValue(fecha);
+			if (fecha == "NAN") {
+				cursor.setNull("fechabaja");
+			}
+			break;
+		}
 	}
 }
 
@@ -429,6 +451,14 @@ function oficial_calculateField(fN:String):String
 	switch (fN) {
 		case "codsubcuenta": {
 			res = this.iface.calcularSubcuentaPro(cursor, this.iface.longSubcuenta);
+			break;
+		}
+		case "fechabaja": {
+			if (cursor.valueBuffer("debaja")) {
+				var hoy:Date = new Date;
+				res = hoy.toString();
+			} else
+				res = "NAN";
 			break;
 		}
 	}
@@ -1091,6 +1121,9 @@ function cuitDni_bufferChanged(fN:String)
 
 function cuitDni_validateForm():Boolean
 {
+	if (!this.iface.__validateForm())
+		return false;
+
 	var cursor:FLSqlCursor = this.cursor();
 	if ( cursor.valueBuffer("tipoidfiscal") == "CUIT" ) {
 		var cuit:String = cursor.valueBuffer("cifnif");
