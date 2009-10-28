@@ -148,6 +148,59 @@
 									<property name="name">
 										<cstring>unnamed</cstring>
 									</property>
+									<spacer>
+										<property name="name">
+											<cstring>spacer46b</cstring>
+										</property>
+										<property name="orientation">
+											<enum>Horizontal</enum>
+										</property>
+										<property name="sizeType">
+											<enum>Expanding</enum>
+										</property>
+										<property name="sizeHint">
+											<size>
+												<width>20</width>
+												<height>20</height>
+											</size>
+										</property>
+									</spacer>
+									<widget class="FLFieldDB">
+										<property name="name">
+											<cstring>fdbTipo</cstring>
+										</property>
+										<property name="font">
+											<font>
+												<bold>0</bold>
+												<italic>0</italic>
+											</font>
+										</property>
+										<property name="minimumSize" >
+											<size>
+												<width>220</width>
+												<height>26</height>
+											</size>
+										</property>
+										<property name="maximumSize" >
+											<size>
+												<width>250</width>
+												<height>26</height>
+											</size>
+										</property>
+										<property name="fieldName">
+											<string>tipo</string>
+										</property>
+									</widget>
+								</hbox>
+							</widget>
+							<widget class="QLayoutWidget">
+								<property name="name">
+									<cstring>layout9mop</cstring>
+								</property>
+								<hbox>
+									<property name="name">
+										<cstring>unnamed</cstring>
+									</property>
 									<widget class="FLFieldDB">
 										<property name="name">
 											<cstring>fdbCodDivisa</cstring>

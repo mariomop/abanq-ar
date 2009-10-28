@@ -112,6 +112,16 @@
 		<length>100</length>
 	</field>
 	<field>
+		<name>tipo</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>30</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Cuenta corriente");QT_TRANSLATE_NOOP("MetaData","Caja de ahorro");QT_TRANSLATE_NOOP("MetaData","Cuenta acreditación haberes")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Cuenta corriente")</default>
+	</field>
+	<field>
 		<name>coddivisa</name>
 		<!--Divisa con la cual se maneja la cuenta-->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Divisa")</alias>
