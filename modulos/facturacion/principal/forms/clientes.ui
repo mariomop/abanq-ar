@@ -1622,6 +1622,130 @@
 								</widget>
 								<widget class="QLayoutWidget" >
 									<property name="name" >
+										<cstring>layout140DA</cstring>
+									</property>
+									<hbox>
+										<property name="name" >
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="QGroupBox" >
+											<property name="name" >
+												<cstring>gbxCuentaDebAutom</cstring>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>235</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="lineWidth" >
+												<number>0</number>
+											</property>
+											<property name="title" >
+												<string/>
+											</property>
+											<hbox>
+												<property name="name" >
+													<cstring>unnamed</cstring>
+												</property>
+												<property name="margin" >
+													<number>0</number>
+												</property>
+												<property name="spacing" >
+													<number>9</number>
+												</property>
+												<widget class="FLFieldDB" >
+													<property name="name" >
+														<cstring>fdbCodCuentaDebAutom</cstring>
+													</property>
+													<property name="enabled" >
+														<bool>true</bool>
+													</property>
+													<property name="sizePolicy" >
+														<sizepolicy>
+															<hsizetype>1</hsizetype>
+															<vsizetype>0</vsizetype>
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="minimumSize" >
+														<size>
+															<width>220</width>
+															<height>0</height>
+														</size>
+													</property>
+													<property name="maximumSize" >
+														<size>
+															<width>230</width>
+															<height>32767</height>
+														</size>
+													</property>
+													<property name="fieldName" >
+														<string>codcuentadebautom</string>
+													</property>
+												</widget>
+											</hbox>
+										</widget>
+										<widget class="QLabel" >
+											<property name="name" >
+												<cstring>leDescCuentaDebAutom</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>7</hsizetype>
+													<vsizetype>5</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>32767</width>
+													<height>20</height>
+												</size>
+											</property>
+											<property name="paletteBackgroundColor" >
+												<color>
+													<red>218</red>
+													<green>218</green>
+													<blue>210</blue>
+												</color>
+											</property>
+											<property name="text" >
+												<string/>
+											</property>
+										</widget>
+										<widget class="QPushButton" >
+											<property name="name" >
+												<cstring>pbnBorrarCuentaDebAutom</cstring>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>26</width>
+													<height>26</height>
+												</size>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>26</width>
+													<height>26</height>
+												</size>
+											</property>
+											<property name="text" >
+												<string/>
+											</property>
+											<property name="iconSet" >
+												<iconset>image2</iconset>
+											</property>
+											<property name="toolTip" stdset="0" >
+												<string>Desmarcar cuenta de débito automático</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget" >
+									<property name="name" >
 										<cstring>layout140</cstring>
 									</property>
 									<hbox>
@@ -2574,6 +2698,26 @@
 												</size>
 											</property>
 										</spacer>
+										<widget class="QPushButton" >
+											<property name="name" >
+												<cstring>pbnCuentaDebAutom</cstring>
+											</property>
+											<property name="font" >
+												<font/>
+											</property>
+											<property name="focusPolicy" >
+												<enum>NoFocus</enum>
+											</property>
+											<property name="text" >
+												<string>Cuenta de Débito automático</string>
+											</property>
+											<property name="accel" >
+												<string/>
+											</property>
+											<property name="whatsThis" stdset="0" >
+												<string>Establece la cuenta especificada como la cuenta desde la cual se realizan los débitos automáticos</string>
+											</property>
+										</widget>
 										<widget class="QPushButton" >
 											<property name="name" >
 												<cstring>pbnCuentaDom</cstring>

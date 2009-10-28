@@ -258,11 +258,35 @@ class cuitDni extends ordenCampos {
 //// CUIT_DNI ///////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration silixDebitoAutomatico */
+/////////////////////////////////////////////////////////////
+//// SILIX DEBITO AUTOMATICO ////////////////////////////////
+class silixDebitoAutomatico extends cuitDni {
+    function silixDebitoAutomatico( context ) { cuitDni ( context ); }
+	function init() {
+		return this.ctx.silixDebitoAutomatico_init();
+	}
+	function cambiarCuentaDebAutom() {
+		this.ctx.silixDebitoAutomatico_cambiarCuentaDebAutom();
+	}
+	function cambiarCuentaDebAutomRecibosEmitidos() {
+		this.ctx.silixDebitoAutomatico_cambiarCuentaDebAutomRecibosEmitidos();
+	}
+	function borrarCuentaDebAutom() {
+		this.ctx.silixDebitoAutomatico_borrarCuentaDebAutom();
+	}
+	function mostrarDesCuentaDebAutom() {
+		return this.ctx.silixDebitoAutomatico_mostrarDesCuentaDebAutom();
+	}
+}
+//// SILIX DEBITO AUTOMATICO ////////////////////////////////
+/////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends cuitDni {
-    function head( context ) { cuitDni ( context ); }
+class head extends silixDebitoAutomatico {
+    function head( context ) { silixDebitoAutomatico ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1543,6 +1567,110 @@ function cuitDni_validateForm():Boolean
 //// CUIT_DNI ///////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_definition silixDebitoAutomatico */
+/////////////////////////////////////////////////////////////
+//// SILIX DEBITO AUTOMATICO ////////////////////////////////
+
+function silixDebitoAutomatico_init()
+{
+	this.iface.__init();
+
+	connect(this.child("pbnCuentaDebAutom"), "clicked()", this, "iface.cambiarCuentaDebAutom()");
+	connect(this.child("pbnBorrarCuentaDebAutom"), "clicked()", this, "iface.borrarCuentaDebAutom()");
+	this.child("gbxCuentaDebAutom").setDisabled(true);
+
+	if ( !(this.cursor().modeAccess() == this.cursor().Insert) ) {
+		this.iface.mostrarDesCuentaDebAutom();
+	}
+}
+
+function silixDebitoAutomatico_cambiarCuentaDebAutom()
+{
+	var curCuenta:FLSqlCursor = this.child("tdbCuentas").cursor();
+	var codCuentaDebAutom = curCuenta.valueBuffer("codcuenta");
+	var desCuentaDebAutom = curCuenta.valueBuffer("descripcion");
+	
+	if (!codCuentaDebAutom) return;
+	
+	this.cursor().setValueBuffer("codcuentadebautom", codCuentaDebAutom);
+	this.iface.mostrarDesCuentaDebAutom();
+	//this.child("leDescCuentaDebAutom").text = " " + desCuentaDebAutom;
+	
+	var util:FLUtil = new FLUtil;
+
+	var cursor:FLSqlCursor = this.cursor();
+	var codCliente:String = cursor.valueBuffer("codcliente");
+	
+	var numRecibos:String = util.sqlSelect("reciboscli", "count(*)", "estado IN ('Emitido', 'Devuelto') AND codcliente = '" + codCliente + "'");
+	
+	if(!numRecibos||numRecibos==0) {
+		var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de débito automático %1 para este cliente.\n").arg(desCuentaDebAutom), MessageBox.Yes, MessageBox.NoButton);
+	    return;
+	}
+	var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de débito automático %1 para este cliente.\n¿Desea cambiar sus %2 recibos pendientes de pago a la nueva cuenta de débito automático?").arg(desCuentaDebAutom).arg(numRecibos), MessageBox.Yes, MessageBox.No);
+				
+	if (res != MessageBox.Yes){
+		return false;
+	}
+  	this.iface.cambiarCuentaDebAutomRecibosEmitidos();
+}
+
+function silixDebitoAutomatico_cambiarCuentaDebAutomRecibosEmitidos()
+{
+	var qryCuenta:FLSqlQuery = new FLSqlQuery();
+	var cursor:FLSqlCursor = this.cursor();
+	var util:FLUtil = new FLUtil;
+	
+	var codCuentadebautom:String = cursor.valueBuffer("codcuentadebautom");
+	qryCuenta.setTablesList("cuentasbcocli");
+	qryCuenta.setSelect("codcuenta,descripcion,ctaentidad,ctaagencia,cuenta");
+	qryCuenta.setFrom("cuentasbcocli");
+	qryCuenta.setWhere("cuentasbcocli.codcuenta = '" + codCuentadebautom + "'");
+	try { qryCuenta.setForwardOnly( true ); } catch (e) {}
+	if (!qryCuenta.exec()){
+	   return false;
+	}
+	var curRecibo:FLSqlCursor = new FLSqlCursor("reciboscli");
+	var codCliente:String = cursor.valueBuffer("codcliente");
+
+	curRecibo.select("estado IN ('Emitido', 'Devuelto') AND codcliente = '" + codCliente + "'");
+	var valoresRecibo:String;
+	if (qryCuenta.first()) {
+		while(curRecibo.next()){
+			curRecibo.setModeAccess(curRecibo.Edit);
+			curRecibo.refreshBuffer();
+			curRecibo.setValueBuffer("codcuenta", qryCuenta.value("codcuenta"));
+			curRecibo.setValueBuffer("descripcion", qryCuenta.value("descripcion"));
+			curRecibo.setValueBuffer("ctaentidad", qryCuenta.value("ctaentidad"));
+			curRecibo.setValueBuffer("ctaagencia", qryCuenta.value("ctaagencia"));
+			curRecibo.setValueBuffer("cuenta", qryCuenta.value("cuenta"));
+			curRecibo.setValueBuffer("dc", formRecordreciboscli.iface.pub_commonCalculateField("dc", curRecibo));
+			if (!curRecibo.commitBuffer()) {
+				return false;
+			}
+			valoresRecibo += "Recibo: " + curRecibo.valueBuffer("codigo") + "    "+ "Importe: " + util.roundFieldValue(curRecibo.valueBuffer("importeeuros"), "reciboscli", "importe") + "    " + "Fecha: " + util.dateAMDtoDMA(curRecibo.valueBuffer("fecha")) + "\n";	
+		}
+	}
+	MessageBox.information(util.translate("scripts", "Se han cambiado correctamente los recibos pendientes de pago:\n \n%1 ").arg(valoresRecibo),MessageBox.Ok, MessageBox.NoButton);
+}
+
+function silixDebitoAutomatico_mostrarDesCuentaDebAutom()
+{
+	var util:FLUtil = new FLUtil;
+	var cursor:FLSqlCursor = this.cursor();
+	var desCuentaDebAutom:String = util.sqlSelect("cuentasbcocli", "descripcion", "codcuenta = '" + cursor.valueBuffer("codcuentadebautom") + "'");
+	if (desCuentaDebAutom)
+		this.child("leDescCuentaDebAutom").text = " " + desCuentaDebAutom;
+}
+
+function silixDebitoAutomatico_borrarCuentaDebAutom()
+{
+	this.cursor().setValueBuffer("codcuentadebautom", "");
+	this.child("leDescCuentaDebAutom").text = "";
+}
+
+//// SILIX DEBITO AUTOMATICO ////////////////////////////////
+/////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

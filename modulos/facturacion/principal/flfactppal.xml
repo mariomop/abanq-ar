@@ -454,4 +454,23 @@
         <form>master</form>
         <formrecord>periodos</formrecord>
     </action>
+	<action>
+		<name>tarjetas</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tarjetas")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Tarjetas de crédito o débito")</description>
+		<table>tarjetas</table>
+		<scriptformrecord>tarjetas</scriptformrecord>
+		<form>master_print</form>
+		<formrecord>tarjetas</formrecord>
+	</action>
+	
+	<action>
+		<name>planestarjeta</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Planes de Tarjetas")</alias>
+		<description>QT_TRANSLATE_NOOP("MetaData","Planes de Tarjetas")</description>
+		<table>planestarjeta</table>
+		<scriptformrecord>planestarjeta</scriptformrecord>
+		<form>master_print</form>
+		<formrecord>planestarjeta</formrecord>
+	</action>
 </ACTIONS>

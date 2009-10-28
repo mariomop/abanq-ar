@@ -185,6 +185,14 @@
 		</relation>
 	</field>
 	<field>
+		<name>codcuentadebautom</name>
+		<!--Código de cuenta en la que se realizan los débitos automáticos al cliente-->        <alias>QT_TRANSLATE_NOOP("MetaData","Débito automático")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+	</field>
+	<field>
 		<name>codcuentadom</name>
 		<!--Código de cuenta corriente en la que se domicilian los recibos del cliente-->        <alias>QT_TRANSLATE_NOOP("MetaData","Domiciliar en")</alias>
 		<null>true</null>

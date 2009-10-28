@@ -1,0 +1,118 @@
+<!DOCTYPE TMD>
+<TMD>
+	<!--Planes de tarjetas de crédito o débito utilizadas en la empresa-->
+	<name>planestarjeta</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Planes de tarjetas de crédito o débito")</alias>
+	
+	<field>
+		<name>codplan</name>
+		<!--Identificador interno del plan-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>8</length>
+		<counter>true</counter>
+	</field>
+	
+	<field>
+		<name>descripcion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Descripción")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>50</length>
+	</field>
+	
+	<field>
+		<name>codtarjeta</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tarjeta")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		
+		<relation>
+			<table>tarjetas</table>
+			<field>codtarjeta</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>cantidadcuotas</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Cantidad de cuotas")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>0</default>
+	</field>
+	
+	<field>
+		<name>coeficiente</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Coeficiente recargo")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>2</partI>
+		<partD>2</partD>
+		<default>0</default>
+	</field>
+	
+	<field>
+		<name>maxcuota</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Monto máximo cuota")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>8</partI>
+		<partD>2</partD>
+		<default>0</default>
+	</field>
+	
+	<field>
+		<name>porcfinanciacion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Porcentaje financiación")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>2</partI>
+		<partD>2</partD>
+		<default>0</default>
+	</field>
+	
+	<field>
+		<name>aplicarfinanciacion</name>
+		<!-- Indica si se aplica el porcentaje de financiación -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Aplicar % financiación")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>true</default>
+	</field>
+	
+	<field>
+		<name>coddivisa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Moneda")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>3</length>
+		
+		<relation>
+			<table>divisas</table>
+			<field>coddivisa</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>activo</name>
+		<!-- Indica si el plan se encuentra activo -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Activo")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>true</default>
+	</field>
+</TMD>
