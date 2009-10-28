@@ -31,6 +31,27 @@
 	</field>
 	
 	<field>
+		<name>tipo</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>20</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Débito");QT_TRANSLATE_NOOP("MetaData","Crédito")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Débito")</default>
+	</field>
+	
+	<field>
+		<name>fechavencimiento</name>
+		<!-- Fecha de baja -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Fecha vencimiento")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>date</type>
+		<default>null</default>
+	</field>
+	
+	<field>
 		<name>codcuenta</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Cuenta")</alias>
 		<null>true</null>

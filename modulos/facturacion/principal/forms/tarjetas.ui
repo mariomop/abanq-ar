@@ -105,6 +105,104 @@
 							</widget>
 						</hbox>
 					</widget>
+					<widget class="QLayoutWidget">
+						<property name="name">
+							<cstring>layoutTipoVenta</cstring>
+						</property>
+						<hbox>
+							<property name="name">
+								<cstring>unnamed</cstring>
+							</property>
+							<spacer>
+								<property name="name">
+									<cstring>spacerBajaAB</cstring>
+								</property>
+								<property name="orientation">
+									<enum>Horizontal</enum>
+								</property>
+								<property name="sizeType">
+									<enum>Expanding</enum>
+								</property>
+								<property name="sizeHint">
+									<size>
+										<width>50</width>
+										<height>20</height>
+									</size>
+								</property>
+							</spacer>
+							<widget class="FLFieldDB">
+								<property name="name">
+									<cstring>fdbTipo</cstring>
+								</property>
+								<property name="font">
+									<font>
+										<bold>0</bold>
+										<italic>0</italic>
+									</font>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>150</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="maximumSize" >
+									<size>
+										<width>180</width>
+										<height>26</height>
+									</size>
+								</property>
+								<property name="fieldName">
+									<string>tipo</string>
+								</property>
+							</widget>
+							<spacer>
+								<property name="name">
+									<cstring>spacerBajaA</cstring>
+								</property>
+								<property name="orientation">
+									<enum>Horizontal</enum>
+								</property>
+								<property name="sizeType">
+									<enum>Expanding</enum>
+								</property>
+								<property name="sizeHint">
+									<size>
+										<width>20</width>
+										<height>20</height>
+									</size>
+								</property>
+							</spacer>
+							<widget class="FLFieldDB">
+								<property name="name">
+									<cstring>fdbFechaVencimiento</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>320</width>
+										<height>25</height>
+									</size>
+								</property>
+								<property name="font">
+									<font>
+										<bold>0</bold>
+										<italic>0</italic>
+									</font>
+								</property>
+								<property name="fieldName">
+									<string>fechavencimiento</string>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
 				</vbox>
 			</widget>
 			<widget class="QGroupBox">
