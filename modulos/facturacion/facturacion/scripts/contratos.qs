@@ -77,6 +77,9 @@ class ordenCampos extends controlUsuario {
 	function init() {
 		this.ctx.ordenCampos_init();
 	}
+	function ordenarColumnas() {
+		this.ctx.ordenCampos_ordenarColumnas();
+	}
 }
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -251,7 +254,12 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "porcomision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	connect(this.child("tdbContratos"), "currentChanged(QString)", this, "iface.ordenarColumnas()");
+}
+
+function ordenCampos_ordenarColumnas()
+{
+	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codperiodo", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.child("tdbFacturas").setOrderCols(orden);
 }
