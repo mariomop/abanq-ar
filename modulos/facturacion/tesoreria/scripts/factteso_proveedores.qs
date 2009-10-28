@@ -57,6 +57,15 @@ class ctasCtes extends oficial {
 	function init() {
 		this.ctx.ctasCtes_init();
 	}
+	function validateForm():Boolean {
+		return this.ctx.ctasCtes_validateForm();
+	}
+	function bufferChanged(fN:String) {
+		this.ctx.ctasCtes_bufferChanged(fN);
+	}
+	function calculateField(fN:String) {
+		return this.ctx.ctasCtes_calculateField(fN);
+	}
 	function calcularSaldo() {
 		this.ctx.ctasCtes_calcularSaldo();
 	}
@@ -174,8 +183,57 @@ function ctasCtes_init()
 	connect(this.child("toolButtonPrint"), "clicked()", this, "iface.imprimir");
 	connect(this.child("toolButtonZoomEntrada"), "clicked()", this, "iface.verEntrada");
 	connect(this.child("toolButtonPrintEntradas"), "clicked()", this, "iface.imprimirEntradas");
+	connect(this.cursor(), "bufferChanged(QString)", this, "iface.bufferChanged");
 
 	this.iface.calcularSaldo();
+}
+
+function ctasCtes_validateForm():Boolean
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var util:FLUtil = new FLUtil;
+	/** \C Si el proveedor está de baja, la fecha de comienzo de la baja debe estar informada
+	\end */
+	if (cursor.valueBuffer("debaja") && cursor.isNull("fechabaja")) {
+		MessageBox.warning(util.translate("scripts", "Si el proveedor está de baja debe introducir la correspondiente fecha de inicio de la baja"), MessageBox.Ok, MessageBox.NoButton)
+		return false;
+	}
+
+	return true;
+}
+
+function ctasCtes_bufferChanged(fN)
+{
+	var cursor:FLSqlCursor = this.cursor();
+	switch(fN) {
+		case "debaja": {
+			var fecha:String = this.iface.calculateField("fechabaja");
+			this.child("fdbFechaBaja").setValue(fecha);
+			if (fecha == "NAN") {
+				cursor.setNull("fechabaja");
+			}
+			break;
+		}
+	}
+}
+
+function ctasCtes_calculateField(fN:String):String
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	var res:String;
+	
+	switch (fN) {
+		case "fechabaja": {
+			if (cursor.valueBuffer("debaja")) {
+				var hoy:Date = new Date;
+				res = hoy.toString();
+			} else
+				res = "NAN";
+			break;
+		}
+	}
+	return res;
 }
 
 function ctasCtes_calcularSaldo()

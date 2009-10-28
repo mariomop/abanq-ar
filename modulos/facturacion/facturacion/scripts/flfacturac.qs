@@ -916,6 +916,8 @@ function interna_beforeCommit_pedidosprov(curPedido:FLSqlCursor):Boolean
 	
 	switch (curPedido.modeAccess()) {
 		case curPedido.Insert: {
+			if (!flfactppal.iface.pub_proveedorActivo(curPedido.valueBuffer("codproveedor"), curPedido.valueBuffer("fecha")))
+				return false;
 			if (curPedido.valueBuffer("numero") == 0) {
 				numero = this.iface.siguienteNumero(curPedido.valueBuffer("codserie"), curPedido.valueBuffer("codejercicio"), "npedidoprov");
 				if (!numero)
@@ -927,6 +929,8 @@ function interna_beforeCommit_pedidosprov(curPedido:FLSqlCursor):Boolean
 		}
 		case curPedido.Edit: {
 			if(!this.iface.comprobarCambioSerie(curPedido))
+				return false;
+			if (!flfactppal.iface.pub_proveedorActivo(curPedido.valueBuffer("codproveedor"), curPedido.valueBuffer("fecha")))
 				return false;
 			if (curPedido.valueBuffer("servido") == "Parcial") {
 				var estado:String = this.iface.obtenerEstadoPedidoProv(curPedido.valueBuffer("idpedido"));
@@ -1043,8 +1047,12 @@ function interna_beforeCommit_facturasprov(curFactura:FLSqlCursor):Boolean
 		if (!this.iface.comprobarCambioSerie(curFactura)) {
 			return false;
 		}
+		if (!flfactppal.iface.pub_proveedorActivo(curFactura.valueBuffer("codproveedor"), curFactura.valueBuffer("fecha")))
+			return false;
 	}
 	if (curFactura.modeAccess() == curFactura.Insert) {
+		if (!flfactppal.iface.pub_proveedorActivo(curFactura.valueBuffer("codproveedor"), curFactura.valueBuffer("fecha")))
+			return false;
 		if (curFactura.valueBuffer("numero") == 0) {
 			this.iface.recalcularHuecos( curFactura.valueBuffer("codserie"), curFactura.valueBuffer("codejercicio"), "nfacturaprov" );
 			numero = this.iface.siguienteNumero(curFactura.valueBuffer("codserie"), curFactura.valueBuffer("codejercicio"), "nfacturaprov");
@@ -1175,6 +1183,8 @@ function interna_beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Boolean
 	
 	switch (curAlbaran.modeAccess()) {
 		case curAlbaran.Insert: {
+			if (!flfactppal.iface.pub_proveedorActivo(curAlbaran.valueBuffer("codproveedor"), curAlbaran.valueBuffer("fecha")))
+				return false;
 			if (curAlbaran.valueBuffer("numero") == 0) {
 				numero = this.iface.siguienteNumero(curAlbaran.valueBuffer("codserie"), curAlbaran.valueBuffer("codejercicio"), "nalbaranprov");
 				if (!numero)
@@ -1186,6 +1196,9 @@ function interna_beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Boolean
 		}
 		case curAlbaran.Edit: {
 			if (!this.iface.comprobarCambioSerie(curAlbaran)) {
+				return false;
+			}
+			if (!flfactppal.iface.pub_proveedorActivo(curAlbaran.valueBuffer("codproveedor"), curAlbaran.valueBuffer("fecha"))) {
 				return false;
 			}
 // 			if (!this.iface.actualizarPedidosProv(curAlbaran)) {

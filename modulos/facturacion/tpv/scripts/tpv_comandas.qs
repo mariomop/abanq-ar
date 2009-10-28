@@ -155,6 +155,9 @@ class oficial extends interna {
 	function conectarInsercionRapida():Boolean {
 		return this.ctx.oficial_conectarInsercionRapida()
 	}
+	function filtrarArticulos() {
+		return this.ctx.oficial_filtrarArticulos();
+	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -493,6 +496,8 @@ function interna_init()
 	this.iface.importePagado = 0;
 
 	this.iface.cargarConfiguracion();
+
+	this.iface.filtrarArticulos();
 }
 
 function interna_calculateField(fN:String):String
@@ -1741,6 +1746,18 @@ function oficial_pbnPagar_clicked()
 		}
 	}
 }
+
+function oficial_filtrarArticulos()
+{
+	var filtroReferencia:String = "";
+	if (filtroReferencia != "") {
+		filtroReferencia += " AND ";
+	}
+	filtroReferencia += "sevende AND NOT debaja";
+
+	this.child("fdbRefArticulo").setFilter(filtroReferencia);
+}
+
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 

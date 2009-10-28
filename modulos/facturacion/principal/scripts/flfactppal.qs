@@ -120,6 +120,9 @@ class oficial extends interna {
 	function clienteActivo(codCliente:String, fecha:String):Boolean {
 		return this.ctx.oficial_clienteActivo(codCliente, fecha);
 	}
+	function proveedorActivo(codProveedor:String, fecha:String):Boolean {
+		return this.ctx.oficial_proveedorActivo(codProveedor, fecha);
+	}
 	function obtenerProvincia(formulario:Object, campoId:String, campoProvincia:String, campoPais:String) {
 		return this.ctx.oficial_obtenerProvincia(formulario, campoId, campoProvincia, campoPais);
 	}
@@ -392,6 +395,9 @@ class ifaceCtx extends pubSilixSeleccion {
 	}
 	function pub_clienteActivo(codCliente:String, fecha:String):Boolean {
 		return this.clienteActivo(codCliente, fecha);
+	}
+	function pub_proveedorActivo(codProveedor:String, fecha:String):Boolean {
+		return this.proveedorActivo(codProveedor, fecha);
 	}
 	function pub_obtenerProvincia(formulario:Object, campoId:String, campoProvincia:String, campoPais:String) {
 		return this.obtenerProvincia(formulario, campoId, campoProvincia, campoPais);
@@ -1762,6 +1768,42 @@ function oficial_clienteActivo(codCliente:String, fecha:String):Boolean
 		if (!this.iface.automataActivado()) {
 			var fechaDdMmAaaa:String = util.dateAMDtoDMA(fecha);
 			MessageBox.warning(util.translate("scripts", "El cliente está de baja para la fecha especificada (%1)").arg(fechaDdMmAaaa), MessageBox.Ok, MessageBox.NoButton);
+		}
+		return false;
+	}
+	return true;
+}
+
+/** \D Indica si el proveedor está activo (no está de baja) para la fecha especificada
+@param	codProveedor: Código de proveedor
+@param	fecha: Fecha a considerar
+@return	true si está activo, false en caso contrario o si hay error
+\end */
+function oficial_proveedorActivo(codProveedor:String, fecha:String):Boolean
+{
+	var util:FLUtil = new FLUtil;
+	if (!codProveedor || codProveedor == "")
+		return true;
+	
+	var qryBaja:FLSqlQuery = new FLSqlQuery();
+	qryBaja.setTablesList("proveedores");
+	qryBaja.setSelect("debaja, fechabaja");
+	qryBaja.setFrom("proveedores");
+	qryBaja.setWhere("codproveedor = '" + codProveedor + "'");
+	qryBaja.setForwardOnly(true);
+	if (!qryBaja.exec())
+		return false;
+	
+	if (!qryBaja.first())
+		return false;
+	
+	if (!qryBaja.value("debaja"))
+		return true;
+		
+	if (util.daysTo(fecha, qryBaja.value("fechabaja")) <= 0) {
+		if (!this.iface.automataActivado()) {
+			var fechaDdMmAaaa:String = util.dateAMDtoDMA(fecha);
+			MessageBox.warning(util.translate("scripts", "El proveedor está de baja para la fecha especificada (%1)").arg(fechaDdMmAaaa), MessageBox.Ok, MessageBox.NoButton);
 		}
 		return false;
 	}

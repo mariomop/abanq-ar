@@ -245,7 +245,7 @@ function oficial_filtrarArticulos()
 	if (filtroReferencia != "") {
 		filtroReferencia += " AND ";
 	}
-	filtroReferencia += "sevende";
+	filtroReferencia += "sevende AND NOT debaja";
 
 	if ( this.cursor().cursorRelation().valueBuffer("decredito") || this.cursor().cursorRelation().valueBuffer("dedebito") ) {
 		var idFactura:Number = this.cursor().cursorRelation().valueBuffer("idfacturarect");

@@ -653,4 +653,22 @@
 			<card>M1</card>
 		</relation>
 	</field>
+	<field>
+		<name>debaja</name>
+		<!-- Indica si el artículo está de baja -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","De baja")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	<field>
+		<name>fechabaja</name>
+		<!-- Fecha de baja -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Desde")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>date</type>
+		<default>null</default>
+	</field>
 </TMD>

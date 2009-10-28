@@ -126,4 +126,12 @@
 		<pk>false</pk>
 		<type>stringlist</type>
 	</field>
+	<field>
+		<name>imagen</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Icono")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>pixmap</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
 </TMD>

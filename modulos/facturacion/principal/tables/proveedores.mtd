@@ -337,4 +337,22 @@
 		<optionslist>QT_TRANSLATE_NOOP("MetaData","CUIT");QT_TRANSLATE_NOOP("MetaData","DNI");QT_TRANSLATE_NOOP("MetaData","LE");QT_TRANSLATE_NOOP("MetaData","LC");QT_TRANSLATE_NOOP("MetaData","Pasaporte");QT_TRANSLATE_NOOP("MetaData","Cedula")</optionslist>
 		<default>QT_TRANSLATE_NOOP("MetaData","CUIT")</default>
 	</field>
+	<field>
+		<name>debaja</name>
+		<!-- Indica si el proveedor está de baja -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","De baja")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	<field>
+		<name>fechabaja</name>
+		<!-- Fecha de baja -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Desde")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>date</type>
+		<default>null</default>
+	</field>
 </TMD>

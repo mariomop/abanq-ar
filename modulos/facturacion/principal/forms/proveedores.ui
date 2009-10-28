@@ -842,6 +842,14 @@
 									<property name="name" >
 										<cstring>fdbObservaciones</cstring>
 									</property>
+									<property name="sizePolicy" >
+										<sizepolicy>
+											<hsizetype>1</hsizetype>
+											<vsizetype>0</vsizetype>
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
 									<property name="minimumSize" >
 										<size>
 											<width>470</width>
@@ -859,23 +867,122 @@
 								</widget>
 							</hbox>
 						</widget>
-						<spacer>
+						<widget class="QGroupBox" >
 							<property name="name" >
-								<cstring>spacer51_2</cstring>
+								<cstring>gbxBaja</cstring>
 							</property>
-							<property name="orientation" >
-								<enum>Vertical</enum>
+							<property name="font" >
+								<font>
+									<italic>1</italic>
+								</font>
 							</property>
-							<property name="sizeType" >
-								<enum>Expanding</enum>
+							<property name="title" >
+								<string>&amp;Baja</string>
 							</property>
-							<property name="sizeHint" >
-								<size>
-									<width>20</width>
-									<height>20</height>
-								</size>
-							</property>
-						</spacer>
+							<vbox>
+								<property name="name" >
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="QLayoutWidget" >
+									<property name="name" >
+										<cstring>layoutBaja</cstring>
+									</property>
+									<hbox>
+										<property name="name" >
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbDeBaja</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>120</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>150</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+													<italic>0</italic>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>debaja</string>
+											</property>
+											<property name="tableName" >
+												<string/>
+											</property>
+										</widget>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbFechaBaja</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>120</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>200</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+													<italic>0</italic>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>fechabaja</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name" >
+												<cstring>spacerBaja</cstring>
+											</property>
+											<property name="orientation" >
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType" >
+												<enum>Expanding</enum>
+											</property>
+											<property name="sizeHint" >
+												<size>
+													<width>91</width>
+													<height>20</height>
+												</size>
+											</property>
+										</spacer>
+									</hbox>
+								</widget>
+							</vbox>
+						</widget>
 					</vbox>
 				</widget>
 				<widget class="QWidget" >
