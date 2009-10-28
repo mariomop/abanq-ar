@@ -68,7 +68,7 @@
 	
 	<field>
 		<name>coddivisa</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Moneda")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Divisa")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>string</type>
