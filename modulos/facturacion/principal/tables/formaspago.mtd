@@ -223,6 +223,13 @@
 		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
+		<name>debitoautomatico</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Pago por débito automático")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+	</field>
+	<field>
 		<name>domiciliado</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Pago por domiciliación")</alias>
 		<null>true</null>
