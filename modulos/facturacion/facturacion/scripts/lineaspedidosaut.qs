@@ -53,8 +53,8 @@ class oficial extends interna {
 	function commonCalculateField(fN:String, cursor:FLSqlCursor):String {
 		return this.ctx.oficial_commonCalculateField(fN, cursor);
 	}
-	function filtrarArtProv() {
-		return this.ctx.oficial_filtrarArtProv();
+	function filtrarArticulos() {
+		return this.ctx.oficial_filtrarArticulos();
 	}
 	function datosTablaPadre(cursor:FLSqlCursor):Array {
 		return this.ctx.oficial_datosTablaPadre(cursor);
@@ -136,6 +136,8 @@ function interna_init()
 			this.child("fdbIva").setDisabled(true);
 		}
 	}
+
+	this.iface.filtrarArticulos();
 }
 
 function interna_calculateField(fN:String):String
@@ -297,17 +299,15 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 	return valor;
 }
 
-/** \D Muestra únicamente los artículos del proveedor
-*/
-function oficial_filtrarArtProv()
+function oficial_filtrarArticulos()
 {
-	if (this.child("chkFiltrarArtProv").checked) {
-		var codProveedor:String = this.cursor().cursorRelation().valueBuffer("codproveedor");
-		if (codProveedor && codProveedor != "")
-			this.child("fdbReferencia").setFilter("referencia IN (SELECT referencia from articulosprov WHERE codproveedor = '" + codProveedor + "')");
-	} else {
-		this.child("fdbReferencia").setFilter("");
+	var filtroReferencia:String = "";
+	if (filtroReferencia != "") {
+		filtroReferencia += " AND ";
 	}
+	filtroReferencia += "secompra AND NOT debaja";
+
+	this.child("fdbReferencia").setFilter(filtroReferencia);
 }
 
 /** \D Devuelve la tabla padre de la tabla parámetro, así como la cláusula where necesaria para localizar el registro padre

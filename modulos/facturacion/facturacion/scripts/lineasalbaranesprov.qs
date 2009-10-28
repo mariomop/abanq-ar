@@ -261,7 +261,7 @@ function oficial_filtrarArticulos()
 	if (filtroReferencia != "") {
 		filtroReferencia += " AND ";
 	}
-	filtroReferencia += "secompra";
+	filtroReferencia += "secompra AND NOT debaja";
 
 	if ( this.child("chkFiltrarArtProv").checked ) {
 		var codProveedor:String = this.cursor().cursorRelation().valueBuffer("codproveedor");

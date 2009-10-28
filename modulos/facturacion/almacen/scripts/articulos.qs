@@ -548,14 +548,39 @@ function interna_init()
 function interna_calculateField(nombreCampo:String):String
 {
 	var util:FLUtil = new FLUtil();
-	/** \D El valor de --stockfis-- se calcula sumando todas las cantidades de esa referencia en la tabla stocks, esto es, las cantidades de todos los almacenes
-	\end */
-	if (nombreCampo == "stockfis")
-		return util.sqlSelect("stocks", "SUM(cantidad)",  "referencia='" + this.cursor().valueBuffer("referencia") + "';");
+	var cursor:FLSqlCursor = this.cursor();
+	var res:String;
+
+	switch (nombreCampo) {
+		/** \D El valor de --stockfis-- se calcula sumando todas las cantidades de esa referencia en la tabla stocks, esto es, las cantidades de todos los almacenes
+		\end */
+		case "stockfis": {
+			res = util.sqlSelect("stocks", "SUM(cantidad)",  "referencia='" + this.cursor().valueBuffer("referencia") + "'");
+			break;
+		}
+		case "fechabaja": {
+			if (cursor.valueBuffer("debaja")) {
+				var hoy:Date = new Date;
+				res = hoy.toString();
+			} else
+				res = "NAN";
+			break;
+		}
+	}
+	return res;
 }
 
 function interna_validateForm():Boolean 
 {
+	var cursor:FLSqlCursor = this.cursor();
+	var util:FLUtil = new FLUtil;
+	/** \C Si el artículo está de baja, la fecha de comienzo de la baja debe estar informada
+	\end */
+	if (cursor.valueBuffer("debaja") && cursor.isNull("fechabaja")) {
+		MessageBox.warning(util.translate("scripts", "Si el artículo está de baja debe introducir la correspondiente fecha de inicio de la baja"), MessageBox.Ok, MessageBox.NoButton)
+		return false;
+	}
+
 	return true;
 }
 //// INTERNA /////////////////////////////////////////////////////
@@ -671,6 +696,14 @@ function oficial_bufferChanged(fN:String)
 				this.child("tbwArticulo").setTabEnabled("venta", false);
 			else
 				this.child("tbwArticulo").setTabEnabled("venta", true);
+			break;
+		}
+		case "debaja": {
+			var fecha:String = this.iface.calculateField("fechabaja");
+			this.child("fdbFechaBaja").setValue(fecha);
+			if (fecha == "NAN") {
+				cursor.setNull("fechabaja");
+			}
 			break;
 		}
 	}
@@ -791,6 +824,9 @@ function fluxEcommerce_validateForm():Boolean
 {
 	var cursor:FLSqlCursor = this.cursor();
 	var util:FLUtil = new FLUtil();
+
+	if(!this.iface.__validateForm())
+		return false;
 
 	if (cursor.valueBuffer("enoferta") && parseFloat(cursor.valueBuffer("pvpoferta")) > parseFloat(cursor.valueBuffer("pvp"))) {
 		MessageBox.critical(util.translate("scripts","El precio de oferta no puede ser mayor que el precio normal"),

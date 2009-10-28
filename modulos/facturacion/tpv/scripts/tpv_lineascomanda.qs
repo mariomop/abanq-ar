@@ -50,6 +50,9 @@ class oficial extends interna {
 	function commonCalculateField(fN:String, cursor:FLSqlCursor):String {
 		return this.ctx.oficial_commonCalculateField(fN, cursor);
 	}
+	function filtrarArticulos() {
+		return this.ctx.oficial_filtrarArticulos();
+	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -185,6 +188,8 @@ function interna_init()
 		this.child("fdbDtoPor").setValue(this.iface.calculateField("dtopor"));
 
 	this.child("lblDtoPor").setText(this.iface.calculateField("lbldtopor"));
+
+	this.iface.filtrarArticulos();
 }
 
 function interna_calculateField(fN:String):String
@@ -318,6 +323,18 @@ function oficial_calcularPvpTarifa(referencia:String, codTarifa:String):Number
 	
 	return pvp;
 }
+
+function oficial_filtrarArticulos()
+{
+	var filtroReferencia:String = "";
+	if (filtroReferencia != "") {
+		filtroReferencia += " AND ";
+	}
+	filtroReferencia += "sevende AND NOT debaja";
+
+	this.child("fdbReferencia").setFilter(filtroReferencia);
+}
+
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 

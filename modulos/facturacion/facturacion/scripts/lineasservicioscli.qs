@@ -45,6 +45,9 @@ class oficial extends interna {
 	function bufferChanged(fN:String) {
 		return this.ctx.oficial_bufferChanged(fN);
 	}
+	function filtrarArticulos() {
+		return this.ctx.oficial_filtrarArticulos();
+	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -148,6 +151,8 @@ function interna_init()
 			this.child("fdbIva").setDisabled(true);
 		}
 	}
+
+	this.iface.filtrarArticulos();
 }
 
 /** \C
@@ -180,6 +185,17 @@ Las dependencias entre controles de este formulario son las mismas que las del f
 function oficial_bufferChanged(fN:String)
 {
 	formRecordlineaspedidoscli.iface.pub_commonBufferChanged(fN, form);
+}
+
+function oficial_filtrarArticulos()
+{
+	var filtroReferencia:String = "";
+	if (filtroReferencia != "") {
+		filtroReferencia += " AND ";
+	}
+	filtroReferencia += "sevende AND NOT debaja";
+
+	this.child("fdbReferencia").setFilter(filtroReferencia);
 }
 
 //// OFICIAL /////////////////////////////////////////////////////

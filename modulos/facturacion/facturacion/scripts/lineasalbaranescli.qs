@@ -55,6 +55,9 @@ class oficial extends interna {
 	function obtenerEstadoPedido(idPedido:Number):String {
 		return this.ctx.oficial_obtenerEstadoPedido(idPedido);
 	}
+	function filtrarArticulos() {
+		return this.ctx.oficial_filtrarArticulos();
+	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -207,12 +210,7 @@ function interna_init()
 		}
 	}
 
-	var filtroReferencia:String = ""; //this.child("fdbReferencia").filter();
-	if (filtroReferencia != "") {
-		filtroReferencia += " AND ";
-	}
-	filtroReferencia += "sevende";
-	this.child("fdbReferencia").setFilter(filtroReferencia);
+	this.iface.filtrarArticulos();
 }
 
 /** \C
@@ -292,6 +290,17 @@ function oficial_actualizarLineaPedido(idLineaPedido:Number, idPedido:Number, re
 {
 	/// Para mantener la compatibilidad de algunas extensiones
 	return flfacturac.iface.actualizarLineaPedidoCli(idLineaPedido, idPedido, referencia, idAlbaran, cantidadLineaAlbaran);
+}
+
+function oficial_filtrarArticulos()
+{
+	var filtroReferencia:String = "";
+	if (filtroReferencia != "") {
+		filtroReferencia += " AND ";
+	}
+	filtroReferencia += "sevende AND NOT debaja";
+
+	this.child("fdbReferencia").setFilter(filtroReferencia);
 }
 
 //// OFICIAL /////////////////////////////////////////////////////
