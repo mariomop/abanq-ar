@@ -3,22 +3,6 @@
 	<name>fabricantes</name>
 	<!-- Listado de fabricantes -->
 	<alias>QT_TRANSLATE_NOOP("MetaData","Fabricantes")</alias>
-	
-	<field>
-		<name>codfabricante</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
-		<null>false</null>
-		<pk>true</pk>
-		<type>string</type>
-		<length>10</length>
-		
-		<relation>
-			<table>articulos</table>
-			<field>codfabricante</field>
-			<card>1M</card>
-		</relation>
-	</field>
-	
 	<field>
 		<name>nombre</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre")</alias>
@@ -27,36 +11,19 @@
 		<type>string</type>
 		<length>100</length>
 	</field>
-	
 	<field>
-		<name>publico</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Visible en la web")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>true</default>
+		<name>codfabricante</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>string</type>
+		<length>10</length>
+		<relation>
+			<table>articulos</table>
+			<field>codfabricante</field>
+			<card>1M</card>
+		</relation>
 	</field>
-	
-	<field>
-		<name>orden</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Orden")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>uint</type>
-		<default>1</default>
-	</field>
-	
-	
-	<field>
-		<name>modificado</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Modificado")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>true</default>
-		<visiblegrid>false</visiblegrid>
-	</field>
-	
 	<field>
 		<name>telefono</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Teléfono")</alias>
@@ -65,16 +32,6 @@
 		<type>string</type>
 		<length>112</length>
 	</field>
-	
-	<field>
-		<name>telefonosat</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Teléfono SAT")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>112</length>
-	</field>
-	
 	<field>
 		<name>paginaweb</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Web")</alias>
@@ -83,24 +40,14 @@
 		<type>string</type>
 		<length>100</length>
 	</field>
-	
 	<field>
-		<name>pdoa</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Periodo doa")</alias>
+		<name>telefonosat</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Teléfono SAT")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
-		<length>100</length>
+		<length>112</length>
 	</field>
-	
-	<field>
-		<name>proceddoa</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Procedimiento doa")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>stringlist</type>
-	</field>
-	
 	<field>
 		<name>emailsat</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Email SAT")</alias>
@@ -109,7 +56,22 @@
 		<type>string</type>
 		<length>100</length>
 	</field>
-	
+	<field>
+		<name>pdoa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Periodo doa")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>100</length>
+	</field>
+	<field>
+		<name>proceddoa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Procedimiento doa")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>stringlist</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
 	<field>
 		<name>pgarantia</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Periodo garantía")</alias>
@@ -118,13 +80,38 @@
 		<type>string</type>
 		<length>100</length>
 	</field>
-	
 	<field>
 		<name>procedgarantia</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Procedimiento garantía")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>stringlist</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	<field>
+		<name>publico</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Visible en la web")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>true</default>
+	</field>
+	<field>
+		<name>orden</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Orden")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>1</default>
+	</field>
+	<field>
+		<name>modificado</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Modificado")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>true</default>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
 		<name>imagen</name>
