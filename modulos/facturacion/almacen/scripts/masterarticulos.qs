@@ -1381,7 +1381,7 @@ function silixSeleccionar_seleccionTodo()
 	cursor.select();
 
 	var paso:Number = 0;
-	util.createProgressDialog( util.translate( "scripts", "Seleccionando artículos..." ), cursor.size() );
+	util.createProgressDialog( util.translate( "scripts", "Seleccionando %1 artículos..." ).arg(cursor.size()), cursor.size() );
 
 	while (cursor.next()) {
 		this.iface.tdbRecords.setPrimaryKeyChecked(cursor.valueBuffer("referencia"), true)
@@ -1417,7 +1417,7 @@ function silixSeleccionar_seleccionCriterio()
 	cursor.select(seleccion);
 
 	var paso:Number = 0;
-	util.createProgressDialog( util.translate( "scripts", "Seleccionando artículos..." ), cursor.size() );
+	util.createProgressDialog( util.translate( "scripts", "Seleccionando %1 artículos..." ).arg(cursor.size()), cursor.size() );
 
 	while (cursor.next()) {
 		this.iface.tdbRecords.setPrimaryKeyChecked(cursor.valueBuffer("referencia"), true)

@@ -98,7 +98,7 @@
 								<cstring>familias</cstring>
 							</property>
 							<attribute name="title" >
-								<string>&amp;Familias</string>
+								<string>Por familia</string>
 							</attribute>
 							<vbox>
 								<property name="name" >
@@ -137,7 +137,7 @@
 								<cstring>fabricantes</cstring>
 							</property>
 							<attribute name="title" >
-								<string>&amp;Fabricantes</string>
+								<string>Por fabricante</string>
 							</attribute>
 							<vbox>
 								<property name="name" >
