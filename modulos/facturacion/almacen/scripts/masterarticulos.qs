@@ -1374,82 +1374,57 @@ function silixSeleccionar_seleccionVerificarHabilitaciones()
 
 function silixSeleccionar_seleccionTodo()
 {
-	var cursor = new FLSqlCursor("articulos");
+	var util:FLUtil = new FLUtil();
+
+	var cursor:FLSqlCursor = new FLSqlCursor("articulos");
 	cursor.setMainFilter(this.iface.tdbRecords.filter());
-	var clavePrimaria = cursor.primaryKey();
 	cursor.select();
+
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Seleccionando artículos..." ), cursor.size() );
+
 	while (cursor.next()) {
-		this.iface.tdbRecords.setPrimaryKeyChecked(cursor.valueBuffer(clavePrimaria), true)
+		this.iface.tdbRecords.setPrimaryKeyChecked(cursor.valueBuffer("referencia"), true)
+		util.setProgress( ++paso );
 	}
+	util.destroyProgressDialog();
 	this.iface.tdbRecords.refresh();
-	this.iface.tdbRecords.setFocus();
 }
 
 function silixSeleccionar_seleccionNada()
 {
 	this.iface.tdbRecords.clearChecked();
 	this.iface.tdbRecords.refresh();
-	this.iface.tdbRecords.setFocus();
 }
 
 function silixSeleccionar_seleccionCriterio()
 {
 	var util:FLUtil = new FLUtil();
-	var seleccionado;
-	
-	var lista = ["Familias", "Fabricantes"];
 
-	var dialog = new Dialog(util.translate ( "scripts", "Seleccionar" ), 0);
-	dialog.caption = "Selección";
-	dialog.OKButtonText = util.translate ( "scripts", "Aceptar" );
-	dialog.cancelButtonText = util.translate ( "scripts", "Cancelar" );
-	
- 	var valor = new ComboBox;
-	valor.label = "Elija un criterio de selección"
-	valor.itemList = lista;
-	dialog.add( valor );
+	var criterios:Object = new FLFormSearchDB("seleccioncriteriosarticulos");
 
-	if (!dialog.exec())
+	var curCriterios:FLSqlCursor = criterios.cursor();
+	curCriterios.setModeAccess(curCriterios.Insert);
+	curCriterios.refreshBuffer();
+
+	criterios.setMainWidget();
+	var seleccion = criterios.exec("seleccion");
+	if (!seleccion)
 		return;
 
-	var tabla:String;
-	var campo:String;
-	var idCampo:String;
-	switch (valor.currentItem) {
-		case "Familias": {
-			tabla = "familias";
-			campo = "descripcion";
-			idCampo = "codfamilia";
-			break;
-		}
-		case "Fabricantes": {
-			tabla = "fabricantes";
-			campo = "nombre";
-			idCampo = "codfabricante";
-			break;
-		}
-	}
-
-	var sel = flfactppal.iface.pub_seleccionar(tabla, campo, idCampo);
-	if (sel.length == 0)
-		return;
-	var cursor = new FLSqlCursor("articulos");
+	var cursor:FLSqlCursor = new FLSqlCursor("articulos");
 	cursor.setMainFilter(this.iface.tdbRecords.filter());
-	var clavePrimaria = cursor.primaryKey();
-	var filtro:String = "";
-	for (var i = 0; i < sel.length; i++) {
-		if (i == 0)
-			filtro = idCampo + " = '" + sel[i] + "'";
-		else
-			filtro = filtro + " OR " + idCampo + " = '" + sel[i] + "'";
-	}
+	cursor.select(seleccion);
 
-	cursor.select(filtro);
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Seleccionando artículos..." ), cursor.size() );
+
 	while (cursor.next()) {
-		this.iface.tdbRecords.setPrimaryKeyChecked(cursor.valueBuffer(clavePrimaria), true)
+		this.iface.tdbRecords.setPrimaryKeyChecked(cursor.valueBuffer("referencia"), true)
+		util.setProgress( ++paso );
 	}
+	util.destroyProgressDialog();
 	this.iface.tdbRecords.refresh();
-	this.iface.tdbRecords.setFocus();
 }
 
 //// SILIXSELECCIONAR ///////////////////////////////////////////

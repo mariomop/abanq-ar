@@ -1,0 +1,199 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+	<class>formRecordseleccionarcriteriosarticulos</class>
+	<author>Silix</author>
+	<widget class="QWidget">
+		<property name="name">
+			<cstring>formRecordseleccionarcriteriosarticulos</cstring>
+		</property>
+		<property name="geometry">
+			<rect>
+				<x>0</x>
+				<y>0</y>
+				<width>800</width>
+				<height>480</height>
+			</rect>
+		</property>
+		<property name="sizePolicy">
+			<sizepolicy>
+				<hsizetype>5</hsizetype>
+				<vsizetype>5</vsizetype>
+				<horstretch>0</horstretch>
+				<verstretch>0</verstretch>
+			</sizepolicy>
+		</property>
+		<property name="minimumSize">
+			<size>
+				<width>0</width>
+				<height>0</height>
+			</size>
+		</property>
+		<property name="caption">
+			<string>Selección Criterios</string>
+		</property>
+		<property name="focusPolicy">
+			<enum>StrongFocus</enum>
+		</property>
+		<property name="layoutMargin" stdset="0">
+		</property>
+		<property name="layoutSpacing" stdset="0">
+		</property>
+		<vbox>
+			<property name="name">
+				<cstring>unnamed</cstring>
+			</property>
+			<property name="margin">
+				<number>6</number>
+			</property>
+			<widget class="QGroupBox">
+				<property name="name">
+					<cstring>gbxSeleccion</cstring>
+				</property>
+				<property name="font">
+					<font>
+						<bold>1</bold>
+						<italic>1</italic>
+					</font>
+				</property>
+				<property name="title">
+					<string>Elija los criterios de filtrado para la selección de artículos</string>
+				</property>
+				<vbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<property name="margin">
+						<number>4</number>
+					</property>
+					<property name="spacing">
+						<number>10</number>
+					</property>
+					<widget class="QTabWidget" >
+						<property name="name" >
+							<cstring>tbwCriterios</cstring>
+						</property>
+						<property name="sizePolicy" >
+							<sizepolicy>
+								<hsizetype>7</hsizetype>
+								<vsizetype>7</vsizetype>
+								<horstretch>0</horstretch>
+								<verstretch>0</verstretch>
+							</sizepolicy>
+						</property>
+						<property name="font" >
+							<font>
+								<bold>1</bold>
+							</font>
+						</property>
+						<property name="focusPolicy" >
+							<enum>NoFocus</enum>
+						</property>
+						<property name="tabPosition" >
+							<enum>Top</enum>
+						</property>
+						<property name="tabShape" >
+							<enum>Rounded</enum>
+						</property>
+						<widget class="QWidget" >
+							<property name="name" >
+								<cstring>familias</cstring>
+							</property>
+							<attribute name="title" >
+								<string>&amp;Familias</string>
+							</attribute>
+							<vbox>
+								<property name="name" >
+									<cstring>unnamed</cstring>
+								</property>
+								<property name="margin">
+									<number>0</number>
+								</property>
+								<property name="spacing">
+									<number>0</number>
+								</property>
+								<widget class="FLTableDB">
+									<property name="name">
+										<cstring>tdbFamilias</cstring>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>0</width>
+											<height>200</height>
+										</size>
+									</property>
+									<property name="font">
+										<font>
+											<bold>0</bold>
+											<italic>0</italic>
+										</font>
+									</property>
+									<property name="tableName">
+										<string>familias</string>
+									</property>
+								</widget>
+							</vbox>
+						</widget>
+						<widget class="QWidget" >
+							<property name="name" >
+								<cstring>fabricantes</cstring>
+							</property>
+							<attribute name="title" >
+								<string>&amp;Fabricantes</string>
+							</attribute>
+							<vbox>
+								<property name="name" >
+									<cstring>unnamed</cstring>
+								</property>
+								<property name="margin">
+									<number>0</number>
+								</property>
+								<property name="spacing">
+									<number>0</number>
+								</property>
+								<widget class="FLTableDB">
+									<property name="name">
+										<cstring>tdbFabricantes</cstring>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>0</width>
+											<height>200</height>
+										</size>
+									</property>
+									<property name="font">
+										<font>
+											<bold>0</bold>
+											<italic>0</italic>
+										</font>
+									</property>
+									<property name="tableName">
+										<string>fabricantes</string>
+									</property>
+								</widget>
+							</vbox>
+						</widget>
+					</widget>
+				</vbox>
+			</widget>
+		</vbox>
+	</widget>
+	<customwidgets>
+	</customwidgets>
+	<tabstops>
+	</tabstops>
+	<includes>
+		<include location="global" impldecl="in declaration">qwidgetfactory.h</include>
+		<include location="local" impldecl="in implementation">FLTableDB.h</include>
+	</includes>
+	<forwards>
+		<forward>class FLTableDB</forward>
+	</forwards>
+	<slots>
+		<slot access="protected">destroy()</slot>
+		<slot access="protected">init()</slot>
+	</slots>
+	<layoutdefaults spacing="6" margin="11"/>
+	<includehints>
+		<includehint>FLTableDB.h</includehint>
+		<includehint>FLTableDB.h</includehint>
+	</includehints>
+</UI>

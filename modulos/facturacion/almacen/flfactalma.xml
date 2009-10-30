@@ -457,4 +457,12 @@
         <scriptform>factalma_masterproveedores</scriptform>
         <scriptformrecord>factalma_proveedores</scriptformrecord>
     </action>
+    <action>
+        <name>seleccioncriteriosarticulos</name>
+        <description>QT_TRANSLATE_NOOP("MetaData","Seleccionar criterios de filtrado de artículos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Selección de criterios")</alias>
+        <table>seleccioncriteriosarticulos</table>
+        <form>seleccioncriteriosarticulos</form>
+        <scriptform>seleccioncriteriosarticulos</scriptform>
+    </action>
 </ACTIONS>

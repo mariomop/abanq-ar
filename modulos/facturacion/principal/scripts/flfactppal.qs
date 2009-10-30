@@ -251,24 +251,11 @@ class fluxEcommerce extends traducciones {
 /////////////////////////////////////////////////////////////////
 
 
-/** @class_declaration silixSeleccion */
-/////////////////////////////////////////////////////////////////
-//// SILIXSELECCION /////////////////////////////////////////////
-class silixSeleccion extends fluxEcommerce {
-	function silixSeleccion( context ) { fluxEcommerce ( context ); }
-	function seleccionar(tabla:String, campo:String, idCampo:String):Array {
-		return this.ctx.silixSeleccion_seleccionar(tabla, campo, idCampo);
-	}
-}
-//// SILIXSELECCION /////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
-
 /** @class_declaration controlUsuario */
 /////////////////////////////////////////////////////////////////
 //// CONTROL_USUARIO ////////////////////////////////////////////
-class controlUsuario extends silixSeleccion {
-    function controlUsuario( context ) { silixSeleccion ( context ); }
+class controlUsuario extends fluxEcommerce {
+    function controlUsuario( context ) { fluxEcommerce ( context ); }
 
 	function usuarioCreado(usuario:String):Boolean {
 		return this.ctx.controlUsuario_usuarioCreado(usuario);
@@ -2671,63 +2658,6 @@ function fluxEcommerce_ordenIdiomas():String
 
 //// FLUX ECOMMERCE //////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
-
-/** @class_definition silixSeleccion */
-/////////////////////////////////////////////////////////////////
-//// SILIXSELECCION ///////////////////////////////////////////////
-function silixSeleccion_seleccionar(tabla:String, campo:String, idCampo:String):Array
-{
-	var util:FLUtil = new FLUtil();
-	var seleccionados:Array = [];
-	var q:FLSqlQuery = new FLSqlQuery();
-	q.setTablesList(tabla);
-	q.setFrom(tabla);
-	q.setSelect(idCampo + "," + campo);
-	q.setWhere("1=1");
-
-	if (!q.exec()) {
-		return seleccionados;
-	}
-	
-	if (q.size() < 1) {
-		MessageBox.information(util.translate("scripts","No existen elementos para seleccionar."),MessageBox.Ok, MessageBox.NoButton);
-		return seleccionados;
-	}
-	
-	var dialog = new Dialog(util.translate ( "scripts", "Seleccionar" ), 0);
-	dialog.caption = "Selección";
-	dialog.OKButtonText = util.translate ( "scripts", "Aceptar" );
-	dialog.cancelButtonText = util.translate ( "scripts", "Cancelar" );
-	
- 	var valor:CheckBox[];
-	var i = 0;
-	while (q.next())  {
-		valor[i] = new CheckBox;
-		valor[i].text = q.value(1);
-		dialog.add( valor[i] );
-		i++;
-	}
-
-	if (!dialog.exec())
-		return seleccionados;
-
-	var num = 0;
-	q.first();
-	var j = 0;
-	for (j; j < i; j++) {
-		if (valor[j].checked) {
-			seleccionados[num] = q.value(0);
-			num++;
-		}
-		q.next();
-	}
-
-	return seleccionados;
-}
-
-//// SILIXSELECCION /////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 
 /** @class_definition controlUsuario */
 /////////////////////////////////////////////////////////////////
