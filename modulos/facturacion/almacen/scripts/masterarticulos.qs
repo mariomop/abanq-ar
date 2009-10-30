@@ -270,21 +270,9 @@ class silixSeleccionar extends pesosMedidas
 
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
-//// SILIXORDENCAMPOS ///////////////////////////////////////////
-class silixOrdenCampos extends silixSeleccionar {
-    function silixOrdenCampos( context ) { silixSeleccionar ( context ); }
-	function init() {
-		this.ctx.silixOrdenCampos_init();
-	}
-}
-//// SILIXORDENCAMPOS ///////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
-/** @class_declaration head */
-/////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends silixOrdenCampos {
-    function head( context ) { silixOrdenCampos ( context ); }
+class head extends silixSeleccionar {
+    function head( context ) { silixSeleccionar ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1466,22 +1454,6 @@ function silixSeleccionar_seleccionCriterio()
 
 //// SILIXSELECCIONAR ///////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
-
-/** @class_definition silixOrdenCampos */
-/////////////////////////////////////////////////////////////////
-//// SILIXORDENCAMPOS ///////////////////////////////////////////
-
-function silixOrdenCampos_init()
-{
-	this.iface.__init();
-
-	var orden:Array = [ "descripcion", "referencia", "codunidad", "pvp", "coddivisa", "ivaincluido", "codimpuesto", "stockfis", "codfamilia", "codfabricante", "modelo", "nostock", "secompra", "sevende", "variable", "costeultimo", "costemedio", "costemaximo", "marcacion", "variacion", "stockmin", "stockmax", "controlnumserie", "porlotes", "diasconsumo", "publico", "fechapub", "enportada", "ordenportada", "enoferta", "pvpoferta", "codbarras", "observaciones" ];
-
-	this.iface.tdbRecords.setOrderCols(orden);
-}
-
-//// SILIXORDENCAMPOS ///////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////
