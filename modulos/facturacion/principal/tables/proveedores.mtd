@@ -187,8 +187,8 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>40</length>
-		<optionslist>QT_TRANSLATE_NOOP("MetaData","Responsable Inscripto");QT_TRANSLATE_NOOP("MetaData","Responsable No Inscripto");QT_TRANSLATE_NOOP("MetaData","Responsable Monotributo");QT_TRANSLATE_NOOP("MetaData","Exento");QT_TRANSLATE_NOOP("MetaData","No Responsable");QT_TRANSLATE_NOOP("MetaData","Consumidor Final")</optionslist>
-		<default>QT_TRANSLATE_NOOP("MetaData","Responsable Inscripto")</default>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Responsable Inscripto");QT_TRANSLATE_NOOP("MetaData","Responsable No Inscripto");QT_TRANSLATE_NOOP("MetaData","No Responsable");QT_TRANSLATE_NOOP("MetaData","Exento");QT_TRANSLATE_NOOP("MetaData","Consumidor Final");QT_TRANSLATE_NOOP("MetaData","Responsable Monotributo");QT_TRANSLATE_NOOP("MetaData","No Categorizado");QT_TRANSLATE_NOOP("MetaData","Agente de Percepción")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Consumidor Final")</default>
 	</field>
 	<field>
 		<name>regimenib</name>
@@ -197,8 +197,8 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>40</length>
-		<optionslist>QT_TRANSLATE_NOOP("MetaData","Contribuyente Inscripto");QT_TRANSLATE_NOOP("MetaData","Exento")</optionslist>
-		<default>QT_TRANSLATE_NOOP("MetaData","Contribuyente Inscripto")</default>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Contribuyente Local");QT_TRANSLATE_NOOP("MetaData","Convenio Multilateral");QT_TRANSLATE_NOOP("MetaData","Exento")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Contribuyente Local")</default>
 	</field>
 	<field>
 		<name>numeroib</name>
@@ -334,8 +334,18 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>40</length>
-		<optionslist>QT_TRANSLATE_NOOP("MetaData","CUIT");QT_TRANSLATE_NOOP("MetaData","DNI");QT_TRANSLATE_NOOP("MetaData","LE");QT_TRANSLATE_NOOP("MetaData","LC");QT_TRANSLATE_NOOP("MetaData","Pasaporte");QT_TRANSLATE_NOOP("MetaData","Cedula")</optionslist>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","CUIT");QT_TRANSLATE_NOOP("MetaData","CUIL");QT_TRANSLATE_NOOP("MetaData","CDI");QT_TRANSLATE_NOOP("MetaData","LE");QT_TRANSLATE_NOOP("MetaData","LC");QT_TRANSLATE_NOOP("MetaData","DNI");QT_TRANSLATE_NOOP("MetaData","No Conoce");QT_TRANSLATE_NOOP("MetaData","Pasaporte");QT_TRANSLATE_NOOP("MetaData","Cédula")</optionslist>
 		<default>QT_TRANSLATE_NOOP("MetaData","CUIT")</default>
+	</field>
+	<field>
+		<name>denominacion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Denominación")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>40</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Sociedad Anónima");QT_TRANSLATE_NOOP("MetaData","Sociedad Responsabilidad Limitada");QT_TRANSLATE_NOOP("MetaData","Sociedad de Hecho");QT_TRANSLATE_NOOP("MetaData","Señor");QT_TRANSLATE_NOOP("MetaData","Señora");QT_TRANSLATE_NOOP("MetaData","Señorita")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Señor")</default>
 	</field>
 	<field>
 		<name>debaja</name>

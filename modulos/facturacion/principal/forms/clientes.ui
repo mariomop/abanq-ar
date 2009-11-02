@@ -155,6 +155,45 @@
 										</property>
 										<widget class="FLFieldDB" >
 											<property name="name" >
+												<cstring>fdbDenominacion</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>139</width>
+													<height>31</height>
+												</size>
+											</property>
+											<property name="fieldName" >
+												<string>denominacion</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name" >
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation" >
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType" >
+												<enum>Fixed</enum>
+											</property>
+											<property name="sizeHint" >
+												<size>
+													<width>35</width>
+													<height>20</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="FLFieldDB" >
+											<property name="name" >
 												<cstring>fdbTipoIdFiscal</cstring>
 											</property>
 											<property name="sizePolicy" >
@@ -6364,6 +6403,7 @@
 	</connections>
 	<tabstops>
 		<tabstop>fdbNombre</tabstop>
+		<tabstop>fdbDenominacion</tabstop>
 		<tabstop>fdbTipoIdFiscal</tabstop>
 		<tabstop>fdbCifNif</tabstop>
 		<tabstop>fdbNombreComercial</tabstop>
