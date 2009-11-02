@@ -224,8 +224,8 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>100</length>
-		<optionslist>Coste medio,PVP,Coste Prov.</optionslist>
-		<default>Coste medio</default>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Costo máximo");QT_TRANSLATE_NOOP("MetaData","Último costo");QT_TRANSLATE_NOOP("MetaData","Costo medio");QT_TRANSLATE_NOOP("MetaData","Precio de venta")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Costo medio")</default>
 	</field>
 	<field>
 		<name>porpvp</name>
@@ -235,5 +235,6 @@
 		<type>double</type>
 		<partI>3</partI>
 		<partD>2</partD>
+		<default>100</default>
 	</field>
 </TMD>

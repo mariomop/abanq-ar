@@ -197,40 +197,41 @@ function oficial_obtenerOrden(nivel:Number, cursor:FLSqlCursor):String
 
 function oficial_costeArticulo(nodo:FLDomNode, campo:String):String
 {
-debug("Coste unidad ");
 	var util:FLUtil = new FLUtil;
 	var tipoValoracion:String = nodo.attributeValue("almacenes.tipovaloracion");
 	var campoRed:String;
 	var tablaRed:String;
-debug("tipoValoracion " + tipoValoracion);
 	var valor:Number;
 	switch (tipoValoracion) {
-		case "Coste medio": {
+		case util.translate("scripts","Costo máximo"): {
+			valor = nodo.attributeValue("articulos.costemaximo")
+			tablaRed = "articulos";
+			campoRed = "costemaximo";
+			break;
+		}
+		case util.translate("scripts","Último costo"): {
+			valor = nodo.attributeValue("articulos.costeultimo")
+			tablaRed = "articulos";
+			campoRed = "costeultimo";
+			break;
+		}
+		case util.translate("scripts","Costo medio"): {
 			valor = nodo.attributeValue("articulos.costemedio")
 			tablaRed = "articulos";
 			campoRed = "costemedio";
 			break;
 		}
-		case "PVP": {
+		case util.translate("scripts","Precio de venta"): {
 			var porPvp:Number = parseFloat(nodo.attributeValue("almacenes.porpvp"));
 			valor = parseFloat(nodo.attributeValue("articulos.pvp")) * porPvp / 100;
 			tablaRed = "articulos";
 			campoRed = "pvp";
 			break;
 		}
-		case "Coste Prov.": {
-			valor = nodo.attributeValue("articulosprov.coste")
-			tablaRed = "articulosprov";
-			campoRed = "coste";
-			break;
-		}
 	}
 	if (campo == "total") {
 		var cantidad:Number = parseFloat(nodo.attributeValue("stocks.cantidad"));
 		valor = parseFloat(valor) * parseFloat(cantidad);
-debug("valor antes " + valor);
-debug("this.iface.totalAlmacen_ " + this.iface.totalAlmacen_);
-debug("this.iface.totalInforme_ " + this.iface.totalInforme_);
 		if (isNaN(this.iface.totalAlmacen_)) {
 			this.iface.totalAlmacen_ = 0;
 		}

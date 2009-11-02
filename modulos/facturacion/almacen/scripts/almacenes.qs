@@ -115,8 +115,10 @@ function oficial_bufferChanged(fN:String)
 
 function oficial_habilitarPorPvp()
 {
+	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
-	if (cursor.valueBuffer("tipovaloracion") == "PVP") {
+
+	if (cursor.valueBuffer("tipovaloracion") == util.translate("scripts","Precio de venta")) {
 		this.child("fdbPorPvp").setDisabled(false);
 	} else {
 		this.child("fdbPorPvp").setDisabled(true);
