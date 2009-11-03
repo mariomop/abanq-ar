@@ -1,9 +1,9 @@
 /***************************************************************************
-                 i_masterarticulos.qs  -  description
+                 i_masterlistapreciostarifas.qs  -  description
                              -------------------
-    begin                : mar may 17 2005
-    copyright            : (C) 2005 by InfoSiAL S.L.
-    email                : mail@infosial.com
+    begin                : lun oct 27 2008
+    copyright            : (C) 2008 by Silix
+    email                : contacto@silix.com.ar
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 /** @file */
 
 /** @class_declaration interna */
@@ -36,9 +36,12 @@ class interna {
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
-    function oficial( context ) { interna( context ); } 
+    function oficial( context ) { interna( context ); }
 	function lanzar() {
 		return this.ctx.oficial_lanzar();
+	}
+	function obtenerOrden(nivel:Number, cursor:FLSqlCursor):String {
+		return this.ctx.oficial_obtenerOrden(nivel, cursor);
 	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
@@ -58,6 +61,9 @@ class head extends oficial {
 //// INTERFACE  /////////////////////////////////////////////////
 class ifaceCtx extends head {
     function ifaceCtx( context ) { head( context ); }
+	function pub_lanzar() {
+		return this.lanzar();
+	}
 }
 
 const iface = new ifaceCtx( this );
@@ -71,32 +77,118 @@ const iface = new ifaceCtx( this );
 
 //////////////////////////////////////////////////////////////////
 //// INTERNA /////////////////////////////////////////////////////
+
 function interna_init()
 {
 	connect (this.child("toolButtonPrint"), "clicked()", this, "iface.lanzar()");
 }
+
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition oficial */
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
+
 function oficial_lanzar()
 {
-	var cursor:FLSqlCursor = this.cursor()
+	var cursor:FLSqlCursor = this.cursor();
 	var seleccion:String = cursor.valueBuffer("id");
 	if (!seleccion)
 		return;
-		
-	var nombreInforme:String;
-	if (cursor.valueBuffer("incluircoste"))
-		nombreInforme = "i_articuloscoste";
-	else
-		nombreInforme = "i_articulos";
-	
+
+	var nombreReport:String = cursor.action();
 	var orderBy:String = "";
-	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy);
+	var o:String = "";
+	for (var i:Number = 1; i < 4; i++) {
+		o = this.iface.obtenerOrden(i, cursor);
+		if (o) {
+			if (orderBy == "")
+				orderBy = o;
+			else
+				orderBy += ", " + o;
+		}
+	}
+
+	var nombreInforme:String = nombreReport;
+	// si no se indica proveedor
+	if (!cursor.valueBuffer("i_articulosprov_codproveedor") || cursor.valueBuffer("i_articulosprov_codproveedor") == "")
+		nombreInforme = "i_listapreciostarifas_distinct";
+
+	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy, "", false, false, "", nombreReport);
 }
+
+function oficial_obtenerOrden(nivel:Number, cursor:FLSqlCursor):String
+{
+	var ret:String = "";
+	var orden:String = cursor.valueBuffer("orden" + nivel.toString());
+	switch(nivel) {
+		case 1: {
+			// si no se indica proveedor
+			if (!cursor.valueBuffer("i_articulosprov_codproveedor") || cursor.valueBuffer("i_articulosprov_codproveedor") == "")
+				break;
+			switch(orden) {
+				case "Código": {
+					ret += "articulosprov.codproveedor";
+					break;
+				}
+				case "Nombre": {
+					ret += "articulosprov.nombre";
+					break;
+				}
+			}
+			break;
+		}
+		break;
+		case 2: {
+			switch(orden) {
+				case "Código": {
+					ret += "familias.codfamilia";
+					break;
+				}
+				case "Descripción": {
+					ret += "familias.descripcion";
+					break;
+				}
+			}
+			break;
+		}
+		break;
+		case 3: {
+			switch(orden) {
+				case "Referencia": {
+					ret += "articulos.referencia";
+					break;
+				}
+				case "Descripción": {
+					ret += "articulos.descripcion";
+					break;
+				}
+			}
+			break;
+		}
+		break;
+	}
+	if (ret != "") {
+		var tipoOrden:String = cursor.valueBuffer("tipoorden" + nivel.toString());
+		switch(tipoOrden) {
+			case "Descendente": {
+				ret += " DESC";
+				break;
+			}
+		}
+	}
+
+	if (nivel == 1 && orden != 1) {
+		if (ret == "")
+			ret += "articulos.referencia";
+		else
+			ret += ", articulos.referencia";
+	}
+
+	return ret;
+}
+
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 

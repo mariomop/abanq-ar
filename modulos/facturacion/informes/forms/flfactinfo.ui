@@ -102,7 +102,7 @@
 				<action name="i_totalfacturasprov" />
 			</item>
 		</item>
-		<item name="Tesorera" text="&amp;Tesorería" >
+		<item name="Tesoreria" text="&amp;Tesorería" >
 			<action name="tesoreraRecibosAction" />
 			<item accel="Ctrl+R" name="PopupMenuEditor_22" text="&amp;Recibos" >
 				<action name="i_reciboscli" />
@@ -113,7 +113,7 @@
 			<action name="i_riesgocli" />
 			<action name="i_vencimientos" />
 		</item>
-		<item name="Almacn" text="&amp;Almacén" >
+		<item name="Articulos" text="&amp;Artículos" >
 			<action name="inventarioAction" />
 			<item accel="" name="inventario" text="&amp;Inventario" >
 				<action name="i_inventario" />
@@ -121,7 +121,8 @@
 			</item>
 			<action name="preciosAction" />
 			<item accel="" name="precios" text="&amp;Lista de Precios" >
-				<action name="i_articulos" />
+				<action name="i_listaprecios" />
+				<action name="i_listapreciostarifas" />
 			</item>
 			<action name="movimientosAction" />
 			<item accel="" name="movimientos" text="&amp;Movimientos" >
@@ -165,7 +166,7 @@
 			<action name="i_inventarioval" />
 			<separator/>
 			<action name="i_ventasmensual" />
-			<action name="i_articulos" />
+			<action name="i_listaprecios" />
 			<separator/>
 			<action name="i_clientes" />
 			<action name="i_proveedores" />
@@ -871,19 +872,36 @@
 		</action>
 		<action>
 			<property name="name" >
-				<cstring>i_articulos</cstring>
+				<cstring>i_listaprecios</cstring>
 			</property>
 			<property name="iconSet" >
 				<iconset>info_tarifasimage19</iconset>
 			</property>
 			<property name="text" >
-				<string>Tarifas</string>
+				<string>Lista de Precios</string>
 			</property>
 			<property name="menuText" >
-				<string>Tarifas</string>
+				<string>Lista de Precios</string>
 			</property>
 			<property name="accel" >
-				<string>Ctrl+T</string>
+				<string></string>
+			</property>
+		</action>
+		<action>
+			<property name="name" >
+				<cstring>i_listapreciostarifas</cstring>
+			</property>
+			<property name="iconSet" >
+				<iconset>info_tarifasimage19</iconset>
+			</property>
+			<property name="text" >
+				<string>Lista de Precios por Tarifas</string>
+			</property>
+			<property name="menuText" >
+				<string>Lista de Precios por Tarifas</string>
+			</property>
+			<property name="accel" >
+				<string></string>
 			</property>
 		</action>
 		<action>
@@ -1233,7 +1251,13 @@
 			<slot>openDefaultForm()</slot>
 		</connection>
 		<connection>
-			<sender>i_articulos</sender>
+			<sender>i_listaprecios</sender>
+			<signal>activated()</signal>
+			<receiver>FLWidgetApplication</receiver>
+			<slot>openDefaultForm()</slot>
+		</connection>
+		<connection>
+			<sender>i_listapreciostarifas</sender>
 			<signal>activated()</signal>
 			<receiver>FLWidgetApplication</receiver>
 			<slot>openDefaultForm()</slot>

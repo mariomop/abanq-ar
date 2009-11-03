@@ -1,0 +1,34 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>listaprecios_distinct</name>
+	
+	<tables>empresa,articulos,familias</tables>
+	
+	<group>
+		<level>0</level>
+		<field>empresa.cifnif</field>
+	</group>
+	
+	<select>
+		empresa.nombre, empresa.cifnif,
+		empresa.direccion, empresa.codpostal,
+		empresa.ciudad, empresa.provincia,
+		
+		articulos.referencia, articulos.descripcion,
+		articulos.pvp, articulos.coddivisa, articulos.codimpuesto,
+		
+		familias.codfamilia, familias.descripcion
+	</select>
+	
+	<from>
+		empresa, articulos
+		LEFT OUTER JOIN familias ON familias.codfamilia = articulos.codfamilia
+	</from>
+	
+	<where>
+	</where>
+	
+	<order>
+		articulos.referencia
+	</order>
+</QRY>

@@ -1,0 +1,37 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>listapreciostarifas</name>
+	
+	<tables>empresa,articulos,familias,articulosprov,articulostarifas</tables>
+	
+	<group>
+		<level>0</level>
+		<field>empresa.cifnif</field>
+	</group>
+	
+	<select>
+		empresa.nombre, empresa.cifnif,
+		empresa.direccion, empresa.codpostal,
+		empresa.ciudad, empresa.provincia,
+		articulos.referencia, articulos.descripcion,
+		articulos.coddivisa, articulos.codimpuesto,
+		
+		familias.codfamilia, familias.descripcion,
+		
+		articulosprov.codproveedor, articulostarifas.pvp
+	</select>
+	
+	<from>
+		empresa, articulos
+		LEFT OUTER JOIN familias ON familias.codfamilia = articulos.codfamilia
+		LEFT OUTER JOIN articulostarifas ON articulos.referencia = articulostarifas.referencia
+		LEFT OUTER JOIN articulosprov ON articulos.referencia = articulosprov.referencia
+	</from>
+	
+	<where>
+	</where>
+	
+	<order>
+		articulos.referencia
+	</order>
+</QRY>

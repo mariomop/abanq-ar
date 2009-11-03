@@ -1,0 +1,59 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE KugarTemplate SYSTEM "kugartemplate.dtd">
+<KugarTemplate BottomMargin="10" TopMargin="20" RightMargin="10" LeftMargin="20" PageOrientation="0" PageSize="0" >
+	<Detail Height="125" Level="0" >
+		<!-- EMPRESA -->
+		<Line Width="1" Y1="0" Y2="0" X1="0" X2="370" Style="1" Color="100,100,100" />
+		<Line Width="1" Y1="80" Y2="80" X1="0" X2="370" Style="1" Color="100,100,100" />
+		<Line Width="1" Y1="0" Y2="80" X1="0" X2="0" Style="1" Color="100,100,100" />
+		<Line Width="1" Y1="0" Y2="80" X1="370" X2="370" Style="1" Color="100,100,100" />
+		
+		<Field WordWrap="1" Width="282" X="2" Y="2" BorderStyle="0" NegValueColor="0,0,0" Height="35" HAlignment="1" DataType="0" Field="empresa.nombre" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.nombre]" FontWeight="65" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial" />
+		<CalculatedField CalculationType="6" FunctionName="flfactinfo.pub_logo" WordWrap="0" Width="85" X="284" Y="2" BorderStyle="0" NegValueColor="0,0,0" Height="34" HAlignment="0" DataType="5" Field="empresa.logo" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.logo]" FontWeight="50" FontSize="12" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		
+		<Label WordWrap="0" Width="60" X="5" Y="40" BorderStyle="0" Height="18" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="CUIT" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="100" X="65" Y="40" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.cifnif" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.cifnif]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		
+		<Field WordWrap="0" Width="135" X="215" Y="40" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.direccion" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.direccion]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="45" X="5" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.codpostal" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.codpostal]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="150" X="65" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.ciudad" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.ciudad]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="100" X="215" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.provincia" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.provincia]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+
+		<Label WordWrap="0" Width="300" X="1" Y="100" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Lista de Precios por Tarifa" FontWeight="65" FontSize="12" BorderWidth="1" FontFamily="Arial" />
+	</Detail>
+	
+	<DetailHeader Height="20" Level="1" >
+		<Label WordWrap="0" Width="94" X="0" Y="0" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Referencia" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="394" X="95" Y="0" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Descripción" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="74" X="490" Y="0" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Precio" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="35" X="565" Y="0" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Div." FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+	</DetailHeader>
+	
+	<AddOnHeader Height="20" Level="1" >
+		<Label WordWrap="0" Width="94" X="0" Y="0" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Referencia" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="394" X="95" Y="0" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Descripción" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="74" X="490" Y="0" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Precio" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="35" X="565" Y="0" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Div." FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
+	</AddOnHeader>
+	
+	<Detail Height="20" Level="1" >
+		<Field WordWrap="0" Width="91" X="2" Y="0" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="0" DataType="0" Field="articulos.referencia" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[articulos.referencia]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="390" X="100" Y="0" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="0" DataType="0" Field="articulos.descripcion" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[articulos.descripcion]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="75" X="490" Y="0" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="2" DataType="4" Field="articulostarifas.pvp" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[articulostarifas.pvp]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+		<Field WordWrap="0" Width="35" X="565" Y="0" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="0" DataType="0" Field="articulos.coddivisa" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[articulos.coddivisa]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
+	</Detail>
+	
+	<AddOnFooter Height="20" Level="1" >
+		<Line Width="1" Y1="0" Y2="0" X1="0" X2="600" Style="1" Color="0,0,0" />
+		<Label WordWrap="0" Width="80" X="480" Y="1" BorderStyle="0" Height="18" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Página" FontWeight="75" FontSize="7" BorderWidth="0" FontFamily="Arial" />
+		<Special WordWrap="0" Width="100" X="0" Y="1" BorderStyle="0" Height="18" HAlignment="0" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="0" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="7" BorderWidth="1" FontFamily="Arial Narrow" />
+		<Special WordWrap="0" Width="20" X="560" Y="1" BorderStyle="0" Height="18" HAlignment="2" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="1" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="7" BorderWidth="1" FontFamily="Arial Narrow" />
+	</AddOnFooter>
+	
+	<DetailFooter Height="20" Level="1" >
+		<Line Width="1" Y1="0" Y2="0" X1="0" X2="600" Style="1" Color="0,0,0" />
+		<Label WordWrap="0" Width="80" X="480" Y="1" BorderStyle="0" Height="18" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Página" FontWeight="75" FontSize="7" BorderWidth="0" FontFamily="Arial" />
+		<Special WordWrap="0" Width="100" X="0" Y="1" BorderStyle="0" Height="18" HAlignment="0" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="0" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="7" BorderWidth="1" FontFamily="Arial Narrow" />
+		<Special WordWrap="0" Width="20" X="560" Y="1" BorderStyle="0" Height="18" HAlignment="2" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="1" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="7" BorderWidth="1" FontFamily="Arial Narrow" />
+	</DetailFooter>
+</KugarTemplate>
