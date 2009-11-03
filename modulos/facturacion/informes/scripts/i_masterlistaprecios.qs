@@ -47,11 +47,26 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration csv */
+/////////////////////////////////////////////////////////////////
+//// CSV ////////////////////////////////////////////////////////
+class csv extends oficial {
+    function csv( context ) { oficial ( context ); }
+	function init() {
+		this.ctx.csv_init();
+	}
+	function lanzarCSV() {
+		return this.ctx.csv_lanzarCSV();
+	}
+}
+//// CSV ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends oficial {
-    function head( context ) { oficial ( context ); }
+class head extends csv {
+    function head( context ) { csv ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -190,6 +205,51 @@ function oficial_obtenerOrden(nivel:Number, cursor:FLSqlCursor):String
 }
 
 //// OFICIAL /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition csv */
+/////////////////////////////////////////////////////////////////
+//// CSV ////////////////////////////////////////////////////////
+
+function csv_init()
+{
+	this.iface.__init();
+
+	connect (this.child("toolButtonCSV"), "clicked()", this, "iface.lanzarCSV()");
+}
+
+function csv_lanzarCSV()
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var seleccion:String = cursor.valueBuffer("id");
+	if (!seleccion)
+		return;
+
+	var nombreReport:String = cursor.action();
+	var orderBy:String = "";
+	var o:String = "";
+	for (var i:Number = 1; i < 4; i++) {
+		o = this.iface.obtenerOrden(i, cursor);
+		if (o) {
+			if (orderBy == "")
+				orderBy = o;
+			else
+				orderBy += ", " + o;
+		}
+	}
+
+	var nombreInforme:String = nombreReport;
+	// si no se indica proveedor
+	if (!cursor.valueBuffer("i_articulosprov_codproveedor") || cursor.valueBuffer("i_articulosprov_codproveedor") == "")
+		nombreInforme = "i_listaprecios_distinct";
+
+	var cabecera:String = "Referencia;Descripción;Precio;Divisa;";
+	var indices = [ 8, 9, 10, 11 ];
+
+	flfactinfo.iface.pub_lanzarInformeCSV(cursor, nombreInforme, orderBy, "", "", nombreReport, cabecera, indices);
+}
+
+//// CSV ////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

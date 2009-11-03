@@ -330,7 +330,7 @@
         <alias>QT_TRANSLATE_NOOP("MetaData","Lista de Precios")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Listado de artículos con los precios de venta al público.")</description>
         <table>i_listaprecios</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_listaprecios</formrecord>
         <scriptform>i_masterlistaprecios</scriptform>
     </action>
@@ -339,10 +339,9 @@
         <alias>QT_TRANSLATE_NOOP("MetaData","Lista de Precios por Tarifas")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Listado de artículos con los precios de venta por tarifas.")</description>
         <table>i_listapreciostarifas</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_listapreciostarifas</formrecord>
         <scriptform>i_masterlistapreciostarifas</scriptform>
-        <scriptformrecord>i_listapreciostarifas</scriptformrecord>
     </action>
     <action>
         <name>i_salidasarticulos</name>
