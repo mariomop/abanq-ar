@@ -61,11 +61,26 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration csv */
+/////////////////////////////////////////////////////////////////
+//// CSV ////////////////////////////////////////////////////////
+class csv extends oficial {
+    function csv( context ) { oficial ( context ); }
+	function init() {
+		this.ctx.csv_init();
+	}
+	function lanzarCSV() {
+		return this.ctx.csv_lanzarCSV();
+	}
+}
+//// CSV ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends oficial {
-    function head( context ) { oficial ( context ); }
+class head extends csv {
+    function head( context ) { csv ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -269,6 +284,59 @@ function oficial_iniciarTotales(nodo:FLDomNode, campo:String):String
 }
 
 //// OFICIAL /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition csv */
+/////////////////////////////////////////////////////////////////
+//// CSV ////////////////////////////////////////////////////////
+
+function csv_init()
+{
+	this.iface.__init();
+
+	connect (this.child("toolButtonCSV"), "clicked()", this, "iface.lanzarCSV()");
+}
+
+function csv_lanzarCSV()
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var seleccion:String = cursor.valueBuffer("id");
+	if (!seleccion)
+		return;
+
+	var nombreInforme:String = cursor.action();
+	var orderBy:String = "";
+	var o:String = "";
+	for (var i:Number = 1; i < 3; i++) {
+		o = this.iface.obtenerOrden(i, cursor);
+		if (o) {
+			if (orderBy == "")
+				orderBy = o;
+			else
+				orderBy += ", " + o;
+		}
+	}
+
+	var whereFijo:String = "articulos.nostock <> true";
+
+	var cabecera:String = "", indices:String = [];
+	switch (nombreInforme) {
+		case "i_inventario": {
+			cabecera= "Referencia;Descripción;Cantidad;";
+			indices = [ 12, 13, 14 ];
+			break;
+		}
+		case "i_inventarioval": {
+			cabecera= "Referencia;Descripción;Cantidad;Precio;Valor;";
+			indices = [ 15, 16, 17, 13, 14 ];
+			break;
+		}
+	}
+
+	flfactinfo.iface.pub_lanzarInformeCSV(cursor, nombreInforme, orderBy, "", whereFijo, nombreInforme, cabecera, indices);
+}
+
+//// CSV ////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

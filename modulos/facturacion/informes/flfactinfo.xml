@@ -44,7 +44,7 @@
         <alias>QT_TRANSLATE_NOOP("MetaData","Inventario")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Listado de artículos en almacenes. Es posible ver el inventario de un sólo almacén, y ordenar los resultados por almacén o por artículo")</description>
         <table>i_inventario</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_inventario</formrecord>
         <scriptform>i_masterinventario</scriptform>
     </action>
@@ -53,7 +53,7 @@
         <alias>QT_TRANSLATE_NOOP("MetaData","Inventario valorado")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Listado de artículos en almacenes con los precios promedio de compra. El valor estimado de un artículo se calcula según la cantidad en stock y su valor promedio de compra. Es posible ver el inventario de un sólo almacén, y ordenar los resultados por almacén o por artículo")</description>
         <table>i_inventario</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_inventario</formrecord>
         <scriptform>i_masterinventario</scriptform>
     </action>
