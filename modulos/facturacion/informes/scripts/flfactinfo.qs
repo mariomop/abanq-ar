@@ -239,11 +239,23 @@ class datos extends pubInfoCliProv {
 //// DATOS //////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration csv */
+/////////////////////////////////////////////////////////////////
+//// CSV ////////////////////////////////////////////////////////
+class csv extends datos {
+    function csv( context ) { datos ( context ); }
+	function lanzarInformeCSV(cursor:FLSqlCursor, nombreInforme:String, orderBy:String, groupBy:String, whereFijo:String, nombreReport:String, cabecera:String, indices:Array) {
+		return this.ctx.csv_lanzarInformeCSV(cursor, nombreInforme, orderBy, groupBy, whereFijo, nombreReport, cabecera, indices);
+	}
+}
+//// CSV ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends datos {
-    function head( context ) { datos ( context ); }
+class head extends csv {
+    function head( context ) { csv ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -314,7 +326,19 @@ class pubDatos extends pubarticuloscomp {
 //// PUB_DATOS //////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-const iface = new pubDatos( this );
+/** @class_declaration pubCSV */
+/////////////////////////////////////////////////////////////////
+//// PUB_CSV ////////////////////////////////////////////////////
+class pubCSV extends pubDatos {
+    function pubCSV( context ) { pubDatos ( context ); }
+	function pub_lanzarInformeCSV(cursor:FLSqlCursor, nombreInforme:String, orderBy:String, groupBy:String, etiquetas:Boolean, whereFijo:String, nombreReport:String, cabecera:String, indices:Array) {
+		return this.lanzarInformeCSV(cursor, nombreInforme, orderBy, groupBy, etiquetas, whereFijo, nombreReport, cabecera, indices);
+	}
+}
+//// PUB_CSV ////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+const iface = new pubCSV( this );
 
 /** @class_definition interna */
 ////////////////////////////////////////////////////////////////////////////
@@ -588,7 +612,7 @@ function oficial_lanzarInforme(cursor:FLSqlCursor, nombreInforme:String, orderBy
 	this.iface.ultIdDocPagina = "";
 
 	var q:FLSqlQuery = this.iface.establecerConsulta(cursor, nombreInforme, orderBy, groupBy, whereFijo);
-debug("------ CONSULTA -------" + q.sql());
+	debug("CONSULTA:\t" + q.sql() + ";");
 	if (q.exec() == false) {
 		MessageBox.critical(util.translate("scripts", "Falló la consulta"), MessageBox.Ok, MessageBox.NoButton);
 		return;
@@ -1725,6 +1749,85 @@ function datos_acumularValor(nodo:FLDomNode, campo:String):String
 }
 
 //// DATOS //////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+
+/** @class_definition csv */
+/////////////////////////////////////////////////////////////////
+//// CSV ////////////////////////////////////////////////////////
+
+/** \D
+Genera un archivo CSV
+@param	cursor: Cursor con los criterios de búsqueda para la consulta base del informe
+@param	nombreinforme: Nombre del informe
+@param	orderBy: Cláusula ORDER BY de la consulta base
+@param	groupBy: Cláusula GROUP BY de la consulta base
+@param	whereFijo: Sentencia where que debe preceder a la sentencia where calculada por la función
+@param	cabecera: String con los campos (títulos) para la cabecera, separados por punto y coma (;)
+@param	indices: Array con los índices de los campos que se incluirán en el archivo. Debe coincidir con cabecera.
+\end */
+function csv_lanzarInformeCSV(cursor:FLSqlCursor, nombreInforme:String, orderBy:String, groupBy:String, whereFijo:String, nombreReport:String, cabecera:String, indices:Array)
+{
+	var util:FLUtil = new FLUtil();
+
+	var q:FLSqlQuery = this.iface.establecerConsulta(cursor, nombreInforme, orderBy, groupBy, whereFijo);
+	debug("CONSULTA:\t" + q.sql() + ";");
+	if (q.exec() == false) {
+		MessageBox.critical(util.translate("scripts", "Falló la consulta"), MessageBox.Ok, MessageBox.NoButton);
+		return;
+	} else {
+		if (q.first() == false) {
+			MessageBox.warning(util.translate("scripts", "No hay registros que cumplan los criterios de búsqueda establecidos"), MessageBox.Ok, MessageBox.NoButton);
+			return;
+		}
+	}
+
+	if (!nombreReport)
+		nombreReport = nombreInforme;
+
+	var rptViewer:FLReportViewer = new FLReportViewer();
+	rptViewer.setReportTemplate(nombreReport);
+	rptViewer.setReportData(q);
+	rptViewer.renderReport();
+
+	var nuevaLinea = new RegExp("\n");
+	nuevaLinea.global = true;
+	var lineas:String = [];
+	lineas = rptViewer.csvData().split(nuevaLinea);
+
+	var destino:String = FileDialog.getSaveFileName( "Archivos CSV (*.csv)" );
+	if (destino) {
+
+		if (destino.right(4).upper() != ".CSV")
+			destino += ".csv";
+
+		if ( File.exists( destino ) &&
+			MessageBox.warning(util.translate("scripts", "Ya existe un archivo llamado %1.\n¿Desea sobreescribirlo?").arg(destino),
+				 MessageBox.Yes, MessageBox.No) == MessageBox.No )
+			return;
+
+		var outfile = new File(destino);
+		outfile.open(File.WriteOnly);
+		outfile.write(cabecera + "\n");
+
+		util.createProgressDialog( util.translate( "scripts", "Generando archivo..." ), lineas.length - 1 );
+		var campos:String = [];
+		for (var i = 0; i < lineas.length - 1; i++) {
+			campos = lineas[i].split("|");
+			lineas[i] = "";
+			for (var j = 0; j < indices.length; j++) {
+				lineas[i] += campos[indices[j]] + ";";
+			}
+			outfile.write(lineas[i] + "\n");
+			util.setProgress( i );
+		}
+
+		outfile.close();
+		util.destroyProgressDialog();
+	}
+}
+
+//// CSV ////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 
