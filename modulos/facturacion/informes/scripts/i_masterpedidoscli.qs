@@ -142,11 +142,6 @@ function oficial_obtenerParamInforme():Array
 		}
 	}
 
-// 	if (cursor.valueBuffer("pedidoscli_servido") == "Todos" || !cursor.valueBuffer("pedidoscli_servido"))
-// 		paramInforme.whereFijo = "";
-// 	else
-// 		paramInforme.whereFijo = "pedidoscli.servido = '" + cursor.valueBuffer("pedidoscli_servido") + "'";
-	
 	if (cursor.valueBuffer("codintervalo")) {
 		var intervalo:Array = [];
 		intervalo = flfactppal.iface.pub_calcularIntervalo(cursor.valueBuffer("codintervalo"));

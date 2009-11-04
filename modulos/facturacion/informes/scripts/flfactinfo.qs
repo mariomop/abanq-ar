@@ -553,6 +553,15 @@ function oficial_aplicarCriterio(tabla:String, campo:String, valor:String, signo
 					switch(valor) {
 						case "Pendiente": {
 							criterio = "pedidoscli.servido IN ('No','Parcial')";
+							break;
+						}
+						case "Sí": {
+							criterio = "pedidoscli.servido = 'Sí'";
+							break;
+						}
+						case "No": {
+							criterio = "pedidoscli.servido = 'No'";
+							break;
 						}
 					}
 					break;
@@ -566,6 +575,15 @@ function oficial_aplicarCriterio(tabla:String, campo:String, valor:String, signo
 					switch(valor) {
 						case "Pendiente": {
 							criterio = "pedidosprov.servido IN ('No','Parcial')";
+							break;
+						}
+						case "Sí": {
+							criterio = "pedidosprov.servido = 'Sí'";
+							break;
+						}
+						case "No": {
+							criterio = "pedidosprov.servido = 'No'";
+							break;
 						}
 					}
 					break;

@@ -112,7 +112,7 @@
         <alias>QT_TRANSLATE_NOOP("MetaData","Resumen de remitos de proveedores")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Cada línea del informe contiene los datos de un remito. Al final del informe se añade la línea de totales")</description>
         <table>i_albaranesprov</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_albaranesprov</formrecord>
         <scriptform>i_masteralbaranesprov</scriptform>
         <scriptformrecord>i_albaranesprov</scriptformrecord>
@@ -132,7 +132,7 @@
         <alias>QT_TRANSLATE_NOOP("MetaData","Resumen de facturas de proveedores")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Cada línea del informe contiene los datos de una factura. Al final del informe se añade la línea de totales")</description>
         <table>i_facturasprov</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_facturasprov</formrecord>
         <scriptform>i_masterfacturasprov</scriptform>
         <scriptformrecord>i_facturasprov</scriptformrecord>
@@ -152,7 +152,7 @@
         <alias>QT_TRANSLATE_NOOP("MetaData","Resumen de pedidos de proveedores")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Cada línea del informe contiene los datos de un pedido. Al final del informe se añade la línea de totales")</description>
         <table>i_pedidosprov</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_pedidosprov</formrecord>
         <scriptform>i_masterpedidosprov</scriptform>
         <scriptformrecord>i_pedidosprov</scriptformrecord>

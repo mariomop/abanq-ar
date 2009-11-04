@@ -49,11 +49,26 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration csv */
+/////////////////////////////////////////////////////////////////
+//// CSV ////////////////////////////////////////////////////////
+class csv extends oficial {
+    function csv( context ) { oficial ( context ); }
+	function init() {
+		this.ctx.csv_init();
+	}
+	function lanzarCSV() {
+		return this.ctx.csv_lanzarCSV();
+	}
+}
+//// CSV ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends oficial {
-    function head( context ) { oficial ( context ); }
+class head extends csv {
+    function head( context ) { csv ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -115,8 +130,8 @@ function oficial_obtenerParamInforme():Array
 	var seleccion:String = cursor.valueBuffer("id");
 	if (!seleccion)
 		return false;
-	paramInforme.nombreInforme = cursor.action();
 
+	paramInforme.nombreInforme = cursor.action();
 	if(paramInforme.nombreInforme == "i_resfacturasprov") {
 		switch(cursor.valueBuffer("tipoinforme")) {
 			case "Pesos": {
@@ -178,6 +193,34 @@ function oficial_obtenerParamInforme():Array
 	return paramInforme;
 }
 //// OFICIAL /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition csv */
+/////////////////////////////////////////////////////////////////
+//// CSV ////////////////////////////////////////////////////////
+
+function csv_init()
+{
+	this.iface.__init();
+
+	if (this.cursor().action() == "i_resfacturasprov")
+		connect (this.child("toolButtonCSV"), "clicked()", this, "iface.lanzarCSV()");
+}
+
+function csv_lanzarCSV()
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var pI = this.iface.obtenerParamInforme();
+	if (!pI)
+		return;
+
+	var cabecera:String = "Código;Fecha;Proveedor;CUIT/DNI;Neto;IVA;Otros;Total;Div;";
+	var indices = [ 8, 9, 11, 12, 13, 14, 15, 16, 17 ];
+
+	flfactinfo.iface.pub_lanzarInformeCSV(cursor, pI.nombreInforme, pI.orderBy, "", pI.whereFijo, pI.nombreInforme, cabecera, indices);
+}
+
+//// CSV ////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
