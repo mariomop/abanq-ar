@@ -427,9 +427,10 @@ function oficial_generarAlbaran(where:String, curPedido:FLSqlCursor, datosAgrupa
 	
 	util.setProgress( ++paso );
 	
-	if (!this.iface.datosAlbaran(curPedido, where, datosAgrupacion))
+	if (!this.iface.datosAlbaran(curPedido, where, datosAgrupacion)) {
 		util.destroyProgressDialog();
 		return false;
+	}
 	
 	util.setProgress( ++paso );
 	
