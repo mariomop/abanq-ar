@@ -102,7 +102,7 @@
         <alias>QT_TRANSLATE_NOOP("MetaData","Resumen de remitos de clientes")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Cada línea del informe contiene los datos de un remito. Al final del informe se añade la línea de totales")</description>
         <table>i_albaranescli</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_albaranescli</formrecord>
         <scriptform>i_masteralbaranescli</scriptform>
         <scriptformrecord>i_albaranescli</scriptformrecord>
@@ -122,7 +122,7 @@
         <alias>QT_TRANSLATE_NOOP("MetaData","Resumen de facturas de clientes")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Cada línea del informe contiene los datos de una factura. Al final del informe se añade la línea de totales")</description>
         <table>i_facturascli</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_facturascli</formrecord>
         <scriptform>i_masterfacturascli</scriptform>
         <scriptformrecord>i_facturascli</scriptformrecord>
@@ -142,7 +142,7 @@
         <alias>QT_TRANSLATE_NOOP("MetaData","Resumen de pedidos de clientes")</alias>
         <description>QT_TRANSLATE_NOOP("MetaData","Cada línea del informe contiene los datos de un pedido. Al final del informe se añade la línea de totales")</description>
         <table>i_pedidoscli</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_pedidoscli</formrecord>
         <scriptform>i_masterpedidoscli</scriptform>
         <scriptformrecord>i_pedidoscli</scriptformrecord>
@@ -162,7 +162,7 @@
         <description>QT_TRANSLATE_NOOP("MetaData","Cada línea del informe contiene los datos de un presupuesto. Al final del informe se añade la línea de totales")</description>
         <name>i_respresupuestoscli</name>
         <table>i_presupuestoscli</table>
-        <form>i_master</form>
+        <form>i_master_csv</form>
         <formrecord>i_presupuestoscli</formrecord>
         <scriptform>i_masterpresupuestoscli</scriptform>
         <scriptformrecord>i_presupuestoscli</scriptformrecord>

@@ -44,11 +44,26 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration csv */
+/////////////////////////////////////////////////////////////////
+//// CSV ////////////////////////////////////////////////////////
+class csv extends oficial {
+    function csv( context ) { oficial ( context ); }
+	function init() {
+		this.ctx.csv_init();
+	}
+	function lanzarCSV() {
+		return this.ctx.csv_lanzarCSV();
+	}
+}
+//// CSV ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends oficial {
-    function head( context ) { oficial ( context ); }
+class head extends csv {
+    function head( context ) { csv ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -110,6 +125,54 @@ function oficial_lanzar()
 		flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy);
 }
 //// OFICIAL /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition csv */
+/////////////////////////////////////////////////////////////////
+//// CSV ////////////////////////////////////////////////////////
+
+function csv_init()
+{
+	this.iface.__init();
+
+	if (this.cursor().action() == "i_respresupuestoscli")
+		connect (this.child("toolButtonCSV"), "clicked()", this, "iface.lanzarCSV()");
+}
+
+function csv_lanzarCSV()
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var seleccion:String = cursor.valueBuffer("id");
+	if (!seleccion)
+		return;
+
+	var nombreInforme:String = cursor.action();
+	var orderBy:String = "";
+	var o:String = "";
+	for (var i:Number = 1; i < 3; i++) {
+		o = formi_albaranescli.iface.pub_obtenerOrden(i, cursor, "presupuestoscli");
+		if (o) {
+			if (orderBy == "")
+				orderBy = o;
+			else
+				orderBy += ", " + o;
+		}
+	}
+
+	var intervalo:Array = [];
+	if(cursor.valueBuffer("codintervalo")){
+		intervalo = flfactppal.iface.pub_calcularIntervalo(cursor.valueBuffer("codintervalo"));
+		cursor.setValueBuffer("d_presupuestoscli_fecha",intervalo.desde);
+		cursor.setValueBuffer("h_presupuestoscli_fecha",intervalo.hasta);
+	}
+
+	var cabecera:String = "Código;Fecha;Cliente;CUIT/DNI;Neto;IVA;Otros;Total;Div;";
+	var indices = [ 8, 9, 11, 12, 13, 14, 15, 16, 17 ];
+
+	flfactinfo.iface.pub_lanzarInformeCSV(cursor, nombreInforme, orderBy, "", "", nombreInforme, cabecera, indices);
+}
+
+//// CSV ////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
