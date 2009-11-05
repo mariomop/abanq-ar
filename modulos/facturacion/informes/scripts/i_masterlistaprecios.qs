@@ -130,7 +130,9 @@ function oficial_lanzar()
 	if (!cursor.valueBuffer("i_articulosprov_codproveedor") || cursor.valueBuffer("i_articulosprov_codproveedor") == "")
 		nombreInforme = "i_listaprecios_distinct";
 
-	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy, "", false, false, "", nombreReport);
+	var whereFijo:String = "articulos.sevende AND NOT articulos.debaja";
+
+	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy, "", false, false, whereFijo, nombreReport);
 }
 
 function oficial_obtenerOrden(nivel:Number, cursor:FLSqlCursor):String
@@ -243,10 +245,12 @@ function csv_lanzarCSV()
 	if (!cursor.valueBuffer("i_articulosprov_codproveedor") || cursor.valueBuffer("i_articulosprov_codproveedor") == "")
 		nombreInforme = "i_listaprecios_distinct";
 
+	var whereFijo:String = "articulos.sevende AND NOT articulos.debaja";
+
 	var cabecera:String = "Referencia;Descripción;Precio;Divisa;";
 	var indices = [ 8, 9, 10, 11 ];
 
-	flfactinfo.iface.pub_lanzarInformeCSV(cursor, nombreInforme, orderBy, "", "", nombreReport, cabecera, indices);
+	flfactinfo.iface.pub_lanzarInformeCSV(cursor, nombreInforme, orderBy, "", whereFijo, nombreReport, cabecera, indices);
 }
 
 //// CSV ////////////////////////////////////////////////////////

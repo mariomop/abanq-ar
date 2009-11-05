@@ -151,7 +151,7 @@ function oficial_lanzar()
 			}
 		}
 	}
-	var whereFijo:String = "articulos.nostock <> true";
+	var whereFijo:String = "NOT articulos.nostock AND NOT articulos.debaja";
 	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy, "", false, false, whereFijo);
 }
 
@@ -317,7 +317,7 @@ function csv_lanzarCSV()
 		}
 	}
 
-	var whereFijo:String = "articulos.nostock <> true";
+	var whereFijo:String = "NOT articulos.nostock AND NOT articulos.debaja";
 
 	var cabecera:String = "", indices:String = [];
 	switch (nombreInforme) {
