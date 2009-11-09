@@ -124,80 +124,12 @@
     </action>
     <action>
         <name>formasenvio</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Formas de envio de los pedidos realizados en la tienda virtual")</description>
+        <description>QT_TRANSLATE_NOOP("MetaData","Formas de envio")</description>
         <alias>QT_TRANSLATE_NOOP("MetaData","Formas de envío")</alias>
         <table>formasenvio</table>
         <form>master_copy</form>
         <formrecord>formasenvio</formrecord>
         <scriptformrecord>formasenvio</scriptformrecord>
-    </action>
-    <action>
-        <name>infogeneral</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Información general de la tienda virtual")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Información general")</alias>
-        <table>infogeneral</table>
-        <form>master_copy</form>
-        <formrecord>infogeneral</formrecord>
-        <scriptformrecord>infogeneral</scriptformrecord>
-    </action>
-    <action>
-        <name>noticias</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Noticias")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Noticias")</alias>
-        <table>noticias</table>
-        <form>master_copy</form>
-        <formrecord>noticias</formrecord>
-        <scriptformrecord>noticias</scriptformrecord>
-    </action>
-    <action>
-        <name>opcionestv</name>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Opciones generales")</alias>
-        <scriptform>opcionestv</scriptform>
-        <table>opcionestv</table>
-        <form>opcionestv</form>
-        <formrecord>opcionestv</formrecord>
-    </action>
-    <action>
-        <name>datostv</name>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Intercambio de datos")</alias>
-        <scriptform>datostv</scriptform>
-        <table>datostv</table>
-        <form>datostv</form>
-        <formrecord>datostv</formrecord>
-    </action>
-    <action>
-        <name>gruposatributos</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Grupos de Atributos")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
-        <table>gruposatributos</table>
-        <form>master_copy</form>
-        <formrecord>gruposatributos</formrecord>
-    </action>
-    <action>
-        <name>atributos</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Atributos de los artículos")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
-        <table>atributos</table>
-        <form>master_copy</form>
-        <formrecord>atributos</formrecord>
-        <scriptformrecord>atributos</scriptformrecord>
-    </action>
-    <action>
-        <name>atributosart</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Atributos por artículo")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
-        <table>atributosart</table>
-        <form>master_copy</form>
-        <formrecord>atributosart</formrecord>
-        <scriptformrecord>atributosart</scriptformrecord>
-    </action>
-    <action>
-        <name>accesoriosart</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Accesorios por artículo")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
-        <table>accesoriosart</table>
-        <form>master_copy</form>
-        <formrecord>accesoriosart</formrecord>
     </action>
     <action>
         <name>fabricantes</name>
@@ -209,100 +141,12 @@
         <scriptformrecord>fabricantes</scriptformrecord>
     </action>
     <action>
-        <name>plazosenvio</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Plazos de envio")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
-        <table>plazosenvio</table>
-        <form>master_copy</form>
-        <formrecord>plazosenvio</formrecord>
-    </action>
-    <action>
-        <name>faqs</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Preguntas frecuentes")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
-        <table>faqs</table>
-        <form>master_copy</form>
-        <formrecord>faqs</formrecord>
-        <scriptformrecord>faqs</scriptformrecord>
-    </action>
-    <action>
-        <name>modulosweb</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Módulos web")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
-        <table>modulosweb</table>
-        <form>master_copy</form>
-        <formrecord>modulosweb</formrecord>
-        <scriptformrecord>modulosweb</scriptformrecord>
-    </action>
-    <action>
-        <name>formaspago</name>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Formas de pago")</alias>
-        <description>QT_TRANSLATE_NOOP("MetaData","Las formas de pago contemplan los plazos de pago (en pagos fraccionados), la cuenta bancaria asociada y el modo de generación de los recibos")</description>
-        <scriptform>masterformaspago</scriptform>
-        <scriptformrecord>formaspago</scriptformrecord>
-        <table>formaspago</table>
-        <form>master_print</form>
-        <formrecord>formaspago</formrecord>
-    </action>
-    <action>
-        <name>datoslog</name>
-        <alias>Log</alias>
-        <description>El log es un formulario en el que se ofrece información al usuario</description>
-        <table>datostv</table>
-        <form>datoslog</form>
-        <formrecord>datoslog</formrecord>
-    </action>
-    <action>
         <name>transferenciastock</name>
         <description>QT_TRANSLATE_NOOP("MetaData","Las transferencias reflejan el cambio de material de un almacén a otro. Equivalen a dos movimientos de regularización de stock complementarios")</description>
         <alias>QT_TRANSLATE_NOOP("MetaData","Transferencias de stock")</alias>
         <table>transferenciastock</table>
         <form>transferenciastock</form>
         <scriptform>transferenciastock</scriptform>
-    </action>
-    <action>
-        <name>imagenes</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","imagenes")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","imagenes")</alias>
-        <table>imagenes</table>
-        <form>master</form>
-        <formrecord>imagenes</formrecord>
-        <scriptformrecord>imagenes</scriptformrecord>
-    </action>
-    <action>
-        <name>galeriasimagenes</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","galerias de imagenes")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","galerias de imagenes")</alias>
-        <table>galeriasimagenes</table>
-        <form>master</form>
-        <formrecord>galeriasimagenes</formrecord>
-        <scriptformrecord>galeriasimagenes</scriptformrecord>
-    </action>
-    <action>
-        <name>pasarelaspago</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Pasarelas de pago")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Pasarelas de pago")</alias>
-        <table>pasarelaspago</table>
-        <form>master</form>
-        <formrecord>pasarelaspago</formrecord>
-        <scriptformrecord>pasarelaspago</scriptformrecord>
-    </action>
-    <action>
-        <name>parametrospasarela</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Parámetros de pasarelas de pago")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Parámetros de pasarelas de pago")</alias>
-        <table>parametrospasarela</table>
-        <form>master</form>
-        <formrecord>parametrospasarela</formrecord>
-    </action>
-    <action>
-        <name>statsweb</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Estadísticas de visitas de web")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Estadísticas de visitas de web")</alias>
-        <table>statsweb</table>
-        <form>master</form>
-        <formrecord>statsweb</formrecord>
-        <scriptformrecord>statsweb</scriptformrecord>
     </action>
     <action>
         <name>lotes</name>

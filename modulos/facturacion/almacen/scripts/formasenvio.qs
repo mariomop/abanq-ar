@@ -28,7 +28,6 @@ class interna {
     function interna( context ) { this.ctx = context; }
     function init() { this.ctx.interna_init(); }
 	function calculateField(fN:String):String { return this.ctx.interna_calculateField(fN); }
-	function validateForm():Boolean { return this.ctx.interna_validateForm(); }
 }
 //// INTERNA /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -43,9 +42,6 @@ class oficial extends interna {
 	}
 	function bufferChanged(fN:String, miForm:Object) {
 		return this.ctx.oficial_bufferChanged(fN, miForm);
-	}
-	function traducirDescripcion() {
-		return this.ctx.oficial_traducir("descripcion");
 	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
@@ -86,7 +82,6 @@ function interna_init()
 	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
 	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
-	connect(this.child("pbnTradDescripcion"), "clicked()", this, "iface.traducirDescripcion");
 }
 
 function interna_calculateField(fN:String):String
@@ -105,19 +100,6 @@ function interna_calculateField(fN:String):String
 	return valor;
 }
 
-function interna_validateForm() 
-{
-	var util:FLUtil = new FLUtil();
-	if (!util.sqlSelect("formasenvio", "codenvio", "activo = true AND codenvio <> '" + this.cursor().valueBuffer("codenvio") + "'") && !this.cursor().valueBuffer("activo")) {
-		MessageBox.information(util.translate("scripts",
-			"Debe existir al menos una forma de envío activa"),
-			MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-		return false;
-	}
-	
-	return true;
-}
-
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
@@ -133,11 +115,6 @@ function oficial_bufferChanged(fN:String)
 			this.child("fdbCodImpuesto").setValue(this.iface.calculateField("codimpuesto"));
 		break;
 	}
-}
-
-function oficial_traducir(campo)
-{
-	return flfactppal.iface.pub_traducir("formasenvio", campo, this.cursor().valueBuffer("codenvio"));
 }
 
 //// OFICIAL /////////////////////////////////////////////////////

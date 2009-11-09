@@ -109,32 +109,6 @@
 									<bool>false</bool>
 								</property>
 							</widget>
-							<widget class="QPushButton" >
-								<property name="name" >
-									<cstring>pbnTradDescripcion</cstring>
-								</property>
-								<property name="minimumSize" >
-									<size>
-										<width>25</width>
-										<height>25</height>
-									</size>
-								</property>
-								<property name="maximumSize" >
-									<size>
-										<width>25</width>
-										<height>25</height>
-									</size>
-								</property>
-								<property name="text" >
-									<string/>
-								</property>
-								<property name="iconSet" >
-									<iconset>flux_ecommerceimage0</iconset>
-								</property>
-								<property name="toolTip" stdset="0" >
-									<string>Traducciones</string>
-								</property>
-							</widget>
 						</hbox>
 					</widget>
 					<widget class="QLayoutWidget" >
@@ -425,152 +399,6 @@
 									<string>marcacion</string>
 								</property>
 							</widget>
-						</hbox>
-					</widget>
-					<widget class="QLayoutWidget" >
-						<property name="name" >
-							<cstring>layout4</cstring>
-						</property>
-						<hbox>
-							<property name="name" >
-								<cstring>unnamed</cstring>
-							</property>
-							<widget class="FLFieldDB" >
-								<property name="name" >
-									<cstring>fdbCodGrupoAtr</cstring>
-								</property>
-								<property name="sizePolicy" >
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize" >
-									<size>
-										<width>140</width>
-										<height>25</height>
-									</size>
-								</property>
-								<property name="maximumSize" >
-									<size>
-										<width>150</width>
-										<height>32767</height>
-									</size>
-								</property>
-								<property name="fieldName" >
-									<string>codgrupoatr</string>
-								</property>
-							</widget>
-							<widget class="FLFieldDB" >
-								<property name="name" >
-									<cstring>fdbDescripcionGrupoAtr</cstring>
-								</property>
-								<property name="sizePolicy" >
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize" >
-									<size>
-										<width>200</width>
-										<height>25</height>
-									</size>
-								</property>
-								<property name="fieldName" >
-									<string>nombre</string>
-								</property>
-								<property name="tableName" >
-									<string>gruposatributos</string>
-								</property>
-								<property name="foreignField" >
-									<string>codgrupoatr</string>
-								</property>
-								<property name="fieldRelation" >
-									<string>codgrupo</string>
-								</property>
-								<property name="showAlias" >
-									<bool>false</bool>
-								</property>
-							</widget>
-						</hbox>
-					</widget>
-					<widget class="QLayoutWidget" >
-						<property name="name" >
-							<cstring>layout9</cstring>
-						</property>
-						<hbox>
-							<property name="name" >
-								<cstring>unnamed</cstring>
-							</property>
-							<widget class="FLFieldDB" >
-								<property name="name" >
-									<cstring>fdbPublico</cstring>
-								</property>
-								<property name="sizePolicy" >
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize" >
-									<size>
-										<width>130</width>
-										<height>25</height>
-									</size>
-								</property>
-								<property name="fieldName" >
-									<string>publico</string>
-								</property>
-							</widget>
-							<spacer>
-								<property name="name" >
-									<cstring>spacer14_2</cstring>
-								</property>
-								<property name="orientation" >
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType" >
-									<enum>Fixed</enum>
-								</property>
-								<property name="sizeHint" >
-									<size>
-										<width>30</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
-							<widget class="FLFieldDB" >
-								<property name="name" >
-									<cstring>fdbOrden</cstring>
-								</property>
-								<property name="fieldName" >
-									<string>orden</string>
-								</property>
-							</widget>
-							<spacer>
-								<property name="name" >
-									<cstring>spacer8</cstring>
-								</property>
-								<property name="orientation" >
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType" >
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint" >
-									<size>
-										<width>51</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
 						</hbox>
 					</widget>
 				</vbox>
@@ -952,9 +780,6 @@
 		</vbox>
 	</widget>
 	<images>
-		<image name="flux_ecommerceimage0" >
-			<data format="PNG" length="1192" >89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000046f49444154789c9d947f68d4651cc75fdb6ef37b70da5dddd6f7ea56df93697e6599a7924da630cdcaa1991b1a2cfba35990b3e88f1c21f9a3180b640e121d2219526b86bf41dd05e14edad88f5cdb993aef98c31bdbda8e3aefbe6de7f655a79ffe389451b3b4373c3c0f0fcfe7c5e7f379decf93c22348b66145216bde1efaf7aa58c2365c855eed859660a4c88898890f7ad86c98980096870296a38c39594e8277b7fe4053fd62fdb639d7bb6c91a6178ca563a5bdfae4facbe60ee0e6436518db42aaf8f0ca6e8eca37ca98947b13d2d210958b0d2222225762d2fc9a765601f74397ddb59f29b29ff707ab9541d99d27a38d7b454645a4af43e4968874378b6c298c680a0b278b9fb415b29f6214d691d0df70ad3a90013a563730e007d50ba17ab0b8d8d5d472d184c0648cb4bf6f345793979daa1c8e3fb16ebe75cdde348c30643992d0ac19d0d704369df8c9cf5936dff38cebb12169e9369b13e3dc7d20f8c07b64aeceb51f26739d667de5338865c2532e183805aa0e9156785c87901f6b221d162f4a9bf3ea2bf9e19f4efddc3e48cf4456eabd45553e534b9cea177147e11c5ed22154079600443b41df04113fa81a447ce034188ab6c0f32a28c13487ca02806339a456ccc556b5009ba5612e29f119cc295eab57602f5981ba2185cb7590e3815e5fb2a74371d08be06a0de4cc83b64e5c390ab4fac0e2b8d37281fe58b9ba326cd3df2cb6bb666ed877e8db54f2d85efca1fe23b3bcabe2b6a5966d5f553366d39350673c392b018807c01d81a80f720d30002588ff74cdf0f1b5791b95355b8fcd2b3fbefeeb5f02e3be5ecea4aa762c10cec2ade050ebd8555984d57902dc3a0c44c0e9811e1f383c60c4c11387c410ccd0a1b695a59a6e77bcb369a135b7680a47378fd49d0bef8c98f4a56836a6d46fa46af6db6c6496dd4204c876c139c0a9402f909b07b65ec80c433c0e3613f619105561f926c85120623274f050dbf43dc115261896de0437d71f644b7d2e192e27a5642be9c48360074280a641a8155604e1b6090ea01fc85660dc016e0f4402a079a933e29d268cdc774520ca8d651f511efedef872ac9f31506100d0141830400d24a1e913fc140718bb8312006f018c07586457ae43d2cff7ed16341859ba83edc1dac8a784de1a25ff0c443de034930726422fd8c1a3dedd7cbab79688ff3ab7cf41660961a7672a9032d94b4481b4d1ea825ab9764064b843c45f20229a88901c8d8ac8b542e9aab40fe5b9995d96cf4a69d4ba25562672bed4afdab04efaa4c74186868dd0ead54b4a31dad3c9791d22e3e0a8807e05b44fa0db2f97cef71cac3ccbe1ab83848ed41b279c1d7ffce6eb31a64dffdd686b8d8dff3969d6dfbdac6474d5797f95e15291ee529158a1486791c8ad0a912b457763db940ecdcecc494233f8b73f5eb793327aa4a452068b44a44aa4af50aeedb4378eeea46db086a63c37cb1fd8cbff52d94afbd3d259d028c31fdf112993861afd0849b3399970e90fd23f7a7c4feddde6c8a52ef3ec8bd396a43b8ce893dc8a5a769f88ec036e00f2bfb29d28bb42baaed99f559d3cc72394ff17f4dcedc3e6435ece0000000049454e44ae426082</data>
-		</image>
 		<image name="image0" >
 			<data format="PNG" length="834">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000030949444154789cb5954f681c551cc73f1bded23790c00c54d83908097870430577413025151af0d0480eeac956102d9ebc194fd61e240d22b4a7d27a905cfc536f7a686cc0c278a9bba2212b2add0503b3d0c22cb8f29e18fa7e9061c7c3ecee6c2b9434c577f90e33f09deffbfcbef3a6946519ffc752a30befc47b5f2c9f5a7ecdd7944067920a5a691ea6280d23454aed4ef277ab19ada0b84596656459c62be737257bccb5f9ebbd4c2fae7da317cf158951941e77fbe1b4074a94569aa9d14dadbcc3c3decfc58a03fc81a452185b31873273fb40791c0eb068e517c6be0e1ecdb89c9b7be5e225264f8ca4b6607ce0c4c3846e68ea1ce36e59f1903d0b9a43249e483a3215018f2163e5031c9cb17b80a9199ada3457b35f30864760ec950b750eb40252d029480a411924758006ec01124f26254f8607b60cb69b907cf412fc1861003ded010c38502b2699ee033d437cf522dc3198dd1de69f33601be040dfdc60ad1ff99bdb971ed28a07a66ffe013d03edad6bd49e6c136fad23fd0aee44007f68e24f2f70e6d41592a67d3ad995a922b10afe633a397dadf347d595b788ff0c993f3987defd1a4ffbb07b8dfa8b11b73b75aedcaaee080cc6c6adfe44e2d1d4b97ffab69d106fdfc0def5695cfe92f9f56598f509cf5731cd1ecdcf663115ffd89ccf1ba5d1795c7f37921f3e5e3ae29501970f68b2a728685f3e4b6da18a370da41666353c11023bf05b1be881ef705f31183396d4144c559e542bb092aba4e0d7ced0bed340f741ba37a87fb80c2e064f303ff768fc524324beb7d46a7d773fe311d3746826137d55102e2e11ae7c8005ea6f9e26f9a4019d1873b54570b2821c85682bbc2e1d79b9e871eaa6c61f81976b309323d0332080f620b9bec1f19ac5742dc9dde3b83d8bdd5b20be39c7ab6f3778e758f442b2c7d41885e9f7febaf8bdab84be576c5ff2361881408101901acdcf23ccb3ab044fc5d4a7dbdcae8434bd55e6d65ea7da8d7ed230180faff4ccd94574b08ad247400f48edc43fcd273f03747e92a51a14e942bf75f4db95c6f3979ad5ee3a4bbf23d239b7bdf1fe697a837f014d4abbd7bd5bb88c0000000049454e44ae426082</data>
 		</image>
