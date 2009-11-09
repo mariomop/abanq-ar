@@ -406,62 +406,12 @@
 		<default>false</default>
 	</field>
 	<field>
-		<name>clienteweb</name>
-		<!-- Indica si es un cliente web -->        <alias>QT_TRANSLATE_NOOP("MetaData","Cliente web")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-	</field>
-	<field>
-		<name>apellidos</name>
-		<!-- Apellidos del cliente, usado si en cliente web -->        <alias>QT_TRANSLATE_NOOP("MetaData","Apellidos")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>200</length>
-	</field>
-	<field>
-		<name>password</name>
-		<!-- Password en la web -->        <alias>QT_TRANSLATE_NOOP("MetaData","Password")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>200</length>
-		<editable>false</editable>
-		<visiblegrid>false</visiblegrid>
-	</field>
-	<field>
 		<name>fechabaja</name>
 		<!-- Fecha de baja -->        <alias>QT_TRANSLATE_NOOP("MetaData","Desde")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>date</type>
 		<default>null</default>
-	</field>
-	<field>
-		<name>sessionid</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Id de sesión")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>500</length>
-	</field>
-	<field>
-		<name>esempresa</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Es una empresa")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>false</default>
-		<visiblegrid>false</visiblegrid>
-	</field>
-	<field>
-		<name>modificado</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Modificado")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>false</default>
 	</field>
 	<field>
 		<name>contratomant</name>

@@ -308,28 +308,11 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-/** @class_declaration fluxEcommerce */
-/////////////////////////////////////////////////////////////////
-//// FLUX ECOMMERCE //////////////////////////////////////////////////////
-class fluxEcommerce extends oficial {
-    function fluxEcommerce( context ) { oficial ( context ); }
-	
-	function beforeCommit_pedidoscli(curPedido:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_beforeCommit_pedidoscli(curPedido);
-	}
-
-	function setModificado(cursor:FLSqlCursor)  {
-		return this.ctx.fluxEcommerce_setModificado(cursor);
-	}
-}
-//// FLUX ECOMMERCE //////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 /** @class_declaration pedidosauto */
 /////////////////////////////////////////////////////////////////
 //// PEDIDOS_AUTO ///////////////////////////////////////////////
-class pedidosauto extends fluxEcommerce {
-	function pedidosauto( context ) { fluxEcommerce ( context ); }
+class pedidosauto extends oficial {
+	function pedidosauto( context ) { oficial ( context ); }
 	function beforeCommit_pedidosprov(curPedido:FLSqlCursor):Boolean {
 		return this.ctx.pedidosauto_beforeCommit_pedidosprov(curPedido);
 	}
@@ -4466,41 +4449,6 @@ function oficial_calcularComisionLinea(codAgente:String,referencia:String):Numbe
 	return valor;
 }
 //// OFICIAL ////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
-/** @class_definition fluxEcommerce */
-/////////////////////////////////////////////////////////////////
-//// FLUX ECOMMERCE //////////////////////////////////////////////////////
-
-function fluxEcommerce_beforeCommit_pedidoscli(cursor:FLSqlCursor):Boolean 
-{
-	if (!this.iface.__beforeCommit_pedidoscli(cursor))
-		return false;
-	
-	/** \C Los pedidos web modificados en local se registran
-	*/
-	if (cursor.valueBuffer("pedidoweb") && cursor.modeAccess() == cursor.Edit) {
-		var curTab:FLSqlCursor = new FLSqlCursor("pedidoscli_mod");
-		var codigo = cursor.valueBuffer("codigo");
-		curTab.select("codigo = '" + codigo + "'");
-		if (!curTab.first()) {
-			curTab.setModeAccess(curTab.Insert);
-			curTab.refreshBuffer();
-			curTab.setValueBuffer("codigo", codigo);
-			if (!curTab.commitBuffer())
-				return false;
-		}
-	}
-	return true;
-}
-
-function fluxEcommerce_setModificado(cursor:FLSqlCursor) 
-{
-	if (cursor.isModifiedBuffer() && !cursor.valueBufferCopy("modificado"))
-		cursor.setValueBuffer("modificado", true);
-}
-
-//// FLUX ECOMMERCE //////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition pedidosauto */

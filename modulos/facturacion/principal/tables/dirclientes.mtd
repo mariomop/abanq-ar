@@ -114,30 +114,6 @@
 		</relation>
 	</field>
 	<field>
-		<name>nombre</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>200</length>
-	</field>
-	<field>
-		<name>apellidos</name>
-		<!-- Apellidos del cliente, usado si en cliente web -->        <alias>QT_TRANSLATE_NOOP("MetaData","Apellidos")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>200</length>
-	</field>
-	<field>
-		<name>empresa</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Empresa")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>200</length>
-	</field>
-	<field>
 		<name>codcliente</name>
 		<!--Código del cliente-->        <alias>QT_TRANSLATE_NOOP("MetaData","Cliente")</alias>
 		<null>false</null>
@@ -151,13 +127,5 @@
 			<card>M1</card>
 			<delC>true</delC>
 		</relation>
-	</field>
-	<field>
-		<name>modificado</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Modificado")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>false</default>
 	</field>
 </TMD>

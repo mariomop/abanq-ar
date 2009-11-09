@@ -78,44 +78,6 @@
 		</relation>
 	</field>
 	<field>
-		<name>codgrupoatr</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Atributos")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>10</length>
-		<relation>
-			<table>gruposatributos</table>
-			<field>codgrupo</field>
-			<card>M1</card>
-		</relation>
-	</field>
-	<field>
-		<name>publico</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Visible en la web")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>true</default>
-	</field>
-	<field>
-		<name>orden</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Orden")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>int</type>
-		<default>1</default>
-	</field>
-	<field>
-		<name>modificado</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Modificado")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>true</default>
-		<visiblegrid>false</visiblegrid>
-	</field>
-	<field>
 		<name>imagen</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Icono")</alias>
 		<null>true</null>

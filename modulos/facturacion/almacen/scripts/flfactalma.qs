@@ -106,78 +106,11 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-/** @class_declaration fluxEcommerce */
-/////////////////////////////////////////////////////////////////
-//// FLUX ECOMMERCE //////////////////////////////////////////////////////
-class fluxEcommerce extends oficial {
-    function fluxEcommerce( context ) { oficial ( context ); }
-	
-	function beforeCommit_almacenes(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_beforeCommit_almacenes(cursor);
-	}
-	function beforeCommit_articulos(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_beforeCommit_articulos(cursor);
-	}
-	function beforeCommit_fabricantes(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_beforeCommit_fabricantes(cursor);
-	}
-	function beforeCommit_familias(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_beforeCommit_familias(cursor);
-	}
-	function beforeCommit_formasenvio(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_beforeCommit_formasenvio(cursor);
-	}
-	function beforeCommit_tarifas(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_beforeCommit_tarifas(cursor);
-	}
-
-	function setModificado(cursor:FLSqlCursor)  {
-		return this.ctx.fluxEcommerce_setModificado(cursor);
-	}
-
-	function afterCommit_almacenes(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_afterCommit_almacenes(cursor);
-	}
-	function afterCommit_articulos(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_afterCommit_articulos(cursor);
-	}
-	function afterCommit_fabricantes(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_afterCommit_fabricantes(cursor);
-	}
-	function afterCommit_familias(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_afterCommit_familias(cursor);
-	}
-	function afterCommit_formasenvio(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_afterCommit_formasenvio(cursor);
-	}
-	function afterCommit_tarifas(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_afterCommit_tarifas(cursor);
-	}
-
-	function registrarDel(cursor:FLSqlCursor):Boolean {
-		return this.ctx.fluxEcommerce_registrarDel(cursor);
-	}
-}
-//// FLUX ECOMMERCE //////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
-/** @class_declaration traducciones */
-/////////////////////////////////////////////////////////////////
-//// TRADUCCIONES ///////////////////////////////////////////////
-class traducciones extends fluxEcommerce {
-	function traducciones( context ) { fluxEcommerce ( context ); }
-	function afterCommit_articulos(curArticulo:FLSqlCursor):Boolean {
-		return this.ctx.traducciones_afterCommit_articulos(curArticulo);
-	}
-}
-//// TRADUCCIONES ///////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 /** @class_declaration pedidosauto */
 /////////////////////////////////////////////////////////////////
 //// PEDIDOS_AUTO ///////////////////////////////////////////////
-class pedidosauto extends traducciones {
-	function pedidosauto( context ) { traducciones ( context ); }
+class pedidosauto extends oficial {
+	function pedidosauto( context ) { oficial ( context ); }
 	function controlStockAlbaranesProv(curLA:FLSqlCursor):Boolean {
 		return this.ctx.pedidosauto_controlStockAlbaranesProv(curLA);
 	}
@@ -1095,105 +1028,6 @@ function oficial_valorDefectoAlmacen(fN:String):String
 	return "";
 }
 //// OFICIAL /////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
-/** @class_definition fluxEcommerce */
-/////////////////////////////////////////////////////////////////
-//// FLUX ECOMMERCE //////////////////////////////////////////////////////
-
-function fluxEcommerce_beforeCommit_almacenes(cursor:FLSqlCursor):Boolean {
-	return this.iface.setModificado(cursor);
-}
-function fluxEcommerce_beforeCommit_articulos(cursor:FLSqlCursor):Boolean {
-	return this.iface.setModificado(cursor);
-}
-function fluxEcommerce_beforeCommit_fabricantes(cursor:FLSqlCursor):Boolean {
-	return this.iface.setModificado(cursor);
-}
-function fluxEcommerce_beforeCommit_familias(cursor:FLSqlCursor):Boolean {
-	return this.iface.setModificado(cursor);
-}
-function fluxEcommerce_beforeCommit_formasenvio(cursor:FLSqlCursor):Boolean {
-	return this.iface.setModificado(cursor);
-}
-function fluxEcommerce_beforeCommit_tarifas(cursor:FLSqlCursor):Boolean {
-	return this.iface.setModificado(cursor);
-}
-
-/** \D Marca el registro como modificado. Se utiliza para actualizar los datos en
-la base de datos remota
-*/
-function fluxEcommerce_setModificado(cursor:FLSqlCursor) {
-	if (cursor.isModifiedBuffer() && !cursor.valueBufferCopy("modificado"))
-		cursor.setValueBuffer("modificado", true);
-
-	return true;
-}
-
-function fluxEcommerce_afterCommit_almacenes(cursor:FLSqlCursor):Boolean {
-	return this.iface.registrarDel(cursor);
-}
-function fluxEcommerce_afterCommit_articulos(cursor:FLSqlCursor):Boolean {
-	return this.iface.registrarDel(cursor);
-}
-function fluxEcommerce_afterCommit_fabricantes(cursor:FLSqlCursor):Boolean {
-	return this.iface.registrarDel(cursor);
-}
-function fluxEcommerce_afterCommit_familias(cursor:FLSqlCursor):Boolean {
-	return this.iface.registrarDel(cursor);
-}
-function fluxEcommerce_afterCommit_formasenvio(cursor:FLSqlCursor):Boolean {
-	return this.iface.registrarDel(cursor);
-}
-function fluxEcommerce_afterCommit_tarifas(cursor:FLSqlCursor):Boolean {
-	return this.iface.registrarDel(cursor);
-}
-
-/** \D Guarda el registro en la tabla de eliminados. Se utiliza para eliminar 
-registros en la base de datos remota
-*/
-function fluxEcommerce_registrarDel(cursor:FLSqlCursor) 
-{
-	if (cursor.modeAccess() != cursor.Del)
-		return true;
-		
-	var tabla:String = cursor.table();
-	var valorClave = cursor.valueBuffer(cursor.primaryKey());
-	
-	var curTab:FLSqlCursor = new FLSqlCursor("registrosdel");
-	curTab.select("tabla = '" + tabla + "' AND idcampo = '" + valorClave + "'");
-	
-	if (curTab.first())
-		return true;
-		
-	curTab.setModeAccess(curTab.Insert);
-	curTab.refreshBuffer();
-	curTab.setValueBuffer("tabla", tabla);
-	curTab.setValueBuffer("idcampo", valorClave);
-	curTab.commitBuffer();
-
-	return true;
-}
-
-//// FLUX ECOMMERCE //////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
-/** @class_definition traducciones */
-/////////////////////////////////////////////////////////////////
-//// TRADUCCIONES ///////////////////////////////////////////////
-
-function traducciones_afterCommit_articulos(curArticulo:FlSqlCursor):Boolean
-{
-	var util:FLUtil = new FLUtil();
-	if (curArticulo.modeAccess() == curArticulo.Del) {
-		if (!util.sqlDelete("traducciones", "idcampo = '" + curArticulo.valueBuffer("referencia") + "'")) {
-			return false;
-		}
-	}
-	return true;
-}
-
-//// TRADUCCIONES ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition pedidosauto */

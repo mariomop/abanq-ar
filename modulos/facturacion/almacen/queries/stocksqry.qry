@@ -11,7 +11,6 @@
 		stocks.referencia,
 		articulos.descripcion as descripcion,
 		stocks.cantidad,
-		stocks.modificado,
 		stocks.disponible,
 		stocks.reservada,
 		stocks.pterecibir

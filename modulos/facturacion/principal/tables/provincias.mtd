@@ -44,14 +44,6 @@
 		</relation>
 	</field>
 	<field>
-		<name>modificado</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Modificado")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>false</default>
-	</field>
-	<field>
 		<name>codigo</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
 		<null>true</null>

@@ -113,25 +113,4 @@
 		<type>string</type>
 		<length>2</length>
 	</field>
-	<field>
-		<name>modificado</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Modificado")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>false</default>
-	</field>
-	<field>
-		<name>codidioma</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Idioma")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>3</length>
-		<relation>
-			<table>idiomas</table>
-			<field>codidioma</field>
-			<card>M1</card>
-		</relation>
-	</field>
 </TMD>

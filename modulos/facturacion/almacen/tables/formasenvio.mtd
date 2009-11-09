@@ -70,29 +70,11 @@
 	</field>
 	
 	<field>
-		<name>activo</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Activo en TV")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>false</default>
-	</field>
-	<field>
 		<name>ivaincluido</name>
 		<!-- Indica si el precio de venta del artículo incluye el IVA -->        <alias>QT_TRANSLATE_NOOP("MetaData","I.V.A. Incluido")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>bool</type>
-		<visiblegrid>false</visiblegrid>
-	</field>
-	
-	<field>
-		<name>modificado</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Modificado")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>true</default>
 		<visiblegrid>false</visiblegrid>
 	</field>
 </TMD>

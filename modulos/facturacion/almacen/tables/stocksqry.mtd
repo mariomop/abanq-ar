@@ -93,15 +93,6 @@
 		<editable>false</editable>
 	</field>
 	<field>
-		<name>modificado</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Modificado")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>true</default>
-		<visiblegrid>false</visiblegrid>
-	</field>
-	<field>
 		<name>disponible</name>
 		<!-- Cantidad menos movimientos pendientes negativos -->        <alias>QT_TRANSLATE_NOOP("MetaData","Disponible")</alias>
 		<null>false</null>
