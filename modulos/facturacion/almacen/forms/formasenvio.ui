@@ -362,6 +362,12 @@
 								<property name="fieldName">
 									<string>ivaincluido</string>
 								</property>
+								<property name="foreignField">
+									<string>ivaincluido</string>
+								</property>
+								<property name="fieldRelation">
+									<string>referencia</string>
+								</property>
 							</widget>
 						</hbox>
 					</widget>
