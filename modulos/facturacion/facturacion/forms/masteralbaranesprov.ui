@@ -400,6 +400,51 @@
 							</property>
 							<widget class="QPushButton" >
 								<property name="name" >
+									<cstring>pbnGenerarFactura</cstring>
+								</property>
+								<property name="sizePolicy" >
+									<sizepolicy>
+										<hsizetype>0</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="font" >
+									<font>
+										<bold>1</bold>
+										<italic>1</italic>
+									</font>
+								</property>
+								<property name="text" >
+									<string>Generar &amp;Factura</string>
+								</property>
+								<property name="accel" >
+									<string>Alt+F</string>
+								</property>
+								<property name="toolTip" stdset="0" >
+									<string>Generar una factura a partir del albaran seleccionado</string>
+								</property>
+							</widget>
+							<spacer>
+								<property name="name" >
+									<cstring>spacer13</cstring>
+								</property>
+								<property name="orientation" >
+									<enum>Horizontal</enum>
+								</property>
+								<property name="sizeType" >
+									<enum>Fixed</enum>
+								</property>
+								<property name="sizeHint" >
+									<size>
+										<width>16</width>
+										<height>20</height>
+									</size>
+								</property>
+							</spacer>
+							<widget class="QPushButton" >
+								<property name="name" >
 									<cstring>pbnAsociarAAlbaran</cstring>
 								</property>
 								<property name="sizePolicy" >
@@ -427,51 +472,6 @@
 								</property>
 								<property name="whatsThis" stdset="0" >
 									<string>Abre la ventana que permite agrupar en un albaran uno o mas pedidos de proveedor</string>
-								</property>
-							</widget>
-							<spacer>
-								<property name="name" >
-									<cstring>spacer13</cstring>
-								</property>
-								<property name="orientation" >
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType" >
-									<enum>Fixed</enum>
-								</property>
-								<property name="sizeHint" >
-									<size>
-										<width>16</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
-							<widget class="QPushButton" >
-								<property name="name" >
-									<cstring>pbnGenerarFactura</cstring>
-								</property>
-								<property name="sizePolicy" >
-									<sizepolicy>
-										<hsizetype>0</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="font" >
-									<font>
-										<bold>1</bold>
-										<italic>1</italic>
-									</font>
-								</property>
-								<property name="text" >
-									<string>Generar &amp;Factura</string>
-								</property>
-								<property name="accel" >
-									<string>Alt+F</string>
-								</property>
-								<property name="toolTip" stdset="0" >
-									<string>Generar una factura a partir del albaran seleccionado</string>
 								</property>
 							</widget>
 						</hbox>
