@@ -708,23 +708,6 @@
 														<string>telefono</string>
 													</property>
 												</widget>
-												<spacer>
-													<property name="name">
-														<cstring>spacer58</cstring>
-													</property>
-													<property name="orientation">
-														<enum>Horizontal</enum>
-													</property>
-													<property name="sizeType">
-														<enum>Expanding</enum>
-													</property>
-													<property name="sizeHint">
-														<size>
-															<width>30</width>
-															<height>20</height>
-														</size>
-													</property>
-												</spacer>
 												<widget class="FLFieldDB">
 													<property name="name">
 														<cstring>fdbFax</cstring>

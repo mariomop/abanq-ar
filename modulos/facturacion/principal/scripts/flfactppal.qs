@@ -1129,7 +1129,7 @@ function oficial_valoresIniciales()
 		setValueBuffer("cifnif", "00-00000000-0");
 		setValueBuffer("administrador", "Silix");
 		setValueBuffer("direccion", "4 de Enero 576");
-		setValueBuffer("codejercicio", "2009");
+		setValueBuffer("codejercicio", codEjercicio);
 		setValueBuffer("coddivisa", "$");
 		setValueBuffer("codpago", "CONTADO");
 		setValueBuffer("codserie_a", "A001");
