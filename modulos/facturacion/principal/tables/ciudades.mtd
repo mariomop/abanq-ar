@@ -107,7 +107,6 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>50</length>
-		<editable>false</editable>
 	</field>
 	<field>
 		<name>codpostal</name>
