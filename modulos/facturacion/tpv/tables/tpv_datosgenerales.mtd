@@ -302,7 +302,7 @@
 		<pk>false</pk>
 		<pk>false</pk>
 		<type>bool</type>
-		<default>true</default>
+		<default>false</default>
 	</field>
 </TMD>
 
