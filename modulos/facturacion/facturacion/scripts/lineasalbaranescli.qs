@@ -624,8 +624,10 @@ function funNumAcomp_borrarNumSerieComp()
 function informacionLineas_init() {
 	this.iface.__init();
 	
-	if (this.cursor().modeAccess() == this.cursor().Edit || this.cursor().modeAccess() == this.cursor().Browse)
+	if (this.cursor().modeAccess() == this.cursor().Edit || this.cursor().modeAccess() == this.cursor().Browse) {
+		this.child("lblStockAlmacen").setText(formRecordlineaspedidoscli.iface.pub_commonCalculateField("lblStockAlmacen", this.cursor()));
 		this.child("lblStockFisico").setText(formRecordlineaspedidoscli.iface.pub_commonCalculateField("lblStockFisico", this.cursor()));
+	}
 }
 
 //// INFORMACION LINEAS /////////////////////////////////////////

@@ -797,8 +797,10 @@ function totalesIva_commonCalculateField(fN, cursor):String
 function informacionLineas_init() {
 	this.iface.__init();
 	
-	if (this.cursor().modeAccess() == this.cursor().Edit || this.cursor().modeAccess() == this.cursor().Browse)
+	if (this.cursor().modeAccess() == this.cursor().Edit || this.cursor().modeAccess() == this.cursor().Browse) {
+		this.child("lblStockAlmacen").setText(this.iface.commonCalculateField("lblStockAlmacen", this.cursor()));
 		this.child("lblStockFisico").setText(this.iface.commonCalculateField("lblStockFisico", this.cursor()));
+	}
 }
 
 function informacionLineas_commonBufferChanged(fN:String, miForm:Object)
@@ -810,6 +812,7 @@ function informacionLineas_commonBufferChanged(fN:String, miForm:Object)
 
 	switch (fN) {
 		case "referencia": {
+			miForm.child("lblStockAlmacen").setText(this.iface.commonCalculateField("lblStockAlmacen", miForm.cursor()));
 			miForm.child("lblStockFisico").setText(this.iface.commonCalculateField("lblStockFisico", miForm.cursor()));
 			miForm.child("fdbCostoUnitario").setValue(this.iface.commonCalculateField("costounitario", miForm.cursor()));
 			this.iface.__commonBufferChanged(fN, miForm);
@@ -841,6 +844,14 @@ function informacionLineas_commonCalculateField(fN, cursor):String
 	var valor:String;
 	
 	switch (fN) {
+		case "lblStockAlmacen":{
+			var stockAlmacen:Number = util.sqlSelect("stocks", "cantidad", "referencia = '" + cursor.valueBuffer("referencia") + "' AND codalmacen = '" + cursor.cursorRelation().valueBuffer("codalmacen") + "'");
+			if (!stockAlmacen || isNaN(stockAlmacen))
+				valor = 0;
+			else
+				valor = stockAlmacen;
+			break;
+		}
 		case "lblStockFisico":{
 			var stockFisico:Number = util.sqlSelect("articulos", "stockfis", "referencia = '" + cursor.valueBuffer("referencia") + "'");
 			if (!stockFisico || isNaN(stockFisico))
