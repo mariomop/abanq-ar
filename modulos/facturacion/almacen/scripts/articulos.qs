@@ -381,6 +381,9 @@ class multiDivisa extends marcacion {
 	function calculateField(fN:String):Number {
 		return this.ctx.multiDivisa_calculateField(fN);
 	}
+	function establecerDatosAlta() {
+		return this.ctx.multiDivisa_establecerDatosAlta();
+	}
 }
 //// MULTI DIVISA ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -731,7 +734,6 @@ function oficial_establecerProveedorDefecto(referencia:String, codProveedor:Stri
 
 function oficial_establecerDatosAlta()
 {
-debug("oficial_establecerDatosAlta " + flfactalma.iface.pub_valorDefectoAlmacen("codimpuesto"));
 	this.child("fdbImpuesto").setValue(flfactalma.iface.pub_valorDefectoAlmacen("codimpuesto"));
 }
 //// OFICIAL /////////////////////////////////////////////////////
@@ -2570,6 +2572,11 @@ function multiDivisa_calculateField(fN:String):Number
 	return valor;
 }
 
+function multiDivisa_establecerDatosAlta()
+{
+	this.iface.__establecerDatosAlta();
+	this.child("fdbCodDivisa").setValue(flfactalma.iface.pub_valorDefectoAlmacen("coddivisa"));
+}
 //// MULTI DIVISA ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 

@@ -53,63 +53,6 @@
 								</property>
 								<widget class="QLayoutWidget" >
 									<property name="name" >
-										<cstring>layoutIVA</cstring>
-									</property>
-									<hbox>
-										<property name="name" >
-											<cstring>unnamed</cstring>
-										</property>
-										<widget class="FLFieldDB" >
-											<property name="name" >
-												<cstring>fdbCodImpuesto</cstring>
-											</property>
-											<property name="maximumSize" >
-												<size>
-													<width>300</width>
-													<height>32767</height>
-												</size>
-											</property>
-											<property name="font" >
-												<font>
-													<bold>0</bold>
-												</font>
-											</property>
-											<property name="fieldName" >
-												<string>codimpuesto</string>
-											</property>
-											<property name="fieldAlias" >
-												<string>codimpuesto</string>
-											</property>
-										</widget>
-										<widget class="FLFieldDB" >
-											<property name="name" >
-												<cstring>fdbDesImpuesto</cstring>
-											</property>
-											<property name="font" >
-												<font>
-													<bold>0</bold>
-												</font>
-											</property>
-											<property name="fieldName" >
-												<string>descripcion</string>
-											</property>
-											<property name="tableName" >
-												<string>impuestos</string>
-											</property>
-											<property name="foreignField" >
-												<string>codimpuesto</string>
-											</property>
-											<property name="fieldRelation" >
-												<string>codimpuesto</string>
-											</property>
-											<property name="fieldAlias" >
-												<string>descripcion</string>
-											</property>
-										</widget>
-									</hbox>
-								</widget>
-								<widget class="QLayoutWidget" >
-									<property name="name" >
 										<cstring>layoutIVAIncluido</cstring>
 									</property>
 									<hbox>
@@ -134,9 +77,6 @@
 											<property name="fieldName" >
 												<string>ivaincluido</string>
 											</property>
-											<property name="fieldAlias" >
-												<string>ivaincluido</string>
-											</property>
 										</widget>
 										<spacer>
 											<property name="name" >
@@ -155,6 +95,114 @@
 												</size>
 											</property>
 										</spacer>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget" >
+									<property name="name" >
+										<cstring>layoutIVA</cstring>
+									</property>
+									<hbox>
+										<property name="name" >
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbCodImpuesto</cstring>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>300</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>codimpuesto</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbDesImpuesto</cstring>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>descripcion</string>
+											</property>
+											<property name="tableName" >
+												<string>impuestos</string>
+											</property>
+											<property name="foreignField" >
+												<string>codimpuesto</string>
+											</property>
+											<property name="fieldRelation" >
+												<string>codimpuesto</string>
+											</property>
+											<property name="showAlias">
+												<bool>false</bool>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget" >
+									<property name="name" >
+										<cstring>layoutDivisa</cstring>
+									</property>
+									<hbox>
+										<property name="name" >
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbCodDivisa</cstring>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>300</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>coddivisa</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbDesDivisa</cstring>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>descripcion</string>
+											</property>
+											<property name="tableName" >
+												<string>divisas</string>
+											</property>
+											<property name="foreignField" >
+												<string>coddivisa</string>
+											</property>
+											<property name="fieldRelation" >
+												<string>coddivisa</string>
+											</property>
+											<property name="showAlias">
+												<bool>false</bool>
+											</property>
+										</widget>
 									</hbox>
 								</widget>
 								<widget class="QLayoutWidget" >

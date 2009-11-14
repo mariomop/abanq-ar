@@ -421,6 +421,7 @@ function interna_init()
 			with (cursor) {
 				setModeAccess(cursor.Insert);
 				refreshBuffer();
+				setValueBuffer("coddivisa","$");
 				setValueBuffer("codimpuesto","GRAVADO");
 				setValueBuffer("ivaincluido", false);
 				commitBuffer();
