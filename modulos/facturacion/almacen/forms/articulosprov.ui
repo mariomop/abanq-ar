@@ -12,11 +12,6 @@
 				<height>254</height>
 			</rect>
 		</property>
-		<property name="font">
-			<font>
-				<family>Helvetica [Urw]</family>
-			</font>
-		</property>
 		<property name="caption">
 			<string>Articulos por Proveedor</string>
 		</property>
@@ -30,18 +25,15 @@
 			<property name="spacing">
 				<number>2</number>
 			</property>
-			<widget class="QGroupBox">
-				<property name="name">
-					<cstring>gbxArticulo</cstring>
+			<widget class="QFrame" >
+				<property name="name" >
+					<cstring>frmArticulo</cstring>
 				</property>
-				<property name="font">
-					<font>
-						<bold>1</bold>
-						<italic>1</italic>
-					</font>
+				<property name="frameShape" >
+					<enum>GroupBoxPanel</enum>
 				</property>
-				<property name="title">
-					<string>Artículo</string>
+				<property name="frameShadow" >
+					<enum>Sunken</enum>
 				</property>
 				<hbox>
 					<property name="name">
@@ -154,9 +146,9 @@
 										<verstretch>0</verstretch>
 									</sizepolicy>
 								</property>
-								<property name="minimumSize">
+								<property name="maximumSize">
 									<size>
-										<width>135</width>
+										<width>200</width>
 										<height>25</height>
 									</size>
 								</property>
@@ -176,7 +168,7 @@
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
-										<hsizetype>1</hsizetype>
+										<hsizetype>7</hsizetype>
 										<vsizetype>0</vsizetype>
 										<horstretch>0</horstretch>
 										<verstretch>0</verstretch>
@@ -214,7 +206,7 @@
 					</widget>
 					<widget class="QLayoutWidget">
 						<property name="name">
-							<cstring>layout10</cstring>
+							<cstring>layout14</cstring>
 						</property>
 						<hbox>
 							<property name="name">
@@ -222,7 +214,7 @@
 							</property>
 							<widget class="FLFieldDB">
 								<property name="name">
-									<cstring>fdbRefProveedor</cstring>
+									<cstring>fdbCoste</cstring>
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
@@ -234,13 +226,13 @@
 								</property>
 								<property name="minimumSize">
 									<size>
-										<width>128</width>
+										<width>200</width>
 										<height>25</height>
 									</size>
 								</property>
 								<property name="maximumSize">
 									<size>
-										<width>250</width>
+										<width>200</width>
 										<height>32767</height>
 									</size>
 								</property>
@@ -251,29 +243,12 @@
 									</font>
 								</property>
 								<property name="fieldName">
-									<string>refproveedor</string>
+									<string>coste</string>
 								</property>
 							</widget>
-							<spacer>
-								<property name="name">
-									<cstring>spacer103</cstring>
-								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
-								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
-									<size>
-										<width>174</width>
-										<height>20</height>
-									</size>
-								</property>
-							</spacer>
 							<widget class="FLFieldDB">
 								<property name="name">
-									<cstring>fdbCodDivisa</cstring>
+									<cstring>fdbDto</cstring>
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
@@ -285,7 +260,41 @@
 								</property>
 								<property name="minimumSize">
 									<size>
-										<width>85</width>
+										<width>80</width>
+										<height>25</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>80</width>
+										<height>32767</height>
+									</size>
+								</property>
+								<property name="font">
+									<font>
+										<bold>0</bold>
+										<italic>0</italic>
+									</font>
+								</property>
+								<property name="fieldName">
+									<string>dto</string>
+								</property>
+							</widget>
+							<widget class="FLFieldDB">
+								<property name="name">
+									<cstring>fdbCodDivisa</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>0</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>60</width>
 										<height>25</height>
 									</size>
 								</property>
@@ -311,7 +320,7 @@
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
-										<hsizetype>1</hsizetype>
+										<hsizetype>7</hsizetype>
 										<vsizetype>0</vsizetype>
 										<horstretch>0</horstretch>
 										<verstretch>0</verstretch>
@@ -349,7 +358,7 @@
 					</widget>
 					<widget class="QLayoutWidget">
 						<property name="name">
-							<cstring>layout14</cstring>
+							<cstring>layout10</cstring>
 						</property>
 						<hbox>
 							<property name="name">
@@ -357,7 +366,7 @@
 							</property>
 							<widget class="FLFieldDB">
 								<property name="name">
-									<cstring>fdbCoste</cstring>
+									<cstring>fdbRefProveedor</cstring>
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
@@ -367,16 +376,10 @@
 										<verstretch>0</verstretch>
 									</sizepolicy>
 								</property>
-								<property name="minimumSize">
-									<size>
-										<width>81</width>
-										<height>25</height>
-									</size>
-								</property>
 								<property name="maximumSize">
 									<size>
 										<width>200</width>
-										<height>32767</height>
+										<height>25</height>
 									</size>
 								</property>
 								<property name="font">
@@ -386,16 +389,16 @@
 									</font>
 								</property>
 								<property name="fieldName">
-									<string>coste</string>
+									<string>refproveedor</string>
 								</property>
 							</widget>
 							<widget class="FLFieldDB">
 								<property name="name">
-									<cstring>fdbDto</cstring>
+									<cstring>fdbDescProveedor</cstring>
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
-										<hsizetype>1</hsizetype>
+										<hsizetype>7</hsizetype>
 										<vsizetype>0</vsizetype>
 										<horstretch>0</horstretch>
 										<verstretch>0</verstretch>
@@ -403,14 +406,8 @@
 								</property>
 								<property name="minimumSize">
 									<size>
-										<width>65</width>
+										<width>21</width>
 										<height>25</height>
-									</size>
-								</property>
-								<property name="maximumSize">
-									<size>
-										<width>200</width>
-										<height>32767</height>
 									</size>
 								</property>
 								<property name="font">
@@ -420,7 +417,45 @@
 									</font>
 								</property>
 								<property name="fieldName">
-									<string>dto</string>
+									<string>descproveedor</string>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
+					<widget class="QLayoutWidget">
+						<property name="name">
+							<cstring>layout9</cstring>
+						</property>
+						<hbox>
+							<property name="name">
+								<cstring>unnamed</cstring>
+							</property>
+							<widget class="FLFieldDB">
+								<property name="name">
+									<cstring>fdbModeloProveedor</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>200</width>
+										<height>25</height>
+									</size>
+								</property>
+								<property name="font">
+									<font>
+										<bold>0</bold>
+										<italic>0</italic>
+									</font>
+								</property>
+								<property name="fieldName">
+									<string>modeloproveedor</string>
 								</property>
 							</widget>
 							<spacer>

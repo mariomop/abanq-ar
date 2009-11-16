@@ -12,11 +12,11 @@
 		proveedores.nombre,
 		articulosprov.pordefecto,
 		articulosprov.coste,
+		articulosprov.dto,
 		articulosprov.coddivisa,
 		articulosprov.refproveedor,
-		articulosprov.costediv,
-		articulosprov.vsp,
-		articulosprov.dto,
+		articulosprov.descproveedor,
+		articulosprov.modeloproveedor,
 		articulosprov.plazo,
 		articulosprov.iddat_articulosprov
 	</select>

@@ -81,8 +81,17 @@
 		<pk>false</pk>
 		<type>double</type>
 		<partI>6</partI>
-		<partD>3</partD>
+		<partD>2</partD>
 		<default>0</default>
+	</field>
+	<field>
+		<name>dto</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","% Dto")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>3</partI>
+		<partD>2</partD>
 	</field>
 	<field>
 		<name>coddivisa</name>
@@ -107,33 +116,21 @@
 		<length>18</length>
 	</field>
 	<field>
-		<name>costediv</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Precio de venta")</alias>
+		<name>descproveedor</name>
+		<!-- Descripción del artículo para el proveedor-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Desc. proveedor")</alias>
 		<null>true</null>
 		<pk>false</pk>
-		<type>double</type>
-		<partI>6</partI>
-		<partD>3</partD>
-		<default>0</default>
+		<type>string</type>
+		<length>200</length>
 	</field>
 	<field>
-		<name>vsp</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Margen de beneficio")</alias>
+		<name>modeloproveedor</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Modelo")</alias>
 		<null>true</null>
 		<pk>false</pk>
-		<type>double</type>
-		<partI>6</partI>
-		<partD>2</partD>
-		<default>0</default>
-	</field>
-	<field>
-		<name>dto</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","% Dto")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>double</type>
-		<partI>3</partI>
-		<partD>2</partD>
+		<type>string</type>
+		<length>50</length>
 	</field>
 	<field>
 		<name>plazo</name>
