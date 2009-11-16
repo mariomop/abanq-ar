@@ -85,11 +85,6 @@
 			<field>codproveedor</field>
 			<card>1M</card>
 		</relation>
-		<relation>
-			<table>cuentasprov</table>
-			<field>codproveedor</field>
-			<card>1M</card>
-		</relation>
 	</field>
 	<field>
 		<name>nombre</name>

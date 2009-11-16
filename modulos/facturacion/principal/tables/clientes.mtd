@@ -105,11 +105,6 @@
 			<field>codcliente</field>
 			<card>1M</card>
 		</relation>
-		<relation>
-			<table>cuentascli</table>
-			<field>codcliente</field>
-			<card>1M</card>
-		</relation>
 	</field>
 	<field>
 		<name>nombre</name>
