@@ -309,4 +309,12 @@
         <form>seleccioncriteriosarticulos</form>
         <scriptform>seleccioncriteriosarticulos</scriptform>
     </action>
+    <action>
+        <name>actualizaarticulos</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Actualiazción de artículos")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Actualización de artículos")</description>
+        <table>actualizaarticulos</table>
+        <form>actualizaarticulos</form>
+        <scriptform>actualizaarticulos</scriptform>
+    </action>
 </ACTIONS>
