@@ -414,7 +414,7 @@ function actPrecios_importar()
 			try { existeColumna = this.iface.pos[nomCampo]; }
 			catch (e) { }
 			// Si el campo no existe en el csv se toma el valor por defecto para ese campo (para artículos nuevos)
-			if (!existeColumna || existeColumna == "0") {
+			if (isNaN(existeColumna)) {
 				if ( this.iface.comprobarCampoDefecto(nomCampo) )
 					curTab.setValueBuffer(this.iface.corr[nomCampo], cursor.valueBuffer(this.iface.corr[nomCampo]));
 			} else {
