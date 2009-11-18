@@ -148,7 +148,7 @@ function oficial_agregarFamilia()
 	var datos:String = [];
 	datos = this.iface.tdbFamilias.primarysKeysChecked();
 	var lista:String = datos.join();
-	cursor.setValueBuffer("familias", "articulos.codfamilia IN ('" + lista.replace( ",", "', '" ) + "')");
+	cursor.setValueBuffer("familias", "articulos.codfamilia IN ('" + lista.replace(/,/g,"', '") + "')");
 }
 
 function oficial_agregarFabricante()
@@ -157,7 +157,7 @@ function oficial_agregarFabricante()
 	var datos:String = [];
 	datos = this.iface.tdbFabricantes.primarysKeysChecked();
 	var lista:String = datos.join();
-	cursor.setValueBuffer("fabricantes", "articulos.codfabricante IN ('" + lista.replace( ",", "', '" ) + "')");
+	cursor.setValueBuffer("fabricantes", "articulos.codfabricante IN ('" + lista.replace(/,/g,"', '") + "')");
 }
 
 //// OFICIAL /////////////////////////////////////////////////////
