@@ -173,7 +173,7 @@
 							</property>
 							<widget class="FLFieldDB">
 								<property name="name">
-									<cstring>fdbPoblacion</cstring>
+									<cstring>fdbCiudad</cstring>
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
