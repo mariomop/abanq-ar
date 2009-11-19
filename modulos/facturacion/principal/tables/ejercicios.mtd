@@ -203,7 +203,7 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>2</length>
-		<optionslist>08,90</optionslist>
+		<optionslist>08</optionslist>
 		<default>08</default>
 	</field>
 	<field>
