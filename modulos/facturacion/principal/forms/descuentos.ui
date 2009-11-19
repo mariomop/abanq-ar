@@ -68,6 +68,12 @@
 										<height>25</height>
 									</size>
 								</property>
+								<property name="maximumSize">
+									<size>
+										<width>200</width>
+										<height>32767</height>
+									</size>
+								</property>
 								<property name="fieldName">
 									<string>coddescuento</string>
 								</property>
@@ -78,17 +84,11 @@
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
-										<hsizetype>0</hsizetype>
-										<vsizetype>5</vsizetype>
+										<hsizetype>7</hsizetype>
+										<vsizetype>0</vsizetype>
 										<horstretch>0</horstretch>
 										<verstretch>0</verstretch>
 									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>400</width>
-										<height>25</height>
-									</size>
 								</property>
 								<property name="fieldName">
 									<string>descripcion</string>
@@ -116,9 +116,15 @@
 										<verstretch>0</verstretch>
 									</sizepolicy>
 								</property>
+								<property name="minimumSize">
+									<size>
+										<width>140</width>
+										<height>25</height>
+									</size>
+								</property>
 								<property name="maximumSize">
 									<size>
-										<width>180</width>
+										<width>200</width>
 										<height>32767</height>
 									</size>
 								</property>
@@ -138,7 +144,7 @@
 								</property>
 								<property name="sizeHint">
 									<size>
-										<width>261</width>
+										<width>100</width>
 										<height>20</height>
 									</size>
 								</property>

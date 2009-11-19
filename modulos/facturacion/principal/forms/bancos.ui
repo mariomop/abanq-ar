@@ -62,9 +62,15 @@
 										<verstretch>0</verstretch>
 									</sizepolicy>
 								</property>
+								<property name="minimumSize">
+									<size>
+										<width>140</width>
+										<height>25</height>
+									</size>
+								</property>
 								<property name="maximumSize">
 									<size>
-										<width>250</width>
+										<width>152</width>
 										<height>32767</height>
 									</size>
 								</property>
@@ -84,17 +90,11 @@
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
-										<hsizetype>0</hsizetype>
+										<hsizetype>7</hsizetype>
 										<vsizetype>0</vsizetype>
 										<horstretch>0</horstretch>
 										<verstretch>0</verstretch>
 									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>420</width>
-										<height>25</height>
-									</size>
 								</property>
 								<property name="font">
 									<font>
@@ -130,8 +130,14 @@
 								</property>
 								<property name="minimumSize">
 									<size>
+										<width>140</width>
+										<height>25</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
 										<width>200</width>
-										<height>0</height>
+										<height>32767</height>
 									</size>
 								</property>
 								<property name="font">
@@ -150,17 +156,11 @@
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
-										<hsizetype>0</hsizetype>
+										<hsizetype>7</hsizetype>
 										<vsizetype>0</vsizetype>
 										<horstretch>0</horstretch>
 										<verstretch>0</verstretch>
 									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>350</width>
-										<height>0</height>
-									</size>
 								</property>
 								<property name="font">
 									<font>

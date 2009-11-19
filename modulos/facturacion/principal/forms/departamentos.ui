@@ -52,8 +52,14 @@
 						</property>
 						<property name="minimumSize">
 							<size>
-								<width>120</width>
+								<width>140</width>
 								<height>25</height>
+							</size>
+						</property>
+						<property name="maximumSize">
+							<size>
+								<width>200</width>
+								<height>32767</height>
 							</size>
 						</property>
 						<property name="fieldName">
@@ -83,17 +89,11 @@
 						</property>
 						<property name="sizePolicy">
 							<sizepolicy>
-								<hsizetype>1</hsizetype>
+								<hsizetype>7</hsizetype>
 								<vsizetype>0</vsizetype>
 								<horstretch>0</horstretch>
 								<verstretch>0</verstretch>
 							</sizepolicy>
-						</property>
-						<property name="minimumSize">
-							<size>
-								<width>320</width>
-								<height>25</height>
-							</size>
 						</property>
 						<property name="fieldName">
 							<string>nombre</string>
