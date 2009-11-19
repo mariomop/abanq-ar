@@ -317,4 +317,14 @@
         <form>actualizaarticulos</form>
         <scriptform>actualizaarticulos</scriptform>
     </action>
+    <action>
+        <name>acciones_articulosprincipal</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Acciones del módulo Principal")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Acciones del módulo Principal")</description>
+        <table>acciones_articulosprincipal</table>
+        <form>acciones_articulosprincipal</form>
+        <formrecord>acciones_articulosprincipal</formrecord>
+        <scriptform>acciones_articulosprincipal</scriptform>
+        <scriptformrecord>acciones_articulosprincipal</scriptformrecord>
+    </action>
 </ACTIONS>

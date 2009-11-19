@@ -180,13 +180,29 @@ class silixSeleccionar extends pesosMedidas {
 		this.ctx.silixSeleccionar_seleccionVerificarHabilitaciones();
 	}
 	function seleccionTodo() {
-		return this.ctx.silixSeleccionar_seleccionTodo();
+		this.ctx.silixSeleccionar_seleccionTodo();
 	}
 	function seleccionCriterio() {
-		return this.ctx.silixSeleccionar_seleccionCriterio();
+		this.ctx.silixSeleccionar_seleccionCriterio();
 	}
 	function seleccionNada() {
-		return this.ctx.silixSeleccionar_seleccionNada();
+		this.ctx.silixSeleccionar_seleccionNada();
+	}
+
+	function pbnAccionPrincipal_clicked() {
+		this.ctx.silixSeleccionar_pbnAccionPrincipal_clicked();
+	}
+	function lanzarAccion_principalProveedor(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_principalProveedor(curAccion);
+	}
+	function lanzarAccion_principalAgente(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_principalAgente(curAccion);
+	}
+	function lanzarAccion_principalDivisa(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_principalDivisa(curAccion);
+	}
+	function lanzarAccion_principalImpuesto(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_principalImpuesto(curAccion);
 	}
 }
 //// SILIXSELECCIONAR ///////////////////////////////////////////
@@ -852,9 +868,12 @@ function silixSeleccionar_init()
 	this.iface.__init();
 
 	connect(this.child("pbnCheckOnOff"), "clicked()", this, "iface.seleccionCheckOnOff");
+
 	connect(this.child("pbnSeleccionarTodo"), "clicked()", this, "iface.seleccionTodo");
 	connect(this.child("pbnSeleccionarCriterio"), "clicked()", this, "iface.seleccionCriterio");
 	connect(this.child("pbnSeleccionarNada"), "clicked()", this, "iface.seleccionNada");
+
+	connect(this.child("pbnAccionPrincipal"), "clicked()", this, "iface.pbnAccionPrincipal_clicked()");
 
 	this.iface.seleccionVerificarHabilitaciones();
 }
@@ -887,6 +906,8 @@ function silixSeleccionar_seleccionVerificarHabilitaciones()
 		this.child("pbnSeleccionarTodo").setDisabled(false);
 		this.child("pbnSeleccionarCriterio").setDisabled(false);
 		this.child("pbnSeleccionarNada").setDisabled(false);
+
+		this.child("pbnAccionPrincipal").setDisabled(false);
 	}
 	else {
 		// Check deshabilitado
@@ -895,6 +916,8 @@ function silixSeleccionar_seleccionVerificarHabilitaciones()
 		this.child("pbnSeleccionarTodo").setDisabled(true);
 		this.child("pbnSeleccionarCriterio").setDisabled(true);
 		this.child("pbnSeleccionarNada").setDisabled(true);
+
+		this.child("pbnAccionPrincipal").setDisabled(true);
 	}
 }
 
@@ -951,6 +974,235 @@ function silixSeleccionar_seleccionCriterio()
 	}
 	util.destroyProgressDialog();
 	this.iface.tdbRecords.refresh();
+}
+
+function silixSeleccionar_pbnAccionPrincipal_clicked()
+{
+	var f:Object = new FLFormSearchDB("acciones_articulosprincipal");
+	var cursor:FLSqlCursor = f.cursor();
+
+	cursor.select();
+	if (!cursor.first())
+		cursor.setModeAccess(cursor.Insert);
+	else
+		cursor.setModeAccess(cursor.Edit);
+
+	f.setMainWidget();
+	cursor.refreshBuffer();
+	var commitOk:Boolean = false;
+	var acpt:Boolean;
+	cursor.transaction(false);
+	while (!commitOk) {
+		acpt = false;
+		f.exec("id");
+		acpt = f.accepted();
+		if (!acpt) {
+			if (cursor.rollback())
+				commitOk = true;
+		} else {
+			if (cursor.commitBuffer()) {
+				cursor.commit();
+				commitOk = true;
+			}
+		}
+	}
+	if (!acpt)
+		return;
+
+	if ( f.child("ckbProveedor").checked )
+		this.iface.lanzarAccion_principalProveedor(cursor);
+
+	if ( f.child("ckbAgente").checked )
+		this.iface.lanzarAccion_principalAgente(cursor);
+
+	if ( f.child("ckbDivisa").checked )
+		this.iface.lanzarAccion_principalDivisa(cursor);
+
+	if ( f.child("ckbImpuesto").checked )
+		this.iface.lanzarAccion_principalImpuesto(cursor);
+}
+
+function silixSeleccionar_lanzarAccion_principalProveedor(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	if (!curAccion.valueBuffer("codproveedor")) {
+		MessageBox.critical(util.translate("scripts", "Debe indicar el proveedor que se utilizará para la asociación."), MessageBox.Ok, MessageBox.NoButton);
+		return;
+	}
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var curArticulosProv:FLSqlCursor, referencia:String, codProveedor:String, codDivisa:String;
+	codProveedor = curAccion.valueBuffer("codproveedor");
+	codDivisa = util.sqlSelect("proveedores", "coddivisa", "codproveedor = '" + codProveedor + "'");
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Browse);
+
+		referencia = curArticulos.valueBuffer("referencia");
+
+		curArticulosProv = new FLSqlCursor("articulosprov");
+		curArticulosProv.select("referencia = '" + referencia + "' AND codproveedor = '" + codProveedor + "'");
+		if (!curArticulosProv.first())
+			curArticulosProv.setModeAccess(curArticulosProv.Insert);
+		else
+			curArticulosProv.setModeAccess(curArticulosProv.Edit);
+		curArticulosProv.refreshBuffer();
+
+		curArticulosProv.setValueBuffer("referencia", referencia);
+		curArticulosProv.setValueBuffer("codproveedor", codProveedor);
+		curArticulosProv.setValueBuffer("pordefecto", curAccion.valueBuffer("pordefecto"));
+		curArticulosProv.setValueBuffer("coddivisa", codDivisa);
+
+		if (!curArticulosProv.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
+}
+
+function silixSeleccionar_lanzarAccion_principalAgente(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	if (!curAccion.valueBuffer("codagente")) {
+		MessageBox.critical(util.translate("scripts", "Debe indicar el agente que se utilizará para la asociación."), MessageBox.Ok, MessageBox.NoButton);
+		return;
+	}
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var curArticulosAgen:FLSqlCursor, referencia:String, codAgente:String, nomAgente:String;
+	codAgente = curAccion.valueBuffer("codagente");
+	nomAgente = util.sqlSelect("agentes", "apellidos", "codagente = '" + codAgente + "'");
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Browse);
+
+		referencia = curArticulos.valueBuffer("referencia");
+
+		curArticulosAgen = new FLSqlCursor("articulosagen");
+		curArticulosAgen.select("referencia = '" + referencia + "' AND codagente = '" + codAgente + "'");
+		if (!curArticulosAgen.first())
+			curArticulosAgen.setModeAccess(curArticulosAgen.Insert);
+		else
+			curArticulosAgen.setModeAccess(curArticulosAgen.Edit);
+		curArticulosAgen.refreshBuffer();
+
+		curArticulosAgen.setValueBuffer("referencia", referencia);
+		curArticulosAgen.setValueBuffer("codagente", codAgente);
+		curArticulosAgen.setValueBuffer("nombre", nomAgente);
+		curArticulosAgen.setValueBuffer("tipocomision", util.translate("MetaData", "Porcentual"));
+		curArticulosAgen.setValueBuffer("comision", curAccion.valueBuffer("porcomision"));
+
+		if (!curArticulosAgen.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
+}
+
+function silixSeleccionar_lanzarAccion_principalDivisa(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	if (!curAccion.valueBuffer("coddivisa")) {
+		MessageBox.critical(util.translate("scripts", "Debe indicar la divisa que se utilizará."), MessageBox.Ok, MessageBox.NoButton);
+		return;
+	}
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Edit);
+		curArticulos.refreshBuffer();
+
+		curArticulos.setValueBuffer("coddivisa", curAccion.valueBuffer("coddivisa"));
+
+		if (!curArticulos.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
+}
+
+function silixSeleccionar_lanzarAccion_principalImpuesto(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	if (!curAccion.valueBuffer("codimpuesto")) {
+		MessageBox.critical(util.translate("scripts", "Debe indicar el impuesto que se utilizará."), MessageBox.Ok, MessageBox.NoButton);
+		return;
+	}
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Edit);
+		curArticulos.refreshBuffer();
+
+		curArticulos.setValueBuffer("codimpuesto", curAccion.valueBuffer("codimpuesto"));
+
+		if (!curArticulos.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
 }
 
 //// SILIXSELECCIONAR ///////////////////////////////////////////
