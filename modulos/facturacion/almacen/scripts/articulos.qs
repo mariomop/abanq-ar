@@ -1925,6 +1925,7 @@ function funNumSerie_init()
 	
 	connect(this.child("pbnGuardarNS"), "clicked()", this, "iface.guardarNS()");
 	connect(this.child("pbnBorrarNS"), "clicked()", this, "iface.borrarNS()");
+	connect(this.child("tdbNumerosSerie").cursor(), "cursorUpdated()", this, "iface.calcularStockFisico()");
 }
 
 function funNumSerie_bufferChanged(fN:String)
@@ -2021,6 +2022,8 @@ function funNumSerie_guardarNS()
 	}
 	else
 		MessageBox.information(util.translate("scripts", "No se encontaron nuevos números de serie"), MessageBox.Ok, MessageBox.NoButton);
+
+	this.iface.calcularStockFisico();
 }
 
 function funNumSerie_borrarNS()
