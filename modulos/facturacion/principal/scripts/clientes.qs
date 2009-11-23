@@ -124,8 +124,8 @@ class oficial extends interna {
 	function lanzarEdicionContacto() {
 		return this.ctx.oficial_lanzarEdicionContacto();
 	}
-	function editarContacto() {
-		return this.ctx.oficial_editarContacto();
+	function editarContacto(accion:String, codigo:String) {
+		return this.ctx.oficial_editarContacto(accion, codigo);
 	}
 	function buscarContacto() {
 		return this.ctx.oficial_buscarContacto();
@@ -279,6 +279,9 @@ class ifaceCtx extends head {
 	}
 	function pub_insertContacto(accion:String,codigo:String) {
 		return this.insertContacto(accion,codigo);
+	}
+	function pub_editarContacto(accion:String,codigo:String) {
+		return this.editarContacto(accion, codigo);
 	}
 	function pub_deleteContacto(accion:String,codigo:String,codAsociado:String) {
 		return this.deleteContacto(accion,codigo,codAsociado);
@@ -1044,36 +1047,42 @@ function oficial_insertContactoAsociado(accion:String,codAsociado:String)
 	}
 }
 
-function oficial_editarContacto()
+function oficial_editarContacto(accion:String, codigo:String)
 {
 	var util:FLUtil;
-	
-	var accion:String = "";
-	if (sys.isLoadedModule("flcrm_ppal"))
-		accion = "crm_editcontacto";
-	else
-		accion = "editcontacto";
+	var cursor:FLSqlCursor = this.cursor();
 
-	var codContacto:String = this.child("tdbContactos").cursor().valueBuffer("codcontacto");
-	if(!codContacto || codContacto == "") {
+	if (accion)
+		f = new FLFormSearchDB("crm_editcontacto");
+	else {
+		codigo = this.child("tdbContactos").cursor().valueBuffer("codcontacto");
+		if (sys.isLoadedModule("flcrm_ppal"))
+			f = new FLFormSearchDB("crm_editcontacto");
+		else
+			f = new FLFormSearchDB("editcontacto");
+	}
+	if(!codigo || codigo == "") {
 		MessageBox.information(util.translate("scripts", "No hay ningún registro seleccionado"), MessageBox.Ok, MessageBox.NoButton);
 		return;
 	}
 
-	var f:Object = new FLFormSearchDB(accion);
 	var curContactos:FLSqlCursor = f.cursor();
-	curContactos.select("codcontacto = '" + codContacto + "'");
+
+	curContactos.select("codcontacto = '" + codigo + "'");
 	if (!curContactos.first())
 		return;
 	curContactos.setModeAccess(curContactos.Edit);
-	
+
 	f.setMainWidget();
 	curContactos.refreshBuffer();
 	f.exec("codcontacto");
 
 	if (f.accepted()) {
-		curContactos.commitBuffer();
-		this.child("tdbContactos").refresh();
+		if (!curContactos.commitBuffer())
+			return;
+
+		if(!accion)
+			this.child("tdbContactos").refresh();
 	}
 }
 
@@ -1131,9 +1140,6 @@ function oficial_lanzarEdicionContacto()
 
 		if (!codCliente || codCliente == "")
 			return;
-
-// 		if(!this.iface.crearContactoTarjeta(codNuevoContacto,codTarjeta))
-// 			return;
 
 		var curCliCon:FLSqlCursor = new FLSqlCursor("contactosclientes");
 		with(curCliCon) {

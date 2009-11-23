@@ -601,7 +601,7 @@
 											</property>
 											<property name="sizeHint" >
 												<size>
-													<width>148</width>
+													<width>20</width>
 													<height>20</height>
 												</size>
 											</property>
@@ -769,7 +769,7 @@
 								</widget>
 								<widget class="QLayoutWidget" >
 									<property name="name" >
-										<cstring>layout24</cstring>
+										<cstring>layoutTel</cstring>
 									</property>
 									<hbox>
 										<property name="name" >
