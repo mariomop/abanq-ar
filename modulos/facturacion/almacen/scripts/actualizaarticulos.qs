@@ -140,6 +140,7 @@ const iface = new ifaceCtx( this );
 
 function interna_init()
 {
+	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
 	
 	this.iface.tdbArticulos = this.child("tdbArticulos");
@@ -157,10 +158,6 @@ function interna_init()
 	connect(this.child("pbnQuitar"), "clicked()", this, "iface.quitar()");
 	connect(this.child("pbnQuitarTodos"), "clicked()", this, "iface.quitarTodos()");
 
-	this.child("fdbIvaIncluido").setValue(flfactalma.iface.pub_valorDefectoAlmacen("ivaincluido"));
-	this.child("fdbCodImpuesto").setValue(flfactalma.iface.pub_valorDefectoAlmacen("codimpuesto"));
-	this.child("fdbCodDivisa").setValue(flfactalma.iface.pub_valorDefectoAlmacen("coddivisa"));
-
 	if (sys.isLoadedModule("flcontppal")) {
 		this.iface.ejercicioActual = flfactppal.iface.pub_ejercicioActual();
 		this.iface.longSubcuenta = util.sqlSelect("ejercicios", "longsubcuenta", "codejercicio = '" + this.iface.ejercicioActual + "'");
@@ -171,6 +168,15 @@ function interna_init()
 		this.child("fdbCodSubcuentaCom").close();
 		this.child("fdbIdSubcuentaCom").close();
 		this.child("fdbDesSubcuentaCom").close();
+	}
+
+	this.child("fdbIvaIncluido").setValue(flfactalma.iface.pub_valorDefectoAlmacen("ivaincluido"));
+	this.child("fdbCodImpuesto").setValue(flfactalma.iface.pub_valorDefectoAlmacen("codimpuesto"));
+	this.child("fdbCodDivisa").setValue(flfactalma.iface.pub_valorDefectoAlmacen("coddivisa"));
+
+	if (sys.isLoadedModule("flcontppal")) {
+		this.child("fdbIdSubcuentaCom").setValue(flfactalma.iface.pub_valorDefectoAlmacen("idsubcuentacom"));
+		this.child("fdbCodSubcuentaCom").setValue(flfactalma.iface.pub_valorDefectoAlmacen("codsubcuentacom"));
 	}
 
 	this.iface.bufferChanged("crearsinoexiste");
