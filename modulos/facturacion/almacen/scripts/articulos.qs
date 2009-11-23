@@ -735,6 +735,10 @@ function oficial_establecerProveedorDefecto(referencia:String, codProveedor:Stri
 function oficial_establecerDatosAlta()
 {
 	this.child("fdbImpuesto").setValue(flfactalma.iface.pub_valorDefectoAlmacen("codimpuesto"));
+	if (sys.isLoadedModule("flcontppal")) {
+		this.child("fdbIdSubcuentaCom").setValue(flfactalma.iface.pub_valorDefectoAlmacen("idsubcuentacom"));
+		this.child("fdbCodSubcuentaCom").setValue(flfactalma.iface.pub_valorDefectoAlmacen("codsubcuentacom"));
+	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

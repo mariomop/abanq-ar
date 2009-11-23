@@ -51,4 +51,26 @@
 			<card>M1</card>
 		</relation>
 	</field>
+	<field>
+		<name>codsubcuentacom</name>
+		<!-- Código de la subcuenta de contabilidad asociada a la subcuenta de compras-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Subcuenta de compras")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>152</length>
+	</field>
+	<field>
+		<name>idsubcuentacom</name>
+		<!-- Identificador interno de la subcuenta -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","ID")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<relation>
+			<table>co_subcuentas</table>
+			<field>idsubcuenta</field>
+			<card>M1</card>
+		</relation>
+	</field>
 </TMD>

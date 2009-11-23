@@ -40,6 +40,11 @@ class interna {
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
+	var ejercicioActual:String;
+	var longSubcuenta:Number;
+	var bloqueoSubcuenta:Boolean;
+	var posActualPuntoSubcuenta:Number;
+
 	function oficial( context ) { interna( context ); }
 	function bufferChanged(fN:String) {
 		return this.ctx.oficial_bufferChanged(fN);
@@ -123,7 +128,15 @@ function interna_init()
 	var cursor:FLSqlCursor = this.cursor();
 
 	connect (cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
-	
+
+	if (sys.isLoadedModule("flcontppal")) {
+		this.iface.ejercicioActual = flfactppal.iface.pub_ejercicioActual();
+		this.iface.longSubcuenta = util.sqlSelect("ejercicios", "longsubcuenta", "codejercicio = '" + this.iface.ejercicioActual + "'");
+		this.iface.bloqueoSubcuenta = false;
+		this.iface.posActualPuntoSubcuenta = -1;
+		this.child("fdbIdSubcuentaCom").setFilter("codejercicio = '" + this.iface.ejercicioActual + "'");
+	} else
+		this.child("tbwDatosGenerales").setTabEnabled("contabilidad", false);
 }
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -136,7 +149,12 @@ function oficial_bufferChanged(fN:String)
 	var util:FLUtil = new FLUtil;
 	var cursor:FLSqlCursor = this.cursor();
 	switch (fN) {
-		case "X": {
+		case "codsubcuentacom": {
+			if (!this.iface.bloqueoSubcuenta) {
+				this.iface.bloqueoSubcuenta = true;
+				this.iface.posActualPuntoSubcuenta = flcontppal.iface.pub_formatearCodSubcta(this, "fdbCodSubcuentaCom", this.iface.longSubcuenta, this.iface.posActualPuntoSubcuenta);
+				this.iface.bloqueoSubcuenta = false;
+			}
 			break;
 		}
 	}

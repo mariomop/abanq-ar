@@ -272,9 +272,195 @@
 						</widget>
 					</vbox>
 				</widget>
+				<widget class="QWidget">
+					<property name="name">
+						<cstring>contabilidad</cstring>
+					</property>
+					<attribute name="title">
+						<string>&amp;Contabilidad</string>
+					</attribute>
+					<vbox>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="QGroupBox" >
+							<property name="name" >
+								<cstring>gbxContabilidad</cstring>
+							</property>
+							<property name="font" >
+								<font>
+									<italic>1</italic>
+								</font>
+							</property>
+							<property name="title" >
+								<string/>
+							</property>
+							<vbox>
+								<property name="name" >
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="QLayoutWidget" >
+									<property name="name" >
+										<cstring>layoutSubcuentaCom</cstring>
+									</property>
+									<hbox>
+										<property name="name" >
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbCodSubcuentaCom</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>25</width>
+													<height>22</height>
+												</size>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+													<italic>0</italic>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>codsubcuentacom</string>
+											</property>
+											<property name="foreignField" >
+												<string>codsubcuenta</string>
+											</property>
+											<property name="fieldRelation" >
+												<string>idsubcuentacom</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbIdSubcuentaCom</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>22</width>
+													<height>22</height>
+												</size>
+											</property>
+											<property name="maximumSize" >
+												<size>
+													<width>79</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+													<italic>0</italic>
+												</font>
+											</property>
+											<property name="focusPolicy" >
+												<enum>StrongFocus</enum>
+											</property>
+											<property name="fieldName" >
+												<string>idsubcuentacom</string>
+											</property>
+											<property name="showAlias" >
+												<bool>false</bool>
+											</property>
+										</widget>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbDesSubcuentaCom</cstring>
+											</property>
+											<property name="sizePolicy" >
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>250</horstretch>
+													<verstretch>25</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize" >
+												<size>
+													<width>22</width>
+													<height>22</height>
+												</size>
+											</property>
+											<property name="font" >
+												<font>
+													<bold>0</bold>
+													<italic>0</italic>
+												</font>
+											</property>
+											<property name="fieldName" >
+												<string>descripcion</string>
+											</property>
+											<property name="tableName" >
+												<string>co_subcuentas</string>
+											</property>
+											<property name="foreignField" >
+												<string>idsubcuentacom</string>
+											</property>
+											<property name="fieldRelation" >
+												<string>idsubcuenta</string>
+											</property>
+											<property name="showAlias" >
+												<bool>false</bool>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+							</vbox>
+						</widget>
+						<spacer>
+							<property name="name" >
+								<cstring>spacerContabilidad</cstring>
+							</property>
+							<property name="orientation" >
+								<enum>Vertical</enum>
+							</property>
+							<property name="sizeType" >
+								<enum>Expanding</enum>
+							</property>
+							<property name="sizeHint" >
+								<size>
+									<width>21</width>
+									<height>230</height>
+								</size>
+							</property>
+						</spacer>
+					</vbox>
+				</widget>
 			</widget>
 		</vbox>
 	</widget>
+	<connections>
+		<connection>
+			<sender>fdbCodSubcuentaCom</sender>
+			<signal>keyF2Pressed()</signal>
+			<receiver>fdbIdSubcuentaCom</receiver>
+			<slot>searchValue()</slot>
+		</connection>
+		<connection>
+			<sender>fdbCodSubcuentaCom</sender>
+			<signal>textChanged(const QString&amp;)</signal>
+			<receiver>fdbIdSubcuentaCom</receiver>
+			<slot>setMapValue(const QString&amp;)</slot>
+		</connection>
+	</connections>
 	<layoutdefaults spacing="6" margin="11" />
 	<includehints>
 		<includehint>flfielddb.h</includehint>
