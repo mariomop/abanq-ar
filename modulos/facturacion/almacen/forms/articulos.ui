@@ -1967,7 +1967,7 @@
 															</property>
 															<property name="minimumSize" >
 																<size>
-																	<width>135</width>
+																	<width>110</width>
 																	<height>25</height>
 																</size>
 															</property>
@@ -1981,7 +1981,7 @@
 																<enum>NoFrame</enum>
 															</property>
 															<property name="text" >
-																<string>Precio final en Pesos</string>
+																<string>Precio final en $</string>
 															</property>
 															<property name="alignment" >
 																<set>AlignVCenter|AlignRight</set>
@@ -2001,7 +2001,7 @@
 															</property>
 															<property name="minimumSize" >
 																<size>
-																	<width>53</width>
+																	<width>60</width>
 																	<height>20</height>
 																</size>
 															</property>
