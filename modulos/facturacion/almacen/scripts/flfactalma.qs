@@ -276,11 +276,23 @@ class controlUsuario extends lineasArticulos {
 //// CONTROL_USUARIO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration multiFamilia */
+/////////////////////////////////////////////////////////////////
+//// MULTI FAMILIA //////////////////////////////////////////////
+class multiFamilia extends controlUsuario {
+    function multiFamilia( context ) { controlUsuario ( context ); }
+	function afterCommit_familias(cursor:FLSqlCursor):Boolean {
+		return this.ctx.multiFamilia_afterCommit_familias(cursor);
+	}
+}
+//// MULTI FAMILIA //////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends controlUsuario {
-	function head( context ) { controlUsuario ( context ); }
+class head extends multiFamilia {
+    function head( context ) { multiFamilia ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1941,6 +1953,35 @@ function controlUsuario_beforeCommit_movilote(curMoviLote:FLSqlCursor):Boolean
 
 //// CONTROL_USUARIO //////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
+
+/** @class_definition multiFamilia */
+/////////////////////////////////////////////////////////////////
+//// MULTI FAMILIA //////////////////////////////////////////////
+
+/** \D
+Si se modificó la descripción de la familia se actualizan las descripciones extendidas de las familias hijas
+\end */
+function multiFamilia_afterCommit_familias(cursor:FLSqlCursor):Boolean
+{
+	if ( cursor.modeAccess() == cursor.Edit ) {
+
+		var descExtFamiliaMadre:String = cursor.valueBuffer("descripcionextendida") + " > ";
+
+		var curFamiliaHija:FLSqlCursor = new FLSqlCursor("familias");
+		curFamiliaHija.select("codmadre = '" + cursor.valueBuffer("codfamilia") + "'");
+		while (curFamiliaHija.next()) {
+			curFamiliaHija.setModeAccess(curFamiliaHija.Edit);
+			curFamiliaHija.refreshBuffer();
+			curFamiliaHija.setValueBuffer("descripcionextendida", descExtFamiliaMadre + curFamiliaHija.valueBuffer("descripcion"));
+			curFamiliaHija.commitBuffer();
+		}
+	}
+
+	return true;
+}
+
+//// MULTI FAMILIA //////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////
