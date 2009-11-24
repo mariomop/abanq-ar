@@ -62,9 +62,6 @@ class oficial extends interna {
 	var curReciboCli:FLSqlCursor;
 	
     function oficial( context ) { interna( context ); }
-	function actualizarRiesgoCliente(codCliente:String) {
-		return this.ctx.oficial_actualizarRiesgoCliente(codCliente);
-	}
 	function generarAsientoInverso(idAsientoDestino:Number, idAsientoOrigen:Number, concepto:String, codEjercicio:String):Boolean {
 		return this.ctx.oficial_generarAsientoInverso(idAsientoDestino, idAsientoOrigen, concepto, codEjercicio);
 	}
@@ -303,9 +300,6 @@ class head extends controlUsuario {
 //// INTERFACE  /////////////////////////////////////////////////
 class ifaceCtx extends head {
     function ifaceCtx( context ) { head( context ); }
-	function pub_actualizarRiesgoCliente(codCliente:String) {
-		return this.actualizarRiesgoCliente(codCliente);
-	}
 	function pub_regenerarRecibosCli(cursor:FLSqlCursor, emitirComo:String):Boolean {
 		return this.regenerarRecibosCli(cursor, emitirComo);
 	}
@@ -617,26 +611,6 @@ function interna_afterCommit_pagosdevolrem(curPD:FLSqlCursor):Boolean
 /** @class_definition oficial */
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
-/** \D Actualiza el valor del riesgo alcanzado para un cliente. El valor se calcula como la suma de importes de: recibos emitidos - recibos pagados + recibos devueltos
-@param codCliente: Código del cliente
-\end */
-function oficial_actualizarRiesgoCliente(codCliente:String)
-{
-	var util:FLUtil = new FLUtil();
-	var riesgo:Number = parseFloat( util.sqlSelect( "reciboscli", "SUM(importe)", "estado <> 'Pagado' AND codcliente='" + codCliente + "'" ) );
-	if (!riesgo || isNaN(riesgo))
-		riesgo = 0;
-
-	util.sqlUpdate( "clientes", "riesgoalcanzado", riesgo, "codcliente = '" + codCliente + "'" );
-
-	if ( !flfactteso.iface.pub_automataActivado() ) {
-		var riesgoMax:Number = parseFloat( util.sqlSelect( "clientes", "riesgomax", "codcliente = '" + codCliente + "'" ) );
-		if ( riesgo >= riesgoMax && riesgoMax > 0 ) {
-			MessageBox.warning(util.translate("scripts", "El cliente ") + codCliente + util.translate("scripts", " ha superado el riesgo máximo"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-		}
-	}
-}
-
 /** \D Genera las partidas inversas correspondientes a un asiento, asociándolas a otro.
 @param idAsientoDestino Asiento de destino para la partida
 @param idAsientoOrigen Asiento de origen para la partida
@@ -2809,6 +2783,9 @@ function pagosMultiples_borrarRecibosProv(idFactura:Number):Boolean
 //////////////////////////////////////////////////////////////////
 //// CTASCTES ////////////////////////////////////////////////////
 
+/** \D Actualiza el valor del riesgo alcanzado para un cliente.
+@param codCliente: Código del cliente
+\end */
 function ctasCtes_actualizarRiesgoCliente(codCliente:String)
 {
 	var util:FLUtil = new FLUtil();
@@ -2822,13 +2799,16 @@ function ctasCtes_actualizarRiesgoCliente(codCliente:String)
 		var riesgoMax:Number = parseFloat( util.sqlSelect( "clientes", "riesgomax", "codcliente = '" + codCliente + "'" ) );
 		if ( riesgo >= riesgoMax && riesgoMax > 0 ) {
 			if ( util.sqlSelect( "clientes", "cuentactiva", "codcliente = '" + codCliente + "'" ) ) {
-				MessageBox.warning(util.translate("scripts", "El cliente ") + codCliente + util.translate("scripts", " ha superado el riesgo máximo.\nSu Cuenta Corriente será deshabilitada."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				MessageBox.warning(util.translate("scripts", "El cliente %0 ha superado el riesgo máximo.\nSu Cuenta Corriente será deshabilitada.").arg(codCliente), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 				util.sqlUpdate( "clientes", "cuentactiva", false, "codcliente = '" + codCliente + "'" );
 			}
 		}
 	}
 }
 
+/** \D Actualiza el valor del riesgo alcanzado para un proveedor.
+@param codProveedor: Código del proveedor
+\end */
 function ctasCtes_actualizarRiesgoProveedor(codProveedor:String)
 {
 	var util:FLUtil = new FLUtil();
@@ -2851,11 +2831,11 @@ function ctasCtes_afterCommit_recibosprov(curR:FLSqlCursor):Boolean
 
 function ctasCtes_cuentaActiva(curDoc:FLSqlCursor):Boolean
 {
-	/* CTACTE es la forma de pago para la Cuenta Corriente */
-	if (curDoc.valueBuffer("codpago") != "CTACTE")
-		return true;
-
 	var util:FLUtil = new FLUtil;
+
+	var emitirComo:String = util.sqlSelect("formaspago", "genrecibos", "codpago = '" + curDoc.valueBuffer("codpago") + "'");
+	if (emitirComo != "Emitidos")
+		return true;
 
 	var codCliente:String = curDoc.valueBuffer("codcliente");
 	if (!codCliente || codCliente == "")
