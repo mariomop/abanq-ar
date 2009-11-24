@@ -727,7 +727,7 @@ function oficial_valoresIniciales()
 {
 	var util:FLUtil = new FLUtil();
 	var paso:Number = 0;
-	util.createProgressDialog( util.translate( "scripts", "Cargando valores iniciales..." ), 15 );
+	util.createProgressDialog( util.translate( "scripts", "Cargando valores iniciales..." ), 16 );
 
 	var cursor:FLSqlCursor = new FLSqlCursor("bancos");
 	var bancos:Array = [
@@ -813,6 +813,21 @@ function oficial_valoresIniciales()
 		refreshBuffer();
 		setValueBuffer("codtipo", "IVA");
 		setValueBuffer("descripcion", "IVA");
+		commitBuffer();
+	}
+	delete cursor;
+	util.setProgress( ++paso );
+
+	cursor = new FLSqlCursor("piedocumentos");
+	with(cursor) {
+		setModeAccess(cursor.Insert);
+		refreshBuffer();
+		setValueBuffer("codpie", "PERCIIBB");
+		setValueBuffer("descripcion", "PERCEPCIÓN DE ING. BRUTOS");
+		setValueBuffer("tipoincremento", "Porcentual");
+		setValueBuffer("decompra", true);
+		setValueBuffer("deventa", true);
+		setValueBuffer("incluidoneto", false);
 		commitBuffer();
 	}
 	delete cursor;
