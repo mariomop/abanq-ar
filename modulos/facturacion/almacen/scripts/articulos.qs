@@ -388,11 +388,26 @@ class multiDivisa extends marcacion {
 //// MULTI DIVISA ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration costos */
+/////////////////////////////////////////////////////////////////
+//// COSTOS /////////////////////////////////////////////////////
+class costos extends multiDivisa {
+    function costos( context ) { multiDivisa ( context ); }
+	function init() {
+		this.ctx.costos_init();
+	}
+	function establecerCostoMaximo() {
+		return this.ctx.costos_establecerCostoMaximo();
+	}
+}
+//// COSTOS /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends multiDivisa {
-    function head( context ) { multiDivisa ( context ); }
+class head extends costos {
+    function head( context ) { costos ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -2585,6 +2600,33 @@ function multiDivisa_establecerDatosAlta()
 	this.child("fdbCodDivisa").setValue(flfactalma.iface.pub_valorDefectoAlmacen("coddivisa"));
 }
 //// MULTI DIVISA ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition costos */
+/////////////////////////////////////////////////////////////////
+//// COSTOS /////////////////////////////////////////////////////
+
+function costos_init()
+{
+	this.iface.__init();
+
+	connect(this.child("tdbArticulosProv").cursor(), "cursorUpdated()", this, "iface.establecerCostoMaximo()");
+}
+
+function costos_establecerCostoMaximo()
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+
+	if ( isNaN(cursor.valueBuffer("costemaximo")) || parseFloat(cursor.valueBuffer("costemaximo")) == 0 ) {
+		var costoMaximo:Number = 0;
+		costoMaximo = parseFloat(util.sqlSelect("articulosprov", "coste", "referencia = '" + cursor.valueBuffer("referencia") + "'"));
+
+		this.child("fdbCosteMaximo").setValue(costoMaximo);
+	}
+}
+
+//// COSTOS /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
