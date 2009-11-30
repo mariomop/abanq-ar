@@ -1068,7 +1068,7 @@ function silixSeleccionar_lanzarAccion_principalProveedor(curAccion:FLSqlCursor)
 
 	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
 	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
-	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "') AND secompra");
 
 	var curArticulosProv:FLSqlCursor, referencia:String, codProveedor:String, codDivisa:String;
 	codProveedor = curAccion.valueBuffer("codproveedor");
@@ -1121,7 +1121,7 @@ function silixSeleccionar_lanzarAccion_principalAgente(curAccion:FLSqlCursor)
 
 	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
 	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
-	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "') AND sevende");
 
 	var curArticulosAgen:FLSqlCursor, referencia:String, codAgente:String, nomAgente:String;
 	codAgente = curAccion.valueBuffer("codagente");
@@ -1306,7 +1306,7 @@ function silixSeleccionar_lanzarAccion_almacenAlmacen(curAccion:FLSqlCursor)
 
 	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
 	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
-	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "') AND NOT nostock");
 
 	var curStocks:FLSqlCursor, referencia:String, codAlmacen:String;
 	codAlmacen = curAccion.valueBuffer("codalmacen");
@@ -1356,7 +1356,7 @@ function silixSeleccionar_lanzarAccion_almacenTarifa(curAccion:FLSqlCursor)
 
 	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
 	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
-	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "') AND sevende");
 
 	var curArticulosTarifa:FLSqlCursor, referencia:String, codTarifa:String, pvpArticulo:Number, pvpTarifa:Number;
 	codTarifa = curAccion.valueBuffer("codtarifa");
@@ -1516,7 +1516,7 @@ function silixSeleccionar_lanzarAccion_almacenNumSerie(curAccion:FLSqlCursor)
 
 	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
 	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
-	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "') AND NOT nostock");
 
 	var paso:Number = 0;
 	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
@@ -1549,7 +1549,7 @@ function silixSeleccionar_lanzarAccion_almacenLote(curAccion:FLSqlCursor)
 
 	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
 	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
-	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "') AND NOT nostock");
 
 	var paso:Number = 0;
 	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
