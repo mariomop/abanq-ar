@@ -204,6 +204,32 @@ class silixSeleccionar extends pesosMedidas {
 	function lanzarAccion_principalImpuesto(curAccion:FLSqlCursor) {
 		this.ctx.silixSeleccionar_lanzarAccion_principalImpuesto(curAccion);
 	}
+
+	function pbnAccionAlmacen_clicked() {
+		this.ctx.silixSeleccionar_pbnAccionAlmacen_clicked();
+	}
+	function lanzarAccion_almacenAlmacen(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_almacenAlmacen(curAccion);
+	}
+	function lanzarAccion_almacenTarifa(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_almacenTarifa(curAccion);
+	}
+	function lanzarAccion_almacenFamilia(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_almacenFamilia(curAccion);
+	}
+	function lanzarAccion_almacenFabricante(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_almacenFabricante(curAccion);
+	}
+	function lanzarAccion_almacenUnidad(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_almacenUnidad(curAccion);
+	}
+	function lanzarAccion_almacenNumSerie(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_almacenNumSerie(curAccion);
+	}
+	function lanzarAccion_almacenLote(curAccion:FLSqlCursor) {
+		this.ctx.silixSeleccionar_lanzarAccion_almacenLote(curAccion);
+	}
+
 }
 //// SILIXSELECCIONAR ///////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -874,6 +900,7 @@ function silixSeleccionar_init()
 	connect(this.child("pbnSeleccionarNada"), "clicked()", this, "iface.seleccionNada");
 
 	connect(this.child("pbnAccionPrincipal"), "clicked()", this, "iface.pbnAccionPrincipal_clicked()");
+	connect(this.child("pbnAccionAlmacen"), "clicked()", this, "iface.pbnAccionAlmacen_clicked()");
 
 	this.iface.seleccionVerificarHabilitaciones();
 }
@@ -908,6 +935,7 @@ function silixSeleccionar_seleccionVerificarHabilitaciones()
 		this.child("pbnSeleccionarNada").setDisabled(false);
 
 		this.child("pbnAccionPrincipal").setDisabled(false);
+		this.child("pbnAccionAlmacen").setDisabled(false);
 	}
 	else {
 		// Check deshabilitado
@@ -918,6 +946,7 @@ function silixSeleccionar_seleccionVerificarHabilitaciones()
 		this.child("pbnSeleccionarNada").setDisabled(true);
 
 		this.child("pbnAccionPrincipal").setDisabled(true);
+		this.child("pbnAccionAlmacen").setDisabled(true);
 	}
 }
 
@@ -1194,6 +1223,343 @@ function silixSeleccionar_lanzarAccion_principalImpuesto(curAccion:FLSqlCursor)
 		curArticulos.refreshBuffer();
 
 		curArticulos.setValueBuffer("codimpuesto", curAccion.valueBuffer("codimpuesto"));
+
+		if (!curArticulos.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
+}
+
+function silixSeleccionar_pbnAccionAlmacen_clicked()
+{
+	var f:Object = new FLFormSearchDB("acciones_articulosalmacen");
+	var cursor:FLSqlCursor = f.cursor();
+
+	cursor.select();
+	if (!cursor.first())
+		cursor.setModeAccess(cursor.Insert);
+	else
+		cursor.setModeAccess(cursor.Edit);
+
+	f.setMainWidget();
+	cursor.refreshBuffer();
+	var commitOk:Boolean = false;
+	var acpt:Boolean;
+	cursor.transaction(false);
+	while (!commitOk) {
+		acpt = false;
+		f.exec("id");
+		acpt = f.accepted();
+		if (!acpt) {
+			if (cursor.rollback())
+				commitOk = true;
+		} else {
+			if (cursor.commitBuffer()) {
+				cursor.commit();
+				commitOk = true;
+			}
+		}
+	}
+	if (!acpt)
+		return;
+
+	if ( f.child("ckbAlmacen").checked )
+		this.iface.lanzarAccion_almacenAlmacen(cursor);
+
+	if ( f.child("ckbTarifa").checked )
+		this.iface.lanzarAccion_almacenTarifa(cursor);
+
+	if ( f.child("ckbFamilia").checked )
+		this.iface.lanzarAccion_almacenFamilia(cursor);
+
+	if ( f.child("ckbFabricante").checked )
+		this.iface.lanzarAccion_almacenFabricante(cursor);
+
+	if ( f.child("ckbUnidad").checked )
+		this.iface.lanzarAccion_almacenUnidad(cursor);
+
+	if ( f.child("ckbNumSerie").checked )
+		this.iface.lanzarAccion_almacenNumSerie(cursor);
+
+	if ( f.child("ckbLote").checked )
+		this.iface.lanzarAccion_almacenLote(cursor);
+}
+
+function silixSeleccionar_lanzarAccion_almacenAlmacen(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	if (!curAccion.valueBuffer("codalmacen")) {
+		MessageBox.critical(util.translate("scripts", "Debe indicar el almacén que se utilizará para la asociación."), MessageBox.Ok, MessageBox.NoButton);
+		return;
+	}
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var curStocks:FLSqlCursor, referencia:String, codAlmacen:String;
+	codAlmacen = curAccion.valueBuffer("codalmacen");
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Browse);
+
+		referencia = curArticulos.valueBuffer("referencia");
+
+		curStocks = new FLSqlCursor("stocks");
+		curStocks.select("referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "'");
+		if (!curStocks.first())
+			curStocks.setModeAccess(curStocks.Insert);
+		else
+			curStocks.setModeAccess(curStocks.Edit);
+		curStocks.refreshBuffer();
+
+		curStocks.setValueBuffer("referencia", referencia);
+		curStocks.setValueBuffer("codalmacen", codAlmacen);
+
+		if (!curStocks.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
+}
+
+function silixSeleccionar_lanzarAccion_almacenTarifa(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	if (!curAccion.valueBuffer("codtarifa")) {
+		MessageBox.critical(util.translate("scripts", "Debe indicar la tarifa que se utilizará para la asociación."), MessageBox.Ok, MessageBox.NoButton);
+		return;
+	}
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var curArticulosTarifa:FLSqlCursor, referencia:String, codTarifa:String, pvpArticulo:Number, pvpTarifa:Number;
+	codTarifa = curAccion.valueBuffer("codtarifa");
+
+	var incLineal:Number = parseFloat(util.sqlSelect("tarifas","inclineal","codtarifa = '" + codTarifa + "'"));
+	if (!incLineal || isNaN(incLineal))
+		incLineal = 0;
+	var incPorcentual:Number = util.sqlSelect("tarifas","incporcentual","codtarifa = '" + codTarifa + "'");
+	if (!incPorcentual || isNaN(incPorcentual))
+		incPorcentual = 0;
+
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Browse);
+
+		referencia = curArticulos.valueBuffer("referencia");
+		pvpArticulo = curArticulos.valueBuffer("pvp");
+		if (!pvpArticulo || isNaN(pvpArticulo))
+			pvpArticulo = 0;
+
+		pvpTarifa = ((pvpArticulo * (100 + incPorcentual)) / 100) + incLineal;
+		if (!pvpTarifa || isNaN(pvpTarifa))
+			pvpTarifa = 0;
+
+		curArticulosTarifa = new FLSqlCursor("articulostarifas");
+		curArticulosTarifa.select("referencia = '" + referencia + "' AND codtarifa = '" + codTarifa + "'");
+		if (!curArticulosTarifa.first())
+			curArticulosTarifa.setModeAccess(curArticulosTarifa.Insert);
+		else
+			curArticulosTarifa.setModeAccess(curArticulosTarifa.Edit);
+		curArticulosTarifa.refreshBuffer();
+
+		curArticulosTarifa.setValueBuffer("referencia", referencia);
+		curArticulosTarifa.setValueBuffer("codtarifa", codTarifa);
+		curArticulosTarifa.setValueBuffer("pvp", pvpTarifa);
+
+		if (!curArticulosTarifa.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
+}
+
+function silixSeleccionar_lanzarAccion_almacenFamilia(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Edit);
+		curArticulos.refreshBuffer();
+
+		curArticulos.setValueBuffer("codfamilia", curAccion.valueBuffer("codfamilia"));
+
+		if (!curArticulos.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
+}
+
+function silixSeleccionar_lanzarAccion_almacenFabricante(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Edit);
+		curArticulos.refreshBuffer();
+
+		curArticulos.setValueBuffer("codfabricante", curAccion.valueBuffer("codfabricante"));
+
+		if (!curArticulos.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
+}
+
+function silixSeleccionar_lanzarAccion_almacenUnidad(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Edit);
+		curArticulos.refreshBuffer();
+
+		curArticulos.setValueBuffer("codunidad", curAccion.valueBuffer("codunidad"));
+
+		if (!curArticulos.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
+}
+
+function silixSeleccionar_lanzarAccion_almacenNumSerie(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Edit);
+		curArticulos.refreshBuffer();
+
+		curArticulos.setValueBuffer("controlnumserie", curAccion.valueBuffer("controlnumserie"));
+
+		if (!curArticulos.commitBuffer()) {
+			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);
+			util.destroyProgressDialog();
+			return;
+		}
+		util.setProgress( ++paso );
+	}
+	util.destroyProgressDialog();
+}
+
+function silixSeleccionar_lanzarAccion_almacenLote(curAccion:FLSqlCursor)
+{
+	var util:FLUtil = new FLUtil();
+
+	var datos:String = [];
+	datos = this.iface.tdbRecords.primarysKeysChecked();
+	var lista:String = datos.join();
+	if (!lista)
+		return;
+
+	var curArticulos:FLSqlCursor = new FLSqlCursor("articulos");
+	curArticulos.setMainFilter(this.iface.tdbRecords.filter());
+	curArticulos.select("referencia IN ('" + lista.replace(/,/g,"', '") + "')");
+
+	var paso:Number = 0;
+	util.createProgressDialog( util.translate( "scripts", "Ejecutando acción..." ), curArticulos.size() );
+
+	while (curArticulos.next()) {
+		curArticulos.setModeAccess(curArticulos.Edit);
+		curArticulos.refreshBuffer();
+
+		curArticulos.setValueBuffer("porlotes", curAccion.valueBuffer("porlotes"));
+		curArticulos.setValueBuffer("diasconsumo", curAccion.valueBuffer("diasconsumo"));
 
 		if (!curArticulos.commitBuffer()) {
 			MessageBox.critical(util.translate("scripts", "Se produjo un error al ejecutar la acción"), MessageBox.Ok, MessageBox.NoButton);

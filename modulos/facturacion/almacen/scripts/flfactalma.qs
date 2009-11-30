@@ -1346,17 +1346,20 @@ function articuloscomp_pvpCompuesto(referencia:String):Number
 
 function articuloscomp_beforeCommit_articulos(curArticulo:FLSqlCursor):Boolean
 {
-	var util:FLUtil;
+	var util:FLUtil = new FLUtil();
 
 	switch(curArticulo.modeAccess()) {
 		case curArticulo.Edit:
 			var unidadAnterior:String = curArticulo.valueBufferCopy("codunidad");
 			var unidadActual:String = curArticulo.valueBuffer("codunidad");
 			if (unidadAnterior != unidadActual) {
-				MessageBox.information(util.translate("scripts","Ha cambiado la unidad del artículo. Se va a actualizar esta unidad para los artículos compuestos."),MessageBox.Ok, MessageBox.NoButton);
-				if (!this.iface.actualizarUnidad(curArticulo.valueBuffer("referencia"),unidadActual))
-					return false;
+				if ( util.sqlSelect("articuloscomp", "id", "refcomponente = '" + curArticulo.valueBuffer("referencia") + "'") ) {
+					MessageBox.information(util.translate("scripts","Ha cambiado la unidad del artículo. Se va a actualizar esta unidad para los artículos compuestos."),MessageBox.Ok, MessageBox.NoButton);
+					if (!this.iface.actualizarUnidad(curArticulo.valueBuffer("referencia"),unidadActual))
+						return false;
+				}
 			}
+		break;
 		case curArticulo.Insert:
 			/// Parcheado ¿por qué hay que ponerloa a cero?
 			// Si es un compuesto el stockminimo se pone a cero

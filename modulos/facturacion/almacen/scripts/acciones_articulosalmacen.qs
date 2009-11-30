@@ -1,7 +1,7 @@
 /***************************************************************************
-                 acciones_articulosprincipal.qs  -  description
+                 acciones_articulosalmacen.qs  -  description
                              -------------------
-    begin                : mie nov 18 2009
+    begin                : lun nov 30 2009
     copyright            : (C) 2009 by Silix
     email                : contacto@silix.com.ar
  ***************************************************************************/
@@ -45,6 +45,9 @@ class oficial extends interna {
 	function verificarHabilitaciones() {
 		this.ctx.oficial_verificarHabilitaciones();
 	}
+	function bufferChanged(fN:String) {
+		this.ctx.oficial_bufferChanged(fN);
+	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -82,10 +85,15 @@ function interna_init()
 	var util:FLUtil = new FLUtil;
 	var cursor:FLSqlCursor = this.cursor();
 
-	connect (this.child("ckbProveedor"), "clicked()", this, "iface.verificarHabilitaciones()");
-	connect (this.child("ckbAgente"), "clicked()", this, "iface.verificarHabilitaciones()");
-	connect (this.child("ckbDivisa"), "clicked()", this, "iface.verificarHabilitaciones()");
-	connect (this.child("ckbImpuesto"), "clicked()", this, "iface.verificarHabilitaciones()");
+	connect (cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
+
+	connect (this.child("ckbAlmacen"), "clicked()", this, "iface.verificarHabilitaciones()");
+	connect (this.child("ckbTarifa"), "clicked()", this, "iface.verificarHabilitaciones()");
+	connect (this.child("ckbFamilia"), "clicked()", this, "iface.verificarHabilitaciones()");
+	connect (this.child("ckbFabricante"), "clicked()", this, "iface.verificarHabilitaciones()");
+	connect (this.child("ckbUnidad"), "clicked()", this, "iface.verificarHabilitaciones()");
+	connect (this.child("ckbNumSerie"), "clicked()", this, "iface.verificarHabilitaciones()");
+	connect (this.child("ckbLote"), "clicked()", this, "iface.verificarHabilitaciones()");
 
 	this.iface.inicializarControles();
 }
@@ -104,29 +112,65 @@ function oficial_inicializarControles()
 
 function oficial_verificarHabilitaciones()
 {
-	// Proveedor
-	if ( this.child("ckbProveedor").checked )
-		this.child("gbxProveedor").setDisabled(false);
+	// Almacén
+	if ( this.child("ckbAlmacen").checked )
+		this.child("gbxAlmacen").setDisabled(false);
 	else
-		this.child("gbxProveedor").setDisabled(true);
+		this.child("gbxAlmacen").setDisabled(true);
 
-	// Agente
-	if ( this.child("ckbAgente").checked )
-		this.child("gbxAgente").setDisabled(false);
+	// Tarifa
+	if ( this.child("ckbTarifa").checked )
+		this.child("gbxTarifa").setDisabled(false);
 	else
-		this.child("gbxAgente").setDisabled(true);
+		this.child("gbxTarifa").setDisabled(true);
 
-	// Divisa
-	if ( this.child("ckbDivisa").checked )
-		this.child("gbxDivisa").setDisabled(false);
+	// Familia
+	if ( this.child("ckbFamilia").checked )
+		this.child("gbxFamilia").setDisabled(false);
 	else
-		this.child("gbxDivisa").setDisabled(true);
+		this.child("gbxFamilia").setDisabled(true);
 
-	// Impuesto
-	if ( this.child("ckbImpuesto").checked )
-		this.child("gbxImpuesto").setDisabled(false);
+	// Fabricante
+	if ( this.child("ckbFabricante").checked )
+		this.child("gbxFabricante").setDisabled(false);
 	else
-		this.child("gbxImpuesto").setDisabled(true);
+		this.child("gbxFabricante").setDisabled(true);
+
+	// Unidad
+	if ( this.child("ckbUnidad").checked )
+		this.child("gbxUnidad").setDisabled(false);
+	else
+		this.child("gbxUnidad").setDisabled(true);
+
+	// Número Serie
+	if ( this.child("ckbNumSerie").checked )
+		this.child("gbxNumSerie").setDisabled(false);
+	else
+		this.child("gbxNumSerie").setDisabled(true);
+
+	// Lote
+	if ( this.child("ckbLote").checked ) {
+		this.child("gbxLote").setDisabled(false);
+		this.iface.bufferChanged("porlotes");
+	} else
+		this.child("gbxLote").setDisabled(true);
+}
+
+function oficial_bufferChanged(fN:String)
+{
+	var util:FLUtil = new FLUtil;
+	var cursor:FLSqlCursor = this.cursor();
+	switch (fN) {
+		case "porlotes": {
+			if ( cursor.valueBuffer("porlotes") )
+				this.child("fdbDiasConsumo").setDisabled(false);
+			else {
+				this.child("fdbDiasConsumo").setValue("");
+				this.child("fdbDiasConsumo").setDisabled(true);
+			}
+			break;
+		}
+	}
 }
 
 //// OFICIAL /////////////////////////////////////////////////////

@@ -1,0 +1,106 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>acciones_articulosalmacen</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Acciones del módulo Almacén")</alias>
+	<field>
+		<name>id</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Identificador")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>serial</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	<field>
+		<name>codalmacen</name>
+		<!-- Código del almacén -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Almacén")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<relation>
+			<table>almacenes</table>
+			<field>codalmacen</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codtarifa</name>
+		<!-- Código de la tarifa -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tarifa")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+		<relation>
+			<table>tarifas</table>
+			<field>codtarifa</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codfamilia</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Familia")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>10</length>
+		<relation>
+			<table>familias</table>
+			<field>codfamilia</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codfabricante</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Fabricante")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>10</length>
+		<relation>
+			<table>fabricantes</table>
+			<field>codfabricante</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codunidad</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Unidad")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>10</length>
+		<relation>
+			<table>pesosmedidas</table>
+			<field>codunidad</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>controlnumserie</name>
+		<!-- Indica si se va a llevar a cabo el control por números se serie de este artículo -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Control por número de serie")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	<field>
+		<name>porlotes</name>
+		<!-- Indica si el artículo está bajo control de lotes -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Artículo por lotes")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	<field>
+		<name>diasconsumo</name>
+		<!-- Número de días que componen el período de consumo preferente del artículo -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días de consumo preferente")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+	</field>
+</TMD>

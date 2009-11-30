@@ -327,4 +327,14 @@
         <scriptform>acciones_articulosprincipal</scriptform>
         <scriptformrecord>acciones_articulosprincipal</scriptformrecord>
     </action>
+    <action>
+        <name>acciones_articulosalmacen</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Acciones del módulo Almacén")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Acciones del módulo Almacén")</description>
+        <table>acciones_articulosalmacen</table>
+        <form>acciones_articulosalmacen</form>
+        <formrecord>acciones_articulosalmacen</formrecord>
+        <scriptform>acciones_articulosalmacen</scriptform>
+        <scriptformrecord>acciones_articulosalmacen</scriptformrecord>
+    </action>
 </ACTIONS>
