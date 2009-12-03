@@ -123,15 +123,6 @@
         <scriptformrecord>tarifas</scriptformrecord>
     </action>
     <action>
-        <name>formasenvio</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Formas de envio")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Formas de envío")</alias>
-        <table>formasenvio</table>
-        <form>master_copy</form>
-        <formrecord>formasenvio</formrecord>
-        <scriptformrecord>formasenvio</scriptformrecord>
-    </action>
-    <action>
         <name>fabricantes</name>
         <description>QT_TRANSLATE_NOOP("MetaData","Fabricantes")</description>
         <alias>QT_TRANSLATE_NOOP("MetaData","")</alias>
