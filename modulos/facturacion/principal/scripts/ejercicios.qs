@@ -1027,7 +1027,7 @@ function silixSeries_validateForm():Boolean
 							secuencias.setValueBuffer("nombre", secuenciasAnt.valueBuffer("nombre"));
 							secuencias.setValueBuffer("descripcion", secuenciasAnt.valueBuffer("descripcion"));
 							secuencias.setValueBuffer("valor", 1);
-							secuencias.setValueBuffer("valorout", secuenciasAnt.valueBuffer("valorout") + 1);
+							secuencias.setValueBuffer("valorout", secuenciasAnt.valueBuffer("valorout"));
 							if (!secuencias.commitBuffer())
 								return false;
 						}
