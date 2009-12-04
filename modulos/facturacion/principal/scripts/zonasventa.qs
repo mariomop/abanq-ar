@@ -117,7 +117,7 @@ function oficial_insertarPais()
 
 	var cursor:FLSqlCursor = this.cursor();
 	if (this.cursor().modeAccess() == this.cursor().Insert) {
-		if (!this.child("tdbPaises").cursor().commitBufferCursorRelation())
+		if (!this.child("tdbPaisesSel").cursor().commitBufferCursorRelation())
 			return;
 	}
 
@@ -167,7 +167,7 @@ function oficial_insertarProvincia()
 
 	var cursor:FLSqlCursor = this.cursor();
 	if (this.cursor().modeAccess() == this.cursor().Insert) {
-		if (!this.child("tdbProvincias").cursor().commitBufferCursorRelation())
+		if (!this.child("tdbProvinciasSel").cursor().commitBufferCursorRelation())
 			return;
 	}
 
@@ -217,7 +217,7 @@ function oficial_insertarCiudad()
 
 	var cursor:FLSqlCursor = this.cursor();
 	if (this.cursor().modeAccess() == this.cursor().Insert) {
-		if (!this.child("tdbCiudades").cursor().commitBufferCursorRelation())
+		if (!this.child("tdbCiudadesSel").cursor().commitBufferCursorRelation())
 			return;
 	}
 

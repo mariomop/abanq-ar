@@ -40,6 +40,29 @@
 	</field>
 	
 	<field>
+		<name>codimpuesto</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo de I.V.A.")</alias>
+		<pk>false</pk>
+		<type>string</type>
+		<length>10</length>
+		<relation>
+			<table>impuestos</table>
+			<field>codimpuesto</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>ivaincluido</name>
+		<!-- Indica si el precio de venta del artículo incluye el IVA -->
+	        <alias>QT_TRANSLATE_NOOP("MetaData","I.V.A. Incluido")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
 		<name>codenvio</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","F. Envio")</alias>
 		<null>true</null>

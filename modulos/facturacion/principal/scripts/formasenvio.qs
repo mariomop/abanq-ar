@@ -250,7 +250,7 @@ function oficial_insertarZona()
 
 	var cursor:FLSqlCursor = this.cursor();
 	if (this.cursor().modeAccess() == this.cursor().Insert) { 
-		if (!this.child("tdbZonasVenta").cursor().commitBufferCursorRelation())
+		if (!this.child("tdbZonasEnvio").cursor().commitBufferCursorRelation())
 			return;
 	}
 
