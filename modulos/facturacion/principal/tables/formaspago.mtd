@@ -129,6 +129,11 @@
 			<field>codpago</field>
 			<card>1M</card>
 		</relation>
+		<relation>
+			<table>zonasformaspago</table>
+			<field>codpago</field>
+			<card>1M</card>
+		</relation>
 	</field>
 	<field>
 		<name>descripcion</name>
@@ -174,5 +179,13 @@
 		<null>true</null>
 		<pk>false</pk>
 		<type>bool</type>
+	</field>
+	<field>
+		<name>controlporzonas</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Control por zonas")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
 	</field>
 </TMD>

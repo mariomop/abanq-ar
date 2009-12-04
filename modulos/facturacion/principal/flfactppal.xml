@@ -464,4 +464,38 @@
         <formrecord>formasenvio</formrecord>
         <scriptformrecord>formasenvio</scriptformrecord>
     </action>
+    <action>
+        <name>zonasventa</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Zonas de venta")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Zonas de venta")</description>
+        <table>zonasventa</table>
+        <form>master</form>
+        <formrecord>zonasventa</formrecord>
+        <scriptformrecord>zonasventa</scriptformrecord>
+    </action>
+    <action>
+        <name>zonasformasenvio</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Formas de envío por zona")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Formas de envío por zona")</description>
+        <table>zonasformasenvio</table>
+        <form>master</form>
+        <formrecord>zonasformasenvio</formrecord>
+    </action>
+    <action>
+        <name>zonasformaspago</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Formas de pago por zona")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Formas de pago por zona")</description>
+        <table>zonasformaspago</table>
+        <form>master</form>
+        <formrecord>zonasformaspago</formrecord>
+    </action>
+    <action>
+        <name>intervalospesos</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Intervalos de pesos")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Intervalos de pesos")</description>
+        <table>intervalospesos</table>
+        <form>master</form>
+        <formrecord>intervalospesos</formrecord>
+        <scriptformrecord>intervalospesos</scriptformrecord>
+    </action>
 </ACTIONS>

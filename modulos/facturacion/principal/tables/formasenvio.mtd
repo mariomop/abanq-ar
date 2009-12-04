@@ -18,6 +18,16 @@
 			<field>codenvio</field>
 			<card>1M</card>
 		</relation>
+		<relation>
+			<table>zonasformasenvio</table>
+			<field>codenvio</field>
+			<card>1M</card>
+		</relation>
+		<relation>
+			<table>costesenvio</table>
+			<field>codenvio</field>
+			<card>1M</card>
+		</relation>
 	</field>
 	
 	<field>
@@ -76,5 +86,14 @@
 		<pk>false</pk>
 		<type>bool</type>
 		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>controlporzonas</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Control por zonas")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
 	</field>
 </TMD>

@@ -116,4 +116,17 @@
 		<type>string</type>
 		<length>10</length>
 	</field>
+	<field>
+		<name>codzona</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Zona")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>20</length>
+		<relation>
+			<table>zonasventa</table>
+			<field>codzona</field>
+			<card>M1</card>
+		</relation>
+	</field>
 </TMD>

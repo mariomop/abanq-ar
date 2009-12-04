@@ -170,6 +170,90 @@
 							</widget>
 						</hbox>
 					</widget>
+					<widget class="QLayoutWidget" >
+						<property name="name" >
+							<cstring>lytZona</cstring>
+						</property>
+						<hbox>
+							<property name="name" >
+								<cstring>unnamed</cstring>
+							</property>
+							<widget class="FLFieldDB" >
+								<property name="name" >
+									<cstring>fdbCodZona</cstring>
+								</property>
+								<property name="sizePolicy" >
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>122</width>
+										<height>31</height>
+									</size>
+								</property>
+								<property name="maximumSize" >
+									<size>
+										<width>170</width>
+										<height>32767</height>
+									</size>
+								</property>
+								<property name="font" >
+									<font>
+										<bold>0</bold>
+										<italic>0</italic>
+									</font>
+								</property>
+								<property name="fieldName" >
+									<string>codzona</string>
+								</property>
+							</widget>
+							<widget class="FLFieldDB" >
+								<property name="name" >
+									<cstring>fdbDescZona</cstring>
+								</property>
+								<property name="sizePolicy" >
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize" >
+									<size>
+										<width>23</width>
+										<height>29</height>
+									</size>
+								</property>
+								<property name="font" >
+									<font>
+										<bold>0</bold>
+										<italic>0</italic>
+									</font>
+								</property>
+								<property name="fieldName" >
+									<string>descripcion</string>
+								</property>
+								<property name="tableName" >
+									<string>zonasventa</string>
+								</property>
+								<property name="foreignField" >
+									<string>codzona</string>
+								</property>
+								<property name="fieldRelation" >
+									<string>codzona</string>
+								</property>
+								<property name="showAlias" >
+									<bool>false</bool>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
 				</vbox>
 			</widget>
 		</vbox>
