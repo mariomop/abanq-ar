@@ -89,11 +89,23 @@ class periodosFiscales extends pgc2008 {
 //// PERIODOS FISCALES //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration silixSeries */
+/////////////////////////////////////////////////////////////////
+//// SILIX SERIES ///////////////////////////////////////////////
+class silixSeries extends periodosFiscales {
+    function silixSeries( context ) { periodosFiscales ( context ); }
+	function validateForm():Boolean {
+		return this.ctx.silixSeries_validateForm();
+	}
+}
+//// SILIX SERIES ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends periodosFiscales {
-    function head( context ) { periodosFiscales ( context ); }
+class head extends silixSeries {
+    function head( context ) { silixSeries ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -976,6 +988,83 @@ function periodosFiscales_validateForm():Boolean
 
 //// PERIODOS FISCALES ///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
+
+/** @class_definition silixSeries */
+/////////////////////////////////////////////////////////////////
+//// SILIX SERIES ///////////////////////////////////////////////
+
+function silixSeries_validateForm():Boolean
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	var curSec:FLSqlCursor = new FLSqlCursor("secuenciasejercicios");
+	curSec.select("upper(codejercicio) = '" + cursor.valueBuffer("codejercicio").upper() + "';");
+	if (!curSec.first()) {
+		var ejercicioAnterior:String = util.sqlSelect("ejercicios", "codejercicio", " 1 = 1 ORDER BY fechafin DESC");
+		if (ejercicioAnterior) {
+			var curSecAnterior:FLSqlCursor = new FLSqlCursor("secuenciasejercicios");
+			curSecAnterior.select("codejercicio = '" + ejercicioAnterior + "'");
+			if (curSecAnterior.size() > 0) {
+				var ans = MessageBox.information(util.translate("scripts", "Está creando un nuevo ejercicio:\n ¿Desea copiar las series manejadas en el ejercicio anterior?"), MessageBox.Yes, MessageBox.No, MessageBox.NoButton);
+				if (ans == MessageBox.Yes) {
+					if (!this.child("tdbSecuencias").cursor().commitBufferCursorRelation())
+						return false;
+					while (curSecAnterior.next()) {
+						curSec.setModeAccess(curSec.Insert);
+						curSec.refreshBuffer();
+						curSec.setValueBuffer("codejercicio", cursor.valueBuffer("codejercicio"));
+						curSec.setValueBuffer("codserie", curSecAnterior.valueBuffer("codserie"));
+						if (!curSec.commitBuffer())
+							return false;
+
+						var secuencias:FLSqlCursor = new FLSqlCursor("secuencias");
+						var secuenciasAnt:FLSqlCursor = new FLSqlCursor("secuencias");
+						secuenciasAnt.select("id = " + curSecAnterior.valueBuffer("id"));
+						while (secuenciasAnt.next()) {
+							secuencias.setModeAccess(secuencias.Insert);
+							secuencias.refreshBuffer();
+							secuencias.setValueBuffer("id", curSec.valueBuffer("id"));
+							secuencias.setValueBuffer("nombre", secuenciasAnt.valueBuffer("nombre"));
+							secuencias.setValueBuffer("descripcion", secuenciasAnt.valueBuffer("descripcion"));
+							secuencias.setValueBuffer("valor", 1);
+							secuencias.setValueBuffer("valorout", secuenciasAnt.valueBuffer("valorout"));
+							if (!secuencias.commitBuffer())
+								return false;
+						}
+					}
+					MessageBox.information(util.translate("scripts", "Las series fueron copiadas correctamente."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				}
+			}
+		} else {
+			var curSeries:FLSqlCursor = new FLSqlCursor("series");
+			curSeries.select();
+			if (curSeries.size() > 0) {
+				var ans = MessageBox.information(util.translate("scripts", "Está creando un ejercicio:\n ¿Desea cargar todas las series existentes para este ejercicio?"), MessageBox.Yes, MessageBox.No, MessageBox.NoButton);
+				if (ans == MessageBox.Yes) {
+					if (!this.child("tdbSecuencias").cursor().commitBufferCursorRelation())
+						return false;
+					while (curSeries.next()) {
+						curSec.setModeAccess(curSec.Insert);
+						curSec.refreshBuffer();
+						curSec.setValueBuffer("codejercicio", cursor.valueBuffer("codejercicio"));
+						curSec.setValueBuffer("codserie", curSeries.valueBuffer("codserie"));
+						if (!curSec.commitBuffer())
+							return false;
+					}
+					MessageBox.information(util.translate("scripts", "Las series fueron cargadas correctamente."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				}
+			}
+		}
+	}
+
+	if ( !this.iface.__validateForm() )
+		return false;
+
+	return true;
+}
+
+//// SILIX SERIES /////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////
