@@ -368,6 +368,7 @@
         <table>usuarios</table>
         <form>master</form>
         <formrecord>usuarios</formrecord>
+        <scriptformrecord>usuarios</scriptformrecord>
     </action>
     <action>
         <name>secuencias</name>

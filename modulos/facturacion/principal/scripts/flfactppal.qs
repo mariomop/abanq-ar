@@ -160,11 +160,26 @@ class oficial extends interna {
 class controlUsuario extends oficial {
     function controlUsuario( context ) { oficial ( context ); }
 
+	function beforeCommit_usuarios(cursor:FLSqlCursor):Boolean {
+		return this.ctx.controlUsuario_beforeCommit_usuarios(cursor);
+	}
+	function afterCommit_usuarios(cursor:FLSqlCursor):Boolean {
+		return this.ctx.controlUsuario_afterCommit_usuarios(cursor);
+	}
+	function crearUsuarioEnConexion(nombreUsuario:String, password:String, conName:String):Boolean {
+		return this.ctx.controlUsuario_crearUsuarioEnConexion(nombreUsuario, password, conName);
+	}
+	function editarUsuarioEnConexion(nombreUsuario:String, password:String, conName:String):Boolean {
+		return this.ctx.controlUsuario_editarUsuarioEnConexion(nombreUsuario, password, conName);
+	}
+	function borrarUsuarioEnConexion(nombreUsuario:String, conName:String):Boolean {
+		return this.ctx.controlUsuario_borrarUsuarioEnConexion(nombreUsuario, conName);
+	}
 	function usuarioCreado(usuario:String):Boolean {
 		return this.ctx.controlUsuario_usuarioCreado(usuario);
 	}
-	function mensajeControlUsuario(error:String, documento:String) {
-		return this.ctx.controlUsuario_mensajeControlUsuario(error, documento);
+	function mensajeControlUsuario(error:String, dato:String) {
+		return this.ctx.controlUsuario_mensajeControlUsuario(error, dato);
 	}
 }
 //// CONTROL_USUARIO /////////////////////////////////////////////////
@@ -291,8 +306,8 @@ class pubControlUsuario extends ifaceCtx {
 	function pub_usuarioCreado(usuario:String):Boolean {
 		return this.usuarioCreado(usuario);
 	}
-	function pub_mensajeControlUsuario(error:String, documento:String) {
-		return this.mensajeControlUsuario(error, documento);
+	function pub_mensajeControlUsuario(error:String, dato:String) {
+		return this.mensajeControlUsuario(error, dato);
 	}
 }
 //// PUB_CONTROL_USUARIO ////////////////////////////////////////
@@ -2250,6 +2265,162 @@ function oficial_setUnLock(tabla:String, pK:Number, unLock:Boolean)
 /////////////////////////////////////////////////////////////////
 //// CONTROL_USUARIO ////////////////////////////////////////////
 
+function controlUsuario_beforeCommit_usuarios(cursor:FLSqlCursor):Boolean
+{
+	switch (cursor.modeAccess()) {
+		case cursor.Insert: {
+ 			if ( !cursor.valueBuffer("usuariocreado") && sys.version().startsWith("2.3-") ) {
+				if ( !this.iface.crearUsuarioEnConexion(cursor.valueBuffer("idusuario"), cursor.valueBuffer("password"), "default") ) {
+					this.iface.mensajeControlUsuario("NO_CREAR_USUARIO", cursor.valueBuffer("idusuario"));
+					return false;
+				}
+			}
+
+			var util:FLUtil = new FLUtil();
+			cursor.setValueBuffer( "hash", util.sha1( cursor.valueBuffer("password") ) );
+			cursor.setValueBuffer( "usuariocreado", true );
+			cursor.setNull("password");
+			break;
+		}
+		case cursor.Edit: {
+ 			if ( cursor.valueBuffer("password") ) {
+				if ( sys.version().startsWith("2.3-") ) {
+					if ( !this.iface.editarUsuarioEnConexion(cursor.valueBuffer("idusuario"), cursor.valueBuffer("password"), "default") ) {
+						this.iface.mensajeControlUsuario("NO_EDITAR_USUARIO", cursor.valueBuffer("idusuario"));
+						return false;
+					}
+				}
+
+				var util:FLUtil = new FLUtil();
+				cursor.setValueBuffer(  "hash", util.sha1( cursor.valueBuffer("password") ) );
+				cursor.setNull("password");
+			}
+			break;
+		}
+		case cursor.Del: {
+			if ( cursor.valueBuffer("idusuario") == sys.nameUser() ) {
+				this.iface.mensajeControlUsuario("NO_BORRAR_USUARIO_PROPIO", "");
+				return false;
+			}
+			if ( sys.version().startsWith("2.3-") ) {
+				if ( !this.iface.borrarUsuarioEnConexion(cursor.valueBuffer("idusuario"), "default") ) {
+					this.iface.mensajeControlUsuario("NO_BORRAR_USUARIO", cursor.valueBuffer("idusuario"));
+					return false;
+				}
+			}
+			break;
+		}
+	}
+
+	return true;
+}
+
+function controlUsuario_afterCommit_usuarios(cursor:FLSqlCursor):Boolean
+{
+	switch (cursor.modeAccess()) {
+		case cursor.Insert: {
+			break;
+		}
+		case cursor.Edit: {
+			break;
+		}
+		case cursor.Del: {
+			break;
+		}
+	}
+
+	return true;
+}
+
+function controlUsuario_crearUsuarioEnConexion(nombreUsuario:String, password:String, conName:String):Boolean
+{
+	if ( (nombreUsuario=="")||(password=="") ) {
+		debug("no se puede crear un usuario con nombre o contrasena nula");
+		return false;
+	}
+
+	var tipoDriver:String, tarea:String;
+	if (sys.nameDriver(conName).search("PSQL") > -1) tipoDriver = "PostgreSQL";
+	else tipoDriver = "MySQL";
+
+	switch ( tipoDriver ) {
+		case "PostgreSQL":
+			tarea = "CREATE USER " + nombreUsuario + " WITH SUPERUSER PASSWORD '" + password + "';";
+		break;
+		case "MySQL":
+			tarea = "GRANT ALL PRIVILEGES ON " + sys.nameBD(conName) + ".* TO '" + nombreUsuario + "'@'%' IDENTIFIED BY '" + password + "' WITH GRANT OPTION;";
+			tarea += "GRANT ALL PRIVILEGES ON " + sys.nameBD(conName) + ".* TO '" + nombreUsuario + "'@'localhost' IDENTIFIED BY '" + password + "' WITH GRANT OPTION;";
+			tarea += "GRANT ALL PRIVILEGES ON mysql.* TO '" + nombreUsuario + "'@'%';";
+			tarea += "GRANT ALL PRIVILEGES ON mysql.* TO '" + nombreUsuario + "'@'localhost';";
+		break;
+	}
+
+	var util:FLUtil = new FLUtil();
+	var result:Boolean;
+	try { result = util.ejecutarTarea( tarea , conName ); }
+	catch (e) { result = false; }
+
+	return result;
+}
+
+function controlUsuario_editarUsuarioEnConexion(nombreUsuario:String, password:String, conName:String):Boolean
+{
+	if ( (nombreUsuario=="")||(password=="") ) {
+		debug("no se puede editar un usuario con nombre o contrasena nula");
+		return false;
+	}
+
+	var tipoDriver:String, tarea:String;
+	if (sys.nameDriver(conName).search("PSQL") > -1) tipoDriver = "PostgreSQL";
+	else tipoDriver = "MySQL";
+
+	switch ( tipoDriver ) {
+		case "PostgreSQL":
+			tarea = "ALTER USER " + nombreUsuario + " WITH PASSWORD '" + password + "';";
+		break;
+		case "MySQL":
+			tarea = "SET PASSWORD FOR '" + nombreUsuario + "'@'%' = PASSWORD('" + password + "');";
+			tarea += "SET PASSWORD FOR '" + nombreUsuario + "'@'localhost' = PASSWORD('" + password + "');";
+		break;
+	}
+
+	var util:FLUtil = new FLUtil();
+	var result:Boolean;
+	try { result = util.ejecutarTarea( tarea , conName ); }
+	catch (e) { result = false; }
+
+	return result;
+}
+
+function controlUsuario_borrarUsuarioEnConexion(nombreUsuario:String, conName:String):Boolean
+{
+	if ( (nombreUsuario=="")||(conName=="") ) {
+		debug("no se puede borrar un usuario con nombre nulo");
+		return false;
+	}
+
+	var tipoDriver:String, tarea:String;
+	if (sys.nameDriver(conName).search("PSQL") > -1) tipoDriver = "PostgreSQL";
+	else tipoDriver = "MySQL";
+
+	switch ( tipoDriver ) {
+		case "PostgreSQL":
+			tarea = "DROP ROLE " + nombreUsuario + ";";
+		break;
+		case "MySQL":
+			tarea = "DROP USER '" + nombreUsuario + "'@'%';";
+			tarea += "DROP USER '" + nombreUsuario + "'@'localhost';";
+		break;
+	}
+
+	var util:FLUtil = new FLUtil();
+	var result:Boolean;
+	try { result = util.ejecutarTarea( tarea , conName ); }
+	catch (e) { result = false; }
+
+	return result;
+}
+
 function controlUsuario_usuarioCreado(usuario:String):Boolean
 {
 	var util:FLUtil = new FLUtil();
@@ -2260,13 +2431,37 @@ function controlUsuario_usuarioCreado(usuario:String):Boolean
 	return true;
 }
 
-function controlUsuario_mensajeControlUsuario(error:String, documento:String)
+function controlUsuario_mensajeControlUsuario(error:String, dato:String)
 {
 	var util:FLUtil = new FLUtil();
 	switch (error) {
 		case "NO_USUARIO": {
 			MessageBox.critical(util.translate("scripts",
-				"Usted no está registrado como usuario del sistema.\nDebe estarlo para crear " + documento ),
+				"Usted no está registrado como usuario del sistema.\nDebe estarlo para crear %1").arg(dato),
+				MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+			break;
+		}
+		case "NO_CREAR_USUARIO": {
+			MessageBox.critical(util.translate("scripts",
+				"Error al crear el usuario %1 en la base de datos.\nLa operación no puede ser terminada.").arg(dato),
+				MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+			break;
+		}
+		case "NO_EDITAR_USUARIO": {
+			MessageBox.critical(util.translate("scripts",
+				"Error al editar el usuario %1 en la base de datos.\nLa operación no puede ser terminada.").arg(dato),
+				MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+			break;
+		}
+		case "NO_BORRAR_USUARIO": {
+			MessageBox.critical(util.translate("scripts",
+				"Error al borrar el usuario %1 en la base de datos.\nLa operación no puede ser terminada.").arg(dato),
+				MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+			break;
+		}
+		case "NO_BORRAR_USUARIO_PROPIO": {
+			MessageBox.critical(util.translate("scripts",
+				"No puede borrar su propio usuario."),
 				MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 			break;
 		}
