@@ -439,15 +439,18 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 //// ANTICIPOS ///////////////////////////////////////////////////
 function anticipos_init()
 {
-	var idAnticipo:Number = this.cursor().valueBuffer("idanticipo");
+	var cursor:FLSqlCursor = this.cursor();
+	var idAnticipo:Number = cursor.valueBuffer("idanticipo");
 	if (idAnticipo != 0) {
 		this.child("lblRemesado").text = "ANTICIPO";
 		this.child("pushButtonNext").close();
 		this.child("pushButtonPrevious").close();
 		this.child("pushButtonFirst").close();
 		this.child("pushButtonLast").close();
-		this.child("pushButtonAcceptContinue").close();
-		this.child("pushButtonAccept").close();
+		if (cursor.modeAccess() != cursor.Browse) {
+			this.child("pushButtonAcceptContinue").close();
+			this.child("pushButtonAccept").close();
+		}
 
 		this.child("fdbFechav").setDisabled(true);
 		this.child("fdbImporte").setDisabled(true);
