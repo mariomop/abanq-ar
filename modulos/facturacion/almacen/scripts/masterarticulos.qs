@@ -1102,6 +1102,7 @@ function silixSeleccionar_lanzarAccion_principalProveedor(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixSeleccionar_lanzarAccion_principalAgente(curAccion:FLSqlCursor)
@@ -1156,6 +1157,7 @@ function silixSeleccionar_lanzarAccion_principalAgente(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixSeleccionar_lanzarAccion_principalDivisa(curAccion:FLSqlCursor)
@@ -1194,6 +1196,7 @@ function silixSeleccionar_lanzarAccion_principalDivisa(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixSeleccionar_lanzarAccion_principalImpuesto(curAccion:FLSqlCursor)
@@ -1232,6 +1235,7 @@ function silixSeleccionar_lanzarAccion_principalImpuesto(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixSeleccionar_pbnAccionAlmacen_clicked()
@@ -1337,6 +1341,7 @@ function silixSeleccionar_lanzarAccion_almacenAlmacen(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixSeleccionar_lanzarAccion_almacenTarifa(curAccion:FLSqlCursor)
@@ -1403,6 +1408,7 @@ function silixSeleccionar_lanzarAccion_almacenTarifa(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixSeleccionar_lanzarAccion_almacenFamilia(curAccion:FLSqlCursor)
@@ -1436,6 +1442,7 @@ function silixSeleccionar_lanzarAccion_almacenFamilia(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixSeleccionar_lanzarAccion_almacenFabricante(curAccion:FLSqlCursor)
@@ -1469,6 +1476,7 @@ function silixSeleccionar_lanzarAccion_almacenFabricante(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixSeleccionar_lanzarAccion_almacenUnidad(curAccion:FLSqlCursor)
@@ -1502,6 +1510,7 @@ function silixSeleccionar_lanzarAccion_almacenUnidad(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixSeleccionar_lanzarAccion_almacenNumSerie(curAccion:FLSqlCursor)
@@ -1535,6 +1544,7 @@ function silixSeleccionar_lanzarAccion_almacenNumSerie(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixSeleccionar_lanzarAccion_almacenLote(curAccion:FLSqlCursor)
@@ -1569,6 +1579,7 @@ function silixSeleccionar_lanzarAccion_almacenLote(curAccion:FLSqlCursor)
 		util.setProgress( ++paso );
 	}
 	util.destroyProgressDialog();
+	MessageBox.information(util.translate("scripts", "Acción completada"), MessageBox.Ok, MessageBox.NoButton);
 }
 
 //// SILIXSELECCIONAR ///////////////////////////////////////////
