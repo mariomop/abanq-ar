@@ -491,6 +491,23 @@
 											<string>Para ver registro, sin permitir editar</string>
 										</property>
 									</widget>
+									<spacer>
+										<property name="name">
+											<cstring>Spacer2_2</cstring>
+										</property>
+										<property name="orientation">
+											<enum>Horizontal</enum>
+										</property>
+										<property name="sizeType">
+											<enum>Fixed</enum>
+										</property>
+										<property name="sizeHint">
+											<size>
+												<width>10</width>
+												<height>20</height>
+											</size>
+										</property>
+									</spacer>
 									<widget class="QToolButton">
 										<property name="name">
 											<cstring>toolButtonCopy</cstring>
