@@ -1803,7 +1803,7 @@
 												<iconset>image45029</iconset>
 											</property>
 											<property name="toolTip" stdset="0">
-												<string>Eliminar registro (E)</string>
+												<string>Eliminar registro (Supr)</string>
 											</property>
 											<property name="whatsThis" stdset="0">
 												<string>Elimina el registro actual de la tabla</string>

@@ -2155,7 +2155,7 @@
 												<iconset>image5</iconset>
 											</property>
 											<property name="toolTip" stdset="0" >
-												<string>Eliminar registro (E)</string>
+												<string>Eliminar registro (Supr)</string>
 											</property>
 											<property name="whatsThis" stdset="0" >
 												<string>Elimina el registro actual de la tabla</string>
@@ -2479,7 +2479,7 @@
 												<iconset>image5</iconset>
 											</property>
 											<property name="toolTip" stdset="0" >
-												<string>Eliminar registro (E)</string>
+												<string>Eliminar registro (Supr)</string>
 											</property>
 											<property name="whatsThis" stdset="0" >
 												<string>Elimina el registro actual de la tabla</string>
@@ -2934,7 +2934,7 @@
 												<iconset>image8</iconset>
 											</property>
 											<property name="toolTip" stdset="0" >
-												<string>Eliminar una asociacion (E)</string>
+												<string>Eliminar una asociacion (Supr)</string>
 											</property>
 											<property name="whatsThis" stdset="0" >
 												<string>Elimana la asociacion de un contacto con el cliente</string>
@@ -3152,7 +3152,7 @@
 												<iconset>image5</iconset>
 											</property>
 											<property name="toolTip" stdset="0" >
-												<string>Eliminar registro (E)</string>
+												<string>Eliminar registro (Supr)</string>
 											</property>
 											<property name="whatsThis" stdset="0" >
 												<string>Elimina el registro actual de la tabla</string>
@@ -4680,7 +4680,7 @@
 											<string/>
 										</property>
 										<property name="toolTip" stdset="0" >
-											<string>Eliminar registro (E)</string>
+											<string>Eliminar registro (Supr)</string>
 										</property>
 										<property name="whatsThis" stdset="0" >
 											<string>Elimina el registro actual de la tabla</string>
@@ -4840,7 +4840,7 @@
 															<iconset>image10</iconset>
 														</property>
 														<property name="toolTip" stdset="0" >
-															<string>Eliminar registro (E)</string>
+															<string>Eliminar registro (Supr)</string>
 														</property>
 														<property name="whatsThis" stdset="0" >
 															<string>Elimina el registro actual de la tabla</string>
@@ -5833,7 +5833,7 @@
 														<iconset>image5</iconset>
 													</property>
 													<property name="toolTip" stdset="0" >
-														<string>Eliminar registro (E)</string>
+														<string>Eliminar registro (Supr)</string>
 													</property>
 													<property name="whatsThis" stdset="0" >
 														<string>Elimina el registro actual de la tabla</string>
