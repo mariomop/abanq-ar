@@ -117,7 +117,6 @@ class funNumServAcomp extends nsServicios {
 class fechas extends funNumServAcomp {
 	var fechaDesde:Object;
 	var fechaHasta:Object;
-	var ejercicio:String;
 
     function fechas( context ) { funNumServAcomp ( context ); }
 	function init() {
@@ -225,11 +224,6 @@ function interna_init()
 
 	connect(this.iface.pbnGAlbaran, "clicked()", this, "iface.pbnGenerarAlbaran_clicked()");
 	connect(this.iface.tdbRecords, "currentChanged()", this, "iface.procesarEstado");
-
-	var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
-	var datosEjercicio = flfactppal.iface.pub_ejecutarQry("ejercicios", "fechainicio,fechafin", "codejercicio = '" + codEjercicio + "'");
-	if (datosEjercicio.result > 0)
-		this.cursor().setMainFilter("fecha >='" + datosEjercicio.fechainicio + "' AND fecha <= '" + datosEjercicio.fechafin + "'");
 
 	this.iface.procesarEstado();
 }
@@ -688,11 +682,7 @@ function fechas_init()
 	connect(this.iface.fechaDesde, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
 	connect(this.iface.fechaHasta, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
 
-	var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
-	if (codEjercicio) {
-		this.iface.ejercicio = codEjercicio;
-		this.iface.actualizarFiltro();
-	}
+	this.iface.actualizarFiltro();
 
 	this.iface.procesarEstado();
 }
@@ -705,7 +695,6 @@ function fechas_actualizarFiltro()
 	if (desde == "" || hasta == "")
 		return;
 
-//	this.cursor().setMainFilter("codejercicio = '" + this.iface.ejercicio + "' AND  fecha >= '" + desde + "' AND fecha <= '" + hasta + "'");
 	this.cursor().setMainFilter("fecha >= '" + desde + "' AND fecha <= '" + hasta + "'");
 
 	this.iface.tdbRecords.refresh();

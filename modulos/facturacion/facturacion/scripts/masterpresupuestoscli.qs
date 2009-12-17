@@ -125,7 +125,6 @@ class ivaIncluido extends lotes {
 class fechas extends ivaIncluido {
 	var fechaDesde:Object;
 	var fechaHasta:Object;
-	var ejercicio:String;
 
     function fechas( context ) { ivaIncluido ( context ); }
 	function init() {
@@ -270,10 +269,6 @@ function interna_init()
 	connect(this.iface.pbnGPedido, "clicked()", this, "iface.pbnGenerarPedido_clicked");
 	connect(this.iface.tdbRecords, "currentChanged()", this, "iface.procesarEstado");
 	connect(this.iface.tbnDuplicarPres, "clicked()", this, "iface.duplicarPresupuesto_clicked");
-
-	var codEjercicio = flfactppal.iface.pub_ejercicioActual();
-	if (codEjercicio)
-		this.cursor().setMainFilter("codejercicio = '" + codEjercicio + "'");
 
 	this.iface.procesarEstado();
 }
@@ -973,11 +968,7 @@ function fechas_init()
 	connect(this.iface.fechaDesde, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
 	connect(this.iface.fechaHasta, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
 
-	var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
-	if (codEjercicio) {
-		this.iface.ejercicio = codEjercicio;
-		this.iface.actualizarFiltro();
-	}
+	this.iface.actualizarFiltro();
 
 	this.iface.procesarEstado();
 }
@@ -990,7 +981,7 @@ function fechas_actualizarFiltro()
 	if (desde == "" || hasta == "")
 		return;
 
-	this.cursor().setMainFilter("codejercicio = '" + this.iface.ejercicio + "' AND  fecha >= '" + desde + "' AND fecha <= '" + hasta + "'");
+	this.cursor().setMainFilter("fecha >= '" + desde + "' AND fecha <= '" + hasta + "'");
 
 	this.iface.tdbRecords.refresh();
 	this.cursor().last();

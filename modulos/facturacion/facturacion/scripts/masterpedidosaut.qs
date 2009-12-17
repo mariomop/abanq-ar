@@ -82,7 +82,6 @@ class oficial extends interna {
 class fechas extends oficial {
 	var fechaDesde:Object;
 	var fechaHasta:Object;
-	var ejercicio:String;
 
     function fechas( context ) { oficial ( context ); }
 	function init() {
@@ -541,11 +540,7 @@ function fechas_init()
 	connect(this.iface.fechaDesde, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
 	connect(this.iface.fechaHasta, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
 
-	var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
-	if (codEjercicio) {
-		this.iface.ejercicio = codEjercicio;
-		this.iface.actualizarFiltro();
-	}
+	this.iface.actualizarFiltro();
 
 	this.iface.procesarEstado();
 }
@@ -558,7 +553,6 @@ function fechas_actualizarFiltro()
 	if (desde == "" || hasta == "")
 		return;
 
-//	this.cursor().setMainFilter("codejercicio = '" + this.iface.ejercicio + "' AND  fecha >= '" + desde + "' AND fecha <= '" + hasta + "'");
 	this.cursor().setMainFilter("fecha >= '" + desde + "' AND fecha <= '" + hasta + "'");
 
 	this.iface.tdbRecords.refresh();

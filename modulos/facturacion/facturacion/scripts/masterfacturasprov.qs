@@ -88,7 +88,6 @@ class oficial extends interna {
 class fechas extends oficial {
 	var fechaDesde:Object;
 	var fechaHasta:Object;
-	var ejercicio:String;
 
     function fechas( context ) { oficial ( context ); }
 	function init() {
@@ -244,11 +243,6 @@ function interna_init()
 	connect(this.iface.pbnAFactura, "clicked()", this, "iface.asociarAFactura()");
 	connect(this.iface.tbnImprimir, "clicked()", this, "iface.imprimir");
 	connect(this.child("toolButtonCopy"), "clicked()", this, "iface.copiarFactura_clicked()");
-
-	var codEjercicio = flfactppal.iface.pub_ejercicioActual();
-	if (codEjercicio)
-		this.cursor().setMainFilter("codejercicio = '" + codEjercicio + "'");
-
 }
 
 /////////////////////////////////////////////////////////////////
@@ -683,12 +677,7 @@ function fechas_init()
 	connect(this.iface.fechaDesde, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
 	connect(this.iface.fechaHasta, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
 
-	var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
-	if (codEjercicio) {
-		this.iface.ejercicio = codEjercicio;
-		this.iface.actualizarFiltro();
-	}
-
+	this.iface.actualizarFiltro();
 }
 
 function fechas_actualizarFiltro()
@@ -699,7 +688,7 @@ function fechas_actualizarFiltro()
 	if (desde == "" || hasta == "")
 		return;
 
-	this.cursor().setMainFilter("codejercicio = '" + this.iface.ejercicio + "' AND  fecha >= '" + desde + "' AND fecha <= '" + hasta + "'");
+	this.cursor().setMainFilter("fecha >= '" + desde + "' AND fecha <= '" + hasta + "'");
 
 	this.iface.tdbRecords.refresh();
 	this.cursor().last();
