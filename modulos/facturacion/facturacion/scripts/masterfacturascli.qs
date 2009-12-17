@@ -454,7 +454,9 @@ function oficial_dameDatosAgrupacionAlbaranes(curAgruparAlbaranes:FLSqlCursor):A
 	var res:Array = [];
 	res["fecha"] = curAgruparAlbaranes.valueBuffer("fecha");
 	res["hora"] = curAgruparAlbaranes.valueBuffer("hora");
+	res["codejercicio"] = curAgruparAlbaranes.valueBuffer("codejercicio");
 	res["codperiodo"] = curAgruparAlbaranes.valueBuffer("codperiodo");
+
 	return res;
 }
 
@@ -472,6 +474,7 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 	var codPago:String = curAgrupar.valueBuffer("codpago");
 	var codAgente:String = curAgrupar.valueBuffer("codagente");
 	var codDivisa:String = curAgrupar.valueBuffer("coddivisa");
+	var codSerie:String = curAgrupar.valueBuffer("codserie");
 	var fechaDesde:String = curAgrupar.valueBuffer("fechadesde");
 	var fechaHasta:String = curAgrupar.valueBuffer("fechahasta");
 	var where:String = "albaranescli.ptefactura = 'true'";
@@ -489,6 +492,8 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 		where = where + " AND albaranescli.codagente = '" + codAgente + "'";
 	if (codDivisa && !codDivisa.isEmpty())
 		where = where + " AND albaranescli.coddivisa = '" + codDivisa + "'";
+	if (codSerie && !codSerie.isEmpty())
+		where = where + " AND codserie = '" + codSerie + "'";
 
 	return where;
 }
@@ -597,16 +602,18 @@ function oficial_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 	var util:FLUtil = new FLUtil();
 	var fecha:String;
 	var hora:String;
+	var codEjercicio:String;
 	if (curFactura.action() == "facturascli") {
+		codEjercicio = flfactppal.iface.pub_ejercicioActual();
 		var hoy:Date = new Date();
 		fecha = hoy.toString();
 		hora = hoy.toString().right(8);
 	} else {
+		codEjercicio = curFactura.valueBuffer("codejercicio");
 		fecha = curFactura.valueBuffer("fecha");
 		hora = curFactura.valueBuffer("hora");
 	}
-		
-	var codEjercicio:String = curFactura.valueBuffer("codejercicio");
+	
 	var datosDoc:Array = flfacturac.iface.pub_datosDocFacturacion(fecha, codEjercicio, "facturascli");
 	if (!datosDoc.ok)
 		return false;

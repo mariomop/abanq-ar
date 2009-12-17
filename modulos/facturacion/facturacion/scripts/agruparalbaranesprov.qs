@@ -108,6 +108,7 @@ function interna_init()
 		connect(this.child("pushButtonAccept"), "clicked()", this, "iface.descontarExcepciones");
 		connect(this.child("pbnAddDel"), "clicked()", this, "iface.pbnAddDel_clicked");
 
+		this.child("fdbCodSerie").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codserie_remito"));
 		this.child("fdbCodEjercicio").setValue(flfactppal.iface.pub_ejercicioActual());
 		this.child("fdbCodEjercicio").setDisabled(true);
 
@@ -173,7 +174,8 @@ function oficial_bufferChanged(fN:String)
 		case "fechadesde":
 		case "fechahasta":
 		case "codpago":
-		case "coddivisa": {
+		case "coddivisa":
+		case "codserie": {
 						if (this.iface.estado == "Seleccionando") {
 								this.iface.estado = "Buscando";
 								this.iface.gestionEstado();

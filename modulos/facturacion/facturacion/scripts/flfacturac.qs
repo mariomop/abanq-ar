@@ -3273,12 +3273,6 @@ function oficial_datosDocFacturacion(fecha:String, codEjercicio:String, tipoDoc:
 	res["fecha"] = cursor.valueBuffer("fecha");
 	res["codEjercicio"] = cursor.valueBuffer("codejercicio");
 	
-	if (res.codEjercicio != flfactppal.iface.pub_ejercicioActual()) {
-		if (tipoDoc != "pagosdevolcli" && tipoDoc != "pagosdevolprov") {
-			MessageBox.information(util.translate("scripts", "Ha seleccionado un ejercicio distinto del actual.\nPara visualizar los documentos generados debe cambiar el ejercicio actual en la ventana\nde empresa y volver a abrir el formulario maestro correspondiente a los documentos generados"), MessageBox.Ok, MessageBox.NoButton);
-		}
-	}
-	
 	return res;
 }
 

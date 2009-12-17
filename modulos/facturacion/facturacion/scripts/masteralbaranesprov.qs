@@ -456,16 +456,18 @@ function oficial_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrupac
 	var util:FLUtil = new FLUtil();
 	var fecha:String;
 	var hora:String;
+	var codEjercicio:String;
 	if (datosAgrupacion) {
+		codEjercicio = datosAgrupacion["codejercicio"];
 		fecha = datosAgrupacion["fecha"];
 		hora = datosAgrupacion["hora"];
 	} else {
+		codEjercicio = curAlbaran.valueBuffer("codejercicio");
 		var hoy:Date = new Date();
 		fecha = hoy.toString();
 		hora = hoy.toString().right(8);
 	}
 	
-	var codEjercicio:String = curAlbaran.valueBuffer("codejercicio");
 	var datosDoc:Array = flfacturac.iface.pub_datosDocFacturacion(fecha, codEjercicio, "facturasprov");
 	if (!datosDoc.ok)
 		return false;
@@ -765,6 +767,7 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 		var codAlmacen:String = curAgrupar.valueBuffer("codalmacen");
 		var codPago:String = curAgrupar.valueBuffer("codpago");
 		var codDivisa:String = curAgrupar.valueBuffer("coddivisa");
+		var codSerie:String = curAgrupar.valueBuffer("codserie");
 		var fechaDesde:String = curAgrupar.valueBuffer("fechadesde");
 		var fechaHasta:String = curAgrupar.valueBuffer("fechahasta");
 		var where:String = "servido <> 'Sí'";
@@ -780,6 +783,8 @@ function oficial_whereAgrupacion(curAgrupar:FLSqlCursor):String
 				where = where + " AND codpago = '" + codPago + "'";
 		if (codDivisa && !codDivisa.isEmpty())
 				where = where + " AND coddivisa = '" + codDivisa + "'";
+		if (codSerie && !codSerie.isEmpty())
+				where = where + " AND codserie = '" + codSerie + "'";
 
 		return where;
 }
