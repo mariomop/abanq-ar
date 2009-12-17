@@ -965,8 +965,9 @@ function periodosFiscales_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 
 	var util:FLUtil = new FLUtil();
 
-	var fecha:String = curFactura.valueBuffer("fecha");
-	var codPeriodo:String = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + fecha + "' AND fechafin >= '" + fecha + "' AND codejercicio = '" + curFactura.valueBuffer("codejercicio") + "'");
+	var fecha:String = this.iface.curFactura.valueBuffer("fecha");
+	var codEjercicio:String = this.iface.curFactura.valueBuffer("codejercicio");
+	var codPeriodo:String = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + fecha + "' AND fechafin >= '" + fecha + "' AND codejercicio = '" + codPeriodo + "'");
 
 	if (!codPeriodo) {
 		MessageBox.warning(util.translate("scripts", "No hay abierto un período fiscal para esta fecha"), MessageBox.Ok, MessageBox.NoButton);

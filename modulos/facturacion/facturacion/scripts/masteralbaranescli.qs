@@ -1555,7 +1555,8 @@ function periodosFiscales_datosFactura(curAlbaran:FLSqlCursor, where:String, dat
 		}
 	} else {
 		var fecha:String = this.iface.curFactura.valueBuffer("fecha");
-		codPeriodo = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + fecha + "' AND fechafin >= '" + fecha + "' AND codejercicio = '" + this.iface.curFactura.valueBuffer("codejercicio") + "'");
+		var codEjercicio:String = this.iface.curFactura.valueBuffer("codejercicio");
+		codPeriodo = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + fecha + "' AND fechafin >= '" + fecha + "' AND codejercicio = '" + codEjercicio + "'");
 		if (!codPeriodo) {
 			MessageBox.warning(util.translate("scripts", "No hay abierto un período fiscal para esta fecha.\nDebe crear un nuevo período fiscal para el ejercicio actual."), MessageBox.Ok, MessageBox.NoButton);
 			return false;
