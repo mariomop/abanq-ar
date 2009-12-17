@@ -450,10 +450,13 @@ function numeroSecuencia_init()
 		var codEjercicio:String = flfactppal.iface.pub_ejercicioActual();
 		var codSerie:String = this.iface.calculateField("codserie");
 		// Inicialización del número de secuencia del pedido
+		var numero:Number = 0;
 		var idSec:Number = util.sqlSelect("secuenciasejercicios", "id", "codejercicio = '" + codEjercicio + "' AND codserie = '" + codSerie + "'");
-		var numero:Number = util.sqlSelect("secuencias", "valorout", "id = " + idSec + " AND nombre = 'npedidocli'");
-		if ( !numero || isNaN(numero) )
-			numero = 0;
+		if (idSec) {
+			numero = util.sqlSelect("secuencias", "valorout", "id = " + idSec + " AND nombre = 'npedidocli'");
+			if ( !numero || isNaN(numero) )
+				numero = 0;
+		}
 		this.child("fdbNumero").setValue(numero.toString());
 	}
 
@@ -491,7 +494,7 @@ function numeroSecuencia_acceptedForm()
 	if ( this.iface.modoAcceso == this.cursor().Insert ) {
 		var cursorSecuencias:FLSqlCursor = new FLSqlCursor("secuenciasejercicios");
 		cursorSecuencias.setActivatedCheckIntegrity(false);
-		cursorSecuencias.select("upper(codserie) = '" + cursor.valueBuffer("codserie") + "' AND upper(codejercicio) = '" + cursor.valueBuffer("codejercicio") + "';");
+		cursorSecuencias.select("upper(codserie) = '" + cursor.valueBuffer("codserie") + "' AND upper(codejercicio) = '" + cursor.valueBuffer("codejercicio") + "'");
 		if (cursorSecuencias.next()) {
 			var cursorSecs:FLSqlCursor = new FLSqlCursor( "secuencias" );
 			cursorSecs.setActivatedCheckIntegrity( false );
@@ -510,7 +513,7 @@ function numeroSecuencia_acceptedForm()
 				cursorSecs.setValueBuffer( "id", idSec );
 				cursorSecs.setValueBuffer( "nombre", "npedidocli" );
 				cursorSecs.setValueBuffer( "valor", 1 );
-				var numerosiguiente:Number = parseInt(cursor.valueBuffer("numerosecuencia"), 10) + 1;
+				var numerosiguiente:Number = parseInt(cursor.valueBuffer("numero"), 10) + 1;
 				cursorSecs.setValueBuffer( "valorout", numerosiguiente );
 				cursorSecs.commitBuffer();
 			}
