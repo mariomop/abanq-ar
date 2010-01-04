@@ -387,7 +387,7 @@ function actPrecios_importar()
 		referencia = campos[this.iface.pos["REFERENCIA"]];
 		
 		q.setTablesList("articulos");
-		q.setSelect("referencia,pvp");
+		q.setSelect("referencia,pvp,descripcion");
 		q.setFrom("articulos");
 		q.setWhere("referencia = '" + referencia + "'");
 		q.exec();
@@ -444,6 +444,8 @@ function actPrecios_importar()
 		}
 
 		curTab.setValueBuffer("pvpanterior", pvpAnterior);
+		if (!curTab.valueBuffer("descripcion") || curTab.valueBuffer("descripcion") == "")
+			curTab.setValueBuffer("descripcion", q.value("descripcion"))
 
 		if (!curTab.commitBuffer())
 			debug("Error al actualizar/crear el artículo " + referencia + " en la línea válida " + i);
@@ -582,7 +584,7 @@ function actPrecios_crearPosiciones(cabeceras:String)
 	for (var i:Number = 0; i < campos.length; i++) {
 		campo = campos[i];
 		campo = campo.toString();
-		this.iface.pos[campo] = i;
+		this.iface.pos[campo.toUpperCase()] = i;
 	}
 }
 
@@ -604,11 +606,11 @@ function actPrecios_comprobarFichero(cabeceras:String)
 	
 	for (var i:Number = 0; i < campos.length; i++) {
 		campo = campos[i];
-		if (campo == "REFERENCIA")
+		if (campo.toUpperCase() == "REFERENCIA")
 			ref = true;
-		if (campo == "PVP")
+		if (campo.toUpperCase() == "PVP")
 			pvp = true;
-		if (campo == "DESCRIPCION")
+		if (campo.toUpperCase() == "DESCRIPCION")
 			desc = true;
 	}
 	
