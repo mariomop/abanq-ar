@@ -308,11 +308,24 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration fluxEcommerce */
+/////////////////////////////////////////////////////////////////
+//// FLUX ECOMMERCE //////////////////////////////////////////////////////
+class fluxEcommerce extends oficial {
+    function fluxEcommerce( context ) { oficial ( context ); }
+	
+	function beforeCommit_pedidoscli(curPedido:FLSqlCursor):Boolean {
+		return this.ctx.fluxEcommerce_beforeCommit_pedidoscli(curPedido);
+	}
+}
+//// FLUX ECOMMERCE //////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration pedidosauto */
 /////////////////////////////////////////////////////////////////
 //// PEDIDOS_AUTO ///////////////////////////////////////////////
-class pedidosauto extends oficial {
-	function pedidosauto( context ) { oficial ( context ); }
+class pedidosauto extends fluxEcommerce {
+	function pedidosauto( context ) { fluxEcommerce ( context ); }
 	function beforeCommit_pedidosprov(curPedido:FLSqlCursor):Boolean {
 		return this.ctx.pedidosauto_beforeCommit_pedidosprov(curPedido);
 	}
@@ -618,9 +631,6 @@ class controlUsuario extends costos {
 //// SILIX EXTENSIONES //////////////////////////////////////////
 class silixExtensiones extends controlUsuario {
     function silixExtensiones( context ) { controlUsuario ( context ); }
-	function afterCommit_facturascli(curFactura:FLSqlCursor):Boolean {
-		return this.ctx.silixExtensiones_afterCommit_facturascli(curFactura);
-	}
 	function beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boolean {
 		return this.ctx.silixExtensiones_beforeCommit_albaranescli(curAlbaran);
 	}
@@ -641,18 +651,6 @@ class silixExtensiones extends controlUsuario {
 	}
 	function restarCantidadAlbaranCli(idLineaAlbaran:Number, idLineaFactura:Number):Boolean {
 		return this.ctx.silixExtensiones_restarCantidadAlbaranCli(idLineaAlbaran, idLineaFactura);
-	}
-	function generarRecibos(curFactura:FLSqlCursor):Boolean {
-		return this.ctx.silixExtensiones_generarRecibos(curFactura);
-	}
-	function emitirReciboComo(codPago:String):String {
-		return this.ctx.silixExtensiones_emitirReciboComo(codPago);
-	}
-	function generarRecibo(curFactura:FLSqlCursor, datosRecibo:Array):Number {
-		return this.ctx.silixExtensiones_generarRecibo(curFactura, datosRecibo);
-	}
-	function pagarRecibo(idRecibo:String, datosRecibo:Array, tabla:String):Boolean {
-		return this.ctx.silixExtensiones_pagarRecibo(idRecibo, datosRecibo, tabla);
 	}
 }
 //// SILIX EXTENSIONES //////////////////////////////////////////
@@ -682,11 +680,77 @@ class pieDocumento extends silixExtensiones {
 //// PIE DE DOCUMENTO  //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration silixCuentas */
+/////////////////////////////////////////////////////////////
+//// SILIX CUENTAS //////////////////////////////////////////
+class silixCuentas extends pieDocumento {
+    function silixCuentas( context ) { pieDocumento ( context ); }
+	function afterCommit_facturascli(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.silixCuentas_afterCommit_facturascli(curFactura);
+	}
+	function afterCommit_facturasprov(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.silixCuentas_afterCommit_facturasprov(curFactura);
+	}
+	function afterCommit_factvalores(curValor:FLSqlCursor):Boolean {
+		return this.ctx.silixCuentas_afterCommit_factvalores(curValor);
+	}
+}
+//// SILIX CUENTAS //////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+
+/** @class_declaration desbloqueoStock */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+class desbloqueoStock extends silixCuentas {
+    function desbloqueoStock( context ) { silixCuentas ( context ); }
+	function beforeCommit_facturascli(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_beforeCommit_facturascli(curFactura);
+	}
+	function beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_beforeCommit_albaranescli(curAlbaran);
+	}
+	function beforeCommit_pedidoscli(curPedido:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_beforeCommit_pedidoscli(curPedido);
+	}
+	function beforeCommit_facturasprov(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_beforeCommit_facturasprov(curFactura);
+	}
+	function beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_beforeCommit_albaranesprov(curAlbaran);
+	}
+}
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration desbloqueoStockLotes */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO AL MODIFICAR STOCK LOTES ////////////////////////
+class desbloqueoStockLotes extends desbloqueoStock {
+    function desbloqueoStockLotes( context ) { desbloqueoStock ( context ); }
+	function beforeCommit_facturascli(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockLotes_beforeCommit_facturascli(curFactura);
+	}
+	function beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockLotes_beforeCommit_albaranescli(curAlbaran);
+	}
+	function beforeCommit_pedidoscli(curPedido:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockLotes_beforeCommit_pedidoscli(curPedido);
+	}
+	function beforeCommit_facturasprov(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockLotes_beforeCommit_facturasprov(curFactura);
+	}
+	function beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockLotes_beforeCommit_albaranesprov(curAlbaran);
+	}
+}
+//// DESBLOQUEO AL MODIFICAR STOCK LOTES ////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends pieDocumento {
-    function head( context ) { pieDocumento( context ); }
+class head extends desbloqueoStockLotes {
+    function head( context ) { desbloqueoStockLotes( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -3273,6 +3337,12 @@ function oficial_datosDocFacturacion(fecha:String, codEjercicio:String, tipoDoc:
 	res["fecha"] = cursor.valueBuffer("fecha");
 	res["codEjercicio"] = cursor.valueBuffer("codejercicio");
 	
+	if (res.codEjercicio != flfactppal.iface.pub_ejercicioActual()) {
+		if (tipoDoc != "pagosdevolcli" && tipoDoc != "pagosdevolprov") {
+			MessageBox.information(util.translate("scripts", "Ha seleccionado un ejercicio distinto del actual.\nPara visualizar los documentos generados debe cambiar el ejercicio actual en la ventana\nde empresa y volver a abrir el formulario maestro correspondiente a los documentos generados"), MessageBox.Ok, MessageBox.NoButton);
+		}
+	}
+	
 	return res;
 }
 
@@ -4443,6 +4513,35 @@ function oficial_calcularComisionLinea(codAgente:String,referencia:String):Numbe
 	return valor;
 }
 //// OFICIAL ////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_definition fluxEcommerce */
+/////////////////////////////////////////////////////////////////
+//// FLUX ECOMMERCE //////////////////////////////////////////////////////
+
+function fluxEcommerce_beforeCommit_pedidoscli(cursor:FLSqlCursor):Boolean 
+{
+	if (!this.iface.__beforeCommit_pedidoscli(cursor))
+		return false;
+	
+	/** \C Los pedidos web modificados en local se registran
+	*/
+	if (cursor.valueBuffer("pedidoweb") && cursor.modeAccess() == cursor.Edit) {
+		var curTab:FLSqlCursor = new FLSqlCursor("pedidoscli_mod");
+		var codigo = cursor.valueBuffer("codigo");
+		curTab.select("codigo = '" + codigo + "'");
+		if (!curTab.first()) {
+			curTab.setModeAccess(curTab.Insert);
+			curTab.refreshBuffer();
+			curTab.setValueBuffer("codigo", codigo);
+			if (!curTab.commitBuffer())
+				return false;
+		}
+	}
+	return true;
+}
+
+//// FLUX ECOMMERCE //////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition pedidosauto */
@@ -6021,127 +6120,6 @@ function controlUsuario_beforeCommit_pedidosaut(curPedido:FLSqlCursor):Boolean
 /////////////////////////////////////////////////////////////////
 //// SILIX EXTENSIONES //////////////////////////////////////////
 
-function silixExtensiones_afterCommit_facturascli(curFactura:FLSqlCursor):Boolean
-{
-	if (!this.iface.__afterCommit_facturascli(curFactura))
-		return false;
-
-	var util:FLUtil = new FLUtil;
-	if (sys.isLoadedModule("flfactcuentas") && flfactppal.iface.pub_valorDefectoEmpresa("cuentascajaintegrada")) {
-		switch (curFactura.modeAccess()) {
-			case curFactura.Edit: {
-				// Chequear si se cargaron valores como pago, y qué forma de pago
-				var curValores:FLSqlCursor = new FLSqlCursor("factvalores");
-				curValores.select("idfactura = " + curFactura.valueBuffer("idfactura"));
-				if (curValores.size() < 1 && curFactura.valueBuffer("codpago") == "CONTADO") {
-					curValores.setModeAccess(curValores.Insert);
-					curValores.refreshBuffer();
-					curValores.setValueBuffer("tipodoc", "facturascli");
-					curValores.setValueBuffer("tipovalor", "Efectivo");
-					curValores.setValueBuffer("fecha", curFactura.valueBuffer("fecha"));
-					curValores.setValueBuffer("pteaprobacion", false);
-					curValores.setValueBuffer("monto", curFactura.valueBuffer("total"));
-					curValores.setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
-					curValores.setValueBuffer("idfactura", curFactura.valueBuffer("idfactura"));
-					if (!curValores.commitBuffer())
-						return false;
-				}
-
-				var query:FLSqlCursor = new FLSqlQuery;
-				query.setTablesList("factvalores");
-				query.setSelect("tipovalor, monto, coddivisa, valor, pteaprobacion, codcuenta, codchequera, codcheque, tipocheque, entidad, agencia, codigopostal, numerocheque, numerocuenta, numerocupon, codtarjeta, codplan, codtiporetencion, numeroretencion, pagodiferido, fecha, fechavencimiento, cifnif");
-				query.setFrom("factvalores");
-				query.setWhere("idfactura = " + curFactura.valueBuffer("idfactura"));
-				if (!query.exec())
-					return;
-
-				if (query.size() > 0) {
-					var curMovimiento:FLSqlCursor = new FLSqlCursor("ctas_movimientos");
-					curMovimiento.setModeAccess(curMovimiento.Insert);
-					curMovimiento.refreshBuffer();
-					curMovimiento.setValueBuffer("codcomprobante", util.sqlSelect("ctas_datosgenerales","comprobantefacturascli","1 = 1"));
-					curMovimiento.setValueBuffer("pteaprobacion", false);
-					curMovimiento.setValueBuffer("numerocomprobante", curFactura.valueBuffer("codigo"));
-					curMovimiento.setValueBuffer("tipocuenta", "Caja");
-					curMovimiento.setValueBuffer("codcaja", curFactura.valueBuffer("codcaja"));
-					curMovimiento.setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
-					curMovimiento.setValueBuffer("fecha", curFactura.valueBuffer("fecha"));
-					if (!curMovimiento.commitBuffer())
-						return false;
-					var saldo:Number = 0;
-					while (query.next()) {
-						var curValor:FLSqlCursor = new FLSqlCursor("ctas_valores");;
-						with (curValor) {
-							setModeAccess(curValor.Insert);
-							refreshBuffer();
-							setValueBuffer("codmovimiento", curMovimiento.valueBuffer("codmovimiento"));
-							setValueBuffer("valor", query.value("valor"));
-							setValueBuffer("monto", query.value("monto"));
-							setValueBuffer("coddivisa", query.value("coddivisa"));
-							setValueBuffer("pagodiferido", query.value("pagodiferido"));
-							setValueBuffer("fecha", query.value("fecha"));
-							setValueBuffer("fechavencimiento", query.value("fechavencimiento"));
-							setValueBuffer("entidad", query.value("entidad"));
-							setValueBuffer("agencia", query.value("agencia"));
-							setValueBuffer("codigopostal", query.value("codigopostal"));
-							setValueBuffer("numerocheque", query.value("numerocheque"));
-							setValueBuffer("numerocuenta", query.value("numerocuenta"));
-							setValueBuffer("cifnif", query.value("cifnif"));
-							setValueBuffer("pteaprobacion", false);
-							setValueBuffer("tipocheque", query.value("tipocheque"));
-							setValueBuffer("tipocuentadestino", "Caja");
-							setValueBuffer("codcajadestino", curFactura.valueBuffer("codcaja"));
-							setValueBuffer("tipovalor", query.value("tipovalor"));
-						}
-						if (!curValor.commitBuffer())
-							return false;
-						saldo = saldo + query.value("monto");
-					}
-
-					curMovimiento.setModeAccess(curMovimiento.Edit);
-					curMovimiento.refreshBuffer();
-					curMovimiento.setValueBuffer("saldo", saldo);
-					if (!curMovimiento.commitBuffer())
-						return false;
-				}
-				break;
-			}
-			case curFactura.Del: {
-
-				break;
-			}
-		}
-	}
-
-	if (sys.isLoadedModule("flfactteso") && curFactura.valueBuffer("tpv") == false) {
-		switch (curFactura.modeAccess()) {
-			case curFactura.Edit: {
-				// Chequear si se cargaron valores como pago, y qué forma de pago
-				var curValores:FLSqlCursor = new FLSqlCursor("factvalores");
-				curValores.select("idfactura = " + curFactura.valueBuffer("idfactura"));
-				if (curValores.size() > 0 && curFactura.valueBuffer("codpago") == "CTACTE") {
-					/* si es CTACTE pero se hizo algún pago parcial, eliminar todos los recibos
-					y regenerarlos. Esto se hace así pues INTERNA_afterCommit_facturascli
-					genera un recibo por CtaCte y ese recibo chocaría con los generados aquí */
-					var curRecibos:FLSqlCursor = new FLSqlCursor("reciboscli");
-					curRecibos.select("idfactura = " + curFactura.valueBuffer("idfactura"));
-					while (curRecibos.next()) {
-						curRecibos.setModeAccess(curRecibos.Del);
-						curRecibos.refreshBuffer();
-						curRecibos.commitBuffer();
-					}
-
-					if (curFactura.modeAccess() == curFactura.Insert || curFactura.modeAccess() == curFactura.Edit) {
-						if (!this.iface.generarRecibos(curFactura))
-							return false;
-					}
-				}
-				break;
-			}
-		}
-	}
-}
-
 function silixExtensiones_beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boolean
 {
 	var util:FLUtil = new FLUtil;
@@ -6375,211 +6353,6 @@ function silixExtensiones_restarCantidadAlbaranCli(idLineaAlbaran:Number, idLine
 		}
 	}
 
-	return true;
-}
-
-/** \C Genera un recibo pagado por cada pago asociada a una factura de clientes o proveedores
-@param	curFactura: cursor posiciondado en la factura
-@return	true si la generación se realiza correctamente, false en caso contrario
-\end */
-function silixExtensiones_generarRecibos(curFactura:FLSqlCursor):Boolean
-{
-	if (!sys.isLoadedModule("flfactteso"))
-		return true;
-	
-	var util:FLUtil = new FLUtil;
-
-	var curPagos:FLSqlCursor = new FLSqlCursor("factvalores");
-	curPagos.select("idfactura = " + curFactura.valueBuffer("idfactura"));
-
-	var datosRecibo:Array = [];
-	datosRecibo.numRecibo = 1;
-	datosRecibo.moneda = util.sqlSelect("facturascli f INNER JOIN divisas d ON f.coddivisa = d.coddivisa", "d.descripcion", "f.idfactura = " + curFactura.valueBuffer("idfactura"), "facturascli,divisas");
-	
-	var idRecibo:String;
-	var importe:Number;
-	var totalPagado:Number;
-	while (curPagos.next()) {
-		datosRecibo.importe = parseFloat(curPagos.valueBuffer("monto"));
-		datosRecibo.fecha = curPagos.valueBuffer("fecha");
-		var tipoValor:String;
-		switch (curPagos.valueBuffer("tipovalor")) {
-			case "Cheque": {
-				tipoValor = "CHEQUE";
-				break;
-			}
-			default: {
-				tipoValor = "CONTADO";
-				break;
-			}
-		}
-		datosRecibo.codPago = tipoValor;
-		datosRecibo.estado = this.iface.emitirReciboComo(tipoValor);
-
-		idRecibo = this.iface.generarRecibo(curFactura, datosRecibo);
-		if (!idRecibo)
-			return false;
-		datosRecibo.numRecibo++;
-		totalPagado += datosRecibo.importe;
-	}
-
-	datosRecibo.importe = parseFloat(curFactura.valueBuffer("total")) - totalPagado;
-	if (datosRecibo.importe > 0) {
-		datosRecibo.estado = "Emitido";
-		datosRecibo.fecha = curFactura.valueBuffer("fecha");
-		
-		idRecibo = this.iface.generarRecibo(curFactura, datosRecibo);
-		if (!idRecibo)
-			return false;
-	}
-		
-	return true;
-}
-
-function silixExtensiones_emitirReciboComo(codPago:String):String
-{
-	var util:FLUtil = new FLUtil;
-	var emitirComo:String = util.sqlSelect("formaspago", "genrecibos", "codpago = '" + codPago + "'");
-
-	if (emitirComo == "Pagados") {
-		emitirComo = "Pagado";
-	} else
-		emitirComo = "Emitido";
-
-	return emitirComo;
-}
-
-/** \C Genera un recibo más un pago asociado al pago de la factura
-@param	curFactura: consulta que contiene los datos de la factura
-@param	datosRecibo: Array con los siguientes datos relativos al recibo:
-	importe
-	número
-	fecha
-	moneda
-	estado
-@return	identificador del recibo, o false si hay error
-\end */
-function silixExtensiones_generarRecibo(curFactura:FLSqlCursor, datosRecibo:Array):Number
-{
-	var util:FLUtil = new FLUtil;
-	
-	var tabla:String = curFactura.table();
-	if (tabla == "facturascli")
-		tabla = "cli";
-	else if (tabla == "facturasprov")
-		tabla = "prov";
-
-	var curRecibo:FLSqlCursor = new FLSqlCursor("recibos" + tabla);
-	with (curRecibo) {
-		setModeAccess(Insert);
-		refreshBuffer()
-		setValueBuffer("numero", datosRecibo.numRecibo);
-		setValueBuffer("idfactura", curFactura.valueBuffer("idfactura"));
-		setValueBuffer("importe", datosRecibo.importe);
-		setValueBuffer("importeeuros", datosRecibo.importe * parseFloat(curFactura.valueBuffer("tasaconv")));
-		setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
-		setValueBuffer("codigo", curFactura.valueBuffer("codigo") + "-" + flfacturac.iface.pub_cerosIzquierda(datosRecibo.numRecibo, 2));
-		setValueBuffer("codcliente", curFactura.valueBuffer("codcliente"));
-		setValueBuffer("nombrecliente", curFactura.valueBuffer("nombrecliente"));
-		setValueBuffer("cifnif", curFactura.valueBuffer("cifnif"));
-		if (curFactura.valueBuffer("coddir"))
-			setValueBuffer("coddir", curFactura.valueBuffer("coddir"));
-		else
-			setNull("coddir");
-		setValueBuffer("direccion", curFactura.valueBuffer("direccion"));
-		setValueBuffer("codpostal", curFactura.valueBuffer("codpostal"));
-		setValueBuffer("ciudad", curFactura.valueBuffer("ciudad"));
-		setValueBuffer("provincia", curFactura.valueBuffer("provincia"));
-		setValueBuffer("codpais", curFactura.valueBuffer("codpais"));
-		setValueBuffer("fecha", datosRecibo.fecha);
-		setValueBuffer("fechav", datosRecibo.fecha);
-		setValueBuffer("estado", datosRecibo.estado);
-		setValueBuffer("texto", util.enLetraMoneda(datosRecibo.importe, datosRecibo.moneda));
-	}
-	if (!curRecibo.commitBuffer())
-		return false;
-	
-	var idRecibo = curRecibo.valueBuffer("idrecibo");
-	if (datosRecibo.estado == util.translate("scripts", "Pagado")) {
-		if (!this.iface.pagarRecibo(idRecibo, datosRecibo, tabla))
-			return false;
-	}
-		
-	return idRecibo;
-}
-
-/** \C
-Crea un registro de pago en tesorería asociado al recibo especificado
-@param	idRecibo: Identificador del recibo a pagar
-@param	datosRecibo: Array con los datos del recibo
-@param tabla: "cli" o "prov", dependiendo de si es factura de cliente o de proveedor
-@return true si el pago se crea correctamente, false en caso contrario
-\end */
-function silixExtensiones_pagarRecibo(idRecibo:String, datosRecibo:Array, tabla:String):Boolean
-{
-	var util:FLUtil = new FLUtil;
-	
-	var hayContabilidad:Boolean = sys.isLoadedModule("flcontppal");
-	var ejercicioActual:String = flfactppal.iface.pub_ejercicioActual();
-	
-	var idSubcuenta:String = "";
-	var codSubcuenta:String = "";
-	
-	var qryCuenta:FLSqlQuery = new FLSqlQuery;
-	qryCuenta.setTablesList("formaspago,cuentasbanco");
-	qryCuenta.setSelect("cuenta,ctaentidad,ctaagencia,codsubcuenta");
-	qryCuenta.setFrom("formaspago f INNER JOIN cuentasbanco c ON f.codcuenta = c.codcuenta")
-	qryCuenta.setWhere("f.codpago = '" + datosRecibo.codPago + "'")
-	try { qryCuenta.setForwardOnly( true ); } catch (e) {}
-	if (!qryCuenta.exec())
-		return false;
-		
-	var cuenta:String = "";
-	var entidad:String = "";
-	var agencia:String = "";
-	if (qryCuenta.first()) {
-		cuenta = qryCuenta.value("cuenta");
-		entidad = qryCuenta.value("ctaentidad");
-		agencia = qryCuenta.value("ctaagencia");
-		codSubcuenta = qryCuenta.value("codsubcuenta");
-	}
-	
-	if (hayContabilidad) {
-		if (codSubcuenta && codSubcuenta != "") {
-			idSubcuenta = util.sqlSelect("co_subcuentas", "idsubcuenta", "codsubcuenta = '" + codSubcuenta + "' AND codejercicio = '" + ejercicioActual + "'");
-		}
-		if (!idSubcuenta || idSubcuenta == "") {
-			var datosSubcuenta:Array = flfacturac.iface.pub_datosCtaEspecial("CAJA", ejercicioActual);
-			if (datosSubcuenta.error != 0) {
-				MessageBox.warning(util.translate("scripts", "No tiene ninguna cuenta contable marcada como cuenta especial de caja\nDebe asociar la cuenta a la cuenta especial en el módulo Principal del área Financiera"), MessageBox.Ok, MessageBox.NoButton);
-				return false;
-			}
-			codSubcuenta = datosSubcuenta.codsubcuenta;
-			idSubcuenta = datosSubcuenta.idsubcuenta;
-		}
-	}
-	
-	var curPagoDevol:FLSqlCursor = new FLSqlCursor("pagosdevol" + tabla);
-	with (curPagoDevol) {
-		setModeAccess(Insert);
-		refreshBuffer();
-		setValueBuffer("idrecibo", idRecibo);
-		setValueBuffer("fecha", datosRecibo.fecha);
-		setValueBuffer("tipo", "Pago");
-		setValueBuffer("cuenta", cuenta);
-		setValueBuffer("ctaagencia", agencia);
-		setValueBuffer("ctaentidad", entidad);
-		if (hayContabilidad) {
-			setValueBuffer("idsubcuenta", idSubcuenta);
-			setValueBuffer("codsubcuenta", codSubcuenta);
-		} else {
-			setNull("idsubcuenta");
-			setNull("codsubcuenta");
-		}
-	}
-	if (!curPagoDevol.commitBuffer())
-		return false;
-	
 	return true;
 }
 
@@ -7037,6 +6810,1022 @@ function pieDocumento_generarPartidasPieFacturasprov(curFactura:FLSqlCursor, idA
 
 //// PIE DE DOCUMENTO ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
+
+/** @class_declaration silixCuentas */
+/////////////////////////////////////////////////////////////
+//// SILIX CUENTAS //////////////////////////////////////////
+
+function silixCuentas_afterCommit_facturascli(curFactura:FLSqlCursor):Boolean
+{
+	if (!this.iface.__afterCommit_facturascli(curFactura))
+		return false;
+
+	/* si está originada en tpv, retornar (esto se maneja en tpv) */
+	if (curFactura.valueBuffer("tpv")) return true;
+
+	var util:FLUtil = new FLUtil;
+	if (sys.isLoadedModule("flfactcuentas") && flfactppal.iface.pub_valorDefectoEmpresa("cuentascajaintegrada")) {
+		switch (curFactura.modeAccess()) {
+			case curFactura.Edit: {
+				// Si la factura está siendo rectificada, omitir los pasos siguientes
+				if (curFactura.valueBuffer("rectificada"))
+					break;
+				var tipoDoc:String;
+				if (curFactura.valueBuffer("decredito"))
+					tipoDoc = "notascredcli";
+				else if (curFactura.valueBuffer("dedebito"))
+					tipoDoc = "notasdebcli";
+				else
+					tipoDoc = "facturascli";
+				// si se está creando la factura, crear los valores correspondientes
+				if (formRecordfacturascli.iface.pub_modoAcceso() == 0) {
+					// Chequear si se cargaron valores como pago, y qué forma de pago.
+					// Si es al contado y no se cargaron pagos, se considera un pago del total en efectivo
+					var curValores:FLSqlCursor = new FLSqlCursor("factvalores");
+					curValores.select("idfacturacli = " + curFactura.valueBuffer("idfactura"));
+					if (curValores.size() < 1 && curFactura.valueBuffer("codpago") == "CONTADO") {
+						curValores.setModeAccess(curValores.Insert);
+						curValores.refreshBuffer();
+						curValores.setValueBuffer("tipodoc", tipoDoc);
+						curValores.setValueBuffer("tipovalor", "Efectivo");
+						curValores.setValueBuffer("modoacceso", 0);
+						curValores.setValueBuffer("estado", "En cartera");
+						curValores.setValueBuffer("fecha", curFactura.valueBuffer("fecha"));
+						curValores.setValueBuffer("pteaprobacion", false);
+						curValores.setValueBuffer("monto", curFactura.valueBuffer("total"));
+						curValores.setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
+						curValores.setValueBuffer("idfacturacli", curFactura.valueBuffer("idfactura"));
+						if (!curValores.commitBuffer())
+							return false;
+					}
+
+					var query:FLSqlCursor = new FLSqlQuery;
+					query.setTablesList("factvalores");
+					query.setSelect("codvalor, tipovalor, monto, coddivisa, valor, pteaprobacion, codcuenta, codchequera, codcheque, origen, tipocheque, entidad, agencia, codigopostal, numerocheque, numerocuenta, numerocupon, codtarjeta, codplan, codtiporetencion, numeroretencion, tipoentidad, codcliente, codproveedor, numeroib, pagodiferido, fecha, fechavencimiento, cifnif, modoacceso, estado");
+					query.setFrom("factvalores");
+					query.setWhere("idfacturacli = " + curFactura.valueBuffer("idfactura"));
+					if (!query.exec())
+						return;
+
+					if (query.size() > 0) {
+						var curMovimiento:FLSqlCursor = new FLSqlCursor("ctas_movimientos");
+						curMovimiento.setModeAccess(curMovimiento.Insert);
+						curMovimiento.refreshBuffer();
+						curMovimiento.setValueBuffer("codcomprobante", util.sqlSelect("ctas_datosgenerales","comprobante" + tipoDoc,"1 = 1"));
+						curMovimiento.setValueBuffer("pteaprobacion", false);
+						curMovimiento.setValueBuffer("numerocomprobante", curFactura.valueBuffer("codigo"));
+						curMovimiento.setValueBuffer("tipocuenta", "Caja");
+						curMovimiento.setValueBuffer("codcaja", curFactura.valueBuffer("codcaja"));
+						curMovimiento.setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
+						curMovimiento.setValueBuffer("fecha", curFactura.valueBuffer("fecha"));
+						if (!curMovimiento.commitBuffer())
+							return false;
+						var saldo:Number = 0;
+						while (query.next()) {
+							var curValor:FLSqlCursor = new FLSqlCursor("ctas_valores");
+							with (curValor) {
+								setModeAccess(curValor.Insert);
+								refreshBuffer();
+								setValueBuffer("codmovimiento", curMovimiento.valueBuffer("codmovimiento"));
+								setValueBuffer("valor", query.value("valor"));
+								setValueBuffer("monto", query.value("monto"));
+								setValueBuffer("coddivisa", query.value("coddivisa"));
+								setValueBuffer("pagodiferido", query.value("pagodiferido"));
+								setValueBuffer("fecha", query.value("fecha"));
+								setValueBuffer("fechavencimiento", query.value("fechavencimiento"));
+								setValueBuffer("entidad", query.value("entidad"));
+								setValueBuffer("agencia", query.value("agencia"));
+								setValueBuffer("codigopostal", query.value("codigopostal"));
+								setValueBuffer("numerocheque", query.value("numerocheque"));
+								setValueBuffer("numerocuenta", query.value("numerocuenta"));
+								setValueBuffer("cifnif", query.value("cifnif"));
+								setValueBuffer("pteaprobacion", false);
+								setValueBuffer("origen", query.value("origen"));
+								setValueBuffer("tipocheque", query.value("tipocheque"));
+								setValueBuffer("tipocuentadestino", "Caja");
+								setValueBuffer("codcajadestino", curFactura.valueBuffer("codcaja"));
+								setValueBuffer("tipovalor", query.value("tipovalor"));
+								setValueBuffer("modoacceso", query.value("modoacceso"));
+								setValueBuffer("estado", query.value("estado"));
+								setValueBuffer("numerocupon", query.value("numerocupon"));
+								setValueBuffer("codtarjeta", query.value("codtarjeta"));
+								setValueBuffer("codplan", query.value("codplan"));
+								setValueBuffer("codcupon", query.value("codcupon"));
+								setValueBuffer("codtiporetencion", query.value("codtiporetencion"));
+								setValueBuffer("numeroretencion", query.value("numeroretencion"));
+								setValueBuffer("codretencion", query.value("codretencion"));
+								setValueBuffer("tipoentidad", query.value("tipoentidad"));
+								setValueBuffer("codcliente", query.value("codcliente"));
+								setValueBuffer("codproveedor", query.value("codproveedor"));
+								setValueBuffer("numeroib", query.value("numeroib"));
+								setValueBuffer("codfactvalor", query.value("codvalor"));
+							}
+							if (!curValor.commitBuffer())
+								return false;
+							saldo = saldo + query.value("monto");
+						}
+						curMovimiento.setModeAccess(curMovimiento.Edit);
+						curMovimiento.refreshBuffer();
+						curMovimiento.setValueBuffer("saldo", saldo);
+						if (!curMovimiento.commitBuffer())
+							return false;
+					}
+				}
+				// si se está editando la factura
+				else if (formRecordfacturascli.iface.pub_modoAcceso() == 1) {
+					var query:FLSqlCursor = new FLSqlQuery;
+					query.setTablesList("factvalores");
+					query.setSelect("codvalor, tipovalor, monto, coddivisa, valor, pteaprobacion, codcuenta, codchequera, codcheque, origen, tipocheque, entidad, agencia, codigopostal, numerocheque, numerocuenta, numerocupon, codtarjeta, codplan, codtiporetencion, numeroretencion, tipoentidad, codcliente, codproveedor, numeroib, pagodiferido, fecha, fechavencimiento, cifnif, modoacceso, estado");
+					query.setFrom("factvalores");
+					query.setWhere("idfacturacli = " + curFactura.valueBuffer("idfactura"));
+					if (!query.exec())
+						break;
+					if (query.size() > 0) {
+						var curMovimiento:FLSqlCursor = new FLSqlCursor("ctas_movimientos");
+						curMovimiento.select("codcomprobante = '" + util.sqlSelect("ctas_datosgenerales","comprobante" + tipoDoc,"1 = 1") + "' AND numerocomprobante = '" + curFactura.valueBuffer("codigo") + "'");
+						if (!curMovimiento.first())
+							return false;
+						curMovimiento.setModeAccess(curMovimiento.Edit);
+						curMovimiento.refreshBuffer();
+						curMovimiento.setValueBuffer("tipocuenta", "Caja");
+						curMovimiento.setValueBuffer("codcaja", curFactura.valueBuffer("codcaja"));
+						curMovimiento.setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
+						curMovimiento.setValueBuffer("fecha", curFactura.valueBuffer("fecha"));
+						var saldo:Number = 0;
+						while (query.next()) {
+							var curValor:FLSqlCursor = new FLSqlCursor("ctas_valores");
+							curValor.select("codfactvalor = " + query.value("codvalor"));
+							if (curValor.first()) {
+								// el valor existía en ctas_valores, de modo que se lo edita
+								with (curValor) {
+									setModeAccess(curValor.Edit);
+									refreshBuffer();
+									setValueBuffer("monto", query.value("monto"));
+									setValueBuffer("pagodiferido", query.value("pagodiferido"));
+									setValueBuffer("fecha", query.value("fecha"));
+									setValueBuffer("fechavencimiento", query.value("fechavencimiento"));
+									setValueBuffer("entidad", query.value("entidad"));
+									setValueBuffer("agencia", query.value("agencia"));
+									setValueBuffer("codigopostal", query.value("codigopostal"));
+									setValueBuffer("numerocheque", query.value("numerocheque"));
+									setValueBuffer("numerocuenta", query.value("numerocuenta"));
+									setValueBuffer("cifnif", query.value("cifnif"));
+									setValueBuffer("origen", query.value("origen"));
+									setValueBuffer("tipocheque", query.value("tipocheque"));
+									setValueBuffer("tipocuentadestino", "Caja");
+									setValueBuffer("codcajadestino", curFactura.valueBuffer("codcaja"));
+									setValueBuffer("tipovalor", query.value("tipovalor"));
+									setValueBuffer("estado", query.value("estado"));
+									setValueBuffer("numerocupon", query.value("numerocupon"));
+									setValueBuffer("codtarjeta", query.value("codtarjeta"));
+									setValueBuffer("codplan", query.value("codplan"));
+									setValueBuffer("codcupon", query.value("codcupon"));
+									setValueBuffer("codtiporetencion", query.value("codtiporetencion"));
+									setValueBuffer("numeroretencion", query.value("numeroretencion"));
+									setValueBuffer("codretencion", query.value("codretencion"));
+									setValueBuffer("tipoentidad", query.value("tipoentidad"));
+									setValueBuffer("codcliente", query.value("codcliente"));
+									setValueBuffer("codproveedor", query.value("codproveedor"));
+									setValueBuffer("numeroib", query.value("numeroib"));
+								}
+							}
+							else {
+								// el valor no existía en ctas_valores: se supone que es un nuevo valor a insertar
+								with (curValor) {
+									setModeAccess(curValor.Insert);
+									refreshBuffer();
+									setValueBuffer("codmovimiento", curMovimiento.valueBuffer("codmovimiento"));
+									setValueBuffer("valor", query.value("valor"));
+									setValueBuffer("monto", query.value("monto"));
+									setValueBuffer("coddivisa", query.value("coddivisa"));
+									setValueBuffer("pagodiferido", query.value("pagodiferido"));
+									setValueBuffer("fecha", query.value("fecha"));
+									setValueBuffer("fechavencimiento", query.value("fechavencimiento"));
+									setValueBuffer("entidad", query.value("entidad"));
+									setValueBuffer("agencia", query.value("agencia"));
+									setValueBuffer("codigopostal", query.value("codigopostal"));
+									setValueBuffer("numerocheque", query.value("numerocheque"));
+									setValueBuffer("numerocuenta", query.value("numerocuenta"));
+									setValueBuffer("cifnif", query.value("cifnif"));
+									setValueBuffer("pteaprobacion", false);
+									setValueBuffer("origen", query.value("origen"));
+									setValueBuffer("tipocheque", query.value("tipocheque"));
+									setValueBuffer("tipocuentadestino", "Caja");
+									setValueBuffer("codcajadestino", curFactura.valueBuffer("codcaja"));
+									setValueBuffer("tipovalor", query.value("tipovalor"));
+									setValueBuffer("modoacceso", query.value("modoacceso"));
+									setValueBuffer("estado", query.value("estado"));
+									setValueBuffer("numerocupon", query.value("numerocupon"));
+									setValueBuffer("codtarjeta", query.value("codtarjeta"));
+									setValueBuffer("codplan", query.value("codplan"));
+									setValueBuffer("codcupon", query.value("codcupon"));
+									setValueBuffer("codtiporetencion", query.value("codtiporetencion"));
+									setValueBuffer("numeroretencion", query.value("numeroretencion"));
+									setValueBuffer("codretencion", query.value("codretencion"));
+									setValueBuffer("tipoentidad", query.value("tipoentidad"));
+									setValueBuffer("codcliente", query.value("codcliente"));
+									setValueBuffer("codproveedor", query.value("codproveedor"));
+									setValueBuffer("numeroib", query.value("numeroib"));
+									setValueBuffer("codfactvalor", query.value("codvalor"));
+								}
+							}
+							if (!curValor.commitBuffer())
+								return false;
+							saldo = saldo + query.value("monto");
+						}
+						curMovimiento.setValueBuffer("saldo", saldo);
+						if (!curMovimiento.commitBuffer())
+							return false;
+					}
+				}
+				break;
+			}
+			case curFactura.Del: {
+
+				break;
+			}
+		}
+	}
+	return true;
+}
+
+function silixCuentas_afterCommit_facturasprov(curFactura:FLSqlCursor):Boolean
+{
+	if (!this.iface.__afterCommit_facturasprov(curFactura))
+		return false;
+
+	var util:FLUtil = new FLUtil;
+	if (sys.isLoadedModule("flfactcuentas") && flfactppal.iface.pub_valorDefectoEmpresa("cuentascajaintegrada")) {
+		switch (curFactura.modeAccess()) {
+			case curFactura.Edit: {
+				// Si la factura está siendo rectificada, omitir los pasos siguientes
+				if (curFactura.valueBuffer("rectificada"))
+					break;
+				var tipoDoc:String;
+				if (curFactura.valueBuffer("decredito"))
+					tipoDoc = "notascredprov";
+				else if (curFactura.valueBuffer("dedebito"))
+					tipoDoc = "notasdebprov";
+				else
+					tipoDoc = "facturasprov";
+				// si se está creando la factura, crear los valores correspondientes
+				if (formRecordfacturasprov.iface.pub_modoAcceso() == 0) {
+					// Chequear si se cargaron valores como pago, y qué forma de pago.
+					// Si es al contado y no se cargaron pagos, se considera un pago del total en efectivo
+					var curValores:FLSqlCursor = new FLSqlCursor("factvalores");
+					curValores.select("idfacturaprov = " + curFactura.valueBuffer("idfactura"));
+					if (curValores.size() < 1 && curFactura.valueBuffer("codpago") == "CONTADO") {
+						curValores.setModeAccess(curValores.Insert);
+						curValores.refreshBuffer();
+						// Cargar caja a utilizar por defecto
+						var cajadefecto = util.sqlSelect("ctas_datosgenerales","cajafacturasprov","1 = 1");
+						if (cajadefecto) {
+							curValores.setValueBuffer("tipocuentaorigen", "Caja");
+							curValores.setValueBuffer("codcajaorigen", cajadefecto);
+						}
+						else {
+							MessageBox.warning(util.translate("scripts", "No se ha asociado una caja por defecto para realizar un pago al contado.\nEn el módulo Cuentas, \"Datos generales\" seleccione una cuenta caja para realizar estas operaciones automáticamente\n"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
+						curValores.setValueBuffer("tipodoc", tipoDoc);
+						curValores.setValueBuffer("tipovalor", "Efectivo");
+						curValores.setValueBuffer("modoacceso", 0);
+						curValores.setValueBuffer("estado", "Entregado a proveedor");
+						curValores.setValueBuffer("fecha", curFactura.valueBuffer("fecha"));
+						curValores.setValueBuffer("pteaprobacion", false);
+						curValores.setValueBuffer("monto", curFactura.valueBuffer("total"));
+						curValores.setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
+						curValores.setValueBuffer("idfacturaprov", curFactura.valueBuffer("idfactura"));
+						if (!curValores.commitBuffer())
+							return false;
+					}
+	
+					var query:FLSqlCursor = new FLSqlQuery;
+					query.setTablesList("factvalores");
+					query.setSelect("codvalor, tipovalor, monto, coddivisa, valor, pteaprobacion, codcuenta, codchequera, codcheque, origen, tipocheque, entidad, agencia, codigopostal, numerocheque, numerocuenta, numerocupon, codtarjeta, codplan, codtiporetencion, numeroretencion, tipoentidad, codcliente, codproveedor, numeroib, pagodiferido, fecha, fechavencimiento, cifnif, modoacceso, estado, tipocuentaorigen, codcajaorigen, tipocuentadestino, codcajadestino");
+					query.setFrom("factvalores");
+					query.setWhere("idfacturaprov = " + curFactura.valueBuffer("idfactura"));
+					if (!query.exec())
+						return;
+	
+					if (query.size() > 0) {
+						var curMovimiento:FLSqlCursor = new FLSqlCursor("ctas_movimientos");
+						curMovimiento.setModeAccess(curMovimiento.Insert);
+						curMovimiento.refreshBuffer();
+						curMovimiento.setValueBuffer("codcomprobante", util.sqlSelect("ctas_datosgenerales","comprobante" + tipoDoc,"1 = 1"));
+						curMovimiento.setValueBuffer("pteaprobacion", false);
+						curMovimiento.setValueBuffer("numerocomprobante", curFactura.valueBuffer("codigo"));
+	// 					curMovimiento.setValueBuffer("tipocuenta", "Caja");
+	// 					curMovimiento.setValueBuffer("codcaja", curFactura.valueBuffer("codcaja"));
+						curMovimiento.setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
+						curMovimiento.setValueBuffer("fecha", curFactura.valueBuffer("fecha"));
+						if (!curMovimiento.commitBuffer())
+							return false;
+						var saldo:Number = 0;
+						while (query.next()) {
+							var curValor:FLSqlCursor = new FLSqlCursor("ctas_valores");
+							with (curValor) {
+								setModeAccess(curValor.Insert);
+								refreshBuffer();
+								setValueBuffer("codmovimiento", curMovimiento.valueBuffer("codmovimiento"));
+								setValueBuffer("valor", query.value("valor"));
+								setValueBuffer("monto", query.value("monto"));
+								setValueBuffer("coddivisa", query.value("coddivisa"));
+								setValueBuffer("pagodiferido", query.value("pagodiferido"));
+								setValueBuffer("fecha", query.value("fecha"));
+								setValueBuffer("fechavencimiento", query.value("fechavencimiento"));
+								setValueBuffer("entidad", query.value("entidad"));
+								setValueBuffer("agencia", query.value("agencia"));
+								setValueBuffer("codigopostal", query.value("codigopostal"));
+								setValueBuffer("numerocheque", query.value("numerocheque"));
+								setValueBuffer("numerocuenta", query.value("numerocuenta"));
+								setValueBuffer("cifnif", query.value("cifnif"));
+								setValueBuffer("pteaprobacion", false);
+								setValueBuffer("origen", query.value("origen"));
+								setValueBuffer("tipocheque", query.value("tipocheque"));
+								setValueBuffer("tipocuentaorigen", query.value("tipocuentaorigen"));
+								setValueBuffer("codcajaorigen", query.value("codcajaorigen"));
+								setValueBuffer("tipocuentadestino", query.value("tipocuentadestino"));
+								setValueBuffer("codcajadestino", query.value("codcajadestino"));
+								setValueBuffer("tipovalor", query.value("tipovalor"));
+								setValueBuffer("modoacceso", query.value("modoacceso"));
+								setValueBuffer("estado", query.value("estado"));
+								setValueBuffer("numerocupon", query.value("numerocupon"));
+								setValueBuffer("codtarjeta", query.value("codtarjeta"));
+								setValueBuffer("codplan", query.value("codplan"));
+								setValueBuffer("codcupon", query.value("codcupon"));
+								setValueBuffer("codtiporetencion", query.value("codtiporetencion"));
+								setValueBuffer("numeroretencion", query.value("numeroretencion"));
+								setValueBuffer("codretencion", query.value("codretencion"));
+								setValueBuffer("tipoentidad", query.value("tipoentidad"));
+								setValueBuffer("codcliente", query.value("codcliente"));
+								setValueBuffer("codproveedor", query.value("codproveedor"));
+								setValueBuffer("numeroib", query.value("numeroib"));
+								setValueBuffer("codfactvalor", query.value("codvalor"));
+							}
+							if (!curValor.commitBuffer())
+								return false;
+							saldo = saldo + parseFloat(query.value("monto"));
+						}
+						curMovimiento.setModeAccess(curMovimiento.Edit);
+						curMovimiento.refreshBuffer();
+						curMovimiento.setValueBuffer("saldo", saldo);
+						if (!curMovimiento.commitBuffer())
+							return false;
+					}
+				}
+				// si se está editando la factura
+				else if (formRecordfacturasprov.iface.pub_modoAcceso() == 1) {
+					var query:FLSqlCursor = new FLSqlQuery;
+					query.setTablesList("factvalores");
+					query.setSelect("codvalor, tipovalor, monto, coddivisa, valor, pteaprobacion, codcuenta, codchequera, codcheque, origen, tipocheque, entidad, agencia, codigopostal, numerocheque, numerocuenta, numerocupon, codtarjeta, codplan, codtiporetencion, numeroretencion, tipoentidad, codcliente, codproveedor, numeroib, pagodiferido, fecha, fechavencimiento, cifnif, modoacceso, estado, tipocuentaorigen, codcajaorigen, tipocuentadestino, codcajadestino");
+					query.setFrom("factvalores");
+					query.setWhere("idfacturaprov = " + curFactura.valueBuffer("idfactura"));
+					if (!query.exec())
+						return;
+					if (query.size() > 0) {
+						var curMovimiento:FLSqlCursor = new FLSqlCursor("ctas_movimientos");
+						curMovimiento.select("codcomprobante = '" + util.sqlSelect("ctas_datosgenerales","comprobante" + tipoDoc,"1 = 1") + "' AND numerocomprobante = '" + curFactura.valueBuffer("codigo") + "'");
+						if (!curMovimiento.first())
+							return false;
+						curMovimiento.setModeAccess(curMovimiento.Edit);
+						curMovimiento.refreshBuffer();
+						curMovimiento.setValueBuffer("tipocuenta", "Caja");
+						curMovimiento.setValueBuffer("codcaja", curFactura.valueBuffer("codcaja"));
+						curMovimiento.setValueBuffer("coddivisa", curFactura.valueBuffer("coddivisa"));
+						curMovimiento.setValueBuffer("fecha", curFactura.valueBuffer("fecha"));
+						var saldo:Number = 0;
+						while (query.next()) {
+							var curValor:FLSqlCursor = new FLSqlCursor("ctas_valores");
+							curValor.select("codfactvalor = " + query.value("codvalor"));
+							if (curValor.first()) {
+								// el valor existía en ctas_valores, de modo que se lo edita
+								with (curValor) {
+									setModeAccess(curValor.Edit);
+									refreshBuffer();
+									setValueBuffer("monto", query.value("monto"));
+									setValueBuffer("pagodiferido", query.value("pagodiferido"));
+									setValueBuffer("fecha", query.value("fecha"));
+									setValueBuffer("fechavencimiento", query.value("fechavencimiento"));
+									setValueBuffer("entidad", query.value("entidad"));
+									setValueBuffer("agencia", query.value("agencia"));
+									setValueBuffer("codigopostal", query.value("codigopostal"));
+									setValueBuffer("numerocheque", query.value("numerocheque"));
+									setValueBuffer("numerocuenta", query.value("numerocuenta"));
+									setValueBuffer("cifnif", query.value("cifnif"));
+									setValueBuffer("origen", query.value("origen"));
+									setValueBuffer("tipocheque", query.value("tipocheque"));
+									setValueBuffer("tipocuentadestino", "Caja");
+									setValueBuffer("codcajadestino", curFactura.valueBuffer("codcaja"));
+									setValueBuffer("tipovalor", query.value("tipovalor"));
+									setValueBuffer("estado", query.value("estado"));
+									setValueBuffer("numerocupon", query.value("numerocupon"));
+									setValueBuffer("codtarjeta", query.value("codtarjeta"));
+									setValueBuffer("codplan", query.value("codplan"));
+									setValueBuffer("codcupon", query.value("codcupon"));
+									setValueBuffer("codtiporetencion", query.value("codtiporetencion"));
+									setValueBuffer("numeroretencion", query.value("numeroretencion"));
+									setValueBuffer("codretencion", query.value("codretencion"));
+									setValueBuffer("tipoentidad", query.value("tipoentidad"));
+									setValueBuffer("codcliente", query.value("codcliente"));
+									setValueBuffer("codproveedor", query.value("codproveedor"));
+									setValueBuffer("numeroib", query.value("numeroib"));
+								}
+							}
+							else {
+								// el valor no existía en ctas_valores: se supone que es un nuevo valor a insertar
+								with (curValor) {
+									setModeAccess(curValor.Insert);
+									refreshBuffer();
+									setValueBuffer("codmovimiento", curMovimiento.valueBuffer("codmovimiento"));
+									setValueBuffer("valor", query.value("valor"));
+									setValueBuffer("monto", query.value("monto"));
+									setValueBuffer("coddivisa", query.value("coddivisa"));
+									setValueBuffer("pagodiferido", query.value("pagodiferido"));
+									setValueBuffer("fecha", query.value("fecha"));
+									setValueBuffer("fechavencimiento", query.value("fechavencimiento"));
+									setValueBuffer("entidad", query.value("entidad"));
+									setValueBuffer("agencia", query.value("agencia"));
+									setValueBuffer("codigopostal", query.value("codigopostal"));
+									setValueBuffer("numerocheque", query.value("numerocheque"));
+									setValueBuffer("numerocuenta", query.value("numerocuenta"));
+									setValueBuffer("cifnif", query.value("cifnif"));
+									setValueBuffer("pteaprobacion", false);
+									setValueBuffer("origen", query.value("origen"));
+									setValueBuffer("tipocheque", query.value("tipocheque"));
+									setValueBuffer("tipocuentadestino", "Caja");
+									setValueBuffer("codcajadestino", curFactura.valueBuffer("codcaja"));
+									setValueBuffer("tipovalor", query.value("tipovalor"));
+									setValueBuffer("modoacceso", query.value("modoacceso"));
+									setValueBuffer("estado", query.value("estado"));
+									setValueBuffer("numerocupon", query.value("numerocupon"));
+									setValueBuffer("codtarjeta", query.value("codtarjeta"));
+									setValueBuffer("codplan", query.value("codplan"));
+									setValueBuffer("codcupon", query.value("codcupon"));
+									setValueBuffer("codtiporetencion", query.value("codtiporetencion"));
+									setValueBuffer("numeroretencion", query.value("numeroretencion"));
+									setValueBuffer("codretencion", query.value("codretencion"));
+									setValueBuffer("tipoentidad", query.value("tipoentidad"));
+									setValueBuffer("codcliente", query.value("codcliente"));
+									setValueBuffer("codproveedor", query.value("codproveedor"));
+									setValueBuffer("numeroib", query.value("numeroib"));
+									setValueBuffer("codfactvalor", query.value("codvalor"));
+								}
+							}
+							if (!curValor.commitBuffer())
+								return false;
+							saldo = saldo + query.value("monto");
+						}
+						curMovimiento.setValueBuffer("saldo", saldo);
+						if (!curMovimiento.commitBuffer())
+							return false;
+					}
+				}
+				break;
+			}
+			case curFactura.Del: {
+
+				break;
+			}
+		}
+	}
+
+	return true;
+}
+
+/** \C
+En caso de que se elimine un valor
+@param	curValor: cursor del valor
+@return	True si la actualización se realiza correctamente, false en caso contrario
+\end */
+function silixCuentas_afterCommit_factvalores(curValor:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil;
+	if (sys.isLoadedModule("flfactcuentas") && flfactppal.iface.pub_valorDefectoEmpresa("cuentascajaintegrada")) {
+		switch (curValor.modeAccess()) {
+			case curValor.Insert: {
+				/* si está originada en tpv, crear el pago en tpv_pagoscomanda */
+				if (!curValor.isNull("idtpv_comanda")) {
+					var curPago:FLSqlCursor = new FLSqlCursor("tpv_pagoscomanda");
+					var codTerminal:String = util.readSettingEntry("scripts/fltpv_ppal/codTerminal");
+					with (curPago) {
+						setModeAccess(Insert);
+						refreshBuffer();
+						setValueBuffer("idtpv_comanda", curValor.valueBuffer("idtpv_comanda"));
+						setValueBuffer("importe", curValor.valueBuffer("monto"));
+						setValueBuffer("fecha", curValor.valueBuffer("fecha"));
+						setValueBuffer("estado", util.translate("scripts", "Pagado"));
+						setValueBuffer("codvalor", curValor.valueBuffer("codvalor"));
+						if (codTerminal) {
+							setValueBuffer("codtpv_puntoventa", codTerminal);
+							setValueBuffer("codtpv_agente", util.sqlSelect("tpv_comandas","codtpv_agente","idtpv_comanda = " + curValor.valueBuffer("idtpv_comanda")));
+						}
+					}
+				
+					if (curValor.valueBuffer("tipovalor") == "Efectivo")
+						curPago.setValueBuffer("codpago", util.sqlSelect("tpv_datosgenerales","pagoefectivo","1 = 1"));
+					else if (curValor.valueBuffer("tipovalor") == "Cheque")
+						curPago.setValueBuffer("codpago", util.sqlSelect("tpv_datosgenerales","pagocheque","1 = 1"));
+					else if (curValor.valueBuffer("tipovalor") == "Tarjeta")
+						curPago.setValueBuffer("codpago", util.sqlSelect("tpv_datosgenerales","pagotarjeta","1 = 1"));
+
+					if (!curPago.commitBuffer())
+						return false;
+				}
+				break;
+			}
+			case curValor.Edit: {
+				/* si está originada en tpv, editar el pago en tpv_pagoscomanda */
+				if (!curValor.isNull("idtpv_comanda")) {
+					var curPago:FLSqlCursor = new FLSqlCursor("tpv_pagoscomanda");
+					var codTerminal:String = util.readSettingEntry("scripts/fltpv_ppal/codTerminal");
+					curPago.select("idtpv_comanda = " + curValor.valueBuffer("idtpv_comanda") + " AND codvalor = " + curValor.valueBuffer("codvalor"));
+					if (curPago.first()) {
+						with (curPago) {
+							setModeAccess(Edit);
+							refreshBuffer();
+							setValueBuffer("importe", curValor.valueBuffer("monto"));
+							setValueBuffer("fecha", curValor.valueBuffer("fecha"));
+							setValueBuffer("estado", util.translate("scripts", "Pagado"));
+							if (codTerminal) {
+								setValueBuffer("codtpv_puntoventa", codTerminal);
+								setValueBuffer("codtpv_agente", util.sqlSelect("tpv_comandas","codtpv_agente","idtpv_comanda = " + curValor.valueBuffer("idtpv_comanda")));
+							}
+						}
+					
+						if (curValor.valueBuffer("tipovalor") == "Efectivo")
+							curPago.setValueBuffer("codpago", util.sqlSelect("tpv_datosgenerales","pagoefectivo","1 = 1"));
+						else if (curValor.valueBuffer("tipovalor") == "Cheque")
+							curPago.setValueBuffer("codpago", util.sqlSelect("tpv_datosgenerales","pagocheque","1 = 1"));
+						else if (curValor.valueBuffer("tipovalor") == "Tarjeta")
+							curPago.setValueBuffer("codpago", util.sqlSelect("tpv_datosgenerales","pagotarjeta","1 = 1"));
+	
+						if (!curPago.commitBuffer())
+							return false;
+					}
+				}
+				break;
+			}
+			case curValor.Del: {
+				var curCtas:FLSqlCursor = new FLSqlCursor("ctas_valores");
+				curCtas.select("codfactvalor = " + curValor.valueBuffer("codvalor"));
+				if (curCtas.first()) {
+					curCtas.setModeAccess(curCtas.Del);
+					curCtas.refreshBuffer();
+					if (!curCtas.commitBuffer())
+						return false;
+				}
+				/* si está originada en tpv, eliminar el pago en tpv_pagoscomanda */
+				if (!curValor.isNull("idtpv_comanda")) {
+					var curPago:FLSqlCursor = new FLSqlCursor("tpv_pagoscomanda");
+					curPago.select("idtpv_comanda = " + curValor.valueBuffer("idtpv_comanda") + " AND codvalor = " + curValor.valueBuffer("codvalor"));
+					if (curPago.first()) {
+						curPago.setModeAccess(curPago.Del);
+						curPago.refreshBuffer();
+						if (!curPago.commitBuffer())
+							return false;
+					}
+				}
+				break;
+			}
+		}
+	}
+	return true;
+}
+
+//// SILIX CUENTAS //////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+
+/** @class_declaration desbloqueoStock */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+
+function desbloqueoStock_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_facturascli(curFactura) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curFactura.modeAccess() == curFactura.Insert || curFactura.modeAccess() == curFactura.Edit) {
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("lineasfacturascli,articulos");
+			qryLinea.setSelect("l.idlinea,l.referencia");
+			qryLinea.setFrom("lineasfacturascli l INNER JOIN articulos a ON l.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND l.idfactura = " + curFactura.valueBuffer("idfactura"));
+			if(!qryLinea.exec())
+				return false;
+
+			while (qryLinea.next()) {
+				var variacion:Number = util.sqlSelect("movistock", "cantidad", "tipodoc = 'FC' AND idlinea = " + qryLinea.value("l.idlinea") + " AND referencia = '" + qryLinea.value("l.referencia") + "' AND codalmacen = '" + curFactura.valueBuffer("codalmacen") + "'");
+				if (!variacion) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0001: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), qryLinea.value("l.referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0002: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+			}
+		}
+		/* Al borrar no se recorre movistock sino las lineasfacturascli */
+		else if (curFactura.modeAccess() == curFactura.Del) {
+			var curLinea:FLSqlCursor = new FLSqlCursor("lineasfacturascli");
+			curLinea.select("idfactura = " + curFactura.valueBuffer("idfactura"));
+			while (curLinea.next()) {
+				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
+				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0003: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_albaranescli(curAlbaran) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curAlbaran.modeAccess() == curAlbaran.Insert || curAlbaran.modeAccess() == curAlbaran.Edit) {
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("lineasalbaranescli,articulos");
+			qryLinea.setSelect("l.idlinea,l.referencia");
+			qryLinea.setFrom("lineasalbaranescli l INNER JOIN articulos a ON l.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND l.idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			if(!qryLinea.exec())
+				return false;
+
+			while (qryLinea.next()) {
+				var variacion:Number = util.sqlSelect("movistock", "cantidad", "tipodoc = 'RC' AND idlinea = " + qryLinea.value("l.idlinea") + " AND referencia = '" + qryLinea.value("l.referencia") + "' AND codalmacen = '" + curAlbaran.valueBuffer("codalmacen") + "'");
+				if (!variacion) {
+					return false;
+				}
+				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("l.referencia"), variacion, "cantidad")) {
+					return false;
+				}
+			}
+		}
+		/* Al borrar no se recorre movistock sino las lineasalbaranescli */
+		else if (curAlbaran.modeAccess() == curAlbaran.Del) {
+			var curLinea:FLSqlCursor = new FLSqlCursor("lineasalbaranescli");
+			curLinea.select("idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			while (curLinea.next()) {
+				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
+				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_beforeCommit_pedidoscli(curPedido:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_pedidoscli(curPedido) )
+		return false;
+
+	var stockPedidos:Boolean = flfactppal.iface.pub_valorDefectoEmpresa("stockpedidos");
+	if (!stockPedidos)
+		return true;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curPedido.modeAccess() == curPedido.Insert || curPedido.modeAccess() == curPedido.Edit) {
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("lineaspedidoscli,articulos");
+			qryLinea.setSelect("l.idlinea,l.referencia");
+			qryLinea.setFrom("lineaspedidoscli l INNER JOIN articulos a ON l.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND l.idpedido = " + curPedido.valueBuffer("idpedido"));
+			if(!qryLinea.exec())
+				return false;
+
+			while (qryLinea.next()) {
+				var variacion:Number = util.sqlSelect("movistock", "cantidad", "tipodoc = 'PC' AND idlinea = " + qryLinea.value("l.idlinea") + " AND referencia = '" + qryLinea.value("l.referencia") + "' AND codalmacen = '" + curPedido.valueBuffer("codalmacen") + "'");
+				if (!variacion) {
+					return false;
+				}
+				if (!flfactalma.iface.pub_cambiarStock(curPedido.valueBuffer("codalmacen"), qryLinea.value("l.referencia"), variacion, "cantidad")) {
+					return false;
+				}
+			}
+		}
+		/* Al borrar no se recorre movistock sino las lineaspedidoscli */
+		else if (curPedido.modeAccess() == curPedido.Del) {
+			var curLinea:FLSqlCursor = new FLSqlCursor("lineaspedidoscli");
+			curLinea.select("idpedido = " + curPedido.valueBuffer("idpedido"));
+			while (curLinea.next()) {
+				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
+				if (!flfactalma.iface.pub_cambiarStock(curPedido.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_beforeCommit_facturasprov(curFactura:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_facturasprov(curFactura) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curFactura.modeAccess() == curFactura.Insert || curFactura.modeAccess() == curFactura.Edit) {
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("lineasfacturasprov,articulos");
+			qryLinea.setSelect("l.idlinea,l.referencia");
+			qryLinea.setFrom("lineasfacturasprov l INNER JOIN articulos a ON l.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND l.idfactura = " + curFactura.valueBuffer("idfactura"));
+			if(!qryLinea.exec())
+				return false;
+
+			while (qryLinea.next()) {
+				var variacion:Number = util.sqlSelect("movistock", "cantidad", "tipodoc = 'FP' AND idlinea = " + qryLinea.value("l.idlinea") + " AND referencia = '" + qryLinea.value("l.referencia") + "' AND codalmacen = '" + curFactura.valueBuffer("codalmacen") + "'");
+				if (!variacion) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0004: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), qryLinea.value("l.referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0005: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+			}
+		}
+		/* Al borrar no se recorre movistock sino las lineasfacturasprov */
+		else if (curFactura.modeAccess() == curFactura.Del) {
+			var curLinea:FLSqlCursor = new FLSqlCursor("lineasfacturasprov");
+			curLinea.select("idfactura = " + curFactura.valueBuffer("idfactura"));
+			while (curLinea.next()) {
+				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
+				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0006: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_albaranesprov(curAlbaran) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curAlbaran.modeAccess() == curAlbaran.Insert || curAlbaran.modeAccess() == curAlbaran.Edit) {
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("lineasalbaranesprov,articulos");
+			qryLinea.setSelect("l.idlinea,l.referencia");
+			qryLinea.setFrom("lineasalbaranesprov l INNER JOIN articulos a ON l.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND l.idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			if(!qryLinea.exec())
+				return false;
+
+			while (qryLinea.next()) {
+				var variacion:Number = util.sqlSelect("movistock", "cantidad", "tipodoc = 'RP' AND idlinea = " + qryLinea.value("l.idlinea") + " AND referencia = '" + qryLinea.value("l.referencia") + "' AND codalmacen = '" + curAlbaran.valueBuffer("codalmacen") + "'");
+				if (!variacion) {
+					return false;
+				}
+				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("l.referencia"), variacion, "cantidad")) {
+					return false;
+				}
+			}
+		}
+		/* Al borrar no se recorre movistock sino las lineasalbaranesprov */
+		else if (curAlbaran.modeAccess() == curAlbaran.Del) {
+			var curLinea:FLSqlCursor = new FLSqlCursor("lineasalbaranesprov");
+			curLinea.select("idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			while (curLinea.next()) {
+				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
+				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration desbloqueoStockLotes */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO AL MODIFICAR STOCK LOTES ////////////////////////
+
+function desbloqueoStockLotes_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_facturascli(curFactura) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curFactura.modeAccess() == curFactura.Insert || curFactura.modeAccess() == curFactura.Edit) {
+			/*** Obtener las líneas cuyos artículos se manejan por lotes ***/
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("lineasfacturascli,articulos");
+			qryLinea.setSelect("l.idlinea,l.referencia");
+			qryLinea.setFrom("lineasfacturascli l INNER JOIN articulos a ON l.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = TRUE AND l.idfactura = " + curFactura.valueBuffer("idfactura"));
+			if(!qryLinea.exec())
+				return false;
+				
+			while (qryLinea.next()) {
+				var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
+				curMoviLote.select("docorigen = 'FC' AND idlineafc = " + qryLinea.value("l.idlinea"));
+				if (!curMoviLote.first())
+					return false;
+
+				/* Chequear que no hayan tomado del stock mientras se estaba cargando este documento */
+				var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLote.valueBuffer("idstock") + " AND codlote = '" + curMoviLote.valueBuffer("codlote") + "' AND (idlineafc IS NULL OR idlineafc <> " + curMoviLote.valueBuffer("idlineafc") + ") AND NOT automatico AND NOT reserva");
+				if ((curMoviLote.valueBuffer("cantidad") * -1) > cantidadLote) {
+					MessageBox.warning(util.translate("scripts", "No hay suficiente cantidad de artículos con referencia %1 del lote %2\nen el almacén %3 \n\nAtención: es posible que, al mismo tiempo que se generaba este documento,\n          otro usuario haya realizado una operación que afectó el stock de este lote").arg(qryLinea.value("l.referencia")).arg(curMoviLote.valueBuffer("codlote")).arg(curFactura.valueBuffer("codalmacen")), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+
+				if (!flfactalma.iface.pub_cambiarStockLote(curMoviLote)) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0007: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStockLotes_beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_albaranescli(curAlbaran) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curAlbaran.modeAccess() == curAlbaran.Insert || curAlbaran.modeAccess() == curAlbaran.Edit) {
+			/*** Obtener las líneas cuyos artículos se manejan por lotes ***/
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("lineasalbaranescli,articulos");
+			qryLinea.setSelect("l.idlinea,l.referencia");
+			qryLinea.setFrom("lineasalbaranescli l INNER JOIN articulos a ON l.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = TRUE AND l.idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			if(!qryLinea.exec())
+				return false;
+				
+			while (qryLinea.next()) {
+				var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
+				curMoviLote.select("docorigen = 'RC' AND idlineaac = " + qryLinea.value("l.idlinea"));
+				if (!curMoviLote.first())
+					return false;
+
+				/* Chequear que no hayan tomado del stock mientras se estaba cargando este documento */
+				var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLote.valueBuffer("idstock") + " AND codlote = '" + curMoviLote.valueBuffer("codlote") + "' AND (idlineaac IS NULL OR idlineaac <> " + curMoviLote.valueBuffer("idlineaac") + ") AND NOT automatico AND NOT reserva");
+				if ((curMoviLote.valueBuffer("cantidad") * -1) > cantidadLote) {
+					MessageBox.warning(util.translate("scripts", "No hay suficiente cantidad de artículos con referencia %1 del lote %2\nen el almacén %3 \n\nAtención: es posible que, al mismo tiempo que se generaba este documento,\n          otro usuario haya realizado una operación que afectó el stock de este lote").arg(qryLinea.value("l.referencia")).arg(curMoviLote.valueBuffer("codlote")).arg(curAlbaran.valueBuffer("codalmacen")), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+
+				if (!flfactalma.iface.pub_cambiarStockLote(curMoviLote)) {
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStockLotes_beforeCommit_pedidoscli(curPedido:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_pedidoscli(curPedido) )
+		return false;
+
+	var stockPedidos:Boolean = flfactppal.iface.pub_valorDefectoEmpresa("stockpedidos");
+	if (!stockPedidos)
+		return true;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curPedido.modeAccess() == curPedido.Insert || curPedido.modeAccess() == curPedido.Edit) {
+			/*** Obtener las líneas cuyos artículos se manejan por lotes ***/
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("lineaspedidoscli,articulos");
+			qryLinea.setSelect("l.idlinea,l.referencia");
+			qryLinea.setFrom("lineaspedidoscli l INNER JOIN articulos a ON l.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = TRUE AND l.idpedido = " + curPedido.valueBuffer("idpedido"));
+			if(!qryLinea.exec())
+				return false;
+				
+			while (qryLinea.next()) {
+				var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
+				curMoviLote.select("docorigen = 'PC' AND idlineapc = " + qryLinea.value("l.idlinea"));
+				if (!curMoviLote.first())
+					return false;
+
+				/* Chequear que no hayan tomado del stock mientras se estaba cargando este documento */
+				var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLote.valueBuffer("idstock") + " AND codlote = '" + curMoviLote.valueBuffer("codlote") + "' AND (idlineapc IS NULL OR idlineapc <> " + curMoviLote.valueBuffer("idlineapc") + ") AND NOT automatico AND NOT reserva");
+				if ((curMoviLote.valueBuffer("cantidad") * -1) > cantidadLote) {
+					MessageBox.warning(util.translate("scripts", "No hay suficiente cantidad de artículos con referencia %1 del lote %2\nen el almacén %3 \n\nAtención: es posible que, al mismo tiempo que se generaba este documento,\n          otro usuario haya realizado una operación que afectó el stock de este lote").arg(qryLinea.value("l.referencia")).arg(curMoviLote.valueBuffer("codlote")).arg(curPedido.valueBuffer("codalmacen")), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+
+				if (!flfactalma.iface.pub_cambiarStockLote(curMoviLote)) {
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStockLotes_beforeCommit_facturasprov(curFactura:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_facturasprov(curFactura) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curFactura.modeAccess() == curFactura.Insert || curFactura.modeAccess() == curFactura.Edit) {
+			/*** Obtener las líneas cuyos artículos se manejan por lotes ***/
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("lineasfacturasprov,articulos");
+			qryLinea.setSelect("l.idlinea,l.referencia");
+			qryLinea.setFrom("lineasfacturasprov l INNER JOIN articulos a ON l.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = TRUE AND l.idfactura = " + curFactura.valueBuffer("idfactura"));
+			if(!qryLinea.exec())
+				return false;
+				
+			while (qryLinea.next()) {
+				var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
+				curMoviLote.select("docorigen = 'FP' AND idlineafp = " + qryLinea.value("l.idlinea"));
+				if (!curMoviLote.first())
+					return false;
+
+				if (!flfactalma.iface.pub_cambiarStockLote(curMoviLote)) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0008: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStockLotes_beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_albaranesprov(curAlbaran) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curAlbaran.modeAccess() == curAlbaran.Insert || curAlbaran.modeAccess() == curAlbaran.Edit) {
+			/*** Obtener las líneas cuyos artículos se manejan por lotes ***/
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("lineasalbaranesprov,articulos");
+			qryLinea.setSelect("l.idlinea,l.referencia");
+			qryLinea.setFrom("lineasalbaranesprov l INNER JOIN articulos a ON l.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = TRUE AND l.idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			if(!qryLinea.exec())
+				return false;
+				
+			while (qryLinea.next()) {
+				var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
+				curMoviLote.select("docorigen = 'RP' AND idlineaap = " + qryLinea.value("l.idlinea"));
+				if (!curMoviLote.first())
+					return false;
+
+				if (!flfactalma.iface.pub_cambiarStockLote(curMoviLote)) {
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+//// DESBLOQUEO AL MODIFICAR STOCK LOTES /////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

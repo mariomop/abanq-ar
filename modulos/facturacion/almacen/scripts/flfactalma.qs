@@ -288,11 +288,73 @@ class multiFamilia extends controlUsuario {
 //// MULTI FAMILIA //////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration desbloqueoStock */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+/* El objetivo de esta extensión es permitir que dos o más usuarios puedan trabajar simultánemente, sin bloquearse, sobre el stock de un artículo */
+class desbloqueoStock extends multiFamilia {
+    function desbloqueoStock( context ) { multiFamilia ( context ); }
+	function controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String, campo:String, signo:Number, codAlmacen:String ):Boolean {
+		return this.ctx.desbloqueoStock_controlMoviStock( curLinea, tipoDoc, campo, signo, codAlmacen );
+	}
+	function cambiarMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idLinea:Number, variacion:Number, campo:String):Boolean {
+		return this.ctx.desbloqueoStock_cambiarMoviStock(codAlmacen, referencia, tipoDoc, idLinea, variacion, campo);
+	}
+	function crearMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idLinea:Number):Number {
+		return this.ctx.desbloqueoStock_crearMoviStock(codAlmacen, referencia, tipoDoc, idLinea);
+	}
+	function comprobarStock(codAlmacen:String, referencia:String, cantidad:Number, disponible:Number):Boolean {
+		return this.ctx.desbloqueoStock_comprobarStock(codAlmacen, referencia, cantidad, disponible);
+	}
+	function controlStockFacturasCli(curLF:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_controlStockFacturasCli(curLF);
+	}
+	function controlStockAlbaranesCli(curLA:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_controlStockAlbaranesCli(curLA);
+	}
+	function controlStockPedidosCli(curLP:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_controlStockPedidosCli(curLP);
+	}
+	function controlStockFacturasProv(curLF:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_controlStockFacturasProv(curLF);
+	}
+	function controlStockAlbaranesProv(curLA:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_controlStockAlbaranesProv(curLA);
+	}
+}
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration desbloqueoStockLotes */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO AL MODIFICAR STOCK LOTES ////////////////////////
+/* El objetivo de esta extensión es permitir que dos o más usuarios puedan trabajar simultánemente, sin bloquearse, sobre el stock de un artículo controlado por lotes */
+class desbloqueoStockLotes extends desbloqueoStock {
+    function desbloqueoStockLotes( context ) { desbloqueoStock ( context ); }
+	function afterCommit_movilote(curMoviLote:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockLotes_afterCommit_movilote(curMoviLote);
+	}
+	function cambiarStockLote(curMoviLote:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockLotes_cambiarStockLote(curMoviLote);
+	}
+	function beforeCommit_transstock(curTS:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockLotes_beforeCommit_transstock(curTS);
+	}
+	function controlStockTrazabilidadInterna(curLTI:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockLotes_controlStockTrazabilidadInterna(curLTI);
+	}
+	function beforeCommit_trazabilidadinterna(curTI:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockLotes_beforeCommit_trazabilidadinterna(curTI);
+	}
+}
+//// DESBLOQUEO AL MODIFICAR STOCK LOTES ////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends multiFamilia {
-    function head( context ) { multiFamilia ( context ); }
+class head extends desbloqueoStockLotes {
+    function head( context ) { desbloqueoStockLotes ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -347,6 +409,9 @@ class ifaceCtx extends head {
 //// INTERFACE  /////////////////////////////////////////////////
 class pubLotes extends ifaceCtx {
 	function pubLotes( context ) { ifaceCtx( context ); }
+	function pub_cambiarStockLote(curMoviLote:FLSqlCursor):Boolean {
+		return this.cambiarStockLote(curMoviLote);
+	}
 }
 //// INTERFACE  /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1984,6 +2049,535 @@ function multiFamilia_afterCommit_familias(cursor:FLSqlCursor):Boolean
 }
 
 //// MULTI FAMILIA //////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration desbloqueoStock */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+
+/* El objetivo de esta extensión es permitir que dos o más usuarios puedan trabajar simultánemente, sin bloquearse, sobre el stock de un artículo */
+
+/** \D Incrementa o decrementa el stock que figura en la tabla movistock, en función de la variación experimentada por una línea de un documento de facturación específico
+@param	curLinea: Cursor posicionado en la línea de documento de facturación
+@param	campo: Campo a modificar
+@param	signo: Indica si la cantidad debe sumarse o restarse del stock
+@param	codAlmacen: Código del almacén asociado al stock a modificar
+@return	True si el control se realiza correctamente, false en caso contrario
+*/
+function desbloqueoStock_controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String, campo:String, signo:Number, codAlmacen:String ):Boolean 
+{
+	var variacion:Number;
+	var cantidad:Number = parseFloat( curLinea.valueBuffer( "cantidad" ) );
+	var cantidadPrevia:Number = parseFloat( curLinea.valueBufferCopy( "cantidad" ) );
+
+// 	if ( curLinea.table() == "lineaspedidoscli" || curLinea.table() == "lineaspedidosprov" ) {
+// 		cantidad -= parseFloat( curLinea.valueBuffer( "totalenalbaran" ) );
+// 		cantidadPrevia -= parseFloat( curLinea.valueBufferCopy( "totalenalbaran" ) );
+// 	}
+
+	switch(curLinea.modeAccess()) {
+		case curLinea.Insert: {
+			variacion = signo * cantidad;
+			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( "idlinea" ), variacion, campo ) )
+				return false;
+			break;
+		}
+		case curLinea.Del: {
+			variacion = signo * -1 * cantidad;
+			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( "idlinea" ), variacion, campo ) )
+				return false;
+			break;
+		}
+		case curLinea.Edit: {
+			if (curLinea.valueBuffer( "referencia" ) != curLinea.valueBufferCopy( "referencia" )) {
+				variacion = signo * -1 * cantidadPrevia;
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBufferCopy( "referencia" ), tipoDoc, curLinea.valueBuffer( "idlinea" ), variacion, campo ) )
+					return false;
+				variacion = signo * cantidad;
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( "idlinea" ), variacion, campo, true ) )
+					return false;
+			}
+			else {
+				if(cantidad != cantidadPrevia);
+				variacion = (cantidad - cantidadPrevia) * signo;
+				if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( "idlinea" ), variacion, campo) )
+					return false;
+			}
+			break;
+		}
+	}
+
+	return true;
+}
+
+/** \D Cambia el valor del stock en la tabla movistock. Se comprueba si el valor de la variación es negativo y mayor al stock actual, en cuyo caso se avisa al usuario de la falta de existencias
+@param codAlmacen Código del almacén
+@param referencia Referencia del artículo
+@param tipoDoc Tipo del documento (factura, remito, etc)
+@param idLinea id de la línea del documento
+@param variación Variación en el número de existencias del artículo
+@param	campo: Nombre del campo a modificar. Si el campo es vacío o es --cantidad-- se llama a la función padre
+@return True si la modificación tuvo éxito, false en caso contrario
+\end */
+function desbloqueoStock_cambiarMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idLinea:Number, variacion:Number, campo:String, noAvisar:Boolean ):Boolean
+{
+	var util:FLUtil = new FLUtil();
+	if (referencia == "" || !referencia) {
+		return true;
+	}
+
+	if (codAlmacen == "" || !codAlmacen) {
+		return true;
+	}
+
+	if ( !campo || campo == "") {
+		return false;
+	}
+
+	///////////	stock
+	var idStock:String;
+	idStock = util.sqlSelect("stocks", "idstock", "referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "'");
+	if ( !idStock ) {
+		idStock = this.iface.crearStock( codAlmacen, referencia );
+		if ( !idStock ) {
+			return false;
+		}
+	}
+	var curStock:FLSqlCursor = new FLSqlCursor( "stocks" );
+	curStock.select( "idstock = " + idStock );
+	if ( !curStock.first() ) {
+		return false;
+	}
+	
+	var cantidadPrevia:Number = parseFloat( curStock.valueBuffer( campo ) );
+	var nuevaCantidad:Number = cantidadPrevia + parseFloat( variacion );
+	var disponible:Number;
+	if (campo == "cantidad" || campo == "reservada") {
+		var disponible:Number = formRecordregstocks.iface.pub_commonCalculateField("disponible", curStock);
+	}
+
+	if (!this.iface.comprobarStock(codAlmacen, referencia, nuevaCantidad, disponible)) {
+		return false;
+	}
+
+	/////////	movistock
+	var idMoviStock = util.sqlSelect("movistock", "idmovistock", "referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "' AND tipodoc = '" + tipoDoc + "' AND idlinea = " + idLinea);
+	if ( !idMoviStock ) {
+		idMoviStock = this.iface.crearMoviStock( codAlmacen, referencia, tipoDoc, idLinea );
+		if ( !idMoviStock ) {
+			return false;
+		}
+	}
+	var curMoviStock:FLSqlCursor = new FLSqlCursor( "movistock" );
+	curMoviStock.select( "idmovistock = " + idMoviStock );
+	if ( !curMoviStock.first() ) {
+		return false;
+	}
+	
+	curMoviStock.setModeAccess( curMoviStock.Edit );
+	curMoviStock.refreshBuffer();
+	curMoviStock.setValueBuffer( "cantidad", parseFloat( variacion ) );
+
+	if ( !curMoviStock.commitBuffer() ) {
+		return false;
+	}
+
+	return true;
+}
+
+/** \D Crea un registro de stock para el almacén, artículo e idlínea especificados en la tabla movistock
+@param	codAlmacen: Almacén
+@param	referencia: Referencia del artículo
+@param tipoDoc: Tipo del documento (factura, remito, etc)
+@param idLinea: id de la línea del documento
+@param	referencia: Referencia del artículo
+@return	identificador del stock o false si hay error
+\end */
+function desbloqueoStock_crearMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idLinea:Number):Number
+{
+	var util:FLUtil = new FLUtil;
+	var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+	with(curMoviStock) {
+		setModeAccess(Insert);
+		refreshBuffer();
+		setValueBuffer("codalmacen", codAlmacen);
+		setValueBuffer("referencia", referencia);
+		setValueBuffer("tipodoc", tipoDoc);
+		setValueBuffer("idlinea", idLinea);
+		setValueBuffer("cantidad", 0);
+		if (!commitBuffer())
+			return false;
+	}
+	return curMoviStock.valueBuffer("idmovistock");
+}
+
+/** \D Comprueba, en el caso de que el artículo no permita ventas sin stock, si el stock que se va a guardar incumple dicha condición
+@param	codAlmacen: Almacén
+@param	referencia: Referencia del artículo
+@param	cantidad: cantidad en stock
+@param	disponible: cantidad disponible
+@return	True si la comprobación es correcta, false en caso contrario
+\end */
+function desbloqueoStock_comprobarStock(codAlmacen:String, referencia:String, cantidad:Number, disponible:Number):Boolean
+{
+	var util:FLUtil = new FLUtil();
+	if (util.sqlSelect("articulos", "controlstock", "referencia = '" + referencia + "'")) {
+		return true;
+	}
+
+	var stockPedidos:Boolean = flfactppal.iface.pub_valorDefectoEmpresa("stockpedidos");
+
+	var cantidadControl:Number;
+	if (stockPedidos) {
+		cantidadControl = disponible;
+	} else {
+		cantidadControl = cantidad;
+	}
+	if (cantidadControl < 0) {
+		var nombreCantidad:String;
+		if (stockPedidos) {
+			nombreCantidad = util.translate("scripts", "cantidad disponible");
+		} else {
+			nombreCantidad = util.translate("scripts", "cantidad en stock");
+		}
+		if (!util.sqlSelect("articulos", "controlstock", "referencia = '" + referencia + "'")) {
+			MessageBox.warning( util.translate("scripts", "El artículo %1 no permite ventas sin stock. Este movimiento dejaría el stock de %2 con %3 %4.\n").arg(referencia).arg(codAlmacen).arg(nombreCantidad).arg(cantidadControl), MessageBox.Ok, MessageBox.NoButton);
+			return false;
+		}
+	}
+	return true;
+}
+
+/** \C
+Esta función se sobrepone a la oficial con el objetivo de que no se bloquee el artículo cuyo stock en determinado almacén está siendo modificado.
+No se invoca la función controlStock(), que es la que produce el bloqueo del artículo-almacén en la tabla "stock", sino que se utiliza una tabla auxiliar, "movistock"
+\end */
+function desbloqueoStock_controlStockFacturasCli(curLF:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil();
+
+	if (util.sqlSelect("articulos", "nostock", "referencia = '" + curLF.valueBuffer("referencia") + "'"))
+		return true;
+
+	if(util.sqlSelect("facturascli", "automatica", "idfactura = " + curLF.valueBuffer("idfactura")))
+		return true;
+
+	var codAlmacen = util.sqlSelect("facturascli", "codalmacen", "idfactura = " + curLF.valueBuffer("idfactura"));
+	if (!codAlmacen || codAlmacen == "")
+		return true;
+		
+	if (!this.iface.controlMoviStock(curLF, "FC", "cantidad", -1, codAlmacen))
+		return false;
+
+	return true;
+}
+
+/** \C
+Esta función se sobrepone a la oficial con el objetivo de que no se bloquee el artículo cuyo stock en determinado almacén está siendo modificado.
+No se invoca la función controlStock(), que es la que produce el bloqueo del artículo-almacén en la tabla "stock", sino que se utiliza una tabla auxiliar, "movistock"
+Actualiza el stock correspondiente al artículo seleccionado en la línea en caso de que no venga de un pedido, o que la opción general de control de stocks en pedidos esté inhabilitada
+\end */
+function desbloqueoStock_controlStockAlbaranesCli(curLA:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil();
+
+	if (util.sqlSelect("articulos", "nostock", "referencia = '" + curLA.valueBuffer("referencia") + "'"))
+		return true;
+
+	if ((curLA.valueBuffer("idlineapedido") != 0) && flfactppal.iface.pub_valorDefectoEmpresa("stockpedidos"))
+		return true;
+
+	var codAlmacen:String = util.sqlSelect("albaranescli", "codalmacen", "idalbaran = " + curLA.valueBuffer("idalbaran"));
+	if (!codAlmacen || codAlmacen == "")
+		return true;
+
+	if (!this.iface.controlMoviStock(curLA, "RC", "cantidad", -1, codAlmacen))
+		return false;
+
+	return true;
+}
+
+/** \C
+Esta función se sobrepone a la oficial con el objetivo de que no se bloquee el artículo cuyo stock en determinado almacén está siendo modificado.
+\end */
+function desbloqueoStock_controlStockPedidosCli(curLP:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil;
+	
+	if (util.sqlSelect("articulos", "nostock", "referencia = '" + curLP.valueBuffer("referencia") + "'"))
+		return true;
+
+	var codAlmacen:String = util.sqlSelect("pedidoscli", "codalmacen", "idpedido = " + curLP.valueBuffer("idpedido"));
+	if (!codAlmacen || codAlmacen == "")
+		return true;
+	
+	var stockPedidos:Boolean = flfactppal.iface.pub_valorDefectoEmpresa("stockpedidos");
+
+	if(stockPedidos) {
+		if (!this.iface.controlMoviStock(curLP, "PC", "cantidad", -1, codAlmacen))
+			return false;
+	}
+	else {
+		if (!this.iface.controlStockReservado(curLP, codAlmacen)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/** \C
+Esta función se sobrepone a la oficial con el objetivo de que no se bloquee el artículo cuyo stock en determinado almacén está siendo modificado.
+\end */
+function desbloqueoStock_controlStockFacturasProv(curLF:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil;
+
+	if (util.sqlSelect("articulos", "nostock", "referencia = '" + curLF.valueBuffer("referencia") + "'"))
+		return true;
+
+	if(util.sqlSelect("facturasprov", "automatica", "idfactura = " + curLF.valueBuffer("idfactura")))
+		return true;
+
+	var codAlmacen:String = util.sqlSelect("facturasprov", "codalmacen", "idfactura = " + curLF.valueBuffer("idfactura"));
+	if (!codAlmacen || codAlmacen == "")
+		return true;
+
+	if (!this.iface.controlMoviStock(curLF, "FP", "cantidad", 1, codAlmacen))
+			return false;
+
+	return true;
+}
+
+/** \C
+Esta función se sobrepone a la oficial -e incorpora la de pedidosauto- con el objetivo de que no se bloquee el artículo cuyo stock en determinado almacén está siendo modificado.
+\end */
+function desbloqueoStock_controlStockAlbaranesProv(curLA:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil();
+
+	/***  Parte correspondiente a oficial_controlStockAlbaranesProv()  ***/
+	/* "for" de un solo ciclo, inventado para emular con un "break" el "return true" de la función original */
+	for (var i = 0; i < 1; i++) {
+		if (util.sqlSelect("articulos", "nostock", "referencia = '" + curLA.valueBuffer("referencia") + "'"))
+			break;
+
+		var codAlmacen:String = util.sqlSelect("albaranesprov", "codalmacen", "idalbaran = " + curLA.valueBuffer("idalbaran"));
+		if (!codAlmacen || codAlmacen == "")
+			break;
+		
+		if (!this.iface.controlMoviStock(curLA, "RP", "cantidad", 1, codAlmacen))
+			return false;
+	}
+	
+	/***  Parte correspondiente a pedidosauto_controlStockAlbaranesProv()  ***/
+	var pedAuto:Boolean = false;
+	if (util.sqlSelect("lineaspedidosprov", "idpedidoaut", "idlinea = " + curLA.valueBuffer("idlineapedido")))
+		pedAuto = true;
+
+	if (pedAuto) {
+		var cantidad:Number = -1 * parseFloat(curLA.valueBuffer("cantidad"));
+		if (!flfacturac.iface.pub_cambiarStockOrd(curLA.valueBuffer("referencia"), cantidad))
+			return false;
+	}
+
+	return true;
+}
+
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration desbloqueoStockLotes */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO AL MODIFICAR STOCK LOTES ////////////////////////
+
+/* El objetivo de esta extensión es permitir que dos o más usuarios puedan trabajar simultánemente, sin bloquearse, sobre el stock de un artículo controlado por lotes */
+
+/** \C Remplaza/anula a la original, "lotes_afterCommit_movilote()". Esa función genera resultados erróneos en el cálculo de la cantidad cuando hay dos usuarios operando al mismo tiempo sobre el mismo lote. Las actualizaciones del campo --enalmacen-- del lote correspondiente y del campo --cantidad-- del stock asociado se realiza al aceptarse el documento en cuestión (factura, remito, etc), no al commitearse el movilote.
+\end */
+function desbloqueoStockLotes_afterCommit_movilote(curMoviLote:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil;
+	switch (curMoviLote.modeAccess()) {
+		case curMoviLote.Del: {
+			if (!this.iface.cambiarStockLote(curMoviLote)) {
+				MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTALMA-0001: ") + curMoviLote.valueBuffer("id"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+/** \C El campo --enalmacen-- del lote correspondiente se actualizará. De la misma forma, el campo --cantidad-- del stock asociado se calculará como la suma del campo cantidad de los movimientos que lo componen.
+\end */
+function desbloqueoStockLotes_cambiarStockLote(curMoviLote:FLSqlCursor):Boolean
+{
+	var codLote:String = curMoviLote.valueBuffer("codlote");
+	var idStock:Number = curMoviLote.valueBuffer("idstock");
+	var util:FLUtil = new FLUtil();
+	
+	if (curMoviLote.cursorRelation() && curMoviLote.cursorRelation().action() == "lotes") {
+	} else {
+		var enAlmacen:Number = util.sqlSelect("movilote", "SUM(cantidad)", "codlote = '" + codLote + "' AND NOT automatico AND NOT reserva");
+		if (!enAlmacen)
+			enAlmacen = 0;
+		if (!util.sqlUpdate("lotes", "enalmacen", enAlmacen, "codlote = '" + codLote + "'"))
+			return false;
+
+		if (curMoviLote.modeAccess() == curMoviLote.Edit && codLote != curMoviLote.valueBufferCopy("codlote")) {
+			enAlmacen = util.sqlSelect("movilote", "SUM(cantidad)", "codlote = '" + curMoviLote.valueBufferCopy("codlote") + "' AND NOT automatico AND NOT reserva");
+			if (!enAlmacen)
+				enAlmacen = 0;
+			if (!util.sqlUpdate("lotes", "enalmacen", enAlmacen, "codlote = '" + curMoviLote.valueBufferCopy("codlote") + "'"))
+				return false;
+		}
+		var idMovilote:Number = curMoviLote.valueBuffer("idmovilote_orig");
+		if (curMoviLote.valueBuffer("automatico") || idMovilote) {
+			var cantAutomatica:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idmovilote_orig = " + idMovilote);
+			if (!cantAutomatica)
+				cantAutomatica = 0;
+			if (!util.sqlUpdate("movilote", "cantidad_automatica", cantAutomatica, "id = " +  idMovilote))
+				return false;
+		}
+		
+	}
+	
+	var cantidadStock:Number = parseFloat(util.sqlSelect("movilote INNER JOIN lotes ON movilote.codlote = lotes.codlote", "SUM(movilote.cantidad)", "movilote.idstock = " + idStock + " AND NOT movilote.automatico AND NOT movilote.reserva", "movilote,lotes"));
+	if (!cantidadStock) cantidadStock = 0;
+
+	var reservadoStock:Number = -1 * parseFloat(util.sqlSelect("movilote INNER JOIN lotes ON movilote.codlote = lotes.codlote", "SUM(movilote.cantidad-movilote.cantidad_automatica)", "movilote.idstock = " + idStock + " AND movilote.reserva", "movilote,lotes"));
+	if (!reservadoStock) reservadoStock = 0;
+
+	var disponibleStock:Number = cantidadStock - reservadoStock;
+
+	var curStock:FLSqlCursor = new FLSqlCursor("stocks");
+	curStock.select("idstock = " + idStock);
+	if(curStock.first()) {
+		with(curStock) {
+			setModeAccess(Edit);
+			refreshBuffer();
+			setValueBuffer("cantidad", cantidadStock);
+			setValueBuffer("reservada", reservadoStock);
+			setValueBuffer("disponible", disponibleStock);
+			if(!commitBuffer())
+				return false;
+		}
+	} else
+		return false;
+	
+	return true;
+}
+
+function desbloqueoStockLotes_beforeCommit_transstock(curTS:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_transstock(curTS) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (curTS.modeAccess() == curTS.Insert || curTS.modeAccess() == curTS.Edit) {
+		/*** Obtener las líneas cuyos artículos se manejan por lotes ***/
+		var qryLinea:FLSqlQuery = new FLSqlQuery();
+		qryLinea.setTablesList("lineastransstock,articulos");
+		qryLinea.setSelect("l.idlinea,l.referencia");
+		qryLinea.setFrom("lineastransstock l INNER JOIN articulos a ON l.referencia = a.referencia");
+		qryLinea.setWhere("a.porlotes = TRUE AND l.idtrans = " + curTS.valueBuffer("idtrans"));
+		if(!qryLinea.exec())
+			return false;
+			
+		while (qryLinea.next()) {
+			/* En una transferencia se realizan dos movimientos: se extrae de un depósito y se agrega a otro
+				-- Primero chequeamos el depósito desde el que se extrae (el que tiene cantidad negativa) */
+			var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
+			curMoviLote.select("docorigen = 'TR' AND idlineats = " + qryLinea.value("l.idlinea") + " AND cantidad < 0");
+			if (!curMoviLote.first())
+				return false;
+
+			/* Chequear que no hayan tomado del stock mientras se estaba cargando este documento */
+			var cantidadLote:Number = util.sqlSelect("movilote", "SUM(cantidad)", "idstock = " + curMoviLote.valueBuffer("idstock") + " AND codlote = '" + curMoviLote.valueBuffer("codlote") + "' AND (idlineats IS NULL OR idlineats <> " + curMoviLote.valueBuffer("idlineats") + ") AND NOT automatico AND NOT reserva");
+			if ((curMoviLote.valueBuffer("cantidad") * -1) > cantidadLote) {
+				MessageBox.warning(util.translate("scripts", "No hay suficiente cantidad de artículos con referencia %1 del lote %2\nen el almacén %3 \n\nAtención: es posible que, al mismo tiempo que se generaba este documento,\n          otro usuario haya realizado una operación que afectó el stock de este lote").arg(qryLinea.value("l.referencia")).arg(curMoviLote.valueBuffer("codlote")).arg(curTS.valueBuffer("codalmacen")), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				return false;
+			}
+
+			if (!flfactalma.iface.pub_cambiarStockLote(curMoviLote)) {
+				MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTALMA-0002: ") + curTS.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				return false;
+			}
+			
+			/* 	-- Por último chequeamos el depósito al que se agrega (el que tiene cantidad positiva) */
+			curMoviLote.select("docorigen = 'TR' AND idlineats = " + qryLinea.value("l.idlinea") + " AND cantidad > 0");
+			if (!curMoviLote.first())
+				return false;
+
+			if (!flfactalma.iface.pub_cambiarStockLote(curMoviLote)) {
+				MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTALMA-0003: ") + curTS.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+/** \C
+Esta función se sobrepone a la oficial con el objetivo de que no se bloquee el artículo cuyo stock en determinado almacén está siendo modificado.
+No se invoca la función controlStock(), que es la que produce el bloqueo del artículo-almacén en la tabla "stock", sino que se utiliza una tabla auxiliar, "movistock"
+\end */
+function desbloqueoStockLotes_controlStockTrazabilidadInterna(curLTI:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil();
+
+	if (util.sqlSelect("articulos", "nostock", "referencia = '" + curLTI.valueBuffer("referencia") + "'")) {
+		return true;
+	}
+
+	var codAlmacen:String = util.sqlSelect("trazabilidadinterna", "codalmacen", "codigo = '" + curLTI.valueBuffer("codtrazainterna") + "'");
+	if (!codAlmacen || codAlmacen == "") {
+		return true;
+	}
+	
+	if (!this.iface.controlMoviStock(curLTI, "MI", "cantidad", 1, codAlmacen)) {
+		return false;
+	}
+
+	return true;
+}
+
+function desbloqueoStockLotes_beforeCommit_trazabilidadinterna(curTI:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_trazabilidadinterna(curTI) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (curTI.modeAccess() == curTI.Insert || curTI.modeAccess() == curTI.Edit) {
+		/*** Obtener las líneas cuyos artículos se manejan por lotes ***/
+		var qryLinea:FLSqlQuery = new FLSqlQuery();
+		qryLinea.setTablesList("lineastrazabilidadinterna,articulos");
+		qryLinea.setSelect("l.idlinea,l.referencia");
+		qryLinea.setFrom("lineastrazabilidadinterna l INNER JOIN articulos a ON l.referencia = a.referencia");
+		qryLinea.setWhere("a.porlotes = TRUE AND l.codtrazainterna = '" + curTI.valueBuffer("codigo") + "'");
+		if(!qryLinea.exec())
+			return false;
+			
+		while (qryLinea.next()) {
+			var curMoviLote:FLSqlCursor = new FLSqlCursor("movilote");
+			curMoviLote.select("docorigen = 'MI' AND idlineati = " + qryLinea.value("l.idlinea"));
+			if (!curMoviLote.first())
+				return false;
+
+			if (!flfactalma.iface.pub_cambiarStockLote(curMoviLote)) {
+				MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTALMA-0002: ") + curTS.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+//// DESBLOQUEO AL MODIFICAR STOCK LOTES ////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
