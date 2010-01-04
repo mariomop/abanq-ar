@@ -89,7 +89,7 @@
 									<cstring>ckbAlmacen</cstring>
 								</property>
 								<property name="text" >
-									<string>Asignar a almacén</string>
+									<string>Asignar almacén</string>
 								</property>
 							</widget>
 							<spacer>
@@ -114,7 +114,7 @@
 									<cstring>ckbTarifa</cstring>
 								</property>
 								<property name="text" >
-									<string>Asignar a tarifa</string>
+									<string>Asignar tarifa</string>
 								</property>
 							</widget>
 							<spacer>
