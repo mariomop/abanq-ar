@@ -137,6 +137,9 @@ function interna_init()
 	this.iface.generarTabla();
 
 	cursor.setValueBuffer("excepciones", "");
+
+	var filtroCliente:String = "NOT debaja";
+	this.child("fdbCodCliente").setFilter(filtroCliente);
 }
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

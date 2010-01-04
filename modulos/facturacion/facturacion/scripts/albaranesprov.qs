@@ -192,6 +192,9 @@ function interna_init()
 		}
 
 		this.iface.inicializarControles();
+
+		var filtroProveedor:String = "NOT debaja";
+		this.child("fdbCodProveedor").setFilter(filtroProveedor);
 }
 
 // function interna_recordDelBeforelineasalbaranesprov()

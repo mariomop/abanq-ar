@@ -256,7 +256,11 @@ function interna_init()
 		this.child("fdbCodDivisa").setDisabled(true);
 		this.child("fdbTasaConv").setDisabled(true);
 	}
+
 	this.iface.inicializarControles();
+
+	var filtroProveedor:String = "NOT debaja";
+	this.child("fdbCodProveedor").setFilter(filtroProveedor);
 }
 
 function interna_calculateField(fN:String):String

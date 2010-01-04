@@ -138,6 +138,9 @@ function interna_init()
 	connect(this.cursor(), "bufferChanged(QString)", this, "iface.bufferChanged");
 
 	this.child("tdbFacturas").setReadOnly(true);
+
+	var filtroCliente:String = "NOT debaja";
+	this.child("fdbCodCliente").setFilter(filtroCliente);
 }
 
 function interna_calculateCounter()
