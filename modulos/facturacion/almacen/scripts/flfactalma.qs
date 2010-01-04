@@ -321,6 +321,12 @@ class desbloqueoStock extends multiFamilia {
 	function controlStockAlbaranesProv(curLA:FLSqlCursor):Boolean {
 		return this.ctx.desbloqueoStock_controlStockAlbaranesProv(curLA);
 	}
+	function controlStockComandasCli(curLV:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_controlStockComandasCli(curLV);
+	}
+	function controlStockValesTPV(curLinea:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_controlStockValesTPV(curLinea);
+	}
 }
 //// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -2075,32 +2081,36 @@ function desbloqueoStock_controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String,
 // 		cantidadPrevia -= parseFloat( curLinea.valueBufferCopy( "totalenalbaran" ) );
 // 	}
 
+	var linea = "idlinea";
+	if (curLinea.table() == "tpv_lineascomanda")
+		linea = "idtpv_linea";
+	
 	switch(curLinea.modeAccess()) {
 		case curLinea.Insert: {
 			variacion = signo * cantidad;
-			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( "idlinea" ), variacion, campo ) )
+			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( linea ), variacion, campo ) )
 				return false;
 			break;
 		}
 		case curLinea.Del: {
 			variacion = signo * -1 * cantidad;
-			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( "idlinea" ), variacion, campo ) )
+			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( linea ), variacion, campo ) )
 				return false;
 			break;
 		}
 		case curLinea.Edit: {
 			if (curLinea.valueBuffer( "referencia" ) != curLinea.valueBufferCopy( "referencia" )) {
 				variacion = signo * -1 * cantidadPrevia;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBufferCopy( "referencia" ), tipoDoc, curLinea.valueBuffer( "idlinea" ), variacion, campo ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBufferCopy( "referencia" ), tipoDoc, curLinea.valueBuffer( linea ), variacion, campo ) )
 					return false;
 				variacion = signo * cantidad;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( "idlinea" ), variacion, campo, true ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( linea ), variacion, campo, true ) )
 					return false;
 			}
 			else {
 				if(cantidad != cantidadPrevia);
 				variacion = (cantidad - cantidadPrevia) * signo;
-				if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( "idlinea" ), variacion, campo) )
+				if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( linea ), variacion, campo) )
 					return false;
 			}
 			break;
@@ -2380,6 +2390,83 @@ function desbloqueoStock_controlStockAlbaranesProv(curLA:FLSqlCursor):Boolean
 		if (!flfacturac.iface.pub_cambiarStockOrd(curLA.valueBuffer("referencia"), cantidad))
 			return false;
 	}
+
+	return true;
+}
+
+/** \C
+Esta función se sobrepone a la oficial con el objetivo de que no se bloquee el artículo cuyo stock en determinado almacén está siendo modificado.
+\end */
+function desbloqueoStock_controlStockComandasCli(curLV:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil();
+
+	if (util.sqlSelect("articulos", "nostock", "referencia = '" + curLV.valueBuffer("referencia") + "'")) {
+		return true;
+	}
+
+	var codAlmacen = util.sqlSelect("tpv_comandas c INNER JOIN tpv_puntosventa pv ON c.codtpv_puntoventa = pv.codtpv_puntoventa", "pv.codalmacen", "idtpv_comanda = " + curLV.valueBuffer("idtpv_comanda"), "tpv_comandas,tpv_puntosventa");
+	if (!codAlmacen || codAlmacen == "") {
+		return true;
+	}
+	
+	var tipoDoc = "";
+	var tipoVenta = util.sqlSelect("tpv_comandas", "tipoventa", "idtpv_comanda = " + curLV.valueBuffer("idtpv_comanda"));
+	switch (tipoVenta) {
+		case "Factura A":
+		case "Factura B":
+		case "Factura C":
+		case "Ticket":
+			tipoDoc = "FC";
+			break;
+		case "Remito":
+			tipoDoc = "RC";
+			break;
+		case "Pedido":
+			tipoDoc = "PC";
+			break;
+	}
+	
+	if (!this.iface.controlMoviStock(curLV, tipoDoc, "cantidad", -1, codAlmacen)) {
+		return false;
+	}
+
+	return true;
+}
+
+/** \C
+Esta función se sobrepone a la oficial con el objetivo de que no se bloquee el artículo cuyo stock en determinado almacén está siendo modificado.
+\end */
+function desbloqueoStock_controlStockValesTPV(curLinea:FLSqlCursor):Boolean
+{
+	var util:FLUtil = new FLUtil();
+
+	if (util.sqlSelect("articulos", "nostock", "referencia = '" + curLinea.valueBuffer("referencia") + "'"))
+		return true;
+
+	var codAlmacen:String = curLinea.valueBuffer("codalmacen");
+	if (!codAlmacen || codAlmacen == "")
+		return true;
+
+	var tipoDoc = "";
+	var tipoVenta = util.sqlSelect("tpv_comandas", "tipoventa", "idtpv_comanda = " + curLV.valueBuffer("idtpv_comanda"));
+	switch (tipoVenta) {
+		case "Factura A":
+		case "Factura B":
+		case "Factura C":
+		case "Ticket":
+			tipoDoc = "FC";
+			break;
+		case "Remito":
+			tipoDoc = "RC";
+			break;
+		case "Pedido":
+			tipoDoc = "PC";
+			break;
+	}
+	
+	if (!this.iface.controlMoviStock(curLinea, tipoDoc, "cantidad", 1, codAlmacen))
+		return false;
 
 	return true;
 }

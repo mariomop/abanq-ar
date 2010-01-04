@@ -562,10 +562,8 @@ function interna_afterCommit_tpv_lineasvale(curLinea:FLSqlCursor):Boolean
 \end */ 
 function interna_afterCommit_tpv_lineascomanda(curLinea:FLSqlCursor):Boolean
 {
-	var util:FLUtil = new FLUtil();
-// 	Comentado momentaneamente hasta resolver el manejo de stock desde el tpv
-// 	if (!flfactalma.iface.pub_controlStockComandasCli(curLinea))
-// 		return false;
+	if (!flfactalma.iface.pub_controlStockComandasCli(curLinea))
+		return false;
 
 	return true;
 }
