@@ -89,7 +89,7 @@
 									<cstring>ckbProveedor</cstring>
 								</property>
 								<property name="text" >
-									<string>Asignar a proveedor</string>
+									<string>Asignar proveedor</string>
 								</property>
 							</widget>
 							<spacer>
@@ -114,7 +114,7 @@
 									<cstring>ckbAgente</cstring>
 								</property>
 								<property name="text" >
-									<string>Asignar a agente</string>
+									<string>Asignar agente</string>
 								</property>
 							</widget>
 							<spacer>

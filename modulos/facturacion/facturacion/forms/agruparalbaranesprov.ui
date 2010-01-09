@@ -185,7 +185,7 @@
 											</property>
 											<widget class="FLFieldDB">
 												<property name="name">
-													<cstring>fLFieldDB17_3</cstring>
+													<cstring>fdbCodProveedor</cstring>
 												</property>
 												<property name="sizePolicy">
 													<sizepolicy>
@@ -928,7 +928,7 @@
 		</vbox>
 	</widget>
 	<tabstops>
-		<tabstop>fLFieldDB17_3</tabstop>
+		<tabstop>fdbCodProveedor</tabstop>
 		<tabstop>fLFieldDB8</tabstop>
 		<tabstop>fLFieldDB9</tabstop>
 		<tabstop>fdbCodDivisa</tabstop>

@@ -52,4 +52,19 @@
 		<length>200</length>
 		<visible>true</visible>
 	</field>
+	
+	<field>
+		<name>codagente</name>
+		<!--Código del agente comercial asignado a la zona-->
+	        <alias>QT_TRANSLATE_NOOP("MetaData","Agente comercial")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>10</length>
+		<relation>
+			<table>agentes</table>
+			<field>codagente</field>
+			<card>M1</card>
+		</relation>
+	</field>
 </TMD>

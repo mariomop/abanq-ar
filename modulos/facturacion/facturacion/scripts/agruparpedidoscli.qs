@@ -126,6 +126,9 @@ function interna_init()
 		tblPedidos.hideColumn(6);
 
 		cursor.setValueBuffer("excepciones", "");
+
+		var filtroCliente:String = "NOT debaja";
+		this.child("fdbCodCliente").setFilter(filtroCliente);
 }
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

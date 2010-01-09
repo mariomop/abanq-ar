@@ -140,6 +140,8 @@ function interna_init()
 	this.iface.refrescarTablas();
 	this.child("fdbProveedor").setFocus();
 
+	var filtroProveedor:String = "NOT debaja";
+	this.child("fdbProveedor").setFilter(filtroProveedor);
 }
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

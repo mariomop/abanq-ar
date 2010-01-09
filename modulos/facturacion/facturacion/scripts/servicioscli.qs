@@ -173,6 +173,9 @@ function interna_init()
 		this.child("tbwServicio").setTabEnabled("incidencias", false);
 		this.child("tbwServicio").setTabEnabled("comunicaciones", false);
 	}
+
+	var filtroCliente:String = "NOT debaja";
+	this.child("fdbCodCliente").setFilter(filtroCliente);
 }
 
 /** \D Calcula un nuevo número de servicio

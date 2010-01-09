@@ -192,6 +192,8 @@ function interna_init()
 	tdbArticulos.refresh();
 	this.child("fdbProveedor").setFocus();
 
+	var filtroProveedor:String = "NOT debaja";
+	this.child("fdbProveedor").setFilter(filtroProveedor);
 }
 
 /** \C El pedido debe tener al menos una linea

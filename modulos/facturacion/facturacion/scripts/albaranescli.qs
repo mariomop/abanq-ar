@@ -262,6 +262,9 @@ function interna_init()
 	}
 
 	this.iface.inicializarControles();
+
+	var filtroCliente:String = "NOT debaja";
+	this.child("fdbCodCliente").setFilter(filtroCliente);
 }
 
 function interna_calculateField(fN:String):String
