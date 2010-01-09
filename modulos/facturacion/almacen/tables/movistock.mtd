@@ -46,32 +46,16 @@
 	</field>
 	
 	<field>
-		<name>cantidad</name>
-		<!-- Cantidad del artículo afectado en el movimiento -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Cantidad")</alias>
+		<name>variacion</name>
+		<!-- Variación respecto del stock -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Variación")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>
 		<partI>10</partI>
 		<partD>2</partD>
 	</field>
-	
-	<field>
-		<name>codlote</name>
-		<!-- Identificador del lote asociado-->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Id. lote")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>30</length>
-		
-		<relation>
-			<field>codlote</field>
-			<table>lotes</table>
-			<card>M1</card>
-		</relation>
-	</field>
-	
+
 	<field>
 		<name>numserie</name>
 		<!-- Número de serie del artículo -->
@@ -92,6 +76,16 @@
 		<length>2</length>
 		<optionslist>RP,FP,PC,RC,FC,RE,TR,MI</optionslist>
 		<default>RP</default>
+	</field>
+	
+	<field>
+		<name>iddoc</name>
+		<!-- Identificador del documento relacionado -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. documento")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<visiblegrid>false</visiblegrid>
 	</field>
 	
 	<field>
@@ -118,4 +112,13 @@
 		</relation>
 	</field>
 	
+	<field>
+		<name>eliminado</name>
+		<!--Indica si la línea correspondiente al movimiento fue eliminada-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Línea eliminada")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
 </TMD>

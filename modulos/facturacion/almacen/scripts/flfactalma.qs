@@ -297,11 +297,11 @@ class desbloqueoStock extends multiFamilia {
 	function controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String, campo:String, signo:Number, codAlmacen:String ):Boolean {
 		return this.ctx.desbloqueoStock_controlMoviStock( curLinea, tipoDoc, campo, signo, codAlmacen );
 	}
-	function cambiarMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idLinea:Number, variacion:Number, campo:String):Boolean {
-		return this.ctx.desbloqueoStock_cambiarMoviStock(codAlmacen, referencia, tipoDoc, idLinea, variacion, campo);
+	function cambiarMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idDoc:Number, idLinea:Number, variacion:Number, campo:String, numSerie:String, eliminado:String):Boolean {
+		return this.ctx.desbloqueoStock_cambiarMoviStock(codAlmacen, referencia, tipoDoc, idDoc, idLinea, variacion, campo, numSerie, eliminado);
 	}
-	function crearMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idLinea:Number):Number {
-		return this.ctx.desbloqueoStock_crearMoviStock(codAlmacen, referencia, tipoDoc, idLinea);
+	function crearMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idLinea:Number, numSerie:String):Number {
+		return this.ctx.desbloqueoStock_crearMoviStock(codAlmacen, referencia, tipoDoc, idLinea, numSerie);
 	}
 	function comprobarStock(codAlmacen:String, referencia:String, cantidad:Number, disponible:Number):Boolean {
 		return this.ctx.desbloqueoStock_comprobarStock(codAlmacen, referencia, cantidad, disponible);
@@ -356,11 +356,23 @@ class desbloqueoStockLotes extends desbloqueoStock {
 //// DESBLOQUEO AL MODIFICAR STOCK LOTES ////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration desbloqueoStockNumSerie */
+//////////////////////////////////////////////////////////////////
+//// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
+class desbloqueoStockNumSerie extends desbloqueoStockLotes {
+	function desbloqueoStockNumSerie( context ) { desbloqueoStockLotes( context ); } 
+	function afterCommit_numerosserie(curNS:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockNumSerie_afterCommit_numerosserie(curNS);
+	}
+}
+//// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends desbloqueoStockLotes {
-    function head( context ) { desbloqueoStockLotes ( context ); }
+class head extends desbloqueoStockNumSerie {
+    function head( context ) { desbloqueoStockNumSerie ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -2065,6 +2077,7 @@ function multiFamilia_afterCommit_familias(cursor:FLSqlCursor):Boolean
 
 /** \D Incrementa o decrementa el stock que figura en la tabla movistock, en función de la variación experimentada por una línea de un documento de facturación específico
 @param	curLinea: Cursor posicionado en la línea de documento de facturación
+@param	tipoDoc: tipo de documento asociado al movimiento (RP,FP,PC,RC,FC,RE,TR,MI). Ver movistock.mtd
 @param	campo: Campo a modificar
 @param	signo: Indica si la cantidad debe sumarse o restarse del stock
 @param	codAlmacen: Código del almacén asociado al stock a modificar
@@ -2072,46 +2085,93 @@ function multiFamilia_afterCommit_familias(cursor:FLSqlCursor):Boolean
 */
 function desbloqueoStock_controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String, campo:String, signo:Number, codAlmacen:String ):Boolean 
 {
+	var util:FLUtil = new FLUtil();
+	
+	var linea = "idlinea";
+	if (curLinea.table() == "tpv_lineascomanda")
+		linea = "idtpv_linea";
+	
+	var idDoc = "";
+	var numSerie = "";
+	switch (curLinea.table()) {
+		case "lineasfacturascli":
+		case "lineasfacturasprov": {
+			idDoc = "idfactura";
+			numSerie = curLinea.valueBuffer("numserie");
+			break;
+		}
+		case "lineasalbaranescli":
+		case "lineasalbaranesprov": {
+			idDoc = "idalbaran";
+			numSerie = curLinea.valueBuffer("numserie");
+			break;
+		}
+		case "lineaspedidoscli": {
+			idDoc = "idpedido";
+			break;
+		}
+		case "tpv_lineascomanda": {
+			idDoc = "iddocumento";
+			numSerie = curLinea.valueBuffer("numserie");
+			break;
+		}
+		case "lineastransstock": {
+			idDoc = "idtrans";
+			break;
+		}
+		case "lineastrazabilidadinterna": {
+			idDoc = "codtrazainterna";
+			break;
+		}
+	}
+	
 	var variacion:Number;
 	var cantidad:Number = parseFloat( curLinea.valueBuffer( "cantidad" ) );
-	var cantidadPrevia:Number = parseFloat( curLinea.valueBufferCopy( "cantidad" ) );
-
+	var cantidadPrevia:Number = parseFloat( curLinea.valueBuffer( "cantidadprevia" ) );
+	if (isNaN(cantidadPrevia) || !cantidadPrevia)
+		cantidadPrevia = 0;
+	
 // 	if ( curLinea.table() == "lineaspedidoscli" || curLinea.table() == "lineaspedidosprov" ) {
 // 		cantidad -= parseFloat( curLinea.valueBuffer( "totalenalbaran" ) );
 // 		cantidadPrevia -= parseFloat( curLinea.valueBufferCopy( "totalenalbaran" ) );
 // 	}
 
-	var linea = "idlinea";
-	if (curLinea.table() == "tpv_lineascomanda")
-		linea = "idtpv_linea";
-	
 	switch(curLinea.modeAccess()) {
 		case curLinea.Insert: {
 			variacion = signo * cantidad;
-			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( linea ), variacion, campo ) )
+			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 				return false;
 			break;
 		}
 		case curLinea.Del: {
 			variacion = signo * -1 * cantidad;
-			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( linea ), variacion, campo ) )
+			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "true" ) )
 				return false;
 			break;
 		}
 		case curLinea.Edit: {
 			if (curLinea.valueBuffer( "referencia" ) != curLinea.valueBufferCopy( "referencia" )) {
 				variacion = signo * -1 * cantidadPrevia;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBufferCopy( "referencia" ), tipoDoc, curLinea.valueBuffer( linea ), variacion, campo ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBufferCopy( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "true" ) )
 					return false;
 				variacion = signo * cantidad;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( linea ), variacion, campo, true ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
+					return false;
+			}
+			else if ( numSerie != "" && (numSerie != curLinea.valueBufferCopy( "numserie" )) ) {
+				variacion = signo * -1 * cantidadPrevia;
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, curLinea.valueBufferCopy( "numserie" ), "true" ) )
+					return false;
+				variacion = signo * cantidad;
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 					return false;
 			}
 			else {
-				if(cantidad != cantidadPrevia);
-				variacion = (cantidad - cantidadPrevia) * signo;
-				if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( linea ), variacion, campo) )
-					return false;
+				if(cantidad != cantidadPrevia) {
+					variacion = (cantidad - cantidadPrevia) * signo;
+					if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
+						return false;
+				}
 			}
 			break;
 		}
@@ -2123,13 +2183,16 @@ function desbloqueoStock_controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String,
 /** \D Cambia el valor del stock en la tabla movistock. Se comprueba si el valor de la variación es negativo y mayor al stock actual, en cuyo caso se avisa al usuario de la falta de existencias
 @param codAlmacen Código del almacén
 @param referencia Referencia del artículo
-@param tipoDoc Tipo del documento (factura, remito, etc)
+@param tipoDoc: tipo de documento asociado al movimiento (RP,FP,PC,RC,FC,RE,TR,MI). Ver movistock.mtd
+@param idDoc id del documento
 @param idLinea id de la línea del documento
 @param variación Variación en el número de existencias del artículo
-@param	campo: Nombre del campo a modificar. Si el campo es vacío o es --cantidad-- se llama a la función padre
+@param campo: Nombre del campo a modificar. Si el campo es vacío o es --cantidad-- se llama a la función padre
+@param numSerie Número de serie, si el artículo es controlado por número de serie
+@param eliminado Indica si el movimiento de stock refiere a una línea que ha sido eliminada
 @return True si la modificación tuvo éxito, false en caso contrario
 \end */
-function desbloqueoStock_cambiarMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idLinea:Number, variacion:Number, campo:String, noAvisar:Boolean ):Boolean
+function desbloqueoStock_cambiarMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idDoc:Number, idLinea:Number, variacion:Number, campo:String, numSerie:String, eliminado:String ):Boolean
 {
 	var util:FLUtil = new FLUtil();
 	if (referencia == "" || !referencia) {
@@ -2144,7 +2207,7 @@ function desbloqueoStock_cambiarMoviStock(codAlmacen:String, referencia:String, 
 		return false;
 	}
 
-	///////////	stock
+	///////////	stock: chequear disponibilidad
 	var idStock:String;
 	idStock = util.sqlSelect("stocks", "idstock", "referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "'");
 	if ( !idStock ) {
@@ -2169,11 +2232,11 @@ function desbloqueoStock_cambiarMoviStock(codAlmacen:String, referencia:String, 
 	if (!this.iface.comprobarStock(codAlmacen, referencia, nuevaCantidad, disponible)) {
 		return false;
 	}
-
+	
 	/////////	movistock
-	var idMoviStock = util.sqlSelect("movistock", "idmovistock", "referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "' AND tipodoc = '" + tipoDoc + "' AND idlinea = " + idLinea);
+	var idMoviStock = util.sqlSelect("movistock", "idmovistock", "referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "' AND tipodoc = '" + tipoDoc + "' AND idlinea = " + idLinea + " AND numserie = '" + numSerie + "'");
 	if ( !idMoviStock ) {
-		idMoviStock = this.iface.crearMoviStock( codAlmacen, referencia, tipoDoc, idLinea );
+		idMoviStock = this.iface.crearMoviStock( codAlmacen, referencia, tipoDoc, idLinea, numSerie );
 		if ( !idMoviStock ) {
 			return false;
 		}
@@ -2186,8 +2249,10 @@ function desbloqueoStock_cambiarMoviStock(codAlmacen:String, referencia:String, 
 	
 	curMoviStock.setModeAccess( curMoviStock.Edit );
 	curMoviStock.refreshBuffer();
-	curMoviStock.setValueBuffer( "cantidad", parseFloat( variacion ) );
-
+	curMoviStock.setValueBuffer( "variacion", parseFloat( variacion ) );
+	curMoviStock.setValueBuffer( "numserie", numSerie );
+	curMoviStock.setValueBuffer( "iddoc", idDoc );
+	curMoviStock.setValueBuffer( "eliminado", eliminado );
 	if ( !curMoviStock.commitBuffer() ) {
 		return false;
 	}
@@ -2203,7 +2268,7 @@ function desbloqueoStock_cambiarMoviStock(codAlmacen:String, referencia:String, 
 @param	referencia: Referencia del artículo
 @return	identificador del stock o false si hay error
 \end */
-function desbloqueoStock_crearMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idLinea:Number):Number
+function desbloqueoStock_crearMoviStock(codAlmacen:String, referencia:String, tipoDoc:String, idLinea:Number, numSerie:String):Number
 {
 	var util:FLUtil = new FLUtil;
 	var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
@@ -2214,7 +2279,8 @@ function desbloqueoStock_crearMoviStock(codAlmacen:String, referencia:String, ti
 		setValueBuffer("referencia", referencia);
 		setValueBuffer("tipodoc", tipoDoc);
 		setValueBuffer("idlinea", idLinea);
-		setValueBuffer("cantidad", 0);
+		setValueBuffer("numserie", numSerie);
+		setValueBuffer("variacion", 0);
 		if (!commitBuffer())
 			return false;
 	}
@@ -2666,6 +2732,20 @@ function desbloqueoStockLotes_beforeCommit_trazabilidadinterna(curTI:FLSqlCursor
 
 //// DESBLOQUEO AL MODIFICAR STOCK LOTES ////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_declaration desbloqueoStockNumSerie */
+//////////////////////////////////////////////////////////////////
+//// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
+
+/** Esta función anula la oficial --oficial_afterCommit_numerosserie()--. La modificación del stock se realiza al aceptarse el documento
+*/
+function desbloqueoStockNumSerie_afterCommit_numerosserie(curNS:FLSqlCursor) 
+{
+	return true;
+}
+
+//// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

@@ -456,12 +456,26 @@ class funNumAcomp extends funNumServAcomp {
 //// FUN_NUM_ACOMP /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration desbloqueoStockNumSerie */
+//////////////////////////////////////////////////////////////////
+//// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
+class desbloqueoStockNumSerie extends funNumAcomp {
+	function desbloqueoStockNumSerie( context ) { funNumAcomp( context ); } 
+	function afterCommit_lineasalbaranescli(curLA:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockNumSerie_afterCommit_lineasalbaranescli(curLA);
+	}
+	function afterCommit_lineasfacturascli(curLF:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStockNumSerie_afterCommit_lineasfacturascli(curLF);
+	}
+}
+//// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_declaration factPeriodica */
 //////////////////////////////////////////////////////////////////
 //// FACTURACION_PERIODICA /////////////////////////////////////////////////////
-class factPeriodica extends funNumAcomp {
-	function factPeriodica( context ) { funNumAcomp( context ); } 
+class factPeriodica extends desbloqueoStockNumSerie {
+	function factPeriodica( context ) { desbloqueoStockNumSerie( context ); } 
 	function afterCommit_facturascli(curFactura:FLSqlCursor):Boolean {
 		return this.ctx.factPeriodica_afterCommit_facturascli(curFactura);
 	}
@@ -706,17 +720,32 @@ class desbloqueoStock extends silixCuentas {
 	function beforeCommit_facturascli(curFactura:FLSqlCursor):Boolean {
 		return this.ctx.desbloqueoStock_beforeCommit_facturascli(curFactura);
 	}
+	function afterCommit_facturascli(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_afterCommit_facturascli(curFactura);
+	}
 	function beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boolean {
 		return this.ctx.desbloqueoStock_beforeCommit_albaranescli(curAlbaran);
+	}
+	function afterCommit_albaranescli(curAlbaran:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_afterCommit_albaranescli(curAlbaran);
 	}
 	function beforeCommit_pedidoscli(curPedido:FLSqlCursor):Boolean {
 		return this.ctx.desbloqueoStock_beforeCommit_pedidoscli(curPedido);
 	}
+	function afterCommit_pedidoscli(curPedido:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_afterCommit_pedidoscli(curPedido);
+	}
 	function beforeCommit_facturasprov(curFactura:FLSqlCursor):Boolean {
 		return this.ctx.desbloqueoStock_beforeCommit_facturasprov(curFactura);
 	}
+	function afterCommit_facturasprov(curFactura:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_afterCommit_facturasprov(curFactura);
+	}
 	function beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Boolean {
 		return this.ctx.desbloqueoStock_beforeCommit_albaranesprov(curAlbaran);
+	}
+	function afterCommit_albaranesprov(curAlbaran:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_afterCommit_albaranesprov(curAlbaran);
 	}
 }
 //// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
@@ -5332,6 +5361,34 @@ function funNumAcomp_afterCommit_lineasfacturasclins(curL:FLSqlCursor):Boolean
 //// FUN_NUM_ACOMP /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_definition funNumSerie */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO NUMEROS SERIE ///////////////////////////////////
+
+/** \D Las actualizaciones para los números de serie se realizarán al aceptar el documento, basándose en datos de la tabla movistock
+	La función original, funNumSerie_afterCommit_lineasalbaranescli(), queda sin efecto
+*/
+function desbloqueoStockNumSerie_afterCommit_lineasalbaranescli(curLA:FLSqlCursor):Boolean
+{
+	if (!interna_afterCommit_lineasalbaranescli(curLA))
+		return false;
+		
+	return true;
+}
+
+/** \D Las actualizaciones para los números de serie se realizarán al aceptar el documento, basándose en datos de la tabla movistock
+	La función original, funNumSerie_afterCommit_lineasfacturascli(), queda sin efecto
+*/
+function desbloqueoStockNumSerie_afterCommit_lineasfacturascli(curLF:FLSqlCursor):Boolean
+{
+	if (!interna_afterCommit_lineasfacturascli(curLF))
+		return false;
+		
+	return true;
+}
+
+//// DESBLOQUEO NUMEROS SERIE ///////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition factPeriodica */
 /////////////////////////////////////////////////////////////////
@@ -7408,38 +7465,131 @@ function desbloqueoStock_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolea
 	var util:FLUtil = new FLUtil();
 	if (sys.isLoadedModule("flfactalma")) {
 		if (curFactura.modeAccess() == curFactura.Insert || curFactura.modeAccess() == curFactura.Edit) {
-			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes (se incluyen los controlados por número de serie) ***/
+			/* Se utiliza la tabla movistock, en vez de lineasfacturascli, pues durante la edición podría haberse eliminado alguna línea
+			   y es necesario actualizar el stock de la línea eliminada, que en la tabla movistock se marca como "eliminada" pero aún existe */
 			var qryLinea:FLSqlQuery = new FLSqlQuery();
-			qryLinea.setTablesList("lineasfacturascli,articulos");
-			qryLinea.setSelect("l.idlinea,l.referencia");
-			qryLinea.setFrom("lineasfacturascli l INNER JOIN articulos a ON l.referencia = a.referencia");
-			qryLinea.setWhere("a.porlotes = FALSE AND l.idfactura = " + curFactura.valueBuffer("idfactura"));
+			qryLinea.setTablesList("movistock,articulos");
+			qryLinea.setSelect("m.idmovistock,m.referencia,m.variacion,m.numserie");
+			qryLinea.setFrom("movistock m INNER JOIN articulos a ON m.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND m.tipodoc = 'FC' AND m.iddoc = " + curFactura.valueBuffer("idfactura"));
 			if(!qryLinea.exec())
 				return false;
 
 			while (qryLinea.next()) {
-				var variacion:Number = util.sqlSelect("movistock", "cantidad", "tipodoc = 'FC' AND idlinea = " + qryLinea.value("l.idlinea") + " AND referencia = '" + qryLinea.value("l.referencia") + "' AND codalmacen = '" + curFactura.valueBuffer("codalmacen") + "'");
-				if (!variacion) {
+				var variacion:Number = qryLinea.value("m.variacion");
+				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
 					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0001: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 					return false;
 				}
-				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), qryLinea.value("l.referencia"), variacion, "cantidad")) {
-					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0002: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-					return false;
+
+				/* Actualizar estado de los artículos manejados por "número de serie" */
+				if (qryLinea.value("m.numserie") != "") {
+					var valor = "";
+					var idDoc:Number;
+					if (variacion == -1) {
+						valor = "true";
+						idDoc = curFactura.valueBuffer("idfactura");
+					}
+					else if (variacion == 1) {
+						valor = "false";
+						idDoc = -1;
+					}
+
+					var tipoDoc = "";
+					if (curFactura.valueBuffer("decredito")) tipoDoc = "idfacturadevol"
+					else tipoDoc = "idfacturaventa";
+
+					/* Chequear que no hayan vendido ya este artículo: se está por dar el valor 'true' a 'vendido' */
+					if (valor == "true") {
+						var vendido = util.sqlSelect("numerosserie", "vendido", "referencia = '" + qryLinea.value("m.referencia") + "' AND numserie = '" + qryLinea.value("m.numserie") + "'");
+						if (vendido) {
+							MessageBox.warning(util.translate("scripts", "El artículo con referencia %1 y número de serie %2\naparece como vendido. \n\nAtención: es posible que, al mismo tiempo que se generaba este documento,\n          otro usuario haya realizado una operación que afectó el estado de este artículo").arg(qryLinea.value("m.referencia")).arg(qryLinea.value("m.numserie")), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
+					}
+
+					if (!flfactalma.iface.modificarNumSerie(qryLinea.value("m.referencia"), qryLinea.value("m.numserie"), "vendido", valor))
+						return false;
+					if (!flfactalma.iface.modificarNumSerie(qryLinea.value("m.referencia"), qryLinea.value("m.numserie"), tipoDoc, idDoc))
+						return false;
 				}
 			}
+
+			/* Al editar es posible que se haya eliminado una línea del documento.
+			Por esta razón habrá que recorrer aquellos movimientos de stock que tengan la marca de "eliminado" para eliminar el registro correspondiente del listado de movistock */
+			if (curFactura.modeAccess() == curFactura.Edit) {
+				var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+				curMoviStock.select("tipodoc = 'FC' AND iddoc = " + curFactura.valueBuffer("idfactura") + " AND eliminado = true");
+				while (curMoviStock.next()) {
+					curMoviStock.setModeAccess(curMoviStock.Del);
+					curMoviStock.refreshBuffer();
+					if (!curMoviStock.commitBuffer())
+						return false;
+				}
+			}
+
+			/* Por último, actualizar el campo cantidadprevia en las líneas: cantidadprevia = cantidad. */
+			var curLineas:FLSqlCursor = new FLSqlCursor("lineasfacturascli");
+			curLineas.select("idfactura = " + curFactura.valueBuffer("idfactura"));
+			while (curLineas.next()) {
+				curLineas.setModeAccess(curLineas.Edit);
+				curLineas.refreshBuffer();
+				curLineas.setValueBuffer("cantidadprevia", curLineas.valueBuffer("cantidad"));
+				if (!curLineas.commitBuffer())
+					return false;
+			}
 		}
-		/* Al borrar no se recorre movistock sino las lineasfacturascli */
+		/* Al borrar la factura no se recorre movistock sino las lineasfacturascli */
 		else if (curFactura.modeAccess() == curFactura.Del) {
 			var curLinea:FLSqlCursor = new FLSqlCursor("lineasfacturascli");
 			curLinea.select("idfactura = " + curFactura.valueBuffer("idfactura"));
 			while (curLinea.next()) {
 				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
 				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
-					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0003: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0002: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 					return false;
 				}
+
+				/* Actualizar estado de los artículos manejados por número de serie */
+				if (curLinea.valueBuffer("numserie") != "") {
+					/* Actualizar solo si el artículo no fue vendido a partir de remito (factura generada a partir de remito) */
+					var curNS:FLSqlCursor = new FLSqlCursor("numerosserie");
+					curNS.select("referencia = '" + curLinea.valueBuffer("referencia") + "' AND numserie = '" + curLinea.valueBuffer("numserie") + "' AND (idalbaranventa IS NULL OR idalbaranventa < 0)");
+					if (curNS.first()) {
+						var valor = "false";
+						var idDoc:Number = -1;
+						var tipoDoc = "";
+						if (curFactura.valueBuffer("decredito")) tipoDoc = "idfacturadevol"
+						else tipoDoc = "idfacturaventa";
+
+						if (!flfactalma.iface.modificarNumSerie(curLinea.valueBuffer("referencia"), curLinea.valueBuffer("numserie"), "vendido", valor))
+							return false;
+						if (!flfactalma.iface.modificarNumSerie(curLinea.valueBuffer("referencia"), curLinea.valueBuffer("numserie"), tipoDoc, idDoc))
+							return false;
+					}
+				}
 			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_afterCommit_facturascli(curFactura:FLSqlCursor):Boolean
+{
+	if (!this.iface.__afterCommit_facturascli(curFactura))
+		return false;
+
+	/* Al eliminarse el documento con sus líneas, también se borran los registros correspondientes en movistock, que ya fueron marcados como "eliminados" */
+	if (curFactura.modeAccess() == curFactura.Del) {
+		var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+		curMoviStock.select("tipodoc = 'FC' AND iddoc = " + curFactura.valueBuffer("idfactura") + " AND eliminado = true");
+		while (curMoviStock.next()) {
+			curMoviStock.setModeAccess(curMoviStock.Del);
+			curMoviStock.refreshBuffer();
+			if (!curMoviStock.commitBuffer())
+				return false;
 		}
 	}
 
@@ -7454,35 +7604,126 @@ function desbloqueoStock_beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boole
 	var util:FLUtil = new FLUtil();
 	if (sys.isLoadedModule("flfactalma")) {
 		if (curAlbaran.modeAccess() == curAlbaran.Insert || curAlbaran.modeAccess() == curAlbaran.Edit) {
-			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes (se incluyen los controlados por número de serie) ***/
+			/* Se utiliza la tabla movistock, en vez de lineasalbaranescli, pues durante la edición podría haberse eliminado alguna línea
+			   y es necesario actualizar el stock de la línea eliminada, que en la tabla movistock se marca como "eliminada" pero aún existe */
 			var qryLinea:FLSqlQuery = new FLSqlQuery();
-			qryLinea.setTablesList("lineasalbaranescli,articulos");
-			qryLinea.setSelect("l.idlinea,l.referencia");
-			qryLinea.setFrom("lineasalbaranescli l INNER JOIN articulos a ON l.referencia = a.referencia");
-			qryLinea.setWhere("a.porlotes = FALSE AND l.idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			qryLinea.setTablesList("movistock,articulos");
+			qryLinea.setSelect("m.idmovistock,m.referencia,m.variacion,m.numserie");
+			qryLinea.setFrom("movistock m INNER JOIN articulos a ON m.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND m.tipodoc = 'RC' AND m.iddoc = " + curAlbaran.valueBuffer("idalbaran"));
 			if(!qryLinea.exec())
 				return false;
 
 			while (qryLinea.next()) {
-				var variacion:Number = util.sqlSelect("movistock", "cantidad", "tipodoc = 'RC' AND idlinea = " + qryLinea.value("l.idlinea") + " AND referencia = '" + qryLinea.value("l.referencia") + "' AND codalmacen = '" + curAlbaran.valueBuffer("codalmacen") + "'");
-				if (!variacion) {
+				var variacion:Number = qryLinea.value("m.variacion");
+				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0003: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 					return false;
 				}
-				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("l.referencia"), variacion, "cantidad")) {
-					return false;
+
+				/* Actualizar estado de los artículos manejados por "número de serie" */
+				if (qryLinea.value("m.numserie") != "") {
+					var valor = "";
+					var idDoc:Number;
+					if (variacion == -1) {
+						valor = "true";
+						idDoc = curAlbaran.valueBuffer("idalbaran");
+					}
+					else if (variacion == 1) {
+						valor = "false";
+						idDoc = -1;
+					}
+
+					var tipoDoc = "idalbaranventa";
+
+					/* Chequear que no hayan vendido ya este artículo: se está por dar el valor 'true' a 'vendido' */
+					if (valor == "true") {
+						var vendido = util.sqlSelect("numerosserie", "vendido", "referencia = '" + qryLinea.value("m.referencia") + "' AND numserie = '" + qryLinea.value("m.numserie") + "'");
+						if (vendido) {
+							MessageBox.warning(util.translate("scripts", "El artículo con referencia %1 y número de serie %2\naparece como vendido. \n\nAtención: es posible que, al mismo tiempo que se generaba este documento,\n          otro usuario haya realizado una operación que afectó el estado de este artículo").arg(qryLinea.value("m.referencia")).arg(qryLinea.value("m.numserie")), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
+					}
+
+					if (!flfactalma.iface.modificarNumSerie(qryLinea.value("m.referencia"), qryLinea.value("m.numserie"), "vendido", valor))
+						return false;
+					if (!flfactalma.iface.modificarNumSerie(qryLinea.value("m.referencia"), qryLinea.value("m.numserie"), tipoDoc, idDoc))
+						return false;
 				}
 			}
+
+			/* Al editar es posible que se haya eliminado una línea del documento.
+			Por esta razón habrá que recorrer aquellos movimientos de stock que tengan la marca de "eliminado" para eliminar el registro correspondiente del listado de movistock */
+			if (curAlbaran.modeAccess() == curAlbaran.Edit) {
+				var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+				curMoviStock.select("tipodoc = 'RC' AND iddoc = " + curAlbaran.valueBuffer("idalbaran") + " AND eliminado = true");
+				while (curMoviStock.next()) {
+					curMoviStock.setModeAccess(curMoviStock.Del);
+					curMoviStock.refreshBuffer();
+					if (!curMoviStock.commitBuffer())
+						return false;
+				}
+			}
+
+			/* Por último, actualizar el campo cantidadprevia en las líneas: cantidadprevia = cantidad. */
+			var curLineas:FLSqlCursor = new FLSqlCursor("lineasalbaranescli");
+			curLineas.select("idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			while (curLineas.next()) {
+				curLineas.setModeAccess(curLineas.Edit);
+				curLineas.refreshBuffer();
+				curLineas.setValueBuffer("cantidadprevia", curLineas.valueBuffer("cantidad"));
+				if (!curLineas.commitBuffer())
+					return false;
+			}
 		}
-		/* Al borrar no se recorre movistock sino las lineasalbaranescli */
+		/* Al borrar el remito no se recorre movistock sino las lineasalbaranescli */
 		else if (curAlbaran.modeAccess() == curAlbaran.Del) {
 			var curLinea:FLSqlCursor = new FLSqlCursor("lineasalbaranescli");
 			curLinea.select("idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
 			while (curLinea.next()) {
 				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
 				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0004: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 					return false;
 				}
+
+				/* Actualizar estado de los artículos manejados por número de serie */
+				if (curLinea.valueBuffer("numserie") != "") {
+					var curNS:FLSqlCursor = new FLSqlCursor("numerosserie");
+					curNS.select("referencia = '" + curLinea.valueBuffer("referencia") + "' AND numserie = '" + curLinea.valueBuffer("numserie") + "'");
+					if (curNS.first()) {
+						var valor = "false";
+						var idDoc:Number = -1;
+						var tipoDoc = "idalbaranventa";
+
+						if (!flfactalma.iface.modificarNumSerie(curLinea.valueBuffer("referencia"), curLinea.valueBuffer("numserie"), "vendido", valor))
+							return false;
+						if (!flfactalma.iface.modificarNumSerie(curLinea.valueBuffer("referencia"), curLinea.valueBuffer("numserie"), tipoDoc, idDoc))
+							return false;
+					}
+				}
 			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_afterCommit_albaranescli(curAlbaran:FLSqlCursor):Boolean
+{
+	if (!this.iface.__afterCommit_albaranescli(curAlbaran))
+		return false;
+
+	/* Al eliminarse el documento con sus líneas, también se borran los registros correspondientes en movistock, que ya fueron marcados como "eliminados" */
+	if (curAlbaran.modeAccess() == curAlbaran.Del) {
+		var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+		curMoviStock.select("tipodoc = 'RC' AND iddoc = " + curAlbaran.valueBuffer("idalbaran") + " AND eliminado = true");
+		while (curMoviStock.next()) {
+			curMoviStock.setModeAccess(curMoviStock.Del);
+			curMoviStock.refreshBuffer();
+			if (!curMoviStock.commitBuffer())
+				return false;
 		}
 	}
 
@@ -7501,35 +7742,80 @@ function desbloqueoStock_beforeCommit_pedidoscli(curPedido:FLSqlCursor):Boolean
 	var util:FLUtil = new FLUtil();
 	if (sys.isLoadedModule("flfactalma")) {
 		if (curPedido.modeAccess() == curPedido.Insert || curPedido.modeAccess() == curPedido.Edit) {
-			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes (se incluyen los controlados por número de serie) ***/
+			/* Se utiliza la tabla movistock, en vez de lineaspedidoscli, pues durante la edición podría haberse eliminado alguna línea
+			   y es necesario actualizar el stock de la línea eliminada, que en la tabla movistock se marca como "eliminada" pero aún existe */
 			var qryLinea:FLSqlQuery = new FLSqlQuery();
-			qryLinea.setTablesList("lineaspedidoscli,articulos");
-			qryLinea.setSelect("l.idlinea,l.referencia");
-			qryLinea.setFrom("lineaspedidoscli l INNER JOIN articulos a ON l.referencia = a.referencia");
-			qryLinea.setWhere("a.porlotes = FALSE AND l.idpedido = " + curPedido.valueBuffer("idpedido"));
+			qryLinea.setTablesList("movistock,articulos");
+			qryLinea.setSelect("m.idmovistock,m.referencia,m.variacion,m.numserie");
+			qryLinea.setFrom("movistock m INNER JOIN articulos a ON m.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND m.tipodoc = 'PC' AND m.iddoc = " + curPedido.valueBuffer("idpedido"));
 			if(!qryLinea.exec())
 				return false;
 
 			while (qryLinea.next()) {
-				var variacion:Number = util.sqlSelect("movistock", "cantidad", "tipodoc = 'PC' AND idlinea = " + qryLinea.value("l.idlinea") + " AND referencia = '" + qryLinea.value("l.referencia") + "' AND codalmacen = '" + curPedido.valueBuffer("codalmacen") + "'");
-				if (!variacion) {
-					return false;
-				}
-				if (!flfactalma.iface.pub_cambiarStock(curPedido.valueBuffer("codalmacen"), qryLinea.value("l.referencia"), variacion, "cantidad")) {
+				var variacion:Number = qryLinea.value("m.variacion");
+				if (!flfactalma.iface.pub_cambiarStock(curPedido.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0005: ") + curPedido.valueBuffer("idpedido"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 					return false;
 				}
 			}
+
+			/* Al editar es posible que se haya eliminado una línea del documento.
+			Por esta razón habrá que recorrer aquellos movimientos de stock que tengan la marca de "eliminado" para eliminar el registro correspondiente del listado de movistock */
+			if (curPedido.modeAccess() == curPedido.Edit) {
+				var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+				curMoviStock.select("tipodoc = 'PC' AND iddoc = " + curPedido.valueBuffer("idpedido") + " AND eliminado = true");
+				while (curMoviStock.next()) {
+					curMoviStock.setModeAccess(curMoviStock.Del);
+					curMoviStock.refreshBuffer();
+					if (!curMoviStock.commitBuffer())
+						return false;
+				}
+			}
+
+			/* Por último, actualizar el campo cantidadprevia en las líneas: cantidadprevia = cantidad. */
+			var curLineas:FLSqlCursor = new FLSqlCursor("lineaspedidoscli");
+			curLineas.select("idpedido = " + curPedido.valueBuffer("idpedido"));
+			while (curLineas.next()) {
+				curLineas.setModeAccess(curLineas.Edit);
+				curLineas.refreshBuffer();
+				curLineas.setValueBuffer("cantidadprevia", curLineas.valueBuffer("cantidad"));
+				if (!curLineas.commitBuffer())
+					return false;
+			}
 		}
-		/* Al borrar no se recorre movistock sino las lineaspedidoscli */
+		/* Al borrar el remito no se recorre movistock sino las lineaspedidoscli */
 		else if (curPedido.modeAccess() == curPedido.Del) {
 			var curLinea:FLSqlCursor = new FLSqlCursor("lineaspedidoscli");
 			curLinea.select("idpedido = " + curPedido.valueBuffer("idpedido"));
 			while (curLinea.next()) {
 				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
 				if (!flfactalma.iface.pub_cambiarStock(curPedido.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0006: ") + curPedido.valueBuffer("idpedido"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 					return false;
 				}
 			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_afterCommit_pedidoscli(curPedido:FLSqlCursor):Boolean
+{
+	if (!this.iface.__afterCommit_pedidoscli(curPedido))
+		return false;
+
+	/* Al eliminarse el documento con sus líneas, también se borran los registros correspondientes en movistock, que ya fueron marcados como "eliminados" */
+	if (curPedido.modeAccess() == curPedido.Del) {
+		var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+		curMoviStock.select("tipodoc = 'PC' AND iddoc = " + curPedido.valueBuffer("idpedido") + " AND eliminado = true");
+		while (curMoviStock.next()) {
+			curMoviStock.setModeAccess(curMoviStock.Del);
+			curMoviStock.refreshBuffer();
+			if (!curMoviStock.commitBuffer())
+				return false;
 		}
 	}
 
@@ -7544,38 +7830,95 @@ function desbloqueoStock_beforeCommit_facturasprov(curFactura:FLSqlCursor):Boole
 	var util:FLUtil = new FLUtil();
 	if (sys.isLoadedModule("flfactalma")) {
 		if (curFactura.modeAccess() == curFactura.Insert || curFactura.modeAccess() == curFactura.Edit) {
-			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes (se incluyen los controlados por número de serie) ***/
+			/* Se utiliza la tabla movistock, en vez de lineasfacturasprov, pues durante la edición podría haberse eliminado alguna línea
+			   y es necesario actualizar el stock de la línea eliminada, que en la tabla movistock se marca como "eliminada" pero aún existe */
 			var qryLinea:FLSqlQuery = new FLSqlQuery();
-			qryLinea.setTablesList("lineasfacturasprov,articulos");
-			qryLinea.setSelect("l.idlinea,l.referencia");
-			qryLinea.setFrom("lineasfacturasprov l INNER JOIN articulos a ON l.referencia = a.referencia");
-			qryLinea.setWhere("a.porlotes = FALSE AND l.idfactura = " + curFactura.valueBuffer("idfactura"));
+			qryLinea.setTablesList("movistock,articulos");
+			qryLinea.setSelect("m.idmovistock,m.referencia,m.variacion,m.numserie");
+			qryLinea.setFrom("movistock m INNER JOIN articulos a ON m.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND m.tipodoc = 'FP' AND m.iddoc = " + curFactura.valueBuffer("idfactura"));
 			if(!qryLinea.exec())
 				return false;
 
 			while (qryLinea.next()) {
-				var variacion:Number = util.sqlSelect("movistock", "cantidad", "tipodoc = 'FP' AND idlinea = " + qryLinea.value("l.idlinea") + " AND referencia = '" + qryLinea.value("l.referencia") + "' AND codalmacen = '" + curFactura.valueBuffer("codalmacen") + "'");
-				if (!variacion) {
-					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0004: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				var variacion:Number = qryLinea.value("m.variacion");
+				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0007: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 					return false;
 				}
-				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), qryLinea.value("l.referencia"), variacion, "cantidad")) {
-					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0005: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-					return false;
+
+				/* Actualizar id de los artículos manejados por "número de serie" */
+				if (qryLinea.value("m.numserie") != "") {
+					var idDoc:Number;
+					if (variacion == 1) {
+						idDoc = curFactura.valueBuffer("idfactura");
+					}
+					else if (variacion == -1) {
+						idDoc = -1;
+					}
+
+					var tipoDoc = "idfacturacompra";
+					if (!flfactalma.iface.modificarNumSerie(qryLinea.value("m.referencia"), qryLinea.value("m.numserie"), tipoDoc, idDoc))
+						return false;
 				}
 			}
+
+			/* Al editar es posible que se haya eliminado una línea del documento.
+			Por esta razón habrá que recorrer aquellos movimientos de stock que tengan la marca de "eliminado" para eliminar el registro correspondiente del listado de movistock */
+			if (curFactura.modeAccess() == curFactura.Edit) {
+				var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+				curMoviStock.select("tipodoc = 'FP' AND iddoc = " + curFactura.valueBuffer("idfactura") + " AND eliminado = true");
+				while (curMoviStock.next()) {
+					curMoviStock.setModeAccess(curMoviStock.Del);
+					curMoviStock.refreshBuffer();
+					if (!curMoviStock.commitBuffer())
+						return false;
+				}
+			}
+
+			/* Por último, actualizar el campo cantidadprevia en las líneas: cantidadprevia = cantidad. */
+			var curLineas:FLSqlCursor = new FLSqlCursor("lineasfacturasprov");
+			curLineas.select("idfactura = " + curFactura.valueBuffer("idfactura"));
+			while (curLineas.next()) {
+				curLineas.setModeAccess(curLineas.Edit);
+				curLineas.refreshBuffer();
+				curLineas.setValueBuffer("cantidadprevia", curLineas.valueBuffer("cantidad"));
+				if (!curLineas.commitBuffer())
+					return false;
+			}
 		}
-		/* Al borrar no se recorre movistock sino las lineasfacturasprov */
+		/* Al borrar la factura no se recorre movistock sino las lineasfacturasprov */
 		else if (curFactura.modeAccess() == curFactura.Del) {
 			var curLinea:FLSqlCursor = new FLSqlCursor("lineasfacturasprov");
 			curLinea.select("idfactura = " + curFactura.valueBuffer("idfactura"));
 			while (curLinea.next()) {
-				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
+				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad")) * -1;
 				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
-					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0006: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0008: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 					return false;
 				}
 			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_afterCommit_facturasprov(curFactura:FLSqlCursor):Boolean
+{
+	if (!this.iface.__afterCommit_facturasprov(curFactura))
+		return false;
+
+	/* Al eliminarse el documento con sus líneas, también se borran los registros correspondientes en movistock, que ya fueron marcados como "eliminados" */
+	if (curFactura.modeAccess() == curFactura.Del) {
+		var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+		curMoviStock.select("tipodoc = 'FP' AND iddoc = " + curFactura.valueBuffer("idfactura") + " AND eliminado = true");
+		while (curMoviStock.next()) {
+			curMoviStock.setModeAccess(curMoviStock.Del);
+			curMoviStock.refreshBuffer();
+			if (!curMoviStock.commitBuffer())
+				return false;
 		}
 	}
 
@@ -7590,35 +7933,95 @@ function desbloqueoStock_beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Bool
 	var util:FLUtil = new FLUtil();
 	if (sys.isLoadedModule("flfactalma")) {
 		if (curAlbaran.modeAccess() == curAlbaran.Insert || curAlbaran.modeAccess() == curAlbaran.Edit) {
-			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes (se incluyen los controlados por número de serie) ***/
+			/* Se utiliza la tabla movistock, en vez de lineasalbaranesprov, pues durante la edición podría haberse eliminado alguna línea
+			   y es necesario actualizar el stock de la línea eliminada, que en la tabla movistock se marca como "eliminada" pero aún existe */
 			var qryLinea:FLSqlQuery = new FLSqlQuery();
-			qryLinea.setTablesList("lineasalbaranesprov,articulos");
-			qryLinea.setSelect("l.idlinea,l.referencia");
-			qryLinea.setFrom("lineasalbaranesprov l INNER JOIN articulos a ON l.referencia = a.referencia");
-			qryLinea.setWhere("a.porlotes = FALSE AND l.idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			qryLinea.setTablesList("movistock,articulos");
+			qryLinea.setSelect("m.idmovistock,m.referencia,m.variacion,m.numserie");
+			qryLinea.setFrom("movistock m INNER JOIN articulos a ON m.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND m.tipodoc = 'RP' AND m.iddoc = " + curAlbaran.valueBuffer("idalbaran"));
 			if(!qryLinea.exec())
 				return false;
 
 			while (qryLinea.next()) {
-				var variacion:Number = util.sqlSelect("movistock", "cantidad", "tipodoc = 'RP' AND idlinea = " + qryLinea.value("l.idlinea") + " AND referencia = '" + qryLinea.value("l.referencia") + "' AND codalmacen = '" + curAlbaran.valueBuffer("codalmacen") + "'");
-				if (!variacion) {
+				var variacion:Number = qryLinea.value("m.variacion");
+				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0009: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 					return false;
 				}
-				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("l.referencia"), variacion, "cantidad")) {
-					return false;
+
+				/* Actualizar id de los artículos manejados por "número de serie" */
+				if (qryLinea.value("m.numserie") != "") {
+					var idDoc:Number;
+					if (variacion == 1) {
+						idDoc = curAlbaran.valueBuffer("idalbaran");
+					}
+					else if (variacion == -1) {
+						idDoc = -1;
+					}
+
+					var tipoDoc = "idalbarancompra";
+					if (!flfactalma.iface.modificarNumSerie(qryLinea.value("m.referencia"), qryLinea.value("m.numserie"), tipoDoc, idDoc))
+						return false;
 				}
 			}
+
+			/* Al editar es posible que se haya eliminado una línea del documento.
+			Por esta razón habrá que recorrer aquellos movimientos de stock que tengan la marca de "eliminado" para eliminar el registro correspondiente del listado de movistock */
+			if (curAlbaran.modeAccess() == curAlbaran.Edit) {
+				var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+				curMoviStock.select("tipodoc = 'RP' AND iddoc = " + curAlbaran.valueBuffer("idalbaran") + " AND eliminado = true");
+				while (curMoviStock.next()) {
+					curMoviStock.setModeAccess(curMoviStock.Del);
+					curMoviStock.refreshBuffer();
+					if (!curMoviStock.commitBuffer())
+						return false;
+				}
+			}
+
+			/* Por último, actualizar el campo cantidadprevia en las líneas: cantidadprevia = cantidad. */
+			var curLineas:FLSqlCursor = new FLSqlCursor("lineasalbaranesprov");
+			curLineas.select("idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
+			while (curLineas.next()) {
+				curLineas.setModeAccess(curLineas.Edit);
+				curLineas.refreshBuffer();
+				curLineas.setValueBuffer("cantidadprevia", curLineas.valueBuffer("cantidad"));
+				if (!curLineas.commitBuffer())
+					return false;
+			}
 		}
-		/* Al borrar no se recorre movistock sino las lineasalbaranesprov */
+		/* Al borrar el remito no se recorre movistock sino las lineasalbaranesprov */
 		else if (curAlbaran.modeAccess() == curAlbaran.Del) {
 			var curLinea:FLSqlCursor = new FLSqlCursor("lineasalbaranesprov");
 			curLinea.select("idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
 			while (curLinea.next()) {
-				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
+				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad")) * -1;
 				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0010: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 					return false;
 				}
 			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_afterCommit_albaranesprov(curAlbaran:FLSqlCursor):Boolean
+{
+	if (!this.iface.__afterCommit_albaranesprov(curAlbaran))
+		return false;
+
+	/* Al eliminarse el documento con sus líneas, también se borran los registros correspondientes en movistock, que ya fueron marcados como "eliminados" */
+	if (curAlbaran.modeAccess() == curAlbaran.Del) {
+		var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+		curMoviStock.select("tipodoc = 'RP' AND iddoc = " + curAlbaran.valueBuffer("idalbaran") + " AND eliminado = true");
+		while (curMoviStock.next()) {
+			curMoviStock.setModeAccess(curMoviStock.Del);
+			curMoviStock.refreshBuffer();
+			if (!curMoviStock.commitBuffer())
+				return false;
 		}
 	}
 
