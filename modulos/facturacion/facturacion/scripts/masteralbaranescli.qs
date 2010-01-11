@@ -598,6 +598,7 @@ function oficial_datosLineaFactura(curLineaAlbaran:FLSqlCursor):Boolean
 		setValueBuffer("pvpunitario", curLineaAlbaran.valueBuffer("pvpunitario"));
 		setValueBuffer("pvpsindto", curLineaAlbaran.valueBuffer("pvpsindto"));
 		setValueBuffer("cantidad", curLineaAlbaran.valueBuffer("cantidad"));
+		setValueBuffer("cantidadprevia", curLineaAlbaran.valueBuffer("cantidadprevia"));
 		setValueBuffer("pvptotal", curLineaAlbaran.valueBuffer("pvptotal"));
 		setValueBuffer("codimpuesto", curLineaAlbaran.valueBuffer("codimpuesto"));
 		setValueBuffer("iva", curLineaAlbaran.valueBuffer("iva"));

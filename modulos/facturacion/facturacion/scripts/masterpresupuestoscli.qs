@@ -635,6 +635,7 @@ function oficial_datosLineaPedido(curLineaPresupuesto:FLSqlCursor):Boolean
 		setValueBuffer("pvpsindto", curLineaPresupuesto.valueBuffer("pvpsindto"));
 		setValueBuffer("pvptotal", curLineaPresupuesto.valueBuffer("pvptotal"));
 		setValueBuffer("cantidad", curLineaPresupuesto.valueBuffer("cantidad"));
+		setValueBuffer("cantidadprevia", curLineaPresupuesto.valueBuffer("cantidad"));
 		setValueBuffer("referencia", curLineaPresupuesto.valueBuffer("referencia"));
 		setValueBuffer("descripcion", curLineaPresupuesto.valueBuffer("descripcion"));
 		setValueBuffer("codimpuesto", curLineaPresupuesto.valueBuffer("codimpuesto"));
