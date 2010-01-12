@@ -359,8 +359,9 @@ function lotes_habilitarControlesPorLotes()
 		this.child("fdbCantidad").setDisabled(true);
 		this.iface.calcularCantidad();
 	} else {
+		/* El campo fdbCantidad viene habilitado desde la extensión funNumSerie. Sólo se deshabilita si el artículo se controla por números de serie o lotes */ 
 		this.child("tbwLinea").setTabEnabled("lotes", false);
-		this.child("fdbCantidad").setDisabled(false);
+// 		this.child("fdbCantidad").setDisabled(false);
 		this.child("fdbReferencia").setDisabled(false);
 	}
 }
@@ -373,11 +374,15 @@ function lotes_habilitarControlesPorLotes()
 
 function funNumSerie_init()
 {
-	this.iface.__init();
+// 	this.iface.__init();
 	
 	var cursor:FLSqlCursor = this.cursor();
+
+	this.child("tbwLinea").setTabEnabled("numserie", false);
 	if (cursor.modeAccess() == cursor.Edit)
 		this.iface.controlCantidad(true);
+
+	this.iface.__init();
 }
 
 function funNumSerie_bufferChanged(fN:String)
@@ -395,15 +400,20 @@ function funNumSerie_controlCantidad(cantidadAuno:Boolean)
 {
 	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
-	
+
+	/* Por defecto habilitamos campo cantidad. Si se controla por número de serie (o por lotes, en la clase extendida), deshabilitamos */
+	this.child("fdbCantidad").setDisabled(false);
+
 	if (util.sqlSelect("articulos", "controlnumserie", "referencia = '" + cursor.valueBuffer("referencia") + "'")) {
 		if (cantidadAuno) 
 			cursor.setValueBuffer("cantidad", 1);
 		this.child("fdbCantidad").setDisabled(true);
+		this.child("tbwLinea").setTabEnabled("numserie", true);
 		this.child("fdbNumSerie").setDisabled(false);
 	}
 	else {
-		this.child("fdbCantidad").setDisabled(false);
+// 		this.child("fdbCantidad").setDisabled(false);
+		this.child("tbwLinea").setTabEnabled("numserie", false);
 		this.child("fdbNumSerie").setDisabled(true);
 	}
 }
@@ -465,8 +475,9 @@ function funNumSerie_validateForm():Boolean
 
 function funNumAcomp_init()
 {
-	this.iface.__init();
+// 	this.iface.__init();
 	this.iface.controlNumSerieComp();
+	this.iface.__init();
 }
 
 /**
@@ -531,7 +542,7 @@ function funNumAcomp_regenerarNumSerieComp()
 
 function funNumAcomp_bufferChanged(fN:String)
 {
-	this.iface.__bufferChanged(fN);
+// 	this.iface.__bufferChanged(fN);
 
 	switch (fN) {
 		/** Si el artículo tiene componentes se habilita el cuadro de números de serie
@@ -540,6 +551,8 @@ function funNumAcomp_bufferChanged(fN:String)
 			this.iface.controlNumSerieComp(true);
 		break;
 	}
+
+	this.iface.__bufferChanged(fN);
 }
 
 /** Si el artículo tiene componentes se habilita el cuadro de números de serie

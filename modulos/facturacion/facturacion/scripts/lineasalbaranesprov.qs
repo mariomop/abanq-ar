@@ -359,8 +359,9 @@ function lotes_habilitarControlesPorLotes()
 		this.child("fdbCantidad").setDisabled(true);
 		this.iface.calcularCantidad();
 	} else {
+		/* El campo fdbCantidad viene habilitado desde la extensión funNumSerie. Sólo se deshabilita si el artículo se controla por números de serie o lotes */ 
 		this.child("tbwLinea").setTabEnabled("lotes", false);
-		this.child("fdbCantidad").setDisabled(false);
+// 		this.child("fdbCantidad").setDisabled(false);
 		this.child("fdbReferencia").setDisabled(false);
 	}
 }//// LOTES //////////////////////////////////////////////////////
@@ -372,9 +373,11 @@ function lotes_habilitarControlesPorLotes()
 
 function funNumSerie_init()
 {
-	this.iface.__init();
+// 	this.iface.__init();
 	
 	var cursor:FLSqlCursor = this.cursor();
+
+	this.child("tbwLinea").setTabEnabled("numserie", false);
 	if (cursor.modeAccess() == cursor.Edit) {
 		this.iface.controlCantidad(true);
 		if (cursor.valueBuffer("numserie"))
@@ -383,6 +386,8 @@ function funNumSerie_init()
 	}
 
 	this.iface.numSerie = cursor.valueBuffer("numserie");
+
+	this.iface.__init();
 }
 
 function funNumSerie_bufferChanged(fN:String)
@@ -401,15 +406,20 @@ function funNumSerie_controlCantidad(cantidadAuno:Boolean)
 	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
 	
+	/* Por defecto habilitamos campo cantidad. Si se controla por número de serie (o por lotes, en la clase extendida), deshabilitamos */
+	this.child("fdbCantidad").setDisabled(false);
+
 	if (util.sqlSelect("articulos", "controlnumserie", "referencia = '" + cursor.valueBuffer("referencia") + "'")) {
 		if (cantidadAuno) 
 			cursor.setValueBuffer("cantidad", 1);
 		this.child("fdbCantidad").setDisabled(true);
+		this.child("tbwLinea").setTabEnabled("numserie", true);
 		this.child("fdbNumSerie").setDisabled(false);
 	}
 	else {
-		this.child("fdbCantidad").setDisabled(false);
+// 		this.child("fdbCantidad").setDisabled(false);
 		this.child("fdbNumSerie").setDisabled(true);
+		this.child("tbwLinea").setTabEnabled("numserie", false);
 	}
 }
 
