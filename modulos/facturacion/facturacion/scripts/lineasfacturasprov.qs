@@ -332,6 +332,8 @@ function lotes_calculateField(fN:String):String
 		case "cantidad": {
 			if (this.iface.porLotes) {
 				res = util.sqlSelect("movilote", "SUM(cantidad)", "docorigen = 'FP' AND idlineafp = " + cursor.valueBuffer("idlinea"));
+				if (res == 0)
+					res = 1;
 			} else
 				res = this.iface.__calculateField(fN);
 			break;
