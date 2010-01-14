@@ -7652,7 +7652,7 @@ function desbloqueoStock_beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boole
 						}
 					}
 					/* Actualizar estado de los artículos manejados por "número de serie" */
-					else if {
+					else {
 						var valor = "";
 						var idDoc:Number;
 						if (variacion == -1) {
