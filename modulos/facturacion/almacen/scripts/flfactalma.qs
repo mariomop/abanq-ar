@@ -364,6 +364,9 @@ class desbloqueoStockNumSerie extends desbloqueoStockLotes {
 	function afterCommit_numerosserie(curNS:FLSqlCursor):Boolean {
 		return this.ctx.desbloqueoStockNumSerie_afterCommit_numerosserie(curNS);
 	}
+	function actualizarStockNumSerie(codAlmacen:String, referencia:String):Boolean {
+		return this.ctx.desbloqueoStockNumSerie_actualizarStockNumSerie(codAlmacen, referencia);
+	}
 }
 //// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -417,6 +420,9 @@ class ifaceCtx extends head {
 	}
 	function pub_valorDefectoAlmacen(fN:String):String {
 		return this.valorDefectoAlmacen(fN);
+	}
+	function pub_actualizarStockNumSerie(codAlmacen:String, referencia:String):Boolean {
+		return this.actualizarStockNumSerie(codAlmacen, referencia);
 	}
 }
 //// INTERFACE  /////////////////////////////////////////////////
@@ -2737,10 +2743,80 @@ function desbloqueoStockLotes_beforeCommit_trazabilidadinterna(curTI:FLSqlCursor
 //////////////////////////////////////////////////////////////////
 //// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
 
-/** Esta función anula la oficial --oficial_afterCommit_numerosserie()--. La modificación del stock se realiza al aceptarse el documento
+/** Esta función anula la oficial --oficial_afterCommit_numerosserie()--.
+Si se está cargando un artículo con número de serie desde el formulario de números de serie de Almacén, actualizar el stock.
+Caso contrario (se está operando con algún documento comercial, como las facturas, o con el formulario del artículo), no actualizar (se actualiza luego con "actualizarStockNumSerie()")
 */
 function desbloqueoStockNumSerie_afterCommit_numerosserie(curNS:FLSqlCursor) 
 {
+	if (curNS.action() == "numerosserie") {
+		if (curNS.modeAccess() == curNS.Edit) return true;
+		
+		var util:FLUtil = new FLUtil();
+		var stockNS:Number = util.sqlSelect("numerosserie", "count(id)", "referencia = '" + curNS.valueBuffer("referencia") + "' AND vendido = false AND codalmacen = '" + curNS.valueBuffer("codalmacen") + "'");
+		
+		var curStock:FLSqlCursor = new FLSqlCursor("stocks");
+		curStock.select("referencia = '" + curNS.valueBuffer("referencia") + "' AND codalmacen = '" + curNS.valueBuffer("codalmacen") + "'");
+		
+		if (curStock.first()) {
+			curStock.setModeAccess(curStock.Edit);
+			curStock.refreshBuffer();
+			curStock.setValueBuffer("cantidad", stockNS);
+			if (!curStock.commitBuffer()) {
+				MessageBox.warning(util.translate("scripts", "Error al actualizar el stock del artículo por números de serie"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				return false;
+			}
+		}	
+		else if (curNS.modeAccess() == curNS.Insert) {
+			// No hay stock en este almacén, nueva línea de stocks
+			curStock.setModeAccess(curStock.Insert);
+			curStock.refreshBuffer();
+			curStock.setValueBuffer("referencia", curNS.valueBuffer("referencia"));
+			curStock.setValueBuffer("codalmacen", curNS.valueBuffer("codalmacen"));
+			curStock.setValueBuffer("cantidad", stockNS);
+			if (!curStock.commitBuffer()) {
+				MessageBox.warning(util.translate("scripts", "Error al actualizar el stock del artículo por números de serie"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				return false;
+			}
+		}
+	}
+	
+	return true;
+}
+
+/** Esta función realiza la misma operación que afterCommit_numerosserie(): actualizar el stock de un artículo controlado por número de serie por medio de un simple conteo en la tabla "numerosserie".
+Sin embargo, salvo que se esté operando con el formulario de números de serie en el módulo Almacén, esa actualización se pospone hasta el momento en que se acepta el documento (factura, remito, artículo, etc.) dentro del cual se modifica la tabla "numerosserie", a fin de no bloquear el stock.
+*/
+function desbloqueoStockNumSerie_actualizarStockNumSerie(codAlmacen:String, referencia:String) 
+{
+	var util:FLUtil = new FLUtil();
+	var stockNS:Number = util.sqlSelect("numerosserie", "count(id)", "referencia = '" + referencia + "' AND vendido = false AND codalmacen = '" + codAlmacen + "'");
+	
+	var curStock:FLSqlCursor = new FLSqlCursor("stocks");
+	curStock.select("referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "'");
+	
+	if (curStock.first()) {
+		curStock.setModeAccess(curStock.Edit);
+		curStock.refreshBuffer();
+		curStock.setValueBuffer("cantidad", stockNS);
+		if (!curStock.commitBuffer()) {
+			MessageBox.warning(util.translate("scripts", "Error al actualizar el stock del artículo por números de serie"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+			return false;
+		}
+	}	
+	else {
+		// No hay stock en este almacén, nueva línea de stocks
+		curStock.setModeAccess(curStock.Insert);
+		curStock.refreshBuffer();
+		curStock.setValueBuffer("referencia", referencia);
+		curStock.setValueBuffer("codalmacen", codAlmacen);
+		curStock.setValueBuffer("cantidad", stockNS);
+		if (!curStock.commitBuffer()) {
+			MessageBox.warning(util.translate("scripts", "Error al actualizar el stock del artículo por números de serie"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+			return false;
+		}
+	}
+	
 	return true;
 }
 

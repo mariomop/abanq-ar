@@ -7479,13 +7479,15 @@ function desbloqueoStock_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolea
 			while (qryLinea.next()) {
 				var variacion:Number = qryLinea.value("m.variacion");
 				if (variacion != 0) {
-					if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
-						MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0001: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-						return false;
+					/* Artículos NO controlados por número de serie */
+					if (qryLinea.value("m.numserie") == "") {
+						if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
+							MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0001: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
 					}
-
-					/* Actualizar estado de los artículos manejados por "número de serie" */
-					if (qryLinea.value("m.numserie") != "") {
+					/* Actualizar stock y estado de los artículos manejados por "número de serie" */
+					else  {
 						var valor = "";
 						var idDoc:Number;
 						if (variacion == -1) {
@@ -7514,6 +7516,12 @@ function desbloqueoStock_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolea
 							return false;
 						if (!flfactalma.iface.modificarNumSerie(qryLinea.value("m.referencia"), qryLinea.value("m.numserie"), tipoDoc, idDoc))
 							return false;
+
+						/* Actualizar stock del artículo */
+						if (!flfactalma.iface.pub_actualizarStockNumSerie(curFactura.valueBuffer("codalmacen"), qryLinea.value("m.referencia"))) {
+							MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0001-b: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
 					}
 				}
 			}
@@ -7558,13 +7566,14 @@ function desbloqueoStock_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolea
 			curLinea.select("idfactura = " + curFactura.valueBuffer("idfactura"));
 			while (curLinea.next()) {
 				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
-				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
-					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0002: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-					return false;
+				/* Artículos NO controlados por número de serie */
+				if (curLinea.valueBuffer("numserie") == "") {
+					if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+						MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0002: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+						return false;
+					}
 				}
-
-				/* Actualizar estado de los artículos manejados por número de serie */
-				if (curLinea.valueBuffer("numserie") != "") {
+				else {
 					/* Actualizar solo si el artículo no fue vendido a partir de remito (factura generada a partir de remito) */
 					var curNS:FLSqlCursor = new FLSqlCursor("numerosserie");
 					curNS.select("referencia = '" + curLinea.valueBuffer("referencia") + "' AND numserie = '" + curLinea.valueBuffer("numserie") + "' AND (idalbaranventa IS NULL OR idalbaranventa < 0)");
@@ -7579,6 +7588,11 @@ function desbloqueoStock_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolea
 							return false;
 						if (!flfactalma.iface.modificarNumSerie(curLinea.valueBuffer("referencia"), curLinea.valueBuffer("numserie"), tipoDoc, idDoc))
 							return false;
+					}
+					/* Actualizar stock del artículo */
+					if (!flfactalma.iface.pub_actualizarStockNumSerie(curFactura.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"))) {
+						MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0001-b: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+						return false;
 					}
 				}
 			}
@@ -7630,13 +7644,15 @@ function desbloqueoStock_beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boole
 			while (qryLinea.next()) {
 				var variacion:Number = qryLinea.value("m.variacion");
 				if (variacion != 0) {
-					if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
-						MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0003: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-						return false;
+					/* Artículos NO controlados por número de serie */
+					if (qryLinea.value("m.numserie") == "") {
+						if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
+							MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0003: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
 					}
-
 					/* Actualizar estado de los artículos manejados por "número de serie" */
-					if (qryLinea.value("m.numserie") != "") {
+					else if {
 						var valor = "";
 						var idDoc:Number;
 						if (variacion == -1) {
@@ -7663,6 +7679,11 @@ function desbloqueoStock_beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boole
 							return false;
 						if (!flfactalma.iface.modificarNumSerie(qryLinea.value("m.referencia"), qryLinea.value("m.numserie"), tipoDoc, idDoc))
 							return false;
+
+						/* Actualizar stock del artículo */
+						if (!flfactalma.iface.pub_actualizarStockNumSerie(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("m.referencia"))) {
+							return false;
+						}
 					}
 				}
 			}
@@ -7709,13 +7730,15 @@ function desbloqueoStock_beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boole
 			while (curLinea.next()) {
 				if (curLinea.valueBuffer("idlineapedido") == 0 && !controlPedidos) {
 					var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
-					if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
-						MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0004: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-						return false;
+					/* Artículos NO controlados por número de serie */
+					if (curLinea.valueBuffer("numserie") == "") {
+						if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+							MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0004: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
 					}
-
 					/* Actualizar estado de los artículos manejados por número de serie */
-					if (curLinea.valueBuffer("numserie") != "") {
+					else {
 						var curNS:FLSqlCursor = new FLSqlCursor("numerosserie");
 						curNS.select("referencia = '" + curLinea.valueBuffer("referencia") + "' AND numserie = '" + curLinea.valueBuffer("numserie") + "'");
 						if (curNS.first()) {
@@ -7727,6 +7750,10 @@ function desbloqueoStock_beforeCommit_albaranescli(curAlbaran:FLSqlCursor):Boole
 								return false;
 							if (!flfactalma.iface.modificarNumSerie(curLinea.valueBuffer("referencia"), curLinea.valueBuffer("numserie"), tipoDoc, idDoc))
 								return false;
+						}
+						/* Actualizar stock del artículo */
+						if (!flfactalma.iface.pub_actualizarStockNumSerie(curAlbaran.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"))) {
+							return false;
 						}
 					}
 				}
@@ -7883,13 +7910,15 @@ function desbloqueoStock_beforeCommit_facturasprov(curFactura:FLSqlCursor):Boole
 			while (qryLinea.next()) {
 				var variacion:Number = qryLinea.value("m.variacion");
 				if (variacion != 0) {
-					if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
-						MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0007: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-						return false;
+					/* Artículos NO controlados por número de serie */
+					if (qryLinea.value("m.numserie") == "") {
+						if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
+							MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0007: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
 					}
-
 					/* Actualizar id de los artículos manejados por "número de serie" */
-					if (qryLinea.value("m.numserie") != "") {
+					else {
 						var idDoc:Number;
 						if (variacion == 1) {
 							idDoc = curFactura.valueBuffer("idfactura");
@@ -7901,6 +7930,12 @@ function desbloqueoStock_beforeCommit_facturasprov(curFactura:FLSqlCursor):Boole
 						var tipoDoc = "idfacturacompra";
 						if (!flfactalma.iface.modificarNumSerie(qryLinea.value("m.referencia"), qryLinea.value("m.numserie"), tipoDoc, idDoc))
 							return false;
+
+						/* Actualizar stock del artículo */
+						if (!flfactalma.iface.pub_actualizarStockNumSerie(curFactura.valueBuffer("codalmacen"), qryLinea.value("m.referencia"))) {
+							MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0007-b: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
 					}
 				}
 			}
@@ -7944,9 +7979,31 @@ function desbloqueoStock_beforeCommit_facturasprov(curFactura:FLSqlCursor):Boole
 			curLinea.select("idfactura = " + curFactura.valueBuffer("idfactura"));
 			while (curLinea.next()) {
 				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad")) * -1;
-				if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
-					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0008: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-					return false;
+				/* Artículos NO controlados por número de serie */
+				if (curLinea.valueBuffer("numserie") == "") {
+					if (!flfactalma.iface.pub_cambiarStock(curFactura.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+						MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0008: ") + curFactura.valueBuffer("idfactura"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+						return false;
+					}
+				}
+				else {
+					/* Actualizar solo si el artículo no fue comprado a partir de remito (factura generada a partir de remito) */
+					var curNS:FLSqlCursor = new FLSqlCursor("numerosserie");
+					curNS.select("referencia = '" + curLinea.valueBuffer("referencia") + "' AND numserie = '" + curLinea.valueBuffer("numserie") + "' AND (idalbarancompra IS NULL OR idalbarancompra < 0)");
+					if (curNS.first()) {
+						var idDoc:Number = -1;
+						var tipoDoc = "";
+						if (curFactura.valueBuffer("decredito")) tipoDoc = "idfacturadevol"
+						else tipoDoc = "idfacturacompra";
+
+						if (!flfactalma.iface.modificarNumSerie(curLinea.valueBuffer("referencia"), curLinea.valueBuffer("numserie"), tipoDoc, idDoc))
+							return false;
+					}
+
+					/* Actualizar stock del artículo */
+					if (!flfactalma.iface.pub_actualizarStockNumSerie(curFactura.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"))) {
+						return false;
+					}
 				}
 			}
 		}
@@ -7997,13 +8054,15 @@ function desbloqueoStock_beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Bool
 			while (qryLinea.next()) {
 				var variacion:Number = qryLinea.value("m.variacion");
 				if (variacion != 0) {
-					if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
-						MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0009: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-						return false;
+					/* Artículos NO controlados por número de serie */
+					if (qryLinea.value("m.numserie") == "") {
+						if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
+							MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0009: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
 					}
-
 					/* Actualizar id de los artículos manejados por "número de serie" */
-					if (qryLinea.value("m.numserie") != "") {
+					else {
 						var idDoc:Number;
 						if (variacion == 1) {
 							idDoc = curAlbaran.valueBuffer("idalbaran");
@@ -8015,6 +8074,11 @@ function desbloqueoStock_beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Bool
 						var tipoDoc = "idalbarancompra";
 						if (!flfactalma.iface.modificarNumSerie(qryLinea.value("m.referencia"), qryLinea.value("m.numserie"), tipoDoc, idDoc))
 							return false;
+
+						/* Actualizar stock del artículo */
+						if (!flfactalma.iface.pub_actualizarStockNumSerie(curAlbaran.valueBuffer("codalmacen"), qryLinea.value("m.referencia"))) {
+							return false;
+						}
 					}
 				}
 			}
@@ -8054,13 +8118,34 @@ function desbloqueoStock_beforeCommit_albaranesprov(curAlbaran:FLSqlCursor):Bool
 		}
 		/* Al borrar el remito no se recorre movistock sino las lineasalbaranesprov */
 		else if (curAlbaran.modeAccess() == curAlbaran.Del) {
+			var controlPedidos = flfactppal.iface.pub_valorDefectoEmpresa("stockpedidos");
 			var curLinea:FLSqlCursor = new FLSqlCursor("lineasalbaranesprov");
 			curLinea.select("idalbaran = " + curAlbaran.valueBuffer("idalbaran"));
 			while (curLinea.next()) {
-				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad")) * -1;
-				if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
-					MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0010: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-					return false;
+				if (curLinea.valueBuffer("idlineapedido") == 0 && !controlPedidos) {
+					var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad")) * -1;
+					/* Artículos NO controlados por número de serie */
+					if (curLinea.valueBuffer("numserie") == "") {
+						if (!flfactalma.iface.pub_cambiarStock(curAlbaran.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+							MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTURAC-0010: ") + curAlbaran.valueBuffer("idalbaran"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
+					}
+					/* Actualizar estado de los artículos manejados por número de serie */
+					else {
+						var curNS:FLSqlCursor = new FLSqlCursor("numerosserie");
+						curNS.select("referencia = '" + curLinea.valueBuffer("referencia") + "' AND numserie = '" + curLinea.valueBuffer("numserie") + "'");
+						if (curNS.first()) {
+							var idDoc:Number = -1;
+							var tipoDoc = "idalbaranventa";
+							if (!flfactalma.iface.modificarNumSerie(curLinea.valueBuffer("referencia"), curLinea.valueBuffer("numserie"), tipoDoc, idDoc))
+								return false;
+						}
+						/* Actualizar stock del artículo */
+						if (!flfactalma.iface.pub_actualizarStockNumSerie(curAlbaran.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"))) {
+							return false;
+						}
+					}
 				}
 			}
 		}
