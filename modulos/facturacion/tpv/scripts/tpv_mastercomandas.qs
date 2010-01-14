@@ -1255,6 +1255,7 @@ function tipoVenta_datosLineaFactura(curLineaAlbaran:FLSqlCursor):Boolean
 		setValueBuffer("descripcion", curLineaAlbaran.valueBuffer("descripcion"));
 		setValueBuffer("pvpunitario", curLineaAlbaran.valueBuffer("pvpunitario"));
 		setValueBuffer("cantidad", cantidad);
+		setValueBuffer("cantidadprevia", cantidad);
 		setValueBuffer("pvpsindto", pvpSinDto);
 		setValueBuffer("pvptotal", formRecordtpv_lineascomanda.iface.pub_commonCalculateField("pvptotal", this));
 		setValueBuffer("codimpuesto", curLineaAlbaran.valueBuffer("codimpuesto"));

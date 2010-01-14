@@ -2097,36 +2097,36 @@ function desbloqueoStock_controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String,
 	if (curLinea.table() == "tpv_lineascomanda")
 		linea = "idtpv_linea";
 	
-	var idDoc = "";
+	var idDoc:Number = 0;
 	var numSerie = "";
 	switch (curLinea.table()) {
 		case "lineasfacturascli":
 		case "lineasfacturasprov": {
-			idDoc = "idfactura";
+			idDoc = curLinea.valueBuffer("idfactura")
 			numSerie = curLinea.valueBuffer("numserie");
 			break;
 		}
 		case "lineasalbaranescli":
 		case "lineasalbaranesprov": {
-			idDoc = "idalbaran";
+			idDoc = curLinea.valueBuffer("idalbaran");
 			numSerie = curLinea.valueBuffer("numserie");
 			break;
 		}
 		case "lineaspedidoscli": {
-			idDoc = "idpedido";
+			idDoc = curLinea.valueBuffer("idpedido");
 			break;
 		}
 		case "tpv_lineascomanda": {
-			idDoc = "iddocumento";
+			idDoc = util.sqlSelect("tpv_comandas", "iddocumento", "idtpv_comanda = " + curLinea.valueBuffer("idtpv_comanda"));
 			numSerie = curLinea.valueBuffer("numserie");
 			break;
 		}
 		case "lineastransstock": {
-			idDoc = "idtrans";
+			idDoc = curLinea.valueBuffer("idtrans");
 			break;
 		}
 		case "lineastrazabilidadinterna": {
-			idDoc = "codtrazainterna";
+			idDoc = curLinea.valueBuffer("codtrazainterna");
 			break;
 		}
 	}
@@ -2145,37 +2145,37 @@ function desbloqueoStock_controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String,
 	switch(curLinea.modeAccess()) {
 		case curLinea.Insert: {
 			variacion = signo * cantidad;
-			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
+			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 				return false;
 			break;
 		}
 		case curLinea.Del: {
 			variacion = signo * -1 * cantidad;
-			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "true" ) )
+			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "true" ) )
 				return false;
 			break;
 		}
 		case curLinea.Edit: {
 			if (curLinea.valueBuffer( "referencia" ) != curLinea.valueBufferCopy( "referencia" )) {
 				variacion = signo * -1 * cantidadPrevia;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBufferCopy( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "true" ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBufferCopy( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "true" ) )
 					return false;
 				variacion = signo * cantidad;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 					return false;
 			}
 			else if ( numSerie != "" && (numSerie != curLinea.valueBufferCopy( "numserie" )) ) {
 				variacion = signo * -1 * cantidadPrevia;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, curLinea.valueBufferCopy( "numserie" ), "true" ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, curLinea.valueBufferCopy( "numserie" ), "true" ) )
 					return false;
 				variacion = signo * cantidad;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 					return false;
 			}
 			else {
 				if(cantidad != cantidadPrevia) {
 					variacion = (cantidad - cantidadPrevia) * signo;
-					if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
+					if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 						return false;
 				}
 			}
