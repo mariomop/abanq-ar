@@ -2240,7 +2240,7 @@ function desbloqueoStock_cambiarMoviStock(codAlmacen:String, referencia:String, 
 	}
 	
 	/////////	movistock
-	var idMoviStock = util.sqlSelect("movistock", "idmovistock", "referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "' AND tipodoc = '" + tipoDoc + "' AND idlinea = " + idLinea + " AND numserie = '" + numSerie + "'");
+	var idMoviStock = util.sqlSelect("movistock", "idmovistock", "referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "' AND tipodoc = '" + tipoDoc + "' AND idlinea = " + idLinea);
 	if ( !idMoviStock ) {
 		idMoviStock = this.iface.crearMoviStock( codAlmacen, referencia, tipoDoc, idLinea, numSerie );
 		if ( !idMoviStock ) {
