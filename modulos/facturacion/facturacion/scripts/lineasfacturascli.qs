@@ -411,6 +411,10 @@ function funNumSerie_controlCantidad(cantidadAuno:Boolean)
 		this.child("tbwLinea").setTabEnabled("numserie", true);
 		this.child("fdbNumSerie").setDisabled(false);
 	}
+	// agregamos el control de artículos por lotes aquí, para unificar el funcionamiento
+	else if (util.sqlSelect("articulos", "porlotes", "referencia = '" + cursor.valueBuffer("referencia") + "'")) {
+		this.child("fdbCantidad").setDisabled(true);
+	}
 	else {
 // 		this.child("fdbCantidad").setDisabled(false);
 		this.child("tbwLinea").setTabEnabled("numserie", false);
@@ -542,7 +546,7 @@ function funNumAcomp_regenerarNumSerieComp()
 
 function funNumAcomp_bufferChanged(fN:String)
 {
-// 	this.iface.__bufferChanged(fN);
+	this.iface.__bufferChanged(fN);
 
 	switch (fN) {
 		/** Si el artículo tiene componentes se habilita el cuadro de números de serie
@@ -551,8 +555,6 @@ function funNumAcomp_bufferChanged(fN:String)
 			this.iface.controlNumSerieComp(true);
 		break;
 	}
-
-	this.iface.__bufferChanged(fN);
 }
 
 /** Si el artículo tiene componentes se habilita el cuadro de números de serie
@@ -571,6 +573,7 @@ function funNumAcomp_controlNumSerieComp(regenerar:Boolean)
 		var curTab:FLSqlCursor = this.child("tdbLineasFacturasCliNS").cursor();
 		curTab.select();
 		if (curTab.first()) {
+			this.child("tbwLinea").setTabEnabled("numserie", true);
 			this.cursor().setValueBuffer("cantidad", 1);
 			this.child("fdbCantidad").setDisabled(true);
 		}
