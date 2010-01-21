@@ -403,11 +403,23 @@ class costos extends multiDivisa {
 //// COSTOS /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration desbloqueoStockNumSerie */
+//////////////////////////////////////////////////////////////////
+//// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
+class desbloqueoStockNumSerie extends costos {
+	function desbloqueoStockNumSerie( context ) { costos( context ); } 
+	function acceptedForm() {
+		this.ctx.desbloqueoStockNumSerie_acceptedForm();
+	}
+}
+//// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends costos {
-    function head( context ) { costos ( context ); }
+class head extends desbloqueoStockNumSerie {
+    function head( context ) { desbloqueoStockNumSerie ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -2628,6 +2640,42 @@ function costos_establecerCostoMaximo()
 
 //// COSTOS /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_declaration desbloqueoStockNumSerie */
+//////////////////////////////////////////////////////////////////
+//// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
+
+/* El objetivo de esta función es chequear el stock del artículo si se controla por número de serie.
+La tabla numerosserie puede ser modificada desde el formulario de artículos, por eso hay que chequear el stock.
+Esta función no se ejecuta en el "before" o "afterCommit" pues la modificación de la tabla "stocks" actualizaría a su vez la tabla "articulos" (campo stockfis), por lo que se generaría un bucle infinito */
+function desbloqueoStockNumSerie_acceptedForm()
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	if (cursor.valueBuffer("controlnumserie") && sys.isLoadedModule("flfactalma")) {
+		var qryLinea:FLSqlQuery = new FLSqlQuery();
+		qryLinea.setTablesList("numerosserie");
+		qryLinea.setSelect("DISTINCT(codalmacen)");
+		qryLinea.setFrom("numerosserie");
+		qryLinea.setWhere("referencia = '" + cursor.valueBuffer("referencia") + "'");
+		if(!qryLinea.exec())
+			return false;
+
+		while (qryLinea.next()) {
+			if (!flfactalma.iface.pub_actualizarStockNumSerie(qryLinea.value(0), cursor.valueBuffer("referencia"))) {
+				return false;
+			}
+		}
+	}
+	
+	if (!this.iface.__acceptedForm())
+		return false;
+
+	return true;
+}
+
+//// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

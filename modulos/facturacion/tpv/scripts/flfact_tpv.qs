@@ -414,11 +414,26 @@ class periodosFiscales extends tipoVenta {
 //// PERIODOS FISCALES //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration desbloqueoStock */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+class desbloqueoStock extends periodosFiscales {
+    function desbloqueoStock( context ) { periodosFiscales ( context ); }
+	function beforeCommit_tpv_comandas(curComanda:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_beforeCommit_tpv_comandas(curComanda);
+	}
+	function afterCommit_tpv_comandas(curComanda:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_afterCommit_tpv_comandas(curComanda);
+	}
+}
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends periodosFiscales {
-    function head( context ) { periodosFiscales ( context ); }
+class head extends desbloqueoStock {
+    function head( context ) { desbloqueoStock ( context ); }
 	function pub_crearFactura(curComanda:FLSqlCursor):Number {
 		return this.crearFactura(curComanda);
 	}
@@ -3356,6 +3371,74 @@ function periodosFiscales_datosFactura(curComanda:FLSqlCursor):Boolean
 
 //// PERIODOS FISCALES ///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
+
+/** @class_declaration desbloqueoStock */
+/////////////////////////////////////////////////////////////////
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+
+function desbloqueoStock_beforeCommit_tpv_comandas(curComanda:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_tpv_comandas(curComanda) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curComanda.modeAccess() == curComanda.Insert || curComanda.modeAccess() == curComanda.Edit) {
+			/* Actualizar el campo cantidadprevia en las líneas: cantidadprevia = cantidad. */
+			var curLineas:FLSqlCursor = new FLSqlCursor("tpv_lineascomanda");
+			curLineas.select("idtpv_comanda = " + curComanda.valueBuffer("idtpv_comanda"));
+			while (curLineas.next()) {
+				curLineas.setModeAccess(curLineas.Edit);
+				curLineas.refreshBuffer();
+				curLineas.setValueBuffer("cantidadprevia", curLineas.valueBuffer("cantidad"));
+				if (!curLineas.commitBuffer())
+					return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_afterCommit_tpv_comandas(curComanda:FLSqlCursor):Boolean
+{
+	if (!this.iface.__afterCommit_tpv_comandas(curComanda))
+		return false;
+
+	/* Al eliminarse el documento con sus líneas, también se borran los registros correspondientes en movistock */
+	if (curComanda.modeAccess() == curComanda.Del) {
+		var tipoDoc = "";
+		var tipoVenta = curComanda.valueBuffer("tipoventa");
+		switch (tipoVenta) {
+			case "Factura A":
+			case "Factura B":
+			case "Factura C":
+			case "Ticket":
+				tipoDoc = "FC";
+				break;
+			case "Remito":
+				tipoDoc = "RC";
+				break;
+			case "Pedido":
+				tipoDoc = "PC";
+				break;
+		}
+
+		var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+		curMoviStock.select("tipodoc = '" + tipoDoc + "' AND iddoc = " + curComanda.valueBuffer("iddocumento"));
+		while (curMoviStock.next()) {
+			curMoviStock.setModeAccess(curMoviStock.Del);
+			curMoviStock.refreshBuffer();
+			if (!curMoviStock.commitBuffer())
+				return false;
+		}
+	}
+
+	return true;
+}
+
+//// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

@@ -364,6 +364,9 @@ class desbloqueoStockNumSerie extends desbloqueoStockLotes {
 	function afterCommit_numerosserie(curNS:FLSqlCursor):Boolean {
 		return this.ctx.desbloqueoStockNumSerie_afterCommit_numerosserie(curNS);
 	}
+	function actualizarStockNumSerie(codAlmacen:String, referencia:String):Boolean {
+		return this.ctx.desbloqueoStockNumSerie_actualizarStockNumSerie(codAlmacen, referencia);
+	}
 }
 //// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -417,6 +420,9 @@ class ifaceCtx extends head {
 	}
 	function pub_valorDefectoAlmacen(fN:String):String {
 		return this.valorDefectoAlmacen(fN);
+	}
+	function pub_actualizarStockNumSerie(codAlmacen:String, referencia:String):Boolean {
+		return this.actualizarStockNumSerie(codAlmacen, referencia);
 	}
 }
 //// INTERFACE  /////////////////////////////////////////////////
@@ -2091,36 +2097,36 @@ function desbloqueoStock_controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String,
 	if (curLinea.table() == "tpv_lineascomanda")
 		linea = "idtpv_linea";
 	
-	var idDoc = "";
+	var idDoc:Number = 0;
 	var numSerie = "";
 	switch (curLinea.table()) {
 		case "lineasfacturascli":
 		case "lineasfacturasprov": {
-			idDoc = "idfactura";
+			idDoc = curLinea.valueBuffer("idfactura")
 			numSerie = curLinea.valueBuffer("numserie");
 			break;
 		}
 		case "lineasalbaranescli":
 		case "lineasalbaranesprov": {
-			idDoc = "idalbaran";
+			idDoc = curLinea.valueBuffer("idalbaran");
 			numSerie = curLinea.valueBuffer("numserie");
 			break;
 		}
 		case "lineaspedidoscli": {
-			idDoc = "idpedido";
+			idDoc = curLinea.valueBuffer("idpedido");
 			break;
 		}
 		case "tpv_lineascomanda": {
-			idDoc = "iddocumento";
+			idDoc = util.sqlSelect("tpv_comandas", "iddocumento", "idtpv_comanda = " + curLinea.valueBuffer("idtpv_comanda"));
 			numSerie = curLinea.valueBuffer("numserie");
 			break;
 		}
 		case "lineastransstock": {
-			idDoc = "idtrans";
+			idDoc = curLinea.valueBuffer("idtrans");
 			break;
 		}
 		case "lineastrazabilidadinterna": {
-			idDoc = "codtrazainterna";
+			idDoc = curLinea.valueBuffer("codtrazainterna");
 			break;
 		}
 	}
@@ -2139,37 +2145,37 @@ function desbloqueoStock_controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String,
 	switch(curLinea.modeAccess()) {
 		case curLinea.Insert: {
 			variacion = signo * cantidad;
-			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
+			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 				return false;
 			break;
 		}
 		case curLinea.Del: {
 			variacion = signo * -1 * cantidad;
-			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "true" ) )
+			if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "true" ) )
 				return false;
 			break;
 		}
 		case curLinea.Edit: {
 			if (curLinea.valueBuffer( "referencia" ) != curLinea.valueBufferCopy( "referencia" )) {
 				variacion = signo * -1 * cantidadPrevia;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBufferCopy( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "true" ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBufferCopy( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "true" ) )
 					return false;
 				variacion = signo * cantidad;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 					return false;
 			}
 			else if ( numSerie != "" && (numSerie != curLinea.valueBufferCopy( "numserie" )) ) {
 				variacion = signo * -1 * cantidadPrevia;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, curLinea.valueBufferCopy( "numserie" ), "true" ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, curLinea.valueBufferCopy( "numserie" ), "true" ) )
 					return false;
 				variacion = signo * cantidad;
-				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
+				if ( !this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 					return false;
 			}
 			else {
 				if(cantidad != cantidadPrevia) {
 					variacion = (cantidad - cantidadPrevia) * signo;
-					if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, curLinea.valueBuffer( idDoc ), curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
+					if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 						return false;
 				}
 			}
@@ -2234,7 +2240,7 @@ function desbloqueoStock_cambiarMoviStock(codAlmacen:String, referencia:String, 
 	}
 	
 	/////////	movistock
-	var idMoviStock = util.sqlSelect("movistock", "idmovistock", "referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "' AND tipodoc = '" + tipoDoc + "' AND idlinea = " + idLinea + " AND numserie = '" + numSerie + "'");
+	var idMoviStock = util.sqlSelect("movistock", "idmovistock", "referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "' AND tipodoc = '" + tipoDoc + "' AND idlinea = " + idLinea);
 	if ( !idMoviStock ) {
 		idMoviStock = this.iface.crearMoviStock( codAlmacen, referencia, tipoDoc, idLinea, numSerie );
 		if ( !idMoviStock ) {
@@ -2737,10 +2743,80 @@ function desbloqueoStockLotes_beforeCommit_trazabilidadinterna(curTI:FLSqlCursor
 //////////////////////////////////////////////////////////////////
 //// DESBLOQUEO NUMEROS SERIE ////////////////////////////////////
 
-/** Esta función anula la oficial --oficial_afterCommit_numerosserie()--. La modificación del stock se realiza al aceptarse el documento
+/** Esta función anula la oficial --oficial_afterCommit_numerosserie()--.
+Si se está cargando un artículo con número de serie desde el formulario de números de serie de Almacén, actualizar el stock.
+Caso contrario (se está operando con algún documento comercial, como las facturas, o con el formulario del artículo), no actualizar (se actualiza luego con "actualizarStockNumSerie()")
 */
 function desbloqueoStockNumSerie_afterCommit_numerosserie(curNS:FLSqlCursor) 
 {
+	if (curNS.action() == "numerosserie") {
+		if (curNS.modeAccess() == curNS.Edit) return true;
+		
+		var util:FLUtil = new FLUtil();
+		var stockNS:Number = util.sqlSelect("numerosserie", "count(id)", "referencia = '" + curNS.valueBuffer("referencia") + "' AND vendido = false AND codalmacen = '" + curNS.valueBuffer("codalmacen") + "'");
+		
+		var curStock:FLSqlCursor = new FLSqlCursor("stocks");
+		curStock.select("referencia = '" + curNS.valueBuffer("referencia") + "' AND codalmacen = '" + curNS.valueBuffer("codalmacen") + "'");
+		
+		if (curStock.first()) {
+			curStock.setModeAccess(curStock.Edit);
+			curStock.refreshBuffer();
+			curStock.setValueBuffer("cantidad", stockNS);
+			if (!curStock.commitBuffer()) {
+				MessageBox.warning(util.translate("scripts", "Error al actualizar el stock del artículo por números de serie"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				return false;
+			}
+		}	
+		else if (curNS.modeAccess() == curNS.Insert) {
+			// No hay stock en este almacén, nueva línea de stocks
+			curStock.setModeAccess(curStock.Insert);
+			curStock.refreshBuffer();
+			curStock.setValueBuffer("referencia", curNS.valueBuffer("referencia"));
+			curStock.setValueBuffer("codalmacen", curNS.valueBuffer("codalmacen"));
+			curStock.setValueBuffer("cantidad", stockNS);
+			if (!curStock.commitBuffer()) {
+				MessageBox.warning(util.translate("scripts", "Error al actualizar el stock del artículo por números de serie"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+				return false;
+			}
+		}
+	}
+	
+	return true;
+}
+
+/** Esta función realiza la misma operación que afterCommit_numerosserie(): actualizar el stock de un artículo controlado por número de serie por medio de un simple conteo en la tabla "numerosserie".
+Sin embargo, salvo que se esté operando con el formulario de números de serie en el módulo Almacén, esa actualización se pospone hasta el momento en que se acepta el documento (factura, remito, artículo, etc.) dentro del cual se modifica la tabla "numerosserie", a fin de no bloquear el stock.
+*/
+function desbloqueoStockNumSerie_actualizarStockNumSerie(codAlmacen:String, referencia:String) 
+{
+	var util:FLUtil = new FLUtil();
+	var stockNS:Number = util.sqlSelect("numerosserie", "count(id)", "referencia = '" + referencia + "' AND vendido = false AND codalmacen = '" + codAlmacen + "'");
+	
+	var curStock:FLSqlCursor = new FLSqlCursor("stocks");
+	curStock.select("referencia = '" + referencia + "' AND codalmacen = '" + codAlmacen + "'");
+	
+	if (curStock.first()) {
+		curStock.setModeAccess(curStock.Edit);
+		curStock.refreshBuffer();
+		curStock.setValueBuffer("cantidad", stockNS);
+		if (!curStock.commitBuffer()) {
+			MessageBox.warning(util.translate("scripts", "Error al actualizar el stock del artículo por números de serie"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+			return false;
+		}
+	}	
+	else {
+		// No hay stock en este almacén, nueva línea de stocks
+		curStock.setModeAccess(curStock.Insert);
+		curStock.refreshBuffer();
+		curStock.setValueBuffer("referencia", referencia);
+		curStock.setValueBuffer("codalmacen", codAlmacen);
+		curStock.setValueBuffer("cantidad", stockNS);
+		if (!curStock.commitBuffer()) {
+			MessageBox.warning(util.translate("scripts", "Error al actualizar el stock del artículo por números de serie"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+			return false;
+		}
+	}
+	
 	return true;
 }
 

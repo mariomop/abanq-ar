@@ -699,6 +699,7 @@ function oficial_datosLineaAlbaran(curLineaPedido:FLSqlCursor):Boolean
 		setValueBuffer("descripcion", curLineaPedido.valueBuffer("descripcion"));
 		setValueBuffer("pvpunitario", curLineaPedido.valueBuffer("pvpunitario"));
 		setValueBuffer("cantidad", cantidad);
+		setValueBuffer("cantidadprevia", cantidad);
 		setValueBuffer("codimpuesto", curLineaPedido.valueBuffer("codimpuesto"));
 		setValueBuffer("iva", curLineaPedido.valueBuffer("iva"));
 		setValueBuffer("dtolineal", curLineaPedido.valueBuffer("dtolineal"));
