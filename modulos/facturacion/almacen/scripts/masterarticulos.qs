@@ -1089,6 +1089,9 @@ function silixSeleccionar_lanzarAccion_principalProveedor(curAccion:FLSqlCursor)
 			curArticulosProv.setModeAccess(curArticulosProv.Edit);
 		curArticulosProv.refreshBuffer();
 
+		if (curAccion.valueBuffer("pordefecto"))
+			util.sqlUpdate("articulosprov", "pordefecto", false, "referencia = '" + referencia + "'");
+
 		curArticulosProv.setValueBuffer("referencia", referencia);
 		curArticulosProv.setValueBuffer("codproveedor", codProveedor);
 		curArticulosProv.setValueBuffer("pordefecto", curAccion.valueBuffer("pordefecto"));
