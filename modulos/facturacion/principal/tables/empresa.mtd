@@ -451,4 +451,124 @@
 		<type>uint</type>
 		<default>1</default>
 	</field>
+	<field>
+		<name>filtropresupuestoscli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en presupuestos de clientes")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtropedidoscli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en pedidos de clientes")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtroalbaranescli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en remitos de clientes")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtrofacturascli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en facturas de clientes")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>1</default>
+	</field>
+	<field>
+		<name>filtroservicioscli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en servicios de clientes")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtropedidosprov</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en pedidos de proveedores")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtroalbaranesprov</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en remitos de proveedores")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtrofacturasprov</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en facturas de proveedores")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtropedidosauto</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en pedidos automáticos")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtroreciboscli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en recibos de clientes")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>1</default>
+	</field>
+	<field>
+		<name>filtrorecibosprov</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en recibos de proveedores")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtropagosmulticli</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en pagos múltiples de clientes")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtropagosmultiprov</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en pagos múltiples de proveedores")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
+	<field>
+		<name>filtrotpvcomandas</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en ventas de TPV")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>1</default>
+	</field>
+	<field>
+		<name>filtrotpvarqueos</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en arqueos de TPV")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>7</default>
+	</field>
 </TMD>

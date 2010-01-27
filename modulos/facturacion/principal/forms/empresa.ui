@@ -2674,6 +2674,636 @@
 									</spacer>
 								</vbox>
 							</widget>
+							<widget class="QWidget">
+								<property name="name">
+									<cstring>filtros</cstring>
+								</property>
+								<attribute name="title">
+									<string>Filtros de fecha</string>
+								</attribute>
+								<vbox>
+									<property name="name">
+										<cstring>unnamed</cstring>
+									</property>
+									<widget class="QGroupBox">
+										<property name="name">
+											<cstring>gbxFacturacion</cstring>
+										</property>
+										<property name="font">
+											<font>
+												<bold>0</bold>
+												<italic>0</italic>
+											</font>
+										</property>
+										<property name="title">
+											<string>Facturación</string>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="QGroupBox">
+												<property name="name">
+													<cstring>gbxFacturacionCliente</cstring>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+														<italic>1</italic>
+													</font>
+												</property>
+												<property name="title">
+													<string></string>
+												</property>
+												<vbox>
+													<property name="name">
+														<cstring>unnamed</cstring>
+													</property>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroPresupuestoscli</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtropresupuestoscli</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroPedidoscli</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtropedidoscli</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroAlbaranescli</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtroalbaranescli</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroFacturascli</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtrofacturascli</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroServicioscli</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtroservicioscli</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+												</vbox>
+											</widget>
+											<widget class="QGroupBox">
+												<property name="name">
+													<cstring>gbxFacturacionProveedor</cstring>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+														<italic>1</italic>
+													</font>
+												</property>
+												<property name="title">
+													<string></string>
+												</property>
+												<vbox>
+													<property name="name">
+														<cstring>unnamed</cstring>
+													</property>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroPedidosprov</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtropedidosprov</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroAlbaranesprov</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtroalbaranesprov</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroFacturasprov</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtrofacturasprov</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroPedidosauto</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtropedidosauto</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+												</vbox>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QGroupBox">
+										<property name="name">
+											<cstring>gbxTesoreria</cstring>
+										</property>
+										<property name="font">
+											<font>
+												<bold>0</bold>
+												<italic>0</italic>
+											</font>
+										</property>
+										<property name="title">
+											<string>Tesorería</string>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="QGroupBox">
+												<property name="name">
+													<cstring>gbxTesoreriaCliente</cstring>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+														<italic>1</italic>
+													</font>
+												</property>
+												<property name="title">
+													<string></string>
+												</property>
+												<vbox>
+													<property name="name">
+														<cstring>unnamed</cstring>
+													</property>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroReciboscli</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtroreciboscli</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroPagosmulticli</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtropagosmulticli</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+												</vbox>
+											</widget>
+											<widget class="QGroupBox">
+												<property name="name">
+													<cstring>gbxTesoreriaProveedor</cstring>
+												</property>
+												<property name="font">
+													<font>
+														<bold>0</bold>
+														<italic>1</italic>
+													</font>
+												</property>
+												<property name="title">
+													<string></string>
+												</property>
+												<vbox>
+													<property name="name">
+														<cstring>unnamed</cstring>
+													</property>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroRecibosprov</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtrorecibosprov</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layout</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB" >
+																<property name="name" >
+																	<cstring>fdbFiltroPagosmultiprov</cstring>
+																</property>
+																<property name="minimumSize" >
+																	<size>
+																		<width>200</width>
+																		<height>25</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName" >
+																	<string>filtropagosmultiprov</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+												</vbox>
+											</widget>
+										</hbox>
+									</widget>
+									<widget class="QGroupBox">
+										<property name="name">
+											<cstring>gbxTPV</cstring>
+										</property>
+										<property name="font">
+											<font>
+												<bold>0</bold>
+												<italic>0</italic>
+											</font>
+										</property>
+										<property name="title">
+											<string>TPV</string>
+										</property>
+										<hbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="QLayoutWidget">
+												<property name="name">
+													<cstring>layout</cstring>
+												</property>
+												<hbox>
+													<property name="name">
+														<cstring>unnamed</cstring>
+													</property>
+													<widget class="FLFieldDB" >
+														<property name="name" >
+															<cstring>fdbFiltroTPVComandas</cstring>
+														</property>
+														<property name="minimumSize" >
+															<size>
+																<width>200</width>
+																<height>25</height>
+															</size>
+														</property>
+														<property name="font">
+															<font>
+																<bold>0</bold>
+																<italic>0</italic>
+															</font>
+														</property>
+														<property name="fieldName" >
+															<string>filtrotpvcomandas</string>
+														</property>
+													</widget>
+												</hbox>
+											</widget>
+											<spacer>
+												<property name="name">
+													<cstring>unnamed</cstring>
+												</property>
+												<property name="orientation">
+													<enum>Horizontal</enum>
+												</property>
+												<property name="sizeType">
+													<enum>Fixed</enum>
+												</property>
+												<property name="sizeHint">
+													<size>
+														<width>10</width>
+														<height>10</height>
+													</size>
+												</property>
+											</spacer>
+											<widget class="QLayoutWidget">
+												<property name="name">
+													<cstring>layout</cstring>
+												</property>
+												<hbox>
+													<property name="name">
+														<cstring>unnamed</cstring>
+													</property>
+													<widget class="FLFieldDB" >
+														<property name="name" >
+															<cstring>fdbFiltroTPVArqueos</cstring>
+														</property>
+														<property name="minimumSize" >
+															<size>
+																<width>200</width>
+																<height>25</height>
+															</size>
+														</property>
+														<property name="font">
+															<font>
+																<bold>0</bold>
+																<italic>0</italic>
+															</font>
+														</property>
+														<property name="fieldName" >
+															<string>filtrotpvarqueos</string>
+														</property>
+													</widget>
+												</hbox>
+											</widget>
+										</hbox>
+									</widget>
+									<spacer>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<property name="orientation">
+											<enum>Vertical</enum>
+										</property>
+										<property name="sizeType">
+											<enum>Expanding</enum>
+										</property>
+										<property name="sizeHint">
+											<size>
+												<width>20</width>
+												<height>20</height>
+											</size>
+										</property>
+									</spacer>
+								</vbox>
+							</widget>
 						</widget>
 					</vbox>
 				</widget>

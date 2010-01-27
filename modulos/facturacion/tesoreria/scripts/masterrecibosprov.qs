@@ -183,8 +183,14 @@ function fechas_init()
 	this.iface.fechaHasta = this.child("dateTo");
 	this.iface.cbxEstado = this.child("cbxEstado");
 
+	var mostrarDias:Number = flfactppal.iface.pub_valorDefectoEmpresa("filtrorecibosprov");
+	if (!mostrarDias || isNaN(mostrarDias) || mostrarDias == 0)
+		mostrarDias = 1;
+	mostrarDias = (mostrarDias * -1 ) + 1;
+
+	var util:FLUtil = new FLUtil;
 	var d = new Date();
-	this.iface.fechaDesde.date = new Date(d.getYear(), d.getMonth(), 1);
+	this.iface.fechaDesde.date = new Date( util.addDays(d.toString().left(10), mostrarDias) );
 	this.iface.fechaHasta.date = new Date();
 
 	connect(this.iface.fechaDesde, "valueChanged(const QDate&)", this, "iface.actualizarFiltro");
@@ -203,7 +209,7 @@ function fechas_actualizarFiltro()
 		return;
 
 	var estado:Number = this.iface.cbxEstado.currentItem;
-	var filtro:String = "fechav >= '" + desde + "' AND fechav <= '" + hasta + "'";
+	var filtro:String = "fecha >= '" + desde + "' AND fecha <= '" + hasta + "'";
 
 	switch (estado) {
 		case 0: {
@@ -238,7 +244,7 @@ function fechas_actualizarFiltroCombo()
 		return;
 
 	var estado:Number = this.iface.cbxEstado.currentItem;
-	var filtro:String = "fechav >= '" + desde + "' AND fechav <= '" + hasta + "'";
+	var filtro:String = "fecha >= '" + desde + "' AND fecha <= '" + hasta + "'";
 
 	switch (estado) {
 		case 0: {
