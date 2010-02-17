@@ -63,11 +63,29 @@ class isernet extends oficial {
 //// ISERNET ////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration impresorasFiscales */
+/////////////////////////////////////////////////////////////
+//// IMPRESORAS FISCALES ////////////////////////////////////
+class impresorasFiscales extends isernet {
+    function impresorasFiscales( context ) { isernet ( context ); }
+	function init() {
+		return this.ctx.impresorasFiscales_init();
+	}
+	function bufferChanged(fN:String) {
+		return this.ctx.impresorasFiscales_bufferChanged(fN);
+	}
+	function habilitarFiscal() {
+		return this.ctx.impresorasFiscales_habilitarFiscal();
+	}
+}
+//// IMPRESORAS FISCALES ////////////////////////////////////
+/////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends isernet {
-    function head( context ) { isernet ( context ); }
+class head extends impresorasFiscales {
+    function head( context ) { impresorasFiscales ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -184,6 +202,48 @@ function isernet_init()
 }
 //// ISERNET ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
+
+/** @class_definition impresorasFiscales */
+/////////////////////////////////////////////////////////////
+//// IMPRESORAS FISCALES ////////////////////////////////////
+
+function impresorasFiscales_init()
+{
+	this.iface.__init();
+
+	var util:FLUtil = new FLUtil();
+	this.iface.habilitarFiscal();
+}
+
+function impresorasFiscales_bufferChanged(fN:String)
+{
+	this.iface.__bufferChanged(fN);
+
+	switch (fN) {
+		case "fiscalhasar":
+		case "tipoimpresora": {
+			this.iface.habilitarFiscal();
+			break;
+		}
+	}
+}
+
+function impresorasFiscales_habilitarFiscal()
+{
+	var cursor:FLSqlCursor = this.cursor();
+	if (cursor.valueBuffer("tipoimpresora") == "Fiscal") {
+		this.child("gbxImpresoraFiscal").setEnabled(true);
+		if (cursor.valueBuffer("fiscalhasar"))
+			this.child("fdbTipoImpresoraFiscalHasar").setDisabled(false);
+		else
+			this.child("fdbTipoImpresoraFiscalHasar").setDisabled(true);
+	} else {
+		this.child("gbxImpresoraFiscal").setEnabled(false);
+	}
+}
+
+//// IMPRESORAS FISCALES ////////////////////////////////////
+/////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

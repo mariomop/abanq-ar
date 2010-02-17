@@ -927,7 +927,7 @@
 									<cstring>impresora</cstring>
 								</property>
 								<attribute name="title">
-									<string>&amp;Impesora</string>
+									<string>&amp;Impresora</string>
 								</attribute>
 								<vbox>
 									<property name="name">
@@ -958,26 +958,6 @@
 													</property>
 													<widget class="FLFieldDB">
 														<property name="name">
-															<cstring>fdbImpresora</cstring>
-														</property>
-														<property name="minimumSize">
-															<size>
-																<width>144</width>
-																<height>28</height>
-															</size>
-														</property>
-														<property name="font">
-															<font>
-																<bold>0</bold>
-																<italic>0</italic>
-															</font>
-														</property>
-														<property name="fieldName">
-															<string>impresora</string>
-														</property>
-													</widget>
-													<widget class="FLFieldDB">
-														<property name="name">
 															<cstring>fdbTipoImpresora</cstring>
 														</property>
 														<property name="enabled">
@@ -1005,6 +985,26 @@
 														</property>
 														<property name="fieldName">
 															<string>tipoimpresora</string>
+														</property>
+													</widget>
+													<widget class="FLFieldDB">
+														<property name="name">
+															<cstring>fdbImpresora</cstring>
+														</property>
+														<property name="minimumSize">
+															<size>
+																<width>144</width>
+																<height>28</height>
+															</size>
+														</property>
+														<property name="font">
+															<font>
+																<bold>0</bold>
+																<italic>0</italic>
+															</font>
+														</property>
+														<property name="fieldName">
+															<string>impresora</string>
 														</property>
 													</widget>
 													<widget class="QLayoutWidget">
@@ -1061,6 +1061,156 @@
 																</property>
 																<property name="fieldName">
 																	<string>abrircajon</string>
+																</property>
+															</widget>
+														</hbox>
+													</widget>
+												</hbox>
+											</widget>
+										</vbox>
+									</widget>
+									<widget class="QGroupBox">
+										<property name="name">
+											<cstring>gbxImpresoraFiscal</cstring>
+										</property>
+										<property name="font">
+											<font>
+												<bold>0</bold>
+												<italic>0</italic>
+											</font>
+										</property>
+										<property name="title">
+											<string>Impresora fiscal</string>
+										</property>
+										<vbox>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<widget class="QLayoutWidget">
+												<property name="name">
+													<cstring>layout8</cstring>
+												</property>
+												<hbox>
+													<property name="name">
+														<cstring>unnamed</cstring>
+													</property>
+													<widget class="FLFieldDB">
+														<property name="name">
+															<cstring>fdbFiscalHasar</cstring>
+														</property>
+														<property name="enabled">
+															<bool>true</bool>
+														</property>
+														<property name="sizePolicy">
+															<sizepolicy>
+																<hsizetype>1</hsizetype>
+																<vsizetype>0</vsizetype>
+																<horstretch>0</horstretch>
+																<verstretch>0</verstretch>
+															</sizepolicy>
+														</property>
+														<property name="minimumSize">
+															<size>
+																<width>88</width>
+																<height>26</height>
+															</size>
+														</property>
+														<property name="maximumSize">
+															<size>
+																<width>88</width>
+																<height>26</height>
+															</size>
+														</property>
+														<property name="font">
+															<font>
+																<bold>0</bold>
+																<italic>0</italic>
+															</font>
+														</property>
+														<property name="fieldName">
+															<string>fiscalhasar</string>
+														</property>
+													</widget>
+													<widget class="FLFieldDB">
+														<property name="name">
+															<cstring>fdbTipoImpresoraFiscalHasar</cstring>
+														</property>
+														<property name="minimumSize">
+															<size>
+																<width>164</width>
+																<height>28</height>
+															</size>
+														</property>
+														<property name="maximumSize">
+															<size>
+																<width>194</width>
+																<height>28</height>
+															</size>
+														</property>
+														<property name="font">
+															<font>
+																<bold>0</bold>
+																<italic>0</italic>
+															</font>
+														</property>
+														<property name="fieldName">
+															<string>tipoimpresorafiscalhasar</string>
+														</property>
+													</widget>
+													<spacer>
+														<property name="name">
+															<cstring>spacerModeloSpooler</cstring>
+														</property>
+														<property name="orientation">
+															<enum>Horizontal</enum>
+														</property>
+														<property name="sizeType">
+															<enum>Fixed</enum>
+														</property>
+														<property name="sizeHint">
+															<size>
+																<width>40</width>
+																<height>20</height>
+															</size>
+														</property>
+													</spacer>
+													<widget class="QLayoutWidget">
+														<property name="name">
+															<cstring>layoutRutaSpooler</cstring>
+														</property>
+														<hbox>
+															<property name="name">
+																<cstring>unnamed</cstring>
+															</property>
+															<widget class="FLFieldDB">
+																<property name="name">
+																	<cstring>fdbRutaSpooler</cstring>
+																</property>
+																<property name="enabled">
+																	<bool>true</bool>
+																</property>
+																<property name="sizePolicy">
+																	<sizepolicy>
+																		<hsizetype>1</hsizetype>
+																		<vsizetype>0</vsizetype>
+																		<horstretch>0</horstretch>
+																		<verstretch>0</verstretch>
+																	</sizepolicy>
+																</property>
+																<property name="minimumSize">
+																	<size>
+																		<width>383</width>
+																		<height>31</height>
+																	</size>
+																</property>
+																<property name="font">
+																	<font>
+																		<bold>0</bold>
+																		<italic>0</italic>
+																	</font>
+																</property>
+																<property name="fieldName">
+																	<string>rutaspooler</string>
 																</property>
 															</widget>
 														</hbox>

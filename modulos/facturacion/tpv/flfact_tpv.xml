@@ -153,4 +153,10 @@
         <form>tpv_agruparalbaranescli</form>
         <formrecord>tpv_agruparalbaranescli</formrecord>
     </action>
+	<action>
+		<name>tpv_fiscalhasar</name>
+		<description>QT_TRANSLATE_NOOP("MetaData","Funciones para la generación de comandos fiscales de impresoras hasar")</description>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Impresoras fiscales Hasar")</alias>
+		<scriptform>tpv_fiscalhasar</scriptform>
+	</action>
 </ACTIONS>

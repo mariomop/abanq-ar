@@ -237,8 +237,40 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>15</length>
-		<optionslist>Común,ESC-POS,Térmica</optionslist>
+		<optionslist>Común,Fiscal,ESC-POS,Térmica</optionslist>
 		<default>Común</default>
+	</field>
+	
+	<field>
+		<name>fiscalhasar</name>
+		<!-- Es una impresora fiscal Hasar -->
+		<alias>QT_TRANSLATE_NOOP(&quot;MetaData&quot;,&quot;Hasar&quot;)</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+	</field>
+	
+	<field>
+		<name>tipoimpresorafiscalhasar</name>
+		<!-- Tipo de impresora fiscal Hasar-->
+		<alias>QT_TRANSLATE_NOOP(&quot;MetaData&quot;,&quot;Modelos Hasar&quot;)</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>15</length>
+		<optionslist>SMH/P-320F,SMH/P-321F,SMH/P-322F,SMH/P-330F,SMH/P715F,SMH/PL-8F,SMH/PL-9F</optionslist>
+		<default>SMH/P-320F</default>
+	</field>
+
+	<field>
+		<name>rutaspooler</name>
+		<!-- Ruta a la carpeta donde escucha el spooler (las impresoras Hasar se manejan con un spooler) -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Ruta a la carpeta del spooler")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>150</length>
 	</field>
 	
 	<field>

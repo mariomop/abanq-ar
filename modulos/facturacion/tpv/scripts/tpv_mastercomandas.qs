@@ -172,11 +172,26 @@ class ordenCampos extends tipoVenta {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration impresorasFiscales */
+/////////////////////////////////////////////////////////////
+//// IMPRESORAS FISCALES ////////////////////////////////////
+class impresorasFiscales extends ordenCampos {
+    function impresorasFiscales( context ) { ordenCampos ( context ); }
+	function imprimirFiscal(codComanda:String, puntoVenta:String):Boolean {
+		return this.ctx.impresorasFiscales_imprimirFiscal(codComanda, puntoVenta);
+	}
+	function imprimirFiscalHasar(codComanda:String, puntoVenta:String, rutaSpooler:String):Boolean {
+		return this.ctx.impresorasFiscales_imprimirFiscalHasar(codComanda, puntoVenta, rutaSpooler);
+	}
+}
+//// IMPRESORAS FISCALES ////////////////////////////////////
+/////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends impresorasFiscales {
+    function head( context ) { impresorasFiscales ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -429,7 +444,9 @@ function oficial_imprimirQuick( codComanda:String, impresora:String )
 	}
 
 	var tipoImpresora:String = util.sqlSelect("tpv_puntosventa", "tipoimpresora", "codtpv_puntoventa = '" + codPuntoVenta + "'");
-	if (tipoImpresora == "ESC-POS") {
+	if (tipoImpresora == "Fiscal") {
+		this.iface.imprimirFiscal(codComanda, codPuntoVenta);
+	} else if (tipoImpresora == "ESC-POS") {
 		this.iface.imprimirTiquePOS(codComanda, impresora, q);
 	} else {
 		var pixel:Number = util.sqlSelect("tpv_puntosventa", "pixel", "codtpv_puntoventa = '" + codPuntoVenta + "'");
@@ -1343,6 +1360,177 @@ function ordenCampos_init()
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_declaration impresorasFiscales */
+/////////////////////////////////////////////////////////////
+//// IMPRESORAS FISCALES ////////////////////////////////////
+
+function impresorasFiscales_imprimirFiscal(codComanda:String, puntoVenta:String):Boolean {
+	var util:FLUtil = new FLUtil();
+	var qry:FLSqlQuery = new FLSqlQuery();
+	qry.setTablesList("tpv_puntosventa");
+	qry.setSelect("fiscalhasar, rutaspooler");
+// 	qry.setSelect("fiscalhasar,fiscalepson");
+	qry.setFrom("tpv_puntosventa");
+	qry.setWhere("codtpv_puntoventa = '" + puntoVenta + "'");
+	if (!qry.exec()) return false;
+	if (!qry.first()) return false;
+	if (qry.value("fiscalhasar"))
+		return this.iface.imprimirFiscalHasar(codComanda, puntoVenta, qry.value("rutaspooler"));
+// 	else if (qry.value("fiscalepson"))
+// 		return this.iface.imprimirFiscalEpson(codComanda);
+	else return true;
+}
+
+function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:String, rutaSpooler:String):Boolean {
+	var util:FLUtil = new FLUtil();
+	util.createProgressDialog( util.translate( "scripts", "Enviando a impresora fiscal..." ), 4);
+
+	// Nueva línea
+	const nuevaLinea = String.fromCharCode( 10 );
+	var comandos:String = "";
+	var qryFact:FLSqlQuery = new FLSqlQuery();
+	qryFact.setSelect("t.idtpv_comanda, t.nombrecliente, t.codcliente, t.cifnif, c.regimeniva, c.tipoidfiscal, t.tipoventa, t.tipopago, t.pagado");
+	qryFact.setFrom("tpv_comandas t, clientes c");
+	qryFact.setWhere("t.codigo = '" + codComanda + "' AND c.codcliente = t.codcliente");
+	if (!qryFact.exec()) return false;
+	if (!qryFact.first()) return false;
+
+	var idComanda:Number = qryFact.value("t.idtpv_comanda");
+	var nombreCliente:String = qryFact.value("t.nombrecliente");
+	var codCliente:String = qryFact.value("t.codcliente");
+	var cifnif:String = qryFact.value("t.cifnif");
+	var regimenIva:String = qryFact.value("c.regimeniva");
+	var tipoIdFiscal:String = qryFact.value("c.tipoidfiscal");
+	var domicilio:String = util.sqlSelect("dirclientes", "direccion", "codcliente = '" + codCliente + "' AND domfacturacion = TRUE");
+	var tipoVenta:String = qryFact.value("t.tipoventa");
+	// Ver si no conviene considerar los pagos como fuente de información para cmdTotalTender
+	var formaPago:String = qryFact.value("t.tipopago");
+	var montoPagado = qryFact.value("t.pagado");
+
+// TODO: por lo pronto se supone que el emisor de la factura es un Responsable Inscripto, de modo que el tipo de factura a emitir dependerá sólo del tipo de responsabilidad fiscal de cliente. Más adelante se debería ajustar la tabla "Empresa" para tomar también de allí la responsabilidad fiscal del emisor (el dueño de la impresora que emite).
+
+	comandos += formtpv_fiscalhasar.iface.cmdSetCustomerData(nombreCliente, cifnif, regimenIva, tipoIdFiscal, domicilio) + nuevaLinea;
+// TODO: Obligatorio en las Notas de Crédito: cargar el número de documento original asociado. Comando SetEmbarkNumber 3.8.8
+// TODO: Opcional para Facturas y Notas de Débito: cargar el número de remito asociado. Comando SetEmbarkNumber 3.8.8
+	comandos += formtpv_fiscalhasar.iface.cmdOpenFiscalReceipt(tipoVenta) + nuevaLinea;
+// TODO: Abrir documento no fiscal homologado (sólo para el caso de las Notas de Crédito). OpenDNFH 3.6.1
+
+	util.setProgress(1);
+
+// Líneas...
+	var campos:String = "referencia, descripcion, pvpunitario, cantidad, pvpsindto, pvptotal, iva, dtolineal, dtopor";
+	var tabla:String = "tpv_lineascomanda";
+	var where:String = "tpv_lineascomanda.idtpv_comanda = " + idComanda;
+
+	var qryLineas:FLSqlQuery = new FLSqlQuery();
+	qryLineas.setSelect(campos);
+	qryLineas.setFrom(tabla);
+	qryLineas.setWhere(where);
+
+	if (qryLineas.exec()) {
+		if (qryLineas.first()) {
+			do {
+				var punitario:Number = qryLineas.value("pvpunitario");
+				var iva:Number = qryLineas.value("iva");
+				var punitarioIva:Number = punitario + ( punitario * iva ) / 100 ;
+				var precioIvaPorCant:Number = punitarioIva * qryLineas.value("cantidad");
+				var descripcion:String = qryLineas.value("descripcion");
+				var dtolineal = qryLineas.value("dtolineal");
+				var dtopor = qryLineas.value("dtopor");
+			// TODO: Opcional, cmdPrintFiscalText, texto descriptivo del producto
+				comandos += formtpv_fiscalhasar.iface.cmdPrintLineItem(descripcion, qryLineas.value("cantidad"), punitarioIva, iva, false, "0.00000000",  false, 0) + nuevaLinea;
+
+			//	Descuentos (o recargos) por línea
+				if (dtopor != 0 || dtolineal != 0) {
+					var descuento:Number = ( precioIvaPorCant * dtopor / 100 ) + dtolineal;
+					if (descuento >= precioIvaPorCant) {  // no se puede descontar más del precio al que se vende
+						descuento = precioIvaPorCant - 0.01;
+					}
+					var imputacion:Boolean = true;
+					if (descuento < 0) {
+						imputacion = false;
+						descuento = descuento * -1;
+					}
+					// var descuentoIva:Number = descuento + (descuento * iva) / 100;
+					var porcentaje:Number = parseInt( descuento * 100 / precioIvaPorCant );
+					var texto:String = porcentaje.toString() + "%";
+					comandos += formtpv_fiscalhasar.iface.cmdLastItemDiscount(texto, descuento, imputacion, true, 0) + nuevaLinea;
+				}
+			} while (qryLineas.next());
+		}
+		else {
+
+		}
+	} else {
+		MessageBox.critical(util.translate("scripts", "Falló la consulta") + qryLineas.sql(), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+	}
+
+	util.setProgress(2);
+
+	// TODO: ver de manejar los recargos, además de los descuentos generales
+	// este descuento general considera el IVA, trabaja con "neto sin descuento" y "total iva sin descuento"
+// 	if ( porcentajeDescGral > 0 ) {
+// 		var descuento:Number = (netoSinDesc * (porcentajeDescGral / 100)) + (totalIvaSinDesc * (porcentajeDescGral / 100));
+// 		var textoDescGeneral:String = "T" + FS + porcentajeDescGral.toString() + "%";
+// 		comandos += formtpv_fiscalhasar.iface.cmdGeneralDiscount(textoDescGeneral, descuento, true, false, 0) + nuevaLinea;
+// 	}
+
+	// TODO: ver si manejar Recargo general - Devolución de envases. ReturnRecharge 3.4.6
+	// TODO: ver de manejar las Percepciones (sólo documentos A y B). Perceptions 3.4.8
+	//	var percepciones:String = "`" + FS + "**.**" + FS + "Percepcion" + FS + "21.00" + nuevaLinea;
+
+	// TODO: Cargar IVA no inscripto (sólo documentos A a Responsable no inscripto). ChargeNonRegisterdTax 3.4.7
+	// TODO Subtotal. 3.4.9
+	//	var subtotal:String = "C" + FS + "P" + FS + "0" + FS + "0" + nuevaLinea;
+	// TODO: Cargar código de barras. BarCode 3.7.3
+
+	// aunque se pueden poner montos distintos cuando se aplica el comando Total/Tender, es decir que se podría pagar una parte en efectivo y otra con un cheque o en cta.cte., aquí ponemos el monto total de la factura, es decir lo que debería pagar el cliente exactamente
+	switch (formaPago) {
+		case "Efectivo":
+			formaPago = "EFECTIVO:";
+			break;
+		case "Cta.Cte.":
+			formaPago = "CUENTA CORRIENTE:";
+			break;
+		case "Tarjeta":
+			formaPago = "TARJETA:";
+			break;
+		case "Cheque":
+			formaPago = "CHEQUE:";
+			break;
+		case "Vale":
+			formaPago = "VALE:";
+			break;
+		default:
+			formaPago = "EFECTIVO:";
+			break;
+	}
+	comandos += formtpv_fiscalhasar.iface.cmdTotalTender(formaPago, montoPagado, false, 0) + nuevaLinea;
+	// Dependiendo del modelo de la impresora, "cmdCloseFiscalReceipt" puede definir el número de copias a imprimir
+	comandos += formtpv_fiscalhasar.iface.cmdCloseFiscalReceipt(1) + nuevaLinea;
+
+	util.setProgress(3);
+
+	var archivoComandos:String = "fact-pv" + puntoVenta + ".txt";
+	var dirComandos = new Dir(rutaSpooler);
+	if (dirComandos.exists) {
+		File.write(rutaSpooler + archivoComandos, comandos);
+	}
+	else {
+		var ans = MessageBox.warning("  No fue posible enviar a impresión.  " + nuevaLinea + "  Directorio de spooler no existe. ¿Reintentar?  ", MessageBox.Ok, MessageBox.Cancel, MessageBox.NoButton, "Generar factura impresa");
+		if (ans == MessageBox.Ok) this.iface.imprimirFiscal(idFactura);
+		else return false;
+	}
+
+	util.setProgress(4);
+	util.destroyProgressDialog();
+
+	return true;
+}
+
+//// IMPRESORAS FISCALES ////////////////////////////////////
+/////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////
