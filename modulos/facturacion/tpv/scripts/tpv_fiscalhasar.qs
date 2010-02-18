@@ -100,33 +100,6 @@ class oficial extends interna {
 	/** Código de barras ITS 2 de 5 */
 	const ITS = 4;
 	
-	/** Conjunto de caracteres para realizar la conversión a string de los paquetes fiscales */
-	var encoding = "ISO8859_1";	// ISO 8859-1, Latin alphabet No. 1.
-	/** Año base para validación de fechas */
-	var baseRolloverYear = 1997;
-	/** Estado actual de la impresora */
-	var printerStatus;
-	/** Estado actual del controlador fiscal */
-	var fiscalStatus;
-	/** Posibles mensajes de estado de la impresora */
-	var printerStatusMsgs;
-	/** Posibles mensajes de estado del controlador fiscal */
-	var fiscalStatusMsgs;
-	/** Códigos de mensajes de estado de la impresora */
-	var printerStatusCodes:Array;
-	/** Códigos de mensajes de estado del controlador fiscal */
-	var fiscalStatusCodes:Array;
-
-	/** Mapeo entre categorias de IVA de las clases de documentos y los valores
-	 * esperados por las impresoras fiscales de esta marca. */
-	var ivaResponsabilities;
-	/** Mapeo entre los tipos de identificación de clientes de las clases
-	 * de documentos y los valores esperados por las impresoras de esta marca. */
-	var identificationTypes;
-	/** Mapeo entre los tipos de documentos de las clases de documentos y 
-	 * los valores esperados por las impresoras de esta marca. */
-	var documentTypes;
-	
 	///////////////////////////////////////////////////////////////////////
 	// Códigos de los comandos
 	///////////////////////////////////////////////////////////////////////
@@ -392,6 +365,33 @@ class oficial extends interna {
 	 * (Bit 15 de estado fiscal) */
 	const FST_BITWISE_OR			= 0x8000;
 
+	/** Conjunto de caracteres para realizar la conversión a string de los paquetes fiscales */
+	var encoding = "ISO8859_1";	// ISO 8859-1, Latin alphabet No. 1.
+	/** Año base para validación de fechas */
+	var baseRolloverYear = 1997;
+	/** Estado actual de la impresora */
+	var printerStatus;
+	/** Estado actual del controlador fiscal */
+	var fiscalStatus;
+	/** Posibles mensajes de estado de la impresora */
+	var printerStatusMsgs;
+	/** Posibles mensajes de estado del controlador fiscal */
+	var fiscalStatusMsgs;
+	/** Códigos de mensajes de estado de la impresora */
+	var printerStatusCodes:Array = [ PST_PRINTER_ERROR, PST_PRINTER_OFFLINE, PST_JOURNAL_PAPER_OUT, PST_TICKET_PAPER_OUT, PST_PRINTER_COVER_OPEN, PST_MONEY_DRAWER_CLOSED, PST_BITWISE_OR, PST_PRINTER_BUSY, PST_PRINT_BUFFER_FULL, PST_PRINT_BUFFER_EMPTY ];
+	/** Códigos de mensajes de estado del controlador fiscal */
+	var fiscalStatusCodes:Array = [ FST_FISCAL_MEMORY_CRC_ERROR, FST_WORKING_MEMORY_CRC_ERROR, FST_UNKNOWN_COMMAND, FST_INVALID_DATA_FIELD, FST_INVALID_COMMAND, FST_ACCUMULATOR_OVERFLOW, FST_FISCAL_MEMORY_FULL, FST_FISCAL_MEMORY_ALMOST_FULL, FST_DATE_ERROR, FST_STATPRN_ACTIVE, FST_DOCUMENT_OPEN_TICKET, FST_DOCUMENT_OPEN_SLIP, FST_BITWISE_OR, FST_FISCAL_DOCUMENT_OPEN, FST_DOCUMENT_OPEN, FST_DEVICE_CERTIFIED, FST_DEVICE_FISCALIZED ];
+
+	/** Mapeo entre categorias de IVA de las clases de documentos y los valores
+	 * esperados por las impresoras fiscales de esta marca. */
+	var ivaResponsabilities;
+	/** Mapeo entre los tipos de identificación de clientes de las clases
+	 * de documentos y los valores esperados por las impresoras de esta marca. */
+	var identificationTypes;
+	/** Mapeo entre los tipos de documentos de las clases de documentos y 
+	 * los valores esperados por las impresoras de esta marca. */
+	var documentTypes;
+
 	///////////////////////////////////////////////////////////////////////
 	// Funciones generales
 	///////////////////////////////////////////////////////////////////////
@@ -426,6 +426,29 @@ class oficial extends interna {
 	}
 	function formatComprobante(comprobante:String):String {
 		return this.ctx.oficial_formatComprobante(comprobante);
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	// Funciones para el estatus de la impresora e identificación de errores
+	///////////////////////////////////////////////////////////////////////
+	function procesarEstadoImpresora(status:Number) {
+		return this.ctx.oficial_procesarEstadoImpresora(status);
+	}
+	function getEstadoImpresora():Number {
+		return this.ctx.oficial_getEstadoImpresora();
+	}
+	function getEstadoImpresoraMsgs():String {
+		return this.ctx.oficial_getEstadoImpresoraMsgs();
+	}
+
+	function procesarEstadoFiscal(status:Number) {
+		return this.ctx.oficial_procesarEstadoFiscal(status);
+	}
+	function getEstadoFiscal():Number {
+		return this.ctx.oficial_getEstadoFiscal();
+	}
+	function getEstadoFiscalMsgs():String {
+		return this.ctx.oficial_getEstadoFiscalMsgs();
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -674,51 +697,10 @@ function init() {
     this.iface.init();
 }
 
-// function main() {
-//     this.iface.main();
-// }
-
 function interna_init() 
 {
-	connect(this.cursor(), "bufferChanged(QString)", this, "iface.bufferChanged");
-	connect(this.child( "pbnCambiarDir" ), "clicked()", this, "iface.cambiarDir");
-	connect(this.child( "pbnGenerarArchivo" ), "clicked()", this, "iface.generarArchivo");
-	this.iface.actualizarDir();
+
 }
-
-// function interna_main()
-// {
-// 	var f = new FLFormSearchDB("citiventas");
-// 	var cursor:FLSqlCursor = f.cursor();
-// 
-// 	cursor.select();
-// 	if (!cursor.first())
-// 			cursor.setModeAccess(cursor.Insert);
-// 	else
-// 			cursor.setModeAccess(cursor.Edit);
-// 
-// 	f.setMainWidget();
-// 	cursor.refreshBuffer();
-// 	var commitOk:Boolean = false;
-// 	var acpt:Boolean;
-// 	cursor.transaction(false);
-// 	while (!commitOk) {
-// 		acpt = false;
-// 		f.exec("id");
-// 		acpt = f.accepted();
-// 		if (!acpt) {
-// 			if (cursor.rollback())
-// 					commitOk = true;
-// 		} else {
-// 			if (cursor.commitBuffer()) {
-// 					cursor.commit();
-// 					commitOk = true;
-// 			}
-// 		}
-// 		f.close();
-// 	}
-// }
-
 
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -877,6 +859,146 @@ function oficial_formatComprobante(comprobante:String):String {
 		}
 	}
 	return result;
+}
+
+function oficial_procesarEstadoImpresora(status:Number) {
+	for (var i = 0; i < this.iface.printerStatusCodes.length; i++) {
+		var bitwise = status & this.iface.printerStatusCodes[i];
+		if (bitwise) {
+			this.iface.printerStatus = bitwise;
+			break;
+		}
+	}
+	if (this.iface.printerStatus != undefined || this.iface.printerStatus != 0) {
+		switch (this.iface.printerStatus) {
+			case this.iface.PST_PRINTER_BUSY: {
+				this.iface.printerStatusMsgs = "La impresora se encuentra momentáneamente ocupada.";
+				break;
+			}
+			case this.iface.PST_PRINTER_ERROR: {
+				this.iface.printerStatusMsgs = "Error de impresora: se ha interrumpido la comunicación entre el controlador fiscal y la impresora.";
+				break;
+			}
+			case this.iface.PST_PRINTER_OFFLINE: {
+				this.iface.printerStatusMsgs = "Impresora fuera de línea: no ha podido comunicarse con la impresora dentro del período de tiempo establecido.";
+				break;
+			}
+			case this.iface.PST_JOURNAL_PAPER_OUT: {
+				this.iface.printerStatusMsgs = "El sensor de papel del diario ha detectado falta de papel.";
+				break;
+			}
+			case this.iface.PST_TICKET_PAPER_OUT: {
+				this.iface.printerStatusMsgs = "El sensor de papel de tickets ha detectado falta de papel.";
+				break;
+			}
+			case this.iface.PST_PRINT_BUFFER_FULL: {
+				this.iface.printerStatusMsgs = "Buffer de impresión lleno.";
+				break;
+			}
+			case this.iface.PST_PRINT_BUFFER_EMPTY: {
+				this.iface.printerStatusMsgs = "Buffer de impresión vacío.";
+				break;
+			}
+			case this.iface.PST_PRINTER_COVER_OPEN: {
+				this.iface.printerStatusMsgs = "Tapa de impresora abierta.";
+				break;
+			}
+			case this.iface.PST_MONEY_DRAWER_CLOSED: {
+				this.iface.printerStatusMsgs = "Cajón de dinero cerrado o ausente.";
+				break;
+			}
+		}
+	}
+}
+
+function oficial_getEstadoImpresora():Number {
+	return this.iface.printerStatus;
+}
+
+function oficial_getEstadoImpresoraMsgs():String {
+	return this.iface.printerStatusMsgs;
+}
+
+function oficial_procesarEstadoFiscal(status:Number) {
+	for (var i = 0; i < this.iface.fiscalStatusCodes.length; i++) {
+		var bitwise = status & this.iface.fiscalStatusCodes[i];
+		if (bitwise) {
+			this.iface.fiscalStatus = bitwise;
+			break;
+		}
+	}
+	if (this.iface.fiscalStatus != undefined || this.iface.fiscalStatus != 0) {
+		switch (this.iface.fiscalStatus) {
+			case this.iface.FST_FISCAL_MEMORY_CRC_ERROR: {
+				this.iface.fiscalStatusMsgs = "Error en chequeo de memoria fiscal. Al encenderse la impresora se produjo un error en el checksum.";
+				break;
+			}
+			case this.iface.FST_WORKING_MEMORY_CRC_ERROR: {
+				this.iface.fiscalStatusMsgs = "Error en chequeo de memoria de trabajo. Al encenderse la impresora se produjo un error en el checksum.";
+				break;
+			}
+			case this.iface.FST_UNKNOWN_COMMAND: {
+				this.iface.fiscalStatusMsgs = "Comando desconocido. El comando recibido no fue reconocido.";
+				break;
+			}
+			case this.iface.FST_INVALID_DATA_FIELD: {
+				this.iface.fiscalStatusMsgs = "Datos inválidos en un campo. Uno de los campos del comando recibido tiene datos no válidos.";
+				break;
+			}
+			case this.iface.FST_INVALID_COMMAND: {
+				this.iface.fiscalStatusMsgs = "Comando inválido para el estado fiscal actual.\nSe ha recibido un comando que no es válido en el estado actual del controlador.";
+				break;
+			}
+			case this.iface.FST_ACCUMULATOR_OVERFLOW: {
+				this.iface.fiscalStatusMsgs = "Desborde de acumulador.\nEl acumulador de una transacción, del total diario o del IVA, se desbordará a raíz de un comando recibido.";
+				break;
+			}
+			case this.iface.FST_FISCAL_MEMORY_FULL: {
+				this.iface.fiscalStatusMsgs = "Memoria fiscal llena, bloqueada o dada de baja. No se permite abrir un comprobante fiscal.";
+				break;
+			}
+			case this.iface.FST_FISCAL_MEMORY_ALMOST_FULL: {
+				this.iface.fiscalStatusMsgs = "Memoria fiscal a punto de llenarse. La memoria fiscal tiene 30 o menos registros libres.";
+				break;
+			}
+			case this.iface.FST_DATE_ERROR: {
+				this.iface.fiscalStatusMsgs = "Error en ingreso de fecha. Se ha ingresado una fecha inválida.";
+				break;
+			}
+			case this.iface.FST_DOCUMENT_OPEN_SLIP:
+			case this.iface.FST_STATPRN_ACTIVE: {
+				/** TODO: La descripción del estado varía de acuerdo con que la impresora soporte o no STATPRN). */
+				this.iface.fiscalStatusMsgs = "Estado intermedio (STATPRN) activo";
+				break;
+			}
+			case this.iface.FST_FISCAL_DOCUMENT_OPEN: {
+				this.iface.fiscalStatusMsgs = "Documento fiscal abierto.";
+				break;
+			}
+			case this.iface.FST_DOCUMENT_OPEN_TICKET:
+			case this.iface.FST_DOCUMENT_OPEN: {
+				/** TODO: La descripción del estado varía de acuerdo con que la impresora soporte o no STATPRN). */
+				this.iface.fiscalStatusMsgs = "Documento abierto.";
+				break;
+			}
+			case this.iface.FST_DEVICE_CERTIFIED: {
+				this.iface.fiscalStatusMsgs = "Terminal fiscal certificada.";
+				break;
+			}
+			case this.iface.FST_DEVICE_FISCALIZED: {
+				this.iface.fiscalStatusMsgs = "Terminal fiscal fiscalizada.";
+				break;
+			}
+		}
+	}
+}
+
+function oficial_getEstadoFiscal():Number {
+	return this.iface.fiscalStatus;
+}
+
+function oficial_getEstadoFiscalMsgs():String {
+	return this.iface.fiscalStatusMsgs;
 }
 
 /**

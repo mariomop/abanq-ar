@@ -1526,7 +1526,112 @@ function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:St
 	util.setProgress(4);
 	util.destroyProgressDialog();
 
-	return true;
+	var respuesta:String = "";
+	// el directorio de respuesta se llama igual que el de los comandos (rutaspooler), pero se le añade la terminación "ans" al final
+	var dirAnswers:String = rutaSpooler.substring(0, rutaSpooler.length - 1) + "ans/";
+	// el archivo de respuesta se llama igual que el de comandos, pero con la extensión ".ans"
+	var archivoAnswers:String = "fact-pv" + puntoVenta + ".ans";
+
+	var dirComandosAns = new Dir(dirAnswers);
+	if (dirComandosAns.exists) {
+		/* Durante 10 segundos esperará una respuesta del spooler de impresión */
+		for (var i = 0; i < 10; i++) {
+			if ( File.exists( dirAnswers + archivoAnswers ) ) {
+				respuesta = File.read( dirAnswers + archivoAnswers );
+				break;
+			}
+			Process.execute("sleep 1");
+			/*
+			Alternativa en Windows si no está disponible el comando SLEEP
+				PING -n 1 127.0.0.1 > nul
+			*/
+		}
+	}
+	else if ( dirComandos.exists ) {      // buscar respuesta en el mismo directorio de comandos
+		for (var i = 0; i < 10; i++) {
+			if ( File.exists( rutaSpooler + archivoAnswers ) ) {
+				respuesta = File.read( rutaSpooler + archivoAnswers );
+				break;
+			}
+			Process.execute("sleep 1");
+		}
+	}
+	else {
+		MessageBox.warning("  No fue posible identificar respuesta de la impresora.  " + nuevaLinea + "  Directorio de respuesta del spooler no especificado o inexistente.  ", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+		return;
+	}
+
+	if ( respuesta == "" ) {
+		MessageBox.warning("  La impresora no responde.  ", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+		return false;
+	}
+
+	var resultado = respuesta.split(nuevaLinea);
+/*
+	Las respuestas por cada comando (una línea por comando) comienzan siempre con 4 bytes, a saber:
+		2 bytes para Status Impresora
+		El separador: |
+		2 bytes para Status Fiscal
+	----------------------------------------
+	|    Status Impres.    Status Fiscal   |
+	|                                      |
+	|   1100000100111100|1100100111111011  |
+        |                                      |
+	|       1      2         3      4      |
+	----------------------------------------
+
+	Algunos comandos generan también un Status Auxiliar.
+	*** Caso especial: comando NextIVATransmission, envía respuestas intermedias, antes de la respuesta final
+*/
+	for (var i = 0; i < resultado.length; i++) {
+		var stImpresora = parseInt( resultado[i].substring(0,16), 2 );
+		formtpv_fiscalhasar.iface.procesarEstadoImpresora(stImpresora);
+		var errImp = 0xC13C;	// 1100000100111100	--> bits que chequean algún error: los que están en 0 no se consideran error o no se utilizan
+		var stFiscal = parseInt( resultado[i].substring(17,33), 2 );
+		formtpv_fiscalhasar.iface.procesarEstadoFiscal(stFiscal);
+		var errFis = 0xC9FB;	// 1100100111111011	--> bits que chequean algún error: los que están en 0 no se consideran error o no se utilizan
+		if ( (stImpresora & errImp) ) {
+			/* Error en el estado de la impresora */
+			var d = new Date();
+			var s:String = d.toString();
+			var lineaError = i + 1;
+			respuesta += "\n" + s + "\n" + "Error en la línea " + lineaError.toString() + "\n" + formtpv_fiscalhasar.iface.getEstadoImpresoraMsgs() + "\nStatus code: " + formtpv_fiscalhasar.iface.getEstadoImpresora() + "\n\n" + comandos;
+			rexp = /:/;
+			rexp.global = true;
+			s = s.replace(rexp, "-");
+			// crear archivo de log con el mensaje de error y fecha-hora
+			if (dirComandosAns.exists) {
+				File.write(dirAnswers + archivoAnswers.substring(0, archivoAnswers.length-4) + "-" + s + "-err.ans", respuesta);
+			}
+			else if ( dirComandos.exists ) {
+				File.write(pathPrinter + archivoAnswers.substring(0, archivoAnswers.length-4) + "-" + s + "-err.ans", respuesta);
+			}
+			MessageBox.warning("Error en la impresora fiscal          \n\n" + formtpv_fiscalhasar.iface.getEstadoImpresoraMsgs() + "\nStatus code: " + formtpv_fiscalhasar.iface.getEstadoImpresora(), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+			return false;
+		}
+		if ( (stFiscal & errFis) ) {
+			/* Error en el estado fiscal */
+			var d = new Date();
+			var s:String = d.toString();
+			var lineaError = i + 1;
+			respuesta += "\n" + s + "\n" + "Error en la línea " + lineaError.toString() + "\n" + formtpv_fiscalhasar.iface.getEstadoFiscalMsgs() + "\nStatus code: " + formtpv_fiscalhasar.iface.getEstadoFiscal() + "\n\n" + comandos;
+			rexp = /:/;
+			rexp.global = true;
+			s = s.replace(rexp, "-");
+			// crear archivo de log con el mensaje de error y fecha-hora
+			if (dirComandosAns.exists) {
+				File.write(dirAnswers + archivoAnswers.substring(0, archivoAnswers.length-4) + "-" + s + "-err.ans", respuesta);
+			}
+			else if ( dirComandos.exists ) {
+				File.write(pathPrinter + archivoAnswers.substring(0, archivoAnswers.length-4) + "-" + s + "-err.ans", respuesta);
+			}
+			MessageBox.warning("Error en la impresora fiscal          \n\n" + formtpv_fiscalhasar.iface.getEstadoFiscalMsgs() + "\nStatus code: " + formtpv_fiscalhasar.iface.getEstadoFiscal(), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+			return false;
+		}
+	  }
+
+	/* No hubo problemas */
+	// MessageBox.information("  Se completó correctamente el envío a la impresora.  ", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
 }
 
 //// IMPRESORAS FISCALES ////////////////////////////////////
