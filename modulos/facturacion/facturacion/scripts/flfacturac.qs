@@ -195,6 +195,9 @@ class oficial extends interna {
 	function siGenerarRecibosCli(curFactura:FLSqlCursor, masCampos:Array):Boolean {
 		return this.ctx.oficial_siGenerarRecibosCli(curFactura, masCampos);
 	}
+	function tipoComprobanteRegimenIva(codCliente:String):String {
+		return this.ctx.oficial_tipoComprobanteRegimenIva(codCliente);
+	}
 	function validarIvaCliente(codCliente:String,id:Number,tabla:String,identificador:String):Boolean {
 		return this.ctx.oficial_validarIvaCliente(codCliente,id,tabla,identificador);
 	}
@@ -833,6 +836,9 @@ class ifaceCtx extends head {
 	}
 	function pub_eliminarAsiento(idAsiento:String):Boolean {
 		return this.eliminarAsiento(idAsiento);
+	}
+	function pub_tipoComprobanteRegimenIva(codCliente:String):String {
+		return this.tipoComprobanteRegimenIva(codCliente);
 	}
 	function pub_validarIvaCliente(codCliente:String,id:Number,tabla:String,identificador:String):Boolean {
 		return this.validarIvaCliente(codCliente,id,tabla,identificador);
@@ -3619,6 +3625,53 @@ function oficial_siGenerarRecibosCli(curFactura:FLSqlCursor, masCampos:Array):Bo
 	}
 	
 	return false;
+}
+
+/** Combinaciones posibles de responsabilidad de IVA de la Empresa y el Cliente, respecto de los tipos de comprobantes que se pueden emitir
+Empresa				Cliente						Valor
+--------------------------------------------------------------------------------------------
+Resp. inscripto			Resp. inscripto					A
+	''			Responsable no inscripto			A
+	''			No responsable					B
+	''			Exento						B
+	''			Consumidor final				B
+	''			Venta de bienes de uso				B
+	''			Responsable monotributo				B
+	''			Monotributista Social				B
+	''			Pequeño Contribuyente Eventual			B
+	''			Pequeño Contribuyente Eventual Social		B
+	''			No categorizado					B
+Resp. no inscripto		Cualquiera					C
+No responsable			Cualquiera					C
+Exento				Cualquiera					C
+Responsable monotributo		Cualquiera					C
+Monotributista Social		Cualquiera					C
+*/
+function oficial_tipoComprobanteRegimenIva(codCliente:String):String {
+	var util:FLUtil = new FLUtil();
+	var comprobante = "";
+	var respEmpresa = flfactppal.iface.pub_valorDefectoEmpresa("regimeniva");
+	var respIva = util.sqlSelect("clientes", "regimeniva", "codcliente = '" + codCliente + "'");
+	if (respEmpresa == "Responsable Inscripto") {
+		switch ( respIva ) {
+			case "Consumidor Final":
+			case "Exento":
+			case "No Responsable":
+			case "Responsable Monotributo": {
+				comprobante = "Factura B";
+				break;
+			}
+			case "Responsable Inscripto":
+			case "Responsable No Inscripto": {
+				comprobante = "Factura A";
+				break;
+			}
+		}
+	}
+	else {
+		comprobante = "Factura C";
+	}
+	return comprobante;
 }
 
 function oficial_validarIvaCliente(codCliente:String,id:Number,tabla:String,identificador:String):Boolean

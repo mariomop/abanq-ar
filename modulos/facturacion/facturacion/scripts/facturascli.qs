@@ -1169,21 +1169,8 @@ function tipoVenta_bufferChanged(fN:String)
 		}
 		case "codcliente": {
 			if (cursor.valueBuffer("codcliente") && cursor.valueBuffer("codcliente") != "") {
-				var regimenIva:Boolean = util.sqlSelect("clientes", "regimeniva", "codcliente = '" + cursor.valueBuffer("codcliente") + "'");
-				switch ( regimenIva ) {
-					case "Consumidor Final":
-					case "Exento":
-					case "No Responsable":
-					case "Responsable Monotributo": {
-						cursor.setValueBuffer("tipoventa", "Factura B");
-						break;
-					}
-					case "Responsable Inscripto":
-					case "Responsable No Inscripto": {
-						cursor.setValueBuffer("tipoventa", "Factura A");
-						break;
-					}
-				}
+				// Ver si corresponde Factura A, Factura B o Factura C
+				cursor.setValueBuffer("tipoventa", flfacturac.iface.pub_tipoComprobanteRegimenIva(cursor.valueBuffer("codcliente")));
 			}
 			this.iface.__bufferChanged(fN);
 			break;

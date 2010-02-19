@@ -1407,22 +1407,23 @@ function tipoVenta_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrup
 	var util:FLUtil = new FLUtil();
 	
 	var tipoVenta:String, codSerie:String;
-	var regimenIva:Boolean = util.sqlSelect("clientes", "regimeniva", "codcliente = '" + curAlbaran.valueBuffer("codcliente") + "'");
-	switch ( regimenIva ) {
-		case "Consumidor Final":
-		case "Exento":
-		case "No Responsable":
-		case "Responsable Monotributo": {
-			tipoVenta = "Factura B";
-			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
-			break;
-		}
-		case "Responsable Inscripto":
-		case "Responsable No Inscripto": {
-			tipoVenta = "Factura A";
+	// Ver si corresponde Factura A, Factura B o Factura C
+	tipoVenta = flfacturac.iface.pub_tipoComprobanteRegimenIva(curAlbaran.valueBuffer("codcliente"));
+
+	switch ( tipoVenta ) {
+		case "Factura A": {
 			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
 			break;
 		}
+		case "Factura B": {
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
+			break;
+		}
+		case "Factura C": {
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_c");
+			break;
+		}
+
 	}
 
 	with (this.iface.curFactura) {
