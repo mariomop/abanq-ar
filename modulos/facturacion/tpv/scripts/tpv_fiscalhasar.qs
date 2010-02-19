@@ -638,6 +638,9 @@ class implementaciones extends oficial {
 			ivaNonInscript, copies, printChange, printLabels, ticketCutType, printFramework, 
 			reprintDocuments, balanceText, paperSound, paperSize);
 	}
+	function cmdSetCustomerData(name:String, customerDocNumber:String, ivaResponsibility:String, docType:String, location:String):String {
+		return this.ctx.implementaciones_cmdSetCustomerData(name, customerDocNumber, ivaResponsibility, docType, location);
+	}
 	function cmdPrintFiscalText(text:String, display:Number):String {
 		return this.ctx.implementaciones_cmdPrintFiscalText(text, display);
 	}
@@ -1613,8 +1616,22 @@ function implementaciones_cmdSetGeneralConfiguration(printConfigReport:Boolean, 
 	if (modelo == "") return;
 	switch (modelo) {
 		case "SMH/P-320F":
+		case "SMH/PL-8F":
 			return this.iface.__cmdSetGeneralConfiguration(printConfigReport, loadDefaultData, finalConsumerLimit, 0,
 				ivaNonInscript, copies, false, false, "", printFramework,
+				reprintDocuments, balanceText, paperSound, "");
+		case "SMH/P-321F":
+		case "SMH/P-322F":
+			return this.iface.__cmdSetGeneralConfiguration(printConfigReport, loadDefaultData, finalConsumerLimit, 0,
+				ivaNonInscript, copies, false, false, "", printFramework,
+				reprintDocuments, balanceText, paperSound, paperSize);
+		case "SMH/P-330F":
+			return this.iface.__cmdSetGeneralConfiguration(printConfigReport, loadDefaultData, finalConsumerLimit, 0,
+				0, copies, false, false, "", printFramework,
+				reprintDocuments, balanceText, paperSound, paperSize);
+		case "SMH/PL-9F":
+			return this.iface.__cmdSetGeneralConfiguration(printConfigReport, loadDefaultData, finalConsumerLimit, 0,
+				0, copies, false, false, "", printFramework,
 				reprintDocuments, balanceText, paperSound, "");
 		default:
 			return this.iface.__cmdSetGeneralConfiguration(printConfigReport, loadDefaultData, finalConsumerLimit, ticketInvoiceLimit,
@@ -1623,11 +1640,33 @@ function implementaciones_cmdSetGeneralConfiguration(printConfigReport:Boolean, 
 	}
 }
 
+function implementaciones_cmdSetCustomerData(name:String, customerDocNumber:String, ivaResponsibility:String, docType:String, location:String):String {
+	var modelo:String = this.iface.getModelo();
+	if (modelo == "") return;
+	switch (modelo) {
+		// Este modelo no soporta el tipo de identificacion SIN_CALIFICADOR ni el nº de identificacion nulo. Se asume DNI 00000000
+		case "SMH/P715F": {
+			if (docType == this.iface.SIN_CALIFICADOR)
+				docType = this.iface.DNI;
+			if (customerDocNumber == undefined || customerDocNumber == "")
+				customerDocNumber = "00000000";
+			break;
+		}
+	}
+	return this.iface.__cmdSetCustomerData(name, customerDocNumber, ivaResponsibility, docType, location);
+}
+
 function  implementaciones_cmdPrintFiscalText(text:String, display:Number):String {
 	var modelo:String = this.iface.getModelo();
 	if (modelo == "") return;
 	switch (modelo) {
 		case "SMH/P-320F":
+		case "SMH/P-321F":
+		case "SMH/P-322F":
+		case "SMH/P-330F":
+		case "SMH/P715F":
+		case "SMH/PL-8F":
+		case "SMH/PL-9F":
 			return this.iface.__cmdPrintFiscalText(text, 0);
 		default:
 			return this.iface.__cmdPrintFiscalText(text, display);
@@ -1640,7 +1679,15 @@ function implementaciones_cmdPrintLineItem(description:String, quantity:Number, 
 	if (modelo == "") return;
 	switch (modelo) {
 		case "SMH/P-320F":
+		case "SMH/P-321F":
+		case "SMH/P-322F":
+		case "SMH/P-330F":
+		case "SMH/PL-8F":
+		case "SMH/PL-9F":
 			return this.iface.__cmdPrintLineItem(description, quantity, price, ivaPercent, substract, internalTaxes, basePrice, 0);
+		// Force display 0 and maxlength 20 to comply with model docs.
+		case "SMH/P715F":
+			return this.iface.__cmdPrintLineItem(description, quantity, price, ivaPercent, substract, internalTaxes, basePrice, 0, 20);
 		default:
 			return this.iface.__cmdPrintLineItem(description, quantity, price, ivaPercent, substract, internalTaxes, basePrice, display);
 	}
@@ -1651,6 +1698,12 @@ function implementaciones_cmdLastItemDiscount(description:String, amount:Number,
 	if (modelo == "") return;
 	switch (modelo) {
 		case "SMH/P-320F":
+		case "SMH/P-321F":
+		case "SMH/P-322F":
+		case "SMH/P-330F":
+		case "SMH/P715F":
+		case "SMH/PL-8F":
+		case "SMH/PL-9F":
 			return this.iface.__cmdLastItemDiscount(description, amount, substract, baseAmount, 0);
 		default:
 			return this.iface.__cmdLastItemDiscount(description, amount, substract, baseAmount, display);
@@ -1662,6 +1715,12 @@ function implementaciones_cmdSubtotal(print:Boolean, display:Number):String {
 	if (modelo == "") return;
 	switch (modelo) {
 		case "SMH/P-320F":
+		case "SMH/P-321F":
+		case "SMH/P-322F":
+		case "SMH/P-330F":
+		case "SMH/P715F":
+		case "SMH/PL-8F":
+		case "SMH/PL-9F":
 			return this.iface.__cmdSubtotal(print, 0);
 		default:
 			return this.iface.__cmdSubtotal(print, display);
@@ -1673,6 +1732,12 @@ function implementaciones_cmdTotalTender(description:String, amount:Number, canc
 	if (modelo == "") return;
 	switch (modelo) {
 		case "SMH/P-320F":
+		case "SMH/P-321F":
+		case "SMH/P-322F":
+		case "SMH/P-330F":
+		case "SMH/P715F":
+		case "SMH/PL-8F":
+		case "SMH/PL-9F":
 			return this.iface.__cmdTotalTender(description, amount, cancel, 0);
 		default:
 			return this.iface.__cmdTotalTender(description, amount, cancel, display);
@@ -1683,8 +1748,15 @@ function implementaciones_cmdCloseFiscalReceipt(copies:Number):String {
 	var modelo:String = this.iface.getModelo();
 	if (modelo == "") return;
 	switch (modelo) {
+		// Estos modelos no aceptan el parámetro de copias.
 		case "SMH/P-320F":
-			// Este modelo no acepta el parámetro de copias.
+		case "SMH/P-321F":
+		case "SMH/P-322F":
+		case "SMH/PL-8F":
+			/* NOTA PARA IMPRESORAS "SMH/P-322F" y "SMH/PL-8F":
+				Por defecto se anula el parámetro de copias aunque en la versión 2.01 de este modelo se permite el parámetro.
+				Se debería validar la versión del controlador para decidir si permitirlo o no. */
+		case "SMH/P715F":
 			return this.iface.CMD_CLOSE_FISCAL_RECEIPT;
 		default:
 			return this.iface.__cmdCloseFiscalReceipt(copies);
@@ -1695,8 +1767,15 @@ function implementaciones_cmdCloseDNFH(copies:Number):String {
 	var modelo:String = this.iface.getModelo();
 	if (modelo == "") return;
 	switch (modelo) {
+		// Estos modelos no aceptan el parámetro de copias.
 		case "SMH/P-320F":
-			// Este modelo no acepta el parámetro de copias.
+		case "SMH/P-321F":
+		case "SMH/P-322F":
+		case "SMH/PL-8F":
+			/* NOTA PARA IMPRESORAS "SMH/P-322F" y "SMH/PL-8F":
+				Por defecto se anula el parámetro de copias aunque en la versión 2.01 de este modelo se permite el parámetro.
+				Se debería validar la versión del controlador para decidir si permitirlo o no. */
+		case "SMH/P715F":
 			return this.iface.CMD_CLOSE_DNFH;
 		default:
 			return this.iface.__cmdCloseDNFH(copies);
