@@ -233,6 +233,34 @@
 		</relation>
 	</field>
 	<field>
+		<name>regimeniva</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Condición I.V.A.")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>40</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Responsable Inscripto");QT_TRANSLATE_NOOP("MetaData","Responsable No Inscripto");QT_TRANSLATE_NOOP("MetaData","No Responsable");QT_TRANSLATE_NOOP("MetaData","Exento");QT_TRANSLATE_NOOP("MetaData","Responsable Monotributo");QT_TRANSLATE_NOOP("MetaData","No Categorizado");QT_TRANSLATE_NOOP("MetaData","Agente de Percepción")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Responsable Inscripto")</default>
+	</field>
+	<field>
+		<name>regimenib</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Condición I.B.")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>40</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Contribuyente Local");QT_TRANSLATE_NOOP("MetaData","Convenio Multilateral");QT_TRANSLATE_NOOP("MetaData","Exento")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Contribuyente Local")</default>
+	</field>
+	<field>
+		<name>numeroib</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nº Ingresos Brutos")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>13</length>
+	</field>
+	<field>
 		<name>codserie_a</name>
 		<!-- Código serie A -->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Serie A")</alias>
