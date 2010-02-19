@@ -1114,20 +1114,20 @@ function tipoVenta_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrup
 	}
 
 	var tipoVenta:String, codSerie:String;
-	var regimenIva:Boolean = util.sqlSelect("clientes", "regimeniva", "codcliente = '" + curAlbaran.valueBuffer("codcliente") + "'");
-	switch ( regimenIva ) {
-		case "Consumidor Final":
-		case "Exento":
-		case "No Responsable":
-		case "Responsable Monotributo": {
-			tipoVenta = "Factura B";
+	// Ver si corresponde Factura A, Factura B o Factura C
+	tipoVenta = flfacturac.iface.pub_tipoComprobanteRegimenIva(curAlbaran.valueBuffer("codcliente"));
+
+	switch ( tipoVenta ) {
+		case "Factura A": {
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
+			break;
+		}
+		case "Factura B": {
 			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
 			break;
 		}
-		case "Responsable Inscripto":
-		case "Responsable No Inscripto": {
-			tipoVenta = "Factura A";
-			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
+		case "Factura C": {
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_c");
 			break;
 		}
 	}
@@ -1407,8 +1407,6 @@ function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:St
 	// Ver si no conviene considerar los pagos como fuente de información para cmdTotalTender
 	var formaPago:String = qryFact.value("t.tipopago");
 	var montoPagado = qryFact.value("t.pagado");
-
-// TODO: por lo pronto se supone que el emisor de la factura es un Responsable Inscripto, de modo que el tipo de factura a emitir dependerá sólo del tipo de responsabilidad fiscal de cliente. Más adelante se debería ajustar la tabla "Empresa" para tomar también de allí la responsabilidad fiscal del emisor (el dueño de la impresora que emite).
 
 	comandos += formtpv_fiscalhasar.iface.cmdSetCustomerData(nombreCliente, cifnif, regimenIva, tipoIdFiscal, domicilio) + nuevaLinea;
 // TODO: Obligatorio en las Notas de Crédito: cargar el número de documento original asociado. Comando SetEmbarkNumber 3.8.8
