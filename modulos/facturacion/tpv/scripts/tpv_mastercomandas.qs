@@ -445,7 +445,34 @@ function oficial_imprimirQuick( codComanda:String, impresora:String )
 
 	var tipoImpresora:String = util.sqlSelect("tpv_puntosventa", "tipoimpresora", "codtpv_puntoventa = '" + codPuntoVenta + "'");
 	if (tipoImpresora == "Fiscal") {
-		this.iface.imprimirFiscal(codComanda, codPuntoVenta);
+		var impreso:Boolean = util.sqlSelect("tpv_comandas", "impresofiscal", "codigo = '" + codComanda + "'");
+		if (impreso && flfactppal.iface.pub_valorDefectoEmpresa("bloqueoimpreso")) {
+			MessageBox.warning(util.translate("scripts", "El documento ya fue impreso"), MessageBox.Ok, MessageBox.NoButton);
+		}
+		else {
+			if (this.iface.imprimirFiscal(codComanda, codPuntoVenta)) {
+				var curComanda:FLSqlCursor = new FLSqlCursor("tpv_comandas");
+
+				curComanda.setActivatedCommitActions(false);
+				curComanda.select("idtpv_comanda = " + this.cursor().valueBuffer("idtpv_comanda"));
+				curComanda.first();
+				curComanda.setUnLock("editable", true)
+
+				curComanda.select("idtpv_comanda = " + this.cursor().valueBuffer("idtpv_comanda"));
+				curComanda.first();
+				curComanda.setModeAccess(curComanda.Edit);
+				curComanda.refreshBuffer();
+				curComanda.setValueBuffer("impresofiscal", true);
+				curComanda.commitBuffer();
+
+				// también actualizar el cursor
+				this.cursor().setValueBuffer("impresofiscal", true)
+
+				curComanda.select("idtpv_comanda = " + this.cursor().valueBuffer("idtpv_comanda"));
+				curComanda.first();
+				curComanda.setUnLock("editable", false)
+			}
+		}
 	} else if (tipoImpresora == "ESC-POS") {
 		this.iface.imprimirTiquePOS(codComanda, impresora, q);
 	} else {
@@ -1384,7 +1411,7 @@ function impresorasFiscales_imprimirFiscal(codComanda:String, puntoVenta:String)
 
 function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:String, rutaSpooler:String):Boolean {
 	var util:FLUtil = new FLUtil();
-	util.createProgressDialog( util.translate( "scripts", "Enviando a impresora fiscal..." ), 4);
+	util.createProgressDialog( util.translate( "scripts", "              Enviando a impresora fiscal...              " ), 4);
 
 	// Nueva línea
 	const nuevaLinea = String.fromCharCode( 10 );
@@ -1393,8 +1420,14 @@ function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:St
 	qryFact.setSelect("t.idtpv_comanda, t.nombrecliente, t.codcliente, t.cifnif, c.regimeniva, c.tipoidfiscal, t.tipoventa, t.tipopago, t.pagado");
 	qryFact.setFrom("tpv_comandas t, clientes c");
 	qryFact.setWhere("t.codigo = '" + codComanda + "' AND c.codcliente = t.codcliente");
-	if (!qryFact.exec()) return false;
-	if (!qryFact.first()) return false;
+	if (!qryFact.exec()) {
+		util.destroyProgressDialog();
+		return false;
+	}
+	if (!qryFact.first()) {
+		util.destroyProgressDialog();
+		return false;
+	}
 
 	var idComanda:Number = qryFact.value("t.idtpv_comanda");
 	var nombreCliente:String = qryFact.value("t.nombrecliente");
@@ -1516,13 +1549,12 @@ function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:St
 		File.write(rutaSpooler + archivoComandos, comandos);
 	}
 	else {
-		var ans = MessageBox.warning("  No fue posible enviar a impresión.  " + nuevaLinea + "  Directorio de spooler no existe. ¿Reintentar?  ", MessageBox.Ok, MessageBox.Cancel, MessageBox.NoButton, "Generar factura impresa");
-		if (ans == MessageBox.Ok) this.iface.imprimirFiscal(idFactura);
-		else return false;
+		MessageBox.warning("  No fue posible enviar a impresión.  " + nuevaLinea + "  Directorio de spooler no existe.  ", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+		util.destroyProgressDialog();
+		return false;
 	}
 
 	util.setProgress(4);
-	util.destroyProgressDialog();
 
 	var respuesta:String = "";
 	// el directorio de respuesta se llama igual que el de los comandos (rutaspooler), pero se le añade la terminación "ans" al final
@@ -1530,13 +1562,26 @@ function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:St
 	// el archivo de respuesta se llama igual que el de comandos, pero con la extensión ".ans"
 	var archivoAnswers:String = "fact-pv" + puntoVenta + ".ans";
 
+	util.setLabelText(util.translate( "scripts", "  Esperando respuesta de la impresora fiscal...  " ));
+	util.setTotalSteps(20);
+	var ciclo = 0;
 	var dirComandosAns = new Dir(dirAnswers);
 	if (dirComandosAns.exists) {
-		/* Durante 10 segundos esperará una respuesta del spooler de impresión */
-		for (var i = 0; i < 10; i++) {
+		for (var i = 1; i < 61; i++) {
+			util.setProgress((i - ciclo));
 			if ( File.exists( dirAnswers + archivoAnswers ) ) {
 				respuesta = File.read( dirAnswers + archivoAnswers );
+				util.setProgress(20);
 				break;
+			}
+			if ((i % 20) == 0) {	// Cada 20 segundos, preguntar
+				ciclo += 20;
+				var ans = MessageBox.warning("  La impresora no responde.\n  Puede cancelar la impresión o continuar a la espera de respuesta.\n\n¿Cancelar?", MessageBox.No, MessageBox.Yes, MessageBox.NoButton, "Generar factura impresa");
+				if (ans == MessageBox.Yes) {
+					util.destroyProgressDialog();
+					MessageBox.information("  La impresión ha sido cancelada.", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+					return false;
+				}
 			}
 			Process.execute("sleep 1");
 			/*
@@ -1546,23 +1591,38 @@ function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:St
 		}
 	}
 	else if ( dirComandos.exists ) {      // buscar respuesta en el mismo directorio de comandos
-		for (var i = 0; i < 10; i++) {
+		for (var i = 1; i < 61; i++) {
+			util.setProgress((i - ciclo));
 			if ( File.exists( rutaSpooler + archivoAnswers ) ) {
 				respuesta = File.read( rutaSpooler + archivoAnswers );
+				util.setProgress(20);
 				break;
+			}
+			if ((i % 20) == 0) {	// Cada 20 segundos, preguntar
+				ciclo += 20;
+				var ans = MessageBox.warning("  La impresora no responde.\n  Puede cancelar la impresión o continuar a la espera de respuesta.\n\n¿Cancelar?", MessageBox.No, MessageBox.Yes, MessageBox.NoButton, "Generar factura impresa");
+				if (ans == MessageBox.Yes) {
+					util.destroyProgressDialog();
+					MessageBox.information("  La impresión ha sido cancelada.", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+					return false;
+				}
 			}
 			Process.execute("sleep 1");
 		}
 	}
 	else {
 		MessageBox.warning("  No fue posible identificar respuesta de la impresora.  " + nuevaLinea + "  Directorio de respuesta del spooler no especificado o inexistente.  ", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
-		return;
+		util.destroyProgressDialog();
+		return false;
 	}
 
 	if ( respuesta == "" ) {
-		MessageBox.warning("  La impresora no responde.  ", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+		MessageBox.warning("  La impresora no responde. Se cancela la impresión ", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+		util.destroyProgressDialog();
 		return false;
 	}
+
+	util.destroyProgressDialog();
 
 	var resultado = respuesta.split(nuevaLinea);
 /*
@@ -1629,7 +1689,8 @@ function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:St
 	  }
 
 	/* No hubo problemas */
-	// MessageBox.information("  Se completó correctamente el envío a la impresora.  ", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+// 	MessageBox.information("     Documento impreso correctamente.     \n", MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton, "Generar factura impresa");
+	return true;
 }
 
 //// IMPRESORAS FISCALES ////////////////////////////////////

@@ -2493,6 +2493,7 @@ function tipoVenta_datosFactura(curComanda:FLSqlCursor):Boolean
 	with (this.iface.curFactura) {
 		setValueBuffer("automatica", curComanda.valueBuffer("automatica"));
 		setValueBuffer("idtpv_comanda", curComanda.valueBuffer("idtpv_comanda"));
+		setValueBuffer("impresofiscal", curComanda.valueBuffer("impresofiscal"));
 	}
 	return true;
 }
@@ -2662,6 +2663,7 @@ function tipoVenta_datosRemito(curComanda:FLSqlCursor):Boolean
 		setValueBuffer("costototal", curComanda.valueBuffer("costototal"));
 		setValueBuffer("ganancia", curComanda.valueBuffer("ganancia"));
 		setValueBuffer("utilidad", curComanda.valueBuffer("utilidad"));
+		setValueBuffer("impresofiscal", curComanda.valueBuffer("impresofiscal"));
 	}
 	return true;
 }

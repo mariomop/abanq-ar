@@ -509,4 +509,14 @@
 		<partD>3</partD>
 		<visiblegrid>false</visiblegrid>
 	</field>
+	<field>
+		<name>impresofiscal</name>
+		<!-- Indica si la venta ha sido impresa en dispositivo fiscal o preimpreso -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Impreso")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>bool</type>
+		<default>false</default>
+		<visiblegrid>false</visiblegrid>
+	</field>
 </TMD>

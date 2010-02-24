@@ -355,11 +355,21 @@ class multiDivisa extends ordenCampos {
 //// MULTI DIVISA ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration impresorasFiscales */
+/////////////////////////////////////////////////////////////
+//// IMPRESORAS FISCALES ////////////////////////////////////
+class impresorasFiscales extends multiDivisa {
+    function impresorasFiscales( context ) { multiDivisa ( context ); }
+	function validateForm():Boolean { return this.ctx.impresorasFiscales_validateForm(); }
+}
+//// IMPRESORAS FISCALES ////////////////////////////////////
+/////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends multiDivisa {
-    function head( context ) { multiDivisa ( context ); }
+class head extends impresorasFiscales {
+    function head( context ) { impresorasFiscales ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -2395,17 +2405,17 @@ function habilitaciones_verificarHabilitaciones()
 			case "Factura C":
 			case "Ticket": {
 
-// 				if ( this.iface.documentoImpreso && flfactppal.iface.pub_valorDefectoEmpresa("bloqueoimpreso")) {
-// 					// bloquea aquí todo
-// 					this.child("gbxDatosVenta").setEnabled(false);
-// 					this.child("gbxDatosPago").setEnabled(false);
-// 					this.child("gbxInsercionRapida").setEnabled(false);
-// 					this.child("gbxCliente").setEnabled(false);
-// 					this.child("tdbLineasComanda").setReadOnly(true);
-// 					this.child("tdbPagos").setReadOnly(true);
-// 					this.child("tdbVales").setReadOnly(true);
-// 				} else if ( cursor.modeAccess() != cursor.Browse ) {
-					// desbloquea aquí todo
+				if ( cursor.valueBuffer("impresofiscal") && flfactppal.iface.pub_valorDefectoEmpresa("bloqueoimpreso")) {
+					// bloquea aquí todo
+					this.child("gbxDatosVenta").setEnabled(false);
+					this.child("gbxDatosPago").setEnabled(false);
+					this.child("gbxInsercionRapida").setEnabled(false);
+					this.child("gbxCliente").setEnabled(false);
+					this.child("tdbLineasComanda").setReadOnly(true);
+					this.child("tdbPagos").setReadOnly(true);
+					this.child("tdbVales").setReadOnly(true);
+				} else if ( cursor.modeAccess() != cursor.Browse ) {
+// 					desbloquea aquí todo
 					this.child("gbxDatosVenta").setEnabled(true);
 					this.child("gbxDatosPago").setEnabled(true);
 					this.child("gbxInsercionRapida").setEnabled(true);
@@ -2439,7 +2449,7 @@ function habilitaciones_verificarHabilitaciones()
 						this.child("fdbTipoPago").setDisabled(false);
 					}
 
-// 				}
+				}
 
 				if ( this.cursor().isNull("iddocumento") )
 					this.child("tbwDocumento").setTabEnabled("recibos", false);
@@ -2456,7 +2466,7 @@ function habilitaciones_verificarHabilitaciones()
 				this.child("tdbVales").setReadOnly(true);
 				this.child("tbwDocumento").setTabEnabled("recibos", false);
 
-// 				if ( this.iface.documentoImpreso && flfactppal.iface.pub_valorDefectoEmpresa("bloqueoimpreso")) {
+// 				if ( cursor.valueBuffer("impresofiscal") && flfactppal.iface.pub_valorDefectoEmpresa("bloqueoimpreso")) {
 // 					// bloquea aquí todo
 // 					this.child("gbxDatosVenta").setEnabled(false);
 // 					this.child("gbxDatosPago").setEnabled(false);
@@ -2497,6 +2507,7 @@ function habilitaciones_verificarHabilitaciones()
 
 	} else {
 		this.child("pbnPagar").setDisabled(true);
+		this.child("tbnPrintQuick").setDisabled(true);
 	}
 }
 
@@ -2778,6 +2789,32 @@ function multiDivisa_calculateField(fN:String):String
 
 //// MULTI DIVISA ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_declaration impresorasFiscales */
+/////////////////////////////////////////////////////////////
+//// IMPRESORAS FISCALES ////////////////////////////////////
+
+function impresorasFiscales_validateForm():Boolean
+{
+	if (!this.iface.__validateForm())
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	var tipoImpresora:String = util.sqlSelect("tpv_puntosventa", "tipoimpresora", "codtpv_puntoventa = '" + cursor.valueBuffer("codtpv_puntoventa") + "'");
+	if (tipoImpresora == "Fiscal") {
+		var impreso:Boolean = cursor.valueBuffer("impresofiscal");
+		if (impreso && flfactppal.iface.pub_valorDefectoEmpresa("bloqueoimpreso"))
+			MessageBox.warning(util.translate("scripts", "El documento ya fue impreso"), MessageBox.Ok, MessageBox.NoButton);
+		else
+			formtpv_comandas.iface.pub_imprimirQuick(this.cursor().valueBuffer("codigo"), "");
+	}
+
+	return true;
+}
+
+//// IMPRESORAS FISCALES ////////////////////////////////////
+/////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////
