@@ -70,6 +70,7 @@ class oficial extends interna {
 //// ACT_PRECIOS /////////////////////////////////////////////////
 class actPrecios extends oficial 
 {
+	var CR:Number;
 	var sep:String = ";";
 	var tablaDestino:String = "articulosactualizados";
 	var corr = [];
@@ -327,7 +328,12 @@ function oficial_quitarTodos()
 function actPrecios_init()
 {
 	connect(this.child("pbnImportar"), "clicked()", this, "iface.importar");
-	
+
+	var util:FLUtil = new FLUtil();
+	this.iface.CR = 1;
+	if (util.getOS() == "WIN32")
+		this.iface.CR++;
+
 	this.iface.__init();
 }
 
@@ -543,9 +549,8 @@ function actPrecios_leerLinea(file, numCampos):String
 		contCampos += arrayBuffer.length;
 	}
 	
-	// Eliminamos el salto de línea
-	if (linea.charCodeAt( linea.length - 1 ) == 10)
-		linea = linea.left(linea.length - 1);
+	// Eliminar el retorno de carro
+	linea = linea.left(linea.length - this.iface.CR);
 	
 	return linea;
 }
@@ -576,7 +581,7 @@ function actPrecios_crearCorrespondencias()
 function actPrecios_crearPosiciones(cabeceras:String)
 {
 	// Eliminar el retorno de carro
-	cabeceras = cabeceras.left(cabeceras.length - 1);
+	cabeceras = cabeceras.left(cabeceras.length - this.iface.CR);
 	
 	var campos = cabeceras.split(this.iface.sep);
 	var campo:String;
@@ -596,7 +601,7 @@ function actPrecios_comprobarFichero(cabeceras:String)
 	var util:FLUtil = new FLUtil();
 	
 	// Eliminar el retorno de carro
-	cabeceras = cabeceras.left(cabeceras.length - 1);
+	cabeceras = cabeceras.left(cabeceras.length - this.iface.CR);
 	
 	var campos = cabeceras.split(this.iface.sep);
 	var campo:String;
