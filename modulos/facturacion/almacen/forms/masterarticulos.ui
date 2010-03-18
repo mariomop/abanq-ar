@@ -344,10 +344,10 @@
 							<iconset>act_preciosimage5</iconset>
 						</property>
 						<property name="toolTip" stdset="0" >
-							<string>Actualizar precios de los artículos</string>
+							<string>Actualizar/importar artículos</string>
 						</property>
 						<property name="whatsThis" stdset="0" >
-							<string>Actualiza los precios de los artículos a partir de un fichero de texto csv con las columnas referencia y precio separados por el caracter ð</string>
+							<string>Actualiza/importa los artículos a partir de un fichero de texto csv</string>
 						</property>
 					</widget>
 					<widget class="QToolButton" >

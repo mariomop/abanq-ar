@@ -1604,7 +1604,7 @@ function actualizaArticulos_lanzarActualizacion()
 	var util:FLUtil = new FLUtil();
 	this.iface.arrayNomCampos = [];
 
-	var f:Object = new FLFormSearchDB("actualizaarticulos");
+	var f:Object = new FLFormSearchDB("actualiza_articulos");
 	var cursor:FLSqlCursor = f.cursor();
 
 	cursor.setActivatedCheckIntegrity(false);
@@ -1637,7 +1637,7 @@ function actualizaArticulos_lanzarActualizacion()
 			} else {
 				curArticulos.setModeAccess(curArticulos.Edit);
 				 // Actualizar los siguientes campos
-				this.iface.arrayNomCampos = new Array("pvp");
+				this.iface.arrayNomCampos = new Array("descripcion", "pvp");
 			}
 			curArticulos.refreshBuffer();
 			for (var i:Number = 0; i < this.iface.arrayNomCampos.length; i++) {

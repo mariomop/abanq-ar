@@ -1,0 +1,1213 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+	<class>formRecordactualizafamilias</class>
+	<author>Silix</author>
+	<widget class="QWidget">
+		<property name="name">
+			<cstring>formRecordactualizafamilias</cstring>
+		</property>
+		<property name="geometry">
+			<rect>
+				<x>0</x>
+				<y>0</y>
+				<width>889</width>
+				<height>651</height>
+			</rect>
+		</property>
+		<property name="sizePolicy">
+			<sizepolicy>
+				<hsizetype>5</hsizetype>
+				<vsizetype>5</vsizetype>
+				<horstretch>0</horstretch>
+				<verstretch>0</verstretch>
+			</sizepolicy>
+		</property>
+		<property name="minimumSize">
+			<size>
+				<width>0</width>
+				<height>0</height>
+			</size>
+		</property>
+		<property name="caption">
+			<string>Actualización de familias</string>
+		</property>
+		<property name="focusPolicy">
+			<enum>StrongFocus</enum>
+		</property>
+		<property name="layoutMargin" stdset="0">
+		</property>
+		<property name="layoutSpacing" stdset="0">
+		</property>
+		<vbox>
+			<property name="name">
+				<cstring>unnamed</cstring>
+			</property>
+			<property name="margin">
+				<number>0</number>
+			</property>
+			<property name="spacing">
+				<number>0</number>
+			</property>
+			<widget class="QTabWidget" >
+				<property name="name" >
+					<cstring>tbwActualizaFamilias</cstring>
+				</property>
+				<property name="font" >
+					<font>
+						<bold>1</bold>
+					</font>
+				</property>
+				<property name="focusPolicy" >
+					<enum>NoFocus</enum>
+				</property>
+				<widget class="QWidget" >
+					<property name="name" >
+						<cstring>familiasActualizar</cstring>
+					</property>
+					<attribute name="title" >
+						<string>&amp;Actualizar familias</string>
+					</attribute>
+					<vbox>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="QGroupBox">
+							<property name="name">
+								<cstring>groupBox1</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+									<italic>0</italic>
+								</font>
+							</property>
+							<property name="title">
+								<string></string>
+							</property>
+							<vbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout0</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB" >
+											<property name="name" >
+												<cstring>fdbCrearSiNoExiste</cstring>
+											</property>
+											<property name="fieldName" >
+												<string>crearsinoexiste</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Expanding</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>450</width>
+													<height>20</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="QPushButton">
+											<property name="name">
+												<cstring>pbnImportar</cstring>
+											</property>
+											<property name="font">
+												<font>
+													<bold>1</bold>
+													<italic>1</italic>
+												</font>
+											</property>
+											<property name="text">
+												<string>Cargar fichero</string>
+											</property>
+											<property name="accel">
+												<string></string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+							</vbox>
+						</widget>
+						<widget class="FLTableDB">
+							<property name="name">
+								<cstring>tdbFamilias</cstring>
+							</property>
+							<property name="minimumSize">
+								<size>
+									<width>0</width>
+									<height>150</height>
+								</size>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+									<italic>0</italic>
+								</font>
+							</property>
+							<property name="tableName">
+								<string>familiasactualizadas</string>
+							</property>
+						</widget>
+					</vbox>
+				</widget>
+				<widget class="QWidget" >
+					<property name="name" >
+						<cstring>familiasCrear</cstring>
+					</property>
+					<attribute name="title" >
+						<string>Familias &amp;nuevas</string>
+					</attribute>
+					<vbox>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="QGroupBox">
+							<property name="name">
+								<cstring>groupBox2</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+									<italic>0</italic>
+								</font>
+							</property>
+							<property name="title">
+								<string>Valores por defecto para familias nuevas</string>
+							</property>
+							<vbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout1</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbMarcacion</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>270</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>270</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>marcacion</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Expanding</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>414</width>
+													<height>20</height>
+												</size>
+											</property>
+										</spacer>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout2</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbCodMadre</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>270</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>270</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>codmadre</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbDesMadre</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>7</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>280</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>descripcionextendida</string>
+											</property>
+											<property name="tableName">
+												<string>familias</string>
+											</property>
+											<property name="foreignField">
+												<string>codmadre</string>
+											</property>
+											<property name="fieldRelation">
+												<string>codfamilia</string>
+											</property>
+											<property name="showAlias">
+												<bool>false</bool>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout3</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbCodUnidad</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>1</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>270</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>270</width>
+													<height>32767</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>codunidad</string>
+											</property>
+										</widget>
+										<widget class="FLFieldDB">
+											<property name="name">
+												<cstring>fdbDesUnidad</cstring>
+											</property>
+											<property name="sizePolicy">
+												<sizepolicy>
+													<hsizetype>7</hsizetype>
+													<vsizetype>0</vsizetype>
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>280</width>
+													<height>25</height>
+												</size>
+											</property>
+											<property name="fieldName">
+												<string>descripcion</string>
+											</property>
+											<property name="tableName">
+												<string>pesosmedidas</string>
+											</property>
+											<property name="foreignField">
+												<string>codunidad</string>
+											</property>
+											<property name="fieldRelation">
+												<string>codunidad</string>
+											</property>
+											<property name="showAlias">
+												<bool>false</bool>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<spacer>
+									<property name="name">
+										<cstring>unnamed</cstring>
+									</property>
+									<property name="orientation">
+										<enum>Vertical</enum>
+									</property>
+									<property name="sizeType">
+										<enum>Expanding</enum>
+									</property>
+									<property name="sizeHint">
+										<size>
+											<width>20</width>
+											<height>20</height>
+										</size>
+									</property>
+								</spacer>
+							</vbox>
+						</widget>
+					</vbox>
+				</widget>
+				<widget class="QWidget" >
+					<property name="name" >
+						<cstring>estructuraFichero</cstring>
+					</property>
+					<attribute name="title" >
+						<string>&amp;Estructura del fichero</string>
+					</attribute>
+					<vbox>
+						<property name="name">
+							<cstring>unnamed</cstring>
+						</property>
+						<widget class="QLabel">
+							<property name="name">
+								<cstring>lblEstructuraFichero</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+									<italic>0</italic>
+								</font>
+							</property>
+							<property name="text">
+								<string>El fichero debe tener en su cabecera los siguientes campos (no necesariamente en el mismo orden)</string>
+							</property>
+						</widget>
+						<widget class="QGroupBox">
+							<property name="name">
+								<cstring>gbxActualizar</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+									<italic>0</italic>
+								</font>
+							</property>
+							<property name="title">
+								<string>Para actualización de familias</string>
+							</property>
+							<vbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout10</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unanmed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>100</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>100</width>
+													<height>20</height>
+												</size>
+											</property>
+											<property name="paletteBackgroundColor">
+												<color>
+													<red>239</red>
+													<green>243</green>
+													<blue>247</blue>
+												</color>
+											</property>
+											<property name="text">
+												<string>CODIGO</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Fixed</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>10</width>
+													<height>10</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>350</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="font">
+												<font>
+													<italic>1</italic>
+												</font>
+											</property>
+											<property name="text">
+												<string>Código de la familia *</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout11</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unanmed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>100</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>100</width>
+													<height>20</height>
+												</size>
+											</property>
+											<property name="paletteBackgroundColor">
+												<color>
+													<red>239</red>
+													<green>243</green>
+													<blue>247</blue>
+												</color>
+											</property>
+											<property name="text">
+												<string>MARCACION</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Fixed</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>10</width>
+													<height>10</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>350</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="font">
+												<font>
+													<italic>1</italic>
+												</font>
+											</property>
+											<property name="text">
+												<string>% de marcación de la familia *</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+							</vbox>
+						</widget>
+						<widget class="QGroupBox">
+							<property name="name">
+								<cstring>gbxCrear</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+									<italic>0</italic>
+								</font>
+							</property>
+							<property name="title">
+								<string>Para crear familias nuevas</string>
+							</property>
+							<vbox>
+								<property name="name">
+									<cstring>unnamed</cstring>
+								</property>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout10</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unanmed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>100</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>100</width>
+													<height>20</height>
+												</size>
+											</property>
+											<property name="paletteBackgroundColor">
+												<color>
+													<red>239</red>
+													<green>243</green>
+													<blue>247</blue>
+												</color>
+											</property>
+											<property name="text">
+												<string>CODIGO</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Fixed</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>10</width>
+													<height>10</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>350</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="font">
+												<font>
+													<italic>1</italic>
+												</font>
+											</property>
+											<property name="text">
+												<string>Código de la familia *</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout11</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unanmed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>100</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>100</width>
+													<height>20</height>
+												</size>
+											</property>
+											<property name="paletteBackgroundColor">
+												<color>
+													<red>239</red>
+													<green>243</green>
+													<blue>247</blue>
+												</color>
+											</property>
+											<property name="text">
+												<string>MARCACION</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Fixed</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>10</width>
+													<height>10</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>350</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="font">
+												<font>
+													<italic>1</italic>
+												</font>
+											</property>
+											<property name="text">
+												<string>% de marcación de la familia *</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout12</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unanmed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>100</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>100</width>
+													<height>20</height>
+												</size>
+											</property>
+											<property name="paletteBackgroundColor">
+												<color>
+													<red>239</red>
+													<green>243</green>
+													<blue>247</blue>
+												</color>
+											</property>
+											<property name="text">
+												<string>DESCRIPCION</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Fixed</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>10</width>
+													<height>10</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>350</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="font">
+												<font>
+													<italic>1</italic>
+												</font>
+											</property>
+											<property name="text">
+												<string>Descripción de la familia *</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout13</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unanmed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>100</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>100</width>
+													<height>20</height>
+												</size>
+											</property>
+											<property name="paletteBackgroundColor">
+												<color>
+													<red>239</red>
+													<green>243</green>
+													<blue>247</blue>
+												</color>
+											</property>
+											<property name="text">
+												<string>MADRE</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Fixed</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>10</width>
+													<height>10</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>350</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="font">
+												<font>
+													<italic>1</italic>
+												</font>
+											</property>
+											<property name="text">
+												<string>Familia madre **</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+								<widget class="QLayoutWidget">
+									<property name="name">
+										<cstring>layout14</cstring>
+									</property>
+									<hbox>
+										<property name="name">
+											<cstring>unnamed</cstring>
+										</property>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unanmed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>100</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>100</width>
+													<height>20</height>
+												</size>
+											</property>
+											<property name="paletteBackgroundColor">
+												<color>
+													<red>239</red>
+													<green>243</green>
+													<blue>247</blue>
+												</color>
+											</property>
+											<property name="text">
+												<string>UNIDAD</string>
+											</property>
+										</widget>
+										<spacer>
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="orientation">
+												<enum>Horizontal</enum>
+											</property>
+											<property name="sizeType">
+												<enum>Fixed</enum>
+											</property>
+											<property name="sizeHint">
+												<size>
+													<width>10</width>
+													<height>10</height>
+												</size>
+											</property>
+										</spacer>
+										<widget class="QLabel">
+											<property name="name">
+												<cstring>unnamed</cstring>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>350</width>
+													<height>0</height>
+												</size>
+											</property>
+											<property name="font">
+												<font>
+													<italic>1</italic>
+												</font>
+											</property>
+											<property name="text">
+												<string>Unidad de medida de la familia **</string>
+											</property>
+										</widget>
+									</hbox>
+								</widget>
+							</vbox>
+						</widget>
+						<widget class="QLabel">
+							<property name="name">
+								<cstring>lblObservaciones</cstring>
+							</property>
+							<property name="font">
+								<font>
+									<bold>0</bold>
+									<italic>0</italic>
+								</font>
+							</property>
+							<property name="text">
+								<string>* : Campo obligatorio; ** : Si no se especifica toma el valor por defecto</string>
+							</property>
+						</widget>
+						<spacer>
+							<property name="name">
+								<cstring>unnamed</cstring>
+							</property>
+							<property name="orientation">
+								<enum>Vertical</enum>
+							</property>
+							<property name="sizeType">
+								<enum>Expanding</enum>
+							</property>
+							<property name="sizeHint">
+								<size>
+									<width>20</width>
+									<height>20</height>
+								</size>
+							</property>
+						</spacer>
+					</vbox>
+				</widget>
+			</widget>
+			<widget class="QFrame">
+				<property name="name">
+					<cstring>barraBotones</cstring>
+				</property>
+				<property name="sizePolicy">
+					<sizepolicy>
+						<hsizetype>5</hsizetype>
+						<vsizetype>5</vsizetype>
+						<horstretch>0</horstretch>
+						<verstretch>0</verstretch>
+					</sizepolicy>
+				</property>
+				<property name="minimumSize">
+					<size>
+						<width>0</width>
+						<height>40</height>
+					</size>
+				</property>
+				<property name="focusPolicy">
+					<enum>NoFocus</enum>
+				</property>
+				<property name="frameShape">
+					<enum>Box</enum>
+				</property>
+				<property name="frameShadow">
+					<enum>Raised</enum>
+				</property>
+				<hbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<property name="margin">
+						<number>5</number>
+					</property>
+					<property name="spacing">
+						<number>2</number>
+					</property>
+					<widget class="QPushButton">
+						<property name="name">
+							<cstring>pbnSeleccionar</cstring>
+						</property>
+						<property name="font">
+							<font>
+								<bold>1</bold>
+								<italic>1</italic>
+							</font>
+						</property>
+						<property name="text">
+							<string>&amp;Seleccionar</string>
+						</property>
+						<property name="accel">
+							<string>Alt+S</string>
+						</property>
+					</widget>
+					<widget class="QPushButton">
+						<property name="name">
+							<cstring>pbnSeleccionarTodos</cstring>
+						</property>
+						<property name="font">
+							<font>
+								<bold>1</bold>
+								<italic>1</italic>
+							</font>
+						</property>
+						<property name="text">
+							<string>S&amp;eleccionar todos</string>
+						</property>
+						<property name="accel">
+							<string>Alt+E</string>
+						</property>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>spacer11</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Expanding</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>450</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="QPushButton">
+						<property name="name">
+							<cstring>pbnQuitarTodos</cstring>
+						</property>
+						<property name="font">
+							<font>
+								<bold>1</bold>
+								<italic>1</italic>
+							</font>
+						</property>
+						<property name="text">
+							<string>Q&amp;uitar todos</string>
+						</property>
+						<property name="accel">
+							<string>Alt+U</string>
+						</property>
+					</widget>
+					<widget class="QPushButton">
+						<property name="name">
+							<cstring>pbnQuitar</cstring>
+						</property>
+						<property name="font">
+							<font>
+								<bold>1</bold>
+								<italic>1</italic>
+							</font>
+						</property>
+						<property name="text">
+							<string>&amp;Quitar</string>
+						</property>
+						<property name="accel">
+							<string>Alt+Q</string>
+						</property>
+					</widget>
+				</hbox>
+			</widget>
+			<widget class="QGroupBox">
+				<property name="name">
+					<cstring>gbxFamiliasSel</cstring>
+				</property>
+				<property name="font">
+					<font>
+						<bold>1</bold>
+						<italic>1</italic>
+					</font>
+				</property>
+				<property name="title">
+					<string>Familias actualizadas</string>
+				</property>
+				<vbox>
+					<property name="name">
+						<cstring>unnamed</cstring>
+					</property>
+					<widget class="FLTableDB">
+						<property name="name">
+							<cstring>tdbFamiliasSel</cstring>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>0</width>
+								<height>150</height>
+							</size>
+						</property>
+						<property name="font">
+							<font>
+								<bold>0</bold>
+								<italic>0</italic>
+							</font>
+						</property>
+						<property name="tableName">
+							<string>familiasactualizadas</string>
+						</property>
+					</widget>
+				</vbox>
+			</widget>
+		</vbox>
+	</widget>
+	<tabstops>
+		<tabstop>pbnImportar</tabstop>
+		<tabstop>fdbCrearSiNoExiste</tabstop>
+		<tabstop>pbnSeleccionar</tabstop>
+		<tabstop>pbnSeleccionarTodos</tabstop>
+		<tabstop>pbnQuitarTodos</tabstop>
+		<tabstop>pbnQuitar</tabstop>
+		<tabstop>tdbFamiliasSel</tabstop>
+		<tabstop>tdbFamilias</tabstop>
+	</tabstops>
+	<includes>
+		<include location="global" impldecl="in declaration">qwidgetfactory.h</include>
+		<include location="local" impldecl="in implementation">FLTableDB.h</include>
+	</includes>
+	<forwards>
+		<forward>class FLTableDB</forward>
+	</forwards>
+	<slots>
+		<slot access="protected">destroy()</slot>
+		<slot access="protected">init()</slot>
+	</slots>
+	<layoutdefaults spacing="6" margin="11"/>
+	<includehints>
+		<includehint>FLTableDB.h</includehint>
+		<includehint>FLTableDB.h</includehint>
+	</includehints>
+</UI>

@@ -1,8 +1,8 @@
 /***************************************************************************
-                 actualizaarticulos.qs  -  description
+                 actualiza_familias.qs  -  description
                              -------------------
-    begin                : vie nov 13 2009
-    copyright            : (C) 2009 by Silix
+    begin                : lun mar 15 2010
+    copyright            : (C) 2010 by Silix
     email                : contacto@silix.com.ar
  ***************************************************************************/
 /***************************************************************************
@@ -35,12 +35,8 @@ class interna {
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
-	var tdbArticulos:Object;
-	var tdbArticulosSel:Object;
-	var ejercicioActual:String;
-	var longSubcuenta:Number;
-	var bloqueoSubcuenta:Boolean;
-	var posActualPuntoSubcuenta:Number;
+	var tdbFamilias:Object;
+	var tdbFamiliasSel:Object;
 
     function oficial( context ) { interna( context ); }
 	function bufferChanged(fN:String) {
@@ -65,57 +61,57 @@ class oficial extends interna {
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-/** @class_declaration actPrecios */
-//////////////////////////////////////////////////////////////////
-//// ACT_PRECIOS /////////////////////////////////////////////////
-class actPrecios extends oficial 
+/** @class_declaration actFamilias */
+///////////////////////////////////////////////////////////////////
+//// ACT_FAMILIAS /////////////////////////////////////////////////
+class actFamilias extends oficial 
 {
 	var CR:Number;
 	var sep:String = ";";
-	var tablaDestino:String = "articulosactualizados";
+	var tablaDestino:String = "familiasactualizadas";
 	var corr = [];
 	var pos = [];
 	var arrayNomCampos = [];
 	var arrayNomCamposDefecto = [];
 	var arrayMasCampos = [];
 	
-    function actPrecios( context ) { oficial ( context ); }
+    function actFamilias( context ) { oficial ( context ); }
 	function init() {
-		return this.ctx.actPrecios_init();
+		return this.ctx.actFamilias_init();
 	}
 	function importar() {
-		return this.ctx.actPrecios_importar();
+		return this.ctx.actFamilias_importar();
 	}
 	function preprocesarFichero(tabla:String, file, posClaveFich:String, encabezados:String):Array {
-		return this.ctx.actPrecios_preprocesarFichero(tabla, file, posClaveFich, encabezados);
+		return this.ctx.actFamilias_preprocesarFichero(tabla, file, posClaveFich, encabezados);
 	}
 	function leerLinea(file, numCampos):String {
-		return this.ctx.actPrecios_leerLinea(file, numCampos);
+		return this.ctx.actFamilias_leerLinea(file, numCampos);
 	}
 	function crearCorrespondencias() {
-		return this.ctx.actPrecios_crearCorrespondencias();
+		return this.ctx.actFamilias_crearCorrespondencias();
 	}
 	function crearPosiciones(cabeceras:String) {
-		return this.ctx.actPrecios_crearPosiciones(cabeceras);
+		return this.ctx.actFamilias_crearPosiciones(cabeceras);
 	}
 	function comprobarFichero(cabeceras:String) {
-		return this.ctx.actPrecios_comprobarFichero(cabeceras);
+		return this.ctx.actFamilias_comprobarFichero(cabeceras);
 	}
 	function whereTablaDestino( linea:String ):String {
-		return this.ctx.actPrecios_whereTablaDestino( linea );
+		return this.ctx.actFamilias_whereTablaDestino( linea );
 	}
 	function comprobarCampoDefecto(nomCampo:String):Boolean {
-		return this.ctx.actPrecios_comprobarCampoDefecto(nomCampo);
+		return this.ctx.actFamilias_comprobarCampoDefecto(nomCampo);
 	}
 }
-//// ACT_PRECIOS /////////////////////////////////////////////////
+//// ACT_FAMILIAS ////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_declaration head */
 //////////////////////////////////////////////////////////////////
 //// DESARROLLO //////////////////////////////////////////////////
-class head extends actPrecios {
-    function head( context ) { actPrecios ( context ); }
+class head extends actFamilias {
+    function head( context ) { actFamilias ( context ); }
 }
 //// DESARROLLO //////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -144,41 +140,20 @@ function interna_init()
 	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
 	
-	this.iface.tdbArticulos = this.child("tdbArticulos");
-	this.iface.tdbArticulosSel = this.child("tdbArticulosSel");
+	this.iface.tdbFamilias = this.child("tdbFamilias");
+	this.iface.tdbFamiliasSel = this.child("tdbFamiliasSel");
 	
-	this.iface.tdbArticulos.setReadOnly(true);
-	this.iface.tdbArticulosSel.setReadOnly(true);
+	this.iface.tdbFamilias.setReadOnly(true);
+	this.iface.tdbFamiliasSel.setReadOnly(true);
 	
 	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
-	connect(this.iface.tdbArticulos.cursor(), "recordChoosed()", this, "iface.seleccionar()");
-	connect(this.iface.tdbArticulosSel.cursor(), "recordChoosed()", this, "iface.quitar()");
+	connect(this.iface.tdbFamilias.cursor(), "recordChoosed()", this, "iface.seleccionar()");
+	connect(this.iface.tdbFamiliasSel.cursor(), "recordChoosed()", this, "iface.quitar()");
 
 	connect(this.child("pbnSeleccionar"), "clicked()", this, "iface.seleccionar()");
 	connect(this.child("pbnSeleccionarTodos"), "clicked()", this, "iface.seleccionarTodos()");
 	connect(this.child("pbnQuitar"), "clicked()", this, "iface.quitar()");
 	connect(this.child("pbnQuitarTodos"), "clicked()", this, "iface.quitarTodos()");
-
-	if (sys.isLoadedModule("flcontppal")) {
-		this.iface.ejercicioActual = flfactppal.iface.pub_ejercicioActual();
-		this.iface.longSubcuenta = util.sqlSelect("ejercicios", "longsubcuenta", "codejercicio = '" + this.iface.ejercicioActual + "'");
-		this.iface.bloqueoSubcuenta = false;
-		this.iface.posActualPuntoSubcuenta = -1;
-		this.child("fdbIdSubcuentaCom").setFilter("codejercicio = '" + this.iface.ejercicioActual + "'");
-	} else {
-		this.child("fdbCodSubcuentaCom").close();
-		this.child("fdbIdSubcuentaCom").close();
-		this.child("fdbDesSubcuentaCom").close();
-	}
-
-	this.child("fdbIvaIncluido").setValue(flfactalma.iface.pub_valorDefectoAlmacen("ivaincluido"));
-	this.child("fdbCodImpuesto").setValue(flfactalma.iface.pub_valorDefectoAlmacen("codimpuesto"));
-	this.child("fdbCodDivisa").setValue(flfactalma.iface.pub_valorDefectoAlmacen("coddivisa"));
-
-	if (sys.isLoadedModule("flcontppal")) {
-		this.child("fdbIdSubcuentaCom").setValue(flfactalma.iface.pub_valorDefectoAlmacen("idsubcuentacom"));
-		this.child("fdbCodSubcuentaCom").setValue(flfactalma.iface.pub_valorDefectoAlmacen("codsubcuentacom"));
-	}
 
 	this.iface.bufferChanged("crearsinoexiste");
 	this.iface.refrescarTablas();
@@ -197,17 +172,9 @@ function oficial_bufferChanged(fN:String)
 	switch (fN) {
 		case "crearsinoexiste": {
 			if (cursor.valueBuffer("crearsinoexiste"))
-				this.child("tbwActualizaArticulos").setTabEnabled("articulosCrear", true);
+				this.child("tbwActualizaFamilias").setTabEnabled("familiasCrear", true);
 			else
-				this.child("tbwActualizaArticulos").setTabEnabled("articulosCrear", false);
-			break;
-		}
-		case "codsubcuentacom": {
-			if (!this.iface.bloqueoSubcuenta) {
-				this.iface.bloqueoSubcuenta = true;
-				this.iface.posActualPuntoSubcuenta = flcontppal.iface.pub_formatearCodSubcta(this, "fdbCodSubcuentaCom", this.iface.longSubcuenta, this.iface.posActualPuntoSubcuenta);
-				this.iface.bloqueoSubcuenta = false;
-			}
+				this.child("tbwActualizaFamilias").setTabEnabled("familiasCrear", false);
 			break;
 		}
 	}
@@ -218,33 +185,33 @@ function oficial_refrescarTablas()
 	var filtro:String = this.cursor().valueBuffer("filtro");
 	if (!filtro || filtro == "")
 		filtro = "''";
-	filtro = "referencia IN (" + filtro + ") AND ";
+	filtro = "codfamilia IN (" + filtro + ") AND ";
 
 	var datos:String = this.cursor().valueBuffer("datos");
 	if (!datos || datos == "") {
-		this.iface.tdbArticulos.setFilter(filtro + "1 = 1");
-		this.iface.tdbArticulosSel.setFilter(filtro + "1 = 2");
+		this.iface.tdbFamilias.setFilter(filtro + "1 = 1");
+		this.iface.tdbFamiliasSel.setFilter(filtro + "1 = 2");
 	} else {
-		this.iface.tdbArticulos.setFilter(filtro + "referencia NOT IN (" + datos + ")");
-		this.iface.tdbArticulosSel.setFilter("1=1 AND referencia IN (" + datos + ")");
+		this.iface.tdbFamilias.setFilter(filtro + "codfamilia NOT IN (" + datos + ")");
+		this.iface.tdbFamiliasSel.setFilter("1=1 AND codfamilia IN (" + datos + ")");
 	}
 
-	this.iface.tdbArticulos.refresh();
-	this.iface.tdbArticulosSel.refresh();
+	this.iface.tdbFamilias.refresh();
+	this.iface.tdbFamiliasSel.refresh();
 }
 
 function oficial_seleccionar()
 {
 	var cursor:FLSqlCursor = this.cursor();
 	var datos:String = cursor.valueBuffer("datos");
-	var referencia:String = this.iface.tdbArticulos.cursor().valueBuffer("referencia");
-	if (!referencia)
+	var codFamilia:String = this.iface.tdbFamilias.cursor().valueBuffer("codfamilia");
+	if (!codFamilia)
 		return;
 
 	if (!datos || datos == "")
-		datos = "'" + referencia + "'";
+		datos = "'" + codFamilia + "'";
 	else
-		datos += "," + "'" + referencia + "'";
+		datos += "," + "'" + codFamilia + "'";
 
 	cursor.setValueBuffer("datos", datos);
 	this.iface.refrescarTablas();
@@ -255,27 +222,28 @@ function oficial_seleccionarTodos()
 	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
 	var datos:String = cursor.valueBuffer("datos");
+	var codFamilia:String;
 
-	var curLineas:FLSqlCursor = new FLSqlCursor("articulosactualizados");
-	curLineas.setMainFilter(this.iface.tdbArticulos.filter());
+	var curLineas:FLSqlCursor = new FLSqlCursor("familiasactualizadas");
+	curLineas.setMainFilter(this.iface.tdbFamilias.filter());
 
 	if (curLineas.size() > 0) {
 		curLineas.first();
-		referencia = curLineas.valueBuffer("referencia");
+		codFamilia = curLineas.valueBuffer("codfamilia");
 		if (!datos || datos == "")
-			datos = "'" + referencia + "'";
+			datos = "'" + codFamilia + "'";
 		else
-			datos += "," + "'" + referencia + "'";
+			datos += "," + "'" + codFamilia + "'";
 
 		var paso:Number = 0;
-		util.createProgressDialog( util.translate( "scripts", "Seleccionando artículos..." ), curLineas.size());
+		util.createProgressDialog( util.translate( "scripts", "Seleccionando familias..." ), curLineas.size());
 
 		while (curLineas.next()) {
-			referencia = curLineas.valueBuffer("referencia");
+			codFamilia = curLineas.valueBuffer("codfamilia");
 			if (!datos || datos == "")
-				datos = "'" + referencia + "'";
+				datos = "'" + codFamilia + "'";
 			else
-				datos += "," + "'" + referencia + "'";
+				datos += "," + "'" + codFamilia + "'";
 			util.setProgress( ++paso );
 		}
 		util.destroyProgressDialog();
@@ -289,8 +257,8 @@ function oficial_quitar()
 {
 	var cursor:FLSqlCursor = this.cursor();
 	var datos:String = cursor.valueBuffer("datos");
-	var referencia:String = this.iface.tdbArticulosSel.cursor().valueBuffer("referencia");
-	if (!referencia)
+	var codFamilia:String = this.iface.tdbFamiliasSel.cursor().valueBuffer("codfamilia");
+	if (!codFamilia)
 		return;
 
 	if (!datos || datos == "")
@@ -299,7 +267,7 @@ function oficial_quitar()
 	var lineas:Array = datos.split(",");
 	var datosNuevos:String = "";
 	for (var i:Number = 0; i < lineas.length; i++) {
-		if (lineas[i] != "'" + referencia + "'") {
+		if (lineas[i] != "'" + codFamilia + "'") {
 			if (datosNuevos == "") 
 				datosNuevos = lineas[i];
 			else
@@ -321,11 +289,11 @@ function oficial_quitarTodos()
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-/** @class_definition actPrecios */
+/** @class_definition actFamilias */
 //////////////////////////////////////////////////////////////////
-//// ACT_PRECIOS /////////////////////////////////////////////////
+//// ACT_FAMILIAS ////////////////////////////////////////////////
 
-function actPrecios_init()
+function actFamilias_init()
 {
 	connect(this.child("pbnImportar"), "clicked()", this, "iface.importar");
 
@@ -337,7 +305,7 @@ function actPrecios_init()
 	this.iface.__init();
 }
 
-function actPrecios_importar()
+function actFamilias_importar()
 {
 	var util:FLUtil = new FLUtil();
 	
@@ -347,7 +315,7 @@ function actPrecios_importar()
 	this.iface.arrayNomCamposDefecto = [];
 	this.iface.arrayMasCampos = [];
 	
-	var fichero:String = FileDialog.getOpenFileName( util.translate( "scripts", "Texto CSV (*.csv)" ), util.translate( "scripts", "Elegir fichero de artículos" ) );
+	var fichero:String = FileDialog.getOpenFileName( util.translate( "scripts", "Texto CSV (*.csv)" ), util.translate( "scripts", "Elegir fichero de familias" ) );
 	
 	if (!fichero) return;
 	if ( !File.exists( fichero ) ) {
@@ -371,12 +339,12 @@ function actPrecios_importar()
 		return;
 	}
 	
-	var arrayLineas = this.iface.preprocesarFichero(this.iface.tablaDestino, file, this.iface.pos["REFERENCIA"], encabezados);
+	var arrayLineas = this.iface.preprocesarFichero(this.iface.tablaDestino, file, this.iface.pos["CODIGO"], encabezados);
 
 	var curTab:FLSqlCursor = new FLSqlCursor(this.iface.tablaDestino);
-	var referencia:String;
-	var pvpAnterior:Number;
-	var pvp:Number;
+	var codFamilia:String;
+	var marcacionAnterior:Number;
+	var marcacion:Number;
 	var actualizados:Number = 0;
 	var creados:Number = 0;
 	var noCreados:Number = 0;
@@ -390,20 +358,20 @@ function actPrecios_importar()
 	for (var i:Number = 0; i < arrayLineas.length; i++) {
 		linea = arrayLineas[i];
 		campos = linea.split(this.iface.sep);
-		referencia = campos[this.iface.pos["REFERENCIA"]];
+		codFamilia = campos[this.iface.pos["CODIGO"]];
 		
-		q.setTablesList("articulos");
-		q.setSelect("referencia,pvp,descripcion");
-		q.setFrom("articulos");
-		q.setWhere("referencia = '" + referencia + "'");
+		q.setTablesList("familias");
+		q.setSelect("codfamilia,marcacion,descripcion");
+		q.setFrom("familias");
+		q.setWhere("codfamilia = '" + codFamilia + "'");
 		q.exec();
 		if (q.first()) {
 			actualizados++;
-			pvpAnterior = parseFloat(q.value("pvp"));
+			marcacionAnterior = parseFloat(q.value("marcacion"));
 		} else {
 			if (this.cursor().valueBuffer("crearsinoexiste")) {
 				creados++;
-				pvpAnterior = 0;
+				marcacionAnterior = 0;
 			} else {
 				noCreados++;
 				util.setProgress(i);
@@ -425,7 +393,7 @@ function actPrecios_importar()
 			var existeColumna;
 			try { existeColumna = this.iface.pos[nomCampo]; }
 			catch (e) { }
-			// Si el campo no existe en el csv se toma el valor por defecto para ese campo (para artículos nuevos)
+			// Si el campo no existe en el csv se toma el valor por defecto para ese campo (para familias nuevas)
 			if (isNaN(existeColumna)) {
 				if ( this.iface.comprobarCampoDefecto(nomCampo) )
 					curTab.setValueBuffer(this.iface.corr[nomCampo], cursor.valueBuffer(this.iface.corr[nomCampo]));
@@ -443,23 +411,23 @@ function actPrecios_importar()
 				curTab.setValueBuffer(this.iface.corr[nomCampo], campos[this.iface.pos[nomCampo]]);
 			}
 		}
-		// Se copian los campos por defecto que no se incluyen en el csv (para artículos nuevos)
+		// Se copian los campos por defecto que no se incluyen en el csv (para familias nuevas)
 		for (var j:Number = 0; j < this.iface.arrayMasCampos.length; j++) {
 			nomCampo = this.iface.arrayMasCampos[j];
 			curTab.setValueBuffer(nomCampo, cursor.valueBuffer(nomCampo));
 		}
 
-		curTab.setValueBuffer("pvpanterior", pvpAnterior);
+		curTab.setValueBuffer("marcacionanterior", marcacionAnterior);
 		if (!curTab.valueBuffer("descripcion") || curTab.valueBuffer("descripcion") == "")
 			curTab.setValueBuffer("descripcion", q.value("descripcion"))
 
 		if (!curTab.commitBuffer())
-			debug("Error al actualizar/crear el artículo " + referencia + " en la línea válida " + i);
+			debug("Error al actualizar/crear la familia " + codFamilia + " en la línea válida " + i);
 		else {
 			if (!filtro || filtro == "")
-				filtro = "'" + referencia + "'";
+				filtro = "'" + codFamilia + "'";
 			else
-				filtro += "," + "'" + referencia + "'";
+				filtro += "," + "'" + codFamilia + "'";
 				
 		}
 		util.setProgress(i);
@@ -468,10 +436,10 @@ function actPrecios_importar()
 	util.destroyProgressDialog();
 
 	var util:FLUtil = new FLUtil();
-	MessageBox.information( util.translate( "scripts", "Total de artículos: %0\n\nArtículos actualizados: %1\nArtículos importados: %2").arg(actualizados+creados).arg(actualizados).arg(creados), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton );
+	MessageBox.information( util.translate( "scripts", "Total de familias: %0\n\nFamilias actualizadas: %1\nFamilias importadas: %2").arg(actualizados+creados).arg(actualizados).arg(creados), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton );
 
 	if (noCreados > 0)
-		MessageBox.information( util.translate( "scripts", "Artículos no importados: %0\n\nPuede crearlos eligiendo la opción\n\"Crear artículos si no existen\"").arg(noCreados), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton );
+		MessageBox.information( util.translate( "scripts", "Familias no importadas: %0\n\nPuede crearlas eligiendo la opción\n\"Crear familias si no existen\"").arg(noCreados), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton );
 
 	this.iface.refrescarTablas();
 }
@@ -480,10 +448,10 @@ function actPrecios_importar()
 Indica la clausula where necesaria para determinar si existe el registro destino para la linea de texto pasada
 @param	linea	Linea de texto del fichero correspondiente a un registro
 \end */
-function actPrecios_whereTablaDestino( linea:String ):String {
+function actFamilias_whereTablaDestino( linea:String ):String {
 	var campos:Array = linea.split(this.iface.sep);
-	var referencia:String = campos[this.iface.pos["REFERENCIA"]];
-	var where:String = "referencia = '" + referencia + "'";
+	var codFamilia:String = campos[this.iface.pos["CODIGO"]];
+	var where:String = "codfamilia = '" + codFamilia + "'";
 
 	return where;
 }
@@ -492,7 +460,7 @@ function actPrecios_whereTablaDestino( linea:String ):String {
 array con los registros a importar
 @param posClaveFich Posición del campo clave en el fichero
 */
-function actPrecios_preprocesarFichero(tabla:String, file, posClaveFich:String, encabezados:String):Array 
+function actFamilias_preprocesarFichero(tabla:String, file, posClaveFich:String, encabezados:String):Array 
 {
 	var arrayLineas:Array = [];
 
@@ -533,7 +501,7 @@ function actPrecios_preprocesarFichero(tabla:String, file, posClaveFich:String, 
 	return arrayLineas;
 }
 
-function actPrecios_leerLinea(file, numCampos):String
+function actFamilias_leerLinea(file, numCampos):String
 {
 	var regExp:RegExp = new RegExp( "\"" );
 	regExp.global = true;
@@ -555,30 +523,24 @@ function actPrecios_leerLinea(file, numCampos):String
 	return linea;
 }
 
-function actPrecios_crearCorrespondencias()
+function actFamilias_crearCorrespondencias()
 {
-	this.iface.arrayNomCampos = new Array("REFERENCIA", "PVP", "DESCRIPCION", "DIVISA", "IVA", "UNIDAD", "FAMILIA", "FABRICANTE", "MODELO", "COSTO", "OBSERVACIONES");
-	this.iface.arrayNomCamposDefecto = new Array("DIVISA", "IVA", "UNIDAD", "FAMILIA", "FABRICANTE");
-	this.iface.arrayMasCampos = new Array("ivaincluido", "codsubcuentacom", "idsubcuentacom");
+	this.iface.arrayNomCampos = new Array("CODIGO", "MARCACION", "DESCRIPCION", "MADRE", "UNIDAD");
+	this.iface.arrayNomCamposDefecto = new Array("MARCACION", "MADRE", "UNIDAD");
+	this.iface.arrayMasCampos = new Array("");
 
-	this.iface.corr["REFERENCIA"] = "referencia";
-	this.iface.corr["PVP"] = "pvp";
+	this.iface.corr["CODIGO"] = "codfamilia";
+	this.iface.corr["MARCACION"] = "marcacion";
 
 	this.iface.corr["DESCRIPCION"] = "descripcion";
-	this.iface.corr["DIVISA"] = "coddivisa";
-	this.iface.corr["IVA"] = "codimpuesto";
+	this.iface.corr["MADRE"] = "codmadre";
 	this.iface.corr["UNIDAD"] = "codunidad";
-	this.iface.corr["FAMILIA"] = "codfamilia";
-	this.iface.corr["FABRICANTE"] = "codfabricante";
-	this.iface.corr["MODELO"] = "modelo";
-	this.iface.corr["COSTO"] = "costemaximo";
-	this.iface.corr["OBSERVACIONES"] = "observaciones";
 }
 
 /** Crea un array con las posiciones de los nombres de campos en el fichero
 @param cabeceras String con la primera línea del fichero que contiene las cabeceras
 */
-function actPrecios_crearPosiciones(cabeceras:String)
+function actFamilias_crearPosiciones(cabeceras:String)
 {
 	// Eliminar el retorno de carro
 	cabeceras = cabeceras.left(cabeceras.length - this.iface.CR);
@@ -593,10 +555,10 @@ function actPrecios_crearPosiciones(cabeceras:String)
 	}
 }
 
-/** Comprueba que la primera línea del fichero contiene un campo REFERENCIA y un PVP
+/** Comprueba que la primera línea del fichero contiene un campo CODIGO y un MARCACION
 @param cabeceras String con la primera línea del fichero que contiene las cabeceras
 */
-function actPrecios_comprobarFichero(cabeceras:String)
+function actFamilias_comprobarFichero(cabeceras:String)
 {
 	var util:FLUtil = new FLUtil();
 	
@@ -605,29 +567,29 @@ function actPrecios_comprobarFichero(cabeceras:String)
 	
 	var campos = cabeceras.split(this.iface.sep);
 	var campo:String;
-	var ref:Boolean = false;
-	var pvp:Boolean = false;
+	var cod:Boolean = false;
+	var marca:Boolean = false;
 	var desc:Boolean = false;
 	
 	for (var i:Number = 0; i < campos.length; i++) {
 		campo = campos[i];
-		if (campo.toUpperCase() == "REFERENCIA")
-			ref = true;
-		if (campo.toUpperCase() == "PVP")
-			pvp = true;
+		if (campo.toUpperCase() == "CODIGO")
+			cod = true;
+		if (campo.toUpperCase() == "MARCACION")
+			marca = true;
 		if (campo.toUpperCase() == "DESCRIPCION")
 			desc = true;
 	}
 	
-	if ( !ref || !pvp || (!desc && this.cursor().valueBuffer("crearsinoexiste")) ) {
-		MessageBox.critical( util.translate( "scripts", "El fichero no es válido.\nLa cabecera debe contener los campos REFERENCIA (referencia), DESCRIPCION (descripción) y PVP (precio)"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton );
+	if ( !cod || !marca || (!desc && this.cursor().valueBuffer("crearsinoexiste")) ) {
+		MessageBox.critical( util.translate( "scripts", "El fichero no es válido.\nLa cabecera debe contener los campos CODIGO (código), DESCRIPCION (descripción) y MARCACION (marcación)"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton );
 		return false;
 	}
 	
 	return true;
 }
 
-function actPrecios_comprobarCampoDefecto(nomCampo:String):Boolean
+function actFamilias_comprobarCampoDefecto(nomCampo:String):Boolean
 {
 	var valido:Boolean = false;
 	for (var i:Number = 0; i < this.iface.arrayNomCamposDefecto.length; i++) {
@@ -636,7 +598,7 @@ function actPrecios_comprobarCampoDefecto(nomCampo:String):Boolean
 	}
 	return valido;
 }
-//// ACT_PRECIOS ////////////////////////////////////////////////
+//// ACT_FAMILIAS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

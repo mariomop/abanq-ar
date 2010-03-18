@@ -68,6 +68,7 @@
 		<name>codimpuesto</name>
 		<!-- Tipo de I.V.A. aplicado al artículo -->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Tipo de I.V.A.")</alias>
+		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
 		<length>10</length>
