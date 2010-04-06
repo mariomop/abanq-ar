@@ -5380,6 +5380,14 @@ function funNumAcomp_afterCommit_lineasfacturasclins(curL:FLSqlCursor):Boolean
 					curNS.setValueBuffer("vendido", "false")
 					if (!curNS.commitBuffer()) return false;
 				}
+				// SILIX: El nuevo número de serie debe quedar marcado como "vendido"
+				curNS.select("referencia = '" + curL.valueBuffer("referencia") + "' AND numserie = '" + curL.valueBuffer("numserie") + "'");
+				if (curNS.first()) {
+					curNS.setModeAccess(curNS.Edit);
+					curNS.refreshBuffer();
+					curNS.setValueBuffer("vendido", "true")
+					if (!curNS.commitBuffer()) return false;
+				}
 			}
 			
 		break;
