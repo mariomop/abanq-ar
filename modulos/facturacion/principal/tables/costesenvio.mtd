@@ -18,7 +18,7 @@
 		<alias>QT_TRANSLATE_NOOP("MetaData","F. Envio")</alias>
 		<null>true</null>
 		<pk>false</pk>
-        	<ck>true</ck>
+		<ck>true</ck>
 		<type>string</type>
 		<length>10</length>
 		<relation>

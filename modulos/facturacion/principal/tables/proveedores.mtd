@@ -222,7 +222,7 @@
 	<field>
 		<name>riesgoalcanzado</name>
 		<!--Cantidad que la empresa le adeudada al proveedor-->
-	        <alias>QT_TRANSLATE_NOOP("MetaData","Riesgo alcanzado")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Riesgo alcanzado")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>double</type>

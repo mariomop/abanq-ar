@@ -28,4 +28,4 @@
 		descuentos.coddescuento&gt;=[from] AND descuentos.coddescuento&lt;=[to] ORDER BY descuentos.coddescuento 
 	</where>
 </QRY>
- 
+

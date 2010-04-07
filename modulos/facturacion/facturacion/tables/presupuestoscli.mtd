@@ -53,7 +53,7 @@
 		<optionslist>QT_TRANSLATE_NOOP("MetaData","Presupuesto")</optionslist>
 		<default>QT_TRANSLATE_NOOP("MetaData","Presupuesto")</default>
 	</field>
-
+	
 	<field>
 		<name>editable</name>
 		<!--Indica si el presupuesto está o no aprobado-->
@@ -159,7 +159,7 @@
 		<type>string</type>
 		<length>4</length>
 		<editable>false</editable>
-
+		
 		<relation>
 			<table>series</table>
 			<field>codserie</field>
@@ -231,7 +231,7 @@
 	<field>
 		<name>totalpie</name>
 		<!--Total del Pie de documento-->
-	        <alias>QT_TRANSLATE_NOOP("MetaData","Otros conceptos")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Otros conceptos")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>
@@ -240,7 +240,7 @@
 		<default>0</default>
 		<editable>false</editable>
 	</field>
-
+	
 	<field>
 		<name>codpago</name>
 		<!--Forma de pago-->
@@ -290,7 +290,7 @@
 	<field>
 		<name>codtarifa</name>
 		<!--Tarifa que se aplica a las lineas-->
-	        <alias>QT_TRANSLATE_NOOP("MetaData","Tarifa")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Tarifa")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
@@ -301,7 +301,7 @@
 			<card>M1</card>
 		</relation>
 	</field>
-
+	
 	<field>
 		<name>coddir</name>
 		<!--Código de la dirección asociada al cliente-->

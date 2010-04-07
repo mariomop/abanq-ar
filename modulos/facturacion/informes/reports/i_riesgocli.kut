@@ -29,10 +29,10 @@
 		<Label WordWrap="0" Width="20" X="680" Y="0" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="al" FontWeight="50" FontSize="12" BorderWidth="1" FontFamily="Arial" />
 		<Field WordWrap="0" Width="70" X="695" Y="0" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="1" DataType="3" Field="i_riesgocli.hfecha" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[i_riesgocli.hfecha]" FontWeight="50" FontSize="12" BorderWidth="1" Precision="2" FontFamily="Arial" />
 		<!--Fecha-->
-<!--		<Label WordWrap="0" Width="50" X="600" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Fecha" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
+		<!--		<Label WordWrap="0" Width="50" X="600" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Fecha" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Special WordWrap="0" Width="70" X="655" Y="0" BorderStyle="0" Height="20" HAlignment="0" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="0" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />-->
 		<!--Página-->
-<!--		<Label WordWrap="0" Width="60" X="740" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Página" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
+		<!--		<Label WordWrap="0" Width="60" X="740" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Página" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Special WordWrap="0" Width="20" X="800" Y="0" BorderStyle="0" Height="20" HAlignment="2" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="1" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />-->
 		<!--Encabezado de líneas-->
 		<Label WordWrap="0" Width="279" X="0" Y="25" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Cliente" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
@@ -52,10 +52,10 @@
 		<Label WordWrap="0" Width="20" X="680" Y="0" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="al" FontWeight="50" FontSize="12" BorderWidth="1" FontFamily="Arial" />
 		<Field WordWrap="0" Width="70" X="695" Y="0" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="1" DataType="3" Field="i_riesgocli.hfecha" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[i_riesgocli.hfecha]" FontWeight="50" FontSize="12" BorderWidth="1" Precision="2" FontFamily="Arial" />
 		<!--Fecha-->
-<!--		<Label WordWrap="0" Width="50" X="600" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Fecha" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
+		<!--		<Label WordWrap="0" Width="50" X="600" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Fecha" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Special WordWrap="0" Width="70" X="655" Y="0" BorderStyle="0" Height="20" HAlignment="0" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="0" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />-->
 		<!--Página-->
-<!--		<Label WordWrap="0" Width="60" X="740" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Página" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
+		<!--		<Label WordWrap="0" Width="60" X="740" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Página" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Special WordWrap="0" Width="20" X="800" Y="0" BorderStyle="0" Height="20" HAlignment="2" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="1" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />-->
 		<!--Encabezado de líneas-->
 		<Label WordWrap="0" Width="279" X="0" Y="25" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Cliente" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
@@ -66,7 +66,7 @@
 		<Label WordWrap="0" Width="89" X="690" Y="25" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Riesgo Máx." FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
 		<Label WordWrap="0" Width="90" X="780" Y="25" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Riesgo Exced." FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
 	</AddOnHeader>
-
+	
 	<Detail Height="15" Level="1" >
 		<Field WordWrap="0" Width="50" X="0" Y="0" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="0" DataType="0" Field="i_riesgocli_buffer.codcliente" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[i_riesgocli_buffer.codcliente]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		<Field WordWrap="0" Width="230" X="50" Y="0" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="0" DataType="0" Field="i_riesgocli_buffer.nombrecliente" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[i_riesgocli_buffer.nombrecliente]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
@@ -99,7 +99,7 @@
 		<CalculatedField WordWrap="0" CalculationType="1" Width="90" X="690" Y="10" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="2" DataType="2" Field="i_riesgocli_buffer.riesgomax" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[i_riesgocli_buffer.riesgomax]" FontWeight="65" FontSize="11" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		<CalculatedField WordWrap="0" CalculationType="1" Width="90" X="780" Y="10" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="2" DataType="2" Field="i_riesgocli_buffer.riesgoexced" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[i_riesgocli_buffer.riesgoexced]" FontWeight="65" FontSize="11" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 	</DetailFooter>
-
+	
 	<PageFooter Height="5" PrintFrequency="1" >
 	</PageFooter>
 </KugarTemplate>

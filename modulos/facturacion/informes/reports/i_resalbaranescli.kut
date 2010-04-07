@@ -80,7 +80,7 @@
 	
 	<AddOnFooter Height="35" Level="1" >
 		<Line Width="1" Y1="5" Y2="5" X1="0" X2="870" Style="1" Color="150,150,150" />
-
+		
 		<Label WordWrap="0" Width="540" X="0" Y="10" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Suma y sigue" FontWeight="65" FontSize="11" BorderWidth="1" FontFamily="Arial" />
 		<CalculatedField WordWrap="0" CalculationType="1" Width="80" X="560" Y="10" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="2" DataType="2" Field="albaranescli.neto" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[albaranescli.neto]" FontWeight="65" FontSize="11" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		<CalculatedField WordWrap="0" CalculationType="1" Width="60" X="640" Y="10" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="2" DataType="2" Field="albaranescli.totaliva" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[albaranescli.totaliva]" FontWeight="65" FontSize="11" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
@@ -91,7 +91,7 @@
 	
 	<DetailFooter Height="35" Level="1" >
 		<Line Width="1" Y1="5" Y2="5" X1="0" X2="870" Style="1" Color="150,150,150" />
-
+		
 		<Label WordWrap="0" Width="540" X="0" Y="10" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Total" FontWeight="65" FontSize="11" BorderWidth="1" FontFamily="Arial" />
 		<CalculatedField WordWrap="0" CalculationType="1" Width="80" X="560" Y="10" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="2" DataType="2" Field="albaranescli.neto" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[albaranescli.neto]" FontWeight="65" FontSize="11" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		<CalculatedField WordWrap="0" CalculationType="1" Width="60" X="640" Y="10" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="2" DataType="2" Field="albaranescli.totaliva" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[albaranescli.totaliva]" FontWeight="65" FontSize="11" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />

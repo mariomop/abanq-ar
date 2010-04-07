@@ -55,7 +55,7 @@
 	<field>
 		<name>ivaincluido</name>
 		<!-- Indica si el precio de venta del artículo incluye el IVA -->
-	        <alias>QT_TRANSLATE_NOOP("MetaData","I.V.A. Incluido")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","I.V.A. Incluido")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>bool</type>

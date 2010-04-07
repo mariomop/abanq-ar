@@ -28,7 +28,7 @@
 			<card>M1</card>
 		</relation>
 	</field>
-
+	
 	<field>
 		<name>referencia</name>
 		<!-- Código de referencia del artículo -->
@@ -55,7 +55,7 @@
 		<partI>10</partI>
 		<partD>2</partD>
 	</field>
-
+	
 	<field>
 		<name>numserie</name>
 		<!-- Número de serie del artículo -->

@@ -28,4 +28,4 @@
 		paises.codpais&gt;=[from] AND paises.codpais&lt;=[to] ORDER BY paises.codpais 
 	</where>
 </QRY>
- 
+

@@ -28,4 +28,4 @@
 		series.codserie&gt;=[from] AND series.codserie&lt;=[to] 
 	</where>
 </QRY>
- 
+

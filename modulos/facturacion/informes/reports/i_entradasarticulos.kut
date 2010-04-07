@@ -34,7 +34,7 @@
 		<!--Línea-->
 		<Line Width="1" Y1="24" Y2="24" X1="0" X2="870" Style="1" Color="150,150,150" />
 	</DetailHeader>
-
+	
 	
 	<AddOnHeader Height="30" Level="1" >
 		<!--Título-->

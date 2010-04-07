@@ -231,7 +231,7 @@
 		<type>bool</type>
 		<default>true</default>
 	</field>
-		
+	
 	
 	<field>
 		<name>mostrarsinventas</name>
@@ -240,7 +240,7 @@
 		<type>bool</type>
 		<default>false</default>
 	</field>
-		
+	
 	
 	<field>
 		<name>coniva</name>
@@ -249,5 +249,5 @@
 		<type>bool</type>
 		<default>false</default>
 	</field>
-		
+	
 </TMD>

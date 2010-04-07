@@ -28,4 +28,4 @@
 		impuestos.codimpuesto&gt;=[from] AND impuestos.codimpuesto&lt;=[to] ORDER BY impuestos.codimpuesto 
 	</where>
 </QRY>
- 
+

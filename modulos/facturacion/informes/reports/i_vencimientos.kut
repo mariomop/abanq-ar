@@ -32,7 +32,7 @@
 		<Special WordWrap="0" Width="20" X="560" Y="0" BorderStyle="0" Height="20" HAlignment="2" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="1" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />
 		<!--Línea-->
 		<Line Width="3" Y1="22" Y2="22" X1="0" X2="610" Style="1" Color="220,220,220" />
-	
+		
 		<!--periodo-->
 		<Label WordWrap="0" Width="50" X="0" Y="25" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Período" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Field WordWrap="0" Width="80" X="50" Y="25" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="0" DataType="3" Field="criterios.fechavtodesde" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[criterios.fechavtodesde]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
@@ -43,7 +43,7 @@
 		<!--cuenta-->
 		<Label WordWrap="0" Width="50" X="395" Y="25" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Cuenta" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Field WordWrap="0" Width="165" X="445" Y="25" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="0" DataType="0" Field="cb.descripcion" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[cb.descripcion]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
-	
+		
 		<!--Encabezado de líneas-->
 		<Label WordWrap="0" Width="69" X="0" Y="50" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Vto./Emis." FontWeight="65"  FontSize="10" BorderWidth="1" FontFamily="Arial" />
 		<Label WordWrap="0" Width="184" X="70" Y="50" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Descripción" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
@@ -56,7 +56,7 @@
 		<Field WordWrap="0" Width="90" X="520" Y="70" BorderStyle="0" NegValueColor="0,0,0" Height="15" HAlignment="2" DataType="2" Field="criterios.saldoinicial" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[criterios.saldoinicial]" FontWeight="65" FontSize="9" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		
 		<Line Width="1" Y1="86" Y2="86" X1="0" X2="610" Style="1" Color="150,150,150" />
-
+		
 	</DetailHeader>
 	
 	<AddOnHeader Height="47" Level="1" >

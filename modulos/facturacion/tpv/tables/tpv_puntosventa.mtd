@@ -262,7 +262,7 @@
 		<optionslist>SMH/P-320F,SMH/P-321F,SMH/P-322F,SMH/P-330F,SMH/P715F,SMH/PL-8F,SMH/PL-9F</optionslist>
 		<default>SMH/P-320F</default>
 	</field>
-
+	
 	<field>
 		<name>rutaspooler</name>
 		<!-- Ruta a la carpeta donde escucha el spooler (las impresoras Hasar se manejan con un spooler) -->

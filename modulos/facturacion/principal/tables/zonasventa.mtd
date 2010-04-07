@@ -3,7 +3,7 @@
 	<name>zonasventa</name>
 	<!-- Listado de zonas geográficas de venta -->
 	<alias>QT_TRANSLATE_NOOP("MetaData","Zonas de venta")</alias>
-
+	
 	<field>
 		<name>codzona</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
@@ -56,7 +56,7 @@
 	<field>
 		<name>codagente</name>
 		<!--Código del agente comercial asignado a la zona-->
-	        <alias>QT_TRANSLATE_NOOP("MetaData","Agente comercial")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Agente comercial")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>

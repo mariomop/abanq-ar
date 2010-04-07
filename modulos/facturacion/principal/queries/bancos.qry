@@ -35,4 +35,4 @@
 		bancos.entidad&gt;=[from] AND bancos.entidad&lt;=[to] 
 	</where>
 </QRY>
- 
+

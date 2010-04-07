@@ -28,4 +28,4 @@
 		cuentasbanco.codcuenta&gt;=[from] AND cuentasbanco.codcuenta&lt;=[to] ORDER BY cuentasbanco.codcuenta 
 	</where>
 </QRY>
- 
+

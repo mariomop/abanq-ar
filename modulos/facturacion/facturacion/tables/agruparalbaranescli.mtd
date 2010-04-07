@@ -137,7 +137,7 @@
 			<card>M1</card>
 		</relation>
 	</field>
-
+	
 	<field>
 		<name>codserie</name>
 		<!--Serie de facturación-->

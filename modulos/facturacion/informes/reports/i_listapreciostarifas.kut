@@ -18,7 +18,7 @@
 		<Field WordWrap="0" Width="45" X="5" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.codpostal" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.codpostal]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		<Field WordWrap="0" Width="150" X="65" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.ciudad" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.ciudad]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		<Field WordWrap="0" Width="100" X="215" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.provincia" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.provincia]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
-
+		
 		<Label WordWrap="0" Width="300" X="1" Y="100" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Lista de Precios por Tarifa" FontWeight="65" FontSize="12" BorderWidth="1" FontFamily="Arial" />
 	</Detail>
 	

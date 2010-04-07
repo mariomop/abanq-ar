@@ -105,7 +105,7 @@
 		<partD>2</partD>
 		<editable>false</editable>
 	</field>
-
+	
 	<field>
 		<name>iddat_articulostarifas</name>
 		<!-- Identificador -->

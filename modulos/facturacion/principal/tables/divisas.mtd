@@ -113,13 +113,13 @@
 			<field>coddivisa</field>
 			<card>1M</card>
 		</relation>
-
+		
 		<relation>
 			<table>tpv_comandas</table>
 			<field>coddivisa</field>
 			<card>1M</card>
 		</relation>
-
+		
 		<relation>
 			<table>empresa</table>
 			<field>coddivisa</field>
