@@ -124,7 +124,7 @@
 		<pk>false</pk>
 		<type>uint</type>
 		
-<!--		<associated>
+		<!--		<associated>
 			<with>codcuenta</with>
 			<by>codcuenta</by>
 		</associated>-->
@@ -297,7 +297,7 @@
 			<card>M1</card>
 		</relation>
 	</field>
-		
+	
 	
 	<!--	Datos retención *********************-->
 	
@@ -343,7 +343,7 @@
 		<type>date</type>
 		<visiblegrid>false</visiblegrid>
 	</field>
-		
+	
 	
 	<field>
 		<name>cifnif</name>

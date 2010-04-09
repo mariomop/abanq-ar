@@ -60,7 +60,7 @@
 			<field>i_facturascli_codagente</field>
 			<card>1M</card>
 		</relation>
-
+		
 		<relation>
 			<table>zonasventa</table>
 			<field>codagente</field>

@@ -32,7 +32,7 @@
 		<Special WordWrap="0" Width="20" X="800" Y="0" BorderStyle="0" Height="20" HAlignment="2" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="1" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />
 		<!--Línea-->
 		<Line Width="3" Y1="22" Y2="22" X1="0" X2="870" Style="1" Color="220,220,220" />
-
+		
 		<!--periodo-->
 		<Label WordWrap="0" Width="50" X="0" Y="25" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Período" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Field WordWrap="0" Width="80" X="50" Y="25" BorderStyle="0" NegValueColor="0,0,0" Height="20" HAlignment="0" DataType="3" Field="i_ventasmensual.fechainicio" DateFormat="19" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[i_ventasmensual.fechainicio]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />

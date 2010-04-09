@@ -28,4 +28,4 @@
 		divisas.coddivisa&gt;=[from] AND divisas.coddivisa&lt;=[to] ORDER BY divisas.coddivisa 
 	</where>
 </QRY>
- 
+

@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KugarTemplate SYSTEM "kugartemplate.dtd">
 <KugarTemplate BottomMargin="10" TopMargin="40" RightMargin="10" LeftMargin="20" PageOrientation="0" PageSize="0" >
-
+	
 	<Detail Height="100" Level="0" >
 		<!-- EMPRESA -->
 		<Line Width="1" Y1="0" Y2="0" X1="0" X2="370" Style="1" Color="100,100,100" />
@@ -20,7 +20,7 @@
 		<Field WordWrap="0" Width="150" X="65" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.ciudad" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.ciudad]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 		<Field WordWrap="0" Width="100" X="215" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.provincia" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.provincia]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 	</Detail>
-
+	
 	
 	<DetailHeader Height="30" Level="1" >
 		<!--Título-->
@@ -44,8 +44,8 @@
 		<Label WordWrap="0" Width="60" X="500" Y="0" BorderStyle="0" Height="20" HAlignment="2" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Página" FontWeight="50" FontSize="10" BorderWidth="0" FontFamily="Arial Narrow" />
 		<Special WordWrap="0" Width="20" X="560" Y="0" BorderStyle="0" Height="20" HAlignment="2" DateFormat="19" BorderColor="0,0,0" BackgroundColor="255,255,255" Type="1" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="" FontWeight="50" FontSize="10" BorderWidth="1" FontFamily="Arial Narrow" />
 	</AddOnHeader>
-
-
+	
+	
 	<Detail Height="85" Level="1" >
 		<!-- ALMACÉN -->
 		<Line Width="1" Y1="0" Y2="0" X1="0" X2="610" Style="1" Color="100,100,100" />

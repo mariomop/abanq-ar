@@ -80,7 +80,7 @@
 			<delC>true</delC>
 		</relation>
 	</field>
-
+	
 	<field>
 		<name>idlineaac</name>
 		<!-- Identificador de la línea de remito de cliente relacionada -->
@@ -239,7 +239,7 @@
 			<delC>true</delC>
 		</relation>
 	</field>
-
+	
 	<field>
 		<name>cantidad_automatica</name>
 		<!-- Cantidad que figuran en los movimientos de lotes automáticos a partir de este -->
@@ -253,7 +253,7 @@
 		<editable>false</editable>
 		<visiblegrid>false</visiblegrid>
 	</field>
-
+	
 	<field>
 		<name>reserva</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Reserva")</alias>

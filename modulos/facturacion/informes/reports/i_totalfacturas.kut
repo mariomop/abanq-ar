@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KugarTemplate SYSTEM "kugartemplate.dtd">
 <KugarTemplate BottomMargin="10" TopMargin="40" RightMargin="10" LeftMargin="20" PageOrientation="0" PageSize="0" >
-
+	
 	<Detail Height="100" Level="0" >
 		<!-- EMPRESA -->
 		<Line Width="1" Y1="0" Y2="0" X1="0" X2="370" Style="1" Color="100,100,100" />
@@ -21,7 +21,7 @@
 		<Field WordWrap="0" Width="100" X="215" Y="60" BorderStyle="0" NegValueColor="0,0,0" Height="18" HAlignment="0" DataType="0" Field="empresa.provincia" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.provincia]" FontWeight="50" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial Narrow" />
 	</Detail>
 	
-
+	
 	<DetailHeader Height="50" Level="1" >
 		<!--Título-->
 		<Label WordWrap="0" Width="140" X="1" Y="0" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Totales de Facturas" FontWeight="65" FontSize="12" BorderWidth="1" FontFamily="Arial" />
@@ -40,7 +40,7 @@
 		<Label WordWrap="0" Width="94" X="375" Y="25" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Otros" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
 		<Label WordWrap="0" Width="140" X="470" Y="25" BorderStyle="0" Height="20" HAlignment="1" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Total" FontWeight="65" FontSize="10" BorderWidth="1" FontFamily="Arial" />
 	</DetailHeader>
-
+	
 	
 	<AddOnHeader Height="50" Level="1" >
 		<!--Título-->

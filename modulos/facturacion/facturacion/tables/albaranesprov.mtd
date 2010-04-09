@@ -145,7 +145,7 @@
 	<field>
 		<name>totalpie</name>
 		<!--Total del Pie de documento-->
-	        <alias>QT_TRANSLATE_NOOP("MetaData","Otros conceptos")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Otros conceptos")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>

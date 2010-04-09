@@ -3,7 +3,7 @@
 	<name>articulosprov</name>
 	<!-- Listado de artículos por proveedor -->
 	<alias>QT_TRANSLATE_NOOP("MetaData","Artículos de proveedores")</alias>
-
+	
 	<query>articulosprovqry</query>
 	
 	<field>

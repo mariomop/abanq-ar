@@ -2,7 +2,7 @@
 <TMD>
 	<name>intervalospesos</name>
 	<alias>QT_TRANSLATE_NOOP("MetaData","Intervalos de pesos")</alias>
-
+	
 	<field>
 		<name>codigo</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
@@ -11,7 +11,7 @@
 		<type>string</type>
 		<length>5</length>
 	</field>
-
+	
 	<field>
 		<name>desde</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Desde")</alias>
@@ -22,7 +22,7 @@
 		<partD>2</partD>
 		<default>0</default>
 	</field>
-
+	
 	<field>
 		<name>hasta</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Hasta")</alias>

@@ -34,4 +34,4 @@
 		formaspago.codpago&gt;=[from] AND formaspago.codpago&lt;=[to] 
 	</where>
 </QRY>
- 
+

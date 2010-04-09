@@ -38,4 +38,4 @@
 		ejercicios.codejercicio&gt;=[from] AND ejercicios.codejercicio&lt;=[to] 
 	</where>
 </QRY>
- 
+

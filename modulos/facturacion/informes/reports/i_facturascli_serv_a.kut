@@ -2,7 +2,7 @@
 <!DOCTYPE KugarTemplate SYSTEM "kugartemplate.dtd">
 <KugarTemplate BottomMargin="20" TopMargin="50" RightMargin="30" LeftMargin="30" PageOrientation="0" PageSize="0" >
 	<Detail Height="0" Level="0"/>
-	 
+	
 	
 	<DetailHeader Height="190" Level="1" >
 		

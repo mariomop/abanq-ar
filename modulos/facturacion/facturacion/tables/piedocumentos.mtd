@@ -5,7 +5,7 @@
 	
 	<field>
 		<name>codpie</name>
-	        <alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
 		<null>false</null>
 		<pk>true</pk>
 		<type>string</type>

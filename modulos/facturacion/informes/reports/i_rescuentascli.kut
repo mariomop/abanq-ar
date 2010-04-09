@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KugarTemplate SYSTEM "kugartemplate.dtd">
 <KugarTemplate BottomMargin="10" TopMargin="40" RightMargin="10" LeftMargin="20" PageOrientation="0" PageSize="0" >
-
+	
 	<Detail Height="100" Level="0" >
 		<!-- EMPRESA -->
 		<Line Width="1" Y1="0" Y2="0" X1="0" X2="370" Style="1" Color="100,100,100" />
