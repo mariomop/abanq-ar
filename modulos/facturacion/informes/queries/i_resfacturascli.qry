@@ -17,7 +17,7 @@
 		facturascli.totalpie,
 		facturascli.total,
 		facturascli.coddivisa, facturascli.codserie,
-		facturascli.decredito, facturascli.dedebito,
+		facturascli.tipoventa,
 		empresa.nombre, empresa.cifnif,
 		empresa.direccion,
 		empresa.codpostal, empresa.ciudad,

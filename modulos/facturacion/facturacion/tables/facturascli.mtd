@@ -62,8 +62,8 @@
 		<null>false</null>
 		<pk>false</pk>
 		<type>string</type>
-		<length>20</length>
-		<optionslist>QT_TRANSLATE_NOOP("MetaData","Factura A");QT_TRANSLATE_NOOP("MetaData","Factura B");QT_TRANSLATE_NOOP("MetaData","Factura C")</optionslist>
+		<length>25</length>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Factura A");QT_TRANSLATE_NOOP("MetaData","Factura B");QT_TRANSLATE_NOOP("MetaData","Factura C");QT_TRANSLATE_NOOP("MetaData","Nota de Crédito A");QT_TRANSLATE_NOOP("MetaData","Nota de Crédito B");QT_TRANSLATE_NOOP("MetaData","Nota de Débito A");QT_TRANSLATE_NOOP("MetaData","Nota de Débito B")</optionslist>
 		<default>QT_TRANSLATE_NOOP("MetaData","Factura B")</default>
 	</field>
 	<field>
@@ -487,24 +487,6 @@
 		<name>rectificada</name>
 		<!-- Indica si la factura está rectificada por una nota de crédito o de débito -->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Rectificada")</alias>
-		<null>false</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>false</default>
-	</field>
-	<field>
-		<name>decredito</name>
-		<!--Si es nota de crédito-->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Nota de crédito")</alias>
-		<null>false</null>
-		<pk>false</pk>
-		<type>bool</type>
-		<default>false</default>
-	</field>
-	<field>
-		<name>dedebito</name>
-		<!--Si es nota de débito-->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Nota de débito")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>bool</type>

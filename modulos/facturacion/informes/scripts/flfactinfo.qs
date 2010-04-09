@@ -1651,7 +1651,7 @@ function datos_obtenerCodigo(nodo:FLDomNode, campo:String):String
 			var qryTipoFactura:FLSqlQuery = new FLSqlQuery();
 			with (qryTipoFactura) {
 				setTablesList(tablaFactura);
-				setSelect("decredito,dedebito");
+				setSelect("tipoventa");
 				setFrom(tablaFactura);
 				setWhere("idfactura = " + idFactura);
 			}
@@ -1660,9 +1660,9 @@ function datos_obtenerCodigo(nodo:FLDomNode, campo:String):String
 				break;
 			}
 
-			if (qryTipoFactura.value(0))
+			if ( flfacturac.iface.pub_esNotaCredito(qryTipoFactura.value("tipoventa")) )
 				prefijo = "C ";
-			else if (qryTipoFactura.value(1))
+			else if ( flfacturac.iface.pub_esNotaDebito(qryTipoFactura.value("tipoventa")) )
 				prefijo = "D ";
 			else
 				prefijo = "F ";
@@ -1672,9 +1672,9 @@ function datos_obtenerCodigo(nodo:FLDomNode, campo:String):String
 			break;
 		}
 		case "facturascli": {
-			if (nodo.attributeValue("facturascli.decredito") == "true")
+			if ( flfacturac.iface.pub_esNotaCredito(nodo.attributeValue("facturascli.tipoventa")) )
 				prefijo = "C ";
-			else if (nodo.attributeValue("facturascli.dedebito") == "true")
+			else if ( flfacturac.iface.pub_esNotaDebito(nodo.attributeValue("facturascli.tipoventa")) )
 				prefijo = "D ";
 			else
 				prefijo = "F ";

@@ -663,8 +663,6 @@ function oficial_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 		setValueBuffer("editable", true);
 		setValueBuffer("nogenerarasiento", curFactura.valueBuffer("nogenerarasiento"));
 		setNull("idasiento");
-		setValueBuffer("decredito", curFactura.valueBuffer("decredito"));
-		setValueBuffer("dedebito", curFactura.valueBuffer("dedebito"));
 		setValueBuffer("idfacturarect", curFactura.valueBuffer("idfacturarect"));
 		setValueBuffer("codigorect", curFactura.valueBuffer("codigorect"));
 		setValueBuffer("tpv", false);
@@ -988,7 +986,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codperiodo", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "automatica", "rectificada", "decredito", "dedebito", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codperiodo", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "automatica", "rectificada", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

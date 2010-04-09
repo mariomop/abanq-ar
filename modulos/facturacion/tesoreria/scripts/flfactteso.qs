@@ -1209,7 +1209,7 @@ function oficial_generarPartidasCli(curPD:FLSqlCursor, valoresDefecto:Array, dat
 	haber = util.roundFieldValue(haber, "co_partidas", "haber");
 	haberME = util.roundFieldValue(haberME, "co_partidas", "haberme");
 	
-	var esAbono:Boolean = util.sqlSelect("reciboscli r INNER JOIN facturascli f ON r.idfactura = f.idfactura", "decredito", "idrecibo = " + curPD.valueBuffer("idrecibo"), "reciboscli,facturascli");
+	var esAbono:Boolean = flfacturac.iface.pub_esNotaCredito(util.sqlSelect("reciboscli r INNER JOIN facturascli f ON r.idfactura = f.idfactura", "tipoventa", "idrecibo = " + curPD.valueBuffer("idrecibo"), "reciboscli,facturascli"));
 	var esPago:Boolean = this.iface.esPagoEstePagoDevol(curPD);
 	
 	var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
@@ -1284,7 +1284,7 @@ function oficial_generarPartidasBanco(curPD:FLSqlCursor, valoresDefecto:Array, d
 	debe = util.roundFieldValue(debe, "co_partidas", "debe");
 	debeME = util.roundFieldValue(debeME, "co_partidas", "debeme");
 
-	var esAbono:Boolean = util.sqlSelect("reciboscli r INNER JOIN facturascli f ON r.idfactura = f.idfactura", "decredito", "idrecibo = " + curPD.valueBuffer("idrecibo"), "reciboscli,facturascli");
+	var esAbono:Boolean = flfacturac.iface.pub_esNotaCredito(util.sqlSelect("reciboscli r INNER JOIN facturascli f ON r.idfactura = f.idfactura", "tipoventa", "idrecibo = " + curPD.valueBuffer("idrecibo"), "reciboscli,facturascli"));
 	var esPago:Boolean = this.iface.esPagoEstePagoDevol(curPD);
 	
 	var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
@@ -2368,7 +2368,7 @@ function proveed_generarPartidasProv(curPD:FLSqlCursor, valoresDefecto:Array, da
 	debeME = util.roundFieldValue(debeME, "co_partidas", "debeme");
 
 
-	var esAbono:Boolean = util.sqlSelect("recibosprov r INNER JOIN facturasprov f ON r.idfactura = f.idfactura", "decredito", "idrecibo = " + curPD.valueBuffer("idrecibo"), "recibosprov,facturasprov");
+	var esAbono:Boolean = flfacturac.iface.pub_esNotaCredito(util.sqlSelect("recibosprov r INNER JOIN facturasprov f ON r.idfactura = f.idfactura", "tipoventa", "idrecibo = " + curPD.valueBuffer("idrecibo"), "recibosprov,facturasprov"));
 
 	var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
 	with(curPartida) {
@@ -2427,7 +2427,7 @@ function proveed_generarPartidasBancoProv(curPD:FLSqlCursor, valoresDefecto:Arra
 	haber = util.roundFieldValue(haber, "co_partidas", "haber");
 	haberME = util.roundFieldValue(haberME, "co_partidas", "haberme");
 
-	var esAbono:Boolean = util.sqlSelect("recibosprov r INNER JOIN facturasprov f ON r.idfactura = f.idfactura", "decredito", "idrecibo = " + curPD.valueBuffer("idrecibo"), "recibosprov,facturasprov");
+	var esAbono:Boolean = flfacturac.iface.pub_esNotaCredito(util.sqlSelect("recibosprov r INNER JOIN facturasprov f ON r.idfactura = f.idfactura", "tipoventa", "idrecibo = " + curPD.valueBuffer("idrecibo"), "recibosprov,facturasprov"));
 	
 	var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
 	with(curPartida) {

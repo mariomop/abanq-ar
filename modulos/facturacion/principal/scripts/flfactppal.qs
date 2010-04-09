@@ -1164,6 +1164,10 @@ function oficial_valoresIniciales()
 		setValueBuffer("codpago", "CONTADO");
 		setValueBuffer("codserie_a", "A001");
 		setValueBuffer("codserie_b", "B001");
+		setValueBuffer("codserie_notacred_a", "A001");
+		setValueBuffer("codserie_notacred_b", "B001");
+		setValueBuffer("codserie_notadeb_a", "A001");
+		setValueBuffer("codserie_notadeb_b", "B001");
 		setValueBuffer("codserie_remito", "R001");
 		setValueBuffer("codserie_pedido", "P001");
 		setValueBuffer("codserie_presupuesto", "X001");
