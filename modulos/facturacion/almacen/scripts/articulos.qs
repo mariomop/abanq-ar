@@ -2668,9 +2668,6 @@ function desbloqueoStockNumSerie_acceptedForm()
 		}
 	}
 	
-	if (!this.iface.__acceptedForm())
-		return false;
-
 	return true;
 }
 
