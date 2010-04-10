@@ -502,11 +502,27 @@ class numeroSecuencia extends factPeriodica {
 //// NUMERO SECUENCIA ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends numeroSecuencia {
+	function tipoVenta( context ) { numeroSecuencia ( context ); }
+
+	function esNotaCredito(tipoVenta:String):Boolean {
+		return this.ctx.tipoVenta_esNotaCredito(tipoVenta);
+	}
+	function esNotaDebito(tipoVenta:String):Boolean {
+		return this.ctx.tipoVenta_esNotaDebito(tipoVenta);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration lineasArticulos */
 /////////////////////////////////////////////////////////////////
 //// LINEAS_ARTICULOS ///////////////////////////////////////////
-class lineasArticulos extends numeroSecuencia {
-	function lineasArticulos( context ) { numeroSecuencia ( context ); }
+class lineasArticulos extends tipoVenta {
+	function lineasArticulos( context ) { tipoVenta ( context ); }
 
 	function afterCommit_lineaspedidoscli(curLP:FLSqlCursor):Boolean {
 		return this.ctx.lineasArticulos_afterCommit_lineaspedidoscli(curLP);
@@ -883,11 +899,27 @@ class pubPedAuto extends ifaceCtx {
 //// PUB_PEDIDOSAUTO ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration pubTipoVenta */
+/////////////////////////////////////////////////////////////////
+//// PUB TIPO DE VENTA //////////////////////////////////////////
+class pubTipoVenta extends pubPedAuto {
+	function pubTipoVenta( context ) { pubPedAuto ( context ); }
+
+	function pub_esNotaCredito(tipoVenta:String):Boolean {
+		return this.esNotaCredito(tipoVenta);
+	}
+	function pub_esNotaDebito(tipoVenta:String):Boolean {
+		return this.esNotaDebito(tipoVenta);
+	}
+}
+//// PUB TIPO DE VENTA  /////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration pubGanancias */
 /////////////////////////////////////////////////////////////////
 //// PUB_GANANCIAS //////////////////////////////////////////////
-class pubGanancias extends pubPedAuto {
-	function pubGanancias( context ) { pubPedAuto ( context ); }
+class pubGanancias extends pubTipoVenta {
+	function pubGanancias( context ) { pubTipoVenta ( context ); }
 	function pub_obtenerGananciaLinea(lineaDoc:FLSqlCursor, doc:String):Boolean {
 		return this.obtenerGananciaLinea(lineaDoc, doc);
 	}
@@ -1875,11 +1907,11 @@ function oficial_generarAsientoFacturaCli(curFactura:FLSqlCursor):Boolean
 		
 		curFactura.setValueBuffer("idasiento", datosAsiento.idasiento);
 		
-		if (curFactura.valueBuffer("decredito") == true)
+		if ( this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa")) )
 			if (!this.iface.asientoNotaCreditoCli(curFactura, valoresDefecto))
 				throw util.translate("scripts", "Error al generar el asiento correspondiente a la nota de crédito");
 	
-		if (curFactura.valueBuffer("dedebito") == true)
+		if ( this.iface.esNotaDebito(curFactura.valueBuffer("tipoventa")) )
 			if (!this.iface.asientoNotaDebitoCli(curFactura, valoresDefecto))
 				throw util.translate("scripts", "Error al generar el asiento correspondiente a la nota de débito");
 	
@@ -2392,11 +2424,11 @@ function oficial_generarAsientoFacturaProv(curFactura:FLSqlCursor):Boolean
 	}
 		
 	curFactura.setValueBuffer("idasiento", datosAsiento.idasiento);
-	if (curFactura.valueBuffer("decredito") == true) {
+	if ( this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa")) ) {
 		if (!this.iface.asientoNotaCreditoProv(curFactura, valoresDefecto))
 			return false;
 	}
-	if (curFactura.valueBuffer("dedebito") == true) {
+	if ( this.iface.esNotaDebito(curFactura.valueBuffer("tipoventa")) ) {
 		if (!this.iface.asientoNotaDebitoProv(curFactura, valoresDefecto))
 			return false;
 	}
@@ -2437,7 +2469,7 @@ function oficial_generarPartidasCompra(curFactura:FLSqlCursor, idAsiento:Number,
 	if (!qrySubcuentas.exec())
 			return false;
 
-	if (qrySubcuentas.size() == 0 || curFactura.valueBuffer("decredito") || curFactura.valueBuffer("dedebito")) {
+	if ( qrySubcuentas.size() == 0 || this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa")) || this.iface.esNotaDebito(curFactura.valueBuffer("tipoventa")) ) {
 	/// \D Si la factura es rectificativa se genera una sola partida de compras que luego se convertirá a partida de nota de crédito o de nota de débito
 		ctaCompras = this.iface.datosCtaEspecial("COMPRA", valoresDefecto.codejercicio);
 		if (ctaCompras.error != 0) {
@@ -3791,7 +3823,7 @@ function oficial_validarIvaProveedor(codProveedor:String,id:Number,tabla:String,
 function oficial_comprobarNotaCreditoCli(curFactura:FLSqlCursor):Boolean
 {
 	var util:FLUtil = new FLUtil();
-	if (curFactura.valueBuffer("decredito") == true) {
+	if ( this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa")) ) {
 		if (!curFactura.valueBuffer("idfacturarect")){
 			var res:Number = MessageBox.warning(util.translate("scripts", "No ha indicado la factura que desea rectificar.\n¿Desea continuar?"), MessageBox.No, MessageBox.Yes);
 			if (res != MessageBox.Yes) {
@@ -3810,7 +3842,7 @@ function oficial_comprobarNotaCreditoCli(curFactura:FLSqlCursor):Boolean
 function oficial_comprobarNotaDebitoCli(curFactura:FLSqlCursor):Boolean
 {
 	var util:FLUtil = new FLUtil();
-	if (curFactura.valueBuffer("dedebito") == true) {
+	if ( this.iface.esNotaDebito(curFactura.valueBuffer("tipoventa")) ) {
 		if (!curFactura.valueBuffer("idfacturarect")){
 			var res:Number = MessageBox.warning(util.translate("scripts", "No ha indicado la factura que desea rectificar.\n¿Desea continuar?"), MessageBox.No, MessageBox.Yes);
 			if (res != MessageBox.Yes) {
@@ -3829,14 +3861,14 @@ function oficial_comprobarNotaDebitoCli(curFactura:FLSqlCursor):Boolean
 function oficial_comprobarNotaCreditoProv(curFactura:FLSqlCursor):Boolean
 {
 	var util:FLUtil = new FLUtil();
-	if (curFactura.valueBuffer("decredito") == true) {
+	if ( this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa")) ) {
 		if (!curFactura.valueBuffer("idfacturarect")){
 			var res:Number = MessageBox.warning(util.translate("scripts", "No ha indicado la factura que desea rectificar.\n¿Desea continuar?"), MessageBox.No, MessageBox.Yes);
 			if (res != MessageBox.Yes) {
 				return false;
 			}
 		}
-		if (util.sqlSelect("facturasprov", "idfacturarect", "idfacturarect = " + curFactura.valueBuffer("idfacturarect") + " AND idfactura <> " + curFactura.valueBuffer("idfactura") + " AND decredito = true")) {
+		if (util.sqlSelect("facturasprov", "idfacturarect", "idfacturarect = " + curFactura.valueBuffer("idfacturarect") + " AND idfactura <> " + curFactura.valueBuffer("idfactura") + " AND tipoventa LIKE 'Nota de Crédito %'")) {
 			MessageBox.warning(util.translate("scripts", "De la factura ") +  util.sqlSelect("facturasprov", "codigo", "idfactura = " + curFactura.valueBuffer("idFacturarect"))  + util.translate("scripts", " ya se ha generado una nota de crédito"),MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
 			return false;
 		}
@@ -3847,14 +3879,14 @@ function oficial_comprobarNotaCreditoProv(curFactura:FLSqlCursor):Boolean
 function oficial_comprobarNotaDebitoProv(curFactura:FLSqlCursor):Boolean
 {
 	var util:FLUtil = new FLUtil();
-	if (curFactura.valueBuffer("dedebito") == true) {
+	if ( this.iface.esNotaDebito(curFactura.valueBuffer("tipoventa")) ) {
 		if (!curFactura.valueBuffer("idfacturarect")){
 			var res:Number = MessageBox.warning(util.translate("scripts", "No ha indicado la factura que desea rectificar.\n¿Desea continuar?"), MessageBox.No, MessageBox.Yes);
 			if (res != MessageBox.Yes) {
 				return false;
 			}
 		}
-		if (util.sqlSelect("facturasprov", "idfacturarect", "idfacturarect = " + curFactura.valueBuffer("idfacturarect") + " AND idfactura <> " + curFactura.valueBuffer("idfactura") + " AND dedebito = true")) {
+		if (util.sqlSelect("facturasprov", "idfacturarect", "idfacturarect = " + curFactura.valueBuffer("idfacturarect") + " AND idfactura <> " + curFactura.valueBuffer("idfactura") + " AND tipoventa LIKE 'Nota de Débito %'")) {
 			MessageBox.warning(util.translate("scripts", "De la factura ") +  util.sqlSelect("facturasprov", "codigo", "idfactura = " + curFactura.valueBuffer("idFacturarect"))  + util.translate("scripts", " ya se ha generado una nota de débito"),MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
 			return false;
 		}
@@ -5038,7 +5070,7 @@ function funNumSerie_afterCommit_lineasfacturascli(curLF:FLSqlCursor):Boolean
 					curNS.setModeAccess(curNS.Edit);
 					curNS.refreshBuffer();
 					
-					if (util.sqlSelect("facturascli", "decredito", "idfactura = " + curLF.valueBuffer("idfactura"))) {
+					if (this.iface.esNotaCredito(util.sqlSelect("facturascli", "tipoventa", "idfactura = " + curLF.valueBuffer("idfactura")))) {
 						curNS.setValueBuffer("idfacturadevol", -1)
 						curNS.setValueBuffer("vendido", "true")
 					}
@@ -5060,7 +5092,7 @@ function funNumSerie_afterCommit_lineasfacturascli(curLF:FLSqlCursor):Boolean
 			curNS.setModeAccess(curNS.Edit);
 			curNS.refreshBuffer();
 			
-			if (util.sqlSelect("facturascli", "decredito", "idfactura = " + curLF.valueBuffer("idfactura"))) {
+			if (this.iface.esNotaCredito(util.sqlSelect("facturascli", "tipoventa", "idfactura = " + curLF.valueBuffer("idfactura")))) {
 				curNS.setValueBuffer("idfacturadevol", curLF.valueBuffer("idfactura"))
 				curNS.setValueBuffer("vendido", "false")
 			}
@@ -5079,7 +5111,7 @@ function funNumSerie_afterCommit_lineasfacturascli(curLF:FLSqlCursor):Boolean
 				curNS.setModeAccess(curNS.Edit);
 				curNS.refreshBuffer();
 				var util:FLUtil = new FLUtil();
-				if (util.sqlSelect("facturascli", "decredito", "idfactura = " + curLF.valueBuffer("idfactura"))) {
+				if (this.iface.esNotaCredito(util.sqlSelect("facturascli", "tipoventa", "idfactura = " + curLF.valueBuffer("idfactura")))) {
 					curNS.setValueBuffer("idfacturadevol", -1)
 					curNS.setValueBuffer("vendido", "true")
 				}
@@ -5507,6 +5539,29 @@ function numeroSecuencia_recalcularHuecos( serie:String, ejercicio:String, fN:St
 //// NUMERO SECUENCIA /////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoVenta_esNotaCredito(tipoVenta:String):Boolean
+{
+	if ( tipoVenta == "Nota de Crédito A" || tipoVenta == "Nota de Crédito B" )
+		return true;
+
+	return false;
+}
+
+function tipoVenta_esNotaDebito(tipoVenta:String):Boolean
+{
+	if ( tipoVenta == "Nota de Débito A" || tipoVenta == "Nota de Débito B" )
+		return true;
+
+	return false;
+}
+
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition lineasArticulos */
 /////////////////////////////////////////////////////////////////
@@ -6525,11 +6580,11 @@ function pieDocumento_generarAsientoFacturaCli(curFactura:FLSqlCursor):Boolean
 
 		curFactura.setValueBuffer("idasiento", datosAsiento.idasiento);
 
-		if (curFactura.valueBuffer("decredito") == true)
+		if (this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa")))
 			if (!this.iface.asientoNotaCreditoCli(curFactura, valoresDefecto))
 				throw util.translate("scripts", "Error al generar el asiento correspondiente a la nota de crédito");
 	
-		if (curFactura.valueBuffer("dedebito") == true)
+		if (this.iface.esNotaDebito(curFactura.valueBuffer("tipoventa")))
 			if (!this.iface.asientoNotaDebitoCli(curFactura, valoresDefecto))
 				throw util.translate("scripts", "Error al generar el asiento correspondiente a la nota de débito");
 
@@ -6599,11 +6654,11 @@ function pieDocumento_generarAsientoFacturaProv(curFactura:FLSqlCursor):Boolean
 
 	curFactura.setValueBuffer("idasiento", datosAsiento.idasiento);
 
-	if (curFactura.valueBuffer("decredito") == true) {
+	if (this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa"))) {
 		if (!this.iface.asientoNotaCreditoProv(curFactura, valoresDefecto))
 			return false;
 	}
-	if (curFactura.valueBuffer("dedebito") == true) {
+	if (this.iface.esNotaDebito(curFactura.valueBuffer("tipoventa"))) {
 		if (!this.iface.asientoNotaDebitoProv(curFactura, valoresDefecto))
 			return false;
 	}
@@ -6638,7 +6693,7 @@ function pieDocumento_generarPartidasCompra(curFactura:FLSqlCursor, idAsiento:Nu
 	if (!qrySubcuentas.exec())
 		return false;
 
-	if (qrySubcuentas.size() == 0 || curFactura.valueBuffer("decredito") || curFactura.valueBuffer("dedebito")) {
+	if ( qrySubcuentas.size() == 0 || this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa")) || this.iface.esNotaDebito(curFactura.valueBuffer("tipoventa")) ) {
 	/// \D Si la factura es rectificativa se genera una sola partida de compras que luego se convertirá a partida de nota de crédito o de nota de débito
 		ctaCompras = this.iface.datosCtaEspecial("COMPRA", valoresDefecto.codejercicio);
 		if (ctaCompras.error != 0) {
@@ -6949,9 +7004,9 @@ function silixCuentas_afterCommit_facturascli(curFactura:FLSqlCursor):Boolean
 				if (curFactura.valueBuffer("rectificada"))
 					break;
 				var tipoDoc:String;
-				if (curFactura.valueBuffer("decredito"))
+				if ( this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa")) )
 					tipoDoc = "notascredcli";
-				else if (curFactura.valueBuffer("dedebito"))
+				else if ( this.iface.esNotaDebito(curFactura.valueBuffer("tipoventa")) )
 					tipoDoc = "notasdebcli";
 				else
 					tipoDoc = "facturascli";
@@ -7180,9 +7235,9 @@ function silixCuentas_afterCommit_facturasprov(curFactura:FLSqlCursor):Boolean
 				if (curFactura.valueBuffer("rectificada"))
 					break;
 				var tipoDoc:String;
-				if (curFactura.valueBuffer("decredito"))
+				if ( this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa")) )
 					tipoDoc = "notascredprov";
-				else if (curFactura.valueBuffer("dedebito"))
+				else if ( this.iface.esNotaDebito(curFactura.valueBuffer("tipoventa")) )
 					tipoDoc = "notasdebprov";
 				else
 					tipoDoc = "facturasprov";
@@ -7561,7 +7616,7 @@ function desbloqueoStock_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolea
 						}
 
 						var tipoDoc = "";
-						if (curFactura.valueBuffer("decredito")) tipoDoc = "idfacturadevol"
+						if (this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa"))) tipoDoc = "idfacturadevol"
 						else tipoDoc = "idfacturaventa";
 
 						/* Chequear que no hayan vendido ya este artículo: se está por dar el valor 'true' a 'vendido' */
@@ -7642,7 +7697,7 @@ function desbloqueoStock_beforeCommit_facturascli(curFactura:FLSqlCursor):Boolea
 						var valor = "false";
 						var idDoc:Number = -1;
 						var tipoDoc = "";
-						if (curFactura.valueBuffer("decredito")) tipoDoc = "idfacturadevol"
+						if (this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa"))) tipoDoc = "idfacturadevol"
 						else tipoDoc = "idfacturaventa";
 
 						if (!flfactalma.iface.modificarNumSerie(curLinea.valueBuffer("referencia"), curLinea.valueBuffer("numserie"), "vendido", valor))
@@ -8054,7 +8109,7 @@ function desbloqueoStock_beforeCommit_facturasprov(curFactura:FLSqlCursor):Boole
 					if (curNS.first()) {
 						var idDoc:Number = -1;
 						var tipoDoc = "";
-						if (curFactura.valueBuffer("decredito")) tipoDoc = "idfacturadevol"
+						if (this.iface.esNotaCredito(curFactura.valueBuffer("tipoventa"))) tipoDoc = "idfacturadevol"
 						else tipoDoc = "idfacturacompra";
 
 						if (!flfactalma.iface.modificarNumSerie(curLinea.valueBuffer("referencia"), curLinea.valueBuffer("numserie"), tipoDoc, idDoc))

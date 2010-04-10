@@ -1,6 +1,6 @@
 <!DOCTYPE TMD>
 <TMD>
-	<name>actualizaarticulos</name>
+	<name>actualiza_articulos</name>
 	<alias>QT_TRANSLATE_NOOP("MetaData","Actualización de artículos")</alias>
 	<field>
 		<name>id</name>

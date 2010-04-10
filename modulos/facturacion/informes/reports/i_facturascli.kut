@@ -149,7 +149,7 @@
 		
 	</AddOnHeader>
 	
-	<Detail Height="0" Level="1" DrawIf="facturascli.decredito">
+	<Detail Height="0" Level="1" DrawIf="facturascli.idfacturarect">
 		<CalculatedField WordWrap="1" ChangeHeight="1" CalculationType="6" FunctionName="formi_facturascli.pub_facturaRectificada" Width="570" X="0" Y="0" BorderStyle="0" NegValueColor="0,0,0" Height="0" HAlignment="1" DataType="0" Field="" Currency="32" BackgroundColor="255,255,255" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="" FontWeight="65" FontSize="12" BorderWidth="1" Precision="2" FontFamily="Arial" FontItalic="1"/>
 	</Detail>
 	

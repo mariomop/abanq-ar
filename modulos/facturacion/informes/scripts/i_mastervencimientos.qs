@@ -389,14 +389,14 @@ function oficial_obtenerCodigo(recibo:String, codigo:String):String
 	var qryTipoFactura:FLSqlQuery = new FLSqlQuery();
 	with (qryTipoFactura) {
 		setTablesList(tablaFactura);
-		setSelect("decredito,dedebito");
+		setSelect("tipoventa");
 		setFrom(tablaFactura);
 		setWhere("idfactura = " + idFactura);
 	}
 
-	if (qryTipoFactura.value(0))
+	if ( flfacturac.iface.pub_esNotaCredito(qryTipoFactura.value("tipoventa")) )
 		prefijo = "C ";
-	else if (qryTipoFactura.value(1))
+	else if ( flfacturac.iface.pub_esNotaDebito(qryTipoFactura.value("tipoventa")) )
 		prefijo = "D ";
 	else
 		prefijo = "F ";

@@ -186,11 +186,11 @@ function interna_validateForm():Boolean
 	var cursor:FLSqlCursor = this.cursor();
 	var curFactura:FLSqlCursor = cursor.cursorRelation();
 		
-	if (curFactura.valueBuffer("decredito") == true && cursor.valueBuffer("cantidad") > 0) {
+	if ( flfacturac.iface.pub_esNotaCredito(curFactura.valueBuffer("tipoventa")) && cursor.valueBuffer("cantidad") > 0 ) {
 		MessageBox.warning(util.translate("scripts","Si esta creando una Nota de Crédito la cantidad del artículo debe ser negativa."), MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
 		return false;
 	}
-	if (curFactura.valueBuffer("decredito") == false && cursor.valueBuffer("pvptotal") < 0) {
+	if ( !flfacturac.iface.pub_esNotaCredito(curFactura.valueBuffer("tipoventa")) && cursor.valueBuffer("pvptotal") < 0 ) {
 		MessageBox.warning(util.translate("scripts","Si esta creando una factura que no es Nota de Crédito la cantidad total debe ser positiva."), MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
 		return false;
 	}
@@ -255,7 +255,7 @@ function oficial_filtrarArticulos()
 		}
 	}
 
-	if ( this.cursor().cursorRelation().valueBuffer("decredito") || this.cursor().cursorRelation().valueBuffer("dedebito") ) {
+	if ( flfacturac.iface.pub_esNotaCredito(this.cursor().cursorRelation().valueBuffer("tipoventa")) || flfacturac.iface.pub_esNotaDebito(this.cursor().cursorRelation().valueBuffer("tipoventa")) ) {
 		var idFactura:Number = this.cursor().cursorRelation().valueBuffer("idfacturarect");
 		if (idFactura) {
 			if (filtroReferencia != "")

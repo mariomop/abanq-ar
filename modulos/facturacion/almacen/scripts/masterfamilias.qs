@@ -84,11 +84,28 @@ class silixSeleccionar extends oficial {
 //// SILIXSELECCIONAR ///////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration actualizaFamilias */
+/////////////////////////////////////////////////////////////////
+//// ACTUALIZA_FAMILIAS /////////////////////////////////////////
+class actualizaFamilias extends silixSeleccionar {
+	var arrayNomCampos = [];
+
+    function actualizaFamilias( context ) { silixSeleccionar ( context ); }
+	function init() {
+		this.ctx.actualizaFamilias_init();
+	}
+	function lanzarActualizacion() {
+		this.ctx.actualizaFamilias_lanzarActualizacion();
+	}
+}
+//// ACTUALIZA_FAMILIAS /////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends silixSeleccionar {
-    function head( context ) { silixSeleccionar ( context ); }
+class head extends actualizaFamilias {
+    function head( context ) { actualizaFamilias ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -374,6 +391,91 @@ function silixSeleccionar_lanzarAccion_almacenUnidad(curAccion:FLSqlCursor)
 }
 
 //// SILIXSELECCIONAR ///////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+/** @class_definition actualizaArticulos */
+/////////////////////////////////////////////////////////////////
+//// ACTUALIZA_FAMILIAS /////////////////////////////////////////
+
+function actualizaFamilias_init()
+{
+	this.iface.__init();
+
+	connect(this.child("pbnImportar"), "clicked()", this, "iface.lanzarActualizacion");
+}
+
+function actualizaFamilias_lanzarActualizacion()
+{
+	var util:FLUtil = new FLUtil();
+	this.iface.arrayNomCampos = [];
+
+	var f:Object = new FLFormSearchDB("actualiza_familias");
+	var cursor:FLSqlCursor = f.cursor();
+
+	cursor.setActivatedCheckIntegrity(false);
+	cursor.select();
+	if (!cursor.first())
+		cursor.setModeAccess(cursor.Insert);
+	else
+		cursor.setModeAccess(cursor.Edit);
+
+	f.setMainWidget();
+	cursor.refreshBuffer();
+	var datos:String = f.exec("datos");
+
+	if (datos) {
+		var nombreCampo:String;
+		var curFamilias:FLSqlCursor = new FLSqlCursor("familias");
+		var curFamActualizadas:FLSqlCursor = new FLSqlCursor("familiasactualizadas");
+		curFamActualizadas.select("codfamilia IN (" + datos + ")");
+
+		var paso:Number = 0;
+		util.createProgressDialog( util.translate( "scripts", "Actualizando familias..." ), curFamActualizadas.size());
+
+		while (curFamActualizadas.next()) {
+
+			curFamilias.select("codfamilia = '" + curFamActualizadas.valueBuffer("codfamilia") + "'");
+			if (!curFamilias.first()) {
+				curFamilias.setModeAccess(curFamilias.Insert);
+				 // Crear los siguientes campos
+				this.iface.arrayNomCampos = new Array("codfamilia", "descripcion", "marcacion", "codmadre", "codunidad");
+			} else {
+				curFamilias.setModeAccess(curFamilias.Edit);
+				 // Actualizar los siguientes campos
+				this.iface.arrayNomCampos = new Array("descripcion", "marcacion");
+			}
+			curFamilias.refreshBuffer();
+			for (var i:Number = 0; i < this.iface.arrayNomCampos.length; i++) {
+				nombreCampo = this.iface.arrayNomCampos[i];
+				curFamilias.setValueBuffer(nombreCampo, curFamActualizadas.valueBuffer(nombreCampo));
+			}
+			var descExtFamiliaMadre:String = "";
+			if (curFamilias.valueBuffer("codmadre")) {
+				descExtFamiliaMadre = util.sqlSelect("familias", "descripcionextendida", "codfamilia = '" + curFamilias.valueBuffer("codmadre") + "'");
+				descExtFamiliaMadre += " > ";
+			}
+			curFamilias.setValueBuffer("descripcionextendida", descExtFamiliaMadre + curFamilias.valueBuffer("descripcion"));
+			if (!curFamilias.commitBuffer())
+				debug("Error al actualizar/crear la familia " + curFamActualizadas.valueBuffer("codfamilia") + " en el campo " + nombreCampo);
+
+			util.setProgress( ++paso );
+		}
+		util.destroyProgressDialog();
+	}
+
+// 	var paso:Number = 0;
+// 	var curFamActualizadas:FLSqlCursor = new FLSqlCursor("familiasactualizadas");
+// 	curFamActualizadas.select();
+// 	util.createProgressDialog( util.translate( "scripts", "Terminando transacción..." ), curFamActualizadas.size());
+// 	while (curFamActualizadas.next()) {
+// 		curFamActualizadas.setModeAccess(curFamActualizadas.Del);
+// 		curFamActualizadas.commitBuffer();
+// 		util.setProgress( ++paso );
+// 	}
+// 	util.destroyProgressDialog();
+}
+
+//// ACTUALIZA_FAMILIAS ////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

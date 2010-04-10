@@ -23,7 +23,7 @@
 		facturascli.codcliente, facturascli.nombrecliente, facturascli.cifnif, facturascli.tasaconv, facturascli.coddir,
 		facturascli.direccion, facturascli.codpostal, facturascli.ciudad, facturascli.provincia, facturascli.apartado,
 		facturascli.codpais, facturascli.neto, lineasfacturascli.referencia,
-		facturascli.rectificada, facturascli.decredito, facturascli.dedebito, facturascli.idfacturarect,
+		facturascli.rectificada, facturascli.tipoventa, facturascli.idfacturarect,
 		lineasfacturascli.descripcion,
 		lineasfacturascli.cantidad,
 		lineasfacturascli.pvpunitario, lineasfacturascli.pvptotal, lineasfacturascli.codimpuesto, lineasfacturascli.iva,

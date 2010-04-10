@@ -217,6 +217,8 @@ Las facturas pueden ser generadas de forma manual o a partir de un remito o remi
 function interna_init()
 {
 	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+
 	this.iface.lblDatosFacturaAbono = this.child("lblDatosFacturaAbono");
 	connect(this.child("tdbLineasFacturasProv").cursor(), "bufferCommited()", this, "iface.calcularTotales");
 	connect(this.cursor(), "bufferChanged(QString)", this, "iface.bufferChanged");
@@ -224,21 +226,19 @@ function interna_init()
 	connect(this.child("tbnTraza"), "clicked()", this, "iface.mostrarTraza()");
 	connect(this.child("tbnActualizarIva"), "clicked()", this, "iface.actualizarIvaClicked()");
 
-	var cursor:FLSqlCursor = this.cursor();
+	this.child("tbnBuscarFactura").setDisabled(true);
 	if (cursor.modeAccess() == cursor.Insert) {
 		this.child("fdbCodEjercicio").setValue(flfactppal.iface.pub_ejercicioActual());
 		this.child("fdbCodDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
 		this.child("fdbCodPago").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codpago"));
 		this.child("fdbCodAlmacen").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codalmacen"));
 		this.child("fdbTasaConv").setValue(util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + this.child("fdbCodDivisa").value() + "'"));
-		this.child("tbnBuscarFactura").setDisabled(true);
 	}
 	else {
-		if (this.cursor().valueBuffer("decredito") == true || this.cursor().valueBuffer("dedebito") == true) {
-			this.child("tbnBuscarFactura").setDisabled(false);
+		if ( flfacturac.iface.pub_esNotaCredito(cursor.valueBuffer("tipoventa")) || flfacturac.iface.pub_esNotaDebito(cursor.valueBuffer("tipoventa")) ) {
 			this.iface.mostrarDatosFactura(util.sqlSelect("facturasprov", "idfacturarect", "codigo = '" + this.child("fdbCodigo").value() + "'"));
-		} else {
-			this.child("tbnBuscarFactura").setDisabled(true);
+			if (cursor.modeAccess() != cursor.Browse)
+				this.child("tbnBuscarFactura").setDisabled(false);
 		}
 	}
 
@@ -368,36 +368,6 @@ function oficial_bufferChanged(fN:String)
 						this.child("fdbTotalEuros").setValue(this.iface.calculateField("totaleuros"));
 						break;
 				}
-		case "decredito": {
-			if (this.cursor().valueBuffer("decredito") == true) {
-				this.cursor().setValueBuffer("dedebito", false);
-				this.child("tbnBuscarFactura").setDisabled(false);
-			}
-			else {
-				if (this.cursor().valueBuffer("dedebito") == false) {
-					this.child("tbnBuscarFactura").setDisabled(true);
-					this.iface.lblDatosFacturaAbono.text = "";
-					this.cursor().setValueBuffer("codigorect", "");
-					this.cursor().setNull("idfacturarect");
-				}
-			}
-			break;
-		}
-		case "dedebito": {
-			if (this.cursor().valueBuffer("dedebito") == true) {
-				this.cursor().setValueBuffer("decredito", false);
-				this.child("tbnBuscarFactura").setDisabled(false);
-			}
-			else {
-				if (this.cursor().valueBuffer("decredito") == false) {
-					this.child("tbnBuscarFactura").setDisabled(true);
-					this.iface.lblDatosFacturaAbono.text = "";
-					this.cursor().setValueBuffer("codigorect", "");
-					this.cursor().setNull("idfacturarect");
-				}
-			}
-			break;
-		}
 	}
 }
 
@@ -515,10 +485,15 @@ que no estan abonadas y que no son la factura que se esta editando.
 \end */
 function oficial_buscarFactura()
 {
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	if ( cursor.isNull("codproveedor")) {
+		MessageBox.warning(util.translate("scripts", "Debe indicar un Proveedor"), MessageBox.Ok, MessageBox.NoButton);
+		return;
+	}
+
 	var ruta:Object = new FLFormSearchDB("busfactprov");
 	var curFacturas:FLSqlCursor = ruta.cursor();
-	var cursor:FLSqlCursor = this.cursor();
-	var util:FLUtil = new FLUtil();
 	
 	var codProveedor:String = cursor.valueBuffer("codproveedor");
 	var masFiltro:String = "";
@@ -526,9 +501,9 @@ function oficial_buscarFactura()
 		masFiltro += " AND codproveedor = '" + codProveedor + "'";
 	
 	if (cursor.modeAccess() == cursor.Insert)
-		curFacturas.setMainFilter("rectificada = false AND decredito = false AND dedebito = false" + masFiltro);
+		curFacturas.setMainFilter("rectificada = false AND tipoventa NOT LIKE 'Nota de %'" + masFiltro);
 	else
-		curFacturas.setMainFilter("rectificada = false AND decredito = false AND dedebito = false AND idfactura <> " + this.cursor().valueBuffer("idfactura") + masFiltro);
+		curFacturas.setMainFilter("rectificada = false AND tipoventa NOT LIKE 'Nota de %' AND idfactura <> " + cursor.valueBuffer("idfactura") + masFiltro);
 
 	ruta.setMainWidget();
 	var idFactura:String = ruta.exec("idfactura");
@@ -781,6 +756,22 @@ function tipoVenta_calculateField(fN:String):String
 					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_c");
 					break;
 				}
+				case "Nota de Crédito A": {
+					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_notacred_a");
+					break;
+				}
+				case "Nota de Crédito B": {
+					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_notacred_b");
+					break;
+				}
+				case "Nota de Débito A": {
+					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_notadeb_a");
+					break;
+				}
+				case "Nota de Débito B": {
+					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_notadeb_b");
+					break;
+				}
 			}
 			break;
 		}
@@ -798,6 +789,25 @@ function tipoVenta_bufferChanged(fN:String)
 	switch (fN) {
 		case "tipoventa": {
 			this.child("fdbCodSerie").setValue(this.iface.calculateField("codserie"));
+
+			if ( flfacturac.iface.pub_esNotaCredito(cursor.valueBuffer("tipoventa")) || flfacturac.iface.pub_esNotaDebito(cursor.valueBuffer("tipoventa")) ) {
+				this.child("tbnBuscarFactura").setDisabled(false);
+				this.child("tbwFactura").showPage("datos");
+			} else {
+				this.child("tbnBuscarFactura").setDisabled(true);
+				this.iface.lblDatosFacturaAbono.text = "";
+
+				if ( !cursor.isNull("idfacturarect") ) {
+					cursor.setNull("idfacturarect");
+					// restaurar la forma de pago predefinida para el proveedor
+					if ( !cursor.isNull("codproveedor") ) {
+						var codPago:String = util.sqlSelect("proveedores", "codpago", "codproveedor = '" + cursor.valueBuffer("codproveedor") + "'");
+						this.child("fdbCodPago").setValue(codPago);
+					}
+				}
+				cursor.setValueBuffer("codigorect", "");
+			}
+
 			break;
 		}
 		case "codproveedor": {

@@ -28,19 +28,19 @@
 		empresa,
 		(
 		SELECT fc.fecha, 'Factura Contado' as tipo, fc.codigo, fc.codcliente, fc.nombrecliente, fc.total, fc.coddivisa
-		FROM facturascli AS fc WHERE NOT fc.decredito AND NOT fc.dedebito AND fc.codpago NOT IN ('CTACTE')
+		FROM facturascli AS fc WHERE fc.tipoventa LIKE 'Factura%' AND fc.codpago NOT IN ('CTACTE')
 		
 		UNION
 		SELECT fc.fecha, 'Factura Cta.Cte.' as tipo, fc.codigo, fc.codcliente, fc.nombrecliente, fc.total, fc.coddivisa
-		FROM facturascli AS fc WHERE NOT fc.decredito AND NOT fc.dedebito AND fc.codpago IN ('CTACTE')
+		FROM facturascli AS fc WHERE fc.tipoventa LIKE 'Factura%' AND fc.codpago IN ('CTACTE')
 		
 		UNION
 		SELECT fc.fecha, 'N. Crédito' as tipo, fc.codigo, fc.codcliente, fc.nombrecliente, fc.total, fc.coddivisa
-		FROM facturascli AS fc WHERE fc.decredito
+		FROM facturascli AS fc WHERE fc.tipoventa LIKE 'Nota de Crédito%'
 		
 		UNION
 		SELECT fc.fecha, 'N. Débito' as tipo, fc.codigo, fc.codcliente, fc.nombrecliente, fc.total, fc.coddivisa
-		FROM facturascli AS fc WHERE fc.dedebito
+		FROM facturascli AS fc WHERE fc.tipoventa LIKE 'Nota de Débito%'
 		
 		UNION
 		SELECT pmc.fecha, 'Recibo Cobro' as tipo, pmc.idpagomulti::varchar as codigo, pmc.codcliente, pmc.nombrecliente, pmc.total, pmc.coddivisa

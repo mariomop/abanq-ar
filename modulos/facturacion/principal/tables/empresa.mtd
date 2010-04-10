@@ -263,7 +263,7 @@
 	<field>
 		<name>codserie_a</name>
 		<!-- Código serie A -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Serie A")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie Factura A")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
@@ -277,7 +277,7 @@
 	<field>
 		<name>codserie_b</name>
 		<!-- Código serie B -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Serie B")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie Factura B")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
@@ -291,7 +291,61 @@
 	<field>
 		<name>codserie_c</name>
 		<!-- Código serie C -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Serie C")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie Factura C")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<relation>
+			<table>series</table>
+			<field>codserie</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codserie_notacred_a</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie Nota de Crédito A")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<relation>
+			<table>series</table>
+			<field>codserie</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codserie_notacred_b</name>
+		<!-- Código serie B -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie Nota de Crédito B")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<relation>
+			<table>series</table>
+			<field>codserie</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codserie_notadeb_a</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie Nota de Débito A")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<relation>
+			<table>series</table>
+			<field>codserie</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codserie_notadeb_b</name>
+		<!-- Código serie B -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie Nota de Débito B")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
@@ -450,6 +504,22 @@
 	<field>
 		<name>copiasfactura</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Copias por factura")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>1</default>
+	</field>
+	<field>
+		<name>copiasnotacred</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Copias por nota de crédito")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		<default>1</default>
+	</field>
+	<field>
+		<name>copiasnotadeb</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Copias por nota de débito")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>uint</type>
