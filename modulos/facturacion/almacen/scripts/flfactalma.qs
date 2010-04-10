@@ -2174,7 +2174,7 @@ function desbloqueoStock_controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String,
 			}
 			else {
 				if(cantidad != cantidadPrevia) {
-					variacion = (cantidad - cantidadPrevia) * signo;
+					variacion = cantidad * signo;
 					if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 						return false;
 				}
