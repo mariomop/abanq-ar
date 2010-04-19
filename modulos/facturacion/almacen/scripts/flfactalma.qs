@@ -327,6 +327,12 @@ class desbloqueoStock extends multiFamilia {
 	function controlStockValesTPV(curLinea:FLSqlCursor):Boolean {
 		return this.ctx.desbloqueoStock_controlStockValesTPV(curLinea);
 	}
+	function beforeCommit_trazabilidadinterna(curTI:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_beforeCommit_trazabilidadinterna(curTI);
+	}
+	function afterCommit_trazabilidadinterna(curTI:FLSqlCursor):Boolean {
+		return this.ctx.desbloqueoStock_afterCommit_trazabilidadinterna(curTI);
+	}
 }
 //// DESBLOQUEO AL MODIFICAR STOCK //////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -1858,7 +1864,7 @@ function lineasArticulos_generarLineaSalida(documento:String, curLS:FLSqlCursor)
 {
 	var util:FLUtil = new FLUtil();
 
-	var codigo:String = curLS.valueBuffer("codtrazainterna");
+	var codigo:Number = curLS.valueBuffer("codtrazainterna");
 
 	// Si está editando entonces existe una linea de salida; la busco y la borro
 	if (curLS.modeAccess() == curLS.Edit) {
@@ -1915,7 +1921,7 @@ function lineasArticulos_generarLineaEntrada(documento:String, curLE:FLSqlCursor
 {
 	var util:FLUtil = new FLUtil();
 
-	var codigo:String = curLE.valueBuffer("codtrazainterna");
+	var codigo:Number = curLE.valueBuffer("codtrazainterna");
 
 	// Si está editando entonces existe una linea de entrada; la busco y la borro
 	if (curLE.modeAccess() == curLE.Edit) {
@@ -2174,7 +2180,7 @@ function desbloqueoStock_controlMoviStock( curLinea:FLSqlCursor, tipoDoc:String,
 			}
 			else {
 				if(cantidad != cantidadPrevia) {
-					variacion = cantidad * signo;
+					variacion = (cantidad - cantidadPrevia) * signo;
 					if (!this.iface.cambiarMoviStock( codAlmacen, curLinea.valueBuffer( "referencia" ), tipoDoc, idDoc, curLinea.valueBuffer( linea ), variacion, campo, numSerie, "false" ) )
 						return false;
 				}
@@ -2539,6 +2545,119 @@ function desbloqueoStock_controlStockValesTPV(curLinea:FLSqlCursor):Boolean
 	
 	if (!this.iface.controlMoviStock(curLinea, tipoDoc, "cantidad", 1, codAlmacen))
 		return false;
+
+	return true;
+}
+
+function desbloqueoStock_beforeCommit_trazabilidadinterna(curTI:FLSqlCursor):Boolean
+{
+	if ( !this.iface.__beforeCommit_trazabilidadinterna(curTI) )
+		return false;
+
+	var util:FLUtil = new FLUtil();
+	if (sys.isLoadedModule("flfactalma")) {
+		if (curTI.modeAccess() == curTI.Insert || curTI.modeAccess() == curTI.Edit) {
+			/*** Obtener las líneas cuyos artículos NO se manejan por lotes ***/
+			/** Deberían manejarse aquí los artículos controlados por número de serie, pero por ahora no se distinguen **/
+			/* Se utiliza la tabla movistock, en vez de lineastrazabilidadinterna, pues durante la edición podría haberse eliminado alguna línea 
+			   y es necesario actualizar el stock de la línea eliminada, que en la tabla movistock se marca como "eliminada" pero aún existe */
+			var qryLinea:FLSqlQuery = new FLSqlQuery();
+			qryLinea.setTablesList("movistock,articulos");
+			qryLinea.setSelect("m.idmovistock,m.referencia,m.variacion,m.numserie");
+			qryLinea.setFrom("movistock m INNER JOIN articulos a ON m.referencia = a.referencia");
+			qryLinea.setWhere("a.porlotes = FALSE AND m.tipodoc = 'MI' AND m.iddoc = " + curTI.valueBuffer("codigo"));
+			if(!qryLinea.exec())
+				return false;
+
+			while (qryLinea.next()) {
+				var variacion:Number = qryLinea.value("m.variacion");
+				if (variacion != 0) {
+					/* Artículos NO controlados por número de serie */
+// 					if (qryLinea.value("m.numserie") == "") {
+						if (!flfactalma.iface.pub_cambiarStock(curTI.valueBuffer("codalmacen"), qryLinea.value("m.referencia"), variacion, "cantidad")) {
+							MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTALMA-0001: ") + curTI.valueBuffer("codigo"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+							return false;
+						}
+// 					}
+					/* Actualizar stock y estado de los artículos manejados por "número de serie" */
+// 					else  {
+						/* Para manejar artículos controlados por números de serie,
+						se puede tomar como referencia desbloqueoStock_beforeCommit_facturascli(), en flfacturac.qs */
+// 					}
+				}
+			}
+
+			/* Al editar es posible que se haya eliminado una línea del documento.
+			Por esta razón habrá que recorrer aquellos movimientos de stock que tengan la marca de "eliminado" para eliminar el registro correspondiente del listado de movistock 
+			Además hay que actualizar el campo variación a 0 */
+			if (curTI.modeAccess() == curTI.Edit) {
+				var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+				curMoviStock.select("tipodoc = 'MI' AND iddoc = " + curTI.valueBuffer("codigo"));
+				while (curMoviStock.next()) {
+					if (curMoviStock.valueBuffer("eliminado")) {
+						curMoviStock.setModeAccess(curMoviStock.Del);
+						curMoviStock.refreshBuffer();
+						if (!curMoviStock.commitBuffer())
+							return false;
+					}
+					else {
+						curMoviStock.setModeAccess(curMoviStock.Edit);
+						curMoviStock.refreshBuffer();
+						curMoviStock.setValueBuffer("variacion", 0);
+						if (!curMoviStock.commitBuffer())
+							return false;
+					}
+				}
+			}
+
+			/* Por último, actualizar el campo cantidadprevia en las líneas: cantidadprevia = cantidad. */
+			var curLineas:FLSqlCursor = new FLSqlCursor("lineastrazabilidadinterna");
+			curLineas.select("codtrazainterna = " + curTI.valueBuffer("codigo"));
+			while (curLineas.next()) {
+				curLineas.setModeAccess(curLineas.Edit);
+				curLineas.refreshBuffer();
+				curLineas.setValueBuffer("cantidadprevia", curLineas.valueBuffer("cantidad"));
+				if (!curLineas.commitBuffer())
+					return false;
+			}
+		}
+		/* Al borrar el movimiento interno no se recorre movistock sino las lineastrazabilidadinterna */
+		else if (curTI.modeAccess() == curTI.Del) {
+			var curLinea:FLSqlCursor = new FLSqlCursor("lineastrazabilidadinterna");
+			curLinea.select("codtrazainterna = " + curTI.valueBuffer("codigo"));
+			while (curLinea.next()) {
+				var variacion:Number = parseFloat(curLinea.valueBuffer("cantidad"));
+				/* Artículos NO controlados por número de serie */
+// 				if (curLinea.valueBuffer("numserie") == "") {
+					if (!flfactalma.iface.pub_cambiarStock(curTI.valueBuffer("codalmacen"), curLinea.valueBuffer("referencia"), variacion, "cantidad")) {
+						MessageBox.critical(util.translate("scripts", "Se produjo un error al procesar esta operación.\nPor favor ANOTE la siguiente línea de información y comuníquesela a su soporte técnico:\n\n  FLFACTALMA-0002: ") + curTI.valueBuffer("codigo"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+						return false;
+					}
+// 				}
+// 				else {
+					/* Para manejar artículos controlados por números de serie,
+					se puede tomar como referencia desbloqueoStock_beforeCommit_facturascli(), en flfacturac.qs */
+// 				}
+			}
+		}
+	}
+
+	return true;
+}
+
+function desbloqueoStock_afterCommit_trazabilidadinterna(curTI:FLSqlCursor):Boolean
+{
+	/* Al eliminarse el documento con sus líneas, también se borran los registros correspondientes en movistock */
+	if (curTI.modeAccess() == curTI.Del) {
+		var curMoviStock:FLSqlCursor = new FLSqlCursor("movistock");
+		curMoviStock.select("tipodoc = 'MI' AND iddoc = " + curTI.valueBuffer("codigo"));
+		while (curMoviStock.next()) {
+			curMoviStock.setModeAccess(curMoviStock.Del);
+			curMoviStock.refreshBuffer();
+			if (!curMoviStock.commitBuffer())
+				return false;
+		}
+	}
 
 	return true;
 }

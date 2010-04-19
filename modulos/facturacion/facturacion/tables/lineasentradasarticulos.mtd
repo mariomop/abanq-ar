@@ -130,8 +130,7 @@
 		<!--Identificador de la trazabilidad interna a la que pertenece-->
 		<null>true</null>
 		<pk>false</pk>
-		<type>string</type>
-		<length>6</length>
+		<type>uint</type>
 		<visiblegrid>false</visiblegrid>
 		
 		<relation>

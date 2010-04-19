@@ -30,9 +30,9 @@ class interna {
     function init() { 
 	return this.ctx.interna_init(); 
     }
-    function calculateCounter():String { 
-	return this.ctx.interna_calculateCounter(); 
-    }
+//     function calculateCounter():String { 
+// 	return this.ctx.interna_calculateCounter(); 
+//     }
 }
 //// INTERNA /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -89,11 +89,11 @@ function interna_init()
 {
 }
 
-function interna_calculateCounter()
-{
-	var util:FLUtil = new FLUtil();
-	return util.nextCounter("codigo", this.cursor());
-}
+// function interna_calculateCounter()
+// {
+// 	var util:FLUtil = new FLUtil();
+// 	return util.nextCounter("codigo", this.cursor());
+// }
 
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

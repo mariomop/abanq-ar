@@ -599,6 +599,10 @@ function oficial_copiarCampoLineaRec(nombreCampo:String, curLineaOriginal:FLSqlC
 			this.iface.curLineaRectificacion_.setValueBuffer("idfactura", cursor.valueBuffer("idfactura"));
 			break;
 		}
+		case "cantidadprevia": {
+			this.iface.curLineaRectificacion_.setValueBuffer(nombreCampo, 0);
+			break;
+		}
 		case "cantidad":
 		case "dtolineal":
 		case "pvpsindto":

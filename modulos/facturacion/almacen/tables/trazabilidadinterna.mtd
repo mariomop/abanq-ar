@@ -8,9 +8,8 @@
 		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
 		<null>false</null>
 		<pk>true</pk>
-		<type>string</type>
-		<length>6</length>
-		<counter>true</counter>
+		<type>serial</type>
+		<editable>false</editable>
 		<relation>
 			<table>lineastrazabilidadinterna</table>
 			<field>codtrazainterna</field>
