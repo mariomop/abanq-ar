@@ -247,7 +247,7 @@ function interna_init()
 	var cursor = this.cursor();
 
 	if (cursor.modeAccess() == cursor.Insert) {
-		this.child("fdbCodEjercicio").setValue(flfactppal.iface.pub_ejercicioActual());
+		cursor.setValueBuffer("codejercicio", flfactppal.iface.pub_ejercicioActual());
 		this.child("fdbCodDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
 		this.child("fdbCodPago").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codpago"));
 		this.child("fdbCodAlmacen").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codalmacen"));
@@ -472,7 +472,7 @@ function numeroSecuencia_calculateField(fN:String):String
 	var valor:String;
 	switch (fN) {
 		case "numero": {
-			var idSec:Number = util.sqlSelect("secuenciasejercicios", "id", "codejercicio = '" + this.child("fdbCodEjercicio").value() + "' AND codserie = '" + this.child("fdbCodSerie").value() + "'");
+			var idSec:Number = util.sqlSelect("secuenciasejercicios", "id", "codejercicio = '" + this.cursor().valueBuffer("codejercicio") + "' AND codserie = '" + this.cursor().valueBuffer("codserie") + "'");
 			if (!idSec) {
 				valor = 0;
 				break;
@@ -677,24 +677,12 @@ function tipoVenta_bufferChanged(fN:String)
 	var cursor:FLSqlCursor = this.cursor();
 	switch (fN) {
 		case "tipoventa": {
-			this.child("fdbCodSerie").setValue(this.iface.calculateField("codserie"));
+			cursor.setValueBuffer("codserie", this.iface.calculateField("codserie"));
 			break;
 		}
 		case "codcliente": {
-			if (cursor.valueBuffer("codcliente") && cursor.valueBuffer("codcliente") != "") {
-				var regimenIva:Boolean = util.sqlSelect("clientes", "regimeniva", "codcliente = '" + cursor.valueBuffer("codcliente") + "'");
-				switch ( regimenIva ) {
-					case "Consumidor Final":
-					case "Exento":
-					case "No Responsable":
-					case "Responsable Monotributo":
-					case "Responsable Inscripto":
-					case "Responsable No Inscripto": {
-						cursor.setValueBuffer("tipoventa", "Pedido");
-						break;
-					}
-				}
-			}
+			cursor.setValueBuffer("tipoventa", "Pedido");
+
 			this.iface.__bufferChanged(fN);
 			break;
 		}

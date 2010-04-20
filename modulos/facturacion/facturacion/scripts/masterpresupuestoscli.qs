@@ -1161,7 +1161,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codtarifa", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "comision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "numero", "editable", "nombrecliente", "total", "neto", "totaliva", "totalpie", "coddivisa", "tasaconv", "totaleuros", "fecha", "fechasalida", "codserie", "codejercicio", "codalmacen", "codpago", "codtarifa", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "comision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

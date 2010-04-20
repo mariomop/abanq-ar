@@ -18,20 +18,20 @@
 	<from>
 		(
 		SELECT fp.fecha, 'Factura Contado' as tipo, fp.codigo, fp.codproveedor, fp.nombre as nombreproveedor, fp.total, fp.coddivisa, '' as observaciones
-		FROM facturasprov AS fp WHERE fp.tipoventa LIKE 'Factura%' AND fp.codpago NOT IN ('CTACTE')
+		FROM facturasprov AS fp WHERE fp.tipoventa = 'Factura' AND fp.codpago NOT IN ('CTACTE')
 		
 		UNION
 		SELECT fp.fecha, 'Factura Cta.Cte.' as tipo, fp.codigo, fp.codproveedor, fp.nombre as nombreproveedor, fp.total, fp.coddivisa, rprov.idpagomulti::varchar as observaciones
 		FROM facturasprov AS fp LEFT OUTER JOIN recibosprov AS rprov ON fp.idfactura = rprov.idfactura
-		WHERE fp.tipoventa LIKE 'Factura%' AND fp.codpago IN ('CTACTE')
+		WHERE fp.tipoventa = 'Factura' AND fp.codpago IN ('CTACTE')
 		
 		UNION
 		SELECT fp.fecha, 'N. Crédito' as tipo, fp.codigo, fp.codproveedor, fp.nombre as nombreproveedor, fp.total, fp.coddivisa, '' as observaciones
-		FROM facturasprov AS fp WHERE fp.tipoventa LIKE 'Nota de Crédito%'
+		FROM facturasprov AS fp WHERE fp.tipoventa = 'Nota de Crédito'
 		
 		UNION
 		SELECT fp.fecha, 'N. Débito' as tipo, fp.codigo, fp.codproveedor, fp.nombre as nombreproveedor, fp.total, fp.coddivisa, '' as observaciones
-		FROM facturasprov AS fp WHERE fp.tipoventa LIKE 'Nota de Débito%'
+		FROM facturasprov AS fp WHERE fp.tipoventa = 'Nota de Débito'
 		
 		UNION
 		SELECT pmp.fecha, 'Orden Pago' as tipo, pmp.idpagomulti::varchar as codigo, pmp.codproveedor, pmp.nombre as nombreproveedor, pmp.total, pmp.coddivisa, '' as observaciones

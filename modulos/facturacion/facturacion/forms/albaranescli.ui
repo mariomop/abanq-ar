@@ -145,68 +145,6 @@
 							</widget>
 							<widget class="FLFieldDB" >
 								<property name="name" >
-									<cstring>fdbCodEjercicio</cstring>
-								</property>
-								<property name="sizePolicy" >
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize" >
-									<size>
-										<width>80</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="maximumSize" >
-									<size>
-										<width>80</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="fieldName" >
-									<string>codejercicio</string>
-								</property>
-								<property name="showAlias">
-									<bool>false</bool>
-								</property>
-							</widget>
-							<widget class="FLFieldDB" >
-								<property name="name" >
-									<cstring>fdbCodSerie</cstring>
-								</property>
-								<property name="sizePolicy" >
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize" >
-									<size>
-										<width>80</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="maximumSize" >
-									<size>
-										<width>80</width>
-										<height>26</height>
-									</size>
-								</property>
-								<property name="fieldName" >
-									<string>codserie</string>
-								</property>
-								<property name="showAlias">
-									<bool>false</bool>
-								</property>
-							</widget>
-							<widget class="FLFieldDB" >
-								<property name="name" >
 									<cstring>fdbNumero</cstring>
 								</property>
 								<property name="sizePolicy" >
@@ -2372,9 +2310,7 @@
 		<tabstop>fdbTotalEuros</tabstop>
 		<tabstop>fdbObservaciones</tabstop>
 		<tabstop>fdbCodigo</tabstop>
-		<tabstop>fdbCodEjercicio</tabstop>
 		<tabstop>fdbTipoVenta</tabstop>
-		<tabstop>fdbCodSerie</tabstop>
 		<tabstop>fdbNumero</tabstop>
 		<tabstop>fdbNeto</tabstop>
 		<tabstop>fdbTotalIva</tabstop>

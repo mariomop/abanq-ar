@@ -851,12 +851,12 @@ function oficial_formatIVAResponsability(ivaResponsability:String):String {
 function oficial_formatComprobante(comprobante:String):String {
 	var result:String = "";
 	switch (comprobante) {
-		case "Factura A": {
+		case "A": {
 			result = this.iface.FACTURA_A;
 			break;
 		}
-		case "Factura B":
-		case "Factura C": {
+		case "B":
+		case "C": {
 			result = this.iface.FACTURA_BC;
 			break;
 		}

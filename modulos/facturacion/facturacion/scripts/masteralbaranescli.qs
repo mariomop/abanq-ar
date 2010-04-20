@@ -1386,7 +1386,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "servido", "ptefactura", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "numero", "servido", "ptefactura", "nombrecliente", "total", "neto", "totaliva", "totalpie", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "codejercicio", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "comision", "tpv", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();
@@ -1406,28 +1406,28 @@ function tipoVenta_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrup
 
 	var util:FLUtil = new FLUtil();
 	
-	var tipoVenta:String, codSerie:String;
+	var claseVenta:String, codSerie:String;
 	// Ver si corresponde Factura A, Factura B o Factura C
-	tipoVenta = flfacturac.iface.pub_tipoComprobanteRegimenIva(curAlbaran.valueBuffer("codcliente"));
+	claseVenta = flfacturac.iface.pub_tipoComprobanteRegimenIvaCliente(curAlbaran.valueBuffer("codcliente"));
 
-	switch ( tipoVenta ) {
-		case "Factura A": {
+	switch ( claseVenta ) {
+		case "A": {
 			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
 			break;
 		}
-		case "Factura B": {
+		case "B": {
 			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
 			break;
 		}
-		case "Factura C": {
+		case "C": {
 			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_c");
 			break;
 		}
-
 	}
 
 	with (this.iface.curFactura) {
-		setValueBuffer("tipoventa", tipoVenta);
+		setValueBuffer("tipoventa", "Factura");
+		setValueBuffer("claseventa", claseVenta);
 		setValueBuffer("codserie", codSerie);
 	}
 	return true;

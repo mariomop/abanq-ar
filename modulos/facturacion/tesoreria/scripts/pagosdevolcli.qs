@@ -111,11 +111,23 @@ class tipoVenta extends infoVencimtos {
 //// TIPO DE VENTA  /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration periodosFiscales */
+/////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES //////////////////////////////////////////
+class periodosFiscales extends tipoVenta {
+	function periodosFiscales( context ) { tipoVenta ( context ); }
+	function datosFacturaCli(qryFacturaCli:FLSqlQuery):Boolean {
+		return this.ctx.periodosFiscales_datosFacturaCli(qryFacturaCli);
+	}
+}
+//// PERIODOS FISCALES //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends tipoVenta {
-    function head( context ) { tipoVenta ( context ); }
+class head extends periodosFiscales {
+    function head( context ) { periodosFiscales ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -471,7 +483,7 @@ function oficial_insertarFacturaDevolCli()
 
 	var qryFacturaCli:FLSqlQuery = new FLSqlQuery();
 	qryFacturaCli.setTablesList("facturascli");
-	qryFacturaCli.setSelect("codcliente, nombrecliente, cifnif, direccion, codpostal, ciudad, provincia, codpais, codalmacen, codpago, codserie, tipoventa, coddivisa, tasaconv");
+	qryFacturaCli.setSelect("codcliente, nombrecliente, cifnif, direccion, codpostal, ciudad, provincia, codpais, codalmacen, codpago, codserie, claseventa, codperiodo, coddivisa, tasaconv");
 	qryFacturaCli.setFrom("facturascli");
 	qryFacturaCli.setWhere("idfactura = " + idFacturaRecibo);
 	qryFacturaCli.setForwardOnly(true);
@@ -638,7 +650,7 @@ function oficial_insertarFacturaDevolProv()
 	var qryFacturaProv:FLSqlQuery = new FLSqlQuery();
 
 	qryFacturaProv.setTablesList("proveedores");
-	qryFacturaProv.setSelect("codproveedor, nombre, cifnif, codpago, regimeniva, coddivisa");
+	qryFacturaProv.setSelect("codproveedor, nombre, cifnif, codpago, coddivisa");
 	qryFacturaProv.setFrom("proveedores");
 	qryFacturaProv.setWhere("codproveedor = '" + codProveedor + "'");
 
@@ -731,7 +743,8 @@ function tipoVenta_datosFacturaCli(qryFacturaCli:FLSqlQuery):Boolean
 	if (!this.iface.__datosFacturaCli(qryFacturaCli))
 		return false;
 
-	this.iface.curFacturaCli.setValueBuffer("tipoventa", qryFacturaCli.value("tipoventa"));
+	this.iface.curFacturaCli.setValueBuffer("tipoventa", "Factura");
+	this.iface.curFacturaCli.setValueBuffer("claseventa", qryFacturaCli.value("claseventa"));
 
 	return true;
 }
@@ -741,30 +754,36 @@ function tipoVenta_datosFacturaProv(qryFacturaProv:FLSqlQuery):Boolean
 	if (!this.iface.__datosFacturaProv(qryFacturaProv))
 		return false;
 
-	var tipoVenta:String, codSerie:String;
-	switch ( qryFacturaProv.value("regimeniva") ) {
-		case "Consumidor Final":
-		case "Exento":
-		case "No Responsable":
-		case "Responsable Monotributo": {
-			tipoVenta = "Factura B";
-			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
-			break;
-		}
-		case "Responsable Inscripto":
-		case "Responsable No Inscripto": {
-			tipoVenta = "Factura A";
-			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
-			break;
-		}
-	}
-	this.iface.curFacturaProv.setValueBuffer("tipoventa", tipoVenta);
+	var claseVenta:String, codSerie:String;
+	// Ver si corresponde Factura A, Factura B o Factura C
+	claseVenta = flfacturac.iface.pub_tipoComprobanteRegimenIvaProveedor(qryFacturaProv.value("codproveedor"));
+	codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_facturasprov");
+
+	this.iface.curFacturaProv.setValueBuffer("tipoventa", "Factura");
+	this.iface.curFacturaProv.setValueBuffer("claseventa", claseVenta);
 	this.iface.curFacturaProv.setValueBuffer("codserie", codSerie);
 
 	return true;
 }
 
 //// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition periodosFiscales */
+//////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES ///////////////////////////////////////////
+
+function periodosFiscales_datosFacturaCli(qryFacturaCli:FLSqlQuery):Boolean
+{
+	if (!this.iface.__datosFacturaCli(qryFacturaCli))
+		return false;
+
+	this.iface.curFacturaCli.setValueBuffer("codperiodo", qryFacturaCli.value("codperiodo"));
+
+	return true;
+}
+
+//// PERIODOS FISCALES ///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 /** @class_definition head */

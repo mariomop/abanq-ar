@@ -262,7 +262,7 @@ function ordenCampos_init()
 
 function ordenCampos_ordenarColumnas()
 {
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codperiodo", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "automatica", "rectificada", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "claseventa", "numero", "editable", "nombrecliente", "total", "neto", "totaliva", "totalpie", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "codejercicio", "codperiodo", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "automatica", "rectificada", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.child("tdbFacturas").setOrderCols(orden);
 }

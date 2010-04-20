@@ -169,10 +169,10 @@ function oficial_obtenerParamInforme():Array
 		where = "facturasprov.rectificada";
 	}
 	if (cursor.valueBuffer("decredito")) {
-		where = "facturasprov.tipoventa LIKE 'Nota de Crédito %'";
+		where = "facturasprov.tipoventa = 'Nota de Crédito'";
 	}
 	if (cursor.valueBuffer("dedebito")) {
-		where = "facturasprov.tipoventa LIKE 'Nota de Débito %'";
+		where = "facturasprov.tipoventa = 'Nota de Débito'";
 	}
 	if (cursor.valueBuffer("filtrarimportes")) {
 		if (!cursor.isNull("desdeimporte")) {

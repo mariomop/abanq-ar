@@ -281,7 +281,7 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 	var q:FLSqlQuery = new FLSqlQuery();
 	q.setTablesList("clientes");
 	q.setFrom("clientes");
-	q.setSelect("nombre,cifnif,coddivisa,codpago,regimeniva,codagente");
+	q.setSelect("nombre,cifnif,coddivisa,codpago,codagente");
 	q.setWhere("codcliente = '" + codCliente + "'");
 	
 	if (!q.exec()) return;
@@ -304,20 +304,21 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 		return;
 	}
 	
-	var tipoVenta:String, codSerie:String;
-	switch ( q.value(4) ) {
-		case "Consumidor Final":
-		case "Exento":
-		case "No Responsable":
-		case "Responsable Monotributo": {
-			tipoVenta = "Factura B";
+	var claseVenta:String, codSerie:String;
+	// Ver si corresponde Factura A, Factura B o Factura C
+	claseVenta = flfacturac.iface.pub_tipoComprobanteRegimenIvaCliente(codCliente);
+
+	switch ( claseVenta ) {
+		case "A": {
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
+			break;
+		}
+		case "B": {
 			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
 			break;
 		}
-		case "Responsable Inscripto":
-		case "Responsable No Inscripto": {
-			tipoVenta = "Factura A";
-			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
+		case "C": {
+			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_c");
 			break;
 		}
 	}
@@ -342,7 +343,8 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 		setModeAccess(Insert);
 		refreshBuffer();
 		
-		setValueBuffer("tipoventa", tipoVenta);
+		setValueBuffer("tipoventa", "Factura");
+		setValueBuffer("claseventa", claseVenta);
 		setValueBuffer("codserie", codSerie);
 
 		setValueBuffer("codigo", flfacturac.iface.pub_construirCodigo(codSerie, codEjercicio, numeroFactura));
@@ -361,7 +363,7 @@ function oficial_generarFactura(idPeriodo:Number, codCliente:String, codContrato
 		setValueBuffer("fecha", fecha);
 		setValueBuffer("hora", hora);
 		
-		setValueBuffer("codagente", q.value(5));
+		setValueBuffer("codagente", q.value(4));
 				
 		setValueBuffer("coddir", qDir.value(0));
 		setValueBuffer("direccion", qDir.value(1));

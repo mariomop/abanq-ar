@@ -902,7 +902,7 @@ function impresiones_imprimir(codFactura:String)
 		}
 
 		var nombreReport:String = nombreInforme;
-		if ( util.sqlSelect("facturascli", "tipoventa", "codigo = '" + codigo + "'") == "Factura A" )
+		if ( util.sqlSelect("facturascli", "claseventa", "codigo = '" + codigo + "'") == "A" )
 			nombreReport += "_a";
 
 		var curImprimir:FLSqlCursor = new FLSqlCursor("i_facturascli");
@@ -960,7 +960,7 @@ function impresiones_imprimirQuick(codFactura:String, impresora:String)
 		}
 
 		var nombreReport:String = nombreInforme;
-		if ( util.sqlSelect("facturascli", "tipoventa", "codigo = '" + codigo + "'") == "Factura A" )
+		if ( util.sqlSelect("facturascli", "claseventa", "codigo = '" + codigo + "'") == "A" )
 			nombreReport += "_a";
 
 		var curImprimir:FLSqlCursor = new FLSqlCursor("i_facturascli");
@@ -986,7 +986,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "nombrecliente", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codperiodo", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "nombre", "apellidos", "empresa", "codagente", "comision", "tpv", "automatica", "rectificada", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "claseventa", "numero", "editable", "nombrecliente", "total", "neto", "totaliva", "totalpie", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "codejercicio", "codperiodo", "codalmacen", "codpago", "codtarifa", "codenvio", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "codagente", "comision", "tpv", "automatica", "rectificada", "codigorect", "costototal", "ganancia", "utilidad", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();
@@ -1006,6 +1006,7 @@ function tipoVenta_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 
 	with (this.iface.curFactura) {
 		setValueBuffer("tipoventa", curFactura.valueBuffer("tipoventa"));
+		setValueBuffer("claseventa", curFactura.valueBuffer("claseventa"));
 	}
 	return true;
 }

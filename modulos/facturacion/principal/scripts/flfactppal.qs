@@ -1171,6 +1171,7 @@ function oficial_valoresIniciales()
 		setValueBuffer("codserie_remito", "R001");
 		setValueBuffer("codserie_pedido", "P001");
 		setValueBuffer("codserie_presupuesto", "X001");
+		setValueBuffer("codserie_facturasprov", "A001");
 		setValueBuffer("codpostal", "3100");
 		setValueBuffer("ciudad", "PARANÁ");
 		setValueBuffer("provincia", "ENTRE RÍOS");

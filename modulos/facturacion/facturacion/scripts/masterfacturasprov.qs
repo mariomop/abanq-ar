@@ -827,7 +827,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "editable", "numproveedor", "nombre", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codperiodo", "codalmacen", "codpago", "codproveedor", "cifnif", "automatica", "rectificada", "codigorect", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "claseventa", "numproveedor", "editable", "nombre", "total", "neto", "totaliva", "totalpie", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codperiodo", "codalmacen", "codpago", "codproveedor", "cifnif", "automatica", "rectificada", "codigorect", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();
@@ -847,6 +847,7 @@ function tipoVenta_copiadatosFactura(curFactura:FLSqlCursor):Boolean
 
 	with (this.iface.curFactura) {
 		setValueBuffer("tipoventa", curFactura.valueBuffer("tipoventa"));
+		setValueBuffer("claseventa", curFactura.valueBuffer("claseventa"));
 	}
 	return true;
 }

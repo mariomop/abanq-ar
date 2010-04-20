@@ -195,8 +195,11 @@ class oficial extends interna {
 	function siGenerarRecibosCli(curFactura:FLSqlCursor, masCampos:Array):Boolean {
 		return this.ctx.oficial_siGenerarRecibosCli(curFactura, masCampos);
 	}
-	function tipoComprobanteRegimenIva(codCliente:String):String {
-		return this.ctx.oficial_tipoComprobanteRegimenIva(codCliente);
+	function tipoComprobanteRegimenIvaCliente(codCliente:String):String {
+		return this.ctx.oficial_tipoComprobanteRegimenIvaCliente(codCliente);
+	}
+	function tipoComprobanteRegimenIvaProveedor(codProveedor:String):String {
+		return this.ctx.oficial_tipoComprobanteRegimenIvaProveedor(codProveedor);
 	}
 	function validarIvaCliente(codCliente:String,id:Number,tabla:String,identificador:String):Boolean {
 		return this.ctx.oficial_validarIvaCliente(codCliente,id,tabla,identificador);
@@ -853,8 +856,11 @@ class ifaceCtx extends head {
 	function pub_eliminarAsiento(idAsiento:String):Boolean {
 		return this.eliminarAsiento(idAsiento);
 	}
-	function pub_tipoComprobanteRegimenIva(codCliente:String):String {
-		return this.tipoComprobanteRegimenIva(codCliente);
+	function pub_tipoComprobanteRegimenIvaCliente(codCliente:String):String {
+		return this.tipoComprobanteRegimenIvaCliente(codCliente);
+	}
+	function pub_tipoComprobanteRegimenIvaProveedor(codProveedor:String):String {
+		return this.tipoComprobanteRegimenIvaProveedor(codProveedor);
 	}
 	function pub_validarIvaCliente(codCliente:String,id:Number,tabla:String,identificador:String):Boolean {
 		return this.validarIvaCliente(codCliente,id,tabla,identificador);
@@ -3679,7 +3685,7 @@ Exento				Cualquiera					C
 Responsable monotributo		Cualquiera					C
 Monotributista Social		Cualquiera					C
 */
-function oficial_tipoComprobanteRegimenIva(codCliente:String):String {
+function oficial_tipoComprobanteRegimenIvaCliente(codCliente:String):String {
 	var util:FLUtil = new FLUtil();
 	var comprobante = "";
 	var respEmpresa = flfactppal.iface.pub_valorDefectoEmpresa("regimeniva");
@@ -3690,18 +3696,45 @@ function oficial_tipoComprobanteRegimenIva(codCliente:String):String {
 			case "Exento":
 			case "No Responsable":
 			case "Responsable Monotributo": {
-				comprobante = "Factura B";
+				comprobante = "B";
 				break;
 			}
 			case "Responsable Inscripto":
 			case "Responsable No Inscripto": {
-				comprobante = "Factura A";
+				comprobante = "A";
 				break;
 			}
 		}
 	}
 	else {
-		comprobante = "Factura C";
+		comprobante = "C";
+	}
+	return comprobante;
+}
+
+function oficial_tipoComprobanteRegimenIvaProveedor(codProveedor:String):String {
+	var util:FLUtil = new FLUtil();
+	var comprobante = "";
+	var respEmpresa = util.sqlSelect("proveedores", "regimeniva", "codproveedor = '" + codProveedor + "'");
+	var respIva = flfactppal.iface.pub_valorDefectoEmpresa("regimeniva");
+	if (respEmpresa == "Responsable Inscripto") {
+		switch ( respIva ) {
+			case "Consumidor Final":
+			case "Exento":
+			case "No Responsable":
+			case "Responsable Monotributo": {
+				comprobante = "B";
+				break;
+			}
+			case "Responsable Inscripto":
+			case "Responsable No Inscripto": {
+				comprobante = "A";
+				break;
+			}
+		}
+	}
+	else {
+		comprobante = "C";
 	}
 	return comprobante;
 }
@@ -3868,7 +3901,7 @@ function oficial_comprobarNotaCreditoProv(curFactura:FLSqlCursor):Boolean
 				return false;
 			}
 		}
-		if (util.sqlSelect("facturasprov", "idfacturarect", "idfacturarect = " + curFactura.valueBuffer("idfacturarect") + " AND idfactura <> " + curFactura.valueBuffer("idfactura") + " AND tipoventa LIKE 'Nota de Crédito %'")) {
+		if (util.sqlSelect("facturasprov", "idfacturarect", "idfacturarect = " + curFactura.valueBuffer("idfacturarect") + " AND idfactura <> " + curFactura.valueBuffer("idfactura") + " AND tipoventa = 'Nota de Crédito'")) {
 			MessageBox.warning(util.translate("scripts", "De la factura ") +  util.sqlSelect("facturasprov", "codigo", "idfactura = " + curFactura.valueBuffer("idFacturarect"))  + util.translate("scripts", " ya se ha generado una nota de crédito"),MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
 			return false;
 		}
@@ -3886,7 +3919,7 @@ function oficial_comprobarNotaDebitoProv(curFactura:FLSqlCursor):Boolean
 				return false;
 			}
 		}
-		if (util.sqlSelect("facturasprov", "idfacturarect", "idfacturarect = " + curFactura.valueBuffer("idfacturarect") + " AND idfactura <> " + curFactura.valueBuffer("idfactura") + " AND tipoventa LIKE 'Nota de Débito %'")) {
+		if (util.sqlSelect("facturasprov", "idfacturarect", "idfacturarect = " + curFactura.valueBuffer("idfacturarect") + " AND idfactura <> " + curFactura.valueBuffer("idfactura") + " AND tipoventa = 'Nota de Débito'")) {
 			MessageBox.warning(util.translate("scripts", "De la factura ") +  util.sqlSelect("facturasprov", "codigo", "idfactura = " + curFactura.valueBuffer("idFacturarect"))  + util.translate("scripts", " ya se ha generado una nota de débito"),MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
 			return false;
 		}
@@ -5546,7 +5579,7 @@ function numeroSecuencia_recalcularHuecos( serie:String, ejercicio:String, fN:St
 
 function tipoVenta_esNotaCredito(tipoVenta:String):Boolean
 {
-	if ( tipoVenta == "Nota de Crédito A" || tipoVenta == "Nota de Crédito B" )
+	if ( tipoVenta == "Nota de Crédito" )
 		return true;
 
 	return false;
@@ -5554,7 +5587,7 @@ function tipoVenta_esNotaCredito(tipoVenta:String):Boolean
 
 function tipoVenta_esNotaDebito(tipoVenta:String):Boolean
 {
-	if ( tipoVenta == "Nota de Débito A" || tipoVenta == "Nota de Débito B" )
+	if ( tipoVenta == "Nota de Débito" )
 		return true;
 
 	return false;

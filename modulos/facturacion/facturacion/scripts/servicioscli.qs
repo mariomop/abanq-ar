@@ -489,23 +489,27 @@ function tipoVenta_bufferChanged(fN:String)
 	switch (fN) {
 		case "codcliente": {
 			if (cursor.valueBuffer("codcliente") && cursor.valueBuffer("codcliente") != "") {
-				// Ver si corresponde Factura A, Factura B o Factura C
-				var tipoVenta:String = flfacturac.iface.pub_tipoComprobanteRegimenIva(cursor.valueBuffer("codcliente"));
 
-				switch ( tipoVenta ) {
-					case "Factura A": {
-						cursor.setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserie_a"));
+				var claseVenta:String, codSerie:String;
+				// Ver si corresponde Factura A, Factura B o Factura C
+				claseVenta = flfacturac.iface.pub_tipoComprobanteRegimenIvaCliente(cursor.valueBuffer("codcliente"));
+			
+				switch ( claseVenta ) {
+					case "A": {
+						codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
 						break;
 					}
-					case "Factura B": {
-						cursor.setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserie_b"));
+					case "B": {
+						codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
 						break;
 					}
-					case "Factura C": {
-						cursor.setValueBuffer("codserie", flfactppal.iface.pub_valorDefectoEmpresa("codserie_c"));
+					case "C": {
+						codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_c");
 						break;
 					}
 				}
+
+				cursor.setValueBuffer("codserie", codSerie);
 			}
 			break;
 		}

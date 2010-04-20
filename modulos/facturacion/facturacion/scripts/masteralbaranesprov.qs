@@ -1022,7 +1022,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "ptefactura", "numproveedor", "nombre", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "numproveedor", "ptefactura", "nombre", "total", "neto", "totaliva", "totalpie", "coddivisa", "tasaconv", "totaleuros", "fecha", "hora", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();
@@ -1042,27 +1042,14 @@ function tipoVenta_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrup
 
 	var util:FLUtil = new FLUtil();
 	
-	var tipoVenta:String, codSerie:String;
-	var regimenIva:Boolean = util.sqlSelect("proveedores", "regimeniva", "codproveedor = '" + curAlbaran.valueBuffer("codproveedor") + "'");
-	switch ( regimenIva ) {
-		case "Consumidor Final":
-		case "Exento":
-		case "No Responsable":
-		case "Responsable Monotributo": {
-			tipoVenta = "Factura B";
-			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
-			break;
-		}
-		case "Responsable Inscripto":
-		case "Responsable No Inscripto": {
-			tipoVenta = "Factura A";
-			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
-			break;
-		}
-	}
+	var claseVenta:String, codSerie:String;
+	// Ver si corresponde Factura A, Factura B o Factura C
+	claseVenta = flfacturac.iface.pub_tipoComprobanteRegimenIvaProveedor(curAlbaran.valueBuffer("codproveedor"));
+	codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_facturasprov");
 
 	with (this.iface.curFactura) {
-		setValueBuffer("tipoventa", tipoVenta);
+		setValueBuffer("tipoventa", "Factura");
+		setValueBuffer("claseventa", claseVenta);
 		setValueBuffer("codserie", codSerie);
 	}
 	return true;

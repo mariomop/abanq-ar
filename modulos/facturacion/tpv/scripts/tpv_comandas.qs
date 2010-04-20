@@ -1938,7 +1938,8 @@ function tipoVenta_init()
 	connect(this.child("tbwComanda"),"currentChanged(QString)", this, "iface.mostrarLabelDocumento()");
 
 	this.iface.mostrarLabelDocumento();
-	this.iface.bufferChanged("tipoventa");
+	if ( this.iface.modoAcceso == this.cursor().Insert )
+		this.iface.bufferChanged("tipoventa");
 }
 
 function tipoVenta_calculateField(fN:String):String
@@ -1950,16 +1951,15 @@ function tipoVenta_calculateField(fN:String):String
 	switch (fN) {
 		case "codserie": {
 			switch (cursor.valueBuffer("tipoventa")) {
-				case "Factura A": {
-					valor = util.sqlSelect("tpv_puntosventa", "codserie_a", "codtpv_puntoventa = '" + cursor.valueBuffer("codtpv_puntoventa") + "'");
-					break;
-				}
-				case "Factura B": {
-					valor = util.sqlSelect("tpv_puntosventa", "codserie_b", "codtpv_puntoventa = '" + cursor.valueBuffer("codtpv_puntoventa") + "'");
-					break;
-				}
-				case "Factura C": {
-					valor = util.sqlSelect("tpv_puntosventa", "codserie_c", "codtpv_puntoventa = '" + cursor.valueBuffer("codtpv_puntoventa") + "'");
+				case "Factura": {
+					if (cursor.valueBuffer("claseventa") == "A")
+						valor = util.sqlSelect("tpv_puntosventa", "codserie_a", "codtpv_puntoventa = '" + cursor.valueBuffer("codtpv_puntoventa") + "'");
+					else if (cursor.valueBuffer("claseventa") == "B")
+						valor = util.sqlSelect("tpv_puntosventa", "codserie_b", "codtpv_puntoventa = '" + cursor.valueBuffer("codtpv_puntoventa") + "'");
+					else if (cursor.valueBuffer("claseventa") == "C")
+						valor = util.sqlSelect("tpv_puntosventa", "codserie_c", "codtpv_puntoventa = '" + cursor.valueBuffer("codtpv_puntoventa") + "'");
+					else
+						valor = util.sqlSelect("tpv_puntosventa", "codserie_b", "codtpv_puntoventa = '" + cursor.valueBuffer("codtpv_puntoventa") + "'");
 					break;
 				}
 				case "Ticket": {
@@ -1980,9 +1980,15 @@ function tipoVenta_calculateField(fN:String):String
 				}
 			}
 			if (!valor || valor == "") {
-				MessageBox.warning("La serie '" + cursor.valueBuffer("tipoventa") + "' no está definida para este punto de venta\nPor favor, configure la serie correspondiente.", MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
+				MessageBox.warning("No hay una serie definida para el comprobante '" + cursor.valueBuffer("tipoventa") + " " + cursor.valueBuffer("claseventa") + "' en este punto de venta\nPor favor, configure la serie correspondiente.", MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
 				valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
 			}
+			break;
+		}
+		case "claseventa": {
+			valor = " ";
+			if ( cursor.valueBuffer("tipoventa") == "Factura" )
+				valor = flfacturac.iface.pub_tipoComprobanteRegimenIvaCliente( cursor.valueBuffer("codcliente") );
 			break;
 		}
 		case "estado": {
@@ -2036,7 +2042,8 @@ function tipoVenta_bufferChanged(fN:String)
 			break;
 		}
 		case "tipoventa": {
-			this.child("fdbCodSerie").setValue(this.iface.calculateField("codserie"));
+			this.child("fdbClaseVenta").setValue(this.iface.calculateField("claseventa"));
+			cursor.setValueBuffer("codserie", this.iface.calculateField("codserie"));
 
 			// Chequear al cambiar de tipo venta si no quedó creado otro documento vacío
 			switch (cursor.valueBuffer("tipoventa")) {
@@ -2071,7 +2078,8 @@ function tipoVenta_bufferChanged(fN:String)
 		case "codcliente": {
 			if (cursor.valueBuffer("codcliente") && cursor.valueBuffer("codcliente") != "") {
 				// Ver si corresponde Factura A, Factura B o Factura C
-				cursor.setValueBuffer("tipoventa", flfacturac.iface.pub_tipoComprobanteRegimenIva(cursor.valueBuffer("codcliente")));
+				this.child("fdbClaseVenta").setValue(this.iface.calculateField("claseventa"));
+				cursor.setValueBuffer("codserie", this.iface.calculateField("codserie"));
 			}
 			this.iface.__bufferChanged(fN);
 			break;
@@ -2272,7 +2280,7 @@ function numeroSecuencia_calculateField(fN:String):String
 
 	switch (fN) {
 		case "numerosecuencia": {
-			var idSec:Number = util.sqlSelect("secuenciasejercicios", "id", "codejercicio = '" + flfactppal.iface.pub_ejercicioActual() + "' AND codserie = '" + this.child("fdbCodSerie").value() + "'");
+			var idSec:Number = util.sqlSelect("secuenciasejercicios", "id", "codejercicio = '" + flfactppal.iface.pub_ejercicioActual() + "' AND codserie = '" + cursor.valueBuffer("codserie") + "'");
 			if (!idSec) {
 				valor = 0;
 				break;
@@ -2400,9 +2408,7 @@ function habilitaciones_verificarHabilitaciones()
 		}
 
 		switch (cursor.valueBuffer("tipoventa")) {
-			case "Factura A":
-			case "Factura B":
-			case "Factura C":
+			case "Factura":
 			case "Ticket": {
 
 				if ( cursor.valueBuffer("impresofiscal") && flfactppal.iface.pub_valorDefectoEmpresa("bloqueoimpreso")) {

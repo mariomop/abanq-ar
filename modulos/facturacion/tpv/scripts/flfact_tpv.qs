@@ -2132,6 +2132,7 @@ function numeroSecuencia_datosFactura(curComanda:FLSqlCursor):Boolean
 
 	with (this.iface.curFactura) {
 		setValueBuffer("tipoventa", curComanda.valueBuffer("tipoventa"));
+		setValueBuffer("claseventa", curComanda.valueBuffer("claseventa"));
 		setValueBuffer("codserie", curComanda.valueBuffer("codserie"));
 		setValueBuffer("numero", curComanda.valueBuffer("numerosecuencia"));
 		setValueBuffer("codigo", formfacturascli.iface.pub_commonCalculateField("codigo", this));
@@ -3412,9 +3413,7 @@ function desbloqueoStock_afterCommit_tpv_comandas(curComanda:FLSqlCursor):Boolea
 		var tipoDoc = "";
 		var tipoVenta = curComanda.valueBuffer("tipoventa");
 		switch (tipoVenta) {
-			case "Factura A":
-			case "Factura B":
-			case "Factura C":
+			case "Factura":
 			case "Ticket":
 				tipoDoc = "FC";
 				break;

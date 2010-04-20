@@ -98,11 +98,11 @@
 									</widget>
 									<widget class="FLFieldDB">
 										<property name="name">
-											<cstring>fdbCodSerie</cstring>
+											<cstring>fdbClaseVenta</cstring>
 										</property>
 										<property name="sizePolicy">
 											<sizepolicy>
-												<hsizetype>1</hsizetype>
+												<hsizetype>0</hsizetype>
 												<vsizetype>0</vsizetype>
 												<horstretch>0</horstretch>
 												<verstretch>0</verstretch>
@@ -110,7 +110,7 @@
 										</property>
 										<property name="minimumSize">
 											<size>
-												<width>80</width>
+												<width>20</width>
 												<height>25</height>
 											</size>
 										</property>
@@ -121,7 +121,7 @@
 											</size>
 										</property>
 										<property name="fieldName">
-											<string>codserie</string>
+											<string>claseventa</string>
 										</property>
 										<property name="showAlias">
 											<bool>false</bool>
@@ -142,13 +142,13 @@
 										<property name="minimumSize">
 											<size>
 												<width>26</width>
-												<height>22</height>
+												<height>25</height>
 											</size>
 										</property>
 										<property name="maximumSize">
 											<size>
 												<width>130</width>
-												<height>22</height>
+												<height>25</height>
 											</size>
 										</property>
 										<property name="fieldName">

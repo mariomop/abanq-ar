@@ -62,9 +62,18 @@
 		<null>false</null>
 		<pk>false</pk>
 		<type>string</type>
-		<length>25</length>
-		<optionslist>QT_TRANSLATE_NOOP("MetaData","Factura A");QT_TRANSLATE_NOOP("MetaData","Factura B");QT_TRANSLATE_NOOP("MetaData","Factura C");QT_TRANSLATE_NOOP("MetaData","Nota de Crédito A");QT_TRANSLATE_NOOP("MetaData","Nota de Crédito B");QT_TRANSLATE_NOOP("MetaData","Nota de Débito A");QT_TRANSLATE_NOOP("MetaData","Nota de Débito B")</optionslist>
-		<default>QT_TRANSLATE_NOOP("MetaData","Factura B")</default>
+		<length>20</length>
+		<optionslist>Factura,Nota de Crédito,Nota de Débito</optionslist>
+		<default>Factura</default>
+	</field>
+	<field>
+		<name>claseventa</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Clase")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>1</length>
+		<editable>false</editable>
 	</field>
 	<field>
 		<name>editable</name>

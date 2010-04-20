@@ -1214,7 +1214,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "servido", "editable", "numproveedor", "nombre", "neto", "totaliva", "totalpie", "total", "coddivisa", "tasaconv", "totaleuros", "fecha", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
+	var orden:Array = [ "codigo", "tipoventa", "numproveedor", "servido", "editable", "nombre", "total", "neto", "totaliva", "totalpie", "coddivisa", "tasaconv", "totaleuros", "fecha", "codserie", "numero", "codejercicio", "codalmacen", "codpago", "codproveedor", "cifnif", "idusuario", "observaciones" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();

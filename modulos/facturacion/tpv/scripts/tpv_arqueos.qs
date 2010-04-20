@@ -287,21 +287,21 @@ function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 			break;
 		}
 		case "ventasFacturaA": {
-			valor = util.sqlSelect("tpv_comandas", "SUM(total)", "idtpv_arqueo = '" + cursor.valueBuffer("idtpv_arqueo") + "' AND tipoventa = 'Factura A'");
+			valor = util.sqlSelect("tpv_comandas", "SUM(total)", "idtpv_arqueo = '" + cursor.valueBuffer("idtpv_arqueo") + "' AND tipoventa = 'Factura' AND claseventa = 'A'");
 			if (!valor || isNaN(valor))
 				valor = 0;
 			valor = util.roundFieldValue(valor, "tpv_arqueos", "totalcaja");
 			break;
 		}
 		case "ventasFacturaB": {
-			valor = util.sqlSelect("tpv_comandas", "SUM(total)", "idtpv_arqueo = '" + cursor.valueBuffer("idtpv_arqueo") + "' AND tipoventa = 'Factura B'");
+			valor = util.sqlSelect("tpv_comandas", "SUM(total)", "idtpv_arqueo = '" + cursor.valueBuffer("idtpv_arqueo") + "' AND tipoventa = 'Factura' AND claseventa = 'B'");
 			if (!valor || isNaN(valor))
 				valor = 0;
 			valor = util.roundFieldValue(valor, "tpv_arqueos", "totalcaja");
 			break;
 		}
 		case "ventasFacturaC": {
-			valor = util.sqlSelect("tpv_comandas", "SUM(total)", "idtpv_arqueo = '" + cursor.valueBuffer("idtpv_arqueo") + "' AND tipoventa = 'Factura C'");
+			valor = util.sqlSelect("tpv_comandas", "SUM(total)", "idtpv_arqueo = '" + cursor.valueBuffer("idtpv_arqueo") + "' AND tipoventa = 'Factura' AND claseventa = 'C'");
 			if (!valor || isNaN(valor))
 				valor = 0;
 			valor = util.roundFieldValue(valor, "tpv_arqueos", "totalcaja");

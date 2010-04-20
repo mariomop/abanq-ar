@@ -185,7 +185,7 @@ function interna_init()
 		connect(this.child("tbnTraza"), "clicked()", this, "iface.mostrarTraza()");
 
 		if (cursor.modeAccess() == cursor.Insert) {
-				this.child("fdbCodEjercicio").setValue(flfactppal.iface.pub_ejercicioActual());
+				cursor.setValueBuffer("codejercicio", flfactppal.iface.pub_ejercicioActual());
 				this.child("fdbCodDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
 				this.child("fdbCodPago").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codpago"));
 				this.child("fdbCodAlmacen").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codalmacen"));
@@ -421,24 +421,12 @@ function tipoVenta_bufferChanged(fN:String)
 	var cursor:FLSqlCursor = this.cursor();
 	switch (fN) {
 		case "tipoventa": {
-			this.child("fdbCodSerie").setValue(this.iface.calculateField("codserie"));
+			cursor.setValueBuffer("codserie", this.iface.calculateField("codserie"));
 			break;
 		}
 		case "codproveedor": {
-			if (cursor.valueBuffer("codproveedor") && cursor.valueBuffer("codproveedor") != "") {
-				var regimenIva:Boolean = util.sqlSelect("proveedores", "regimeniva", "codproveedor = '" + cursor.valueBuffer("codproveedor") + "'");
-				switch ( regimenIva ) {
-					case "Consumidor Final":
-					case "Exento":
-					case "No Responsable":
-					case "Responsable Monotributo":
-					case "Responsable Inscripto":
-					case "Responsable No Inscripto": {
-						cursor.setValueBuffer("tipoventa", "Pedido");
-						break;
-					}
-				}
-			}
+			cursor.setValueBuffer("tipoventa", "Pedido");
+
 			this.iface.__bufferChanged(fN);
 			break;
 		}

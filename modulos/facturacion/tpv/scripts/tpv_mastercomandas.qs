@@ -1140,20 +1140,20 @@ function tipoVenta_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrup
 		hora = hoy.toString().right(8);
 	}
 
-	var tipoVenta:String, codSerie:String;
+	var claseVenta:String, codSerie:String;
 	// Ver si corresponde Factura A, Factura B o Factura C
-	tipoVenta = flfacturac.iface.pub_tipoComprobanteRegimenIva(curAlbaran.valueBuffer("codcliente"));
+	claseVenta = flfacturac.iface.pub_tipoComprobanteRegimenIvaCliente(curAlbaran.valueBuffer("codcliente"));
 
-	switch ( tipoVenta ) {
-		case "Factura A": {
+	switch ( claseVenta ) {
+		case "A": {
 			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
 			break;
 		}
-		case "Factura B": {
+		case "B": {
 			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
 			break;
 		}
-		case "Factura C": {
+		case "C": {
 			codSerie = flfactppal.iface.pub_valorDefectoEmpresa("codserie_c");
 			break;
 		}
@@ -1168,7 +1168,8 @@ function tipoVenta_datosFactura(curAlbaran:FLSqlCursor, where:String, datosAgrup
 
 	var codDir:Number = util.sqlSelect("dirclientes", "id", "codcliente = '" + curAlbaran.valueBuffer("codcliente") + "' AND domfacturacion = 'true'");
 	with (this.iface.curFactura) {
-		setValueBuffer("tipoventa", tipoVenta);
+		setValueBuffer("tipoventa", "Factura");
+		setValueBuffer("claseventa", claseVenta);
 		setValueBuffer("codserie", codSerie);
 		setValueBuffer("numerosecuencia", numero);
 		setValueBuffer("fecha", fecha);
@@ -1379,7 +1380,7 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "codigo", "tipoventa", "nombrecliente", "neto", "totaliva", "total", "fecha", "hora", "estado", "editable", "codserie", "numerosecuencia", "codtpv_puntoventa", "codtpv_agente", "pagado", "pendiente", "tipopago", "codpago", "codtarifa", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "automatica" ];
+	var orden:Array = [ "codigo", "tipoventa", "claseventa", "numerosecuencia", "nombrecliente", "total", "neto", "totaliva", "fecha", "hora", "estado", "editable", "codserie", "codtpv_puntoventa", "codtpv_agente", "pagado", "pendiente", "tipopago", "codpago", "codtarifa", "codcliente", "cifnif", "direccion", "codpostal", "ciudad", "provincia", "codpais", "automatica" ];
 
 	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();
@@ -1417,7 +1418,7 @@ function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:St
 	const nuevaLinea = String.fromCharCode( 10 );
 	var comandos:String = "";
 	var qryFact:FLSqlQuery = new FLSqlQuery();
-	qryFact.setSelect("t.idtpv_comanda, t.nombrecliente, t.codcliente, t.cifnif, c.regimeniva, c.tipoidfiscal, t.tipoventa, t.tipopago, t.pagado");
+	qryFact.setSelect("t.idtpv_comanda, t.nombrecliente, t.codcliente, t.cifnif, c.regimeniva, c.tipoidfiscal, t.tipoventa, t.claseventa, t.tipopago, t.pagado");
 	qryFact.setFrom("tpv_comandas t, clientes c");
 	qryFact.setWhere("t.codigo = '" + codComanda + "' AND c.codcliente = t.codcliente");
 	if (!qryFact.exec()) {
@@ -1437,6 +1438,7 @@ function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:St
 	var tipoIdFiscal:String = qryFact.value("c.tipoidfiscal");
 	var domicilio:String = util.sqlSelect("dirclientes", "direccion", "codcliente = '" + codCliente + "' AND domfacturacion = TRUE");
 	var tipoVenta:String = qryFact.value("t.tipoventa");
+	var claseVenta:String = qryFact.value("t.claseventa");
 	// Ver si no conviene considerar los pagos como fuente de información para cmdTotalTender
 	var formaPago:String = qryFact.value("t.tipopago");
 	var montoPagado = qryFact.value("t.pagado");
@@ -1444,7 +1446,7 @@ function impresorasFiscales_imprimirFiscalHasar(codComanda:String, puntoVenta:St
 	comandos += formtpv_fiscalhasar.iface.cmdSetCustomerData(nombreCliente, cifnif, regimenIva, tipoIdFiscal, domicilio) + nuevaLinea;
 // TODO: Obligatorio en las Notas de Crédito: cargar el número de documento original asociado. Comando SetEmbarkNumber 3.8.8
 // TODO: Opcional para Facturas y Notas de Débito: cargar el número de remito asociado. Comando SetEmbarkNumber 3.8.8
-	comandos += formtpv_fiscalhasar.iface.cmdOpenFiscalReceipt(tipoVenta) + nuevaLinea;
+	comandos += formtpv_fiscalhasar.iface.cmdOpenFiscalReceipt(claseVenta) + nuevaLinea;
 // TODO: Abrir documento no fiscal homologado (sólo para el caso de las Notas de Crédito). OpenDNFH 3.6.1
 
 	util.setProgress(1);

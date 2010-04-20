@@ -228,7 +228,7 @@ function interna_init()
 
 	this.child("tbnBuscarFactura").setDisabled(true);
 	if (cursor.modeAccess() == cursor.Insert) {
-		this.child("fdbCodEjercicio").setValue(flfactppal.iface.pub_ejercicioActual());
+		cursor.setValueBuffer("codejercicio", flfactppal.iface.pub_ejercicioActual());
 		this.child("fdbCodDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
 		this.child("fdbCodPago").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codpago"));
 		this.child("fdbCodAlmacen").setValue(flfactppal.iface.pub_valorDefectoEmpresa("codalmacen"));
@@ -743,40 +743,22 @@ function tipoVenta_init()
 
 function tipoVenta_calculateField(fN:String):String
 {
+	var cursor:FLSqlCursor = this.cursor();
 	var valor:String;
 	
 	switch (fN) {
 		case "codserie": {
-			switch (this.cursor().valueBuffer("tipoventa")) {
-				case "Factura A": {
-					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_a");
-					break;
-				}
-				case "Factura B": {
-					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
-					break;
-				}
-				case "Factura C": {
-					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_c");
-					break;
-				}
-				case "Nota de Crédito A": {
-					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_notacred_a");
-					break;
-				}
-				case "Nota de Crédito B": {
-					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_notacred_b");
-					break;
-				}
-				case "Nota de Débito A": {
-					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_notadeb_a");
-					break;
-				}
-				case "Nota de Débito B": {
-					valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_notadeb_b");
-					break;
-				}
+			valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_facturasprov");
+			if (!valor || valor == "") {
+				MessageBox.warning("No hay una serie definida para el comprobante de '" + cursor.valueBuffer("tipoventa") + "' de compra\nPor favor, configure la serie correspondiente.", MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
+				valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_b");
 			}
+			break;
+		}
+		case "claseventa": {
+			valor = flfacturac.iface.pub_tipoComprobanteRegimenIvaProveedor(this.cursor().valueBuffer("codproveedor"));
+			if ( valor == "" )
+				valor = "B"
 			break;
 		}
 		default: {
@@ -792,7 +774,8 @@ function tipoVenta_bufferChanged(fN:String)
 	var cursor:FLSqlCursor = this.cursor();
 	switch (fN) {
 		case "tipoventa": {
-			this.child("fdbCodSerie").setValue(this.iface.calculateField("codserie"));
+			this.child("fdbClaseVenta").setValue(this.iface.calculateField("claseventa"));
+			cursor.setValueBuffer("codserie", this.iface.calculateField("codserie"));
 
 			if ( flfacturac.iface.pub_esNotaCredito(cursor.valueBuffer("tipoventa")) || flfacturac.iface.pub_esNotaDebito(cursor.valueBuffer("tipoventa")) ) {
 				this.child("tbnBuscarFactura").setDisabled(false);
@@ -816,21 +799,9 @@ function tipoVenta_bufferChanged(fN:String)
 		}
 		case "codproveedor": {
 			if (cursor.valueBuffer("codproveedor") && cursor.valueBuffer("codproveedor") != "") {
-				var regimenIva:Boolean = util.sqlSelect("proveedores", "regimeniva", "codproveedor = '" + cursor.valueBuffer("codproveedor") + "'");
-				switch ( regimenIva ) {
-					case "Consumidor Final":
-					case "Exento":
-					case "No Responsable":
-					case "Responsable Monotributo": {
-						cursor.setValueBuffer("tipoventa", "Factura B");
-						break;
-					}
-					case "Responsable Inscripto":
-					case "Responsable No Inscripto": {
-						cursor.setValueBuffer("tipoventa", "Factura A");
-						break;
-					}
-				}
+				// Ver si corresponde Factura A, Factura B o Factura C
+				this.child("fdbClaseVenta").setValue(this.iface.calculateField("claseventa"));
+				cursor.setValueBuffer("codserie", this.iface.calculateField("codserie"));
 			}
 			this.iface.__bufferChanged(fN);
 			break;

@@ -2491,9 +2491,7 @@ function desbloqueoStock_controlStockComandasCli(curLV:FLSqlCursor):Boolean
 	var tipoDoc = "";
 	var tipoVenta = util.sqlSelect("tpv_comandas", "tipoventa", "idtpv_comanda = " + curLV.valueBuffer("idtpv_comanda"));
 	switch (tipoVenta) {
-		case "Factura A":
-		case "Factura B":
-		case "Factura C":
+		case "Factura":
 		case "Ticket":
 			tipoDoc = "FC";
 			break;
@@ -2529,9 +2527,7 @@ function desbloqueoStock_controlStockValesTPV(curLinea:FLSqlCursor):Boolean
 	var tipoDoc = "";
 	var tipoVenta = util.sqlSelect("tpv_comandas", "tipoventa", "idtpv_comanda = " + curLV.valueBuffer("idtpv_comanda"));
 	switch (tipoVenta) {
-		case "Factura A":
-		case "Factura B":
-		case "Factura C":
+		case "Factura":
 		case "Ticket":
 			tipoDoc = "FC";
 			break;
