@@ -325,19 +325,6 @@ function interna_init()
 	if (parseFloat(cursor.valueBuffer("idasiento")) != 0)
 		this.child("ckbContabilizada").checked = true;
 
-	if (cursor.valueBuffer("automatica") == true) {
-//	Comentamos las siguientes líneas para permitir editar la cantidad de artículos que se facturan (servidos/parcial)
-// 		this.child("toolButtomInsert").setDisabled(true);
-// 		this.child("toolButtonDelete").setDisabled(true);
-// 		this.child("toolButtonEdit").setDisabled(true);
-// 		this.child("tdbLineasFacturasCli").setReadOnly(true);
-		this.child("fdbCodCliente").setDisabled(true);
-		this.child("fdbNombreCliente").setDisabled(true);
-		this.child("fdbCifNif").setDisabled(true);
-		this.child("fdbCodDivisa").setDisabled(true);
-		this.child("fdbTasaConv").setDisabled(true);
-	}
-
 	this.iface.inicializarControles();
 
 	var filtroCliente:String = "NOT debaja";
@@ -462,18 +449,18 @@ function oficial_bufferChanged(fN:String)
 
 function oficial_verificarHabilitaciones()
 {
-		var util:FLUtil = new FLUtil();
-		if (!util.sqlSelect("lineasfacturascli", "idfactura", "idfactura = " + this.cursor().valueBuffer("idfactura"))) {
-				this.child("fdbCodAlmacen").setDisabled(false);
-				this.child("fdbCodDivisa").setDisabled(false);
-				this.child("fdbTasaConv").setDisabled(false);
-				this.child("fdbCodTarifa").setDisabled(false);
-		} else {
-				this.child("fdbCodAlmacen").setDisabled(true);
-				this.child("fdbCodDivisa").setDisabled(true);
-				this.child("fdbTasaConv").setDisabled(true);
-				this.child("fdbCodTarifa").setDisabled(true);
-		}
+	var util:FLUtil = new FLUtil();
+	if (!util.sqlSelect("lineasfacturascli", "idfactura", "idfactura = " + this.cursor().valueBuffer("idfactura"))) {
+		this.child("fdbCodAlmacen").setDisabled(false);
+		this.child("fdbCodDivisa").setDisabled(false);
+		this.child("fdbTasaConv").setDisabled(false);
+		this.child("fdbCodTarifa").setDisabled(false);
+	} else {
+		this.child("fdbCodAlmacen").setDisabled(true);
+		this.child("fdbCodDivisa").setDisabled(true);
+		this.child("fdbTasaConv").setDisabled(true);
+		this.child("fdbCodTarifa").setDisabled(true);
+	}
 }
 
 /* \D Muestra el formulario de busqueda de facturas de cliente filtrando las facturas 
@@ -950,6 +937,12 @@ function cantLineas_validateForm()
 function habilitaciones_verificarHabilitaciones()
 {
 	this.iface.__verificarHabilitaciones();
+
+	if (this.cursor().valueBuffer("automatica") == true) {
+		this.child("fdbCodCliente").setDisabled(true);
+		this.child("fdbNombreCliente").setDisabled(true);
+		this.child("fdbCifNif").setDisabled(true);
+	}
 
 	// si ya se creó, no permitir cambiar el tipo de venta, codserie ni número
 	if ( this.cursor().modeAccess() == this.cursor().Insert ) {
