@@ -138,9 +138,11 @@ function interna_init()
 	if (cursor.modeAccess() == cursor.Edit)
 		this.iface.importeInicial = parseFloat(cursor.valueBuffer("importe"));
 	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
-	connect(this.child("tdbPagosDevolCli").cursor(), "cursorUpdated()", this, "iface.cambiarEstado");
+
+	this.child("tdbPagosDevolCli").setReadOnly(true);
 	if (cursor.modeAccess() == cursor.Edit)
 		this.child("pushButtonAcceptContinue").close();
+
 	this.child("fdbTexto").setValue(this.iface.calculateField("texto"));
 
 	this.iface.bufferChanged("codcuenta");
@@ -157,8 +159,19 @@ function interna_validateForm():Boolean
 	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
 
+	var importeActual = parseFloat(cursor.valueBuffer("importe"));
+	if ((this.iface.importeInicial >= 0 && this.iface.importeInicial < importeActual) || (this.iface.importeInicial < 0 && this.iface.importeInicial > importeActual)) {
+		MessageBox.warning(util.translate("scripts",
+			"El importe de la factura debe ser menor o igual del que tenía anteriormente.\nSi es menor la factura se fraccionará."),
+			MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		form.child("fdbImporte").setFocus();
+		return false;
+	}
+
 	if (util.daysTo(cursor.valueBuffer("fecha"), cursor.valueBuffer("fechav")) < 0) {
-		MessageBox.warning(util.translate("scripts", "La fecha de vencimiento debe ser siempre igual o posterior\na la fecha de emisión del recibo."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts",
+			"La fecha de vencimiento debe ser siempre igual o posterior\na la fecha de emisión de la factura."),
+			MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 
@@ -198,7 +211,7 @@ function interna_calculateField(fN:String):String
 function oficial_bufferChanged(fN:String)
 {
 	/** \C
-	El cambio del --importe-- bloquea pagos y devoluciones
+	El cambio del --importe-- bloquea pagos
 	\end */
 	if (fN == "importe") {
 		this.child("fdbTexto").setValue(this.iface.calculateField("texto"));
@@ -221,7 +234,7 @@ function oficial_cambiarEstado()
 	var cursor:FLSqlCursor = this.cursor();
 	var estado:String = this.iface.calculateField("estado");
 	this.child("fdbEstado").setValue(estado);
-	if ( estado != "Emitido" )
+	if ( estado != "Pendiente" )
 		this.child("fdbImporte").setDisabled(true);
 	else
 		this.child("fdbImporte").setDisabled(false);
@@ -232,7 +245,6 @@ function oficial_cambiarEstado()
 		this.child("fdbImporte").setDisabled(true);
 		this.child("fdbCodCuenta").setDisabled(true);
 		this.child("coddir").setDisabled(true);
-		this.child("tdbPagosDevolCli").setInsertOnly(true);
 		this.child("pushButtonNext").close();
 		this.child("pushButtonPrevious").close();
 		this.child("pushButtonFirst").close();
@@ -241,23 +253,18 @@ function oficial_cambiarEstado()
 }
 
 /** \D
-Calcula el estado en función de los pagos y devoluciones asociados a un recibo
+Calcula el estado en función de los pagos asociados a un recibo
 @param	idRecibo: Identificador del recibo cuyo estado se desea calcular
 @return	Estado del recibo
 \end */
 function oficial_obtenerEstado(idRecibo:String):String
 {
-	var valor:String = "Emitido";
+	var valor:String = "Pendiente";
 	var curPagosDevol:FLSqlCursor = new FLSqlCursor("pagosdevolcli");
 	curPagosDevol.select("idrecibo = " + idRecibo + " ORDER BY fecha DESC, idpagodevol DESC");
-	if (curPagosDevol.first()) {
-		curPagosDevol.setModeAccess(curPagosDevol.Browse);
-		curPagosDevol.refreshBuffer();
-		if (curPagosDevol.valueBuffer("tipo") == "Pago")
-			valor = "Pagado";
-		else
-			valor = "Devuelto";
-	}
+	if (curPagosDevol.first())
+		valor = "Pagado";
+
 	return valor;
 }
 
@@ -342,7 +349,7 @@ function oficial_copiarCampoReciboDiv(nombreCampo:String, cursor:FLSqlCursor, ca
 			break;
 		}
 		case "estado": {
-			valor = "Emitido";
+			valor = "Pendiente";
 			break;
 		}
 		case "texto": {
@@ -380,7 +387,6 @@ function oficial_copiarCampoReciboDiv(nombreCampo:String, cursor:FLSqlCursor, ca
 
 function oficial_validarCuentaBancaria():Boolean
 {
-debug("oficial_validarCuentaBancaria");
 	var util:FLUtil = new FLUtil;
 	var cursor:FLSqlCursor = this.cursor();
 
@@ -388,10 +394,7 @@ debug("oficial_validarCuentaBancaria");
 	var agencia:String = cursor.valueBuffer("ctaagencia");
 	var cuenta:String = cursor.valueBuffer("cuenta");
 	var dc:String = cursor.valueBuffer("dc");
-debug("entidad = " + entidad);
-debug("dc = " + dc);
 	if ((entidad && entidad != "") || (agencia && agencia != "") || (cuenta && cuenta != "") || (dc && dc != "")) {
-debug(this.iface.calculateField("dc"));
 		if (!dc || dc == "" || dc != this.iface.calculateField("dc")) {
 			MessageBox.warning(util.translate("scripts", "El dígito de control de la cuenta bancaria no es correcto"), MessageBox.Ok, MessageBox.NoButton);
 			return false;
@@ -503,12 +506,11 @@ function pagosMultiples_cambiarEstado()
 	var cursor:FLSqlCursor = this.cursor();
 
 	if (util.sqlSelect("pagosdevolcli", "idpagomulti", "idrecibo = " + cursor.valueBuffer("idrecibo") + " ORDER BY fecha DESC, idpagodevol DESC") != 0) {
-		this.child("lblRemesado").text = "En Pago\nMúltiple";
+		this.child("lblRemesado").text = "En Recibo\nde Cobro";
 		this.child("fdbFechav").setDisabled(true);
 		this.child("fdbImporte").setDisabled(true);
 		this.child("fdbCodCuenta").setDisabled(true);
 		this.child("coddir").setDisabled(true);
-		this.child("tdbPagosDevolCli").setInsertOnly(true);
 		this.child("pushButtonNext").close();
 		this.child("pushButtonPrevious").close();
 		this.child("pushButtonFirst").close();

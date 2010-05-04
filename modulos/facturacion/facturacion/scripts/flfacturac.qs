@@ -2296,15 +2296,11 @@ function oficial_datosConceptoAsiento(cur:FLSqlCursor):Array
 		case "pagosdevolcli": {
 			var codRecibo:String = util.sqlSelect("reciboscli", "codigo", "idrecibo = " + cur.valueBuffer("idrecibo"));
 			var nombreCli:String = util.sqlSelect("reciboscli", "nombrecliente", "idrecibo = " + cur.valueBuffer("idrecibo"));
+			var nroPagoMulti:String = util.sqlSelect("reciboscli", "idpagomulti", "idrecibo = " + cur.valueBuffer("idrecibo"));
 			
-			if (cur.valueBuffer("tipo") == "Pago") {
-				datosAsiento.concepto = "Pago recibo " + codRecibo + " - " + nombreCli;
-			} else {
-				datosAsiento.concepto = "Devolución recibo " + codRecibo;
-			}
-
-			datosAsiento.tipoDocumento = "Recibo";
-			datosAsiento.documento = "";
+			datosAsiento.concepto = "Cobro factura " + codRecibo + " - " + nombreCli;
+			datosAsiento.tipoDocumento = "Recibo de cobro";
+			datosAsiento.documento = nroPagoMulti;
 			break;
 		}
 		case "pagosdevolrem": {
@@ -4852,15 +4848,11 @@ function proveed_datosConceptoAsiento(cur:FLSqlCursor):Array
 			}
 			var codRecibo:String = util.sqlSelect("recibosprov", "codigo", "idrecibo = " + cur.valueBuffer("idrecibo"));
 			var nombreProv:String = util.sqlSelect("recibosprov", "nombreproveedor", "idrecibo = " + cur.valueBuffer("idrecibo"));
+			var nroPagoMulti:String = util.sqlSelect("recibosprov", "idpagomulti", "idrecibo = " + cur.valueBuffer("idrecibo"));
 
-			if (cur.valueBuffer("tipo") == "Pago") {
-				datosAsiento.concepto = "Pago " + " recibo prov. " + codRecibo + numFactura + " - " + nombreProv;
-			}
-			if (cur.valueBuffer("tipo") == "Devolución") {
-				datosAsiento.concepto = "Devolución recibo " + codRecibo + numFactura + " - " + nombreProv;;
-			}
-			datosAsiento.documento = "";
-			datosAsiento.tipoDocumento = "";
+			datosAsiento.concepto = "Pago factura  " + codRecibo + numFactura + " - " + nombreProv;
+			datosAsiento.tipoDocumento = "Orden de pago";
+			datosAsiento.documento = nroPagoMulti;
 			break;
 		}
 		default: {

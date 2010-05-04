@@ -196,10 +196,10 @@
 				<iconset>image8</iconset>
 			</property>
 			<property name="text">
-				<string>Recibos de clientes</string>
+				<string>Facturas de clientes</string>
 			</property>
 			<property name="menuText">
-				<string>Recibos de clientes</string>
+				<string>Facturas de clientes</string>
 			</property>
 		</action>
 		<action>
@@ -210,10 +210,10 @@
 				<iconset>image9</iconset>
 			</property>
 			<property name="text">
-				<string>Recibos de proveedores</string>
+				<string>Facturas de proveedores</string>
 			</property>
 			<property name="menuText">
-				<string>Recibos de proveedores</string>
+				<string>Facturas de proveedores</string>
 			</property>
 		</action>
 	</actions>

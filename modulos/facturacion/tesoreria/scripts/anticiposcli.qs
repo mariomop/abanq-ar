@@ -151,10 +151,10 @@ function interna_validateForm():Boolean
 	var util:FLUtil = new FLUtil();
 
 	/** \C
-	Si la contabilidad está integrada, se debe seleccionar una subcuenta válida a la que asignar el asiento de pago o devolución
+	Si la contabilidad está integrada, se debe seleccionar una subcuenta válida a la que asignar el asiento de pago
 	\end */
 	if (this.iface.contabActivada && !this.child("fdbNoGenerarAsiento").value() && (this.child("fdbCodSubcuenta").value().isEmpty() || this.child("fdbIdSubcuenta").value() == 0)) {
-		MessageBox.warning(util.translate("scripts", "Debe seleccionar una subcuenta válida a la que asignar el asiento de pago o devolución"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "Debe seleccionar una subcuenta válida a la que asignar el asiento de pago"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 

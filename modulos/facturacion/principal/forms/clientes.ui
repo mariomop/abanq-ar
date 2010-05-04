@@ -4421,7 +4421,7 @@
 									<cstring>recibos</cstring>
 								</property>
 								<attribute name="title" >
-									<string>Reci&amp;bos</string>
+									<string>Teso&amp;rería</string>
 								</attribute>
 								<vbox>
 									<property name="name" >

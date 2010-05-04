@@ -600,7 +600,7 @@ function interna_beforeCommit_cuentasbcocli(curCuenta:FLSqlCursor):Boolean
 			var util:FLUtil = new FLUtil;
 			var codRecibo:String = util.sqlSelect("reciboscli", "codigo", "codcliente = '" + curCuenta.valueBuffer("codcliente") + "' AND codcuenta = '" + curCuenta.valueBuffer("codcuenta") + "' AND estado <> 'Pagado'");
 			if (codRecibo && codRecibo != "") {
-				MessageBox.warning(util.translate("scripts", "No puede eliminar la cuenta del cliente porque hay al menos un recibo (%1) pendiente de pago asociado a esta cuenta.\nDebe cambiar la cuenta de los recibos pendientes de este cliente antes de borrarla.").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
+				MessageBox.warning(util.translate("scripts", "No puede eliminar la cuenta del cliente porque hay al menos una factura (%1) pendiente de pago asociada a esta cuenta.\nDebe cambiar la cuenta de las facturas pendientes de este cliente antes de borrarla.").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
 				return false;
 			}
 		break;
@@ -894,31 +894,31 @@ function oficial_valoresIniciales()
 		refreshBuffer();
 		setValueBuffer("codpago", "CONTADO");
 		setValueBuffer("descripcion", "PAGO AL CONTADO");
-		setValueBuffer("genrecibos", "Pagados");
+		setValueBuffer("genrecibos", "Contado");
 		commitBuffer();
 		setModeAccess(cursor.Insert);
 		refreshBuffer();
 		setValueBuffer("codpago", "CTACTE");
 		setValueBuffer("descripcion", "PAGO EN CUENTA CORRIENTE");
-		setValueBuffer("genrecibos", "Emitidos");
+		setValueBuffer("genrecibos", "Cta.Cte.");
 		commitBuffer();
 		setModeAccess(cursor.Insert);
 		refreshBuffer();
 		setValueBuffer("codpago", "TARJETA");
 		setValueBuffer("descripcion", "PAGO CON TARJETA");
-		setValueBuffer("genrecibos", "Pagados");
+		setValueBuffer("genrecibos", "Contado");
 		commitBuffer();
 		setModeAccess(cursor.Insert);
 		refreshBuffer();
 		setValueBuffer("codpago", "VALE");
 		setValueBuffer("descripcion", "PAGO CON VALE");
-		setValueBuffer("genrecibos", "Pagados");
+		setValueBuffer("genrecibos", "Contado");
 		commitBuffer();
 		setModeAccess(cursor.Insert);
 		refreshBuffer();
 		setValueBuffer("codpago", "CHEQUE");
 		setValueBuffer("descripcion", "PAGO CON CHEQUE");
-		setValueBuffer("genrecibos", "Pagados");
+		setValueBuffer("genrecibos", "Contado");
 		commitBuffer();
 	}
 	delete cursor;

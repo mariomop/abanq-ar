@@ -210,7 +210,7 @@ function interna_init()
 	this.iface.tblDocs.setColumnWidth(4, 150);
 	this.iface.tblDocs.setColumnWidth(5, 90);
 	this.iface.tblDocs.hideColumn(6);
-	this.iface.tblDocs.setColumnLabels("/", "Presupuestos/Pedidos/Remitos/Facturas/Recibos/Pagos/");
+	this.iface.tblDocs.setColumnLabels("/", "Presupuestos/Pedidos/Remitos/Facturas/Facturas/Pagos/");
 
 	this.iface.filaActual = 0;
 	switch (tipo) {
@@ -705,7 +705,7 @@ function oficial_dibDestinoFacProv(codigo:String, fila:Number):Number
 	return fila;
 }
 
-/** Dibuja los pagos y devoluciones destino del recibo de cliente indicado, a partir de la fila de la tabla indicada
+/** Dibuja los pagos destino del recibo de cliente indicado, a partir de la fila de la tabla indicada
 @param	codigo: Código de recibo
 @param	fila: Fila en la que comenzar a dibujar
 @return	última fila dibujada
@@ -739,7 +739,7 @@ function oficial_dibDestinoRecCli(codigo:String, fila:Number):Number
 	return fila;
 }
 
-/** Dibuja los pagos y devoluciones destino del recibo de proveedor indicado, a partir de la fila de la tabla indicada
+/** Dibuja los pagos destino del recibo de proveedor indicado, a partir de la fila de la tabla indicada
 @param	codigo: Código de recibo
 @param	fila: Fila en la que comenzar a dibujar
 @return	última fila dibujada
@@ -977,7 +977,7 @@ function oficial_datosReciboCli(codigo:String)
 
 	var estado:String = util.translate("scripts", qry.value("estado"));
 
-	var texto:String = util.translate("scripts", "Recibo %1\nCliente %2 - %3\nImporte: %4 %5\nEstado: %6\nFecha: %7").arg(codigo).arg(qry.value("codcliente")).arg(qry.value("nombrecliente")).arg(util.roundFieldValue(qry.value("importe"), "reciboscli", "importe")).arg(qry.value("coddivisa")).arg(estado).arg(util.dateAMDtoDMA(qry.value("fecha")));
+	var texto:String = util.translate("scripts", "Factura %1\nCliente %2 - %3\nImporte: %4 %5\nEstado: %6\nFecha: %7").arg(codigo).arg(qry.value("codcliente")).arg(qry.value("nombrecliente")).arg(util.roundFieldValue(qry.value("importe"), "reciboscli", "importe")).arg(qry.value("coddivisa")).arg(estado).arg(util.dateAMDtoDMA(qry.value("fecha")));
 	this.child("lblDatosDoc").text = texto;
 }
 
@@ -1002,7 +1002,7 @@ function oficial_datosReciboProv(codigo:String)
 
 	var estado:String = util.translate("scripts", qry.value("estado"));
 
-	var texto:String = util.translate("scripts", "Recibo %1\nProveedor %2 - %3\nImporte: %4 %5\nEstado: %6\nFecha: %7").arg(codigo).arg(qry.value("codproveedor")).arg(qry.value("nombreproveedor")).arg(util.roundFieldValue(qry.value("importe"), "recibosprov", "importe")).arg(qry.value("coddivisa")).arg(estado).arg(util.dateAMDtoDMA(qry.value("fecha")));
+	var texto:String = util.translate("scripts", "Factura %1\nProveedor %2 - %3\nImporte: %4 %5\nEstado: %6\nFecha: %7").arg(codigo).arg(qry.value("codproveedor")).arg(qry.value("nombreproveedor")).arg(util.roundFieldValue(qry.value("importe"), "recibosprov", "importe")).arg(qry.value("coddivisa")).arg(estado).arg(util.dateAMDtoDMA(qry.value("fecha")));
 	this.child("lblDatosDoc").text = texto;
 }
 
@@ -1027,7 +1027,7 @@ function oficial_datosPagoDevolCli(codigo:String)
 
 	var tipo:String = util.translate("scripts", qry.value("pd.tipo"));
 
-	var texto:String = util.translate("scripts", "%1 recibo %2\nCliente %3 - %4\nImporte: %7 %6\nFecha: %7").arg(tipo).arg(qry.value("r.codigo")).arg(qry.value("r.codcliente")).arg(qry.value("r.nombrecliente")).arg(util.roundFieldValue(qry.value("r.importe"), "reciboscli", "importe")).arg(qry.value("r.coddivisa")).arg(util.dateAMDtoDMA(qry.value("pd.fecha")));
+	var texto:String = util.translate("scripts", "%1 factura %2\nCliente %3 - %4\nImporte: %7 %6\nFecha: %7").arg(tipo).arg(qry.value("r.codigo")).arg(qry.value("r.codcliente")).arg(qry.value("r.nombrecliente")).arg(util.roundFieldValue(qry.value("r.importe"), "reciboscli", "importe")).arg(qry.value("r.coddivisa")).arg(util.dateAMDtoDMA(qry.value("pd.fecha")));
 	this.child("lblDatosDoc").text = texto;
 }
 
@@ -1052,7 +1052,7 @@ function oficial_datosPagoDevolProv(codigo:String)
 
 	var tipo:String = util.translate("scripts", qry.value("pd.tipo"));
 
-	var texto:String = util.translate("scripts", "%1 recibo %2\nProveedor %3 - %4\nImporte: %7 %6\nFecha: %7").arg(tipo).arg(qry.value("r.codigo")).arg(qry.value("r.codproveedor")).arg(qry.value("r.nombre")).arg(util.roundFieldValue(qry.value("r.importe"), "recibosprov", "importe")).arg(qry.value("r.coddivisa")).arg(util.dateAMDtoDMA(qry.value("pd.fecha")));
+	var texto:String = util.translate("scripts", "%1 factura %2\nProveedor %3 - %4\nImporte: %7 %6\nFecha: %7").arg(tipo).arg(qry.value("r.codigo")).arg(qry.value("r.codproveedor")).arg(qry.value("r.nombre")).arg(util.roundFieldValue(qry.value("r.importe"), "recibosprov", "importe")).arg(qry.value("r.coddivisa")).arg(util.dateAMDtoDMA(qry.value("pd.fecha")));
 	this.child("lblDatosDoc").text = texto;
 }
 
@@ -1141,7 +1141,7 @@ function funServiciosCli_init()
 	this.iface.tblDocs.setColumnWidth(5, 90);
 	this.iface.tblDocs.setColumnWidth(7, 90);
 	this.iface.tblDocs.hideColumn(6);
-	this.iface.tblDocs.setColumnLabels("/", "Presupuestos/Pedidos/Remitos/Facturas/Recibos/Pagos/Servicios/Servicios");
+	this.iface.tblDocs.setColumnLabels("/", "Presupuestos/Pedidos/Remitos/Facturas/Facturas/Pagos/Servicios/Servicios");
 
 	this.iface.filaActual = 0;
 	switch (tipo) {

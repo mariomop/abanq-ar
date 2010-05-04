@@ -49,12 +49,6 @@ class proveed extends oficial {
 	var curReciboDiv:FLSqlCursor;
 	var importeInicial:Number;
     function proveed( context ) { oficial( context ); } 
-	function init() { 
-		return this.ctx.proveed_init();
-	}
-	function recordDelAfterpagosdevolprov() {
-		return this.ctx.proveed_recordDelAfterpagosdevolprov();
-	}
 	function validateForm():Boolean {
 		return this.ctx.proveed_validateForm();
 	}
@@ -130,15 +124,19 @@ const iface = new ifaceCtx( this );
 \end */
 function interna_init()
 {
-		var cursor:FLSqlCursor = form.cursor();
-		if (cursor.modeAccess() == cursor.Edit)
-				this.iface.importeInicial = parseFloat(cursor.valueBuffer("importe"));
-		connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
-		connect(form.child("tdbPagosDevolProv").cursor(), "cursorUpdated()", this, "iface.cambiarEstado");
-		if (cursor.modeAccess() == cursor.Edit)
-				form.child("pushButtonAcceptContinue").close();
-		this.iface.bufferChanged("codcuenta");
-		this.iface.cambiarEstado();
+	var cursor:FLSqlCursor = this.cursor();
+	if (cursor.modeAccess() == cursor.Edit)
+		this.iface.importeInicial = parseFloat(cursor.valueBuffer("importe"));
+	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
+
+	this.child("tdbPagosDevolProv").setReadOnly(true);
+	if (cursor.modeAccess() == cursor.Edit)
+		this.child("pushButtonAcceptContinue").close();
+
+	this.child("fdbTexto").setValue(this.iface.calculateField("texto"));
+
+	this.iface.bufferChanged("codcuenta");
+	this.iface.cambiarEstado();
 }
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -153,68 +151,32 @@ function interna_init()
 /** @class_definition proveed */
 //////////////////////////////////////////////////////////////////
 //// PROVEED /////////////////////////////////////////////////////
-function proveed_init()
-{
-	this.iface.__init();
-}
-
-/** \C Se busca en la lista de pagos y devoluciones el último movimiento. Si es un pago, la factura originaria pasa a ser editable. Si es una devolución la factura no será editable. Si no quedan pagos/devoluciones, la factura originaria pasa a ser editable.
-\end */
-function proveed_recordDelAfterpagosdevolprov()
-{
-		var cursor:FLSqlCursor = form.cursor();
-		var idFactura:Number = cursor.valueBuffer("idfactura");
-		var idRecibo:Number = cursor.valueBuffer("idrecibo");
-		var curRecibos:FLSqlCursor = new FLSqlCursor("recibosprov");
-
-		curRecibos.select("idfactura = " + idFactura + " AND estado = 'Pagado' AND idrecibo <> " + idRecibo);
-		if (curRecibos.size() == 0) {
-				var curFactura:FLSqlCursor = new FLSqlCursor("facturasprov");
-				curFactura.select("idfactura = " + idFactura);
-				var curPagoDevol:FLSqlCursor = new FLSqlCursor("pagosdevolprov");
-				curPagoDevol.select("idrecibo = " + idRecibo + " ORDER BY fecha, idpagodevol");
-				if (curPagoDevol.last()) {
-						curPagoDevol.setModeAccess(curPagoDevol.Browse);
-						curPagoDevol.refreshBuffer();
-						if (curFactura.first())
-								if (curPagoDevol.valueBuffer("tipo") != "Pago")
-										curFactura.setUnLock("editable", true);
-								else
-										curFactura.setUnLock("editable", false);
-						curPagoDevol.setUnLock("editable", true);
-				} else {
-						if (curFactura.first())
-								curFactura.setUnLock("editable", true);
-				}
-		}
-}
-
 /** \C
 El importe del recibo debe ser menor o igual del que tenía anteriormente. Si es menor el recibo se fraccionará.
 La fecha de vencimiento debe ser siempre igual o posterior a la fecha de emisión del recibo.
 \end */
 function proveed_validateForm():Boolean
 {
-		var util:FLUtil = new FLUtil();
-		var cursor:FLSqlCursor = form.cursor();
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
 
-		var importeActual = parseFloat(cursor.valueBuffer("importe"));
-// 		if ((this.iface.importeInicial >= 0 && this.iface.importeInicial < importeActual) || (this.iface.importeInicial < 0 && this.iface.importeInicial > importeActual)) {
-// 				MessageBox.warning(util.translate("scripts",
-// 						"El importe del recibo debe ser menor o igual del que tenía anteriormente.\nSi es menor el recibo se fraccionará."),
-// 						MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-// 				form.child("fdbImporte").setFocus();
-// 				return false;
-// 		}
+	var importeActual = parseFloat(cursor.valueBuffer("importe"));
+	if ((this.iface.importeInicial >= 0 && this.iface.importeInicial < importeActual) || (this.iface.importeInicial < 0 && this.iface.importeInicial > importeActual)) {
+		MessageBox.warning(util.translate("scripts",
+			"El importe de la factura debe ser menor o igual del que tenía anteriormente.\nSi es menor la factura se fraccionará."),
+			MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		form.child("fdbImporte").setFocus();
+		return false;
+	}
 
-		if (util.daysTo(cursor.valueBuffer("fecha"), cursor.valueBuffer("fechav")) < 0) {
-				MessageBox.warning(util.translate("scripts",
-						"La fecha de vencimiento debe ser siempre igual o posterior\na la fecha de emisión del recibo."),
-						MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-				return false;
-		}
+	if (util.daysTo(cursor.valueBuffer("fecha"), cursor.valueBuffer("fechav")) < 0) {
+		MessageBox.warning(util.translate("scripts",
+			"La fecha de vencimiento debe ser siempre igual o posterior\na la fecha de emisión de la factura."),
+			MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		return false;
+	}
 
-		return true;
+	return true;
 }
 
 function proveed_acceptedForm()
@@ -298,7 +260,7 @@ function proveed_copiarCampoReciboDiv(nombreCampo:String, cursor:FLSqlCursor, ca
 			break;
 		}
 		case "estado": {
-			valor = "Emitido";
+			valor = "Pendiente";
 			break;
 		}
 		case "texto": {
@@ -336,39 +298,37 @@ function proveed_copiarCampoReciboDiv(nombreCampo:String, cursor:FLSqlCursor, ca
 
 function proveed_calculateField(fN:String):String
 {
-		var util:FLUtil = new FLUtil();
-		var cursor:FLSqlCursor = form.cursor();
-		var valor:String;
-		if (fN == "estado") {
-				valor = this.iface.commonCalculateField(fN, cursor);
-		}
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	var valor:String;
+	if (fN == "estado") {
+		valor = this.iface.commonCalculateField(fN, cursor);
+	}
 
-		if (fN == "texto") {
-				var importe:Number = parseFloat(cursor.valueBuffer("importe"));
-				var moneda:String = util.sqlSelect("divisas", "descripcion", 
-						"coddivisa = '" + cursor.valueBuffer("coddivisa") + "'");
-				valor = util.enLetraMoneda(importe, moneda);
-		}
+	if (fN == "texto") {
+		var importe:Number = parseFloat(cursor.valueBuffer("importe"));
+		var moneda:String = util.sqlSelect("divisas", "descripcion", "coddivisa = '" + cursor.valueBuffer("coddivisa") + "'");
+		valor = util.enLetraMoneda(importe, moneda);
+	}
 
-		if (fN == "dc") {
-				var entidad:String = cursor.valueBuffer("ctaentidad");
-				var agencia:String = cursor.valueBuffer("ctaagencia");
-				var cuenta:String = cursor.valueBuffer("cuenta");
-				if ( !entidad.isEmpty() && !agencia.isEmpty() && ! cuenta.isEmpty() 
-						&& entidad.length == 3 && agencia.length == 3 && cuenta.length == 11 ) {
-						var dc1:String = util.calcularDC(entidad + agencia);
-						var dc2:String = util.calcularDC(cuenta);
-						valor = dc1 + dc2;
-				}
+	if (fN == "dc") {
+		var entidad:String = cursor.valueBuffer("ctaentidad");
+		var agencia:String = cursor.valueBuffer("ctaagencia");
+		var cuenta:String = cursor.valueBuffer("cuenta");
+		if ( !entidad.isEmpty() && !agencia.isEmpty() && ! cuenta.isEmpty() && entidad.length == 3 && agencia.length == 3 && cuenta.length == 11 ) {
+			var dc1:String = util.calcularDC(entidad + agencia);
+			var dc2:String = util.calcularDC(cuenta);
+			valor = dc1 + dc2;
 		}
+	}
 
-		return valor;
+	return valor;
 }
 
 function proveed_bufferChanged(fN:String)
 {
 	if (fN == "importe") {
-		form.child("fdbTexto").setValue(this.iface.calculateField("texto"));
+		this.child("fdbTexto").setValue(this.iface.calculateField("texto"));
 		this.child("gbxPagDev").setDisabled(true);
 	}
 
@@ -376,7 +336,7 @@ function proveed_bufferChanged(fN:String)
 	El --dc-- de la cuenta bancaria se calcula automáticamente en base al resto de valores de la cuenta
 	\end */
 	if (fN == "codcuenta" || fN == "ctaentidad" || fN == "ctaagencia" || fN == "cuenta" )
-		form.child("fdbDc").setValue(this.iface.calculateField("dc"));
+		this.child("fdbDc").setValue(this.iface.calculateField("dc"));
 }
 
 /** \D
@@ -386,7 +346,7 @@ function proveed_cambiarEstado()
 {
 	var estado:String = this.iface.calculateField("estado");
 	this.child("fdbEstado").setValue(estado);
-	if ( estado != "Emitido" )
+	if ( estado != "Pendiente" )
 		this.child("fdbImporte").setDisabled(true);
 	else
 		this.child("fdbImporte").setDisabled(false);
@@ -398,18 +358,11 @@ function proveed_commonCalculateField(fN:String, cursor:FLSqlCursor):String
 	var valor:String;
 	switch (fN) {
 		case "estado": {
-			valor = "Emitido";
+			valor = "Pendiente";
 			var curPagosDevol:FLSqlCursor = new FLSqlCursor("pagosdevolprov");
-			curPagosDevol.select("idrecibo = '" + cursor.valueBuffer("idrecibo") +
-			"' ORDER BY fecha DESC, idpagodevol DESC");
-			if (curPagosDevol.first()) {
-				curPagosDevol.setModeAccess(curPagosDevol.Browse);
-				curPagosDevol.refreshBuffer();
-				if (curPagosDevol.valueBuffer("tipo") == "Pago")
-					valor = "Pagado";
-				else
-					valor = "Devuelto";
-			}
+			curPagosDevol.select("idrecibo = '" + cursor.valueBuffer("idrecibo") + "' ORDER BY fecha DESC, idpagodevol DESC");
+			if (curPagosDevol.first())
+				valor = "Pagado";
 			break;
 		}
 	}
@@ -431,12 +384,11 @@ function pagosMultiples_cambiarEstado()
 	var cursor:FLSqlCursor = this.cursor();
 
 	if (util.sqlSelect("pagosdevolprov", "idpagomulti", "idrecibo = " + cursor.valueBuffer("idrecibo") + " ORDER BY fecha DESC, idpagodevol DESC") != 0) {
-		this.child("lblRemesado").text = "En Pago\nMúltiple";
+		this.child("lblRemesado").text = "En Orden\nde Pago";
 		this.child("fdbFechav").setDisabled(true);
 		this.child("fdbImporte").setDisabled(true);
 		this.child("fdbCodCuenta").setDisabled(true);
 		this.child("fdbCodDir").setDisabled(true);
-		this.child("tdbPagosDevolProv").setInsertOnly(true);
 		this.child("pushButtonNext").close();
 		this.child("pushButtonPrevious").close();
 		this.child("pushButtonFirst").close();
@@ -453,15 +405,3 @@ function pagosMultiples_cambiarEstado()
 
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
-
-/** @class_definition ifaceCtx */
-/////////////////////////////////////////////////////////////////
-//// INTERFACE  /////////////////////////////////////////////////
-
-//// INTERFACE  /////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
-
-
-
-

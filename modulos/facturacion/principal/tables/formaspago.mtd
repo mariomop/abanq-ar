@@ -145,11 +145,11 @@
 	</field>
 	<field>
 		<name>genrecibos</name>
-		<!--Opciones en la generación de recibos-->        <alias>QT_TRANSLATE_NOOP("MetaData","Generar recibos como")</alias>
+		<!--Opciones en la generación de recibos-->        <alias>QT_TRANSLATE_NOOP("MetaData","Tipo de pago")</alias>
 		<null>false</null>
 		<pk>false</pk>
-		<optionslist>QT_TRANSLATE_NOOP("MetaData","Emitidos");QT_TRANSLATE_NOOP("MetaData","Pagados")</optionslist>
-		<default>QT_TRANSLATE_NOOP("MetaData","Emitidos")</default>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Cta.Cte.");QT_TRANSLATE_NOOP("MetaData","Contado")</optionslist>
+		<default>QT_TRANSLATE_NOOP("MetaData","Cta.Cte.")</default>
 		<type>string</type>
 		<length>10</length>
 	</field>

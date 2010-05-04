@@ -28,7 +28,7 @@
 			</size>
 		</property>
 		<property name="caption">
-			<string>Pagos múltiples de clientes</string>
+			<string>Recibos de cobro a clientes</string>
 		</property>
 		<property name="focusPolicy">
 			<enum>StrongFocus</enum>

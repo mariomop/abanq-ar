@@ -381,7 +381,7 @@ function interna_init()
 	curPD.setActivatedCommitActions(false);
 	curPD.transaction(false);
 	try {
-		util.createProgressDialog(util.translate("scripts", "Actualizando pagos de recibos remesados"), qryRecibos.size());
+		util.createProgressDialog(util.translate("scripts", "Actualizando pagos de facturas remesadas"), qryRecibos.size());
 		while (qryRecibos.next()) {
 			util.setProgress(paso)
 			curPD.select("idpagodevol = " + qryRecibos.value("pd.idpagodevol"))
@@ -424,7 +424,7 @@ function interna_init()
 		curPD.rollback();
 }
 
-/** \C Se elimina, si es posible, el asiento contable asociado al pago o devolución
+/** \C Se elimina, si es posible, el asiento contable asociado al pago
 \end */
 function interna_afterCommit_pagosdevolcli(curPD:FLSqlCursor):Boolean
 {
@@ -488,7 +488,7 @@ function interna_afterCommit_pagosdevolcli(curPD:FLSqlCursor):Boolean
 	return true;
 }
 
-/** \C Se regenera, si es posible, el asiento contable asociado al pago o devolución
+/** \C Se regenera, si es posible, el asiento contable asociado al pago
 \end */
 function interna_beforeCommit_pagosdevolcli(curPD:FLSqlCursor):Boolean
 {
@@ -563,7 +563,7 @@ function interna_beforeCommit_pagosdevolrem(curPR:FLSqlCursor):Boolean
 	return true;
 }
 
-/** \C Se elimina, si es posible, el asiento contable asociado al pago o devolución
+/** \C Se elimina, si es posible, el asiento contable asociado al pago
 \end */
 function interna_afterCommit_pagosdevolrem(curPD:FLSqlCursor):Boolean
 {
@@ -658,7 +658,7 @@ function oficial_generarAsientoInverso(idAsientoDestino:Number, idAsientoOrigen:
 	return true;
 }
 
-/* \D Indica si un determinado recibo tiene pagos y/o devoluciones asociadas.
+/* \D Indica si un determinado recibo tiene pagos asociadas.
 @param idRecibo: Identificador del recibo
 @return True: Tiene, False: No tiene
 \end */
@@ -682,7 +682,7 @@ function oficial_calcFechaVencimientoCli(curFactura:FLSqlCursor, numPlazo:Number
 }
 
 /* \D Regenera los recibos asociados a una factura a cliente.
-Si la contabilidad está activada, genera los correspondientes asientos de pago y devolución.
+Si la contabilidad está activada, genera los correspondientes asientos de pago.
 
 @param cursor: Cursor posicionado en el registro de facturascli correspondiente a la factura
 @return True: Regeneración realizada con éxito, False: Error
@@ -716,7 +716,7 @@ function oficial_regenerarRecibosCli(cursor:FLSqlCursor, emitirComo:String):Bool
 	var datosCuentaEmp:Array = false;
 	var datosSubcuentaEmp:Array = false;
 
-	if (emitirComo == "Pagados") {
+	if (emitirComo == "Contado") {
 		emitirComo = "Pagado";
 		/* \D Si los recibos deben emitirse como pagados, se generarán los registros de pago asociados a cada recibo. Si el módulo Principal de contabilidad está cargado, se generará el correspondienta asiento. La subcuenta contable del Debe del apunte corresponderá a la subcuenta contable asociada a la cuenta corriente correspondiente a la forma de pago de la factura. Si dicha cuenta corriente no está especificada, la subcuenta contable del Debe del asiento será la correspondiente a la cuenta especial Caja.
 		\end */
@@ -729,13 +729,13 @@ function oficial_regenerarRecibosCli(cursor:FLSqlCursor, emitirComo:String):Bool
 				return false;
 		}
 	} else
-		emitirComo = "Emitido";
+		emitirComo = "Pendiente";
 
 	var importeAcumulado:Number = 0;
 	var curPlazos:FLSqlCursor = new FLSqlCursor("plazos");
 	curPlazos.select("codpago = '" + codPago + "'  ORDER BY dias");
 	if(curPlazos.size() == 0) {
-		MessageBox.warning(util.translate("scripts", "No se pueden generar los recibos, la forma de pago ") + codPago + util.translate("scripts", "no tiene plazos de pago asociados"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "No se pueden generar las facturas, la forma de pago ") + codPago + util.translate("scripts", "no tiene plazos de pago asociados"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 	while (curPlazos.next()) {
@@ -859,7 +859,7 @@ function oficial_generarReciboCli(curFactura:FLSqlCursor, numRecibo:String, impo
 	return true;
 }
 
-/* \D Borra los recibos asociados a una factura. No es posible borrar recibos que pertenecen a una remesa o que tienen pagos o devoluciones asociados.
+/* \D Borra los recibos asociados a una factura. No es posible borrar recibos que pertenecen a una remesa o que tienen pagos asociados.
 
 @param idFactura: Identificador de la factura de la que provienen los recibos
 @return False si hay error o si el recibo no se puede borrar, true si los recibos se borran correctamente
@@ -1060,8 +1060,8 @@ function oficial_cambiaUltimoPagoCli(idRecibo:String, idPagoDevol:String, unlock
 	return true;
 }
 
-/** \Genera o regenera el asiento contable asociado a un pago o devolución de recibo
-@param	curPD: Cursor posicionado en el pago o devolución cuyo asiento se va a regenerar
+/** \Genera o regenera el asiento contable asociado a un pago de recibo
+@param	curPD: Cursor posicionado en el pago cuyo asiento se va a regenerar
 @return	true si la regeneración se realiza correctamente, false en caso contrario
 \end */
 function oficial_generarAsientoPagoDevolCli(curPD:FLSqlCursor):Boolean
@@ -1093,40 +1093,18 @@ function oficial_generarAsientoPagoDevolCli(curPD:FLSqlCursor):Boolean
 	if (datosAsiento.error == true)
 		return false;
 
-	if (curPD.valueBuffer("tipo") == "Pago") {
-		var recibo:Array = flfactppal.iface.pub_ejecutarQry("reciboscli", "coddivisa,importe,importeeuros,idfactura,codigo,nombrecliente", "idrecibo = " + curPD.valueBuffer("idrecibo"));
-		if (recibo.result != 1)
-			return false;
+	var recibo:Array = flfactppal.iface.pub_ejecutarQry("reciboscli", "coddivisa,importe,importeeuros,idfactura,codigo,nombrecliente", "idrecibo = " + curPD.valueBuffer("idrecibo"));
+	if (recibo.result != 1)
+		return false;
 	
-		if (!this.iface.generarPartidasCli(curPD, valoresDefecto, datosAsiento, recibo))
-			return false;
+	if (!this.iface.generarPartidasCli(curPD, valoresDefecto, datosAsiento, recibo))
+		return false;
 	
-		if (!this.iface.generarPartidasBanco(curPD, valoresDefecto, datosAsiento, recibo))
-			return false;
+	if (!this.iface.generarPartidasBanco(curPD, valoresDefecto, datosAsiento, recibo))
+		return false;
 
-		if (!this.iface.generarPartidasCambio(curPD, valoresDefecto, datosAsiento, recibo))
-			return false;
-	} else {
-		/** \D En el caso de dar una devolución, las subcuentas del asiento contable serán las inversas al asiento contable correspondiente al último pago
-		\end */
-// 		var idAsientoPago:Number = util.sqlSelect("pagosdevolcli", "idasiento", "idrecibo = " + curPD.valueBuffer("idrecibo") + " AND  tipo = 'Pago' ORDER BY fecha DESC, idpagodevol DESC");
-// 		var codRecibo:String = util.sqlSelect("reciboscli", "codigo", "idrecibo = " + curPD.valueBuffer("idrecibo"));
-// 		if (this.iface.generarAsientoInverso(datosAsiento.idasiento, idAsientoPago, curPD.valueBuffer("tipo") + " recibo " + codRecibo, valoresDefecto.codejercicio) == false)
-// 			return false;
-			
-		var recibo:Array = flfactppal.iface.pub_ejecutarQry("reciboscli", "coddivisa,importe,importeeuros,idfactura,codigo,nombrecliente", "idrecibo = " + curPD.valueBuffer("idrecibo"));
-		if (recibo.result != 1)
-			return false;
-	
-		if (!this.iface.generarPartidasCli(curPD, valoresDefecto, datosAsiento, recibo))
-			return false;
-	
-		if (!this.iface.generarPartidasBanco(curPD, valoresDefecto, datosAsiento, recibo))
-			return false;
-
-		if (!this.iface.generarPartidasCambio(curPD, valoresDefecto, datosAsiento, recibo))
-			return false;
-	}
+	if (!this.iface.generarPartidasCambio(curPD, valoresDefecto, datosAsiento, recibo))
+		return false;
 
 	curPD.setValueBuffer("idasiento", datosAsiento.idasiento);
 
@@ -1137,7 +1115,7 @@ function oficial_generarAsientoPagoDevolCli(curPD:FLSqlCursor):Boolean
 }
 
 /** \D Genera la partida correspondiente al cliente del asiento de pago
-@param	curPD: Cursor del pago o devolución
+@param	curPD: Cursor del pago
 @param	valoresDefecto: Array de valores por defecto (ejercicio, divisa, etc.)
 @param	datosAsiento: Array con los datos del asiento
 @param	recibo: Array con los datos del recibo asociado al pago
@@ -1219,7 +1197,7 @@ function oficial_generarPartidasCli(curPD:FLSqlCursor, valoresDefecto:Array, dat
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " recibo " + recibo.codigo + " - " + recibo.nombrecliente);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura " + recibo.codigo + " - " + recibo.nombrecliente);
 		}
 		setValueBuffer("idsubcuenta", ctaHaber.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaHaber.codsubcuenta);
@@ -1253,7 +1231,7 @@ function oficial_generarPartidasCli(curPD:FLSqlCursor, valoresDefecto:Array, dat
 }
 
 /** \D Genera la partida correspondiente al banco o a caja del asiento de pago
-@param	curPD: Cursor del pago o devolución
+@param	curPD: Cursor del pago
 @param	valoresDefecto: Array de valores por defecto (ejercicio, divisa, etc.)
 @param	datosAsiento: Array con los datos del asiento
 @param	recibo: Array con los datos del recibo asociado al pago
@@ -1294,7 +1272,7 @@ function oficial_generarPartidasBanco(curPD:FLSqlCursor, valoresDefecto:Array, d
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " recibo " + recibo.codigo + " - " + recibo.nombrecliente);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura " + recibo.codigo + " - " + recibo.nombrecliente);
 		}
 		setValueBuffer("idsubcuenta", ctaDebe.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaDebe.codsubcuenta);
@@ -1328,7 +1306,7 @@ function oficial_generarPartidasBanco(curPD:FLSqlCursor, valoresDefecto:Array, d
 	return true;
 }
 /** \D Genera, si es necesario, la partida de diferecias positivas o negativas de cambio
-@param	curPD: Cursor del pago o devolución
+@param	curPD: Cursor del pago
 @param	valoresDefecto: Array de valores por defecto (ejercicio, divisa, etc.)
 @param	datosAsiento: Array con los datos del asiento
 @param	recibo: Array con los datos del recibo asociado al pago
@@ -1382,12 +1360,6 @@ function oficial_generarPartidasCambio(curPD:FLSqlCursor, valoresDefecto:Array, 
 		debeDifCambio = diferenciaCambio;
 		haberDifCambio = 0;
 	}
-	/// Esto lo usan algunas extensiones
-// 	if (curPD.valueBuffer("tipo") == "Devolución") {
-// 		var aux:Number = debeDifCambio;
-// 		debeDifCambio = haberDifCambio;
-// 		haberDifCambio = aux;
-// 	}
 	var esPago:Boolean = this.iface.esPagoEstePagoDevol(curPD);
 	
 	var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
@@ -1397,7 +1369,7 @@ function oficial_generarPartidasCambio(curPD:FLSqlCursor, valoresDefecto:Array, 
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " recibo " + recibo.codigo + " - " + recibo.nombrecliente);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura " + recibo.codigo + " - " + recibo.nombrecliente);
 		}
 		setValueBuffer("idsubcuenta", ctaDifCambio.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaDifCambio.codsubcuenta);
@@ -1441,10 +1413,10 @@ debug(qryRecibos.sql());
 	var msgError:String = "";
 	var i:Number = 0;
 	while (qryRecibos.next()) {
-		msgError += "\n" + util.translate("scripts", "Cliente: %1 (%2), Recibo %3").arg(qryRecibos.value("r.nombrecliente")).arg(qryRecibos.value("r.codcliente")).arg(qryRecibos.value("r.codigo"));
+		msgError += "\n" + util.translate("scripts", "Cliente: %1 (%2), Factura %3").arg(qryRecibos.value("r.nombrecliente")).arg(qryRecibos.value("r.codcliente")).arg(qryRecibos.value("r.codigo"));
 	}
 	if (msgError != "") {
-		var res:Number = MessageBox.warning(util.translate("scripts", "Los siguientes recibos no tienen especificada una cuenta de domiciliación válida:") + msgError + "\n" + util.translate("scripts", "¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
+		var res:Number = MessageBox.warning(util.translate("scripts", "Las siguientes facturas no tienen especificada una cuenta de domiciliación válida:") + msgError + "\n" + util.translate("scripts", "¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
 		if (res != MessageBox.Yes)
 			return false;
 	}
@@ -1891,7 +1863,7 @@ function anticipos_regenerarRecibosCli(cursor:FLSqlCursor):Boolean
 	var datosSubcuentaEmp:Array = false;
 	var hayAnticipos:Boolean = false;
 
-	if (emitirComo == "Pagados") {
+	if (emitirComo == "Contado") {
 		emitirComo = "Pagado";
 		datosCuentaEmp = this.iface.obtenerDatosCuentaEmp(codCliente, codPago);
 		if (datosCuentaEmp.error == 2)
@@ -1902,13 +1874,13 @@ function anticipos_regenerarRecibosCli(cursor:FLSqlCursor):Boolean
 				return false;
 		}
 	} else
-		emitirComo = "Emitido";
+		emitirComo = "Pendiente";
 
 	var importeAcumulado:Number = 0;
 	var curPlazos:FLSqlCursor = new FLSqlCursor("plazos");
 	curPlazos.select("codpago = '" + codPago + "'  ORDER BY dias");
 	if(curPlazos.size() == 0){
-		MessageBox.warning(util.translate("scripts", "No se pueden generar los recibos, la forma de pago ") + codPago + util.translate("scripts", "no tiene plazos de pago asociados"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "No se pueden generar las facturas, la forma de pago ") + codPago + util.translate("scripts", "no tiene plazos de pago asociados"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 
@@ -1967,7 +1939,7 @@ function anticipos_regenerarRecibosCli(cursor:FLSqlCursor):Boolean
 /////////////////////////////////////////////////////////////////
 //// PROVEED ////////////////////////////////////////////////////
 /** \D
-Indica si un determinado recibo tiene pagos y/o devoluciones asociadas.
+Indica si un determinado recibo tiene pagos asociadas.
 @param idRecibo: Identificador del recibo
 @return True: Tiene, False: No tiene
 \end */
@@ -2022,7 +1994,7 @@ function proveed_regenerarRecibosProv(cursor:FLSqlCursor, forzarEmitirComo:Strin
 	var codSubcuentaEmp:String = "";
 	var idSubcuentaEmp:String = "";
 	var codProveedor:String = cursor.valueBuffer("codproveedor");
-	if (emitirComo == "Pagados") {
+	if (emitirComo == "Contado") {
 		emitirComo = "Pagado";
 		/*D Si los recibos deben emitirse como pagados, se generarán los registros de pago asociados a cada recibo. Si el módulo Principal de contabilidad está cargado, se generará el correspondienta asiento. La subcuenta contable del Debe del apunte corresponderá a la subcuenta contable asociada a la cuenta corriente correspondiente a la cuenta de pago del proveedor, o en su defecto a la forma de pago de la factura. Si dicha cuenta corriente no está especificada, la subcuenta contable del Debe del asiento será la correspondiente a la cuenta especial Caja.
 		\end */
@@ -2065,7 +2037,7 @@ function proveed_regenerarRecibosProv(cursor:FLSqlCursor, forzarEmitirComo:Strin
 			codSubcuentaEmp =  datosCuentaEmp.codsubcuenta;
 		}
 	} else
-		emitirComo = "Emitido";
+		emitirComo = "Pendiente";
 	var numPlazo:Number = 1;
 	var curPlazos:FLSqlCursor = new FLSqlCursor("plazos");
 	var importeAcumulado:Number = 0;
@@ -2166,7 +2138,7 @@ function proveed_regenerarRecibosProv(cursor:FLSqlCursor, forzarEmitirComo:Strin
 	return true;
 }
 
-/** \C Se elimina, si es posible, el asiento contable asociado al pago o devolución
+/** \C Se elimina, si es posible, el asiento contable asociado al pago
 \end */
 function proveed_afterCommit_pagosdevolprov(curPD:FLSqlCursor):Boolean
 {
@@ -2229,7 +2201,7 @@ function proveed_afterCommit_pagosdevolprov(curPD:FLSqlCursor):Boolean
 	return true;
 }
 
-/** \C Se regenera, si es posible, el asiento contable asociado al pago o devolución
+/** \C Se regenera, si es posible, el asiento contable asociado al pago
 \end */
 function proveed_beforeCommit_pagosdevolprov(curPD:FLSqlCursor):Boolean
 {
@@ -2270,27 +2242,18 @@ function proveed_generarAsientoPagoDevolProv(curPD:FLSqlCursor):Boolean
 	if (datosAsiento.error == true)
 		return false;
 
-	if (curPD.valueBuffer("tipo") == "Pago") {
-		var recibo:Array = flfactppal.iface.pub_ejecutarQry("recibosprov", "coddivisa,importe,importeeuros,idfactura,codigo,nombreproveedor", "idrecibo = " + curPD.valueBuffer("idrecibo"));
-		if (recibo.result != 1)
-			return false;
+	var recibo:Array = flfactppal.iface.pub_ejecutarQry("recibosprov", "coddivisa,importe,importeeuros,idfactura,codigo,nombreproveedor", "idrecibo = " + curPD.valueBuffer("idrecibo"));
+	if (recibo.result != 1)
+		return false;
 	
-		if (!this.iface.generarPartidasProv(curPD, valoresDefecto, datosAsiento, recibo))
-			return false;
+	if (!this.iface.generarPartidasProv(curPD, valoresDefecto, datosAsiento, recibo))
+		return false;
 	
-		if (!this.iface.generarPartidasBancoProv(curPD, valoresDefecto, datosAsiento, recibo))
-			return false;
+	if (!this.iface.generarPartidasBancoProv(curPD, valoresDefecto, datosAsiento, recibo))
+		return false;
 
-		if (!this.iface.generarPartidasCambioProv(curPD, valoresDefecto, datosAsiento, recibo))
-			return false;
-	} else {
-		/** \D En el caso de dar una devolución, las subcuentas del asiento contable serán las inversas al asiento contable correspondiente al último pago
-		\end */
-		var idAsientoPago:Number = util.sqlSelect("pagosdevolprov", "idasiento", "idrecibo = " + curPD.valueBuffer("idrecibo") + " AND  tipo = 'Pago' ORDER BY fecha DESC");
-		var codRecibo:String = util.sqlSelect("recibosprov", "codigo", "idrecibo = " + curPD.valueBuffer("idrecibo"));
-		if (this.iface.generarAsientoInverso(datosAsiento.idasiento, idAsientoPago, curPD.valueBuffer("tipo") + " recibo " + codRecibo, valoresDefecto.codejercicio) == false)
-			return false;
-	}
+	if (!this.iface.generarPartidasCambioProv(curPD, valoresDefecto, datosAsiento, recibo))
+		return false;
 
 	curPD.setValueBuffer("idasiento", datosAsiento.idasiento);
 
@@ -2301,7 +2264,7 @@ function proveed_generarAsientoPagoDevolProv(curPD:FLSqlCursor):Boolean
 }
 
 /** \D Genera la partida correspondiente al proveedor del asiento de pago
-@param	curPD: Cursor del pago o devolución
+@param	curPD: Cursor del pago
 @param	valoresDefecto: Array de valores por defecto (ejercicio, divisa, etc.)
 @param	datosAsiento: Array con los datos del asiento
 @param	recibo: Array con los datos del recibo asociado al pago
@@ -2377,7 +2340,7 @@ function proveed_generarPartidasProv(curPD:FLSqlCursor, valoresDefecto:Array, da
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " recibo prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
 		}
 		setValueBuffer("idsubcuenta", ctaDebe.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaDebe.codsubcuenta);
@@ -2436,7 +2399,7 @@ function proveed_generarPartidasBancoProv(curPD:FLSqlCursor, valoresDefecto:Arra
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " recibo prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
 		}
 		setValueBuffer("idsubcuenta", ctaHaber.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaHaber.codsubcuenta);
@@ -2460,7 +2423,7 @@ function proveed_generarPartidasBancoProv(curPD:FLSqlCursor, valoresDefecto:Arra
 }
 
 /** \D Genera, si es necesario, la partida de diferecias positivas o negativas de cambio
-@param	curPD: Cursor del pago o devolución
+@param	curPD: Cursor del pago
 @param	valoresDefecto: Array de valores por defecto (ejercicio, divisa, etc.)
 @param	datosAsiento: Array con los datos del asiento
 @param	recibo: Array con los datos del recibo asociado al pago
@@ -2513,13 +2476,6 @@ function proveed_generarPartidasCambioProv(curPD:FLSqlCursor, valoresDefecto:Arr
 		haberDifCambio = 0;
 	}
 
-	/// Esto lo usan algunas extensiones
-	if (curPD.valueBuffer("tipo") == "Devolución") {
-		var aux:Number = debeDifCambio;
-		debeDifCambio = haberDifCambio;
-		haberDifCambio = aux;
-	}
-
 	var curPartida:FLSqlCursor = new FLSqlCursor("co_partidas");
 	with(curPartida) {
 		setModeAccess(curPartida.Insert);
@@ -2527,7 +2483,7 @@ function proveed_generarPartidasCambioProv(curPD:FLSqlCursor, valoresDefecto:Arr
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " recibo prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
 		}
 		setValueBuffer("idsubcuenta", ctaDifCambio.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaDifCambio.codsubcuenta);
@@ -2834,7 +2790,7 @@ function ctasCtes_cuentaActiva(curDoc:FLSqlCursor):Boolean
 	var util:FLUtil = new FLUtil;
 
 	var emitirComo:String = util.sqlSelect("formaspago", "genrecibos", "codpago = '" + curDoc.valueBuffer("codpago") + "'");
-	if (emitirComo != "Emitidos")
+	if (emitirComo != "Cta.Cte.")
 		return true;
 
 	var codCliente:String = curDoc.valueBuffer("codcliente");
@@ -2885,7 +2841,7 @@ function controlUsuario_beforeCommit_pagosmulticli(curPagoMulti:FLSqlCursor):Boo
 	switch (curPagoMulti.modeAccess()) {
 		case curPagoMulti.Insert: {
 			if ( !flfactppal.iface.pub_usuarioCreado(sys.nameUser()) ) {
-				flfactppal.iface.pub_mensajeControlUsuario("NO_USUARIO", "Pagos múltiples");
+				flfactppal.iface.pub_mensajeControlUsuario("NO_USUARIO", "Recibos de cobro");
 				return false;
 			} else {
 				curPagoMulti.setValueBuffer( "idusuario", sys.nameUser() );
@@ -2903,7 +2859,7 @@ function controlUsuario_beforeCommit_pagosmultiprov(curPagoMulti:FLSqlCursor):Bo
 	switch (curPagoMulti.modeAccess()) {
 		case curPagoMulti.Insert: {
 			if ( !flfactppal.iface.pub_usuarioCreado(sys.nameUser()) ) {
-				flfactppal.iface.pub_mensajeControlUsuario("NO_USUARIO", "Pagos múltiples");
+				flfactppal.iface.pub_mensajeControlUsuario("NO_USUARIO", "Órdenes de pago");
 				return false;
 			} else {
 				curPagoMulti.setValueBuffer( "idusuario", sys.nameUser() );

@@ -1,7 +1,7 @@
 <!DOCTYPE TMD>
 <TMD>
 	<name>pagosdevolpagosmultiprov</name>
-	<alias>QT_TRANSLATE_NOOP("MetaData","Pagos de Pagos múltiples a proveedores")</alias>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Pagos a proveedores")</alias>
 	<field>
 		<name>idpagopagomulti</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Identificador")</alias>
@@ -12,7 +12,7 @@
 	</field>
 	<field>
 		<name>idpagomulti</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Id. Pago Múltiple")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Orden de pago nº")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>uint</type>
@@ -55,7 +55,7 @@
 	</field>
 	<field>
 		<name>nogenerarasiento</name>
-		<!--Si la validación del pago o devolución va a generar un asiento contable-->
+		<!--Si la validación del pago va a generar un asiento contable-->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Ignorar contabilidad")</alias>
 		<null>false</null>
 		<pk>false</pk>

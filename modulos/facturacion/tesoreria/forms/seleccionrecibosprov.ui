@@ -10,8 +10,8 @@
 			<rect>
 				<x>0</x>
 				<y>0</y>
-				<width>678</width>
-				<height>504</height>
+				<width>889</width>
+				<height>651</height>
 			</rect>
 		</property>
 		<property name="sizePolicy">
@@ -29,7 +29,7 @@
 			</size>
 		</property>
 		<property name="caption">
-			<string>seleccionrecibosprov</string>
+			<string>Selección facturas</string>
 		</property>
 		<property name="focusPolicy">
 			<enum>StrongFocus</enum>
@@ -59,7 +59,7 @@
 					</font>
 				</property>
 				<property name="title">
-					<string>Recibos</string>
+					<string>Facturas</string>
 				</property>
 				<vbox>
 					<property name="name">
@@ -141,9 +141,26 @@
 							<string>Alt+S</string>
 						</property>
 					</widget>
+					<widget class="QPushButton">
+						<property name="name">
+							<cstring>pbnSeleccionarTodos</cstring>
+						</property>
+						<property name="font">
+							<font>
+								<bold>1</bold>
+								<italic>1</italic>
+							</font>
+						</property>
+						<property name="text">
+							<string>S&amp;eleccionar todas</string>
+						</property>
+						<property name="accel">
+							<string>Alt+E</string>
+						</property>
+					</widget>
 					<spacer>
 						<property name="name">
-							<cstring>spacer11</cstring>
+							<cstring>spacerSelI</cstring>
 						</property>
 						<property name="orientation">
 							<enum>Horizontal</enum>
@@ -153,11 +170,62 @@
 						</property>
 						<property name="sizeHint">
 							<size>
-								<width>20</width>
+								<width>120</width>
 								<height>20</height>
 							</size>
 						</property>
 					</spacer>
+					<widget class="QLabel">
+						<property name="name">
+							<cstring>lblImporte</cstring>
+						</property>
+						<property name="minimumSize">
+							<size>
+								<width>250</width>
+								<height>0</height>
+							</size>
+						</property>
+						<property name="font">
+							<font>
+								<bold>1</bold>
+								<italic>1</italic>
+							</font>
+						</property>
+					</widget>
+					<spacer>
+						<property name="name">
+							<cstring>spacerSelD</cstring>
+						</property>
+						<property name="orientation">
+							<enum>Horizontal</enum>
+						</property>
+						<property name="sizeType">
+							<enum>Expanding</enum>
+						</property>
+						<property name="sizeHint">
+							<size>
+								<width>120</width>
+								<height>20</height>
+							</size>
+						</property>
+					</spacer>
+					<widget class="QPushButton">
+						<property name="name">
+							<cstring>pbnQuitarTodos</cstring>
+						</property>
+						<property name="font">
+							<font>
+								<bold>1</bold>
+								<italic>1</italic>
+							</font>
+						</property>
+						<property name="text">
+							<string>Q&amp;uitar todas</string>
+						</property>
+						<property name="accel">
+							<string>Alt+U</string>
+						</property>
+					</widget>
 					<widget class="QPushButton">
 						<property name="name">
 							<cstring>pbnQuitar</cstring>
@@ -188,7 +256,7 @@
 					</font>
 				</property>
 				<property name="title">
-					<string>Recibos seleccionados</string>
+					<string>Facturas seleccionadas</string>
 				</property>
 				<vbox>
 					<property name="name">
@@ -218,6 +286,14 @@
 			</widget>
 		</vbox>
 	</widget>
+	<tabstops>
+		<tabstop>pbnSeleccionar</tabstop>
+		<tabstop>pbnSeleccionarTodos</tabstop>
+		<tabstop>pbnQuitarTodos</tabstop>
+		<tabstop>pbnQuitar</tabstop>
+		<tabstop>tdbRecibosSel</tabstop>
+		<tabstop>tdbRecibos</tabstop>
+	</tabstops>
 	<includes>
 		<include location="global" impldecl="in declaration">qwidgetfactory.h</include>
 		<include location="local" impldecl="in implementation">FLTableDB.h</include>

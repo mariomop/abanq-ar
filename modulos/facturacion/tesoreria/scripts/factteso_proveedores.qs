@@ -263,7 +263,7 @@ function ctasCtes_actualizarFiltroPendiente()
 	if (desde == "" || hasta == "")
 		return;
 
-	this.iface.tdbRecibosPendientes.cursor().setMainFilter("estado = 'Emitido' AND fecha >= '" + desde + "'" + " AND " + "fecha <= '" + hasta + "'");
+	this.iface.tdbRecibosPendientes.cursor().setMainFilter("estado = 'Pendiente' AND fecha >= '" + desde + "'" + " AND " + "fecha <= '" + hasta + "'");
 	this.iface.tdbRecibosPendientes.refresh();
 }
 
@@ -300,7 +300,7 @@ function ctasCtes_filtroMora()
 		var util:FLUtil = new FLUtil();
 		var hoy = new Date();
 		var fechaV:String = hoy;
-		this.iface.tdbRecibosPendientes.cursor().setMainFilter("estado = 'Emitido' AND fechav < '" + fechaV + "'");
+		this.iface.tdbRecibosPendientes.cursor().setMainFilter("estado = 'Pendiente' AND fechav < '" + fechaV + "'");
 		this.iface.tdbRecibosPendientes.refresh();
 
 	} else {
@@ -338,7 +338,7 @@ function ctasCtes_imprimir()
 			curImprimir.setValueBuffer("d_recibosprov_fecha", this.iface.fechaDesdePendiente.date.toString().left(10));
 			curImprimir.setValueBuffer("h_recibosprov_fecha", this.iface.fechaHastaPendiente.date.toString().left(10));
 		}
-		curImprimir.setValueBuffer("i_recibosprov_estado", "Emitido");
+		curImprimir.setValueBuffer("i_recibosprov_estado", "Pendiente");
 		flfactinfo.iface.pub_lanzarInforme(curImprimir, "i_resrecibosprov", "", "", "", "", whereFijo);
 	} else {
 		flfactppal.iface.pub_msgNoDisponible("Informes");
@@ -361,8 +361,8 @@ function ctasCtes_verEntrada()
 	switch (curEntrada.valueBuffer("tipo")) {
 		case "Factura Contado":
 		case "Factura Cta.Cte.":
-		case "N. Crédito":
-		case "N. Débito": {
+		case "Nota de Crédito":
+		case "Nota de Débito": {
 			cursor = new FLSqlCursor("facturasprov");
 			cursor.select("codigo = '" + codigo + "'");
 
@@ -371,7 +371,7 @@ function ctasCtes_verEntrada()
 			cursor.browseRecord();
 			break;
 		}
-		case "Orden Pago": {
+		case "Orden de Pago": {
 			cursor = new FLSqlCursor("pagosmultiprov");
 			cursor.select("idpagomulti = " + codigo);
 

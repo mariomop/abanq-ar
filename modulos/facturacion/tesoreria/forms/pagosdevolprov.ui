@@ -18,7 +18,7 @@
 			</font>
 		</property>
 		<property name="caption">
-			<string>Pagos y Devoluciones Proveedores</string>
+			<string>Pagos</string>
 		</property>
 		<vbox>
 			<property name="name">

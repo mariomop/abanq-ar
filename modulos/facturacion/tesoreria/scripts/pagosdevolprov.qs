@@ -198,43 +198,16 @@ function proveed_init()
 		}
 	}
 	switch (cursor.modeAccess()) {
-	/** \C
-	En modo inserción. Los pagos y devoluciones funcionan de forma alterna: un nuevo recibo generará un pago. El siguiente será una devolucion, después un pago y así sucesivamente
-	*/
 		case cursor.Insert:
-			if (last) {
-				curPagosDevol.setModeAccess(curPagosDevol.Browse);
-				curPagosDevol.refreshBuffer();
-				if (curPagosDevol.valueBuffer("tipo") == "Pago") {
-					this.child("fdbTipo").setValue("Devolución");
-					this.child("fdbCodCuenta").setValue(util.sqlSelect("pagosdevolprov", "codcuenta", "idrecibo = " + cursor.valueBuffer("idrecibo") + " AND tipo = 'Pago' ORDER BY fecha DESC"));
-					if (this.iface.contabActivada) {
-						this.child("fdbCodSubcuenta").setValue(util.sqlSelect("pagosdevolprov", "codsubcuenta", "idrecibo = " + cursor.valueBuffer("idrecibo") + " AND tipo = 'Pago' ORDER BY fecha DESC"));
-						//this.child("fdbCodCuenta").setDisabled(true);
-						this.child("fdbIdSubcuenta").setDisabled(true);
-						this.child("fdbCodSubcuenta").setDisabled(true);
-					}
-				} else {
-					this.child("fdbTipo").setValue("Pago");
-					this.child("fdbCodCuenta").setValue(this.iface.calculateField("codcuenta"));
-					if (cursor.cursorRelation().valueBuffer("coddivisa") != this.iface.divisaEmpresa) {
-						this.child("fdbTasaConv").setDisabled(false);
-						this.child("rbnTasaActual").checked = true;
-						this.iface.bngTasaCambio_clicked(0);
-					}
-				}
-				this.child("fdbFecha").setValue(util.addDays(curPagosDevol.valueBuffer("fecha"), 1));
-			} else {
-				this.child("fdbTipo").setValue("Pago");
-				this.child("fdbCodCuenta").setValue(this.iface.calculateField("codcuenta"));
-				if (this.iface.contabActivada) {
-					this.child("fdbIdSubcuenta").setValue(this.iface.calculateField("idsubcuentadefecto"));
-				}
-				if (cursor.cursorRelation().valueBuffer("coddivisa") != this.iface.divisaEmpresa) {
-					this.child("fdbTasaConv").setDisabled(false);
-					this.child("rbnTasaActual").checked = true;
-					this.iface.bngTasaCambio_clicked(0);
-				}
+			this.child("fdbTipo").setValue("Pago");
+			this.child("fdbCodCuenta").setValue(this.iface.calculateField("codcuenta"));
+			if (this.iface.contabActivada) {
+				this.child("fdbIdSubcuenta").setValue(this.iface.calculateField("idsubcuentadefecto"));
+			}
+			if (cursor.cursorRelation().valueBuffer("coddivisa") != this.iface.divisaEmpresa) {
+				this.child("fdbTasaConv").setDisabled(false);
+				this.child("rbnTasaActual").checked = true;
+				this.iface.bngTasaCambio_clicked(0);
 			}
 			break;
 		case cursor.Edit:
@@ -255,31 +228,15 @@ function proveed_validateForm():Boolean
 	var util:FLUtil = new FLUtil();
 
 	/** \C
-	Si es una devolución, está activada la contabilidad y su pago correspondiente no genera asiento no puede generar asiento
-	\end */
-	if (this.iface.contabActivada && this.iface.noGenAsiento && this.cursor().valueBuffer("tipo") == "Devolución" && !this.child("fdbNoGenerarAsiento").value()) {
-		MessageBox.warning(util.translate("scripts", "No se puede generar el asiento de una devolución cuyo pago no tiene asiento asociado"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-		return false;
-	}	
-	
-	/** \C
-	Si la contabilidad está integrada, se debe seleccionar una subcuenta válida a la que asignar el asiento de pago o devolución
+	Si la contabilidad está integrada, se debe seleccionar una subcuenta válida a la que asignar el asiento de pago
 	\end */
 	if (this.iface.contabActivada && !this.child("fdbNoGenerarAsiento").value() && (this.child("fdbCodSubcuenta").value().isEmpty() || this.child("fdbIdSubcuenta").value() == 0)) {
-		MessageBox.warning(util.translate("scripts", "Debe seleccionar una subcuenta válida a la que asignar el asiento de pago o devolución"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "Debe seleccionar una subcuenta válida a la que asignar el asiento de pago"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 
-/*
-	La fecha de un pago o devolución debe ser siempre igual o posterior\na la fecha de emisión del recibo
-	\end 
-	if (util.daysTo(cursor.cursorRelation().valueBuffer("fecha"), cursor.valueBuffer("fecha")) < 0) {
-		MessageBox.warning(util.translate("scripts", "La fecha de un pago o devolución debe ser siempre igual o posterior\na la fecha de emisión del recibo."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
-		return false;
-	}
-*/
 	/** \C
-	La fecha de un pago o devolución debe ser siempre posterior\na la fecha del pago o devolución anterior
+	La fecha de un pago debe ser siempre posterior\na la fecha del pago anterior
 	\end */
 	var curPagosDevol:FLSqlCursor = new FLSqlCursor("pagosdevolprov");
 	curPagosDevol.select("idrecibo = " + cursor.cursorRelation().valueBuffer("idrecibo") + " AND idpagodevol <> " + cursor.valueBuffer("idpagodevol") + " ORDER BY  fecha, idpagodevol");
@@ -287,7 +244,7 @@ function proveed_validateForm():Boolean
 		curPagosDevol.setModeAccess(curPagosDevol.Browse);
 		curPagosDevol.refreshBuffer();
 		if (util.daysTo(curPagosDevol.valueBuffer("fecha"), cursor.valueBuffer("fecha")) <= 0) {
-			MessageBox.warning(util.translate("scripts", "La fecha de un pago o devolución debe ser siempre posterior\na la fecha del pago o devolución anterior."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+			MessageBox.warning(util.translate("scripts", "La fecha de un pago debe ser siempre posterior\na la fecha del pago anterior."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 			return false;
 		}
 	}
@@ -305,7 +262,7 @@ function proveed_validateForm():Boolean
 }
 
 /** \C
-Si se ha establecido un pago o devolución, la factura correspondiente al recibo se bloquea y no podrá editarse.
+Si se ha establecido un pago, la factura correspondiente al recibo se bloquea y no podrá editarse.
 \end */
 function proveed_acceptedForm()
 {

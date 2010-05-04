@@ -56,7 +56,7 @@
 	<field>
 		<name>orden</name>
 		<!-- Criterio de ordenación -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Recibos por")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Facturas por")</alias>
 		<pk>false</pk>
 		<type>string</type>
 		<optionslist>No ordenar,Código,Nombre</optionslist>

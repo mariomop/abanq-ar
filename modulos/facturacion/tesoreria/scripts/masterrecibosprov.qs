@@ -216,7 +216,7 @@ function fechas_actualizarFiltro()
 			break;
 		}
 		case 1: {
-			filtro += " AND estado = 'Emitido'";
+			filtro += " AND estado = 'Pendiente'";
 			break;
 		}
 		case 2: {
@@ -251,7 +251,7 @@ function fechas_actualizarFiltroCombo()
 			break;
 		}
 		case 1: {
-			filtro += " AND estado = 'Emitido'";
+			filtro += " AND estado = 'Pendiente'";
 			break;
 		}
 		case 2: {

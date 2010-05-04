@@ -114,13 +114,13 @@ function interna_init()
 			break;
 		}
 		case "pagosdevolcli": {
-			label = util.translate("scripts", "Pagos y devoluciones de cliente");
+			label = util.translate("scripts", "Pagos de cliente");
 			solucion = util.translate("scripts", "Escoja un ejercicio que contenga la fecha establecida")
 			this.child("fdbFecha").setDisabled(true);
 			break;
 		}
 		case "pagosdevolprov": {
-			label = util.translate("scripts", "Pagos y devoluciones de proveedor");
+			label = util.translate("scripts", "Pagos de proveedor");
 			solucion = util.translate("scripts", "Escoja un ejercicio que contenga la fecha establecida")
 			this.child("fdbFecha").setDisabled(true);
 			break;

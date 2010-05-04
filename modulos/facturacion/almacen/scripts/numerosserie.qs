@@ -143,7 +143,7 @@ function interna_init()
 	
 	dato = util.sqlSelect("facturascli", "codigo", "idfactura = " + cursor.valueBuffer("idfacturadevol"));
 	if (dato)
-		this.child("leFacturaDev").text = util.translate("scripts", "Factura de devolución") + " " + dato;
+		this.child("leFacturaDev").text = util.translate("scripts", "Nota de crédito") + " " + dato;
 	
 }
 

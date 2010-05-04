@@ -639,13 +639,13 @@ function oficial_cambiarCuentaDom()
 	var codCliente:String = cursor.valueBuffer("codcliente");
 	
 	
-	var numRecibos:String = util.sqlSelect("reciboscli", "count(*)", "estado IN ('Emitido', 'Devuelto') AND codcliente = '" + codCliente + "'");
+	var numRecibos:String = util.sqlSelect("reciboscli", "count(*)", "estado = 'Pendiente' AND codcliente = '" + codCliente + "'");
 	
     if(!numRecibos||numRecibos==0){
 		var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de domiciliación %1 para este cliente.\n").arg(desCuentaDom), MessageBox.Yes, MessageBox.NoButton);
 	    return;
 	}
-	var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de domiciliación %1 para este cliente.\n¿Desea cambiar sus %2 recibos pendientes de pago a la nueva cuenta  de domiciliación?").arg(desCuentaDom).arg(numRecibos), MessageBox.Yes, MessageBox.No);
+	var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de domiciliación %1 para este cliente.\n¿Desea cambiar sus %2 facturas pendientes de pago a la nueva cuenta  de domiciliación?").arg(desCuentaDom).arg(numRecibos), MessageBox.Yes, MessageBox.No);
 				
 	if (res != MessageBox.Yes){
 		return false;
@@ -671,7 +671,7 @@ function oficial_cambiarCuentaDomRecibosEmitidos()
 	var curRecibo:FLSqlCursor = new FLSqlCursor("reciboscli");
 	var codCliente:String = cursor.valueBuffer("codcliente");
 
-	curRecibo.select("estado IN ('Emitido', 'Devuelto') AND codcliente = '" + codCliente + "'");
+	curRecibo.select("estado = 'Pendiente' AND codcliente = '" + codCliente + "'");
 	var valoresRecibo:String;
 	if (qryCuenta.first()) {
 		while(curRecibo.next()){
@@ -686,10 +686,10 @@ function oficial_cambiarCuentaDomRecibosEmitidos()
 			if (!curRecibo.commitBuffer()) {
 				return false;
 			}
-			valoresRecibo += "Recibo: " + curRecibo.valueBuffer("codigo") + "    "+ "Importe: " + util.roundFieldValue(curRecibo.valueBuffer("importeeuros"), "reciboscli", "importe") + "    " + "Fecha: " + util.dateAMDtoDMA(curRecibo.valueBuffer("fecha")) + "\n";	
+			valoresRecibo += "Factura: " + curRecibo.valueBuffer("codigo") + "    "+ "Importe: " + util.roundFieldValue(curRecibo.valueBuffer("importeeuros"), "reciboscli", "importe") + "    " + "Fecha: " + util.dateAMDtoDMA(curRecibo.valueBuffer("fecha")) + "\n";	
 		}
 	}
-	MessageBox.information(util.translate("scripts", "Se han cambiado correctamente  los recibos pendientes de pago:\n \n%1 ").arg(valoresRecibo),MessageBox.Ok, MessageBox.NoButton);
+	MessageBox.information(util.translate("scripts", "Se han cambiado correctamente las facturas pendientes de pago:\n \n%1 ").arg(valoresRecibo),MessageBox.Ok, MessageBox.NoButton);
 }
 
 function oficial_mostrarDesCuentaDom()
@@ -1512,13 +1512,13 @@ function silixDebitoAutomatico_cambiarCuentaDebAutom()
 	var cursor:FLSqlCursor = this.cursor();
 	var codCliente:String = cursor.valueBuffer("codcliente");
 	
-	var numRecibos:String = util.sqlSelect("reciboscli", "count(*)", "estado IN ('Emitido', 'Devuelto') AND codcliente = '" + codCliente + "'");
+	var numRecibos:String = util.sqlSelect("reciboscli", "count(*)", "estado = 'Pendiente' AND codcliente = '" + codCliente + "'");
 	
 	if(!numRecibos||numRecibos==0) {
 		var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de débito automático %1 para este cliente.\n").arg(desCuentaDebAutom), MessageBox.Yes, MessageBox.NoButton);
 	    return;
 	}
-	var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de débito automático %1 para este cliente.\n¿Desea cambiar sus %2 recibos pendientes de pago a la nueva cuenta de débito automático?").arg(desCuentaDebAutom).arg(numRecibos), MessageBox.Yes, MessageBox.No);
+	var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de débito automático %1 para este cliente.\n¿Desea cambiar sus %2 facturas pendientes de pago a la nueva cuenta de débito automático?").arg(desCuentaDebAutom).arg(numRecibos), MessageBox.Yes, MessageBox.No);
 				
 	if (res != MessageBox.Yes){
 		return false;
@@ -1544,7 +1544,7 @@ function silixDebitoAutomatico_cambiarCuentaDebAutomRecibosEmitidos()
 	var curRecibo:FLSqlCursor = new FLSqlCursor("reciboscli");
 	var codCliente:String = cursor.valueBuffer("codcliente");
 
-	curRecibo.select("estado IN ('Emitido', 'Devuelto') AND codcliente = '" + codCliente + "'");
+	curRecibo.select("estado = 'Pendiente' AND codcliente = '" + codCliente + "'");
 	var valoresRecibo:String;
 	if (qryCuenta.first()) {
 		while(curRecibo.next()){
@@ -1559,10 +1559,10 @@ function silixDebitoAutomatico_cambiarCuentaDebAutomRecibosEmitidos()
 			if (!curRecibo.commitBuffer()) {
 				return false;
 			}
-			valoresRecibo += "Recibo: " + curRecibo.valueBuffer("codigo") + "    "+ "Importe: " + util.roundFieldValue(curRecibo.valueBuffer("importeeuros"), "reciboscli", "importe") + "    " + "Fecha: " + util.dateAMDtoDMA(curRecibo.valueBuffer("fecha")) + "\n";	
+			valoresRecibo += "Factura: " + curRecibo.valueBuffer("codigo") + "    "+ "Importe: " + util.roundFieldValue(curRecibo.valueBuffer("importeeuros"), "reciboscli", "importe") + "    " + "Fecha: " + util.dateAMDtoDMA(curRecibo.valueBuffer("fecha")) + "\n";	
 		}
 	}
-	MessageBox.information(util.translate("scripts", "Se han cambiado correctamente los recibos pendientes de pago:\n \n%1 ").arg(valoresRecibo),MessageBox.Ok, MessageBox.NoButton);
+	MessageBox.information(util.translate("scripts", "Se han cambiado correctamente las facturas pendientes de pago:\n \n%1 ").arg(valoresRecibo),MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixDebitoAutomatico_mostrarDesCuentaDebAutom()

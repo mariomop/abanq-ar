@@ -193,7 +193,7 @@
 	
 	<field>
 		<name>nogenerarasiento</name>
-		<!--Si la validación del pago o devolución va a generar un asiento contable-->
+		<!--Si la validación del pago va a generar un asiento contable-->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Ignorar contabilidad")</alias>
 		<null>false</null>
 		<pk>false</pk>

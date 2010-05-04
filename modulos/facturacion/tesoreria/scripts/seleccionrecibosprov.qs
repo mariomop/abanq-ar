@@ -42,11 +42,20 @@ class oficial extends interna {
 	function seleccionar() {
 		return this.ctx.oficial_seleccionar();
 	}
+	function seleccionarTodos() {
+		return this.ctx.oficial_seleccionarTodos();
+	}
 	function quitar() {
 		return this.ctx.oficial_quitar();
 	}
+	function quitarTodos() {
+		return this.ctx.oficial_quitarTodos();
+	}
 	function refrescarTablas() {
 		return this.ctx.oficial_refrescarTablas();
+	}
+	function calcularTotal() {
+		return this.ctx.oficial_calcularTotal();
 	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
@@ -95,12 +104,16 @@ function interna_init()
 		this.iface.tdbRecibos.cursor().setMainFilter(filtro);
 		this.iface.tdbRecibosSel.cursor().setMainFilter(filtro);
 	}
-	this.iface.refrescarTablas();
-	
+
 	connect(this.iface.tdbRecibos.cursor(), "recordChoosed()", this, "iface.seleccionar()");
 	connect(this.iface.tdbRecibosSel.cursor(), "recordChoosed()", this, "iface.quitar()");
 	connect(this.child("pbnSeleccionar"), "clicked()", this, "iface.seleccionar()");
+	connect(this.child("pbnSeleccionarTodos"), "clicked()", this, "iface.seleccionarTodos()");
 	connect(this.child("pbnQuitar"), "clicked()", this, "iface.quitar()");
+	connect(this.child("pbnQuitarTodos"), "clicked()", this, "iface.quitarTodos()");
+
+	this.iface.refrescarTablas();
+	this.iface.calcularTotal();
 }
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -134,7 +147,7 @@ function oficial_seleccionar()
 {
 	var cursor:FLSqlCursor = this.cursor();
 	var datos:String = cursor.valueBuffer("datos");
-	var idRecibo:String = this.iface.tdbRecibos.cursor().valueBuffer("idRecibo");
+	var idRecibo:String = this.iface.tdbRecibos.cursor().valueBuffer("idrecibo");
 	if (!idRecibo)
 		return;
 	if (!datos || datos == "")
@@ -145,6 +158,42 @@ function oficial_seleccionar()
 	cursor.setValueBuffer("datos", datos);
 	
 	this.iface.refrescarTablas();
+	this.iface.calcularTotal();
+}
+
+/** \D Incluye todos los recibos en la lista de datos
+*/
+function oficial_seleccionarTodos()
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var datos:String = cursor.valueBuffer("datos");
+	var idRecibo:String;
+	var curLineas:FLSqlCursor = this.iface.tdbRecibos.cursor();
+	switch (curLineas.size()) {
+		case 0: {
+			return;
+		}
+		default: {
+			curLineas.first();
+			idRecibo = curLineas.valueBuffer("idrecibo");
+			if (!datos || datos == "")
+				datos = idRecibo;
+			else
+				datos += "," + idRecibo;
+			
+			while (curLineas.next()) {
+				idRecibo = curLineas.valueBuffer("idrecibo");
+				if (!datos || datos == "")
+					datos = idRecibo;
+				else
+					datos += "," + idRecibo;
+			}
+		break;
+		}
+	}
+	cursor.setValueBuffer("datos", datos);
+	this.iface.refrescarTablas();
+	this.iface.calcularTotal();
 }
 
 /** \D Quira un recibo de la lista de datos
@@ -153,7 +202,7 @@ function oficial_quitar()
 {
 	var cursor:FLSqlCursor = this.cursor();
 	var datos:String = cursor.valueBuffer("datos");
-	var idRecibo:String = this.iface.tdbRecibosSel.cursor().valueBuffer("idRecibo");
+	var idRecibo:String = this.iface.tdbRecibosSel.cursor().valueBuffer("idrecibo");
 	if (!idRecibo)
 		return;
 	
@@ -171,6 +220,31 @@ function oficial_quitar()
 	}
 	cursor.setValueBuffer("datos", datosNuevos);
 	this.iface.refrescarTablas();
+	this.iface.calcularTotal();
+}
+
+/** \D Quira todos los recibos de la lista de datos
+*/
+function oficial_quitarTodos()
+{
+	var cursor:FLSqlCursor = this.cursor();
+	cursor.setValueBuffer("datos", "");
+	this.iface.refrescarTablas();
+	this.iface.calcularTotal();
+}
+
+function oficial_calcularTotal()
+{
+	var util:FLUtil = new FLUtil;
+	var cursor:FLSqlCursor = this.cursor();
+	var datos:String = cursor.valueBuffer("datos");
+	var total:Number = 0;
+	if (datos || datos != "") {
+		total = parseFloat(util.sqlSelect("recibosprov", "SUM(importe)", "idrecibo IN (" + datos + ")"));
+		if (!total || isNaN(total))
+			total = 0;
+	}
+	this.child("lblImporte").text = util.translate("scripts", "Total seleccionado: %1").arg(util.roundFieldValue(total, "recibosprov", "importe"));
 }
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

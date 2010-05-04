@@ -14,7 +14,7 @@
 			</rect>
 		</property>
 		<property name="caption" >
-			<string>Recibos a Clientes</string>
+			<string>Facturas de Clientes</string>
 		</property>
 		<vbox>
 			<property name="name" >
@@ -1547,12 +1547,6 @@
 				<property name="name" >
 					<cstring>frame35</cstring>
 				</property>
-				<property name="maximumSize" >
-					<size>
-						<width>32767</width>
-						<height>100</height>
-					</size>
-				</property>
 				<property name="frameShape" >
 					<enum>GroupBoxPanel</enum>
 				</property>
@@ -1685,6 +1679,12 @@
 								<height>50</height>
 							</size>
 						</property>
+						<property name="maximumSize" >
+							<size>
+								<width>32767</width>
+								<height>50</height>
+							</size>
+						</property>
 						<property name="fieldName" >
 							<string>texto</string>
 						</property>
@@ -1710,7 +1710,7 @@
 							</font>
 						</property>
 						<property name="title" >
-							<string>&amp;Pagos y Devoluciones</string>
+							<string>&amp;Pagos</string>
 						</property>
 						<vbox>
 							<property name="name" >

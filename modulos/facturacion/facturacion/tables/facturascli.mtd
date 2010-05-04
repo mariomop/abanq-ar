@@ -542,19 +542,6 @@
 		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
-		<name>idpagodevol</name>
-		<!-- Registro de devolución de recibo asociado con la factura-->        <alias>QT_TRANSLATE_NOOP("MetaData","Devolución")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>uint</type>
-		<visiblegrid>false</visiblegrid>
-		<relation>
-			<table>pagosdevolcli</table>
-			<field>idpagodevol</field>
-			<card>M1</card>
-		</relation>
-	</field>
-	<field>
 		<name>hora</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Hora")</alias>
 		<null>false</null>

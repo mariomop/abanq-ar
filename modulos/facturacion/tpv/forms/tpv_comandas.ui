@@ -2303,7 +2303,7 @@
 									<cstring>recibos</cstring>
 								</property>
 								<attribute name="title">
-									<string>&amp;Recibos</string>
+									<string>Factu&amp;ras</string>
 								</attribute>
 								<vbox>
 									<property name="name">

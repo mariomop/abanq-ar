@@ -2,7 +2,7 @@
 <TMD>
 	<name>recibosprov</name>
 	<!-- Listado de recibos de proveedores-->
-	<alias>QT_TRANSLATE_NOOP("MetaData","Recibos de Proveedores")</alias>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Facturas de Proveedores")</alias>
 	<field>
 		<name>idrecibo</name>
 		<!-- Identificador interno -->
@@ -91,7 +91,7 @@
 	</field>
 	<field>
 		<name>idremesa</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Remesa")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Remesa nº")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>uint</type>
@@ -99,7 +99,7 @@
 	</field>
 	<field>
 		<name>idpagomulti</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Pago Múltiple")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Orden de pago nº")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>uint</type>
@@ -107,7 +107,7 @@
 	</field>
 	<field>
 		<name>idfactura</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Identificador Factura")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. Factura")</alias>
 		<null>false</null>
 		<ck>true</ck>
 		<pk>false</pk>
@@ -282,15 +282,6 @@
 		<length>100</length>
 	</field>
 	<field>
-		<name>apartado</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Apdo. de correos")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>10</length>
-		<visiblegrid>false</visiblegrid>
-	</field>
-	<field>
 		<name>codpais</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Pais")</alias>
 		<null>true</null>
@@ -309,7 +300,7 @@
 	</field>
 	<field>
 		<name>numero</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Numero")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Número")</alias>
 		<null>false</null>
 		<ck>true</ck>
 		<pk>false</pk>

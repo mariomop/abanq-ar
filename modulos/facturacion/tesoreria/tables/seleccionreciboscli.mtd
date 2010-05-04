@@ -2,7 +2,7 @@
 <TMD>
 	<name>seleccionreciboscli</name>
 	<!-- Selección de recibos de clientes -->
-	<alias>QT_TRANSLATE_NOOP("MetaData","Selección de Recibos de Clientes")</alias>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Selección de Facturas de Clientes")</alias>
 	
 	<field>
 		<name>id</name>

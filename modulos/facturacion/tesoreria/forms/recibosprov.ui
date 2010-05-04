@@ -14,7 +14,7 @@
 			</rect>
 		</property>
 		<property name="caption" >
-			<string>Recibos de Proveedores</string>
+			<string>Facturas de Proveedores</string>
 		</property>
 		<vbox>
 			<property name="name" >
@@ -1425,12 +1425,6 @@
 				<property name="name" >
 					<cstring>frame35</cstring>
 				</property>
-				<property name="maximumSize" >
-					<size>
-						<width>32767</width>
-						<height>100</height>
-					</size>
-				</property>
 				<property name="frameShape" >
 					<enum>GroupBoxPanel</enum>
 				</property>
@@ -1559,8 +1553,14 @@
 						</property>
 						<property name="minimumSize" >
 							<size>
-								<width>87</width>
-								<height>24</height>
+								<width>0</width>
+								<height>50</height>
+							</size>
+						</property>
+						<property name="maximumSize" >
+							<size>
+								<width>32767</width>
+								<height>50</height>
 							</size>
 						</property>
 						<property name="fieldName" >
@@ -1580,7 +1580,7 @@
 					</font>
 				</property>
 				<property name="title" >
-					<string>&amp;Pagos y Devoluciones</string>
+					<string>&amp;Pagos</string>
 				</property>
 				<vbox>
 					<property name="name" >
@@ -1661,31 +1661,6 @@
 								<string>Para crear un nuevo registro en la tabla</string>
 							</property>
 						</widget>
-						<spacer>
-							<property name="name" >
-								<cstring>Spacer2_3_3</cstring>
-							</property>
-							<property name="orientation" >
-								<enum>Horizontal</enum>
-							</property>
-							<property name="sizeType" >
-								<enum>Expanding</enum>
-							</property>
-							<property name="sizeHint" >
-								<size>
-									<width>470</width>
-									<height>16</height>
-								</size>
-							</property>
-							<property name="geometry" >
-								<rect>
-									<x>140</x>
-									<y>20</y>
-									<width>470</width>
-									<height>16</height>
-								</rect>
-							</property>
-						</spacer>
 						<widget class="QToolButton" >
 							<property name="name" >
 								<cstring>toolButtonEdit</cstring>
@@ -1830,6 +1805,23 @@
 								<string>Para ver registro, sin permitir editar</string>
 							</property>
 						</widget>
+						<spacer>
+							<property name="name" >
+								<cstring>Spacer2_3_3</cstring>
+							</property>
+							<property name="orientation" >
+								<enum>Horizontal</enum>
+							</property>
+							<property name="sizeType" >
+								<enum>Expanding</enum>
+							</property>
+							<property name="sizeHint" >
+								<size>
+									<width>470</width>
+									<height>16</height>
+								</size>
+							</property>
+						</spacer>
 					</widget>
 					<widget class="FLTableDB" >
 						<property name="name" >

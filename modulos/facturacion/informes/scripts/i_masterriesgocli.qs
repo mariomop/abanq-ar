@@ -122,7 +122,7 @@ function oficial_rellenarTabla()
 	while (qry.next()) {
 		
 		impRecibos = qry.value(1);
-		impPendientes = util.sqlSelect("reciboscli", "SUM(importe)", whereFechas + " AND codcliente = '" + qry.value(0) + "' AND estado IN ('Emitido','Devuelto')");
+		impPendientes = util.sqlSelect("reciboscli", "SUM(importe)", whereFechas + " AND codcliente = '" + qry.value(0) + "' AND estado = 'Pendiente'");
 		impPagados = impRecibos - impPendientes;
 		riesgoMax = qry.value(2);
 		riesgoExced = impPendientes - riesgoMax;

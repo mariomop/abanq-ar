@@ -26,15 +26,15 @@
 		WHERE fc.tipoventa = 'Factura' AND fc.codpago IN ('CTACTE')
 		
 		UNION
-		SELECT fc.fecha, 'N. Crédito' as tipo, fc.codigo, fc.codcliente, fc.nombrecliente, fc.total, fc.coddivisa, '' as observaciones
+		SELECT fc.fecha, 'Nota de Crédito' as tipo, fc.codigo, fc.codcliente, fc.nombrecliente, fc.total, fc.coddivisa, '' as observaciones
 		FROM facturascli AS fc WHERE fc.tipoventa = 'Nota de Crédito'
 		
 		UNION
-		SELECT fc.fecha, 'N. Débito' as tipo, fc.codigo, fc.codcliente, fc.nombrecliente, fc.total, fc.coddivisa, '' as observaciones
+		SELECT fc.fecha, 'Nota de Débito' as tipo, fc.codigo, fc.codcliente, fc.nombrecliente, fc.total, fc.coddivisa, '' as observaciones
 		FROM facturascli AS fc WHERE fc.tipoventa = 'Nota de Débito'
 		
 		UNION
-		SELECT pmc.fecha, 'Recibo Cobro' as tipo, pmc.idpagomulti::varchar as codigo, pmc.codcliente, pmc.nombrecliente, pmc.total, pmc.coddivisa, '' as observaciones
+		SELECT pmc.fecha, 'Recibo de Cobro' as tipo, pmc.idpagomulti::varchar as codigo, pmc.codcliente, pmc.nombrecliente, pmc.total, pmc.coddivisa, '' as observaciones
 		FROM pagosmulticli AS pmc
 		
 		) AS consultasalidas
@@ -44,5 +44,6 @@
 	</where>
 	
 	<order>
+		consultasalidas.fecha ASC
 	</order>
 </QRY>

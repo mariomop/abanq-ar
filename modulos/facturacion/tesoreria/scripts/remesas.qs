@@ -140,7 +140,7 @@ function interna_init()
 		this.iface.longSubcuenta = util.sqlSelect("ejercicios", "longsubcuenta", "codejercicio = '" + this.iface.ejercicioActual + "'");
 		this.child("fdbIdSubcuenta").setFilter("codejercicio = '" + this.iface.ejercicioActual + "'");
 		this.iface.posActualPuntoSubcuenta = -1;
-		this.child("lblResAsientos").text = util.translate("scripts", "Existe un asiento por pago o devolución de recibo. A continuación se muestra un acumulado de las partidas de todos los asientos asociados a los recibos de la remesa.");
+		this.child("lblResAsientos").text = util.translate("scripts", "Existe un asiento por pago de factura. A continuación se muestra un acumulado de las partidas de todos los asientos asociados a las facturas de la remesa.");
 
 		this.iface.pagoIndirecto_ = util.sqlSelect("factteso_general", "pagoindirecto", "1 = 1");
 		if (!this.iface.pagoIndirecto_) {
@@ -183,7 +183,7 @@ function interna_validateForm():Boolean
 	/** \C La remesa debe tener al menos un recibo
 	\end */
 	if (!util.sqlSelect("pagosdevolcli", "idpagodevol", "idremesa = " + cursor.valueBuffer("idremesa"))) {
-		MessageBox.warning(util.translate("scripts", "La remesa debe tener al menos un recibo."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "La remesa debe tener al menos una factura."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 	
@@ -199,7 +199,7 @@ function interna_validateForm():Boolean
 		return false;
 		
 	if (qryRecibos.first()) {
-		MessageBox.warning(util.translate("scripts", "El recibo %1 está asociado a una cuenta bancaria que ha sido eliminada del cliente.\nDebe asociar el recibo a una cuenta válida antes de añadirlo a la remesa.").arg(qryRecibos.value("r.codigo")), MessageBox.Ok, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "La factura %1 está asociada a una cuenta bancaria que ha sido eliminada del cliente.\nDebe asociar la factura a una cuenta válida antes de añadirlo a la remesa.").arg(qryRecibos.value("r.codigo")), MessageBox.Ok, MessageBox.NoButton);
 		return false;
 	}
 	*/
@@ -347,7 +347,7 @@ function oficial_agregarRecibo():Boolean
 
 	if (this.iface.contabActivada && this.child("fdbCodSubcuenta").value().isEmpty()) {
 		if (cursor.valueBuffer("nogenerarasiento") == false) {
-			MessageBox.warning(util.translate("scripts", "Debe seleccionar una subcuenta a la que asignar el asiento de pago o devolución"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+			MessageBox.warning(util.translate("scripts", "Debe seleccionar una subcuenta a la que asignar el asiento de pago"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 			return false;
 		}
 	}
@@ -388,7 +388,7 @@ function oficial_filtroRecibosCli():String
 {
 	var cursor:FLSqlCursor = this.cursor();
 	
-	return "estado IN ('Emitido', 'Devuelto')";
+	return "estado = 'Pendiente'";
 }
 
 /** \D Se elimina el recibo activo de la remesa. El pago asociado a la remesa debe ser el último asignado al recibo
@@ -413,7 +413,7 @@ function oficial_excluirReciboRemesa(idRecibo:String, idRemesa:String):Boolean
 	var cuentaValida:String = util.sqlSelect("reciboscli r LEFT OUTER JOIN cuentasbcocli c ON r.codcliente = c.codcliente", "r.idrecibo", "idrecibo = " + idRecibo + " AND (r.codcuenta = c.codcuenta OR r.codcuenta = '' OR r.codcuenta IS NULL)", "reciboscli,cuentasbcocli");
 	if (!cuentaValida) {
 		var codRecibo:String = util.sqlSelect("reciboscli", "codigo", "idrecibo = " + idRecibo);
-		MessageBox.warning(util.translate("scripts", "La cuenta bancaria del recibo %1 no es una cuenta válida del cliente.\nCambie o borre la cuenta antes de excluir el recibo de la remesa.").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "La cuenta bancaria de la factura %1 no es una cuenta válida del cliente.\nCambie o borre la cuenta antes de excluir la factura de la remesa.").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
 		return false;
 	}
 	
@@ -426,11 +426,6 @@ function oficial_excluirReciboRemesa(idRecibo:String, idRemesa:String):Boolean
 
 	if (!curRecibos.first())
 		return false;
-	
-	if (curRecibos.valueBuffer("estado") == "Devuelto") {
-		MessageBox.warning(util.translate("scripts", "Para excluir el recibo %1 de la remesa debe eliminar antes la devolución que se produjo posteriormente").arg(curRecibos.valueBuffer("codigo")), MessageBox.Ok, MessageBox.NoButton);
-		return false;
-	}
 	
 	curRecibos.setModeAccess(curRecibos.Edit);
 	curRecibos.refreshBuffer();
@@ -452,9 +447,7 @@ function oficial_excluirReciboRemesa(idRecibo:String, idRemesa:String):Boolean
 	if (curPagosDev.last())
 		curPagosDev.setUnLock("editable", true);
 	if (curPagosDev.size() == 0)
-		curRecibos.setValueBuffer("estado", "Emitido");
-	else
-		curRecibos.setValueBuffer("estado", "Devuelto");
+		curRecibos.setValueBuffer("estado", "Pendiente");
 	curRecibos.setNull("idremesa");
 	
 	if (!curRecibos.commitBuffer())
@@ -563,7 +556,7 @@ function oficial_asociarReciboRemesa(idRecibo:String, curRemesa:FLSqlCursor):Boo
 	var idRemesa:String = curRemesa.valueBuffer("idremesa");
 	
 	if (util.sqlSelect("reciboscli", "coddivisa", "idrecibo = " + idRecibo) != curRemesa.valueBuffer("coddivisa")) {
-		MessageBox.warning(util.translate("scripts", "No es posible incluir el recibo.\nLa divisa del recibo y de la remesa deben ser la misma."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "No es posible incluir la factura.\nLa divisa de la factura y de la remesa deben ser la misma."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return;
 	}
 
@@ -582,7 +575,7 @@ function oficial_asociarReciboRemesa(idRecibo:String, curRemesa:FLSqlCursor):Boo
 	if (this.iface.curPagosDev.last()) {
 		if (util.daysTo(this.iface.curPagosDev.valueBuffer("fecha"), fecha) < 0) {
 			var codRecibo:String = util.sqlSelect("reciboscli", "codigo", "idrecibo = " + idRecibo);
-			MessageBox.warning(util.translate("scripts", "Existen pagos o devoluciones con fecha igual o porterior a la de la remesa para el recibo %1").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
+			MessageBox.warning(util.translate("scripts", "Existen pagos con fecha igual o porterior a la de la remesa para la factura %1").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
 			return false;
 		}
 	}

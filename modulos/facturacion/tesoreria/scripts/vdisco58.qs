@@ -206,7 +206,7 @@ function interna_acceptedForm()
     fileIso.close();
 
 	var util:FLUtil = new FLUtil();
-	MessageBox.information(util.translate("scripts", "Generado fichero de recibos en :\n\n" + this.child("leFichero").text + "\n\n"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+	MessageBox.information(util.translate("scripts", "Generado fichero de facturas en :\n\n" + this.child("leFichero").text + "\n\n"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 }
 
 //// INTERNA /////////////////////////////////////////////////////

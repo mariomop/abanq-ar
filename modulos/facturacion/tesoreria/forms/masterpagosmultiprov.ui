@@ -28,7 +28,7 @@
 			</size>
 		</property>
 		<property name="caption">
-			<string>Pagos múltiples a proveedores</string>
+			<string>Órdenes de pago a proveedores</string>
 		</property>
 		<property name="focusPolicy">
 			<enum>StrongFocus</enum>

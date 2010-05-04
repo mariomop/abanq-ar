@@ -27,7 +27,6 @@ class interna {
     var ctx:Object;
     function interna( context ) { this.ctx = context; }
     function init() { this.ctx.interna_init(); }
-	function recordDelAfterremesas() { return this.ctx.interna_recordDelAfterremesas(); }
 }
 //// INTERNA /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -96,47 +95,6 @@ function interna_init()
 		connect(this.child("pbnADisco"), "clicked()", this, "iface.volcarADisco");
 }
 
-/** \C Para todos los recibos pertenecientes a la remesa, el último pago o devolución de la lista de pagos y devoluciones se elimina, y se permite de nuevo crear nuevos pagos y devoluciones para el recibo. Se actualiza el estado del recibo a devuelto o emitido, en función de si quedan pagos y devoluciones o no respectivamente.
-\end */
-function interna_recordDelAfterremesas()
-{
-/*
-	var idremesa:Number = this.cursor().valueBuffer("idremesa");
-	var curRecibos:FLSqlCursor = new FLSqlCursor("reciboscli");
-	var curPagosDev:FLSqlCursor = new FLSqlCursor("pagosdevolcli");
-	var curFactura:FLSqlCursor = new FLSqlCursor("facturascli");
-	var recibo:Number, idfactura:Number;
-	with(curRecibos) {
-		select("idremesa = " + idremesa);
-		while (next()) {
-			setModeAccess(Edit);
-			refreshBuffer();
-			setValueBuffer("idremesa", 0);
-			recibo = valueBuffer("idrecibo");
-			idfactura = valueBuffer("idfactura");
-			with(curPagosDev) {
-				select("idrecibo = " + recibo + " ORDER BY idpagodevol");
-				if (last()) {
-					setModeAccess(Del);
-					refreshBuffer();
-					commitBuffer();
-				}
-				select("idrecibo = " + recibo + " ORDER BY idpagodevol");
-				if (last())
-					setUnLock("editable", true);
-			}
-			if (curPagosDev.size() == 0)
-				setValueBuffer("estado", "Emitido");
-			else
-				setValueBuffer("estado", "Devuelto");
-			commitBuffer();
-			curFactura.select("idfactura = " + idfactura);
-			if (curFactura.first())
-				curFactura.setUnLock("editable", true);
-		}
-	}
-*/
-}
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 

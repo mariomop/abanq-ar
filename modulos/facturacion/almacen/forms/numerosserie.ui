@@ -722,7 +722,7 @@
 									</font>
 								</property>
 								<property name="text" >
-									<string>Factura de devolución</string>
+									<string>Nota de crédito</string>
 								</property>
 							</widget>
 							<widget class="QPushButton" >

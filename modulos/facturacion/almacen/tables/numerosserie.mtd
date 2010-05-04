@@ -91,7 +91,7 @@
 	</field>
 	<field>
 		<name>idfacturadevol</name>
-		<!--Identificador de la factura de devolución-->        <alias>QT_TRANSLATE_NOOP("MetaData","Factura")</alias>
+		<!--Identificador de la factura de devolución-->        <alias>QT_TRANSLATE_NOOP("MetaData","Nota de crédito")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>int</type>

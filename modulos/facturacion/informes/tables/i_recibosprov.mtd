@@ -2,7 +2,7 @@
 <TMD>
 	<name>i_recibosprov</name>
 	<!-- Listado de informes de recibos de proveedores -->
-	<alias>QT_TRANSLATE_NOOP("MetaData","Informes de recibos de proveedores")</alias>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Informes de facturas de proveedores")</alias>
 	
 	<field>
 		<name>id</name>
@@ -26,7 +26,7 @@
 	<field>
 		<name>d_recibosprov_codigo</name>
 		<!-- Código del recibo inicial -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Desde recibo Nº")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Desde factura Nº")</alias>
 		<pk>false</pk>
 		<type>string</type>
 		<length>21</length>
@@ -42,7 +42,7 @@
 	<field>
 		<name>h_recibosprov_codigo</name>
 		<!-- Código del recibo final -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Hasta recibo Nº")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Hasta factura Nº")</alias>
 		<pk>false</pk>
 		<type>string</type>
 		<length>21</length>
@@ -137,12 +137,12 @@
 		<pk>false</pk>
 		<type>string</type>
 		<length>20</length>
-		<optionslist>QT_TRANSLATE_NOOP("MetaData","Todos");QT_TRANSLATE_NOOP("MetaData","Pendiente");QT_TRANSLATE_NOOP("MetaData","Emitido");QT_TRANSLATE_NOOP("MetaData","Pagado");QT_TRANSLATE_NOOP("MetaData","Devuelto")</optionslist>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Todos");QT_TRANSLATE_NOOP("MetaData","Pendiente");QT_TRANSLATE_NOOP("MetaData","Pagado")</optionslist>
 	</field>
 	
 	<field>
 		<name>i_recibosprov_idremesa</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Número de Remesa")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Remesa nº")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>uint</type>
@@ -151,7 +151,7 @@
 	<field>
 		<name>orden1</name>
 		<!-- Primer criterio de ordenación -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Recibos por (1)")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Facturas por (1)")</alias>
 		<pk>false</pk>
 		<type>string</type>
 		<optionslist>No ordenar,Código,Cod.Proveedor,Proveedor,Fecha,Vencimiento,Importe</optionslist>
@@ -170,7 +170,7 @@
 	<field>
 		<name>orden2</name>
 		<!-- Segundo criterio de ordenación -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Recibos por (2)")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Facturas por (2)")</alias>
 		<pk>false</pk>
 		<type>string</type>
 		<optionslist>No ordenar,Código,Cod.Proveedor,Proveedor,Fecha,Vencimiento,Importe</optionslist>

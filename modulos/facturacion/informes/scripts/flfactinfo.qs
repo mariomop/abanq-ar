@@ -538,7 +538,7 @@ function oficial_aplicarCriterio(tabla:String, campo:String, valor:String, signo
 				case "reciboscli.estado": {
 					switch (valor) {
 						case "Pendiente": {
-							criterio = "reciboscli.estado IN ('Emitido', 'Devuelto')";
+							criterio = "reciboscli.estado = 'Pendiente'";
 							break;
 						}
 					}
@@ -1206,7 +1206,7 @@ function recibosProv_aplicarCriterio(tabla:String, campo:String, valor:String, s
 				case "recibosprov.estado": {
 					switch (valor) {
 						case "Pendiente": {
-							criterio = "recibosprov.estado IN ('Emitido', 'Devuelto')";
+							criterio = "recibosprov.estado = 'Pendiente'";
 							break;
 						}
 					}

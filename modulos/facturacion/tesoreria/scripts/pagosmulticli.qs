@@ -181,14 +181,14 @@ function interna_init()
 		this.iface.longSubcuenta = util.sqlSelect("ejercicios", "longsubcuenta", "codejercicio = '" + this.iface.ejercicioActual + "'");
 		this.child("fdbIdSubcuenta").setFilter("codejercicio = '" + this.iface.ejercicioActual + "'");
 		this.iface.posActualPuntoSubcuenta = -1;
-		this.child("lblResAsientos").text = util.translate("scripts", "Existe un asiento por pago o devolución de recibo. A continuación se muestra un acumulado de las partidas de todos los asientos asociados a los recibos del pago múltiple.");
+		this.child("lblResAsientos").text = util.translate("scripts", "Existe un asiento por pago de factura. A continuación se muestra un acumulado de las partidas de todos los asientos asociados a las facturas del recibo de cobro.");
 
 		this.iface.pagoIndirecto_ = util.sqlSelect("factteso_general", "pagoindirecto", "1 = 1");
 		if (!this.iface.pagoIndirecto_) {
 			this.child("tbwRecibos").setTabEnabled("pagos", false);
 		}
 	} else {
-		this.child("tbwPagosMulti").setTabEnabled("contabilidad", false);
+		this.child("tbwRecibos").setTabEnabled("contabilidad", false);
 		this.child("tbwRecibos").setTabEnabled("pagos", false);
 		this.iface.pagoIndirecto_ = false;
 	}
@@ -222,6 +222,7 @@ function interna_init()
 	tdbRecibos.refresh();
 	
 	this.iface.habilitarPorRecibos();
+	form.child("fdbCodCliente").setFocus();
 }
 
 function interna_validateForm():Boolean
@@ -232,14 +233,14 @@ function interna_validateForm():Boolean
 	/** \C El pago múltiple debe tener al menos un recibo
 	\end */
 	if (!util.sqlSelect("pagosdevolcli", "idpagodevol", "idpagomulti = " + cursor.valueBuffer("idpagomulti"))) {
-		MessageBox.warning(util.translate("scripts", "El pago múltiple debe tener al menos un recibo."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "El recibo de cobro debe tener al menos una factura."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 
 	/** \C El pago múltiple debe tener al menos un pago
 	\end */
 	if (!util.sqlSelect("pagosdevolpagosmulticli", "idpagopagomulti", "idpagomulti = " + cursor.valueBuffer("idpagomulti"))) {
-		MessageBox.warning(util.translate("scripts", "El pago múltiple debe tener al menos un pago."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "El recibo de cobro debe tener al menos un pago."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 
@@ -457,7 +458,7 @@ function pagosMultiples_agregarRecibo():Boolean
 function pagosMultiples_filtroRecibosCli():String
 {
 	var cursor:FLSqlCursor = this.cursor();
-	return "estado IN ('Emitido', 'Devuelto') AND fecha <= '" + cursor.valueBuffer("fecha") + "' AND codcliente = '" + cursor.valueBuffer("codcliente") + "'";
+	return "estado = 'Pendiente' AND fecha <= '" + cursor.valueBuffer("fecha") + "' AND codcliente = '" + cursor.valueBuffer("codcliente") + "'";
 }
 
 /** \D Se elimina el recibo activo del pago múltiple. El pago asociado al pago múltiple debe ser el último asignado al recibo
@@ -483,7 +484,7 @@ function pagosMultiples_excluirReciboPagoMulti(idRecibo:String, idPagoMulti:Stri
 		var cuentaValida:String = util.sqlSelect("reciboscli r LEFT OUTER JOIN cuentasbcocli c ON r.codcliente = c.codcliente", "r.idrecibo", "idrecibo = " + idRecibo + " AND (r.codcuenta = c.codcuenta OR r.codcuenta = '' OR r.codcuenta IS NULL)", "reciboscli,cuentasbcocli");
 		if (!cuentaValida) {
 			var codRecibo:String = util.sqlSelect("reciboscli", "codigo", "idrecibo = " + idRecibo);
-			MessageBox.warning(util.translate("scripts", "La cuenta bancaria del recibo %1 no es una cuenta válida del cliente.\nCambie o borre la cuenta antes de excluir el recibo del pago múltiple.").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
+			MessageBox.warning(util.translate("scripts", "La cuenta bancaria de la factura %1 no es una cuenta válida del cliente.\nCambie o borre la cuenta antes de excluir la factura del recibo de cobro.").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
 			return false;
 		}
 	}
@@ -497,11 +498,6 @@ function pagosMultiples_excluirReciboPagoMulti(idRecibo:String, idPagoMulti:Stri
 
 	if (!curRecibos.first())
 		return false;
-	
-	if (curRecibos.valueBuffer("estado") == "Devuelto") {
-		MessageBox.warning(util.translate("scripts", "Para excluir el recibo %1 del pago múltiple debe eliminar antes la devolución que se produjo posteriormente").arg(curRecibos.valueBuffer("codigo")), MessageBox.Ok, MessageBox.NoButton);
-		return false;
-	}
 	
 	curRecibos.setModeAccess(curRecibos.Edit);
 	curRecibos.refreshBuffer();
@@ -523,9 +519,7 @@ function pagosMultiples_excluirReciboPagoMulti(idRecibo:String, idPagoMulti:Stri
 	if (curPagosDev.last())
 		curPagosDev.setUnLock("editable", true);
 	if (curPagosDev.size() == 0)
-		curRecibos.setValueBuffer("estado", "Emitido");
-	else
-		curRecibos.setValueBuffer("estado", "Devuelto");
+		curRecibos.setValueBuffer("estado", "Pendiente");
 	curRecibos.setNull("idpagomulti");
 	
 	if (!curRecibos.commitBuffer())
@@ -673,7 +667,7 @@ function pagosMultiples_asociarReciboPagoMulti(idRecibo:String, curPagoMulti:FLS
 	var idPagoMulti:Number = curPagoMulti.valueBuffer("idpagomulti");
 	
 	if (util.sqlSelect("reciboscli", "coddivisa", "idrecibo = " + idRecibo) != curPagoMulti.valueBuffer("coddivisa")) {
-		MessageBox.warning(util.translate("scripts", "No es posible incluir el recibo.\nLa divisa del recibo y del pago múltiple deben ser la misma."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "No es posible incluir la factura.\nLa divisa de la factura y del recibo de cobro deben ser la misma."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return;
 	}
 
@@ -696,7 +690,7 @@ function pagosMultiples_asociarReciboPagoMulti(idRecibo:String, curPagoMulti:FLS
 	if (this.iface.curPagosDev.last()) {
 		if (util.daysTo(this.iface.curPagosDev.valueBuffer("fecha"), fecha) < 0) {
 			var codRecibo:String = util.sqlSelect("reciboscli", "codigo", "idrecibo = " + idRecibo);
-			MessageBox.warning(util.translate("scripts", "Existen pagos o devoluciones con fecha igual o porterior a la del pago múltiple para el recibo %1").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
+			MessageBox.warning(util.translate("scripts", "Existen pagos con fecha igual o porterior a la del recibo de cobro para la factura %1").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
 			return false;
 		}
 	}
@@ -773,7 +767,7 @@ function controlUsuario_init()
 {
 	if (this.cursor().modeAccess() == this.cursor().Insert) {
 		if ( !flfactppal.iface.pub_usuarioCreado(sys.nameUser()) ) {
-			flfactppal.iface.pub_mensajeControlUsuario("NO_USUARIO", "Pagos múltiples");
+			flfactppal.iface.pub_mensajeControlUsuario("NO_USUARIO", "Recibos de cobro");
 		}
 	}
 

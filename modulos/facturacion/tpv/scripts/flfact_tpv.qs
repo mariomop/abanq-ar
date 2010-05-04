@@ -977,7 +977,7 @@ function oficial_generarRecibos(curComanda:FLSqlCursor):Boolean
 	
 	datosRecibo.importe = parseFloat(curComanda.valueBuffer("total")) - totalPagado;
 	if (datosRecibo.importe > 0) {
-		datosRecibo.estado = "Emitido";
+		datosRecibo.estado = "Pendiente";
 		datosRecibo.fecha = curComanda.valueBuffer("fecha");
 		
 		idRecibo = this.iface.generarRecibo(qryFactura, datosRecibo);
@@ -993,10 +993,10 @@ function oficial_emitirReciboComo(codPago:String):String
 	var util:FLUtil = new FLUtil;
 	var emitirComo:String = util.sqlSelect("formaspago", "genrecibos", "codpago = '" + codPago + "'");
 
-	if (emitirComo == "Pagados") {
+	if (emitirComo == "Contado") {
 		emitirComo = "Pagado";
 	} else
-		emitirComo = "Emitido";
+		emitirComo = "Pendiente";
 
 	return emitirComo;
 }

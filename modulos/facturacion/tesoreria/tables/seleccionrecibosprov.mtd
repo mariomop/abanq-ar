@@ -2,7 +2,7 @@
 <TMD>
 	<name>seleccionrecibosprov</name>
 	<!-- Selección de recibos de proveedor -->
-	<alias>QT_TRANSLATE_NOOP("MetaData","Selección de Recibos de Proveedor")</alias>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Selección de Facturas de Proveedor")</alias>
 	
 	<field>
 		<name>id</name>

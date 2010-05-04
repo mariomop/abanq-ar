@@ -378,9 +378,9 @@
 		
 		<pk>false</pk>
 		
-		<optionslist>QT_TRANSLATE_NOOP("MetaData","Recibo");QT_TRANSLATE_NOOP("MetaData","Factura de cliente");QT_TRANSLATE_NOOP("MetaData","Factura de proveedor")</optionslist>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Recibo de cobro");QT_TRANSLATE_NOOP("MetaData","Orden de pago");QT_TRANSLATE_NOOP("MetaData","Factura de cliente");QT_TRANSLATE_NOOP("MetaData","Factura de proveedor")</optionslist>
 		
-		<default>QT_TRANSLATE_NOOP("MetaData","Recibo")</default>
+		<default>QT_TRANSLATE_NOOP("MetaData","Recibo de cobro")</default>
 		
 		<type>string</type>
 		

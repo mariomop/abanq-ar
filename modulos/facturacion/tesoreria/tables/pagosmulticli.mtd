@@ -2,7 +2,7 @@
 <TMD>
 	<name>pagosmulticli</name>
 	<!-- Listado de pagos múltiples de recibos -->
-	<alias>QT_TRANSLATE_NOOP("MetaData","Pagos múltiples de clientes")</alias>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Recibos de cobro a clientes")</alias>
 	<field>
 		<name>idpagomulti</name>
 		<!-- Identificador -->
@@ -43,7 +43,7 @@
 	<field>
 		<name>total</name>
 		<!-- Suma del importe de los recibos del pago múltiple -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Total Pago")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Total Recibo")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>

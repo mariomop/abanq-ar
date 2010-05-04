@@ -10,8 +10,8 @@
 			<rect>
 				<x>0</x>
 				<y>0</y>
-				<width>576</width>
-				<height>548</height>
+				<width>889</width>
+				<height>651</height>
 			</rect>
 		</property>
 		<property name="sizePolicy">
@@ -29,7 +29,7 @@
 			</size>
 		</property>
 		<property name="caption">
-			<string>Recibos de Cliente</string>
+			<string>Selección facturas</string>
 		</property>
 		<property name="focusPolicy">
 			<enum>StrongFocus</enum>
@@ -42,6 +42,12 @@
 			<property name="name">
 				<cstring>unnamed</cstring>
 			</property>
+			<property name="margin">
+				<number>0</number>
+			</property>
+			<property name="spacing">
+				<number>0</number>
+			</property>
 			<widget class="QGroupBox">
 				<property name="name">
 					<cstring>gbxRecibos</cstring>
@@ -53,7 +59,7 @@
 					</font>
 				</property>
 				<property name="title">
-					<string>Recibos</string>
+					<string>Facturas</string>
 				</property>
 				<vbox>
 					<property name="name">
@@ -135,6 +141,23 @@
 							<string>Alt+S</string>
 						</property>
 					</widget>
+					<widget class="QPushButton">
+						<property name="name">
+							<cstring>pbnSeleccionarTodos</cstring>
+						</property>
+						<property name="font">
+							<font>
+								<bold>1</bold>
+								<italic>1</italic>
+							</font>
+						</property>
+						<property name="text">
+							<string>S&amp;eleccionar todas</string>
+						</property>
+						<property name="accel">
+							<string>Alt+E</string>
+						</property>
+					</widget>
 					<spacer>
 						<property name="name">
 							<cstring>spacerSelI</cstring>
@@ -188,6 +211,23 @@
 					</spacer>
 					<widget class="QPushButton">
 						<property name="name">
+							<cstring>pbnQuitarTodos</cstring>
+						</property>
+						<property name="font">
+							<font>
+								<bold>1</bold>
+								<italic>1</italic>
+							</font>
+						</property>
+						<property name="text">
+							<string>Q&amp;uitar todas</string>
+						</property>
+						<property name="accel">
+							<string>Alt+U</string>
+						</property>
+					</widget>
+					<widget class="QPushButton">
+						<property name="name">
 							<cstring>pbnQuitar</cstring>
 						</property>
 						<property name="font">
@@ -216,7 +256,7 @@
 					</font>
 				</property>
 				<property name="title">
-					<string>Recibos seleccionados</string>
+					<string>Facturas seleccionadas</string>
 				</property>
 				<vbox>
 					<property name="name">
@@ -246,6 +286,14 @@
 			</widget>
 		</vbox>
 	</widget>
+	<tabstops>
+		<tabstop>pbnSeleccionar</tabstop>
+		<tabstop>pbnSeleccionarTodos</tabstop>
+		<tabstop>pbnQuitarTodos</tabstop>
+		<tabstop>pbnQuitar</tabstop>
+		<tabstop>tdbRecibosSel</tabstop>
+		<tabstop>tdbRecibos</tabstop>
+	</tabstops>
 	<includes>
 		<include location="global" impldecl="in declaration">qwidgetfactory.h</include>
 		<include location="local" impldecl="in implementation">FLTableDB.h</include>

@@ -258,7 +258,7 @@ function ctasCtes_actualizarFiltroPendiente()
 	if (desde == "" || hasta == "")
 		return;
 
-	this.iface.tdbRecibosPendientes.cursor().setMainFilter("estado = 'Emitido' AND fecha >= '" + desde + "'" + " AND " + "fecha <= '" + hasta + "'");
+	this.iface.tdbRecibosPendientes.cursor().setMainFilter("estado = 'Pendiente' AND fecha >= '" + desde + "'" + " AND " + "fecha <= '" + hasta + "'");
 	this.iface.tdbRecibosPendientes.refresh();
 }
 
@@ -295,7 +295,7 @@ function ctasCtes_filtroMora()
 		var util:FLUtil = new FLUtil();
 		var hoy = new Date();
 		var fechaV:String = hoy;
-		this.iface.tdbRecibosPendientes.cursor().setMainFilter("estado = 'Emitido' AND fechav < '" + fechaV + "'");
+		this.iface.tdbRecibosPendientes.cursor().setMainFilter("estado = 'Pendiente' AND fechav < '" + fechaV + "'");
 		this.iface.tdbRecibosPendientes.refresh();
 
 	} else {
@@ -317,7 +317,7 @@ function ctasCtes_imprimir()
 		codCliente = this.cursor().valueBuffer("codcliente");
 
 		var whereFijo:String = "";
-		whereFijo += " reciboscli.estado = 'Emitido'";
+		whereFijo += " reciboscli.estado = 'Pendiente'";
 
 		var curImprimir:FLSqlCursor = new FLSqlCursor("i_rescuentascli");
 		curImprimir.setModeAccess(curImprimir.Insert);
@@ -356,8 +356,8 @@ function ctasCtes_verSalida()
 	switch (curSalida.valueBuffer("tipo")) {
 		case "Factura Contado":
 		case "Factura Cta.Cte.":
-		case "N. Crédito":
-		case "N. Débito": {
+		case "Nota de Crédito":
+		case "Nota de Débito": {
 			cursor = new FLSqlCursor("facturascli");
 			cursor.select("codigo = '" + codigo + "'");
 
@@ -366,7 +366,7 @@ function ctasCtes_verSalida()
 			cursor.browseRecord();
 			break;
 		}
-		case "Recibo Cobro": {
+		case "Recibo de Cobro": {
 			cursor = new FLSqlCursor("pagosmulticli");
 			cursor.select("idpagomulti = " + codigo);
 
