@@ -381,7 +381,7 @@ function interna_init()
 	curPD.setActivatedCommitActions(false);
 	curPD.transaction(false);
 	try {
-		util.createProgressDialog(util.translate("scripts", "Actualizando pagos de facturas remesadas"), qryRecibos.size());
+		util.createProgressDialog(util.translate("scripts", "Actualizando pagos de comprobantes remesados"), qryRecibos.size());
 		while (qryRecibos.next()) {
 			util.setProgress(paso)
 			curPD.select("idpagodevol = " + qryRecibos.value("pd.idpagodevol"))
@@ -735,7 +735,7 @@ function oficial_regenerarRecibosCli(cursor:FLSqlCursor, emitirComo:String):Bool
 	var curPlazos:FLSqlCursor = new FLSqlCursor("plazos");
 	curPlazos.select("codpago = '" + codPago + "'  ORDER BY dias");
 	if(curPlazos.size() == 0) {
-		MessageBox.warning(util.translate("scripts", "No se pueden generar las facturas, la forma de pago ") + codPago + util.translate("scripts", "no tiene plazos de pago asociados"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "No se pueden generar los comprobantes, la forma de pago ") + codPago + util.translate("scripts", "no tiene plazos de pago asociados"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 	while (curPlazos.next()) {
@@ -1197,7 +1197,7 @@ function oficial_generarPartidasCli(curPD:FLSqlCursor, valoresDefecto:Array, dat
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura " + recibo.codigo + " - " + recibo.nombrecliente);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " comprobante " + recibo.codigo + " - " + recibo.nombrecliente);
 		}
 		setValueBuffer("idsubcuenta", ctaHaber.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaHaber.codsubcuenta);
@@ -1272,7 +1272,7 @@ function oficial_generarPartidasBanco(curPD:FLSqlCursor, valoresDefecto:Array, d
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura " + recibo.codigo + " - " + recibo.nombrecliente);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " comprobante " + recibo.codigo + " - " + recibo.nombrecliente);
 		}
 		setValueBuffer("idsubcuenta", ctaDebe.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaDebe.codsubcuenta);
@@ -1369,7 +1369,7 @@ function oficial_generarPartidasCambio(curPD:FLSqlCursor, valoresDefecto:Array, 
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura " + recibo.codigo + " - " + recibo.nombrecliente);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " comprobante " + recibo.codigo + " - " + recibo.nombrecliente);
 		}
 		setValueBuffer("idsubcuenta", ctaDifCambio.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaDifCambio.codsubcuenta);
@@ -1413,10 +1413,10 @@ debug(qryRecibos.sql());
 	var msgError:String = "";
 	var i:Number = 0;
 	while (qryRecibos.next()) {
-		msgError += "\n" + util.translate("scripts", "Cliente: %1 (%2), Factura %3").arg(qryRecibos.value("r.nombrecliente")).arg(qryRecibos.value("r.codcliente")).arg(qryRecibos.value("r.codigo"));
+		msgError += "\n" + util.translate("scripts", "Cliente: %1 (%2), Comprobante %3").arg(qryRecibos.value("r.nombrecliente")).arg(qryRecibos.value("r.codcliente")).arg(qryRecibos.value("r.codigo"));
 	}
 	if (msgError != "") {
-		var res:Number = MessageBox.warning(util.translate("scripts", "Las siguientes facturas no tienen especificada una cuenta de domiciliación válida:") + msgError + "\n" + util.translate("scripts", "¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
+		var res:Number = MessageBox.warning(util.translate("scripts", "Los siguientes comprobantes no tienen especificada una cuenta de domiciliación válida:") + msgError + "\n" + util.translate("scripts", "¿Desea continuar?"), MessageBox.Yes, MessageBox.No);
 		if (res != MessageBox.Yes)
 			return false;
 	}
@@ -1880,7 +1880,7 @@ function anticipos_regenerarRecibosCli(cursor:FLSqlCursor):Boolean
 	var curPlazos:FLSqlCursor = new FLSqlCursor("plazos");
 	curPlazos.select("codpago = '" + codPago + "'  ORDER BY dias");
 	if(curPlazos.size() == 0){
-		MessageBox.warning(util.translate("scripts", "No se pueden generar las facturas, la forma de pago ") + codPago + util.translate("scripts", "no tiene plazos de pago asociados"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "No se pueden generar los comprobantes, la forma de pago ") + codPago + util.translate("scripts", "no tiene plazos de pago asociados"), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 
@@ -2340,7 +2340,7 @@ function proveed_generarPartidasProv(curPD:FLSqlCursor, valoresDefecto:Array, da
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " comprobante prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
 		}
 		setValueBuffer("idsubcuenta", ctaDebe.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaDebe.codsubcuenta);
@@ -2399,7 +2399,7 @@ function proveed_generarPartidasBancoProv(curPD:FLSqlCursor, valoresDefecto:Arra
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " comprobante prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
 		}
 		setValueBuffer("idsubcuenta", ctaHaber.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaHaber.codsubcuenta);
@@ -2483,7 +2483,7 @@ function proveed_generarPartidasCambioProv(curPD:FLSqlCursor, valoresDefecto:Arr
 		try {
 			setValueBuffer("concepto", datosAsiento.concepto);
 		} catch (e) {
-			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " factura prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
+			setValueBuffer("concepto", curPD.valueBuffer("tipo") + " comprobante prov. " + recibo.codigo + " - " + recibo.nombreproveedor);
 		}
 		setValueBuffer("idsubcuenta", ctaDifCambio.idsubcuenta);
 		setValueBuffer("codsubcuenta", ctaDifCambio.codsubcuenta);

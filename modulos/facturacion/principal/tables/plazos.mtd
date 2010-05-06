@@ -34,7 +34,7 @@
 	
 	<field>
 		<name>dias</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Dias aplazados")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días de plazo")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>uint</type>
@@ -42,7 +42,7 @@
 	
 	<field>
 		<name>aplazado</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","% Aplazado")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","% a pagar")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>double</type>

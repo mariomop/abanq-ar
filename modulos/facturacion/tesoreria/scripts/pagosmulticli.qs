@@ -181,7 +181,7 @@ function interna_init()
 		this.iface.longSubcuenta = util.sqlSelect("ejercicios", "longsubcuenta", "codejercicio = '" + this.iface.ejercicioActual + "'");
 		this.child("fdbIdSubcuenta").setFilter("codejercicio = '" + this.iface.ejercicioActual + "'");
 		this.iface.posActualPuntoSubcuenta = -1;
-		this.child("lblResAsientos").text = util.translate("scripts", "Existe un asiento por pago de factura. A continuación se muestra un acumulado de las partidas de todos los asientos asociados a las facturas del recibo de cobro.");
+		this.child("lblResAsientos").text = util.translate("scripts", "Existe un asiento por pago de comprobante. A continuación se muestra un acumulado de las partidas de todos los asientos asociados a los comprobantes del recibo de cobro.");
 
 		this.iface.pagoIndirecto_ = util.sqlSelect("factteso_general", "pagoindirecto", "1 = 1");
 		if (!this.iface.pagoIndirecto_) {
@@ -233,7 +233,7 @@ function interna_validateForm():Boolean
 	/** \C El pago múltiple debe tener al menos un recibo
 	\end */
 	if (!util.sqlSelect("pagosdevolcli", "idpagodevol", "idpagomulti = " + cursor.valueBuffer("idpagomulti"))) {
-		MessageBox.warning(util.translate("scripts", "El recibo de cobro debe tener al menos una factura."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "El recibo de cobro debe tener al menos un comprobante."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}
 
@@ -484,7 +484,7 @@ function pagosMultiples_excluirReciboPagoMulti(idRecibo:String, idPagoMulti:Stri
 		var cuentaValida:String = util.sqlSelect("reciboscli r LEFT OUTER JOIN cuentasbcocli c ON r.codcliente = c.codcliente", "r.idrecibo", "idrecibo = " + idRecibo + " AND (r.codcuenta = c.codcuenta OR r.codcuenta = '' OR r.codcuenta IS NULL)", "reciboscli,cuentasbcocli");
 		if (!cuentaValida) {
 			var codRecibo:String = util.sqlSelect("reciboscli", "codigo", "idrecibo = " + idRecibo);
-			MessageBox.warning(util.translate("scripts", "La cuenta bancaria de la factura %1 no es una cuenta válida del cliente.\nCambie o borre la cuenta antes de excluir la factura del recibo de cobro.").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
+			MessageBox.warning(util.translate("scripts", "La cuenta bancaria del comprobante %1 no es una cuenta válida del cliente.\nCambie o borre la cuenta antes de excluir el comprobante del recibo de cobro.").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
 			return false;
 		}
 	}
@@ -667,7 +667,7 @@ function pagosMultiples_asociarReciboPagoMulti(idRecibo:String, curPagoMulti:FLS
 	var idPagoMulti:Number = curPagoMulti.valueBuffer("idpagomulti");
 	
 	if (util.sqlSelect("reciboscli", "coddivisa", "idrecibo = " + idRecibo) != curPagoMulti.valueBuffer("coddivisa")) {
-		MessageBox.warning(util.translate("scripts", "No es posible incluir la factura.\nLa divisa de la factura y del recibo de cobro deben ser la misma."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
+		MessageBox.warning(util.translate("scripts", "No es posible incluir el comprobante.\nLa divisa del comprobante y del recibo de cobro deben ser la misma."), MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return;
 	}
 
@@ -690,7 +690,7 @@ function pagosMultiples_asociarReciboPagoMulti(idRecibo:String, curPagoMulti:FLS
 	if (this.iface.curPagosDev.last()) {
 		if (util.daysTo(this.iface.curPagosDev.valueBuffer("fecha"), fecha) < 0) {
 			var codRecibo:String = util.sqlSelect("reciboscli", "codigo", "idrecibo = " + idRecibo);
-			MessageBox.warning(util.translate("scripts", "Existen pagos con fecha igual o porterior a la del recibo de cobro para la factura %1").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
+			MessageBox.warning(util.translate("scripts", "Existen pagos con fecha igual o porterior a la del recibo de cobro para el comprobante %1").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
 			return false;
 		}
 	}

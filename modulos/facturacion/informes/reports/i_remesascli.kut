@@ -9,7 +9,7 @@
 		<Line Width="1" Y1="0" Y2="80" X1="0" X2="0" Style="1" Color="100,100,100" />
 		<Line Width="1" Y1="0" Y2="80" X1="370" X2="370" Style="1" Color="100,100,100" />
 		
-		<Label WordWrap="0" Width="300" X="1" Y="100" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Remesa de Facturas de Clientes" FontWeight="65" FontSize="12" BorderWidth="1" FontFamily="Arial" />
+		<Label WordWrap="0" Width="300" X="1" Y="100" BorderStyle="0" Height="20" HAlignment="0" BorderColor="0,0,0" BackgroundColor="255,255,255" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" Text="Remesa de Comprobantes de Clientes" FontWeight="65" FontSize="12" BorderWidth="1" FontFamily="Arial" />
 		
 		
 		<Field WordWrap="1" Width="260" X="2" Y="2" BorderStyle="0" NegValueColor="0,0,0" Height="35" HAlignment="1" DataType="0" Field="empresa.nombre" DateFormat="11" Currency="32" BorderColor="0,0,0" BackgroundColor="220,220,220" FontItalic="0" VAlignment="1" ForegroundColor="0,0,0" CommaSeparator="44" Text="[empresa.nombre]" FontWeight="65" FontSize="10" BorderWidth="1" Precision="2" FontFamily="Arial" />

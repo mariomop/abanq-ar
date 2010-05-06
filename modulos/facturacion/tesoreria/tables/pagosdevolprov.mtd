@@ -14,7 +14,7 @@
 	
 	<field>
 		<name>idrecibo</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Id. Factura")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Id. Comprobante")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>uint</type>

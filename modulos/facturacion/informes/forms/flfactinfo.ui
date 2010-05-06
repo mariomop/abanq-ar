@@ -104,7 +104,7 @@
 		</item>
 		<item name="Tesoreria" text="&amp;Tesorería" >
 			<action name="tesoreraRecibosAction" />
-			<item accel="Ctrl+R" name="PopupMenuEditor_22" text="Factu&amp;ras" >
+			<item accel="Ctrl+R" name="PopupMenuEditor_22" text="Comp&amp;robantes" >
 				<action name="i_reciboscli" />
 				<action name="i_resreciboscli" />
 				<action name="i_recibosprov" />
@@ -470,10 +470,10 @@
 				<iconset>image17</iconset>
 			</property>
 			<property name="text" >
-				<string>Resumen F. Clientes</string>
+				<string>Resumen C. Clientes</string>
 			</property>
 			<property name="menuText" >
-				<string>Resumen F. Clientes</string>
+				<string>Resumen C. Clientes</string>
 			</property>
 		</action>
 		<action>
@@ -604,10 +604,10 @@
 				<iconset>image18</iconset>
 			</property>
 			<property name="text" >
-				<string>F. Clientes</string>
+				<string>C. Clientes</string>
 			</property>
 			<property name="menuText" >
-				<string>F. Clientes</string>
+				<string>C. Clientes</string>
 			</property>
 		</action>
 		<action>
@@ -615,10 +615,10 @@
 				<cstring>tesoreraRecibosAction</cstring>
 			</property>
 			<property name="text" >
-				<string>Factu&amp;ras</string>
+				<string>Comp&amp;robantes</string>
 			</property>
 			<property name="menuText" >
-				<string>Factu&amp;ras</string>
+				<string>Comp&amp;robantes</string>
 			</property>
 			<property name="accel" >
 				<string>Ctrl+R</string>
@@ -721,10 +721,10 @@
 				<iconset>recibos_provimage19</iconset>
 			</property>
 			<property name="text" >
-				<string>F. Proveedores</string>
+				<string>C. Proveedores</string>
 			</property>
 			<property name="menuText" >
-				<string>F. Proveedores</string>
+				<string>C. Proveedores</string>
 			</property>
 		</action>
 		<action>
@@ -735,10 +735,10 @@
 				<iconset>recibos_provimage20</iconset>
 			</property>
 			<property name="text" >
-				<string>Resumen F. Proveedores</string>
+				<string>Resumen C. Proveedores</string>
 			</property>
 			<property name="menuText" >
-				<string>Resumen F. Proveedores</string>
+				<string>Resumen C. Proveedores</string>
 			</property>
 		</action>
 		<action>

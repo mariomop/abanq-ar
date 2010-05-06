@@ -3424,7 +3424,7 @@
 									<cstring>recibos</cstring>
 								</property>
 								<attribute name="title" >
-									<string>Teso&amp;rería</string>
+									<string>Comp&amp;robantes</string>
 								</attribute>
 								<vbox>
 									<property name="name" >

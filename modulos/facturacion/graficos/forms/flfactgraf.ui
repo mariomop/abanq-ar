@@ -196,10 +196,10 @@
 				<iconset>image8</iconset>
 			</property>
 			<property name="text">
-				<string>Facturas de clientes</string>
+				<string>Comprobantes de clientes</string>
 			</property>
 			<property name="menuText">
-				<string>Facturas de clientes</string>
+				<string>Comprobantes de clientes</string>
 			</property>
 		</action>
 		<action>
@@ -210,10 +210,10 @@
 				<iconset>image9</iconset>
 			</property>
 			<property name="text">
-				<string>Facturas de proveedores</string>
+				<string>Comprobantes de proveedores</string>
 			</property>
 			<property name="menuText">
-				<string>Facturas de proveedores</string>
+				<string>Comprobantes de proveedores</string>
 			</property>
 		</action>
 	</actions>

@@ -188,7 +188,7 @@ function interna_acceptedForm()
     fileIso.close();
 
 	var util:FLUtil = new FLUtil();
-	MessageBox.information(util.translate("scripts", "Generado fichero de facturas en: \n\n%1\n\n").arg(this.child("leFichero").text),MessageBox.Ok, MessageBox.NoButton);
+	MessageBox.information(util.translate("scripts", "Generado fichero de comprobantes en: \n\n%1\n\n").arg(this.child("leFichero").text),MessageBox.Ok, MessageBox.NoButton);
 }
 
 //// INTERNA /////////////////////////////////////////////////////

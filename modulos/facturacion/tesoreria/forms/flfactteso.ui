@@ -54,11 +54,11 @@
 			<bool>false</bool>
 		</property>
 		<item name="CobrosyPagos" text="&amp;Cobros y Pagos" >
-			<action name="reciboscli" />
-			<action name="recibosprov" />
-			<separator/>
 			<action name="pagosmulticli" />
 			<action name="pagosmultiprov" />
+			<separator/>
+			<action name="reciboscli" />
+			<action name="recibosprov" />
 		</item>
 		<item name="Cuentas" text="&amp;Cuentas Corrientes">
 			<action name="factteso_clientes"/>
@@ -73,11 +73,11 @@
 			<property name="label" >
 				<string>Herramientas</string>
 			</property>
-			<action name="reciboscli" />
-			<action name="recibosprov" />
-			<separator/>
 			<action name="pagosmulticli" />
 			<action name="pagosmultiprov" />
+			<separator/>
+			<action name="reciboscli" />
+			<action name="recibosprov" />
 			<separator/>
 			<action name="factteso_clientes"/>
 			<action name="factteso_proveedores"/>
@@ -92,16 +92,16 @@
 				<iconset>image6</iconset>
 			</property>
 			<property name="text" >
-				<string>Facturas de &amp;Clientes</string>
+				<string>Comprobantes de &amp;Clientes</string>
 			</property>
 			<property name="menuText" >
-				<string>Facturas de &amp;Clientes</string>
+				<string>Comprobantes de &amp;Clientes</string>
 			</property>
 			<property name="toolTip" >
-				<string>Facturas de Clientes (Ctrl+C)</string>
+				<string>Comprobantes de Clientes (Ctrl+C)</string>
 			</property>
 			<property name="whatsThis" >
-				<string>Facturas de Clientes</string>
+				<string>Comprobantes de Clientes</string>
 			</property>
 			<property name="accel" >
 				<string>Ctrl+C</string>
@@ -138,16 +138,16 @@
 				<iconset>image7</iconset>
 			</property>
 			<property name="text" >
-				<string>Facturas de &amp;Proveedores</string>
+				<string>Comprobantes de &amp;Proveedores</string>
 			</property>
 			<property name="menuText" >
-				<string>Facturas de &amp;Proveedores</string>
+				<string>Comprobantes de &amp;Proveedores</string>
 			</property>
 			<property name="toolTip" >
-				<string>Facturas de Proveedores (Ctrl+P)</string>
+				<string>Comprobantes de Proveedores (Ctrl+P)</string>
 			</property>
 			<property name="whatsThis" >
-				<string>Facturas de Proveedores</string>
+				<string>Comprobantes de Proveedores</string>
 			</property>
 			<property name="accel" >
 				<string>Ctrl+P</string>

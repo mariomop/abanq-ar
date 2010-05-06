@@ -162,7 +162,7 @@ function interna_validateForm():Boolean
 	var importeActual = parseFloat(cursor.valueBuffer("importe"));
 	if ((this.iface.importeInicial >= 0 && this.iface.importeInicial < importeActual) || (this.iface.importeInicial < 0 && this.iface.importeInicial > importeActual)) {
 		MessageBox.warning(util.translate("scripts",
-			"El importe de la factura debe ser menor o igual del que tenía anteriormente.\nSi es menor la factura se fraccionará."),
+			"El importe del comprobante debe ser menor o igual del que tenía anteriormente.\nSi es menor el comprobante se fraccionará."),
 			MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		form.child("fdbImporte").setFocus();
 		return false;
@@ -170,7 +170,7 @@ function interna_validateForm():Boolean
 
 	if (util.daysTo(cursor.valueBuffer("fecha"), cursor.valueBuffer("fechav")) < 0) {
 		MessageBox.warning(util.translate("scripts",
-			"La fecha de vencimiento debe ser siempre igual o posterior\na la fecha de emisión de la factura."),
+			"La fecha de vencimiento debe ser siempre igual o posterior\na la fecha de emisión del comprobante."),
 			MessageBox.Ok, MessageBox.NoButton, MessageBox.NoButton);
 		return false;
 	}

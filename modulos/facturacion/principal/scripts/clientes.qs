@@ -645,7 +645,7 @@ function oficial_cambiarCuentaDom()
 		var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de domiciliación %1 para este cliente.\n").arg(desCuentaDom), MessageBox.Yes, MessageBox.NoButton);
 	    return;
 	}
-	var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de domiciliación %1 para este cliente.\n¿Desea cambiar sus %2 facturas pendientes de pago a la nueva cuenta  de domiciliación?").arg(desCuentaDom).arg(numRecibos), MessageBox.Yes, MessageBox.No);
+	var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de domiciliación %1 para este cliente.\n¿Desea cambiar sus %2 comprobantes pendientes de pago a la nueva cuenta de domiciliación?").arg(desCuentaDom).arg(numRecibos), MessageBox.Yes, MessageBox.No);
 				
 	if (res != MessageBox.Yes){
 		return false;
@@ -689,7 +689,7 @@ function oficial_cambiarCuentaDomRecibosEmitidos()
 			valoresRecibo += "Factura: " + curRecibo.valueBuffer("codigo") + "    "+ "Importe: " + util.roundFieldValue(curRecibo.valueBuffer("importeeuros"), "reciboscli", "importe") + "    " + "Fecha: " + util.dateAMDtoDMA(curRecibo.valueBuffer("fecha")) + "\n";	
 		}
 	}
-	MessageBox.information(util.translate("scripts", "Se han cambiado correctamente las facturas pendientes de pago:\n \n%1 ").arg(valoresRecibo),MessageBox.Ok, MessageBox.NoButton);
+	MessageBox.information(util.translate("scripts", "Se han cambiado correctamente los comprobantes pendientes de pago:\n \n%1 ").arg(valoresRecibo),MessageBox.Ok, MessageBox.NoButton);
 }
 
 function oficial_mostrarDesCuentaDom()
@@ -1518,7 +1518,7 @@ function silixDebitoAutomatico_cambiarCuentaDebAutom()
 		var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de débito automático %1 para este cliente.\n").arg(desCuentaDebAutom), MessageBox.Yes, MessageBox.NoButton);
 	    return;
 	}
-	var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de débito automático %1 para este cliente.\n¿Desea cambiar sus %2 facturas pendientes de pago a la nueva cuenta de débito automático?").arg(desCuentaDebAutom).arg(numRecibos), MessageBox.Yes, MessageBox.No);
+	var res:Number = MessageBox.information(util.translate("scripts", "Se ha establecido como cuenta de débito automático %1 para este cliente.\n¿Desea cambiar sus %2 comprobantes pendientes de pago a la nueva cuenta de débito automático?").arg(desCuentaDebAutom).arg(numRecibos), MessageBox.Yes, MessageBox.No);
 				
 	if (res != MessageBox.Yes){
 		return false;
@@ -1559,10 +1559,10 @@ function silixDebitoAutomatico_cambiarCuentaDebAutomRecibosEmitidos()
 			if (!curRecibo.commitBuffer()) {
 				return false;
 			}
-			valoresRecibo += "Factura: " + curRecibo.valueBuffer("codigo") + "    "+ "Importe: " + util.roundFieldValue(curRecibo.valueBuffer("importeeuros"), "reciboscli", "importe") + "    " + "Fecha: " + util.dateAMDtoDMA(curRecibo.valueBuffer("fecha")) + "\n";	
+			valoresRecibo += "Comprobante: " + curRecibo.valueBuffer("codigo") + "    "+ "Importe: " + util.roundFieldValue(curRecibo.valueBuffer("importeeuros"), "reciboscli", "importe") + "    " + "Fecha: " + util.dateAMDtoDMA(curRecibo.valueBuffer("fecha")) + "\n";	
 		}
 	}
-	MessageBox.information(util.translate("scripts", "Se han cambiado correctamente las facturas pendientes de pago:\n \n%1 ").arg(valoresRecibo),MessageBox.Ok, MessageBox.NoButton);
+	MessageBox.information(util.translate("scripts", "Se han cambiado correctamente los comprobantes pendientes de pago:\n \n%1 ").arg(valoresRecibo),MessageBox.Ok, MessageBox.NoButton);
 }
 
 function silixDebitoAutomatico_mostrarDesCuentaDebAutom()

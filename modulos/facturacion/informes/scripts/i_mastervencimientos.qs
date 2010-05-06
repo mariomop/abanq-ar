@@ -315,11 +315,11 @@ debug(curCriterios.isNull("fechavtodesde"));
 		if (tipo == "CLI") {
 			cobro = importe;
 			pago = 0;
-			concepto = util.translate("scripts", "Cobro factura ") + this.iface.obtenerCodigo("reciboscli", qryRecibosCli.value(3));
+			concepto = util.translate("scripts", "Cobro comprobante ") + this.iface.obtenerCodigo("reciboscli", qryRecibosCli.value(3));
 		} else {
 			cobro = 0;
 			pago = importe;
-			concepto = util.translate("scripts", "Pago factura ") + this.iface.obtenerCodigo("recibosprov", qryRecibosCli.value(3));
+			concepto = util.translate("scripts", "Pago comprobante ") + this.iface.obtenerCodigo("recibosprov", qryRecibosCli.value(3));
 		}
 		
 		curVtoTemp.setModeAccess(curVtoTemp.Insert);

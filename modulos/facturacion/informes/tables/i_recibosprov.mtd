@@ -2,7 +2,7 @@
 <TMD>
 	<name>i_recibosprov</name>
 	<!-- Listado de informes de recibos de proveedores -->
-	<alias>QT_TRANSLATE_NOOP("MetaData","Informes de facturas de proveedores")</alias>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Informes de comprobantes de proveedores")</alias>
 	
 	<field>
 		<name>id</name>
@@ -26,7 +26,7 @@
 	<field>
 		<name>d_recibosprov_codigo</name>
 		<!-- Código del recibo inicial -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Desde factura Nº")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Desde comprobante Nº")</alias>
 		<pk>false</pk>
 		<type>string</type>
 		<length>21</length>
@@ -42,7 +42,7 @@
 	<field>
 		<name>h_recibosprov_codigo</name>
 		<!-- Código del recibo final -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Hasta factura Nº")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Hasta comprobante Nº")</alias>
 		<pk>false</pk>
 		<type>string</type>
 		<length>21</length>
@@ -151,7 +151,7 @@
 	<field>
 		<name>orden1</name>
 		<!-- Primer criterio de ordenación -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Facturas por (1)")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Comprobantes por (1)")</alias>
 		<pk>false</pk>
 		<type>string</type>
 		<optionslist>No ordenar,Código,Cod.Proveedor,Proveedor,Fecha,Vencimiento,Importe</optionslist>
@@ -170,7 +170,7 @@
 	<field>
 		<name>orden2</name>
 		<!-- Segundo criterio de ordenación -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Facturas por (2)")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Comprobantes por (2)")</alias>
 		<pk>false</pk>
 		<type>string</type>
 		<optionslist>No ordenar,Código,Cod.Proveedor,Proveedor,Fecha,Vencimiento,Importe</optionslist>

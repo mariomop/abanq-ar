@@ -636,7 +636,7 @@
 	</field>
 	<field>
 		<name>filtroreciboscli</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en facturas de clientes")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en comprobantes de clientes")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>uint</type>
@@ -644,7 +644,7 @@
 	</field>
 	<field>
 		<name>filtrorecibosprov</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en facturas de proveedores")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Días a mostrar en comprobantes de proveedores")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>uint</type>

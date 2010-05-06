@@ -419,7 +419,7 @@
 						<cstring>plazos</cstring>
 					</property>
 					<attribute name="title">
-						<string>&amp;Plazos</string>
+						<string>&amp;Plazos de pago</string>
 					</attribute>
 					<vbox>
 						<property name="name" >

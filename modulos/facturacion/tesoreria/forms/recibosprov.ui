@@ -14,7 +14,7 @@
 			</rect>
 		</property>
 		<property name="caption" >
-			<string>Facturas de Proveedores</string>
+			<string>Comprobantes de Proveedores</string>
 		</property>
 		<vbox>
 			<property name="name" >

@@ -600,7 +600,7 @@ function interna_beforeCommit_cuentasbcocli(curCuenta:FLSqlCursor):Boolean
 			var util:FLUtil = new FLUtil;
 			var codRecibo:String = util.sqlSelect("reciboscli", "codigo", "codcliente = '" + curCuenta.valueBuffer("codcliente") + "' AND codcuenta = '" + curCuenta.valueBuffer("codcuenta") + "' AND estado <> 'Pagado'");
 			if (codRecibo && codRecibo != "") {
-				MessageBox.warning(util.translate("scripts", "No puede eliminar la cuenta del cliente porque hay al menos una factura (%1) pendiente de pago asociada a esta cuenta.\nDebe cambiar la cuenta de las facturas pendientes de este cliente antes de borrarla.").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
+				MessageBox.warning(util.translate("scripts", "No puede eliminar la cuenta del cliente porque hay al menos un comprobante (%1) pendiente de pago asociado a esta cuenta.\nDebe cambiar la cuenta de los comprobantes pendientes de este cliente antes de borrarla.").arg(codRecibo), MessageBox.Ok, MessageBox.NoButton);
 				return false;
 			}
 		break;
@@ -982,10 +982,11 @@ function oficial_valoresIniciales()
 	util.setProgress( ++paso );
 
 	cursor = new FLSqlCursor("periodos");
-	fechaInicio = new Date(hoy.getYear(), hoy.getMonth(), 1);
-	fechaFin = new Date(hoy.getYear(), hoy.getMonth() + 1, 1);
-	fechaFin = util.addDays(fechaFin, -1);
-	var codPeriodo:String = hoy.getYear() + "" + this.iface.cerosIzquierda(hoy.getMonth(),2);
+// 	fechaInicio = new Date(hoy.getYear(), hoy.getMonth(), 1);
+// 	fechaFin = new Date(hoy.getYear(), hoy.getMonth() + 1, 1);
+// 	fechaFin = util.addDays(fechaFin, -1);
+// 	var codPeriodo:String = hoy.getYear() + "" + this.iface.cerosIzquierda(hoy.getMonth(),2);
+	var codPeriodo:String = hoy.getYear();
 	with(cursor) {
 		setModeAccess(cursor.Insert);
 		refreshBuffer();

@@ -467,7 +467,7 @@
 						<cstring>recibos</cstring>
 					</property>
 					<attribute name="title">
-						<string>&amp;Facturas</string>
+						<string>Comp&amp;robantes imputados</string>
 					</attribute>
 					<vbox>
 						<property name="name">

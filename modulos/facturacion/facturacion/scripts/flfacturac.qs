@@ -2298,7 +2298,7 @@ function oficial_datosConceptoAsiento(cur:FLSqlCursor):Array
 			var nombreCli:String = util.sqlSelect("reciboscli", "nombrecliente", "idrecibo = " + cur.valueBuffer("idrecibo"));
 			var nroPagoMulti:String = util.sqlSelect("reciboscli", "idpagomulti", "idrecibo = " + cur.valueBuffer("idrecibo"));
 			
-			datosAsiento.concepto = "Cobro factura " + codRecibo + " - " + nombreCli;
+			datosAsiento.concepto = "Cobro comprobante " + codRecibo + " - " + nombreCli;
 			datosAsiento.tipoDocumento = "Recibo de cobro";
 			datosAsiento.documento = nroPagoMulti;
 			break;
@@ -4850,7 +4850,7 @@ function proveed_datosConceptoAsiento(cur:FLSqlCursor):Array
 			var nombreProv:String = util.sqlSelect("recibosprov", "nombreproveedor", "idrecibo = " + cur.valueBuffer("idrecibo"));
 			var nroPagoMulti:String = util.sqlSelect("recibosprov", "idpagomulti", "idrecibo = " + cur.valueBuffer("idrecibo"));
 
-			datosAsiento.concepto = "Pago factura  " + codRecibo + numFactura + " - " + nombreProv;
+			datosAsiento.concepto = "Pago comprobante  " + codRecibo + numFactura + " - " + nombreProv;
 			datosAsiento.tipoDocumento = "Orden de pago";
 			datosAsiento.documento = nroPagoMulti;
 			break;

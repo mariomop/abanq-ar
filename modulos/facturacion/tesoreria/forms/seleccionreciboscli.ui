@@ -29,7 +29,7 @@
 			</size>
 		</property>
 		<property name="caption">
-			<string>Selección facturas</string>
+			<string>Selección comprobantes</string>
 		</property>
 		<property name="focusPolicy">
 			<enum>StrongFocus</enum>
@@ -59,7 +59,7 @@
 					</font>
 				</property>
 				<property name="title">
-					<string>Facturas</string>
+					<string>Comprobantes pendientes</string>
 				</property>
 				<vbox>
 					<property name="name">
@@ -152,7 +152,7 @@
 							</font>
 						</property>
 						<property name="text">
-							<string>S&amp;eleccionar todas</string>
+							<string>S&amp;eleccionar todos</string>
 						</property>
 						<property name="accel">
 							<string>Alt+E</string>
@@ -220,7 +220,7 @@
 							</font>
 						</property>
 						<property name="text">
-							<string>Q&amp;uitar todas</string>
+							<string>Q&amp;uitar todos</string>
 						</property>
 						<property name="accel">
 							<string>Alt+U</string>
@@ -256,7 +256,7 @@
 					</font>
 				</property>
 				<property name="title">
-					<string>Facturas seleccionadas</string>
+					<string>Comprobantes seleccionados</string>
 				</property>
 				<vbox>
 					<property name="name">

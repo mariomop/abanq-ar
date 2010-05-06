@@ -20,7 +20,7 @@
     </action>
     <action>
         <name>reciboscli</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Facturas de clientes")</description>
+        <description>QT_TRANSLATE_NOOP("MetaData","Comprobantes de clientes")</description>
         <alias>QT_TRANSLATE_NOOP("MetaData","Facturas de clientes")</alias>
         <table>reciboscli</table>
         <form>masterreciboscli</form>
@@ -30,8 +30,8 @@
     </action>
     <action>
         <name>remesas</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Remesas")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Remesas")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Remesas de comprobantes")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Remesas de comprobantes")</alias>
         <table>remesas</table>
         <form>masterremesas</form>
         <formrecord>remesas</formrecord>
@@ -65,8 +65,8 @@
     </action>
     <action>
         <name>recibosprov</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Facturas de proveedores")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Facturas de proveedores")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Comprobantes de proveedores")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Comprobantes de proveedores")</alias>
         <table>recibosprov</table>
         <form>masterrecibosprov</form>
         <formrecord>recibosprov</formrecord>
@@ -75,8 +75,8 @@
     </action>
     <action>
         <name>seleccionrecibosprov</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Esta acción proporciona un formulario para seleccionar múltiples facturas de proveedor que incluir en órdenes de pagos y otros documentos")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Selección de facturas de proveedor")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Esta acción proporciona un formulario para seleccionar múltiples comprobantes de proveedor que incluir en órdenes de pagos y otros documentos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Selección de comprobantes de proveedor")</alias>
         <table>seleccionrecibosprov</table>
         <form>seleccionrecibosprov</form>
         <scriptform>seleccionrecibosprov</scriptform>
@@ -91,8 +91,8 @@
     </action>
     <action>
         <name>seleccionreciboscli</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Esta acción proporciona un formulario para seleccionar múltiples facturas de clientes que incluir en recibos y otros documentos")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Selección de facturas de cliente")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Esta acción proporciona un formulario para seleccionar múltiples comprobantes de clientes que incluir en recibos y otros documentos")</description>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Selección de comprobantes de cliente")</alias>
         <table>seleccionreciboscli</table>
         <form>seleccionreciboscli</form>
         <scriptform>seleccionreciboscli</scriptform>

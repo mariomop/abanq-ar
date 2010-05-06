@@ -359,7 +359,7 @@
 						<cstring>pendientes</cstring>
 					</property>
 					<attribute name="title">
-						<string>Facturas Pendientes</string>
+						<string>Comprobantes Pendientes</string>
 					</attribute>
 					<property name="font">
 						<font>
@@ -490,7 +490,7 @@
 												</font>
 											</property>
 											<property name="text">
-												<string>Mostrar sólo facturas en mora</string>
+												<string>Mostrar sólo comprobantes en mora</string>
 											</property>
 											<property name="checked">
 												<bool>false</bool>
@@ -608,7 +608,7 @@
 						<cstring>pagadas</cstring>
 					</property>
 					<attribute name="title">
-						<string>Facturas Pagadas</string>
+						<string>Comprobantes Pagados</string>
 					</attribute>
 					<property name="font">
 						<font>

@@ -2,7 +2,7 @@
 <TMD>
 	<name>recibosprov</name>
 	<!-- Listado de recibos de proveedores-->
-	<alias>QT_TRANSLATE_NOOP("MetaData","Facturas de Proveedores")</alias>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Comprobantes de Proveedores")</alias>
 	<field>
 		<name>idrecibo</name>
 		<!-- Identificador interno -->
