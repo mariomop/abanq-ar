@@ -36,6 +36,9 @@ class interna {
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
     function oficial( context ) { interna( context ); } 
+	function commonCalculateField(fN:String, cursor:FLSqlCursor):String {
+		return this.ctx.oficial_commonCalculateField(fN, cursor);
+	}
 	function imprimir(codPagoMulti:String) {
 		return this.ctx.oficial_imprimir(codPagoMulti)
 	}
@@ -90,6 +93,9 @@ class head extends ordenCampos {
 //// INTERFACE  /////////////////////////////////////////////////
 class ifaceCtx extends head {
     function ifaceCtx( context ) { head( context ); }
+	function pub_commonCalculateField(fN:String, cursor:FLSqlCursor):String {
+		return this.commonCalculateField(fN, cursor);
+	}
 	function pub_imprimir(codPagoMulti:String) {
 		return this.imprimir(codPagoMulti);
 	}
@@ -116,6 +122,18 @@ function interna_init()
 /** @class_definition oficial */
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
+
+function oficial_commonCalculateField(fN:String, cursor:FLSqlCursor):String
+{
+	var util:FLUtil = new FLUtil();
+	var valor:String;
+
+	if (fN == "codigo")
+		valor = flfacturac.iface.pub_construirCodigo(cursor.valueBuffer("codserie"), cursor.valueBuffer("codejercicio"), cursor.valueBuffer("numero"));
+
+
+	return valor;
+}
 
 function oficial_imprimir(codPagoMulti:String)
 {

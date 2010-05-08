@@ -140,11 +140,24 @@ class numeroSecuencia extends ordenCampos {
 //// NUMERO SECUENCIA ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
+/** @class_declaration modoAccesso */
+//////////////////////////////////////////////////////////////////
+//// MODO ACCESO /////////////////////////////////////////////////
+class modoAccesso extends numeroSecuencia {
+	var modoAcceso:Number;
+	function modoAccesso( context ) { numeroSecuencia( context ); } 
+	function init() {
+		this.ctx.modoAccesso_init();
+	}
+}
+//// MODO ACCESO /////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 /** @class_declaration tipoVenta */
 /////////////////////////////////////////////////////////////////
 //// TIPO DE VENTA //////////////////////////////////////////////
-class tipoVenta extends numeroSecuencia {
-	function tipoVenta( context ) { numeroSecuencia ( context ); }
+class tipoVenta extends modoAccesso {
+	function tipoVenta( context ) { modoAccesso ( context ); }
 	function init() {
 		this.ctx.tipoVenta_init();
 	}
@@ -452,16 +465,6 @@ function pagosMultiples_agregarRecibo():Boolean
 		}
 		return;
 	}
-	
-	var f:Object = new FLFormSearchDB("seleccionrecibosprov");
-	var curRecibos:FLSqlCursor = f.cursor();
-	var fecha:String = cursor.valueBuffer("fecha");
-		
-	var noGenerarAsiento:Boolean = cursor.valueBuffer("nogenerarasiento");
-
-	if (cursor.modeAccess() != cursor.Browse)
-		if (!cursor.checkIntegrity())
-			return;
 
 	if (this.iface.contabActivada && this.child("fdbCodSubcuenta").value().isEmpty()) {
 		if (cursor.valueBuffer("nogenerarasiento") == false) {
@@ -469,6 +472,17 @@ function pagosMultiples_agregarRecibo():Boolean
 			return false;
 		}
 	}
+
+	if (cursor.modeAccess() != cursor.Browse) {
+		if (!cursor.checkIntegrity())
+			return;
+
+//		this.child("tdbPagosDevolPagosMulti").cursor().commitBufferCursorRelation();
+	}
+
+	var f:Object = new FLFormSearchDB("seleccionrecibosprov");
+	var curRecibos:FLSqlCursor = f.cursor();
+	var fecha:String = cursor.valueBuffer("fecha");
 
 	curRecibos.select();
 	if (!curRecibos.first())
@@ -854,12 +868,12 @@ function numeroSecuencia_calculateField(fN:String):String
 		case "numero": {
 			var idSec:Number = util.sqlSelect("secuenciasejercicios", "id", "codejercicio = '" + cursor.valueBuffer("codejercicio") + "' AND codserie = '" + cursor.valueBuffer("codserie") + "'");
 			if (!idSec) {
-				valor = 1;
+				valor = 0;
 				break;
 			}
 			var numero:Number = util.sqlSelect("secuencias", "valorout", "id = " + idSec + " AND nombre = 'npagomultiprov'");
 			if ( !numero || isNaN(numero) )
-				numero = 1;
+				numero = 0;
 			valor = numero.toString();
 			break;
 		}
@@ -873,11 +887,11 @@ function numeroSecuencia_calculateField(fN:String):String
 function numeroSecuencia_acceptedForm()
 {
 	// al aceptar el pago múltiple se incrementa el número de secuencia
-	var cursorFactura:FLSqlCursor = this.cursor();
-	if ( this.cursor().modeAccess() == this.cursor().Insert ) {
+	var cursorPagoMulti:FLSqlCursor = this.cursor();
+	if ( this.iface.modoAcceso == this.cursor().Insert ) {
 		var cursorSecuencias:FLSqlCursor = new FLSqlCursor("secuenciasejercicios");
 		cursorSecuencias.setActivatedCheckIntegrity(false);
-		cursorSecuencias.select("upper(codserie) = '" + cursorFactura.valueBuffer("codserie") + "' AND upper(codejercicio) = '" + cursorFactura.valueBuffer("codejercicio") + "'");
+		cursorSecuencias.select("upper(codserie) = '" + cursorPagoMulti.valueBuffer("codserie") + "' AND upper(codejercicio) = '" + cursorPagoMulti.valueBuffer("codejercicio") + "'");
 		if (cursorSecuencias.next()) {
 			var cursorSecs:FLSqlCursor = new FLSqlCursor( "secuencias" );
 			cursorSecs.setActivatedCheckIntegrity( false );
@@ -886,7 +900,7 @@ function numeroSecuencia_acceptedForm()
 			if (cursorSecs.next()) {
 				cursorSecs.setModeAccess( cursorSecs.Edit );
 				cursorSecs.refreshBuffer();
-				var numerosiguiente:Number = parseInt(cursorFactura.valueBuffer("numero"), 10) + 1;
+				var numerosiguiente:Number = parseFloat(cursorPagoMulti.valueBuffer("numero")) + 1;
 				cursorSecs.setValueBuffer( "valorout", numerosiguiente );
 				cursorSecs.commitBuffer();
 			}
@@ -896,7 +910,7 @@ function numeroSecuencia_acceptedForm()
 				cursorSecs.setValueBuffer( "id", idSec );
 				cursorSecs.setValueBuffer( "nombre", "npagomultiprov" );
 				cursorSecs.setValueBuffer( "valor", 1 );
-				var numerosiguiente:Number = parseInt(cursorFactura.valueBuffer("numero"), 10) + 1;
+				var numerosiguiente:Number = parseFloat(cursorPagoMulti.valueBuffer("numero")) + 1;
 				cursorSecs.setValueBuffer( "valorout", numerosiguiente );
 				cursorSecs.commitBuffer();
 			}
@@ -916,6 +930,21 @@ function numeroSecuencia_bufferChanged(fN:String)
 }
 
 //// NUMERO SECUENCIA /////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+/** @class_definition modoAccesso */
+/////////////////////////////////////////////////////////////////
+//// MODO ACCESO ////////////////////////////////////////////////
+
+function modoAccesso_init()
+{
+	// se toma nota del modo de acceso
+	this.iface.modoAcceso = this.cursor().modeAccess();
+
+	this.iface.__init();
+}
+
+//// MODO ACCESO //////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 
 /** @class_definition tipoVenta */
@@ -944,7 +973,7 @@ function tipoVenta_calculateField(fN:String):String
 			break;
 		}
 		case "codigo": {
-			valor = flfacturac.iface.pub_construirCodigo(cursor.valueBuffer("codserie"), cursor.valueBuffer("codejercicio"), cursor.valueBuffer("numero"));
+			valor = formpagosmultiprov.iface.pub_commonCalculateField(fN, cursor);
 			break
 		}
 		default: {

@@ -2660,7 +2660,22 @@ function infoVencimtos_datosReciboProv():Boolean
 
 function pagosMultiples_beforeCommit_pagosmulticli(curPagoMulti:FLSqlCursor):Boolean
 {
+	var util:FLUtil = new FLUtil();
+	var numero:String;
+
 	switch (curPagoMulti.modeAccess()) {
+
+		case curPagoMulti.Insert: {
+			if (curPagoMulti.valueBuffer("numero") == 0) {
+				numero = flfacturac.iface.pub_siguienteNumero(curPagoMulti.valueBuffer("codserie"), curPagoMulti.valueBuffer("codejercicio"), "npagomulticli");
+				if (!numero)
+					return false;
+				curPagoMulti.setValueBuffer("numero", numero);
+				curPagoMulti.setValueBuffer("codigo", formpagosmulticli.iface.pub_commonCalculateField("codigo", curPagoMulti));
+			}
+			break;
+		}
+
 		/** \C El Pago múltiple puede borrarse si todos los pagos asociados pueden ser excluidos
 		\end */
 		case curPagoMulti.Del: {
@@ -2677,13 +2692,40 @@ function pagosMultiples_beforeCommit_pagosmulticli(curPagoMulti:FLSqlCursor):Boo
 					return false;
 			}
 		}
+
 	}
+
+	if (curPagoMulti.modeAccess() == curPagoMulti.Insert || curPagoMulti.modeAccess() == curPagoMulti.Edit) {
+		while (util.sqlSelect("pagosmulticli", "idpagomulti", "codejercicio = '" + curPagoMulti.valueBuffer("codejercicio") + "' AND codserie = '" + curPagoMulti.valueBuffer("codserie") + "' AND numero = '" + curPagoMulti.valueBuffer("numero") + "' AND idpagomulti <> " + curPagoMulti.valueBuffer("idpagomulti"))) {
+			numero = flfacturac.iface.pub_siguienteNumero(curPagoMulti.valueBuffer("codserie"), curPagoMulti.valueBuffer("codejercicio"), "npagomulticli");
+			if (!numero)
+				return false;
+			curPagoMulti.setValueBuffer("numero", numero);
+			curPagoMulti.setValueBuffer("codigo", formpagosmulticli.iface.pub_commonCalculateField("codigo", curPagoMulti));
+		}
+	}
+
 	return true;
 }
 
 function pagosMultiples_beforeCommit_pagosmultiprov(curPagoMulti:FLSqlCursor):Boolean
 {
+	var util:FLUtil = new FLUtil();
+	var numero:String;
+
 	switch (curPagoMulti.modeAccess()) {
+
+		case curPagoMulti.Insert: {
+			if (curPagoMulti.valueBuffer("numero") == 0) {
+				numero = flfacturac.iface.pub_siguienteNumero(curPagoMulti.valueBuffer("codserie"), curPagoMulti.valueBuffer("codejercicio"), "npagomulticli");
+				if (!numero)
+					return false;
+				curPagoMulti.setValueBuffer("numero", numero);
+				curPagoMulti.setValueBuffer("codigo", formpagosmultiprov.iface.pub_commonCalculateField("codigo", curPagoMulti));
+			}
+			break;
+		}
+
 		/** \C El Pago múltiple puede borrarse si todos los pagos asociados pueden ser excluidos
 		\end */
 		case curPagoMulti.Del: {
@@ -2700,7 +2742,19 @@ function pagosMultiples_beforeCommit_pagosmultiprov(curPagoMulti:FLSqlCursor):Bo
 					return false;
 			}
 		}
+
 	}
+
+	if (curPagoMulti.modeAccess() == curPagoMulti.Insert || curPagoMulti.modeAccess() == curPagoMulti.Edit) {
+		while (util.sqlSelect("pagosmultiprov", "idpagomulti", "codejercicio = '" + curPagoMulti.valueBuffer("codejercicio") + "' AND codserie = '" + curPagoMulti.valueBuffer("codserie") + "' AND numero = '" + curPagoMulti.valueBuffer("numero") + "' AND idpagomulti <> " + curPagoMulti.valueBuffer("idpagomulti"))) {
+			numero = flfacturac.iface.pub_siguienteNumero(curPagoMulti.valueBuffer("codserie"), curPagoMulti.valueBuffer("codejercicio"), "npagomultiprov");
+			if (!numero)
+				return false;
+			curPagoMulti.setValueBuffer("numero", numero);
+			curPagoMulti.setValueBuffer("codigo", formpagosmultiprov.iface.pub_commonCalculateField("codigo", curPagoMulti));
+		}
+	}
+
 	return true;
 }
 
