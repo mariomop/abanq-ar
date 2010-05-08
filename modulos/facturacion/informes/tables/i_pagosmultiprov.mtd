@@ -1,0 +1,139 @@
+<!DOCTYPE TMD>
+<TMD>
+	<name>i_pagosmultiprov</name>
+	<alias>QT_TRANSLATE_NOOP("MetaData","Informes de Ordenes de pago a proveedores")</alias>
+	
+	<field>
+		<name>id</name>
+		<!-- Identificador interno -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","ID")</alias>
+		<null>false</null>
+		<pk>true</pk>
+		<type>serial</type>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	
+	<field>
+		<name>descripcion</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Descripción")</alias>
+		<pk>false</pk>
+		<null>false</null>
+		<type>string</type>
+		<length>200</length>
+	</field>
+	
+	<field>
+		<name>d_pagosmultiprov_codigo</name>
+		<!-- Código de la orden inicial -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Desde orden Nº")</alias>
+		<pk>false</pk>
+		<type>string</type>
+		<length>21</length>
+		
+		<relation>
+			<table>pagosmultiprov</table>
+			<field>codigo</field>
+			<card>M1</card>
+		</relation>
+		
+	</field>
+	
+	<field>
+		<name>h_pagosmultiprov_codigo</name>
+		<!-- Código de la orden final -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Hasta orden Nº")</alias>
+		<pk>false</pk>
+		<type>string</type>
+		<length>21</length>
+		
+		<relation>
+			<table>pagosmultiprov</table>
+			<field>codigo</field>
+			<card>M1</card>
+		</relation>
+		
+	</field>
+	
+	<field>
+		<name>codintervalo</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Intervalo")</alias>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+		
+		<relation>
+			<table>intervalos</table>
+			<field>codigo</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>d_pagosmultiprov_fecha</name>
+		<!-- Fecha inicial para las órdenes del informe -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Emisión desde")</alias>
+		<pk>false</pk>
+		<type>date</type>
+	</field>
+	
+	<field>
+		<name>h_pagosmultiprov_fecha</name>
+		<!-- Fecha final para los recibos del informe -->
+		<alias>QT_TRANSLATE_NOOP("MetaData"," hasta")</alias>
+		<pk>false</pk>
+		<type>date</type>
+	</field>
+	
+	<field>
+		<name>i_pagosmultiprov_codproveedor</name>
+		<!-- Código del proveedor -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Proveedor")</alias>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+		
+		<relation>
+			<table>proveedores</table>
+			<field>codproveedor</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
+		<name>orden1</name>
+		<!-- Primer criterio de ordenación -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Ordenes por (1)")</alias>
+		<pk>false</pk>
+		<type>string</type>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","No ordenar");QT_TRANSLATE_NOOP("MetaData","Código");QT_TRANSLATE_NOOP("MetaData","Cod.Proveedor");QT_TRANSLATE_NOOP("MetaData","Proveedor");QT_TRANSLATE_NOOP("MetaData","Fecha");QT_TRANSLATE_NOOP("MetaData","Total")</optionslist>
+		<length>20</length>
+	</field>
+	
+	<field>
+		<name>tipoorden1</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Orden")</alias>
+		<pk>false</pk>
+		<type>string</type>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Ascendente");QT_TRANSLATE_NOOP("MetaData","Descendente")</optionslist>
+		<length>20</length>
+	</field>
+	
+	<field>
+		<name>orden2</name>
+		<!-- Segundo criterio de ordenación -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Ordenes por (2)")</alias>
+		<pk>false</pk>
+		<type>string</type>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","No ordenar");QT_TRANSLATE_NOOP("MetaData","Código");QT_TRANSLATE_NOOP("MetaData","Cod.Proveedor");QT_TRANSLATE_NOOP("MetaData","Proveedor");QT_TRANSLATE_NOOP("MetaData","Fecha");QT_TRANSLATE_NOOP("MetaData","Total")</optionslist>
+		<length>20</length>
+	</field>
+	
+	<field>
+		<name>tipoorden2</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Orden")</alias>
+		<pk>false</pk>
+		<type>string</type>
+		<optionslist>QT_TRANSLATE_NOOP("MetaData","Ascendente");QT_TRANSLATE_NOOP("MetaData","Descendente")</optionslist>
+		<length>20</length>
+	</field>
+</TMD>

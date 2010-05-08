@@ -1085,6 +1085,7 @@ function oficial_valoresIniciales()
 
 	cursor = new FLSqlCursor("secuencias");
 	with(cursor) {
+		// A001
 		setModeAccess(cursor.Insert);
 		refreshBuffer();
 		setValueBuffer("id", idSec1);
@@ -1101,6 +1102,21 @@ function oficial_valoresIniciales()
 		commitBuffer();
 		setModeAccess(cursor.Insert);
 		refreshBuffer();
+		setValueBuffer("id", idSec1);
+		setValueBuffer("nombre", "npagomulticli");
+		setValueBuffer("valor", 1);
+		setValueBuffer("valorout", 1);
+		commitBuffer();
+		setModeAccess(cursor.Insert);
+		refreshBuffer();
+		setValueBuffer("id", idSec1);
+		setValueBuffer("nombre", "npagomultiprov");
+		setValueBuffer("valor", 1);
+		setValueBuffer("valorout", 1);
+		commitBuffer();
+		// B001
+		setModeAccess(cursor.Insert);
+		refreshBuffer();
 		setValueBuffer("id", idSec2);
 		setValueBuffer("nombre", "nfacturacli");
 		setValueBuffer("valor", 1);
@@ -1113,6 +1129,21 @@ function oficial_valoresIniciales()
 		setValueBuffer("valor", 1);
 		setValueBuffer("valorout", 1);
 		commitBuffer();
+		setModeAccess(cursor.Insert);
+		refreshBuffer();
+		setValueBuffer("id", idSec2);
+		setValueBuffer("nombre", "npagomulticli");
+		setValueBuffer("valor", 1);
+		setValueBuffer("valorout", 1);
+		commitBuffer();
+		setModeAccess(cursor.Insert);
+		refreshBuffer();
+		setValueBuffer("id", idSec2);
+		setValueBuffer("nombre", "npagomultiprov");
+		setValueBuffer("valor", 1);
+		setValueBuffer("valorout", 1);
+		commitBuffer();
+		// R001
 		setModeAccess(cursor.Insert);
 		refreshBuffer();
 		setValueBuffer("id", idSec3);
@@ -1127,6 +1158,7 @@ function oficial_valoresIniciales()
 		setValueBuffer("valor", 1);
 		setValueBuffer("valorout", 1);
 		commitBuffer();
+		// P001
 		setModeAccess(cursor.Insert);
 		refreshBuffer();
 		setValueBuffer("id", idSec4);
@@ -1141,6 +1173,7 @@ function oficial_valoresIniciales()
 		setValueBuffer("valor", 1);
 		setValueBuffer("valorout", 1);
 		commitBuffer();
+		// X001
 		setModeAccess(cursor.Insert);
 		refreshBuffer();
 		setValueBuffer("id", idSec5);
@@ -1173,6 +1206,7 @@ function oficial_valoresIniciales()
 		setValueBuffer("codserie_pedido", "P001");
 		setValueBuffer("codserie_presupuesto", "X001");
 		setValueBuffer("codserie_facturasprov", "A001");
+		setValueBuffer("codserie_pagosmulti", "A001");
 		setValueBuffer("codpostal", "3100");
 		setValueBuffer("ciudad", "PARANÁ");
 		setValueBuffer("provincia", "ENTRE RÍOS");

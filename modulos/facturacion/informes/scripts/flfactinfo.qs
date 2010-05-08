@@ -234,6 +234,9 @@ class datos extends pubInfoCliProv {
 	function acumularValor(nodo:FLDomNode, campo:String):String {
 		return this.ctx.datos_acumularValor(nodo, campo);
 	}
+	function desgloseFormaPago(nodo:FLDomNode, campo:String):String {
+		return this.ctx.datos_desgloseFormaPago(nodo, campo);
+	}
 
 }
 //// DATOS //////////////////////////////////////////////////////
@@ -321,6 +324,9 @@ class pubDatos extends pubarticuloscomp {
     function pubDatos( context ) { pubarticuloscomp ( context ); }
 	function pub_obtenerCodigo(nodo:FLDomNode, campo:String):String {
 		return this.obtenerCodigo(nodo, campo);
+	}
+	function pub_desgloseFormaPago(nodo:FLDomNode, campo:String):String {
+		return this.desgloseFormaPago(nodo, campo);
 	}
 }
 //// PUB_DATOS //////////////////////////////////////////////////
@@ -1764,6 +1770,52 @@ function datos_acumularValor(nodo:FLDomNode, campo:String):String
 		this.iface.cuentaAcum[campos[0]]++;
 	}
 	return "0";
+}
+
+function datos_desgloseFormaPago(nodo:FLDomNode, campo:String):String
+{
+	var util:FLUtil = new FLUtil;
+	var idDocumento:String;
+
+	var tablaPago:String;
+	switch (campo) {
+		case "pagosmulticli": {
+			tablaPago = "pagosdevolpagosmulticli";
+			break;
+		}
+		case "pagosmultiprov": {
+			tablaPago = "pagosdevolpagosmultiprov";
+			break;
+		}
+	}
+	idDocumento = nodo.attributeValue(campo + ".idpagomulti");
+
+	var qryPagos:FLSqlQuery = new FLSqlQuery();
+	with (qryPagos) {
+		setTablesList(tablaPago);
+		setSelect("tipo");
+		setFrom(tablaPago);
+		setWhere("idpagomulti = " + idDocumento + " ORDER BY tipo");
+	}
+	if (!qryPagos.exec())
+		return false;
+//////// temporal
+	return "EFECTIVO   $ 0,00\n\n TOTAL   $ 0,00";
+////////
+	var listaTotal:String = "";
+	var total:Number = 0;
+	var importe:String;
+	while (qryPagos.next()) {
+		if (listaTotal != "")
+			listaTotal += "\n";
+		importe = util.buildNumber(qryPagos.value(2), "float", 2);
+		listaTotal += qryPagos.value(0) + " " + qryPagos.value(1) + "   $ " + importe;
+		total += parseFloat(importe);
+	}
+	importe = util.buildNumber(total, "float", 2);
+	listaTotal += "\n\n TOTAL   $" + importe;
+
+	return listaTotal;
 }
 
 //// DATOS //////////////////////////////////////////////////////

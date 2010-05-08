@@ -36,9 +36,9 @@ class interna {
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
     function oficial( context ) { interna( context ); } 
-    function imprimir() {
-        return this.ctx.oficial_imprimir();
-    }
+	function imprimir(codPagoMulti:String) {
+		return this.ctx.oficial_imprimir(codPagoMulti)
+	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -90,6 +90,9 @@ class head extends ordenCampos {
 //// INTERFACE  /////////////////////////////////////////////////
 class ifaceCtx extends head {
     function ifaceCtx( context ) { head( context ); }
+	function pub_imprimir(codPagoMulti:String) {
+		return this.imprimir(codPagoMulti);
+	}
 }
 
 const iface = new ifaceCtx( this );
@@ -113,26 +116,31 @@ function interna_init()
 /** @class_definition oficial */
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
-/** \D Crea un informe con el listado de registros del pago múltiple. Funciona cuando está cargado el módulo de informes
-\end */
-function oficial_imprimir()
-{
-	return; // Hasta hacer el report
 
-	if (this.cursor().size() == 0)
-		return;
-		
+function oficial_imprimir(codPagoMulti:String)
+{
 	if (sys.isLoadedModule("flfactinfo")) {
-		var idPagoMulti:Number = this.cursor().valueBuffer("idpagomulti");
+		var codigo:String;
+		if (codPagoMulti) {
+			codigo = codPagoMulti;
+		} else {
+			if (!this.cursor().isValid())
+				return;
+			codigo = this.cursor().valueBuffer("codigo");
+		}
 		var curImprimir:FLSqlCursor = new FLSqlCursor("i_pagosmultiprov");
 		curImprimir.setModeAccess(curImprimir.Insert);
 		curImprimir.refreshBuffer();
 		curImprimir.setValueBuffer("descripcion", "temp");
-		curImprimir.setValueBuffer("i_pagosmultiprov_idpagomulti", idPagoMulti);
+		curImprimir.setValueBuffer("d_pagosmultiprov_codigo", codigo);
+		curImprimir.setValueBuffer("h_pagosmultiprov_codigo", codigo);
 		flfactinfo.iface.pub_lanzarInforme(curImprimir, "i_pagosmultiprov");
-	} else
+	}
+	else {
 		flfactppal.iface.pub_msgNoDisponible("Informes");
+	}
 }
+
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
@@ -193,9 +201,9 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var orden:Array = [ "idpagomulti", "estado", "codproveedor", "nombreproveedor", "total", "coddivisa", "tasaconv", "importeeuros", "fecha", "idusuario" ];
+	var orden:Array = [ "codigo", "numero", "nombreproveedor", "cifnif", "total", "coddivisa", "tasaconv", "importeeuros", "fecha", "hora", "codserie", "codejercicio", "codperiodo", "estado", "codproveedor", "idusuario", "observaciones" ];
 
-	this.iface.tdbRecords.setOrderCols(orden);
+//	this.iface.tdbRecords.setOrderCols(orden);
 	this.iface.tdbRecords.setFocus();
 }
 

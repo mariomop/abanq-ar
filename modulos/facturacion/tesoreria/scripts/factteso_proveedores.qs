@@ -373,7 +373,7 @@ function ctasCtes_verEntrada()
 		}
 		case "Orden de Pago": {
 			cursor = new FLSqlCursor("pagosmultiprov");
-			cursor.select("idpagomulti = " + codigo);
+			cursor.select("codigo = '" + codigo + "'");
 
 			if (!cursor.first())
 				return;

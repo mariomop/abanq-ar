@@ -1,0 +1,38 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_pagosmultiprov</name>
+	
+	<tables>empresa,pagosmultiprov,recibosprov,dirproveedores,usuarios</tables>
+	
+	<group>
+		<level>0</level>
+		<field>pagosmultiprov.idpagomulti</field>
+	</group>
+	
+	<select>
+		pagosmultiprov.idpagomulti, pagosmultiprov.codigo,
+		pagosmultiprov.fecha, pagosmultiprov.total,
+		pagosmultiprov.coddivisa, pagosmultiprov.texto,
+		pagosmultiprov.codproveedor, pagosmultiprov.cifnif,
+		pagosmultiprov.nombre,
+		recibosprov.codigo, recibosprov.fecha,
+		recibosprov.fechav, recibosprov.importe,
+		recibosprov.coddivisa,
+		dirproveedores.direccion, dirproveedores.ciudad,
+		dirproveedores.provincia,
+		usuarios.nombre,
+		empresa.nombre, empresa.cifnif, empresa.direccion,
+		empresa.codpostal, empresa.ciudad, empresa.provincia,
+		empresa.codpais
+	</select>
+	
+	<from>
+		empresa, pagosmultiprov
+		INNER JOIN recibosprov ON recibosprov.idpagomulti = pagosmultiprov.idpagomulti
+		LEFT OUTER JOIN dirproveedores ON dirproveedores.codproveedor = pagosmultiprov.codproveedor
+		LEFT OUTER JOIN usuarios ON usuarios.idusuario = pagosmultiprov.idusuario
+	</from>
+	
+	<where>
+	</where>
+</QRY>

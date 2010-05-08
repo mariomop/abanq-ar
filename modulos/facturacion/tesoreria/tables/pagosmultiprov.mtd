@@ -5,12 +5,12 @@
 	<alias>QT_TRANSLATE_NOOP("MetaData","Ordenes de pago a proveedores")</alias>
 	<field>
 		<name>idpagomulti</name>
-		<!-- Identificador -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Número")</alias>
+		<!--Identificador interno de la tabla-->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Identificador")</alias>
 		<null>false</null>
 		<pk>true</pk>
-		<type>uint</type>
-		<counter>true</counter>
+		<type>serial</type>
+		<visiblegrid>false</visiblegrid>
 		<relation>
 			<table>pagosdevolpagosmultiprov</table>
 			<field>idpagomulti</field>
@@ -18,28 +18,42 @@
 		</relation>
 	</field>
 	<field>
-		<name>codproveedor</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Proveedor")</alias>
+		<name>codigo</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Código")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>string</type>
-		<length>6</length>
-		<visiblegrid>true</visiblegrid>
-		<relation>
-			<table>proveedores</table>
-			<field>codproveedor</field>
-			<card>M1</card>
-		</relation>
+		<length>18</length>
+		<default>0</default>
+		<calculated>true</calculated>
+		<editable>false</editable>
+	</field>
+	<field>
+		<name>numero</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Número")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>12</length>
+		<default>0</default>
 	</field>
 	<field>
 		<name>nombre</name>
 		<!--Nombre del proveedor-->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Nombre proveedor")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>string</type>
 		<length>100</length>
 		<editable>false</editable>
+	</field>
+	<field>
+		<name>cifnif</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","CUIT/DNI")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>13</length>
 	</field>
 	<field>
 		<name>total</name>
@@ -68,11 +82,109 @@
 		</relation>
 	</field>
 	<field>
+		<name>tasaconv</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","T. Conv.")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>6</partI>
+		<partD>3</partD>
+		<default>1</default>
+	</field>
+	<field>
+		<name>importeeuros</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","T. en Pesos")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>double</type>
+		<partI>8</partI>
+		<partD>2</partD>
+		<editable>false</editable>
+		<calculated>true</calculated>
+	</field>
+	<field>
 		<name>fecha</name>
 		<alias>QT_TRANSLATE_NOOP("MetaData","Fecha")</alias>
 		<null>false</null>
 		<pk>false</pk>
 		<type>date</type>
+	</field>
+	<field>
+		<name>hora</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Hora")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>time</type>
+	</field>
+	<field>
+		<name>codserie</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Serie")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<editable>false</editable>
+		<relation>
+			<table>series</table>
+			<field>codserie</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codejercicio</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Ejercicio")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>4</length>
+		<editable>false</editable>
+		<relation>
+			<table>ejercicios</table>
+			<field>codejercicio</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>codperiodo</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Período")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+		<associated>
+			<with>codejercicio</with>
+			<by>codejercicio</by>
+		</associated>
+		<relation>
+			<table>periodos</table>
+			<field>codperiodo</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	<field>
+		<name>estado</name>
+		<!-- Estado -->
+		<alias>QT_TRANSLATE_NOOP("MetaData","Estado")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>15</length>
+		<default>Emitida</default>
+		<editable>false</editable>
+	</field>
+	<field>
+		<name>codproveedor</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Proveedor")</alias>
+		<null>false</null>
+		<pk>false</pk>
+		<type>string</type>
+		<length>6</length>
+		<visiblegrid>true</visiblegrid>
+		<relation>
+			<table>proveedores</table>
+			<field>codproveedor</field>
+			<card>M1</card>
+		</relation>
 	</field>
 	<field>
 		<name>codcuenta</name>
@@ -131,17 +243,6 @@
 		<visiblegrid>false</visiblegrid>
 	</field>
 	<field>
-		<name>estado</name>
-		<!-- Estado -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Estado")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>string</type>
-		<length>15</length>
-		<default>Emitida</default>
-		<editable>false</editable>
-	</field>
-	<field>
 		<name>codsubcuenta</name>
 		<!-- Código de la subcuenta contable a la que se aplica el asiento del pago múltiple -->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Subcuenta")</alias>
@@ -166,27 +267,6 @@
 		</relation>
 	</field>
 	<field>
-		<name>tasaconv</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Tasa de conversión")</alias>
-		<null>false</null>
-		<pk>false</pk>
-		<type>double</type>
-		<partI>6</partI>
-		<partD>3</partD>
-		<default>1</default>
-	</field>
-	<field>
-		<name>importeeuros</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","T. en Pesos")</alias>
-		<null>false</null>
-		<pk>false</pk>
-		<type>double</type>
-		<partI>8</partI>
-		<partD>2</partD>
-		<editable>false</editable>
-		<calculated>true</calculated>
-	</field>
-	<field>
 		<name>nogenerarasiento</name>
 		<!--Indica si se debe generar asiento contable o no para los pedidos incluidos en el pago múltiple-->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Ignorar contabilidad")</alias>
@@ -208,5 +288,22 @@
 			<field>idusuario</field>
 			<card>M1</card>
 		</relation>
+	</field>
+	<field>
+		<name>texto</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Texto")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>stringlist</type>
+		<calculated>true</calculated>
+		<editable>false</editable>
+		<visiblegrid>false</visiblegrid>
+	</field>
+	<field>
+		<name>observaciones</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Observaciones")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>stringlist</type>
 	</field>
 </TMD>

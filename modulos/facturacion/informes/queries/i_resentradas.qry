@@ -43,7 +43,7 @@
 		FROM facturasprov AS fp WHERE fp.tipoventa = 'Nota de Débito'
 		
 		UNION
-		SELECT pmp.fecha, 'Orden de Pago' as tipo, pmp.idpagomulti::varchar as codigo, pmp.codproveedor, pmp.nombre as nombreproveedor, pmp.total, pmp.coddivisa
+		SELECT pmp.fecha, 'Orden de Pago' as tipo, pmp.codigo, pmp.codproveedor, pmp.nombre as nombreproveedor, pmp.total, pmp.coddivisa
 		FROM pagosmultiprov AS pmp
 		
 		) AS consultaentradas

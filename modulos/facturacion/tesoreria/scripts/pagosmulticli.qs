@@ -29,7 +29,6 @@ class interna {
     function init() { this.ctx.interna_init(); }
 	function validateForm():Boolean { return this.ctx.interna_validateForm(); }
 	function calculateField(fN:String):String { return this.ctx.interna_calculateField(fN); }
-	function calculateCounter():Number { return this.ctx.interna_calculateCounter(); }
 }
 //// INTERNA /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -123,11 +122,59 @@ class ordenCampos extends controlUsuario {
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+/** @class_declaration numeroSecuencia */
+//////////////////////////////////////////////////////////////////
+//// NUMERO SECUENCIA ////////////////////////////////////////////
+class numeroSecuencia extends ordenCampos {
+	function numeroSecuencia( context ) { ordenCampos( context ); } 
+	function calculateField(fN:String):String {
+		return this.ctx.numeroSecuencia_calculateField(fN);
+	}
+	function acceptedForm() {
+		this.ctx.numeroSecuencia_acceptedForm();
+	}
+	function bufferChanged(fN:String) {
+		this.ctx.numeroSecuencia_bufferChanged(fN);
+	}
+}
+//// NUMERO SECUENCIA ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_declaration tipoVenta */
+/////////////////////////////////////////////////////////////////
+//// TIPO DE VENTA //////////////////////////////////////////////
+class tipoVenta extends numeroSecuencia {
+	function tipoVenta( context ) { numeroSecuencia ( context ); }
+	function init() {
+		this.ctx.tipoVenta_init();
+	}
+	function calculateField(fN:String):String {
+		return this.ctx.tipoVenta_calculateField(fN);
+	}
+}
+//// TIPO DE VENTA  /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/** @class_declaration periodosFiscales */
+/////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES //////////////////////////////////////////
+class periodosFiscales extends tipoVenta {
+	function periodosFiscales( context ) { tipoVenta ( context ); }
+	function init() {
+		this.ctx.periodosFiscales_init();
+	}
+	function validateForm():Boolean {
+		return this.ctx.periodosFiscales_validateForm();
+	}
+}
+//// PERIODOS FISCALES //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 /** @class_declaration head */
 /////////////////////////////////////////////////////////////////
 //// DESARROLLO /////////////////////////////////////////////////
-class head extends ordenCampos {
-    function head( context ) { ordenCampos ( context ); }
+class head extends periodosFiscales {
+    function head( context ) { periodosFiscales ( context ); }
 }
 //// DESARROLLO /////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -175,7 +222,6 @@ function interna_init()
 		this.iface.tblResAsientos.setColumnWidth(2, 100);
 		this.iface.tblResAsientos.setColumnWidth(3, 100);
 		this.iface.tblResAsientos.setColumnLabels("/", util.translate("scripts", "Subcuenta") + "/" + util.translate("scripts", "Descripción") + "/" +  util.translate("scripts", "Debe") + "/" + util.translate("scripts", "Haber"));
-		this.iface.tblResAsientos.readOnly = true;
 	
 		this.iface.ejercicioActual = flfactppal.iface.pub_ejercicioActual();
 		this.iface.longSubcuenta = util.sqlSelect("ejercicios", "longsubcuenta", "codejercicio = '" + this.iface.ejercicioActual + "'");
@@ -188,7 +234,7 @@ function interna_init()
 			this.child("tbwRecibos").setTabEnabled("pagos", false);
 		}
 	} else {
-		this.child("tbwRecibos").setTabEnabled("contabilidad", false);
+		this.child("tbwPagoMulti").setTabEnabled("contabilidad", false);
 		this.child("tbwRecibos").setTabEnabled("pagos", false);
 		this.iface.pagoIndirecto_ = false;
 	}
@@ -203,26 +249,31 @@ function interna_init()
 	connect(this.iface.bngTasaCambio, "clicked(int)", this, "iface.bngTasaCambio_clicked()");
 	this.iface.bufferChanged("estado");
 		
-/** \D Se muestran sólo los recibos del pago múltiple
-\end */
 	var tdbRecibos:FLTableDB = this.child("tdbRecibos");
 	tdbRecibos.cursor().setMainFilter("idpagomulti = " + cursor.valueBuffer("idpagomulti"));
-/** \C La tabla de recibos se muestra en modo de sólo lectura
-\end */
 	tdbRecibos.setReadOnly(true);
-	var mA = cursor.modeAccess();
-	if (mA == cursor.Insert) {
+	tdbRecibos.refresh();
+
+	if ( cursor.modeAccess() == cursor.Insert ) {
+		cursor.setValueBuffer("codejercicio", flfactppal.iface.pub_ejercicioActual());
 		this.child("fdbCodDivisa").setValue(flfactppal.iface.pub_valorDefectoEmpresa("coddivisa"));
+
 		if (this.iface.contabActivada) {
 			this.child("fdbIdSubcuenta").setValue(this.iface.calculateField("idsubcuentadefecto"));
 		}
 	}
 
-	tdbRecibos.cursor().setMainFilter("idrecibo IN (SELECT idrecibo FROM pagosdevolcli WHERE idpagomulti = " + cursor.valueBuffer("idpagomulti") + ")");
-	tdbRecibos.refresh();
+	if ( cursor.modeAccess() == this.cursor().Insert ) {
+		this.child("fdbNumero").setDisabled(false);
+	} else {
+		this.child("fdbNumero").setDisabled(true);
+	}
 	
 	this.iface.habilitarPorRecibos();
-	form.child("fdbCodCliente").setFocus();
+
+	var filtroCliente:String = "NOT debaja";
+	this.child("fdbCodCliente").setFilter(filtroCliente);
+	this.child("fdbCodCliente").setFocus();
 }
 
 function interna_validateForm():Boolean
@@ -309,34 +360,21 @@ function interna_calculateField(fN:String):String
 			break;
 		}
 		case "estado": {
-// 			if (this.iface.pagoIndirecto_) {
-				var tipo:String = util.sqlSelect("pagosdevolpagosmulticli", "tipo", "idpagomulti = " + cursor.valueBuffer("idpagomulti"));
-				if (!tipo || tipo == "")
-					res = "Emitida";
-				else
-					res = "Pagada";
-// 			} else {
-// 				res = "Emitida";
-// 			}
+			var tipo:String = util.sqlSelect("pagosdevolpagosmulticli", "tipo", "idpagomulti = " + cursor.valueBuffer("idpagomulti"));
+			if (!tipo || tipo == "")
+				res = "Emitida";
+			else
+				res = "Pagada";
+			break;
+		}
+		case "texto": {
+			var importe:Number = parseFloat(cursor.valueBuffer("total"));
+			var moneda:String = util.sqlSelect("divisas", "descripcion", "coddivisa = '" + cursor.valueBuffer("coddivisa") + "'");
+			res = util.enLetraMoneda(importe, moneda);
 			break;
 		}
 	}
 	return res;
-}
-
-/** \D Calcula un nuevo código de pago múltiple
-\end */
-function interna_calculateCounter():Number
-{
-	var util:FLUtil = new FLUtil();
-	var cadena:String = util.sqlSelect("pagosmulticli", "idpagomulti", "1 = 1 ORDER BY idpagomulti DESC");
-	var valor:Number;
-	if (!cadena)
-		valor = 1;
-	else
-		valor = parseFloat(cadena) + 1;
-
-	return valor;
 }
 
 //// INTERNA /////////////////////////////////////////////////////
@@ -355,7 +393,7 @@ function interna_calculateCounter():Number
 
 function pagosMultiples_actualizarTotal()
 {
-	this.child("total").setValue(this.iface.calculateField("total"));
+	this.child("fdbTotal").setValue(this.iface.calculateField("total"));
 	this.iface.habilitarPorRecibos();
 }
 
@@ -363,16 +401,25 @@ function pagosMultiples_habilitarPorRecibos()
 {
 	if (this.child("tdbRecibos").cursor().size() > 0) {
 		this.child("fdbCodCliente").setDisabled(true);
-		this.child("fdbCodCuenta").setDisabled(true);
-		this.child("fdbCodDivisa").setDisabled(true);
+		this.child("fdbCifNif").setDisabled(true);
+		this.child("fdbCodPeriodo").setDisabled(true);
 		this.child("fdbFecha").setDisabled(true);
-		this.child("gbxContabilidad").setEnabled(false);
+		this.child("fdbHora").setDisabled(true);
+		this.child("fdbCodDivisa").setDisabled(true);
 		this.child("fdbTasaConv").setDisabled(true);
+//		this.child("bngTasaCambio").setEnabled(false);
+		this.child("fdbCodCuenta").setDisabled(true);
+		this.child("gbxContabilidad").setEnabled(false);
 	} else {
 		this.child("fdbCodCliente").setDisabled(false);
-		this.child("fdbCodCuenta").setDisabled(false);
-		this.child("fdbCodDivisa").setDisabled(false);
+		this.child("fdbCifNif").setDisabled(false);
+		this.child("fdbCodPeriodo").setDisabled(false);
 		this.child("fdbFecha").setDisabled(false);
+		this.child("fdbHora").setDisabled(false);
+		this.child("fdbCodDivisa").setDisabled(false);
+//		this.child("fdbTasaConv").setDisabled(false);
+//		this.child("bngTasaCambio").setEnabled(true);
+		this.child("fdbCodCuenta").setDisabled(false);
 		this.child("gbxContabilidad").setEnabled(true);
 	}
 	if (this.iface.contabActivada)
@@ -572,6 +619,7 @@ function pagosMultiples_bufferChanged(fN:String)
 			} else {
 				this.child("fdbIdSubcuenta").setDisabled(false);
 				this.child("fdbCodSubcuenta").setDisabled(false);
+				this.child("fdbIdSubcuenta").setValue(this.iface.calculateField("idsubcuentadefecto"));
 			}
 			break;
 		}
@@ -792,6 +840,166 @@ function ordenCampos_init()
 
 //// ORDEN_CAMPOS ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+/** @class_definition numeroSecuencia */
+/////////////////////////////////////////////////////////////////
+//// NUMERO SECUENCIA ///////////////////////////////////////////
+
+function numeroSecuencia_calculateField(fN:String):String
+{
+	var util:FLUtil = new FLUtil();
+	var cursor:FLSqlCursor = this.cursor();
+	var valor:String;
+	switch (fN) {
+		case "numero": {
+			var idSec:Number = util.sqlSelect("secuenciasejercicios", "id", "codejercicio = '" + cursor.valueBuffer("codejercicio") + "' AND codserie = '" + cursor.valueBuffer("codserie") + "'");
+			if (!idSec) {
+				valor = 1;
+				break;
+			}
+			var numero:Number = util.sqlSelect("secuencias", "valorout", "id = " + idSec + " AND nombre = 'npagomulticli'");
+			if ( !numero || isNaN(numero) )
+				numero = 1;
+			valor = numero.toString();
+			break;
+		}
+		default:
+			valor = this.iface.__calculateField(fN);
+			break;
+	}
+	return valor;
+}
+
+function numeroSecuencia_acceptedForm()
+{
+	// al aceptar el pago múltiple se incrementa el número de secuencia
+	var cursorFactura:FLSqlCursor = this.cursor();
+	if ( this.cursor().modeAccess() == this.cursor().Insert ) {
+		var cursorSecuencias:FLSqlCursor = new FLSqlCursor("secuenciasejercicios");
+		cursorSecuencias.setActivatedCheckIntegrity(false);
+		cursorSecuencias.select("upper(codserie) = '" + cursorFactura.valueBuffer("codserie") + "' AND upper(codejercicio) = '" + cursorFactura.valueBuffer("codejercicio") + "'");
+		if (cursorSecuencias.next()) {
+			var cursorSecs:FLSqlCursor = new FLSqlCursor( "secuencias" );
+			cursorSecs.setActivatedCheckIntegrity( false );
+			var idSec:Number = cursorSecuencias.valueBuffer( "id" );
+			cursorSecs.select( "id = " + idSec + " AND nombre = 'npagomulticli'" );
+			if (cursorSecs.next()) {
+				cursorSecs.setModeAccess( cursorSecs.Edit );
+				cursorSecs.refreshBuffer();
+				var numerosiguiente:Number = parseInt(cursorFactura.valueBuffer("numero"), 10) + 1;
+				cursorSecs.setValueBuffer( "valorout", numerosiguiente );
+				cursorSecs.commitBuffer();
+			}
+			else {
+				cursorSecs.setModeAccess( cursorSecs.Insert );
+				cursorSecs.refreshBuffer();
+				cursorSecs.setValueBuffer( "id", idSec );
+				cursorSecs.setValueBuffer( "nombre", "npagomulticli" );
+				cursorSecs.setValueBuffer( "valor", 1 );
+				var numerosiguiente:Number = parseInt(cursorFactura.valueBuffer("numero"), 10) + 1;
+				cursorSecs.setValueBuffer( "valorout", numerosiguiente );
+				cursorSecs.commitBuffer();
+			}
+			cursorSecs.setActivatedCheckIntegrity( true );
+		}
+		cursorSecuencias.setActivatedCheckIntegrity(true);
+	}
+}
+
+function numeroSecuencia_bufferChanged(fN:String)
+{
+	this.iface.__bufferChanged(fN);
+
+	if (fN == "codserie")
+		this.child("fdbNumero").setValue(this.iface.calculateField("numero"));
+
+}
+
+//// NUMERO SECUENCIA /////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+/** @class_definition tipoVenta */
+//////////////////////////////////////////////////////////////////
+//// TIPO VENTA //////////////////////////////////////////////////
+
+function tipoVenta_init()
+{
+	this.iface.__init();
+
+	if ( this.cursor().modeAccess() == this.cursor().Insert )
+		this.cursor().setValueBuffer("codserie", this.iface.calculateField("codserie"));
+}
+
+function tipoVenta_calculateField(fN:String):String
+{
+	var cursor:FLSqlCursor = this.cursor();
+	var valor:String;
+	
+	switch (fN) {
+		case "codserie": {
+			valor = flfactppal.iface.pub_valorDefectoEmpresa("codserie_pagosmulti");
+			if (!valor || valor == "") {
+				MessageBox.warning("No hay una serie definida para el comprobante de 'Recibo de cobro a clientes'\nPor favor, configure la serie correspondiente.", MessageBox.Ok, MessageBox.NoButton,MessageBox.NoButton);
+			}
+			break;
+		}
+		case "codigo": {
+			valor = flfacturac.iface.pub_construirCodigo(cursor.valueBuffer("codserie"), cursor.valueBuffer("codejercicio"), cursor.valueBuffer("numero"));
+			break
+		}
+		default: {
+			valor = this.iface.__calculateField(fN);
+			break
+		}
+	}
+	return valor;
+}
+
+//// TIPO VENTA //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+/** @class_definition periodosFiscales */
+//////////////////////////////////////////////////////////////////
+//// PERIODOS FISCALES ///////////////////////////////////////////
+
+function periodosFiscales_init()
+{
+	this.iface.__init();
+
+	if ( this.cursor().modeAccess() == this.cursor().Insert ) {
+		var util:FLUtil = new FLUtil();
+		var cursor:FLSqlCursor = this.cursor();
+
+		var fecha:String = cursor.valueBuffer("fecha");
+		var codPeriodo:String = util.sqlSelect("periodos", "codperiodo", "fechainicio <= '" + fecha + "' AND fechafin >= '" + fecha + "' AND codejercicio = '" + cursor.valueBuffer("codejercicio") + "'");
+
+		this.child("fdbCodPeriodo").setValue(codPeriodo);
+	}
+}
+
+function periodosFiscales_validateForm():Boolean
+{
+	if (!this.iface.__validateForm())
+		return false;
+
+	var util:FLUtil = new FLUtil();
+
+	var codPeriodo:String = this.cursor().valueBuffer("codperiodo");
+	if (!codPeriodo) {
+		MessageBox.warning(util.translate("scripts", "Debe indicar el período fiscal al que se imputa el recibo"), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+	var estado:String = util.sqlSelect("periodos", "estado", "codperiodo = '" + codPeriodo + "'");
+	if (estado == "CERRADO") {
+		MessageBox.warning(util.translate("scripts", "No puede incluirse el recibo en un período fiscal cerrado.\nDebe crear un nuevo período fiscal para el ejercicio actual."), MessageBox.Ok, MessageBox.NoButton);
+		return false;
+	}
+
+	return true;
+}
+
+//// PERIODOS FISCALES ///////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 /** @class_definition head */
 /////////////////////////////////////////////////////////////////

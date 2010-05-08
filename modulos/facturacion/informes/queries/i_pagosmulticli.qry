@@ -1,0 +1,38 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_pagosmulticli</name>
+	
+	<tables>empresa,pagosmulticli,reciboscli,dirclientes,usuarios</tables>
+	
+	<group>
+		<level>0</level>
+		<field>pagosmulticli.idpagomulti</field>
+	</group>
+	
+	<select>
+		pagosmulticli.idpagomulti, pagosmulticli.codigo,
+		pagosmulticli.fecha, pagosmulticli.total,
+		pagosmulticli.coddivisa, pagosmulticli.texto,
+		pagosmulticli.codcliente, pagosmulticli.cifnif,
+		pagosmulticli.nombrecliente,
+		reciboscli.codigo, reciboscli.fecha,
+		reciboscli.fechav, reciboscli.importe,
+		reciboscli.coddivisa,
+		dirclientes.direccion, dirclientes.ciudad,
+		dirclientes.provincia,
+		usuarios.nombre,
+		empresa.nombre, empresa.cifnif, empresa.direccion,
+		empresa.codpostal, empresa.ciudad, empresa.provincia,
+		empresa.codpais
+	</select>
+	
+	<from>
+		empresa, pagosmulticli
+		INNER JOIN reciboscli ON reciboscli.idpagomulti = pagosmulticli.idpagomulti
+		LEFT OUTER JOIN dirclientes ON dirclientes.codcliente = pagosmulticli.codcliente
+		LEFT OUTER JOIN usuarios ON usuarios.idusuario = pagosmulticli.idusuario
+	</from>
+	
+	<where>
+	</where>
+</QRY>

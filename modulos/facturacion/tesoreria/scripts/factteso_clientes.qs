@@ -368,7 +368,7 @@ function ctasCtes_verSalida()
 		}
 		case "Recibo de Cobro": {
 			cursor = new FLSqlCursor("pagosmulticli");
-			cursor.select("idpagomulti = " + codigo);
+			cursor.select("codigo = '" + codigo + "'");
 
 			if (!cursor.first())
 				return;

@@ -2735,6 +2735,144 @@
 										</widget>
 										<widget class="QWidget">
 											<property name="name">
+												<cstring>tesoreria</cstring>
+											</property>
+											<property name="font">
+												<font>
+													<bold>0</bold>
+												</font>
+											</property>
+											<attribute name="title">
+												<string>Tesorería</string>
+											</attribute>
+											<vbox>
+												<property name="name">
+													<cstring>unnamed</cstring>
+												</property>
+												<widget class="QGroupBox">
+													<property name="name">
+														<cstring>gbxPagosMulti</cstring>
+													</property>
+													<property name="font">
+														<font>
+															<bold>0</bold>
+															<italic>1</italic>
+														</font>
+													</property>
+													<property name="title">
+														<string></string>
+													</property>
+													<vbox>
+														<property name="name">
+															<cstring>unnamed</cstring>
+														</property>
+														<widget class="QLayoutWidget">
+															<property name="name">
+																<cstring>layout11r</cstring>
+															</property>
+															<hbox>
+																<property name="name">
+																	<cstring>unnamed</cstring>
+																</property>
+																<widget class="FLFieldDB">
+																	<property name="name">
+																		<cstring>fdbSeriePagosmulti</cstring>
+																	</property>
+																	<property name="sizePolicy">
+																		<sizepolicy>
+																			<hsizetype>1</hsizetype>
+																			<vsizetype>0</vsizetype>
+																			<horstretch>0</horstretch>
+																			<verstretch>0</verstretch>
+																		</sizepolicy>
+																	</property>
+																	<property name="minimumSize">
+																		<size>
+																			<width>220</width>
+																			<height>25</height>
+																		</size>
+																	</property>
+																	<property name="maximumSize">
+																		<size>
+																			<width>220</width>
+																			<height>32767</height>
+																		</size>
+																	</property>
+																	<property name="font">
+																		<font>
+																			<bold>0</bold>
+																			<italic>0</italic>
+																		</font>
+																	</property>
+																	<property name="fieldName">
+																		<string>codserie_pagosmulti</string>
+																	</property>
+																</widget>
+																<widget class="FLFieldDB">
+																	<property name="name">
+																		<cstring>fdbSeriePagosmultiDescripcion</cstring>
+																	</property>
+																	<property name="sizePolicy">
+																		<sizepolicy>
+																			<hsizetype>7</hsizetype>
+																			<vsizetype>0</vsizetype>
+																			<horstretch>0</horstretch>
+																			<verstretch>0</verstretch>
+																		</sizepolicy>
+																	</property>
+																	<property name="minimumSize">
+																		<size>
+																			<width>280</width>
+																			<height>25</height>
+																		</size>
+																	</property>
+																	<property name="font">
+																		<font>
+																			<bold>0</bold>
+																			<italic>0</italic>
+																		</font>
+																	</property>
+																	<property name="fieldName">
+																		<string>descripcion</string>
+																	</property>
+																	<property name="tableName">
+																		<string>series</string>
+																	</property>
+																	<property name="foreignField">
+																		<string>codserie_pagosmulti</string>
+																	</property>
+																	<property name="fieldRelation">
+																		<string>codserie</string>
+																	</property>
+																	<property name="showAlias">
+																		<bool>false</bool>
+																	</property>
+																</widget>
+															</hbox>
+														</widget>
+													</vbox>
+												</widget>
+												<spacer>
+													<property name="name">
+														<cstring>unnamed</cstring>
+													</property>
+													<property name="orientation">
+														<enum>Vertical</enum>
+													</property>
+													<property name="sizeType">
+														<enum>Expanding</enum>
+													</property>
+													<property name="sizeHint">
+														<size>
+															<width>20</width>
+															<height>20</height>
+														</size>
+													</property>
+												</spacer>
+											</vbox>
+										</widget>
+										<widget class="QWidget">
+											<property name="name">
 												<cstring>compras</cstring>
 											</property>
 											<property name="font">
