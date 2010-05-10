@@ -539,20 +539,6 @@ function oficial_aplicarCriterio(tabla:String, campo:String, valor:String, signo
 {
 	var criterio:String = "";
 	switch (tabla) {
-		case "i_reciboscli": {
-			switch (campo) {
-				case "reciboscli.estado": {
-					switch (valor) {
-						case "Pendiente": {
-							criterio = "reciboscli.estado = 'Pendiente'";
-							break;
-						}
-					}
-					break;
-				}
-			}
-			break;
-		}
 		case "i_pedidoscli": {
 			switch (campo) {
 				case "pedidoscli.servido": {

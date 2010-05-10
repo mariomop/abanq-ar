@@ -71,7 +71,7 @@
 	<field>
 		<name>d_pagosmulticli_fecha</name>
 		<!-- Fecha inicial para los recibos del informe -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","desde")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Desde")</alias>
 		<pk>false</pk>
 		<type>date</type>
 	</field>

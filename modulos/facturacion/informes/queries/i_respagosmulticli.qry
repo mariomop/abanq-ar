@@ -1,0 +1,27 @@
+<!DOCTYPE QRY>
+<QRY>
+	<name>i_respagosmulticli</name>
+	
+	<tables>pagosmulticli,empresa</tables>
+	
+	<group>
+		<level>0</level>
+		<field>empresa.cifnif</field>
+	</group>
+	
+	<select>
+		pagosmulticli.codigo, pagosmulticli.fecha, pagosmulticli.numero,
+		pagosmulticli.codcliente, pagosmulticli.nombrecliente,
+		pagosmulticli.cifnif, pagosmulticli.total, pagosmulticli.coddivisa,
+		empresa.nombre, empresa.cifnif, empresa.direccion,
+		empresa.codpostal, empresa.ciudad, empresa.provincia, empresa.apartado,
+		empresa.codpais
+	</select>
+	
+	<from>
+		empresa,pagosmulticli
+	</from>
+	
+	<where>
+	</where>
+</QRY>

@@ -560,7 +560,7 @@
 					</widget>
 					<widget class="QLayoutWidget">
 						<property name="name">
-							<cstring>layout13</cstring>
+							<cstring>layoutProveedor</cstring>
 						</property>
 						<hbox>
 							<property name="name">
@@ -568,7 +568,7 @@
 							</property>
 							<widget class="FLFieldDB">
 								<property name="name">
-									<cstring>FLFieldDB2_2_3</cstring>
+									<cstring>fdbCodProveedor</cstring>
 								</property>
 								<property name="sizePolicy">
 									<sizepolicy>
@@ -580,8 +580,14 @@
 								</property>
 								<property name="minimumSize">
 									<size>
-										<width>160</width>
+										<width>140</width>
 										<height>25</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>140</width>
+										<height>32767</height>
 									</size>
 								</property>
 								<property name="font">
@@ -594,28 +600,147 @@
 									<string>i_recibosprov_codproveedor</string>
 								</property>
 							</widget>
-							<spacer>
+							<widget class="FLFieldDB">
 								<property name="name">
-									<cstring>spacer3_2</cstring>
+									<cstring>fdbNombreProveedor</cstring>
 								</property>
-								<property name="orientation">
-									<enum>Horizontal</enum>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>7</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
 								</property>
-								<property name="sizeType">
-									<enum>Expanding</enum>
-								</property>
-								<property name="sizeHint">
+								<property name="minimumSize">
 									<size>
-										<width>50</width>
-										<height>20</height>
+										<width>0</width>
+										<height>25</height>
 									</size>
 								</property>
-							</spacer>
+								<property name="maximumSize">
+									<size>
+										<width>27591</width>
+										<height>32767</height>
+									</size>
+								</property>
+								<property name="font">
+									<font>
+										<bold>0</bold>
+										<italic>0</italic>
+									</font>
+								</property>
+								<property name="fieldName">
+									<string>nombre</string>
+								</property>
+								<property name="tableName">
+									<string>proveedores</string>
+								</property>
+								<property name="foreignField">
+									<string>i_recibosprov_codproveedor</string>
+								</property>
+								<property name="fieldRelation">
+									<string>codproveedor</string>
+								</property>
+								<property name="showAlias">
+									<bool>false</bool>
+								</property>
+							</widget>
 						</hbox>
 					</widget>
 					<widget class="QLayoutWidget">
 						<property name="name">
-							<cstring>layout9</cstring>
+							<cstring>layoutPagoMulti</cstring>
+						</property>
+						<hbox>
+							<property name="name">
+								<cstring>unnamed</cstring>
+							</property>
+							<widget class="FLFieldDB">
+								<property name="name">
+									<cstring>fdbIdPagomulti</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>1</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>60</width>
+										<height>25</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>60</width>
+										<height>25</height>
+									</size>
+								</property>
+								<property name="font">
+									<font>
+										<bold>0</bold>
+										<italic>0</italic>
+									</font>
+								</property>
+								<property name="fieldName">
+									<string>i_recibosprov_idpagomulti</string>
+								</property>
+							</widget>
+							<widget class="FLFieldDB">
+								<property name="name">
+									<cstring>fdbCodPagomulti</cstring>
+								</property>
+								<property name="sizePolicy">
+									<sizepolicy>
+										<hsizetype>7</hsizetype>
+										<vsizetype>0</vsizetype>
+										<horstretch>0</horstretch>
+										<verstretch>0</verstretch>
+									</sizepolicy>
+								</property>
+								<property name="minimumSize">
+									<size>
+										<width>0</width>
+										<height>25</height>
+									</size>
+								</property>
+								<property name="maximumSize">
+									<size>
+										<width>27591</width>
+										<height>32767</height>
+									</size>
+								</property>
+								<property name="font">
+									<font>
+										<bold>0</bold>
+										<italic>0</italic>
+									</font>
+								</property>
+								<property name="fieldName">
+									<string>codigo</string>
+								</property>
+								<property name="tableName">
+									<string>pagosmultiprov</string>
+								</property>
+								<property name="foreignField">
+									<string>i_recibosprov_idpagomulti</string>
+								</property>
+								<property name="fieldRelation">
+									<string>idpagomulti</string>
+								</property>
+								<property name="showAlias">
+									<bool>false</bool>
+								</property>
+							</widget>
+						</hbox>
+					</widget>
+					<widget class="QLayoutWidget">
+						<property name="name">
+							<cstring>layoutEstado</cstring>
 						</property>
 						<hbox>
 							<property name="name">
@@ -649,37 +774,9 @@
 									<string>i_recibosprov_estado</string>
 								</property>
 							</widget>
-							<widget class="FLFieldDB">
-								<property name="name">
-									<cstring>fdbEstado_2</cstring>
-								</property>
-								<property name="sizePolicy">
-									<sizepolicy>
-										<hsizetype>1</hsizetype>
-										<vsizetype>0</vsizetype>
-										<horstretch>0</horstretch>
-										<verstretch>0</verstretch>
-									</sizepolicy>
-								</property>
-								<property name="minimumSize">
-									<size>
-										<width>200</width>
-										<height>25</height>
-									</size>
-								</property>
-								<property name="font">
-									<font>
-										<bold>0</bold>
-										<italic>0</italic>
-									</font>
-								</property>
-								<property name="fieldName">
-									<string>i_recibosprov_idremesa</string>
-								</property>
-							</widget>
 							<spacer>
 								<property name="name">
-									<cstring>spacer2</cstring>
+									<cstring>unnamed</cstring>
 								</property>
 								<property name="orientation">
 									<enum>Horizontal</enum>

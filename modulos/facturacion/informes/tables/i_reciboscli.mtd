@@ -131,6 +131,20 @@
 	</field>
 	
 	<field>
+		<name>i_reciboscli_idpagomulti</name>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Recibo de cobro Nº")</alias>
+		<null>true</null>
+		<pk>false</pk>
+		<type>uint</type>
+		
+		<relation>
+			<table>pagosmulticli</table>
+			<field>idpagomulti</field>
+			<card>M1</card>
+		</relation>
+	</field>
+	
+	<field>
 		<name>i_reciboscli_estado</name>
 		<!-- Criterio de filtrado en función del estado de los recibos -->
 		<alias>QT_TRANSLATE_NOOP("MetaData","Estado")</alias>
@@ -138,14 +152,6 @@
 		<type>string</type>
 		<length>20</length>
 		<optionslist>QT_TRANSLATE_NOOP("MetaData","Todos");QT_TRANSLATE_NOOP("MetaData","Pendiente");QT_TRANSLATE_NOOP("MetaData","Pagado")</optionslist>
-	</field>
-	
-	<field>
-		<name>idremesa</name>
-		<alias>QT_TRANSLATE_NOOP("MetaData","Remesa nº")</alias>
-		<null>true</null>
-		<pk>false</pk>
-		<type>uint</type>
 	</field>
 	
 	<field>

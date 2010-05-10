@@ -363,4 +363,44 @@
         <scriptform>i_masterentradasarticulos</scriptform>
         <scriptformrecord>i_entradasarticulos</scriptformrecord>
     </action>
+    <action>
+        <name>i_pagosmulticli</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Recibos de cobro a clientes")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Listado de Recibos de cobro a clientes")</description>
+        <table>i_pagosmulticli</table>
+        <form>i_master</form>
+        <formrecord>i_pagosmulticli</formrecord>
+        <scriptform>i_masterpagosmulticli</scriptform>
+        <scriptformrecord>i_pagosmulticli</scriptformrecord>
+    </action>
+    <action>
+        <name>i_pagosmultiprov</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Ordenes de pago a Preveedores")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Listado de Ordenes de pago a Preveedores")</description>
+        <table>i_pagosmultiprov</table>
+        <form>i_master</form>
+        <formrecord>i_pagosmultiprov</formrecord>
+        <scriptform>i_masterpagosmultiprov</scriptform>
+        <scriptformrecord>i_pagosmultiprov</scriptformrecord>
+    </action>
+    <action>
+        <name>i_respagosmulticli</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Resumen de Recibos de cobro a clientes")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Listado resumen de Recibos de cobro a clientes")</description>
+        <table>i_pagosmulticli</table>
+        <form>i_master</form>
+        <formrecord>i_pagosmulticli</formrecord>
+        <scriptform>i_masterpagosmulticli</scriptform>
+        <scriptformrecord>i_pagosmulticli</scriptformrecord>
+    </action>
+    <action>
+        <name>i_respagosmultiprov</name>
+        <alias>QT_TRANSLATE_NOOP("MetaData","Resumen de Ordenes de pago a Preveedores")</alias>
+        <description>QT_TRANSLATE_NOOP("MetaData","Listado resumen de Ordenes de pago a Preveedores")</description>
+        <table>i_pagosmultiprov</table>
+        <form>i_master</form>
+        <formrecord>i_pagosmultiprov</formrecord>
+        <scriptform>i_masterpagosmultiprov</scriptform>
+        <scriptformrecord>i_pagosmultiprov</scriptformrecord>
+    </action>
 </ACTIONS>

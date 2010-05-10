@@ -71,7 +71,7 @@
 	<field>
 		<name>d_pagosmultiprov_fecha</name>
 		<!-- Fecha inicial para las órdenes del informe -->
-		<alias>QT_TRANSLATE_NOOP("MetaData","Emisión desde")</alias>
+		<alias>QT_TRANSLATE_NOOP("MetaData","Desde")</alias>
 		<pk>false</pk>
 		<type>date</type>
 	</field>

@@ -1,9 +1,9 @@
 /***************************************************************************
-                 i_masterreciboscli.qs  -  description
+                 i_masterpagosmulticli.qs  -  description
                              -------------------
-    begin                : lun abr 26 2004
-    copyright            : (C) 2004 by InfoSiAL S.L.
-    email                : mail@infosial.com
+    begin                : lun may 10 2010
+    copyright            : (C) 2010 by Silix
+    email                : contacto@silix.com.ar
  ***************************************************************************/
 
 /***************************************************************************
@@ -37,12 +37,12 @@ class interna {
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
     function oficial( context ) { interna( context ); } 
-		function lanzar() {
-				return this.ctx.oficial_lanzar();
-		}
-		function obtenerOrden(nivel:Number, cursor:FLSqlCursor):String {
-				return this.ctx.oficial_obtenerOrden(nivel, cursor);
-		}
+	function lanzar() {
+		return this.ctx.oficial_lanzar();
+	}
+	function obtenerOrden(nivel:Number, cursor:FLSqlCursor):String {
+		return this.ctx.oficial_obtenerOrden(nivel, cursor);
+	}
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ const iface = new ifaceCtx( this );
 //// INTERNA /////////////////////////////////////////////////////
 function interna_init()
 {
-		connect (this.child("toolButtonPrint"), "clicked()", this, "iface.lanzar()");
+	connect (this.child("toolButtonPrint"), "clicked()", this, "iface.lanzar()");
 }
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -86,37 +86,31 @@ function interna_init()
 //// OFICIAL /////////////////////////////////////////////////////
 function oficial_lanzar()
 {
-		var cursor:FLSqlCursor = this.cursor();
-		var seleccion:String = cursor.valueBuffer("id");
-		if (!seleccion)
-				return;
-		var nombreInforme:String = cursor.action();
-		var orderBy:String = "";
-		var o:String = "";
-		for (var i:Number = 1; i < 3; i++) {
-				o = this.iface.obtenerOrden(i, cursor);
-				if (o) {
-						if (orderBy == "")
-								orderBy = o;
-						else
-								orderBy += ", " + o;
-				}
+	var cursor:FLSqlCursor = this.cursor();
+	var seleccion:String = cursor.valueBuffer("id");
+	if (!seleccion)
+		return;
+	var nombreInforme:String = cursor.action();
+	var orderBy:String = "";
+	var o:String = "";
+	for (var i:Number = 1; i < 3; i++) {
+		o = this.iface.obtenerOrden(i, cursor);
+		if (o) {
+			if (orderBy == "")
+				orderBy = o;
+			else
+				orderBy += ", " + o;
 		}
-		
-		var intervalo:Array = [];
-		if(cursor.valueBuffer("codintervalo")){
-			intervalo = flfactppal.iface.pub_calcularIntervalo(cursor.valueBuffer("codintervalo"));
-			cursor.setValueBuffer("d_reciboscli_fecha",intervalo.desde);
-			cursor.setValueBuffer("h_reciboscli_fecha",intervalo.hasta);
-		}
-		var intervalov:Array = [];
-		if(cursor.valueBuffer("codintervalov")){
-			intervalov = flfactppal.iface.pub_calcularIntervalo(cursor.valueBuffer("codintervalov"));
-			cursor.setValueBuffer("d_reciboscli_fechav",intervalov.desde);
-			cursor.setValueBuffer("h_reciboscli_fechav",intervalov.hasta);
-		}
-		
-		flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy);
+	}
+	
+	var intervalo:Array = [];
+	if(cursor.valueBuffer("codintervalo")){
+		intervalo = flfactppal.iface.pub_calcularIntervalo(cursor.valueBuffer("codintervalo"));
+		cursor.setValueBuffer("d_pagosmulticli_fecha",intervalo.desde);
+		cursor.setValueBuffer("h_pagosmulticli_fecha",intervalo.hasta);
+	}
+	
+	flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy);
 }
 
 function oficial_obtenerOrden(nivel:Number, cursor:FLSqlCursor):String
@@ -124,53 +118,49 @@ function oficial_obtenerOrden(nivel:Number, cursor:FLSqlCursor):String
 	var ret:String = "";
 	var orden:String = cursor.valueBuffer("orden" + nivel.toString());
 	switch(nivel) {
-			case 1:
-			case 2: {
-					switch(orden) {
-						case "Código": {
-							ret += "reciboscli.codigo";
-							break;
-						}
-						case "Cod.Cliente": {
-							ret += "reciboscli.codcliente";
-							break;
-						}
-						case "Cliente": {
-							ret += "reciboscli.nombrecliente";
-							break;
-						}
-						case "Fecha": {
-							ret += "reciboscli.fecha";
-							break;
-						}
-						case "Vencimiento": {
-							ret += "reciboscli.fechav";
-							break;
-						}
-						case "Importe": {
-							ret += "reciboscli.importe";
-							break;
-						}
-					}
+		case 1:
+		case 2: {
+			switch(orden) {
+				case "Código": {
+					ret += "pagosmulticli.codigo";
 					break;
+				}
+				case "Cod.Cliente": {
+					ret += "pagosmulticli.codcliente";
+					break;
+				}
+				case "Cliente": {
+					ret += "pagosmulticli.nombrecliente";
+					break;
+				}
+				case "Fecha": {
+					ret += "pagosmulticli.fecha";
+					break;
+				}
+				case "Total": {
+					ret += "pagosmulticli.total";
+					break;
+				}
 			}
 			break;
+		}
+		break;
 	}
 	if (ret != "") {
-			var tipoOrden:String = cursor.valueBuffer("tipoorden" + nivel.toString());
-			switch(tipoOrden) {
-					case "Descendente": {
-							ret += " DESC";
-							break;
-					}
+		var tipoOrden:String = cursor.valueBuffer("tipoorden" + nivel.toString());
+		switch(tipoOrden) {
+			case "Descendente": {
+				ret += " DESC";
+				break;
 			}
+		}
 	}
 
 	if (nivel == 2 && orden != "Código") {
-			if (ret == "")
-					ret +=  "reciboscli.codigo";
-			else
-					ret += ", reciboscli.codigo";
+		if (ret == "")
+			ret +=  "pagosmulticli.codigo";
+		else
+			ret += ", pagosmulticli.codigo";
 	}
 	return ret;
 }

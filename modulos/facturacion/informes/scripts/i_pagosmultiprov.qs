@@ -1,9 +1,9 @@
 /***************************************************************************
-                 i_masterreciboscli.qs  -  description
+                 i_pagosmultiprov.qs  -  description
                              -------------------
-    begin                : lun abr 26 2004
-    copyright            : (C) 2004 by InfoSiAL S.L.
-    email                : mail@infosial.com
+    begin                : lun may 10 2010
+    copyright            : (C) 2010 by Silix
+    email                : contacto@silix.com.ar
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+ 
 /** @file */
 
 /** @class_declaration interna */
@@ -37,12 +37,7 @@ class interna {
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
     function oficial( context ) { interna( context ); } 
-		function lanzar() {
-				return this.ctx.oficial_lanzar();
-		}
-		function obtenerOrden(nivel:Number, cursor:FLSqlCursor):String {
-				return this.ctx.oficial_obtenerOrden(nivel, cursor);
-		}
+	function bufferChanged(fN:String) { this.ctx.oficial_bufferChanged(fN); }
 }
 //// OFICIAL /////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -76,7 +71,7 @@ const iface = new ifaceCtx( this );
 //// INTERNA /////////////////////////////////////////////////////
 function interna_init()
 {
-		connect (this.child("toolButtonPrint"), "clicked()", this, "iface.lanzar()");
+	connect(this.cursor(), "bufferChanged(QString)", this, "iface.bufferChanged");
 }
 //// INTERNA /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -84,97 +79,25 @@ function interna_init()
 /** @class_definition oficial */
 //////////////////////////////////////////////////////////////////
 //// OFICIAL /////////////////////////////////////////////////////
-function oficial_lanzar()
+function oficial_bufferChanged(fN:String)
 {
-		var cursor:FLSqlCursor = this.cursor();
-		var seleccion:String = cursor.valueBuffer("id");
-		if (!seleccion)
-				return;
-		var nombreInforme:String = cursor.action();
-		var orderBy:String = "";
-		var o:String = "";
-		for (var i:Number = 1; i < 3; i++) {
-				o = this.iface.obtenerOrden(i, cursor);
-				if (o) {
-						if (orderBy == "")
-								orderBy = o;
-						else
-								orderBy += ", " + o;
-				}
-		}
-		
-		var intervalo:Array = [];
-		if(cursor.valueBuffer("codintervalo")){
-			intervalo = flfactppal.iface.pub_calcularIntervalo(cursor.valueBuffer("codintervalo"));
-			cursor.setValueBuffer("d_reciboscli_fecha",intervalo.desde);
-			cursor.setValueBuffer("h_reciboscli_fecha",intervalo.hasta);
-		}
-		var intervalov:Array = [];
-		if(cursor.valueBuffer("codintervalov")){
-			intervalov = flfactppal.iface.pub_calcularIntervalo(cursor.valueBuffer("codintervalov"));
-			cursor.setValueBuffer("d_reciboscli_fechav",intervalov.desde);
-			cursor.setValueBuffer("h_reciboscli_fechav",intervalov.hasta);
-		}
-		
-		flfactinfo.iface.pub_lanzarInforme(cursor, nombreInforme, orderBy);
-}
-
-function oficial_obtenerOrden(nivel:Number, cursor:FLSqlCursor):String
-{
-	var ret:String = "";
-	var orden:String = cursor.valueBuffer("orden" + nivel.toString());
-	switch(nivel) {
-			case 1:
-			case 2: {
-					switch(orden) {
-						case "Código": {
-							ret += "reciboscli.codigo";
-							break;
-						}
-						case "Cod.Cliente": {
-							ret += "reciboscli.codcliente";
-							break;
-						}
-						case "Cliente": {
-							ret += "reciboscli.nombrecliente";
-							break;
-						}
-						case "Fecha": {
-							ret += "reciboscli.fecha";
-							break;
-						}
-						case "Vencimiento": {
-							ret += "reciboscli.fechav";
-							break;
-						}
-						case "Importe": {
-							ret += "reciboscli.importe";
-							break;
-						}
-					}
-					break;
+	var cursor:FLSqlCursor = this.cursor();
+	
+	switch(fN){
+		/** \C Si cambia el intervalo se recalculan las fechas.
+		\end */
+		case "codintervalo":{
+			var intervalo:Array = [];
+			if(cursor.valueBuffer("codintervalo")){
+				intervalo = flfactppal.iface.pub_calcularIntervalo(cursor.valueBuffer("codintervalo"));
+				cursor.setValueBuffer("d_pagosmultiprov_fecha",intervalo.desde);
+				cursor.setValueBuffer("h_pagosmultiprov_fecha",intervalo.hasta);
 			}
 			break;
-	}
-	if (ret != "") {
-			var tipoOrden:String = cursor.valueBuffer("tipoorden" + nivel.toString());
-			switch(tipoOrden) {
-					case "Descendente": {
-							ret += " DESC";
-							break;
-					}
-			}
+		}
 	}
 
-	if (nivel == 2 && orden != "Código") {
-			if (ret == "")
-					ret +=  "reciboscli.codigo";
-			else
-					ret += ", reciboscli.codigo";
-	}
-	return ret;
 }
-
 //// OFICIAL /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
