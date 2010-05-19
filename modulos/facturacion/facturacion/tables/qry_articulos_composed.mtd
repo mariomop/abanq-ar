@@ -280,12 +280,6 @@
 		</relation>
 		
 		<relation>
-			<table>transferenciastock</table>
-			<field>referencia</field>
-			<card>1M</card>
-		</relation>
-		
-		<relation>
 			<table>lineaspresupuestoscli</table>
 			<field>referencia</field>
 			<card>1M</card>
@@ -400,12 +394,6 @@
 		
 		<relation>
 			<table>stocks</table>
-			<field>referencia</field>
-			<card>1M</card>
-		</relation>
-		
-		<relation>
-			<table>transferenciastock</table>
 			<field>referencia</field>
 			<card>1M</card>
 		</relation>

@@ -94,6 +94,8 @@ function interna_init()
 	var cursor:FLSqlCursor = this.cursor();
 
 	connect(this.child("tdbLineasTrans").cursor(), "bufferCommited()", this, "iface.habilitarCampos");
+
+	this.iface.habilitarCampos();
 }
 
 function interna_validateForm():Boolean

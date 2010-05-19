@@ -132,14 +132,6 @@
         <scriptformrecord>fabricantes</scriptformrecord>
     </action>
     <action>
-        <name>transferenciastock</name>
-        <description>QT_TRANSLATE_NOOP("MetaData","Las transferencias reflejan el cambio de material de un almacén a otro. Equivalen a dos movimientos de regularización de stock complementarios")</description>
-        <alias>QT_TRANSLATE_NOOP("MetaData","Transferencias de stock")</alias>
-        <table>transferenciastock</table>
-        <form>transferenciastock</form>
-        <scriptform>transferenciastock</scriptform>
-    </action>
-    <action>
         <name>lotes</name>
         <description>QT_TRANSLATE_NOOP("MetaData","Los lotes son grupos de artículos con una determinada fecha de caducidad, cuyas entradas, salidas y regularizaciones registra el sistema")</description>
         <alias>QT_TRANSLATE_NOOP("MetaData","Lotes")</alias>

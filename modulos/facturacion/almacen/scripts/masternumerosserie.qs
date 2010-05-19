@@ -37,6 +37,8 @@ class interna {
 //// OFICIAL /////////////////////////////////////////////////////
 class oficial extends interna {
 	var chkNoVendidas:Object;
+	var filtroPrevio:String;
+
     function oficial( context ) { interna( context ); } 
 	function cambioChkNoVendidas() { this.ctx.oficial_cambioChkNoVendidas(); }
 }
@@ -72,12 +74,11 @@ const iface = new ifaceCtx( this );
 //// INTERNA /////////////////////////////////////////////////////
 function interna_init()
 {
-	this.cursor().setMainFilter("vendido = false");
-	
+	this.iface.tableDBRecords = this.child("tableDBRecords")
+
+	this.iface.filtroPrevio = this.iface.tableDBRecords.cursor().mainFilter();
 	this.iface.chkNoVendidas = this.child("chkNoVendidas");
 	this.iface.chkNoVendidas.checked = true;
-	
-	this.iface.tableDBRecords = this.child("tableDBRecords")
 	
 	connect(this.iface.chkNoVendidas, "clicked()", this, "iface.cambioChkNoVendidas");
 	this.iface.cambioChkNoVendidas();
@@ -92,12 +93,18 @@ function interna_init()
 /** \D Filtra la tabla de referencias. Si está activa la opción de 'Sólo unidades no vendidas' muestra los números de referencia de las unidades no vendidas y refresca la tabla
 \end */
 function oficial_cambioChkNoVendidas()
-{ 
-	if(this.iface.chkNoVendidas.checked)
-		this.cursor().setMainFilter("vendido = false");
-	else
-		this.cursor().setMainFilter("")	
-		
+{
+	var cursor:FLSqlCursor = this.iface.tableDBRecords.cursor();
+	var filtro:String = this.iface.filtroPrevio;
+	if (this.iface.chkNoVendidas.checked) {
+		if (this.iface.filtroPrevio && this.iface.filtroPrevio != "") {
+			filtro += " AND "
+		}
+		filtro += "vendido = false";
+	}
+
+	cursor.setMainFilter(filtro);
+
 	this.iface.tableDBRecords.refresh();
 }
 

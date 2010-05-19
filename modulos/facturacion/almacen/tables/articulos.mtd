@@ -120,11 +120,6 @@
 			<card>1M</card>
 		</relation>
 		<relation>
-			<table>transferenciastock</table>
-			<field>referencia</field>
-			<card>1M</card>
-		</relation>
-		<relation>
 			<table>tiposopcionartcomp</table>
 			<field>referencia</field>
 			<card>1M</card>
@@ -473,11 +468,6 @@
 		</relation>
 		<relation>
 			<table>stocks</table>
-			<field>referencia</field>
-			<card>1M</card>
-		</relation>
-		<relation>
-			<table>transferenciastock</table>
 			<field>referencia</field>
 			<card>1M</card>
 		</relation>

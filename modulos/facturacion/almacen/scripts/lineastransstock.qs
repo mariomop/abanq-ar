@@ -126,7 +126,6 @@ function interna_init()
 
 	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
 	this.iface.canPrevia = cursor.valueBuffer("cantidad");
-	this.iface.refrescarStock();
 
 	switch (cursor.modeAccess()) {
 		case cursor.Edit: {
@@ -208,14 +207,11 @@ function lotes_init()
 {
 	this.iface.__init();
 
-	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
-
 	switch (cursor.modeAccess()) {
-		case cursor.Edit: {
+		case cursor.Edit:
 			this.child("fdbCodLote").setDisabled(true);
-			break;
-		}
+		break;
 	}
 }
 
@@ -355,16 +351,15 @@ function funNumSerie_init()
 {
 	this.iface.__init();
 
-	var util:FLUtil = new FLUtil();
 	var cursor:FLSqlCursor = this.cursor();
-
 	switch (cursor.modeAccess()) {
-		case cursor.Edit: {
+		case cursor.Insert:
+			this.iface.bufferChanged("referencia");
+		break
+		case cursor.Edit:
+			this.iface.bufferChanged("referencia");
 			this.child("fdbNumSerie").setDisabled(true);
-			if (util.sqlSelect("articulos", "controlnumserie", "referencia = '" + cursor.valueBuffer("referencia") + "'"))
-				this.child("fdbCantidad").setDisabled(true);
-			break;
-		}
+		break;
 	}
 }
 
@@ -383,6 +378,7 @@ function funNumSerie_bufferChanged(fN:String)
 				cursor.setValueBuffer("cantidad", 1);
 				this.child("fdbCantidad").setDisabled(true);
 				this.child("fdbNumSerie").setDisabled(false);
+				this.child("fdbNumSerie").setFilter("referencia = '" + cursor.valueBuffer("referencia") + "' AND codalmacen = '" + cursor.cursorRelation().valueBuffer("codalmaorigen") + "'");
 			}
 			this.iface.__bufferChanged(fN);
 			break;
