@@ -6011,7 +6011,9 @@ function ganancias_obtenerGananciaLinea(lineaDoc:FLSqlCursor, doc:String):Boolea
 		ganancia = parseFloat(lineaDoc.valueBuffer("pvptotal")*tasaConv) - costototal;
 		ganancia = util.roundFieldValue(ganancia, lineaDoc.table(), "ganancia");
 
-		utilidad = (ganancia / parseFloat(lineaDoc.valueBuffer("pvptotal")*tasaConv))*100 ;
+		utilidad = 0;
+		if (parseFloat(lineaDoc.valueBuffer("pvptotal")) != 0)
+			utilidad = (ganancia / parseFloat(lineaDoc.valueBuffer("pvptotal")*tasaConv))*100 ;
 		utilidad = util.roundFieldValue(utilidad, lineaDoc.table(), "utilidad");
 	
 		lineaDoc.setValueBuffer("costounitario", costounitario);
@@ -6071,7 +6073,9 @@ function ganancias_obtenerGanancia(doc:FLSqlCursor, linea:String):Boolean
 		ganancia = parseFloat(doc.valueBuffer("neto")*tasaConv) - costototal;
 		ganancia = util.roundFieldValue(ganancia, doc.table(), "ganancia");
 
-		utilidad = (ganancia / parseFloat(doc.valueBuffer("neto")*tasaConv))*100 ;
+		utilidad = 0;
+		if (parseFloat(doc.valueBuffer("neto")) != 0)
+			utilidad = (ganancia / parseFloat(doc.valueBuffer("neto")*tasaConv))*100 ;
 		utilidad = util.roundFieldValue(utilidad, doc.table(), "utilidad");
 
 		doc.setValueBuffer("costototal", costototal);
