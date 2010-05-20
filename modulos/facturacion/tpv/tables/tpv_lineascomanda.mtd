@@ -171,10 +171,6 @@
 			<field>numserie</field>
 			<card>M1</card>
 		</relation>
-		<associated>
-			<with>referencia</with>
-			<by>referencia</by>
-		</associated>
 	</field>
 	<field>
 		<name>ivaincluido</name>

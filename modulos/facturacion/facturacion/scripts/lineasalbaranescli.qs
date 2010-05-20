@@ -452,6 +452,7 @@ function funNumSerie_controlCantidad(cantidadAuno:Boolean)
 			cursor.setValueBuffer("cantidad", 1);
 		this.child("fdbCantidad").setDisabled(true);
 		this.child("fdbNumSerie").setDisabled(false);
+		this.child("fdbNumSerie").setFilter("referencia = '" + cursor.valueBuffer("referencia") + "' AND codalmacen = '" + cursor.cursorRelation().valueBuffer("codalmacen") + "'");
 		this.child("tbwLinea").setTabEnabled("numserie", true);
 	}
 	// agregamos el control de artículos por lotes aquí, para unificar el funcionamiento

@@ -1,4 +1,5 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<!DOCTYPE UI>
+<UI version="3.3" stdsetdef="1">
 	<class>formLineasAlbaranesCli</class>
 	<widget class="QWidget">
 		<property name="name">
@@ -22,9 +23,6 @@
 		</property>
 		<property name="caption">
 			<string>Líneas de Remitos de Clientes</string>
-		</property>
-		<property name="focusPolicy">
-			<enum>NoFocus</enum>
 		</property>
 		<vbox>
 			<property name="name">
@@ -149,11 +147,11 @@
 								<property name="name">
 									<cstring>unnamed</cstring>
 								</property>
-								<widget class="FLFieldDB">
-									<property name="name">
+								<widget class="FLFieldDB" >
+									<property name="name" >
 										<cstring>fdbCodImpuesto</cstring>
 									</property>
-									<property name="sizePolicy">
+									<property name="sizePolicy" >
 										<sizepolicy>
 											<hsizetype>1</hsizetype>
 											<vsizetype>0</vsizetype>
@@ -161,36 +159,36 @@
 											<verstretch>0</verstretch>
 										</sizepolicy>
 									</property>
-									<property name="minimumSize">
+									<property name="minimumSize" >
 										<size>
-											<width>154</width>
-											<height>31</height>
+											<width>150</width>
+											<height>22</height>
 										</size>
 									</property>
-									<property name="font">
+									<property name="font" >
 										<font>
 											<bold>0</bold>
 											<italic>0</italic>
 										</font>
 									</property>
-									<property name="focusPolicy">
+									<property name="focusPolicy" >
 										<enum>StrongFocus</enum>
 									</property>
-									<property name="fieldName">
+									<property name="fieldName" >
 										<string>codimpuesto</string>
 									</property>
-									<property name="foreignField">
-										<string></string>
+									<property name="foreignField" >
+										<string/>
 									</property>
-									<property name="fieldRelation">
-										<string></string>
+									<property name="fieldRelation" >
+										<string/>
 									</property>
 								</widget>
-								<widget class="FLFieldDB">
-									<property name="name">
+								<widget class="FLFieldDB" >
+									<property name="name" >
 										<cstring>fdbIva</cstring>
 									</property>
-									<property name="sizePolicy">
+									<property name="sizePolicy" >
 										<sizepolicy>
 											<hsizetype>1</hsizetype>
 											<vsizetype>0</vsizetype>
@@ -198,53 +196,36 @@
 											<verstretch>0</verstretch>
 										</sizepolicy>
 									</property>
-									<property name="minimumSize">
+									<property name="minimumSize" >
 										<size>
-											<width>47</width>
-											<height>29</height>
+											<width>100</width>
+											<height>21</height>
 										</size>
 									</property>
-									<property name="font">
+									<property name="font" >
 										<font>
 											<bold>0</bold>
 											<italic>0</italic>
 										</font>
 									</property>
-									<property name="focusPolicy">
+									<property name="focusPolicy" >
 										<enum>StrongFocus</enum>
 									</property>
-									<property name="fieldName">
+									<property name="fieldName" >
 										<string>iva</string>
 									</property>
-									<property name="foreignField">
+									<property name="foreignField" >
 										<string>iva</string>
 									</property>
-									<property name="fieldRelation">
+									<property name="fieldRelation" >
 										<string>codimpuesto</string>
 									</property>
 								</widget>
-								<spacer>
-									<property name="name">
-										<cstring>spacer20_2</cstring>
-									</property>
-									<property name="orientation">
-										<enum>Horizontal</enum>
-									</property>
-									<property name="sizeType">
-										<enum>Fixed</enum>
-									</property>
-									<property name="sizeHint">
-										<size>
-											<width>16</width>
-											<height>20</height>
-										</size>
-									</property>
-								</spacer>
-								<widget class="FLFieldDB">
-									<property name="name">
+								<widget class="FLFieldDB" >
+									<property name="name" >
 										<cstring>fdbIvaIncluido</cstring>
 									</property>
-									<property name="sizePolicy">
+									<property name="sizePolicy" >
 										<sizepolicy>
 											<hsizetype>1</hsizetype>
 											<vsizetype>0</vsizetype>
@@ -252,30 +233,30 @@
 											<verstretch>0</verstretch>
 										</sizepolicy>
 									</property>
-									<property name="minimumSize">
+									<property name="minimumSize" >
 										<size>
-											<width>126</width>
-											<height>29</height>
+											<width>110</width>
+											<height>22</height>
 										</size>
 									</property>
-									<property name="font">
+									<property name="font" >
 										<font>
 											<bold>0</bold>
 											<italic>0</italic>
 										</font>
 									</property>
-									<property name="fieldName">
+									<property name="fieldName" >
 										<string>ivaincluido</string>
 									</property>
-									<property name="tableName">
-										<string></string>
+									<property name="tableName" >
+										<string/>
 									</property>
 								</widget>
-								<widget class="FLFieldDB">
-									<property name="name">
+								<widget class="FLFieldDB" >
+									<property name="name" >
 										<cstring>fdbPvpUnitarioIva</cstring>
 									</property>
-									<property name="sizePolicy">
+									<property name="sizePolicy" >
 										<sizepolicy>
 											<hsizetype>1</hsizetype>
 											<vsizetype>0</vsizetype>
@@ -283,23 +264,23 @@
 											<verstretch>0</verstretch>
 										</sizepolicy>
 									</property>
-									<property name="minimumSize">
+									<property name="minimumSize" >
 										<size>
-											<width>151</width>
-											<height>29</height>
+											<width>170</width>
+											<height>22</height>
 										</size>
 									</property>
-									<property name="font">
+									<property name="font" >
 										<font>
 											<bold>0</bold>
 											<italic>0</italic>
 										</font>
 									</property>
-									<property name="fieldName">
+									<property name="fieldName" >
 										<string>pvpunitarioiva</string>
 									</property>
-									<property name="tableName">
-										<string></string>
+									<property name="tableName" >
+										<string/>
 									</property>
 								</widget>
 							</hbox>
@@ -1205,7 +1186,7 @@
 								</font>
 							</property>
 							<property name="title">
-								<string>Números de Serie</string>
+								<string></string>
 							</property>
 							<vbox>
 								<property name="name">

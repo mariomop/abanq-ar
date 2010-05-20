@@ -345,6 +345,7 @@ function funNumSerie_init()
 {
 	this.iface.__init();
 	
+	this.child("tbwLinea").setTabEnabled("numserie", false);
 	var cursor:FLSqlCursor = this.cursor();
 	if (cursor.modeAccess() == cursor.Edit)
 		this.iface.controlCantidad(true);
@@ -367,14 +368,22 @@ function funNumSerie_controlCantidad(cantidadAuno:Boolean)
 	var cursor:FLSqlCursor = this.cursor();
 	
 	if (util.sqlSelect("articulos", "controlnumserie", "referencia = '" + cursor.valueBuffer("referencia") + "'")) {
+
+		var codAlmacen:String = util.sqlSelect("tpv_puntosventa", "codalmacen", "codtpv_puntoventa = '" + cursor.cursorRelation().valueBuffer("codtpv_puntoventa") + "'");
+		if (!codAlmacen || codAlmacen == "")
+			codAlmacen = flfactppal.iface.pub_valorDefectoEmpresa("codalmacen");
+
 		if (cantidadAuno) 
 			cursor.setValueBuffer("cantidad", 1);
 		this.child("fdbCantidad").setDisabled(true);
 		this.child("fdbNumSerie").setDisabled(false);
+		this.child("fdbNumSerie").setFilter("referencia = '" + cursor.valueBuffer("referencia") + "' AND codalmacen = '" + codAlmacen + "'");
+		this.child("tbwLinea").setTabEnabled("numserie", true);
 	}
 	else {
 		this.child("fdbCantidad").setDisabled(false);
 		this.child("fdbNumSerie").setDisabled(true);
+		this.child("tbwLinea").setTabEnabled("numserie", false);
 	}
 }
 
@@ -566,7 +575,7 @@ function ivaIncluido_bufferChanged(fN:String)
 	
 	switch (fN) {
 		case "referencia": {
-// 			this.iface.__bufferChanged(fN);
+ 			this.iface.__bufferChanged(fN);
 			this.iface.bloqueoPrecio = true;
 			var ivaIncluido:Boolean = this.iface.commonCalculateField("ivaincluido", cursor);
 			this.child("fdbIvaIncluido").setValue(ivaIncluido);

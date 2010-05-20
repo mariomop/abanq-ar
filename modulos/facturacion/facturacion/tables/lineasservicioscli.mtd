@@ -129,7 +129,7 @@
 	</field>
 	<field>
 		<name>numserie</name>
-		<!-- Número de serie del artículo adquirido -->        <alias>QT_TRANSLATE_NOOP("MetaData","Del artículo")</alias>
+		<!-- Número de serie del artículo adquirido -->        <alias>QT_TRANSLATE_NOOP("MetaData","Nº de serie")</alias>
 		<null>true</null>
 		<pk>false</pk>
 		<type>string</type>
@@ -139,10 +139,6 @@
 			<field>numserie</field>
 			<card>M1</card>
 		</relation>
-		<associated>
-			<with>referencia</with>
-			<by>referencia</by>
-		</associated>
 	</field>
 	<field>
 		<name>dtolineal</name>

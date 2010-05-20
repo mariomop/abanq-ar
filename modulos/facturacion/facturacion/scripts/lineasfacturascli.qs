@@ -375,10 +375,9 @@ function lotes_habilitarControlesPorLotes()
 function funNumSerie_init()
 {
 // 	this.iface.__init();
-	
-	var cursor:FLSqlCursor = this.cursor();
 
 	this.child("tbwLinea").setTabEnabled("numserie", false);
+	var cursor:FLSqlCursor = this.cursor();
 	if (cursor.modeAccess() == cursor.Edit)
 		this.iface.controlCantidad(true);
 
@@ -408,8 +407,9 @@ function funNumSerie_controlCantidad(cantidadAuno:Boolean)
 		if (cantidadAuno) 
 			cursor.setValueBuffer("cantidad", 1);
 		this.child("fdbCantidad").setDisabled(true);
-		this.child("tbwLinea").setTabEnabled("numserie", true);
 		this.child("fdbNumSerie").setDisabled(false);
+		this.child("fdbNumSerie").setFilter("referencia = '" + cursor.valueBuffer("referencia") + "' AND codalmacen = '" + cursor.cursorRelation().valueBuffer("codalmacen") + "'");
+		this.child("tbwLinea").setTabEnabled("numserie", true);
 	}
 	// agregamos el control de artículos por lotes aquí, para unificar el funcionamiento
 	else if (util.sqlSelect("articulos", "porlotes", "referencia = '" + cursor.valueBuffer("referencia") + "'")) {

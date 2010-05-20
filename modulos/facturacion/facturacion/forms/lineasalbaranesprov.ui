@@ -756,7 +756,7 @@
 								</font>
 							</property>
 							<property name="title" >
-								<string>Número de Serie</string>
+								<string></string>
 							</property>
 							<hbox>
 								<property name="name" >

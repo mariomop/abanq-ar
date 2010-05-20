@@ -224,15 +224,10 @@ function nsServicios_init()
 {
 	this.iface.__init();
 	
+	this.child("tbwLinea").setTabEnabled("numserie", false);
 	var cursor:FLSqlCursor = this.cursor();
-	
-	if (cursor.modeAccess() == cursor.Edit) {	
+	if (cursor.modeAccess() == cursor.Edit)
 		this.iface.controlCantidad(true);
-		if (cursor.valueBuffer("numserie")) {
-			this.child("fdbNumSerie").setDisabled(true);
-			this.child("fdbReferencia").setDisabled(true);
-		}
-	}
 }
 
 function nsServicios_bufferChanged(fN:String)
@@ -253,14 +248,20 @@ function nsServicios_controlCantidad(cantidadAuno:Boolean)
 	var cursor:FLSqlCursor = this.cursor();
 	
 	if (util.sqlSelect("articulos", "controlnumserie", "referencia = '" + cursor.valueBuffer("referencia") + "'")) {
+
+		var codAlmacen:String = flfactppal.iface.pub_valorDefectoEmpresa("codalmacen");
+
 		if (cantidadAuno) 
 			cursor.setValueBuffer("cantidad", 1);
 		this.child("fdbCantidad").setDisabled(true);
 		this.child("fdbNumSerie").setDisabled(false);
+		this.child("fdbNumSerie").setFilter("referencia = '" + cursor.valueBuffer("referencia") + "' AND codalmacen = '" + codAlmacen + "'");
+		this.child("tbwLinea").setTabEnabled("numserie", true);
 	}
 	else {
 		this.child("fdbCantidad").setDisabled(false);
 		this.child("fdbNumSerie").setDisabled(true);
+		this.child("tbwLinea").setTabEnabled("numserie", false);
 	}
 }
 
