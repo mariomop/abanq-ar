@@ -1905,9 +1905,13 @@ function ivaIncluido_calculateField(fN:String):String
 			if (isNaN(valor)) {
 				valor = 0;
 			}
-			var ivaIncluido:Boolean = util.sqlSelect("articulos", "ivaincluido", "referencia = '" + cursor.valueBuffer("referencia") + "'");
+			// Por si está cargando mediante número de serie
+			var referencia:String = util.sqlSelect("numerosserie","referencia","numserie = '" + cursor.valueBuffer("referencia") + "'");
+			if (!referencia)
+				referencia = cursor.valueBuffer("referencia");
+			var ivaIncluido:Boolean = util.sqlSelect("articulos", "ivaincluido", "referencia = '" + referencia + "'");
 			if (!ivaIncluido) {
-				var iva:Number = parseFloat(util.sqlSelect("articulos a INNER JOIN impuestos i ON a.codimpuesto = i.codimpuesto", "i.iva", "a.referencia = '" + cursor.valueBuffer("referencia") + "'", "articulos,impuestos"));
+				var iva:Number = parseFloat(util.sqlSelect("articulos a INNER JOIN impuestos i ON a.codimpuesto = i.codimpuesto", "i.iva", "a.referencia = '" + referencia + "'", "articulos,impuestos"));
 				if (isNaN(iva)) {
 					iva = 0;
 				}
@@ -2773,8 +2777,11 @@ function multiDivisa_calculateField(fN:String):String
 	switch (fN) {
 		case "pvparticulo": {
 			valor = this.iface.__calculateField("pvparticulo");
-
-			var codDivisaArt:String = util.sqlSelect("articulos", "coddivisa", "referencia = '" + cursor.valueBuffer("referencia") + "'");
+			// Por si está cargando mediante número de serie
+			var referencia:String = util.sqlSelect("numerosserie","referencia","numserie = '" + cursor.valueBuffer("referencia") + "'");
+			if (!referencia)
+				referencia = cursor.valueBuffer("referencia");
+			var codDivisaArt:String = util.sqlSelect("articulos", "coddivisa", "referencia = '" + referencia + "'");
 			var tasaConvArt:Number = util.sqlSelect("divisas", "tasaconv", "coddivisa = '" + codDivisaArt + "'");
 			var tasaConvDoc:Number = cursor.valueBuffer("tasaconv");
 	
