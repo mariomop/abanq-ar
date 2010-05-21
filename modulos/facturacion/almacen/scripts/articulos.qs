@@ -2406,8 +2406,8 @@ function ordenCampos_init()
 {
 	this.iface.__init();
 
-	var ordenEntradas:Array = [ "fecha", "documento", "codigo", "nombreproveedor", "descripcion", "cantidad", "pvpunitario", "pvpsindto", "pvptotal", "totalconiva", "dtolineal", "dtopor" ];
-	var ordenSalidas:Array = [ "fecha", "documento", "codigo", "nombrecliente", "descripcion", "cantidad", "pvpunitario", "pvpsindto", "pvptotal", "totalconiva", "dtolineal", "dtopor", "costounitario", "costototal", "ganancia", "utilidad" ];
+	var ordenEntradas:Array = [ "fecha", "documento", "codigo", "nombreproveedor", "descripcion", "numserie", "cantidad", "pvpunitario", "pvpsindto", "pvptotal", "totalconiva", "dtolineal", "dtopor" ];
+	var ordenSalidas:Array = [ "fecha", "documento", "codigo", "nombrecliente", "descripcion", "numserie", "cantidad", "pvpunitario", "pvpsindto", "pvptotal", "totalconiva", "dtolineal", "dtopor", "costounitario", "costototal", "ganancia", "utilidad" ];
 
 	this.iface.tdbEntradas.setOrderCols(ordenEntradas);
 	this.iface.tdbSalidas.setOrderCols(ordenSalidas);

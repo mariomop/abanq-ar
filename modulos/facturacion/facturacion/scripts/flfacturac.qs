@@ -5674,6 +5674,7 @@ function lineasArticulos_generarLineaSalida(documento:String, curLS:FLSqlCursor)
 	var nombreIdLinea:String;
 
 	var idDocumento:Number;
+	var numserie:String;
 
 	switch (documento) {
 		case "Factura": {
@@ -5681,6 +5682,7 @@ function lineasArticulos_generarLineaSalida(documento:String, curLS:FLSqlCursor)
 			nombreIdTabla = "idfactura";
 			nombreIdLinea = "idlineafactura";
 			idDocumento = curLS.valueBuffer("idfactura");
+			numserie = curLS.valueBuffer("numserie");
 			break;
 		}
 		case "Remito": {
@@ -5688,6 +5690,7 @@ function lineasArticulos_generarLineaSalida(documento:String, curLS:FLSqlCursor)
 			nombreIdTabla = "idalbaran";
 			nombreIdLinea = "idlineaalbaran";
 			idDocumento = curLS.valueBuffer("idalbaran");
+			numserie = curLS.valueBuffer("numserie");
 			break;
 		}
 		case "Pedido": {
@@ -5695,6 +5698,7 @@ function lineasArticulos_generarLineaSalida(documento:String, curLS:FLSqlCursor)
 			nombreIdTabla = "idpedido";
 			nombreIdLinea = "idlineapedido";
 			idDocumento = curLS.valueBuffer("idpedido");
+			numserie = "";
 			break;
 		}
 	}
@@ -5723,6 +5727,7 @@ function lineasArticulos_generarLineaSalida(documento:String, curLS:FLSqlCursor)
 		setValueBuffer(nombreIdTabla, curLS.valueBuffer(nombreIdTabla));
 		setValueBuffer("referencia", curLS.valueBuffer("referencia"));
 		setValueBuffer("descripcion", curLS.valueBuffer("descripcion"));
+		setValueBuffer("numserie", numserie);
 		setValueBuffer("fecha", query.value("fecha"));
 		setValueBuffer("documento", documento );
 		setValueBuffer("codigo", query.value("codigo") );
@@ -5740,6 +5745,7 @@ function lineasArticulos_generarLineaSalida(documento:String, curLS:FLSqlCursor)
 		setValueBuffer("ganancia", curLS.valueBuffer("ganancia"));
 		setValueBuffer("utilidad", curLS.valueBuffer("utilidad"));
 	}
+
 	if (!curLineaSalida.commitBuffer())
 		return false;
 
@@ -5789,6 +5795,7 @@ function lineasArticulos_generarLineaEntrada(documento:String, curLE:FLSqlCursor
 	var nombreIdLinea:String;
 
 	var idDocumento:Number;
+	var numserie:String;
 
 	switch (documento) {
 		case "Factura": {
@@ -5796,6 +5803,7 @@ function lineasArticulos_generarLineaEntrada(documento:String, curLE:FLSqlCursor
 			nombreIdTabla = "idfactura";
 			nombreIdLinea = "idlineafactura";
 			idDocumento = curLE.valueBuffer("idfactura");
+			numserie = curLE.valueBuffer("numserie");
 			break;
 		}
 		case "Remito": {
@@ -5803,6 +5811,7 @@ function lineasArticulos_generarLineaEntrada(documento:String, curLE:FLSqlCursor
 			nombreIdTabla = "idalbaran";
 			nombreIdLinea = "idlineaalbaran";
 			idDocumento = curLE.valueBuffer("idalbaran");
+			numserie = curLE.valueBuffer("numserie");
 			break;
 		}
 		case "Pedido": {
@@ -5810,6 +5819,7 @@ function lineasArticulos_generarLineaEntrada(documento:String, curLE:FLSqlCursor
 			nombreIdTabla = "idpedido";
 			nombreIdLinea = "idlineapedido";
 			idDocumento = curLE.valueBuffer("idpedido");
+			numserie = "";
 			break;
 		}
 	}
@@ -5838,6 +5848,7 @@ function lineasArticulos_generarLineaEntrada(documento:String, curLE:FLSqlCursor
 		setValueBuffer(nombreIdTabla, curLE.valueBuffer(nombreIdTabla));
 		setValueBuffer("referencia", curLE.valueBuffer("referencia"));
 		setValueBuffer("descripcion", curLE.valueBuffer("descripcion"));
+		setValueBuffer("numserie", numserie);
 		setValueBuffer("fecha", query.value("fecha") );
 		setValueBuffer("documento", documento );
 		setValueBuffer("codigo", query.value("codigo") );
