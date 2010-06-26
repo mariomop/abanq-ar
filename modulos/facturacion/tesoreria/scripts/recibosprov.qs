@@ -129,7 +129,7 @@ function interna_init()
 		this.iface.importeInicial = parseFloat(cursor.valueBuffer("importe"));
 	connect(cursor, "bufferChanged(QString)", this, "iface.bufferChanged");
 
-	this.child("tdbPagosDevolProv").setReadOnly(true);
+//	this.child("tdbPagosDevolProv").setReadOnly(true);
 	if (cursor.modeAccess() == cursor.Edit)
 		this.child("pushButtonAcceptContinue").close();
 
