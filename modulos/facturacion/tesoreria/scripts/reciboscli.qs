@@ -215,7 +215,7 @@ function oficial_bufferChanged(fN:String)
 	\end */
 	if (fN == "importe") {
 		this.child("fdbTexto").setValue(this.iface.calculateField("texto"));
-		this.child("gbxPagDev").setDisabled(true);
+		this.child("groupBoxPD").setDisabled(true);
 	}
 
 	/** \C
@@ -234,10 +234,12 @@ function oficial_cambiarEstado()
 	var cursor:FLSqlCursor = this.cursor();
 	var estado:String = this.iface.calculateField("estado");
 	this.child("fdbEstado").setValue(estado);
+
 	if ( estado != "Pendiente" )
 		this.child("fdbImporte").setDisabled(true);
 	else
-		this.child("fdbImporte").setDisabled(false);
+		if ( this.cursor().modeAccess() != this.cursor().Browse )
+			this.child("fdbImporte").setDisabled(false);
 	
 	if (util.sqlSelect("pagosdevolcli", "idremesa", "idrecibo = " + cursor.valueBuffer("idrecibo") + " ORDER BY fecha DESC, idpagodevol DESC") != 0) {
 		this.child("lblRemesado").text = "REMESADO";
@@ -249,6 +251,7 @@ function oficial_cambiarEstado()
 		this.child("pushButtonPrevious").close();
 		this.child("pushButtonFirst").close();
 		this.child("pushButtonLast").close();
+		this.child("groupBoxPD").setDisabled(true);
 	}
 }
 
@@ -515,6 +518,7 @@ function pagosMultiples_cambiarEstado()
 		this.child("pushButtonPrevious").close();
 		this.child("pushButtonFirst").close();
 		this.child("pushButtonLast").close();
+		this.child("groupBoxPD").setDisabled(true);
 	}
 }
 

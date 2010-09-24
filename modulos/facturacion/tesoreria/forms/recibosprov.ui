@@ -1571,7 +1571,7 @@
 			</widget>
 			<widget class="QGroupBox" >
 				<property name="name" >
-					<cstring>gbxPagDev</cstring>
+					<cstring>groupBoxPD</cstring>
 				</property>
 				<property name="font" >
 					<font>
@@ -1920,12 +1920,6 @@
 			<sender>tdbPagosDevolProv</sender>
 			<signal>insertOnlyChanged(bool)</signal>
 			<receiver>toolButtonDelete</receiver>
-			<slot>setDisabled(bool)</slot>
-		</connection>
-		<connection>
-			<sender>tdbPagosDevolProv</sender>
-			<signal>readOnlyChanged(bool)</signal>
-			<receiver>fdbImporte</receiver>
 			<slot>setDisabled(bool)</slot>
 		</connection>
 	</connections>

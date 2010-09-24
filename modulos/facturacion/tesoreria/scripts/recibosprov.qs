@@ -329,7 +329,7 @@ function proveed_bufferChanged(fN:String)
 {
 	if (fN == "importe") {
 		this.child("fdbTexto").setValue(this.iface.calculateField("texto"));
-		this.child("gbxPagDev").setDisabled(true);
+		this.child("groupBoxPD").setDisabled(true);
 	}
 
 	/** \C
@@ -346,10 +346,12 @@ function proveed_cambiarEstado()
 {
 	var estado:String = this.iface.calculateField("estado");
 	this.child("fdbEstado").setValue(estado);
+
 	if ( estado != "Pendiente" )
 		this.child("fdbImporte").setDisabled(true);
 	else
-		this.child("fdbImporte").setDisabled(false);
+		if ( this.cursor().modeAccess() != this.cursor().Browse )
+			this.child("fdbImporte").setDisabled(false);
 }
 
 function proveed_commonCalculateField(fN:String, cursor:FLSqlCursor):String
@@ -393,6 +395,7 @@ function pagosMultiples_cambiarEstado()
 		this.child("pushButtonPrevious").close();
 		this.child("pushButtonFirst").close();
 		this.child("pushButtonLast").close();
+		this.child("groupBoxPD").setDisabled(true);
 	}
 }
 
